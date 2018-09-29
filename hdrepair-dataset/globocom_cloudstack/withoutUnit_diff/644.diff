@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/api/commands/DeleteUserCmd.java b/server/src/com/cloud/api/commands/DeleteUserCmd.java
+index a247015..0b05c59 100644
+--- a/server/src/com/cloud/api/commands/DeleteUserCmd.java
++++ b/server/src/com/cloud/api/commands/DeleteUserCmd.java
+@@ -88 +88 @@
+-        return "User " + user.getUsername() + " (id: " + user.getId() + ") and accountId = " + user.getAccountId();
++        return (user != null ? ("User " + user.getUsername() + " (id: " + user.getId() + ") and accountId = " + user.getAccountId()) : "user delete, but this user does not exist in the system");
+

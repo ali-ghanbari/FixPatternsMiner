@@ -1,0 +1,13 @@
+diff --git a/src/it/basicExecute/pom.xml b/src/it/basicExecute/pom.xml
+index d27c201..a4c8270 100644
+--- a/src/it/basicExecute/pom.xml
++++ b/src/it/basicExecute/pom.xml
+@@ -45,0 +46 @@
++              println project.basedir
+diff --git a/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java b/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java
+index 95d1cef..d5590f4 100644
+--- a/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java
++++ b/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java
+@@ -77,0 +78 @@
++            ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(groovyShellClass, "setProperty", String.class, Object.class), shell, "project", project);
+

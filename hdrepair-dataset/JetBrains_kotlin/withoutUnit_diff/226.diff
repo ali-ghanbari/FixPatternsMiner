@@ -1,0 +1,8 @@
+diff --git a/compiler/backend/src/org/jetbrains/jet/codegen/JetTypeMapper.java b/compiler/backend/src/org/jetbrains/jet/codegen/JetTypeMapper.java
+index b637bcf..6f4c07b 100644
+--- a/compiler/backend/src/org/jetbrains/jet/codegen/JetTypeMapper.java
++++ b/compiler/backend/src/org/jetbrains/jet/codegen/JetTypeMapper.java
+@@ -572 +572 @@
+-        if (outerDescriptor instanceof ClassDescriptor) {
++        if (outerDescriptor instanceof ClassDescriptor && classDescriptor.getKind() != ClassKind.OBJECT) {
+

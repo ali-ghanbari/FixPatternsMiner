@@ -1,0 +1,29 @@
+diff --git a/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java b/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java
+index c761e47..c3a9081 100644
+--- a/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java
++++ b/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java
+@@ -65 +65 @@
+-		return Boolean.parseBoolean(get(feature));
++		return Boolean.parseBoolean(get(feature).trim());
+diff --git a/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java b/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java
+index 7d0d7bc..23b0a24 100644
+--- a/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java
++++ b/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java
+@@ -68,0 +69,6 @@
++	
++	@Test
++	public void shouldTrimValueWhenEvaluatingSupport() throws Exception {
++		DefaultEnvironment defaultEnvironment = new DefaultEnvironment(DEVELOPMENT);
++		assertThat(defaultEnvironment.supports("untrimmed_boolean"), is(true));
++	}
+diff --git a/vraptor-core/src/test/resources/environment.properties b/vraptor-core/src/test/resources/environment.properties
+index 90cf384..c48b5f8 100644
+--- a/vraptor-core/src/test/resources/environment.properties
++++ b/vraptor-core/src/test/resources/environment.properties
+@@ -2 +2,2 @@
+-env_name=env_name
+\ No newline at end of file
++env_name=env_name
++untrimmed_boolean=true 
+\ No newline at end of file
+

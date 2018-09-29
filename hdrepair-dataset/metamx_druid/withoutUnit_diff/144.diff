@@ -1,0 +1,969 @@
+diff --git a/build.sh b/build.sh
+index 158a0cd..566b031 100755
+--- a/build.sh
++++ b/build.sh
+@@ -33 +33 @@
+-echo "See also https://github.com/metamx/druid/wiki"
++echo "See also http://druid.io/docs/0.6.0/Home.html"
+diff --git a/docs/_posts/2013-09-16-welcome-to-jekyll.markdown b/docs/_posts/2013-09-16-welcome-to-jekyll.markdown
+deleted file mode 100644
+index c50a740..0000000
+--- a/docs/_posts/2013-09-16-welcome-to-jekyll.markdown
++++ /dev/null
+@@ -1,24 +0,0 @@
+----
+-layout: post
+-title:  "Welcome to Jekyll!"
+-date:   2013-09-16 13:06:49
+-categories: jekyll update
+----
+-
+-You'll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!
+-To add new posts, simply add a file in the `_posts` directory that follows the convention: YYYY-MM-DD-name-of-post.ext.
+-
+-Jekyll also offers powerful support for code snippets:
+-
+-{% highlight ruby %}
+-def print_hi(name)
+-  puts "Hi, #{name}"
+-end
+-print_hi('Tom')
+-#=> prints 'Hi, Tom' to STDOUT.
+-{% endhighlight %}
+-
+-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll's GitHub repo][jekyll-gh].
+-
+-[jekyll-gh]: https://github.com/mojombo/jekyll
+-[jekyll]:    http://jekyllrb.com
+diff --git a/docs/content/Batch-ingestion.md b/docs/content/Batch-ingestion.md
+index b974253..6b3441e 100644
+--- a/docs/content/Batch-ingestion.md
++++ b/docs/content/Batch-ingestion.md
+@@ -7 +7 @@
+-There are two choices for batch data ingestion to your Druid cluster, you can use the [Indexing service](Indexing-service.html) or you can use the `HadoopDruidIndexerMain`. This page describes how to use the `HadoopDruidIndexerMain`.
++There are two choices for batch data ingestion to your Druid cluster, you can use the [Indexing service](Indexing-service.html) or you can use the `HadoopDruidIndexer`. This page describes how to use the `HadoopDruidIndexer`.
+@@ -14 +14 @@
+-The `HadoopDruidIndexerMain` runs hadoop jobs in order to separate and index data segments. It takes advantage of Hadoop as a job scheduling and distributed job execution platform. It is a simple method if you already have Hadoop running and don’t want to spend the time configuring and deploying the [Indexing service](Indexing service.html) just yet.
++The `HadoopDruidIndexer` runs hadoop jobs in order to separate and index data segments. It takes advantage of Hadoop as a job scheduling and distributed job execution platform. It is a simple method if you already have Hadoop running and don’t want to spend the time configuring and deploying the [Indexing service](Indexing service.html) just yet.
+@@ -19 +19 @@
+-Located at `com.metamx.druid.indexer.HadoopDruidIndexerMain` can be run like
++The HadoopDruidIndexer can be run like so:
+@@ -22 +22 @@
+-java -cp hadoop_config_path:druid_indexer_selfcontained_jar_path com.metamx.druid.indexer.HadoopDruidIndexerMain  <config_file>
++java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath hadoop_config_path:`echo lib/* | tr ' ' ':'` io.druid.cli.Main index hadoop <config_file>
+diff --git a/docs/content/Booting-a-production-cluster.md b/docs/content/Booting-a-production-cluster.md
+index fc17f70..a4b450b 100644
+--- a/docs/content/Booting-a-production-cluster.md
++++ b/docs/content/Booting-a-production-cluster.md
+@@ -6 +6 @@
+-[Loading Your Data](Loading-Your-Data.html) and [Querying Your Data](Querying-Your-Data.html) contain recipes to boot a small druid cluster on localhost. Here we will boot a small cluster on EC2. You can checkout the code, or download a tarball from [here](http://static.druid.io/artifacts/druid-services-0.5.51-SNAPSHOT-bin.tar.gz).
++[Loading Your Data](Loading-Your-Data.html) and [Querying Your Data](Querying-Your-Data.html) contain recipes to boot a small druid cluster on localhost. Here we will boot a small cluster on EC2. You can checkout the code, or download a tarball from [here](http://static.druid.io/artifacts/druid-services-0.6.0-bin.tar.gz).
+diff --git a/docs/content/Coordinator.md b/docs/content/Coordinator.md
+index 694003b..c6ba8b6 100644
+--- a/docs/content/Coordinator.md
++++ b/docs/content/Coordinator.md
+@@ -107 +107 @@
+-The Druid coordinator exposes a web GUI for displaying cluster information and rule configuration. After the coordinator starts, the console can be accessed at http://HOST:PORT/static/. There exists a full cluster view, as well as views for individual historical nodes, datasources and segments themselves. Segment information can be displayed in raw JSON form or as part of a sortable and filterable table.
++The Druid coordinator exposes a web GUI for displaying cluster information and rule configuration. After the coordinator starts, the console can be accessed at http://<HOST>:<PORT>. There exists a full cluster view, as well as views for individual historical nodes, datasources and segments themselves. Segment information can be displayed in raw JSON form or as part of a sortable and filterable table.
+diff --git a/docs/content/Download.md b/docs/content/Download.md
+index 36328d4..ceec539 100644
+--- a/docs/content/Download.md
++++ b/docs/content/Download.md
+@@ -9 +9 @@
+-There is no release candidate at this time.
++The current release candidate is tagged at version [0.6.0](https://github.com/metamx/druid/tree/druid-0.6.0).
+diff --git a/docs/content/Examples.md b/docs/content/Examples.md
+index 28795d0..0a7725e 100644
+--- a/docs/content/Examples.md
++++ b/docs/content/Examples.md
+@@ -7 +7 @@
+-The examples on this page are setup in order to give you a feel for what Druid does in practice. They are quick demos of Druid based on [RealtimeStandaloneMain](https://github.com/metamx/druid/blob/master/examples/src/main/java/druid/examples/RealtimeStandaloneMain.java). While you wouldn’t run it this way in production you should be able to see how ingestion works and the kind of exploratory queries that are possible. Everything that can be done on your box here can be scaled out to 10’s of billions of events and terabytes of data per day in a production cluster while still giving the snappy responsive exploratory queries.
++The examples on this page are setup in order to give you a feel for what Druid does in practice. They are quick demos of Druid based on [CliRealtimeExample](https://github.com/metamx/druid/blob/master/services/src/main/java/io/druid/cli/CliRealtimeExample.java). While you wouldn’t run it this way in production you should be able to see how ingestion works and the kind of exploratory queries that are possible. Everything that can be done on your box here can be scaled out to 10’s of billions of events and terabytes of data per day in a production cluster while still giving the snappy responsive exploratory queries.
+@@ -22 +22 @@
+-git checkout druid-0.4.30
++git checkout druid-0.6.0
+@@ -52 +52 @@
+-See [Tutorial](Tutorial.html)
++See [Twitter Tutorial](Twitter-Tutorial.html)
+@@ -70 +69,0 @@
+-
+diff --git a/docs/content/Historical.md b/docs/content/Historical.md
+index bf80141..fc139c4 100644
+--- a/docs/content/Historical.md
++++ b/docs/content/Historical.md
+@@ -34 +34 @@
+-
++p
+diff --git a/docs/content/Libraries.md b/docs/content/Libraries.md
+index ac393c5..c364f0b 100644
+--- a/docs/content/Libraries.md
++++ b/docs/content/Libraries.md
+@@ -25,0 +26,2 @@
++* [mingfang/docker-druid](https://github.com/mingfang/docker-druid) - A Dockerfile to run the entire Druid cluster
++
+diff --git a/docs/content/Loading-Your-Data.md b/docs/content/Loading-Your-Data.md
+index ee35dce..ccd5526 100644
+--- a/docs/content/Loading-Your-Data.md
++++ b/docs/content/Loading-Your-Data.md
+@@ -4 +4 @@
+-Once you have a realtime node working, it is time to load your own data to see how Druid performs.
++Once you have a real-time node working, it is time to load your own data to see how Druid performs.
+@@ -6 +6 @@
+-Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in realtime using a [Firehose](Firehose.html).
++Druid can ingest data in three ways: via Kafka and a realtime node, via the indexing service, and via the Hadoop batch loader. Data is ingested in real-time using a [Firehose](Firehose.html).
+@@ -9 +9 @@
+-Each type of node needs its own config file and directory, so create them as subdirectories under the druid directory.
++Each type of node needs its own config file and directory, so create them as subdirectories under the druid directory if they not already exist.
+@@ -21 +21 @@
+-[KafkaFirehoseFactory](https://github.com/metamx/druid/blob/druid-0.5.x/realtime/src/main/java/com/metamx/druid/realtime/firehose/KafkaFirehoseFactory.java) is how druid communicates with Kafka. Using this [Firehose](Firehose.html) with the right configuration, we can import data into Druid in realtime without writing any code. To load data to a realtime node via Kafka, we'll first need to initialize Zookeeper and Kafka, and then configure and initialize a [Realtime](Realtime.html) node.
++[KafkaFirehoseFactory](https://github.com/metamx/druid/blob/druid-0.6.0/realtime/src/main/java/com/metamx/druid/realtime/firehose/KafkaFirehoseFactory.java) is how druid communicates with Kafka. Using this [Firehose](Firehose.html) with the right configuration, we can import data into Druid in realtime without writing any code. To load data to a realtime node via Kafka, we'll first need to initialize Zookeeper and Kafka, and then configure and initialize a [Realtime](Realtime.html) node.
+@@ -62 +62,2 @@
+-  druid.host=0.0.0.0:8080
++  druid.host=localhost
++  druid.service=example
+@@ -65 +66 @@
+-  com.metamx.emitter.logging=true
++  druid.zk.service.host=localhost
+@@ -67,2 +68,9 @@
+-  druid.processing.formatString=processing_%s
+-  druid.processing.numThreads=1
++  druid.s3.accessKey=AKIAIMKECRUYKDQGR6YQ
++  druid.s3.secretKey=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
++
++  druid.db.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid
++  druid.db.connector.user=druid
++  druid.db.connector.password=diurd
++
++  druid.realtime.specFile=config/realtime/realtime.spec
++
+@@ -71,9 +78,0 @@
+-  #emitting, opaque marker
+-  druid.service=example
+-
+-  druid.request.logging.dir=/tmp/example/log
+-  druid.realtime.specFile=realtime.spec
+-  com.metamx.emitter.logging=true
+-  com.metamx.emitter.logging.level=debug
+-
+-  # below are dummy values when operating a realtime only node
+@@ -81,13 +79,0 @@
+-
+-  com.metamx.aws.accessKey=dummy_access_key
+-  com.metamx.aws.secretKey=dummy_secret_key
+-  druid.storage.s3.bucket=dummy_s3_bucket
+-
+-  druid.zk.service.host=localhost
+-  druid.server.maxSize=300000000000
+-  druid.zk.paths.base=/druid
+-  druid.database.segmentTable=prod_segments
+-  druid.database.user=user
+-  druid.database.password=diurd
+-  druid.database.connectURI=
+-  druid.host=127.0.0.1:8080
+@@ -99,28 +85,61 @@
+-  [{
+-    "schema" : { "dataSource":"druidtest",
+-                 "aggregators":[ {"type":"count", "name":"impressions"},
+-                                    {"type":"doubleSum","name":"wp","fieldName":"wp"}],
+-                 "indexGranularity":"minute",
+-             "shardSpec" : { "type": "none" } },
+-    "config" : { "maxRowsInMemory" : 500000,
+-                 "intermediatePersistPeriod" : "PT10m" },
+-    "firehose" : { "type" : "kafka-0.7.2",
+-                   "consumerProps" : { "zk.connect" : "localhost:2181",
+-                                       "zk.connectiontimeout.ms" : "15000",
+-                                       "zk.sessiontimeout.ms" : "15000",
+-                                       "zk.synctime.ms" : "5000",
+-                                       "groupid" : "topic-pixel-local",
+-                                       "fetch.size" : "1048586",
+-                                       "autooffset.reset" : "largest",
+-                                       "autocommit.enable" : "false" },
+-                   "feed" : "druidtest",
+-                   "parser" : { "timestampSpec" : { "column" : "utcdt", "format" : "iso" },
+-                                "data" : { "format" : "json" },
+-                                "dimensionExclusions" : ["wp"] } },
+-    "plumber" : { "type" : "realtime",
+-                  "windowPeriod" : "PT10m",
+-                  "segmentGranularity":"hour",
+-                  "basePersistDirectory" : "/tmp/realtime/basePersist",
+-                  "rejectionPolicy": {"type": "messageTime"} }
+-
+-  }]
++  [
++    {
++      "schema": {
++        "dataSource": "druidtest",
++        "aggregators": [
++          {
++            "type": "count",
++            "name": "impressions"
++          },
++          {
++            "type": "doubleSum",
++            "name": "wp",
++            "fieldName": "wp"
++          }
++        ],
++        "indexGranularity": "minute",
++        "shardSpec": {
++          "type": "none"
++        }
++      },
++      "config": {
++        "maxRowsInMemory": 500000,
++        "intermediatePersistPeriod": "PT10m"
++      },
++      "firehose": {
++        "type": "kafka-0.7.2",
++        "consumerProps": {
++          "zk.connect": "localhost:2181",
++          "zk.connectiontimeout.ms": "15000",
++          "zk.sessiontimeout.ms": "15000",
++          "zk.synctime.ms": "5000",
++          "groupid": "topic-pixel-local",
++          "fetch.size": "1048586",
++          "autooffset.reset": "largest",
++          "autocommit.enable": "false"
++        },
++        "feed": "druidtest",
++        "parser": {
++          "timestampSpec": {
++            "column": "utcdt",
++            "format": "iso"
++          },
++          "data": {
++            "format": "json"
++          },
++          "dimensionExclusions": [
++            "wp"
++          ]
++        }
++      },
++      "plumber": {
++        "type": "realtime",
++        "windowPeriod": "PT10m",
++        "segmentGranularity": "hour",
++        "basePersistDirectory": "\/tmp\/realtime\/basePersist",
++        "rejectionPolicy": {
++          "type": "messageTime"
++        }
++      }
++    }
++  ]
+@@ -134 +153 @@
+-  -classpath lib/*:config/realtime com.metamx.druid.realtime.RealtimeMain
++  -classpath lib/*:config/realtime io.druid.cli.Main server realtime
+@@ -242 +261,2 @@
+-  druid.host=0.0.0.0:8081
++  druid.host=localhost
++  druid.service=coordinator
+@@ -245 +265 @@
+-  com.metamx.emitter.logging=true
++  druid.zk.service.host=localhost
+@@ -247,3 +267,2 @@
+-  druid.processing.formatString=processing_%s
+-  druid.processing.numThreads=1
+-  druid.processing.buffer.sizeBytes=10000000
++  druid.s3.accessKey=AKIAIMKECRUYKDQGR6YQ
++  druid.s3.secretKey=QyyfVZ7llSiRg6Qcrql1eEUG7buFpAK6T6engr1b
+@@ -251,2 +270,3 @@
+-  # emitting, opaque marker
+-  druid.service=example
++  druid.db.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid
++  druid.db.connector.user=druid
++  druid.db.connector.password=diurd
+@@ -255,27 +274,0 @@
+-  druid.request.logging.dir=/tmp/example/log
+-  druid.realtime.specFile=realtime.spec
+-  com.metamx.emitter.logging=true
+-  com.metamx.emitter.logging.level=debug
+-
+-  # below are dummy values when operating a realtime only node
+-  druid.processing.numThreads=3
+-
+-  com.metamx.aws.accessKey=dummy_access_key
+-  com.metamx.aws.secretKey=dummy_secret_key
+-  druid.storage.s3.bucket=dummy_s3_bucket
+-
+-  druid.zk.service.host=localhost
+-  druid.server.maxSize=300000000000
+-  druid.zk.paths.base=/druid
+-  druid.database.segmentTable=prod_segments
+-  druid.database.user=druid
+-  druid.database.password=diurd
+-  druid.database.connectURI=jdbc:mysql://localhost:3306/druid
+-  druid.zk.paths.discoveryPath=/druid/discoveryPath
+-  druid.database.ruleTable=rules
+-  druid.database.configTable=config
+-
+-  # Path on local FS for storage of segments; dir will be created if needed
+-  druid.paths.indexCache=/tmp/druid/indexCache
+-  # Path on local FS for storage of segment metadata; dir will be created if needed
+-  druid.paths.segmentInfoCache=/tmp/druid/segmentInfoCache
+@@ -289 +282 @@
+-  com.metamx.druid.http.CoordinatorMain
++  io.druid.Cli.Main server coordinator
+@@ -297 +290,2 @@
+-  druid.host=0.0.0.0:8082
++  druid.host=localhost
++  druid.service=historical
+@@ -300 +294 @@
+-  com.metamx.emitter.logging=true
++  druid.zk.service.host=localhost
+@@ -302,2 +296,5 @@
+-  druid.processing.formatString=processing_%s
+-  druid.processing.numThreads=1
++  druid.s3.secretKey=QyyfVZ7llSiRg6Qcrql1eEUG7buFpAK6T6engr1b
++  druid.s3.accessKey=AKIAIMKECRUYKDQGR6YQ
++
++  druid.server.maxSize=100000000
++
+@@ -306,33 +303,2 @@
+-  # emitting, opaque marker
+-  druid.service=example
+-
+-  druid.request.logging.dir=/tmp/example/log
+-  druid.realtime.specFile=realtime.spec
+-  com.metamx.emitter.logging=true
+-  com.metamx.emitter.logging.level=debug
+-
+-  # below are dummy values when operating a realtime only node
+-  druid.processing.numThreads=3
+-
+-  com.metamx.aws.accessKey=dummy_access_key
+-  com.metamx.aws.secretKey=dummy_secret_key
+-  druid.storage.s3.bucket=dummy_s3_bucket
+-
+-  druid.zk.service.host=localhost
+-  druid.server.maxSize=300000000000
+-  druid.zk.paths.base=/druid
+-  druid.database.segmentTable=prod_segments
+-  druid.database.user=druid
+-  druid.database.password=diurd
+-  druid.database.connectURI=jdbc:mysql://localhost:3306/druid
+-  druid.zk.paths.discoveryPath=/druid/discoveryPath
+-  druid.database.ruleTable=rules
+-  druid.database.configTable=config
+-
+-# Path on local FS for storage of segments; dir will be created if needed
+-  druid.paths.indexCache=/tmp/druid/indexCache
+-# Path on local FS for storage of segment metadata; dir will be created if needed
+-  druid.paths.segmentInfoCache=/tmp/druid/segmentInfoCache
+-# Setup local storage mode
+-  druid.storage.local.storageDirectory=/tmp/druid/localStorage
+-  druid.storage.local=true
++  druid.segmentCache.infoPath=/tmp/druid/segmentInfoCache
++  druid.segmentCache.locations=[{"path": "/tmp/druid/indexCache", "maxSize"\: 100000000}]
+@@ -374 +340,4 @@
+-      "dimensions": ["gender", "age"]
++      "dimensions": [
++        "gender",
++        "age"
++      ]
+@@ -377,3 +346,5 @@
+-      "type":"uniform",
+-      "intervals":["2010-01-01T01/PT1H"],
+-      "gran":"hour"
++      "type": "uniform",
++      "intervals": [
++        "2010-01-01T01\/PT1H"
++      ],
++      "gran": "hour"
+@@ -381,9 +352,20 @@
+-    "pathSpec": { "type": "static",
+-                  "paths": "/Users/rjurney/Software/druid/records.json" },
+-    "rollupSpec": { "aggs":[ {"type":"count", "name":"impressions"},
+-                             {"type":"doubleSum","name":"wp","fieldName":"wp"}
+-                             ],
+-                    "rollupGranularity": "minute"},
+-    "workingPath": "/tmp/working_path",
+-    "segmentOutputPath": "/tmp/segments",
+-    "leaveIntermediate": "false",
++    "pathSpec": {
++      "type": "static",
++      "paths": "\/druid\/records.json"
++    },
++    "rollupSpec": {
++      "aggs": [
++        {
++          "type": "count",
++          "name": "impressions"
++        },
++        {
++          "type": "doubleSum",
++          "name": "wp",
++          "fieldName": "wp"
++        }
++      ],
++      "rollupGranularity": "minute"
++    },
++    "workingPath": "\/tmp\/working_path",
++    "segmentOutputPath": "\/tmp\/segments",
+@@ -394,5 +376,5 @@
+-      "type":"db",
+-      "connectURI":"jdbc:mysql://localhost:3306/druid",
+-      "user":"druid",
+-      "password":"diurd",
+-      "segmentTable":"prod_segments"
++      "type": "db",
++      "connectURI": "jdbc:mysql:\/\/localhost:3306\/druid",
++      "user": "druid",
++      "password": "diurd",
++      "segmentTable": "druid_segments"
+@@ -407,2 +389,2 @@
+-       -Ddruid.realtime.specFile=realtime.spec -classpath lib/* \
+-       com.metamx.druid.indexer.HadoopDruidIndexerMain batchConfig.json
++       -classpath `echo lib/* | tr ' ' ':'` \
++       io.druid.cli.Main index hadoop batchConfig.json
+diff --git a/docs/content/MySQL.md b/docs/content/MySQL.md
+index e817037..bb352b5 100644
+--- a/docs/content/MySQL.md
++++ b/docs/content/MySQL.md
+@@ -9 +9 @@
+-This is dictated by the `druid.database.segmentTable` property (Note that these properties are going to change in the next stable version after 0.4.12).
++This is dictated by the `druid.db.tables.segments` property.
+diff --git a/docs/content/Querying-your-data.md b/docs/content/Querying-your-data.md
+index da0fc00..931be2b 100644
+--- a/docs/content/Querying-your-data.md
++++ b/docs/content/Querying-your-data.md
+@@ -10 +10 @@
+-1. Setup a config file at config/broker/runtime.properties that looks like this: 
++1. Setup a config file at config/broker/runtime.properties that looks like this:
+@@ -13,24 +13,4 @@
+-    druid.host=0.0.0.0:8083
+-    druid.port=8083
+- 
+-    com.metamx.emitter.logging=true
+- 
+-    druid.processing.formatString=processing_%s
+-    druid.processing.numThreads=1
+-    druid.processing.buffer.sizeBytes=10000000
+- 
+-    #emitting, opaque marker
+-    druid.service=example
+- 
+-    druid.request.logging.dir=/tmp/example/log
+-    druid.realtime.specFile=realtime.spec
+-    com.metamx.emitter.logging=true
+-    com.metamx.emitter.logging.level=debug
+- 
+-    # below are dummy values when operating a realtime only node
+-    druid.processing.numThreads=3
+- 
+-    com.metamx.aws.accessKey=dummy_access_key
+-    com.metamx.aws.secretKey=dummy_secret_key
+-    druid.storage.s3.bucket=dummy_s3_bucket
+- 
++    druid.host=localhost
++    druid.service=broker
++    druid.port=8080
++
+@@ -38,19 +18 @@
+-    druid.server.maxSize=300000000000
+-    druid.zk.paths.base=/druid
+-    druid.database.segmentTable=prod_segments
+-    druid.database.user=druid
+-    druid.database.password=diurd
+-    druid.database.connectURI=jdbc:mysql://localhost:3306/druid
+-    druid.zk.paths.discoveryPath=/druid/discoveryPath
+-    druid.database.ruleTable=rules
+-    druid.database.configTable=config
+- 
+-    # Path on local FS for storage of segments; dir will be created if needed
+-    druid.paths.indexCache=/tmp/druid/indexCache
+-    # Path on local FS for storage of segment metadata; dir will be created if needed
+-    druid.paths.segmentInfoCache=/tmp/druid/segmentInfoCache
+-    druid.storage.local.storageDirectory=/tmp/druid/localStorage
+-    druid.storage.local=true
+- 
+-    # thread pool size for servicing queries
+-    druid.client.http.connections=30
++
+@@ -62,4 +24 @@
+-    java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
+-    -Ddruid.realtime.specFile=realtime.spec \
+-    -classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/broker \
+-    com.metamx.druid.http.BrokerMain
++    java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:config/broker io.druid.cli.Main server broker
+@@ -68,37 +27 @@
+-## Booting a Coordinator Node ##
+-
+-1. Setup a config file at config/coordinator/runtime.properties that looks like this: [https://gist.github.com/rjurney/5818870](https://gist.github.com/rjurney/5818870)
+-
+-2. Run the coordinator node:
+-
+-    ```bash
+-    java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
+-    -classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/coordinator \
+-    io.druid.cli.Main server coordinator
+-    ```
+-
+-## Booting a Realtime Node ##
+-
+-1. Setup a config file at config/realtime/runtime.properties that looks like this: [https://gist.github.com/rjurney/5818774](https://gist.github.com/rjurney/5818774)
+-
+-2. Setup a realtime.spec file like this: [https://gist.github.com/rjurney/5818779](https://gist.github.com/rjurney/5818779)
+-
+-3. Run the realtime node:
+-
+-    ```bash
+-    java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
+-    -Ddruid.realtime.specFile=realtime.spec \
+-    -classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/realtime \
+-    com.metamx.druid.realtime.RealtimeMain
+-    ```
+-
+-## Booting a historical node ##
+-
+-1. Setup a config file at config/historical/runtime.properties that looks like this: [https://gist.github.com/rjurney/5818885](https://gist.github.com/rjurney/5818885)
+-2. Run the historical node:
+-
+-    ```bash
+-    java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 \
+-    -classpath services/target/druid-services-0.5.50-SNAPSHOT-selfcontained.jar:config/historical \
+-    io.druid.cli.Main server historical
+-    ```
++With the Broker node and the other Druid nodes types up and running, you have a fully functional Druid Cluster and are ready to query your data!
+@@ -112 +35 @@
+-As a shared-nothing system, there are three ways to query druid, against the [Realtime](Realtime.html), [Historical](Historical.html) or [Broker](Broker.html) node. Querying a Realtime node returns only realtime data, querying a historical node returns only historical segments. Querying the broker will query both realtime and historical segments and compose an overall result for the query. This is the normal mode of operation for queries in druid.
++As a shared-nothing system, there are three ways to query druid, against the [Realtime](Realtime.html), [Historical](Historical.html) or [Broker](Broker.html) node. Querying a Realtime node returns only realtime data, querying a historical node returns only historical segments. Querying the broker may query both realtime and historical segments and compose an overall result for the query. This is the normal mode of operation for queries in Druid.
+@@ -151 +74 @@
+-### Querying the historical node ###
++### Querying the Historical node ###
+@@ -168 +91 @@
+-### Querying both Nodes via the Broker ###
++### Querying the Broker ###
+@@ -187 +110 @@
+-## Querying Against the realtime.spec ##
++## Examining the realtime.spec ##
+@@ -192,28 +115,61 @@
+-[{
+-  "schema" : { "dataSource":"druidtest",
+-               "aggregators":[ {"type":"count", "name":"impressions"},
+-                               {"type":"doubleSum","name":"wp","fieldName":"wp"}],
+-               "indexGranularity":"minute",
+-               "shardSpec" : { "type": "none" } },
+-  "config" : { "maxRowsInMemory" : 500000,
+-               "intermediatePersistPeriod" : "PT10m" },
+-  "firehose" : { "type" : "kafka-0.7.2",
+-                 "consumerProps" : { "zk.connect" : "localhost:2181",
+-                                     "zk.connectiontimeout.ms" : "15000",
+-                                     "zk.sessiontimeout.ms" : "15000",
+-                                     "zk.synctime.ms" : "5000",
+-                                     "groupid" : "topic-pixel-local",
+-                                     "fetch.size" : "1048586",
+-                                     "autooffset.reset" : "largest",
+-                                     "autocommit.enable" : "false" },
+-                 "feed" : "druidtest",
+-                 "parser" : { "timestampSpec" : { "column" : "utcdt", "format" : "iso" },
+-                              "data" : { "format" : "json" },
+-                              "dimensionExclusions" : ["wp"] } },
+-  "plumber" : { "type" : "realtime",
+-                "windowPeriod" : "PT10m",
+-                "segmentGranularity":"hour",
+-                "basePersistDirectory" : "/tmp/realtime/basePersist",
+-                "rejectionPolicy": {"type": "messageTime"} }
+-
+-}]
++[
++  {
++    "schema": {
++      "dataSource": "druidtest",
++      "aggregators": [
++        {
++          "type": "count",
++          "name": "impressions"
++        },
++        {
++          "type": "doubleSum",
++          "name": "wp",
++          "fieldName": "wp"
++        }
++      ],
++      "indexGranularity": "minute",
++      "shardSpec": {
++        "type": "none"
++      }
++    },
++    "config": {
++      "maxRowsInMemory": 500000,
++      "intermediatePersistPeriod": "PT10m"
++    },
++    "firehose": {
++      "type": "kafka-0.7.2",
++      "consumerProps": {
++        "zk.connect": "localhost:2181",
++        "zk.connectiontimeout.ms": "15000",
++        "zk.sessiontimeout.ms": "15000",
++        "zk.synctime.ms": "5000",
++        "groupid": "topic-pixel-local",
++        "fetch.size": "1048586",
++        "autooffset.reset": "largest",
++        "autocommit.enable": "false"
++      },
++      "feed": "druidtest",
++      "parser": {
++        "timestampSpec": {
++          "column": "utcdt",
++          "format": "iso"
++        },
++        "data": {
++          "format": "json"
++        },
++        "dimensionExclusions": [
++          "wp"
++        ]
++      }
++    },
++    "plumber": {
++      "type": "realtime",
++      "windowPeriod": "PT10m",
++      "segmentGranularity": "hour",
++      "basePersistDirectory": "\/tmp\/realtime\/basePersist",
++      "rejectionPolicy": {
++        "type": "messageTime"
++      }
++    }
++  }
++]
+@@ -333 +289 @@
+-Check out [Filters](Filters.html) for more.
++Check out [Filters](Filters.html) for more information.
+diff --git a/docs/content/Realtime.md b/docs/content/Realtime.md
+index e2f85bb..06594b9 100644
+--- a/docs/content/Realtime.md
++++ b/docs/content/Realtime.md
+@@ -31,26 +31,58 @@
+-[{
+-  "schema" : { "dataSource":"dataSourceName",
+-               "aggregators":[ {"type":"count", "name":"events"},
+-                               {"type":"doubleSum","name":"outColumn","fieldName":"inColumn"} ],
+-               "indexGranularity":"minute",
+-               "shardSpec" : { "type": "none" } },
+-  "config" : { "maxRowsInMemory" : 500000,
+-               "intermediatePersistPeriod" : "PT10m" },
+-  "firehose" : { "type" : "kafka-0.7.2",
+-                 "consumerProps" : { "zk.connect" : "zk_connect_string",
+-                                     "zk.connectiontimeout.ms" : "15000",
+-                                     "zk.sessiontimeout.ms" : "15000",
+-                                     "zk.synctime.ms" : "5000",
+-                                     "groupid" : "consumer-group",
+-                                     "fetch.size" : "1048586",
+-                                     "autooffset.reset" : "largest",
+-                                     "autocommit.enable" : "false" },
+-                 "feed" : "your_kafka_topic",
+-                 "parser" : { "timestampSpec" : { "column" : "timestamp", "format" : "iso" },
+-                              "data" : { "format" : "json" },
+-                              "dimensionExclusions" : ["value"] } },
+-  "plumber" : { "type" : "realtime",
+-                "windowPeriod" : "PT10m",
+-                "segmentGranularity":"hour",
+-                "basePersistDirectory" : "/tmp/realtime/basePersist" }
+-}]
++[
++  {
++    "schema": {
++      "dataSource": "dataSourceName",
++      "aggregators": [
++        {
++          "type": "count",
++          "name": "events"
++        },
++        {
++          "type": "doubleSum",
++          "name": "outColumn",
++          "fieldName": "inColumn"
++        }
++      ],
++      "indexGranularity": "minute",
++      "shardSpec": {
++        "type": "none"
++      }
++    },
++    "config": {
++      "maxRowsInMemory": 500000,
++      "intermediatePersistPeriod": "PT10m"
++    },
++    "firehose": {
++      "type": "kafka-0.7.2",
++      "consumerProps": {
++        "zk.connect": "zk_connect_string",
++        "zk.connectiontimeout.ms": "15000",
++        "zk.sessiontimeout.ms": "15000",
++        "zk.synctime.ms": "5000",
++        "groupid": "consumer-group",
++        "fetch.size": "1048586",
++        "autooffset.reset": "largest",
++        "autocommit.enable": "false"
++      },
++      "feed": "your_kafka_topic",
++      "parser": {
++        "timestampSpec": {
++          "column": "timestamp",
++          "format": "iso"
++        },
++        "data": {
++          "format": "json"
++        },
++        "dimensionExclusions": [
++          "value"
++        ]
++      }
++    },
++    "plumber": {
++      "type": "realtime",
++      "windowPeriod": "PT10m",
++      "segmentGranularity": "hour",
++      "basePersistDirectory": "\/tmp\/realtime\/basePersist"
++    }
++  }
++]
+@@ -119,2 +151,2 @@
+-1.  Connect to data streams from varied systems ([Firehose](https://github.com/metamx/druid/blob/druid-0.5.x/realtime/src/main/java/com/metamx/druid/realtime/firehose/FirehoseFactory.java))
+-2.  Adjust the publishing strategy to match your needs ([Plumber](https://github.com/metamx/druid/blob/druid-0.5.x/realtime/src/main/java/com/metamx/druid/realtime/plumber/PlumberSchool.java))
++1.  Connect to data streams from varied systems ([Firehose](https://github.com/metamx/druid/blob/druid-0.6.0/realtime/src/main/java/com/metamx/druid/realtime/firehose/FirehoseFactory.java))
++2.  Adjust the publishing strategy to match your needs ([Plumber](https://github.com/metamx/druid/blob/druid-0.6.0/realtime/src/main/java/com/metamx/druid/realtime/plumber/PlumberSchool.java))
+@@ -125,34 +156,0 @@
+-
+-We will do our best to accept contributions from the community of new Firehoses and Plumbers, but we also understand the requirement for being able to plug in your own proprietary implementations. The model for doing this is by embedding the druid code in another project and writing your own `main()` method that initializes a RealtimeNode object and registers your proprietary objects with it.
+-
+-```java
+-public class MyRealtimeMain
+-{
+-  private static final Logger log = new Logger(MyRealtimeMain.class);
+-
+-  public static void main(String[] args) throws Exception
+-  {
+-    LogLevelAdjuster.register();
+-
+-    Lifecycle lifecycle = new Lifecycle();
+-
+-    lifecycle.addManagedInstance(
+-    RealtimeNode.builder()
+-                    .build()
+-                    .registerJacksonSubtype(foo.bar.MyFirehose.class)
+-    );
+-
+-    try {
+-      lifecycle.start();
+-    }
+-    catch (Throwable t) {
+-      log.info(t, "Throwable caught at startup, committing seppuku");
+-      System.exit(2);
+-    }
+-
+-    lifecycle.join();
+-  }
+-}
+-```
+-
+-Pluggable pieces of the system are either handled by a setter on the RealtimeNode object, or they are configuration driven and need to be setup to allow for [Jackson polymorphic deserialization](http://wiki.fasterxml.com/JacksonPolymorphicDeserialization) and registered via the relevant methods on the RealtimeNode object.
+diff --git a/docs/content/Support.md b/docs/content/Support.md
+index 421cdec..c554372 100644
+--- a/docs/content/Support.md
++++ b/docs/content/Support.md
+@@ -4 +4 @@
+-Numerous backend engineers at [Metamarkets](http://www.metamarkets.com) work on Druid full-time. If you any questions about usage or code, feel free to contact any of us.
++Numerous backend engineers at [Metamarkets](http://www.metamarkets.com) and other companies work on Druid full-time. If you any questions about usage or code, feel free to contact any of us.
+diff --git a/docs/content/Tutorial:-A-First-Look-at-Druid.md b/docs/content/Tutorial:-A-First-Look-at-Druid.md
+index 1fb4df3..a8b9508 100644
+--- a/docs/content/Tutorial:-A-First-Look-at-Druid.md
++++ b/docs/content/Tutorial:-A-First-Look-at-Druid.md
+@@ -50 +50 @@
+-We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-services-0.5.54-bin.tar.gz)
++We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-services-0.6.0-bin.tar.gz)
+@@ -62 +62 @@
+-cd druid-services-0.5.54
++cd druid-services-0.6.0
+@@ -85,4 +85,6 @@
+-2013-07-19 21:54:05,154 INFO [main] com.metamx.druid.realtime.RealtimeNode - Starting Jetty
+-2013-07-19 21:54:05,154 INFO [main] org.mortbay.log - jetty-6.1.x
+-2013-07-19 21:54:05,171 INFO [chief-wikipedia] com.metamx.druid.realtime.plumber.RealtimePlumberSchool - Expect to run at [2013-07-19T22:03:00.000Z]
+-2013-07-19 21:54:05,246 INFO [main] org.mortbay.log - Started SelectChannelConnector@0.0.0.0:8083
++2013-09-04 19:33:11,922 INFO [main] org.eclipse.jetty.server.AbstractConnector - Started SelectChannelConnector@0.0.0.0:8083
++2013-09-04 19:33:11,946 INFO [ApiDaemon] io.druid.segment.realtime.firehose.IrcFirehoseFactory - irc connection to server [irc.wikimedia.org] established
++2013-09-04 19:33:11,946 INFO [ApiDaemon] io.druid.segment.realtime.firehose.IrcFirehoseFactory - Joining channel #en.wikipedia
++2013-09-04 19:33:11,946 INFO [ApiDaemon] io.druid.segment.realtime.firehose.IrcFirehoseFactory - Joining channel #fr.wikipedia
++2013-09-04 19:33:11,946 INFO [ApiDaemon] io.druid.segment.realtime.firehose.IrcFirehoseFactory - Joining channel #de.wikipedia
++2013-09-04 19:33:11,946 INFO [ApiDaemon] io.druid.segment.realtime.firehose.IrcFirehoseFactory - Joining channel #ja.wikipedia
+diff --git a/docs/content/Tutorial:-The-Druid-Cluster.md b/docs/content/Tutorial:-The-Druid-Cluster.md
+index 7f284ce..780c0ab 100644
+--- a/docs/content/Tutorial:-The-Druid-Cluster.md
++++ b/docs/content/Tutorial:-The-Druid-Cluster.md
+@@ -4 +4 @@
+-Welcome back! In our first [tutorial](https://github.com/metamx/druid/wiki/Tutorial%3A-A-First-Look-at-Druid), we introduced you to the most basic Druid setup: a single realtime node. We streamed in some data and queried it. Realtime nodes collect very recent data and periodically hand that data off to the rest of the Druid cluster. Some questions about the architecture must naturally come to mind. What does the rest of Druid cluster look like? How does Druid load available static data?
++Welcome back! In our first [tutorial](Tutorial:-A-First-Look-at-Druid), we introduced you to the most basic Druid setup: a single realtime node. We streamed in some data and queried it. Realtime nodes collect very recent data and periodically hand that data off to the rest of the Druid cluster. Some questions about the architecture must naturally come to mind. What does the rest of Druid cluster look like? How does Druid load available static data?
+@@ -14 +14 @@
+-You can download the latest version of druid [here](http://static.druid.io/artifacts/releases/druid-services-0.5.54-bin.tar.gz)
++You can download the latest version of druid [here](http://static.druid.io/artifacts/releases/druid-services-0.6.0-bin.tar.gz)
+@@ -29 +29 @@
+-For deep storage, we have made a public S3 bucket (static.druid.io) available where data for this particular tutorial can be downloaded. More on the data [later](https://github.com/metamx/druid/wiki/Tutorial-Part-2#the-data).
++For deep storage, we have made a public S3 bucket (static.druid.io) available where data for this particular tutorial can be downloaded. More on the data [later](Tutorial-Part-2.html#the-data).
+@@ -59 +59 @@
+-Similar to the first tutorial, the data we will be loading is based on edits that have occurred on Wikipedia. Every time someone edits a page in Wikipedia, metadata is generated about the editor and edited page. Druid collects each individual event and packages them together in a container known as a [segment](https://github.com/metamx/druid/wiki/Segments). Segments contain data over some span of time. We've prebuilt a segment for this tutorial and will cover making your own segments in other [pages](https://github.com/metamx/druid/wiki/Loading-Your-Data).The segment we are going to work with has the following format:
++Similar to the first tutorial, the data we will be loading is based on edits that have occurred on Wikipedia. Every time someone edits a page in Wikipedia, metadata is generated about the editor and edited page. Druid collects each individual event and packages them together in a container known as a [segment](https://github.com/metamx/druid/wiki/Segments). Segments contain data over some span of time. We've prebuilt a segment for this tutorial and will cover making your own segments in other [pages](Loading-Your-Data.html).The segment we are going to work with has the following format:
+@@ -95 +95 @@
+-If you are interested in learning more about Druid configuration files, check out this [link](https://github.com/metamx/druid/wiki/Configuration). Many aspects of Druid are customizable. For the purposes of this tutorial, we are going to use default values for most things.
++If you are interested in learning more about Druid configuration files, check out this [link](Configuration.html). Many aspects of Druid are customizable. For the purposes of this tutorial, we are going to use default values for most things.
+@@ -99,0 +100 @@
++For more information about coordinator nodes, see [here](Coordinator.html).
+@@ -107 +108 @@
+-Under the directory we just created, create the file `runtime.properties` with the following contents:
++Under the directory we just created, create the file `runtime.properties` with the following contents if it does not exist:
+@@ -110,2 +111 @@
+-druid.host=127.0.0.1:8082
+-druid.port=8082
++druid.host=localhost
+@@ -112,0 +113 @@
++druid.port=8082
+@@ -114,5 +114,0 @@
+-# logging
+-com.metamx.emitter.logging=true
+-com.metamx.emitter.logging.level=info
+-
+-# zk
+@@ -120,2 +115,0 @@
+-druid.zk.paths.base=/druid
+-druid.zk.paths.discoveryPath=/druid/discoveryPath
+@@ -123,3 +117,2 @@
+-# aws (demo user)
+-com.metamx.aws.accessKey=AKIAIMKECRUYKDQGR6YQ
+-com.metamx.aws.secretKey=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
++druid.s3.accessKey=AKIAIMKECRUYKDQGR6YQ
++druid.s3.secretKey=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
+@@ -127,7 +120,3 @@
+-# db
+-druid.database.segmentTable=segments
+-druid.database.user=druid
+-druid.database.password=diurd
+-druid.database.connectURI=jdbc:mysql://localhost:3306/druid
+-druid.database.ruleTable=rules
+-druid.database.configTable=config
++druid.db.connector.connectURI=jdbc\:mysql\://localhost\:3306/druid
++druid.db.connector.user=druid
++druid.db.connector.password=diurd
+@@ -135,2 +124 @@
+-# coordinator runtime configs
+-druid.coordinator.startDelay=PT60S
++druid.coordinator.startDelay=PT60s
+@@ -147 +135,2 @@
+-historical nodes are the workhorses of a cluster and are in charge of loading historical segments and making them available for queries. Our Wikipedia segment will be downloaded by a historical node.
++Historical nodes are the workhorses of a cluster and are in charge of loading historical segments and making them available for queries. Our Wikipedia segment will be downloaded by a historical node.
++For more information about Historical nodes, see [here](Historical.html).
+@@ -158,2 +147 @@
+-druid.host=127.0.0.1:8081
+-druid.port=8081
++druid.host=localhost
+@@ -160,0 +149 @@
++druid.port=8081
+@@ -162,5 +150,0 @@
+-# logging
+-com.metamx.emitter.logging=true
+-com.metamx.emitter.logging.level=info
+-
+-# zk
+@@ -168,2 +151,0 @@
+-druid.zk.paths.base=/druid
+-druid.zk.paths.discoveryPath=/druid/discoveryPath
+@@ -171 +153,5 @@
+-# processing
++druid.s3.secretKey=QyyfVZ7llSiRg6Qcrql1eEUG7buFpAK6T6engr1b
++druid.s3.accessKey=AKIAIMKECRUYKDQGR6YQ
++
++druid.server.maxSize=100000000
++
+@@ -174,12 +160,2 @@
+-# aws (demo user)
+-com.metamx.aws.accessKey=AKIAIMKECRUYKDQGR6YQ
+-com.metamx.aws.secretKey=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
+-
+-# Path on local FS for storage of segments; dir will be created if needed
+-druid.paths.indexCache=/tmp/druid/indexCache
+-
+-# Path on local FS for storage of segment metadata; dir will be created if needed
+-druid.paths.segmentInfoCache=/tmp/druid/segmentInfoCache
+-
+-# server
+-druid.server.maxSize=100000000
++druid.segmentCache.infoPath=/tmp/druid/segmentInfoCache
++druid.segmentCache.locations=[{"path": "/tmp/druid/indexCache", "maxSize"\: 100000000}]
+@@ -196,0 +173 @@
++For more information about Broker nodes, see [here](Broker.html).
+@@ -207,2 +184 @@
+-druid.host=127.0.0.1:8080
+-druid.port=8080
++druid.host=localhost
+@@ -209,0 +186 @@
++druid.port=8080
+@@ -211,5 +187,0 @@
+-# logging
+-com.metamx.emitter.logging=true
+-com.metamx.emitter.logging.level=info
+-
+-# zk
+@@ -217,5 +188,0 @@
+-druid.zk.paths.base=/druid
+-druid.zk.paths.discoveryPath=/druid/discoveryPath
+-
+-# thread pool size for servicing queries
+-druid.client.http.connections=10
+@@ -227 +194 @@
+-java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:config/broker com.metamx.druid.http.BrokerMain
++java -Xmx256m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath lib/*:config/broker io.druid.cli.Main server broker
+@@ -254 +221 @@
+-At this point, we can query the segment. For more information on querying, see this [link](https://github.com/metamx/druid/wiki/Querying).
++At this point, we can query the segment. For more information on querying, see this [link](Querying.html).
+@@ -259 +226 @@
+-Check out the [Loading Your Own Data](https://github.com/metamx/druid/wiki/Loading-Your-Data) section for more info!
++Check out the [Loading Your Own Data](Loading-Your-Data.html) section for more info!
+diff --git a/docs/content/Tutorial:-Webstream.md b/docs/content/Tutorial:-Webstream.md
+index 32bde46..c45e573 100644
+--- a/docs/content/Tutorial:-Webstream.md
++++ b/docs/content/Tutorial:-Webstream.md
+@@ -40 +40 @@
+-We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-services-0.5.50-bin.tar.gz)
++We've built a tarball that contains everything you'll need. You'll find it [here](http://static.druid.io/artifacts/releases/druid-services-0.6.0-bin.tar.gz)
+@@ -51 +51 @@
+-cd druid-services-0.5.50
++cd druid-services-0.6.0
+@@ -71,3 +71,2 @@
+-2013-07-19 21:54:05,154 INFO com.metamx.druid.realtime.RealtimeNode~~ Starting Jetty
+-2013-07-19 21:54:05,154 INFO org.mortbay.log - jetty-6.1.x
+-2013-07-19 21:54:05,171 INFO com.metamx.druid.realtime.plumber.RealtimePlumberSchool - Expect to run at
++Jul 19, 2013 21:54:05 PM com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory getComponentProvider
++INFO: Binding io.druid.server.StatusResource to GuiceManagedComponentProvider with the scope "Undefined"
+diff --git a/docs/content/Twitter-Tutorial.textile b/docs/content/Twitter-Tutorial.textile
+index b5bdbb3..703db30 100644
+--- a/docs/content/Twitter-Tutorial.textile
++++ b/docs/content/Twitter-Tutorial.textile
+@@ -12 +12 @@
+-We've built a tarball that contains everything you'll need. You'll find it "here":http://static.druid.io/data/examples/druid-services-0.4.6.tar.gz.
++We've built a tarball that contains everything you'll need. You'll find it "here":http://static.druid.io/data/examples/druid-services-0.6.0.tar.gz.
+@@ -17 +17 @@
+-pre. tar -zxvf druid-services-0.4.6.tar.gz
++pre. tar -zxvf druid-services-0.6.0.tar.gz
+@@ -21 +21 @@
+-pre. cd druid-services-0.4.6-SNAPSHOT
++pre. cd druid-services-0.6.0-SNAPSHOT
+@@ -34 +34 @@
+-git checkout druid-0.4.32-branch
++git checkout druid-0.6.0
+diff --git a/examples/config/coordinator/runtime.properties b/examples/config/coordinator/runtime.properties
+index 59e3282..e1fc2ee 100644
+--- a/examples/config/coordinator/runtime.properties
++++ b/examples/config/coordinator/runtime.properties
+@@ -12 +12,3 @@
+-druid.db.connector.password=diurd
+\ No newline at end of file
++druid.db.connector.password=diurd
++
++druid.coordinator.startDelay=PT60s
+\ No newline at end of file
+diff --git a/server/src/main/java/io/druid/server/coordinator/DruidCoordinatorConfig.java b/server/src/main/java/io/druid/server/coordinator/DruidCoordinatorConfig.java
+index e4f50ba..30ed7e4 100644
+--- a/server/src/main/java/io/druid/server/coordinator/DruidCoordinatorConfig.java
++++ b/server/src/main/java/io/druid/server/coordinator/DruidCoordinatorConfig.java
+@@ -34 +34 @@
+-  @Default("PT120s")
++  @Default("PT300s")
+

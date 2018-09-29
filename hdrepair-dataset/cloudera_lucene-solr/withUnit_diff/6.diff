@@ -1,0 +1,42 @@
+diff --git a/solr/CHANGES.txt b/solr/CHANGES.txt
+index 2380a8d..5001039 100644
+--- a/solr/CHANGES.txt
++++ b/solr/CHANGES.txt
+@@ -507,0 +508,2 @@
++* SOLR-3522: fixed parsing of the 'literal()' function (hossman)
++
+diff --git a/solr/core/src/java/org/apache/solr/search/ValueSourceParser.java b/solr/core/src/java/org/apache/solr/search/ValueSourceParser.java
+index a8acb77..75ade0d 100755
+--- a/solr/core/src/java/org/apache/solr/search/ValueSourceParser.java
++++ b/solr/core/src/java/org/apache/solr/search/ValueSourceParser.java
+@@ -107 +107 @@
+-        return new LiteralValueSource(fp.getString());
++        return new LiteralValueSource(fp.parseArg());
+diff --git a/solr/core/src/test/org/apache/solr/search/QueryParsingTest.java b/solr/core/src/test/org/apache/solr/search/QueryParsingTest.java
+index 2885b29..6e13ce2 100644
+--- a/solr/core/src/test/org/apache/solr/search/QueryParsingTest.java
++++ b/solr/core/src/test/org/apache/solr/search/QueryParsingTest.java
+@@ -233,0 +234,22 @@
++  public void testLiteralFunction() throws Exception {
++    
++    final String NAME = FunctionQParserPlugin.NAME;
++
++    SolrQueryRequest req = req("variable", "foobar");
++    
++    assertNotNull(QParser.getParser
++                  ("literal('a value')",
++                   NAME, req).getQuery());
++    assertNotNull(QParser.getParser
++                  ("literal('a value')",
++                   NAME, req).getQuery());
++    assertNotNull(QParser.getParser
++                  ("literal(\"a value\")",
++                   NAME, req).getQuery());
++    assertNotNull(QParser.getParser
++                  ("literal($variable)",
++                   NAME, req).getQuery());
++    assertNotNull(QParser.getParser
++                  ("strdist(\"a value\",literal('a value'),edit)",
++                   NAME, req).getQuery());
++  }
+

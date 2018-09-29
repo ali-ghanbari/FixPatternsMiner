@@ -1,0 +1,551 @@
+diff --git a/extensions/security/ldap/ldap-realm.xsd b/extensions/security/ldap/ldap-realm.xsd
+index 42f524b..9d1f94b 100644
+--- a/extensions/security/ldap/ldap-realm.xsd
++++ b/extensions/security/ldap/ldap-realm.xsd
+@@ -1,0 +2,5 @@
++<!--
++    Makes use of XML Schema 1.1 to override the
++    Security Manager Realm
++    definition for an LDAP Realm
++-->
+@@ -6 +11 @@
+-    xmlns:sec="http://exist-db.org/Configuration"
++    xmlns:cnf="http://exist-db.org/Configuration"
+@@ -25 +30,17 @@
+-    <xs:include schemaLocation="../../../schema/security-manager.xsd"/>
++    <xs:override schemaLocation="../../../schema/security-manager.xsd">
++        <xs:complexType name="realmType">
++            <xs:annotation>
++                <xs:documentation>
++                    <db:section>
++                        <db:title>LDAP Realm</db:title>
++                        <db:para>Specific configuration for the LDAP Realm</db:para>
++                    </db:section>
++                </xs:documentation>
++            </xs:annotation>
++            <xs:sequence>
++                <xs:element ref="cnf:context"/>
++            </xs:sequence>
++            <xs:attribute name="id" use="required" fixed="LDAP" type="cnf:realmTypeId"/>
++            <xs:attributeGroup ref="cnf:ldapRealmAttrs"/>
++        </xs:complexType>
++    </xs:override>
+@@ -27 +48,15 @@
+-    <xs:element name="realm">
++    <xs:attributeGroup name="ldapRealmAttrs">
++        <xs:attribute name="principals-are-case-insensitive" type="xs:boolean" default="false">
++            <xs:annotation>
++                <xs:documentation>
++                    <db:section>
++                        <db:title>Case sensitivity of Principals</db:title>
++                        <db:para>Determines whether the case of Principals (Account and Group names should be ignored). By default case is preserved, set to true to ignore case.</db:para>
++                    </db:section>
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
++        <xs:attribute name="version" type="xs:decimal" default="1.0"/>
++    </xs:attributeGroup>
++    
++    <xs:element name="context" type="cnf:contextType">
+@@ -30,5 +65,78 @@
+-                <db:sect1>
+-                    <db:title>Realm</db:title>
+-                    <db:subtitle>Authentication Realms</db:subtitle>
+-                    <db:para>A security authentication Realm allows eXist-db to authenicate against different security providers (e.g. LDAP, OpenID etc.)</db:para>
+-                </db:sect1>
++                <db:section>
++                    <db:title>LDAP Context</db:title>
++                    <db:para>Details of the LDAP Context to query for security authentication.</db:para>
++                </db:section>
++            </xs:documentation>
++        </xs:annotation>
++    </xs:element>
++    
++    <xs:complexType name="contextType">
++        <xs:sequence>
++            <xs:element ref="cnf:authentication"/>
++            <xs:element ref="cnf:principal-pattern" minOccurs="0"/>
++            <xs:element ref="cnf:url"/>
++            <xs:element ref="cnf:domain"/>
++            <xs:element ref="cnf:search"/>
++            <xs:element ref="cnf:transformation" minOccurs="0"/>
++        </xs:sequence>
++    </xs:complexType>
++    
++    <xs:element name="authentication">
++        <xs:simpleType>
++            <xs:annotation>
++                <xs:documentation>
++                    <db:section>
++                        <db:title>The authentication mechanism and strength to use (if any).</db:title>
++                        <db:para>see: http://docs.oracle.com/javase/6/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION</db:para>
++                        <db:para>If your LDAP uses authentication, you most likely want 'simple', otherwise 'none'.</db:para>
++                    </db:section>
++                </xs:documentation>
++            </xs:annotation>
++            <xs:restriction base="xs:string">
++                <xs:enumeration value="none"/>
++                <xs:enumeration value="simple"/>
++                <xs:enumeration value="strong"/>
++            </xs:restriction>
++        </xs:simpleType>
++    </xs:element>
++    
++    <xs:element name="principal-pattern" type="xs:string">
++        <xs:annotation>
++            <xs:documentation>
++                <db:section>
++                    <db:title>Username formatting pattern</db:title>
++                    <db:para>A pattern for formatting the username before it is sent to the LDAP server</db:para>
++                </db:section>
++            </xs:documentation>
++        </xs:annotation>
++    </xs:element>
++    
++    <xs:element name="url" type="xs:anyURI">
++        <xs:annotation>
++            <xs:documentation>
++                <db:section>
++                    <db:title>LDAP Context URL</db:title>
++                    <db:para>The URL of the LDAP server (e.g. ldap://ad.my-domain.com:389).</db:para>
++                </db:section>
++            </xs:documentation>
++        </xs:annotation>
++    </xs:element>
++    
++    <xs:element name="domain" type="xs:string">
++        <xs:annotation>
++            <xs:documentation>
++                <db:section>
++                    <db:title>LDAP Domain Name</db:title>
++                    <db:para>The Domain name of the LDAP Context (e.g. ad.my-domain.com).</db:para>
++                </db:section>
++            </xs:documentation>
++        </xs:annotation>
++    </xs:element>
++    
++    <xs:element name="search">
++        <xs:annotation>
++            <xs:documentation>
++                <db:section>
++                    <db:title>LDAP Search Context</db:title>
++                    <db:para>Configuration information on how to search the LDAP for account and group names.</db:para>
++                </db:section>
+@@ -39 +147 @@
+-                <xs:element name="context">
++                <xs:element name="base" type="xs:string">
+@@ -43,2 +151,2 @@
+-                                <db:title>LDAP Context</db:title>
+-                                <db:para>Details of the LDAP Context to query for security authentication.</db:para>
++                                <db:title>Base Search Context</db:title>
++                                <db:para>The LDAP base to restrict searches within (e.g. ou=my-office,dc=ad,dc=my-domain,dc=com)</db:para>
+@@ -48,113 +156,40 @@
+-                    <xs:complexType>
+-                        <xs:sequence>
+-                            <xs:element name="url" type="xs:anyURI">
+-                                <xs:annotation>
+-                                    <xs:documentation>
+-                                        <db:section>
+-                                            <db:title>LDAP Context URL</db:title>
+-                                            <db:para>The URL of the LDAP server (e.g. ldap://ad.my-domain.com:389).</db:para>
+-                                        </db:section>
+-                                    </xs:documentation>
+-                                </xs:annotation>
+-                            </xs:element>
+-                            <xs:element name="domain" type="xs:string">
+-                                <xs:annotation>
+-                                    <xs:documentation>
+-                                        <db:section>
+-                                            <db:title>LDAP Domain Name</db:title>
+-                                            <db:para>The Domain name of the LDAP Context (e.g. ad.my-domain.com).</db:para>
+-                                        </db:section>
+-                                    </xs:documentation>
+-                                </xs:annotation>
+-                            </xs:element>
+-                            <xs:element name="search">
+-                                <xs:annotation>
+-                                    <xs:documentation>
+-                                        <db:section>
+-                                            <db:title>LDAP Search Context</db:title>
+-                                            <db:para>Configuration information on how to search the LDAP for account and group names.</db:para>
+-                                        </db:section>
+-                                    </xs:documentation>
+-                                </xs:annotation>
+-                                <xs:complexType>
+-                                    <xs:sequence>
+-                                        <xs:element name="base" type="xs:string">
+-                                            <xs:annotation>
+-                                                <xs:documentation>
+-                                                    <db:section>
+-                                                        <db:title>Base Search Context</db:title>
+-                                                        <db:para>The LDAP base to restrict searches within (e.g. ou=my-office,dc=ad,dc=my-domain,dc=com)</db:para>
+-                                                    </db:section>
+-                                                </xs:documentation>
+-                                            </xs:annotation>
+-                                        </xs:element>
+-                                        <xs:element name="default-username" type="xs:string" minOccurs="0">
+-                                            <xs:annotation>
+-                                                <xs:documentation>
+-                                                    <db:section>
+-                                                        <db:title>Default Search Username</db:title>
+-                                                        <db:para>If your LDAP requires authentication for searches, then you must provide the username of an LDAP user here that has permission to do so.</db:para>
+-                                                    </db:section>
+-                                                </xs:documentation>
+-                                            </xs:annotation>
+-                                        </xs:element>
+-                                        <xs:element name="default-password" type="xs:string" minOccurs="0">
+-                                            <xs:annotation>
+-                                                <xs:documentation>
+-                                                    <db:section>
+-                                                        <db:title>Default Search Password</db:title>
+-                                                        <db:para>If your LDAP requires authentication for searches, then you must provide the password of the LDAP user used in 'default-username' here.</db:para>
+-                                                    </db:section>
+-                                                </xs:documentation>
+-                                            </xs:annotation>
+-                                        </xs:element>
+-                                        <xs:element name="account" type="sec:principalType_account">
+-                                            <xs:annotation>
+-                                                <xs:documentation>
+-                                                    <db:section>
+-                                                        <db:title>LDAP Account Principal</db:title>
+-                                                        <db:para>Configuration for searching for LDAP Account Principals.</db:para>
+-                                                    </db:section>
+-                                                </xs:documentation>
+-                                            </xs:annotation>
+-                                        </xs:element>
+-                                        <xs:element name="group" type="sec:principalType_group">
+-                                            <xs:annotation>
+-                                                <xs:documentation>
+-                                                    <db:section>
+-                                                        <db:title>LDAP Group Principal</db:title>
+-                                                        <db:para>Configuration for searching for LDAP Group Principals.</db:para>
+-                                                    </db:section>
+-                                                </xs:documentation>
+-                                            </xs:annotation>
+-                                        </xs:element>
+-                                    </xs:sequence>
+-                                </xs:complexType>
+-                            </xs:element>
+-                            <xs:element name="transformation" minOccurs="0">
+-                                <xs:annotation>
+-                                    <xs:documentation>
+-                                        <db:section>
+-                                            <db:title>LDAP Principal Transformations</db:title>
+-                                            <db:para>Configuration for modifying Principals returned from the LDAP Server on the fly. Useful for fixups when integrating multiple security Realms.</db:para>
+-                                        </db:section>
+-                                    </xs:documentation>
+-                                </xs:annotation>
+-                                <xs:complexType>
+-                                    <xs:sequence>
+-                                        <xs:element name="add-group" type="xs:string" minOccurs="0">
+-                                            <xs:annotation>
+-                                                <xs:documentation>
+-                                                    <db:section>
+-                                                        <db:title>Add a Security Group to an LDAP Account Principal</db:title>
+-                                                        <db:para>Will add the named group to the LDAP Account.</db:para>
+-                                                        <db:para>The group name can either be simple like 'guest', in which-case it will be resolved against the internal eXist-db security realm, or it can be postfixed with the realm e.g. 'project-users@other-realm.com', the postfix will be used to determine the realm to resolve the group against.</db:para>
+-                                                    </db:section>
+-                                                </xs:documentation>
+-                                            </xs:annotation>
+-                                        </xs:element>
+-                                    </xs:sequence>
+-                                </xs:complexType>
+-                            </xs:element>
+-                        </xs:sequence>
+-                    </xs:complexType>
++                </xs:element>
++                <xs:element name="default-username" type="xs:string" minOccurs="0">
++                    <xs:annotation>
++                        <xs:documentation>
++                            <db:section>
++                                <db:title>Default Search Username</db:title>
++                                <db:para>If your LDAP requires authentication for searches, then you must provide the username of an LDAP user here that has permission to do so.</db:para>
++                            </db:section>
++                        </xs:documentation>
++                    </xs:annotation>
++                </xs:element>
++                <xs:element name="default-password" type="xs:string" minOccurs="0">
++                    <xs:annotation>
++                        <xs:documentation>
++                            <db:section>
++                                <db:title>Default Search Password</db:title>
++                                <db:para>If your LDAP requires authentication for searches, then you must provide the password of the LDAP user used in 'default-username' here.</db:para>
++                            </db:section>
++                        </xs:documentation>
++                    </xs:annotation>
++                </xs:element>
++                <xs:element name="account" type="cnf:principalType_account">
++                    <xs:annotation>
++                        <xs:documentation>
++                            <db:section>
++                                <db:title>LDAP Account Principal</db:title>
++                                <db:para>Configuration for searching for LDAP Account Principals.</db:para>
++                            </db:section>
++                        </xs:documentation>
++                    </xs:annotation>
++                </xs:element>
++                <xs:element name="group" type="cnf:principalType_group">
++                    <xs:annotation>
++                        <xs:documentation>
++                            <db:section>
++                                <db:title>LDAP Group Principal</db:title>
++                                <db:para>Configuration for searching for LDAP Group Principals.</db:para>
++                            </db:section>
++                        </xs:documentation>
++                    </xs:annotation>
+@@ -163,20 +198,26 @@
+-            <xs:attribute name="id" use="required" fixed="LDAP" type="xs:string">
+-                <xs:annotation>
+-                    <xs:documentation>
+-                        <db:section>
+-                            <db:title>Realm ID</db:title>
+-                            <db:para>A unique identifier that identifies this security realm. This is used internally in eXist-db.</db:para>
+-                        </db:section>
+-                    </xs:documentation>
+-                </xs:annotation>
+-            </xs:attribute>
+-            <xs:attribute name="principals-are-case-insensitive" type="xs:boolean" default="false">
+-                <xs:annotation>
+-                    <xs:documentation>
+-                        <db:section>
+-                            <db:title>Case sensitivity of Principals</db:title>
+-                            <db:para>Determines whether the case of Principals (Account and Group names should be ignored). By default case is preserved, set to true to ignore case.</db:para>
+-                        </db:section>
+-                    </xs:documentation>
+-                </xs:annotation>
+-            </xs:attribute>
++        </xs:complexType>
++    </xs:element>
++   
++    <xs:element name="transformation">
++        <xs:annotation>
++            <xs:documentation>
++                <db:section>
++                    <db:title>LDAP Principal Transformations</db:title>
++                    <db:para>Configuration for modifying Principals returned from the LDAP Server on the fly. Useful for fixups when integrating multiple security Realms.</db:para>
++                </db:section>
++            </xs:documentation>
++        </xs:annotation>
++        <xs:complexType>
++            <xs:sequence>
++                <xs:element name="add-group" type="xs:string" minOccurs="0">
++                    <xs:annotation>
++                        <xs:documentation>
++                            <db:section>
++                                <db:title>Add a Security Group to an LDAP Account Principal</db:title>
++                                <db:para>Will add the named group to the LDAP Account.</db:para>
++                                <db:para>The group name can either be simple like 'guest', in which-case it will be resolved against the internal eXist-db security realm, or it can be postfixed with the realm e.g. 'project-users@other-realm.com', the postfix will be used to determine the realm to resolve the group against.</db:para>
++                            </db:section>
++                        </xs:documentation>
++                    </xs:annotation>
++                </xs:element>
++            </xs:sequence>
+@@ -186 +227,23 @@
+-    <xs:complexType name="principalType">
++    <xs:element name="search-filter-prefix" type="xs:string">
++        <xs:annotation>
++            <xs:documentation>
++                <db:section>
++                    <db:title>Principal Search Filter Prefix</db:title>
++                    <db:para>Prefix to use in LDAP Searches when searching on Principals. (e.g. For AD Users 'objectClass=user' or for AD Groups 'objectClass=group')</db:para>
++                </db:section>
++            </xs:documentation>
++        </xs:annotation>
++    </xs:element>
++    
++    <xs:element name="metadata-search-attribute" type="cnf:metadataSearchAttributeType">
++        <xs:annotation>
++            <xs:documentation>
++                <db:section>
++                    <db:title>Search Attribute</db:title>
++                    <db:para>Metadata Attribute values to retrieve as part of the LDAP Search</db:para>
++                </db:section>
++            </xs:documentation>
++        </xs:annotation>
++    </xs:element>
++    
++    <xs:group name="white-black-list"> 
+@@ -188,21 +251 @@
+-            <xs:element name="search-filter-prefix" type="xs:string">
+-                <xs:annotation>
+-                    <xs:documentation>
+-                        <db:section>
+-                            <db:title>Principal Search Filter Prefix</db:title>
+-                            <db:para>Prefix to use in LDAP Searches when searching on Principals. (e.g. For AD Users 'objectClass=user' or for AD Groups 'objectClass=group')</db:para>
+-                        </db:section>
+-                    </xs:documentation>
+-                </xs:annotation>
+-            </xs:element>
+-            <xs:element name="metadata-search-attribute" type="sec:metadataSearchAttributeType">
+-                <xs:annotation>
+-                    <xs:documentation>
+-                        <db:section>
+-                            <db:title>Search Attribute</db:title>
+-                            <db:para>Metadata Attribute values to retrieve as part of the LDAP Search</db:para>
+-                        </db:section>
+-                    </xs:documentation>
+-                </xs:annotation>
+-            </xs:element>
+-            <xs:element name="whitelist" type="sec:principalRestricionListType" minOccurs="0">
++            <xs:element name="whitelist" type="cnf:principalRestrictionListType" minOccurs="0">
+@@ -218 +261 @@
+-            <xs:element name="blacklist" type="sec:principalRestricionListType" minOccurs="0">
++            <xs:element name="blacklist" type="cnf:principalRestrictionListType" minOccurs="0">
+@@ -229 +272 @@
+-    </xs:complexType>
++    </xs:group>
+@@ -231 +274 @@
+-    <xs:complexType name="principalRestricionListType">
++    <xs:complexType name="principalRestrictionListType">
+@@ -238,7 +281,6 @@
+-        <xs:complexContent>
+-            <xs:extension base="sec:principalType">
+-                <xs:sequence>
+-                    <xs:element name="search-attribute" type="sec:searchAttributeType_account"/>    
+-                </xs:sequence>
+-            </xs:extension>
+-        </xs:complexContent>
++        <xs:sequence>
++            <xs:element ref="cnf:search-filter-prefix"/>
++            <xs:element name="search-attribute" type="cnf:searchAttributeType_account" maxOccurs="unbounded"/>
++            <xs:element ref="cnf:metadata-search-attribute" maxOccurs="unbounded"/>
++            <xs:group ref="cnf:white-black-list"/>
++        </xs:sequence>
+@@ -248,7 +290,6 @@
+-        <xs:complexContent>
+-            <xs:extension base="sec:principalType">
+-                <xs:sequence>
+-                    <xs:element name="search-attribute" type="sec:searchAttributeType_group"/>    
+-                </xs:sequence>
+-            </xs:extension>
+-        </xs:complexContent>
++        <xs:sequence>
++            <xs:element ref="cnf:search-filter-prefix"/>
++            <xs:element name="search-attribute" type="cnf:searchAttributeType_group" maxOccurs="unbounded"/>
++            <xs:element ref="cnf:metadata-search-attribute" maxOccurs="unbounded"/>
++            <xs:group ref="cnf:white-black-list"/>
++        </xs:sequence>
+@@ -267,2 +308 @@
+-            <xs:extension base="xs:integer">
+-                <xs:anyAttribute/>
++            <xs:extension base="xs:string">
+@@ -282,3 +322,3 @@
+-        <xs:complexContent>
+-            <xs:extension base="sec:searchAttributeType">
+-                <xs:attribute name="key" type="sec:searchAttributeKeyType_account" use="required"/>
++        <xs:simpleContent>
++            <xs:extension base="cnf:searchAttributeType">
++                <xs:attribute name="key" type="cnf:searchAttributeKeyType_account" use="required"/>
+@@ -286 +326 @@
+-        </xs:complexContent>
++        </xs:simpleContent>
+@@ -298,3 +338,3 @@
+-        <xs:complexContent>
+-            <xs:extension base="sec:searchAttributeType">
+-                <xs:attribute name="key" type="sec:searchAttributeKeyType_group" use="required"/>
++        <xs:simpleContent>
++            <xs:extension base="cnf:searchAttributeType">
++                <xs:attribute name="key" type="cnf:searchAttributeKeyType_group" use="required"/>
+@@ -302 +342 @@
+-        </xs:complexContent>
++        </xs:simpleContent>
+@@ -326 +366 @@
+-        <xs:union memberTypes="sec:searchAttributeKeyType_common sec:searchAttributeKeyType_accountOnly"/>
++        <xs:union memberTypes="cnf:searchAttributeKeyType_common cnf:searchAttributeKeyType_accountOnly"/>
+@@ -330 +370 @@
+-        <xs:union memberTypes="sec:searchAttributeKeyType_common sec:searchAttributeKeyType_groupOnly"/>
++        <xs:union memberTypes="cnf:searchAttributeKeyType_common cnf:searchAttributeKeyType_groupOnly"/>
+@@ -357,2 +397,2 @@
+-            <xs:extension base="sec:metadataAttributeType">
+-                <xs:attribute name="key" type="sec:metadataKeyType"/>        
++            <xs:extension base="cnf:metadataAttributeType">
++                <xs:attribute name="key" type="cnf:metadataKeyType" use="required"/>        
+@@ -368,0 +409,2 @@
++            <xs:enumeration value="http://axschema.org/namePerson/first"/>
++            <xs:enumeration value="http://axschema.org/namePerson/last"/>
+@@ -377,4 +419 @@
+-        <xs:restriction base="xs:string">
+-            <xs:enumeration value="name"/>
+-            <xs:enumeration value="mail"/>
+-        </xs:restriction>
++        <xs:restriction base="xs:string"/>
+diff --git a/extensions/security/ldap/src/org/exist/security/realm/ldap/LdapContextFactory.java b/extensions/security/ldap/src/org/exist/security/realm/ldap/LdapContextFactory.java
+index b592896..3a6da89 100644
+--- a/extensions/security/ldap/src/org/exist/security/realm/ldap/LdapContextFactory.java
++++ b/extensions/security/ldap/src/org/exist/security/realm/ldap/LdapContextFactory.java
+@@ -54 +54 @@
+-	@ConfigurationFieldAsElement("principalPattern")
++	@ConfigurationFieldAsElement("principal-pattern")
+diff --git a/schema/security-manager.xsd b/schema/security-manager.xsd
+index 481e7d5..c06593c 100644
+--- a/schema/security-manager.xsd
++++ b/schema/security-manager.xsd
+@@ -6,2 +6,3 @@
+-    xmlns:sec="http://exist-db.org/Configuration"
+-    xmlns:db="http://docbook.org/ns/docbook">
++    xmlns:cnf="http://exist-db.org/Configuration"
++    xmlns:db="http://docbook.org/ns/docbook"
++    version="2.0">
+@@ -25,11 +26 @@
+-    <xs:element name="security-manager">
+-        <xs:complexType>
+-            <xs:sequence>
+-                <xs:element name="Authentication-Entry-Point" type="xs:anyURI"/>
+-                <xs:element ref="sec:realm"/>
+-            </xs:sequence>
+-            <xs:attribute name="last-account-id" type="xs:int"/>
+-            <xs:attribute name="last-group-id" type="xs:int"/>
+-            <xs:attribute name="version" type="xs:decimal" fixed="2.0"/>
+-        </xs:complexType>
+-    </xs:element>
++    <xs:element name="security-manager" type="cnf:securityManagerType"/>
+@@ -37,9 +28,39 @@
+-    <xs:element name="realm">
+-        <xs:complexType>
+-            <xs:sequence>
+-                <xs:any/>
+-            </xs:sequence>
+-            <xs:attribute name="id" type="xs:string"/>
+-            <xs:anyAttribute/>
+-        </xs:complexType>
+-    </xs:element>
++    <xs:complexType name="securityManagerType">
++        <xs:sequence>
++            <xs:element ref="cnf:authentication-entry-point"/>
++            <xs:element ref="cnf:events" minOccurs="0"/>
++            <xs:element ref="cnf:realm" maxOccurs="unbounded"/>
++        </xs:sequence>
++        <xs:attribute name="last-account-id" type="xs:int"/>
++        <xs:attribute name="last-group-id" type="xs:int"/>
++        <xs:attribute name="version" type="xs:decimal" fixed="2.0"/>
++    </xs:complexType>
++    
++    <xs:element name="authentication-entry-point" type="cnf:authenticationEntryPointType"/>
++    
++    <xs:simpleType name="authenticationEntryPointType">
++        <xs:restriction base="xs:anyURI">
++            <xs:minLength value="1"/>
++        </xs:restriction>
++    </xs:simpleType>
++    
++    <xs:element name="events" type="cnf:eventsType"/>
++    
++    <xs:complexType name="eventsType">
++        <xs:attribute name="script-uri" type="xs:anyURI"/>
++    </xs:complexType>
++    
++    <xs:element name="realm" type="cnf:realmType"/>
++
++    <xs:complexType name="realmType">
++        <xs:sequence>
++            <xs:any namespace="http://exist-db.org/Configuration" processContents="lax"/>
++        </xs:sequence>
++        <xs:attribute name="id" type="cnf:realmTypeId"/>
++        <xs:anyAttribute processContents="lax"/>
++    </xs:complexType>
++    
++    <xs:simpleType name="realmTypeId">
++        <xs:restriction base="xs:string"/>
++    </xs:simpleType>
++    
+

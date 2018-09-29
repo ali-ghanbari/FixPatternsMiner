@@ -1,0 +1,8 @@
+diff --git a/tools/stress/src/org/apache/cassandra/stress/operations/Inserter.java b/tools/stress/src/org/apache/cassandra/stress/operations/Inserter.java
+index c7affe5..e434099 100644
+--- a/tools/stress/src/org/apache/cassandra/stress/operations/Inserter.java
++++ b/tools/stress/src/org/apache/cassandra/stress/operations/Inserter.java
+@@ -52 +52 @@
+-            columns.add(new Column(ByteBufferUtil.bytes(columnName), columnValue, System.currentTimeMillis()));
++            columns.add(new Column(ByteBufferUtil.bytes(columnName)).setValue(columnValue).setTimestamp(System.currentTimeMillis()));
+

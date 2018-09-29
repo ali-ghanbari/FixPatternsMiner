@@ -1,0 +1,10 @@
+Ensure that a PLTE chunk is written for every file.
+
+This fixes a bug in which converting a dataset to multiple PNG files
+using:
+
+$ bfconvert 2chZT.lsm Z%z_C%c_T%t.png
+
+resulted in the correct number of PNG files, but only the first PNG file
+was readable.
+

@@ -1,0 +1,16 @@
+[ActivityManager] fix NPE in ActivityStack.resetTargetTaskIfNeededLocked.
+
+Symptom:
+in .ActivityStack.resetTargetTaskIfNeededLocked,  "allowTaskReparenting" if case will call setTask
+to remove activities from task, that will caused numActivities in main for-loop not consist with task.mActivities size.
+caused NPE will happend in finish activities for-loop due to get null object from activities when clearWhenTaskReset" as true case.
+
+Root Cause:
+when clearWhenTaskReset as true, will set "end" variable as numActivities -1, but if calling setTask to remove activities from task,
+end value will out of date & not same with task.mActivities size.
+
+Solution:
+use activities.size() - 1 to assign end value.
+
+Change-Id: I5d7fe22e1df2fc61738db23402e7c42cf6d8c4cc
+

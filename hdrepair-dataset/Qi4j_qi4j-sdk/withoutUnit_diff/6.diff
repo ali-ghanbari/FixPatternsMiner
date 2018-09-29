@@ -1,0 +1,8 @@
+diff --git a/core/spi/src/main/java/org/qi4j/spi/entitystore/helpers/JSONMapEntityStoreMixin.java b/core/spi/src/main/java/org/qi4j/spi/entitystore/helpers/JSONMapEntityStoreMixin.java
+index 459162d..c8d6173 100644
+--- a/core/spi/src/main/java/org/qi4j/spi/entitystore/helpers/JSONMapEntityStoreMixin.java
++++ b/core/spi/src/main/java/org/qi4j/spi/entitystore/helpers/JSONMapEntityStoreMixin.java
+@@ -122 +122 @@
+-        uuid = UUID.randomUUID().toString() + "-";
++        uuid = descriptor.identity() + "-" + UUID.randomUUID().toString();
+

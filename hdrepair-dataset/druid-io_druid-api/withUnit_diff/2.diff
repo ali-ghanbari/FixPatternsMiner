@@ -1,0 +1,33 @@
+diff --git a/src/main/java/io/druid/data/input/impl/DelimitedParseSpec.java b/src/main/java/io/druid/data/input/impl/DelimitedParseSpec.java
+index 97096c5..9a869b0 100644
+--- a/src/main/java/io/druid/data/input/impl/DelimitedParseSpec.java
++++ b/src/main/java/io/druid/data/input/impl/DelimitedParseSpec.java
+@@ -36 +36 @@
+-    this.columns = columns == null ? Lists.<String>newArrayList() : columns;
++    this.columns = columns == null ? dimensionsSpec.getDimensions() : columns;
+diff --git a/src/test/java/io/druid/data/input/impl/DelimitedParseSpecTest.java b/src/test/java/io/druid/data/input/impl/DelimitedParseSpecTest.java
+index f545317..59fff5d 100644
+--- a/src/test/java/io/druid/data/input/impl/DelimitedParseSpecTest.java
++++ b/src/test/java/io/druid/data/input/impl/DelimitedParseSpecTest.java
+@@ -75,0 +76,20 @@
++
++  @Test
++  public void testDefaultColumnList(){
++    final DelimitedParseSpec spec = new DelimitedParseSpec(
++        new TimestampSpec(
++            "timestamp",
++            "auto"
++        ),
++        new DimensionsSpec(
++            Arrays.asList("a", "b"),
++            Lists.<String>newArrayList(),
++            Lists.<SpatialDimensionSchema>newArrayList()
++        ),
++        ",",
++        null,
++        // pass null columns, use default
++        null
++    );
++    Assert.assertEquals(spec.getColumns(), spec.getDimensionsSpec().getDimensions());
++  }
+

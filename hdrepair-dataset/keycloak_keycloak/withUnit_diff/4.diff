@@ -1,0 +1,110 @@
+diff --git a/forms/src/main/resources/META-INF/resources/forms/theme/default/css/login-register.css b/forms/src/main/resources/META-INF/resources/forms/theme/default/css/login-register.css
+index 0fa24e8..8eacd72 100644
+--- a/forms/src/main/resources/META-INF/resources/forms/theme/default/css/login-register.css
++++ b/forms/src/main/resources/META-INF/resources/forms/theme/default/css/login-register.css
+@@ -351 +351 @@
+-.rcue-login-register.reset .form-area {
++.rcue-login-register.reset .form-area, .rcue-login-register.totp .form-area {
+diff --git a/forms/src/main/resources/META-INF/resources/forms/theme/default/login-config-totp.ftl b/forms/src/main/resources/META-INF/resources/forms/theme/default/login-config-totp.ftl
+index 82f82f3..9b3cca5 100755
+--- a/forms/src/main/resources/META-INF/resources/forms/theme/default/login-config-totp.ftl
++++ b/forms/src/main/resources/META-INF/resources/forms/theme/default/login-config-totp.ftl
+@@ -2 +2 @@
+-<@layout.registrationLayout bodyClass=""; section>
++<@layout.registrationLayout bodyClass="totp"; section>
+@@ -5 +5 @@
+-    Config TOTP
++    Google Authenticator Setup
+@@ -9 +9,6 @@
+-    Config TOTP
++    Google Authenticator Setup
++
++    <#elseif section = "feedback">
++    <div class="feedback warning show">
++        <p><strong>Your account is not enabled because you need to set up the Google Authenticator.</strong><br>Please follow the steps below.</p>
++    </div>
+@@ -14,2 +18,0 @@
+-        <h2>To setup Google Authenticator</h2>
+-
+@@ -17,3 +20,2 @@
+-            <li>Install Google Authenticator to your device</li>
+-            <li>Set up an account in Google Authenticator and scan the QR code below or enter the key<br />
+-                <img src="${totp.totpSecretQrCodeUrl}" /> ${totp.totpSecretEncoded}
++            <li>
++                <p><strong>1</strong>Download the <a href="http://code.google.com/p/google-authenticator/" target="_blank">Google Authenticator app</a> in your device.</p>
+@@ -21,2 +23,7 @@
+-            <li>Enter a one-time password provided by Google Authenticator and click Save to finish the setup
+-
++            <li class="clearfix">
++                <p><strong>2</strong>Create an account in Google Authenticator and scan the barcode or the provided key below.</p>
++                <img src="${totp.totpSecretQrCodeUrl}" alt="Figure: Barcode">
++                <span class="code">${totp.totpSecretEncoded}</span>
++            </li>
++            <li class="clearfix">
++                <p><strong>3</strong>Enter the one-time-password provided by Google Authenticator below and click Submit to finish the setup.</p>
+@@ -25,2 +32 @@
+-                        <label for="totp">${rb.getString('authenticatorCode')}</label>
+-                        <input type="text" id="totp" name="totp" />
++                        <label for="otp" class="two-lines">One-time-password</label><input type="text" id="totp" name="totp" />
+@@ -29,2 +35 @@
+-
+-                    <input type="submit" value="Submit" />
++                    <input type="submit" class="btn-primary" value="Submit" />
+@@ -37,4 +41,0 @@
+-
+-    <div id="info">
+-    </div>
+-
+diff --git a/forms/src/main/resources/META-INF/resources/forms/theme/default/totp.ftl b/forms/src/main/resources/META-INF/resources/forms/theme/default/totp.ftl
+index b1f44e7..63de6ef 100755
+--- a/forms/src/main/resources/META-INF/resources/forms/theme/default/totp.ftl
++++ b/forms/src/main/resources/META-INF/resources/forms/theme/default/totp.ftl
+@@ -6 +6,5 @@
+-    Google Authenticator Setup
++        <#if totp.enabled>
++            <h2>Authenticators</h2>
++        <#else>
++            <h2>Google Authenticator Setup</h2>
++        </#if>
+@@ -10 +13,0 @@
+-    <!--h:messages globalOnly="true" /-->
+@@ -12,3 +15,16 @@
+-        Google Authenticator enabled
+-        <#else>
+-        <h2>Google Authenticator Setup</h2>
++        <#-- TODO this is only mock page -->
++        <form>
++            <fieldset>
++                <p class="info">You have the following authenticators set up:</p>
++                <table class="list">
++                    <caption>Table of social authenticators</caption>
++                    <tbody>
++                    <tr>
++                        <td class="provider"><span class="social googleplus">Google</span></td>
++                        <td class="soft">Connected as john@google.com</td>
++                        <td class="action"><a href="user-totp-setup.html" class="button">Remove Google</a></td>
++                    </tr>
++                    </tbody>
++                </table>
++            </fieldset>
++        </form>
+@@ -15,0 +32 @@
++        <#else>
+diff --git a/testsuite/src/test/java/org/keycloak/testsuite/forms/AccountTest.java b/testsuite/src/test/java/org/keycloak/testsuite/forms/AccountTest.java
+index b901c2e..3d62d55 100755
+--- a/testsuite/src/test/java/org/keycloak/testsuite/forms/AccountTest.java
++++ b/testsuite/src/test/java/org/keycloak/testsuite/forms/AccountTest.java
+@@ -145,0 +146,2 @@
++        Assert.assertFalse(driver.getPageSource().contains("Remove Google"));
++
+@@ -148 +150 @@
+-        Assert.assertTrue(driver.getPageSource().contains("Google Authenticator enabled"));
++        Assert.assertTrue(driver.getPageSource().contains("Remove Google"));
+diff --git a/testsuite/src/test/java/org/keycloak/testsuite/pages/LoginConfigTotpPage.java b/testsuite/src/test/java/org/keycloak/testsuite/pages/LoginConfigTotpPage.java
+index 3cfca03..f2e2300 100644
+--- a/testsuite/src/test/java/org/keycloak/testsuite/pages/LoginConfigTotpPage.java
++++ b/testsuite/src/test/java/org/keycloak/testsuite/pages/LoginConfigTotpPage.java
+@@ -51 +51 @@
+-        return driver.getTitle().equals("Config TOTP");
++        return driver.getTitle().equals("Google Authenticator Setup");
+

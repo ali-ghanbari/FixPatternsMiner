@@ -1,0 +1,20 @@
+diff --git a/server/src/main/java/com/metamx/druid/master/rules/PeriodDropRule.java b/server/src/main/java/com/metamx/druid/master/rules/PeriodDropRule.java
+index 83194dc..152f074 100644
+--- a/server/src/main/java/com/metamx/druid/master/rules/PeriodDropRule.java
++++ b/server/src/main/java/com/metamx/druid/master/rules/PeriodDropRule.java
+@@ -59 +59 @@
+-    final Interval currInterval = new Interval(referenceTimestamp.minus(period), period);
++    final Interval currInterval = new Interval(period, referenceTimestamp);
+diff --git a/server/src/test/java/com/metamx/druid/master/rules/PeriodDropRuleTest.java b/server/src/test/java/com/metamx/druid/master/rules/PeriodDropRuleTest.java
+index cd0fbc8..c6bceb0 100644
+--- a/server/src/test/java/com/metamx/druid/master/rules/PeriodDropRuleTest.java
++++ b/server/src/test/java/com/metamx/druid/master/rules/PeriodDropRuleTest.java
+@@ -81,0 +82,7 @@
++    Assert.assertTrue(
++        rule.appliesTo(
++            builder.interval(new Interval(now.minusDays(1), now))
++                   .build(),
++            now
++        )
++    );
+

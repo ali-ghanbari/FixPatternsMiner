@@ -1,0 +1,8 @@
+diff --git a/components/bio-formats/src/loci/formats/in/PSDReader.java b/components/bio-formats/src/loci/formats/in/PSDReader.java
+index 8b539f4..af5243f 100644
+--- a/components/bio-formats/src/loci/formats/in/PSDReader.java
++++ b/components/bio-formats/src/loci/formats/in/PSDReader.java
+@@ -244,0 +245,2 @@
++        int check = in.readShort();
++        in.seek(in.getFilePointer() - (check == 0 ? 4 : 2));
+

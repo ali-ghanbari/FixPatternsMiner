@@ -1,0 +1,74 @@
+diff --git a/wasp-web/src/main/java/edu/yu/einstein/wasp/taglib/JQFieldTag.java b/wasp-web/src/main/java/edu/yu/einstein/wasp/taglib/JQFieldTag.java
+index cba21cd..63df00e 100644
+--- a/wasp-web/src/main/java/edu/yu/einstein/wasp/taglib/JQFieldTag.java
++++ b/wasp-web/src/main/java/edu/yu/einstein/wasp/taglib/JQFieldTag.java
+@@ -275 +275 @@
+-				formoptions="{elmsuffix:'"+suffix+"<font color=red>*</font>'}";
++				formoptions="{elmsuffix:'"+suffix+"<span class=\"requiredField\">*</span>'}";
+diff --git a/wasp-web/src/main/webapp/WEB-INF/jsp/dashboard.jsp b/wasp-web/src/main/webapp/WEB-INF/jsp/dashboard.jsp
+index 298b7ee..156fcdc 100644
+--- a/wasp-web/src/main/webapp/WEB-INF/jsp/dashboard.jsp
++++ b/wasp-web/src/main/webapp/WEB-INF/jsp/dashboard.jsp
+@@ -47,3 +46,0 @@
+-			<a href="<c:url value="/task/list.do"/>">Task Utils</a>
+-		</div>
+-		<div>
+@@ -151,2 +148,2 @@
+-		<h1><a href="<c:url value="/job/list.do?userId=${me.getUserId()}"/>">Viewable Jobs (<c:out value="${jobs.size()}" />)</a></h1>
+-		
++		<h1>Job Utils</h1>
++		<a href="<c:url value="/job/list.do?userId=${me.getUserId()}"/>">Viewable Jobs (<c:out value="${jobs.size()}" />)</a>
+diff --git a/wasp-web/src/main/webapp/WEB-INF/jsp/sysrole/list.jsp b/wasp-web/src/main/webapp/WEB-INF/jsp/sysrole/list.jsp
+index 8517999..082fa84 100644
+--- a/wasp-web/src/main/webapp/WEB-INF/jsp/sysrole/list.jsp
++++ b/wasp-web/src/main/webapp/WEB-INF/jsp/sysrole/list.jsp
+@@ -3 +3 @@
+-<wasp:message /></div>
++<wasp:message />
+@@ -10 +10 @@
+-<table class="data tab-data">
++<table class="data">
+@@ -12,3 +12,3 @@
+-  	<th class="label">Name (Login Name)</th>
+-  	<th class="label">Role</th>
+-  	<th class="label">Action</th>
++  	<td class="label-centered">Name (Login Name)</td>
++  	<td class="label-centered">Role</td>
++  	<td class="label-centered">Action</td>
+@@ -22 +22 @@
+-		    <td class="action"><a href="<c:url value="/sysrole/remove/${r.userId}/${r.role.roleName}.do" />">Remove Role</a></td>
++		    <td class="submit value-centered"><a href="<c:url value="/sysrole/remove/${r.userId}/${r.role.roleName}.do" />">Remove Role</a></td>
+@@ -27 +26,0 @@
+-</div>
+diff --git a/wasp-web/src/main/webapp/css/base.css b/wasp-web/src/main/webapp/css/base.css
+index 6b77794..e46b92d 100644
+--- a/wasp-web/src/main/webapp/css/base.css
++++ b/wasp-web/src/main/webapp/css/base.css
+@@ -75,0 +76 @@
++TD.submit A,
+@@ -112 +113 @@
+-Table TD.error{
++TABLE TD.error{
+@@ -126,0 +128,7 @@
++
++TABLE.data TD.label-centered	{
++	background: #f7f7f7;
++	border-right: 1px solid #ccc;
++	font-weight: bold;
++	text-align: center;
++	}
+@@ -138,0 +147,13 @@
++TABLE.data TD.value {
++	background: #ffffff;
++	border-right: 1px solid #ccc;
++	}
++	
++TABLE.data TD.value-centered {
++	background: #ffffff;
++	border-right: 1px solid #ccc;
++	text-align: center;
++	}
++	
++	
++
+

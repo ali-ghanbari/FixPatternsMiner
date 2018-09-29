@@ -1,0 +1,31 @@
+diff --git a/src/core/src/main/java/org/sakuli/actions/screenbased/Region.java b/src/core/src/main/java/org/sakuli/actions/screenbased/Region.java
+index e623262..0658519 100644
+--- a/src/core/src/main/java/org/sakuli/actions/screenbased/Region.java
++++ b/src/core/src/main/java/org/sakuli/actions/screenbased/Region.java
+@@ -95 +95 @@
+-    public ScreenActionLoader getScreenActionLoader() {
++    protected ScreenActionLoader getScreenActionLoader() {
+diff --git a/src/core/src/test/java/org/sakuli/aop/ModifySahiTimerAspectTest.java b/src/core/src/test/java/org/sakuli/aop/ModifySahiTimerAspectTest.java
+index 018ceb7..c08b23b 100644
+--- a/src/core/src/test/java/org/sakuli/aop/ModifySahiTimerAspectTest.java
++++ b/src/core/src/test/java/org/sakuli/aop/ModifySahiTimerAspectTest.java
+@@ -75 +74,0 @@
+-        RegionImpl regionImplMock = mock(RegionImpl.class);
+@@ -78,3 +77 @@
+-
+-        Region region = spy(new Region(regionImplMock, false));
+-        doReturn(mock(ScreenActionLoader.class)).when(region).getScreenActionLoader();
++        Region region = new RegionTestMock();
+@@ -158,0 +156,11 @@
++
++    private class RegionTestMock extends Region {
++        public RegionTestMock() {
++            super(mock(RegionImpl.class));
++        }
++
++        @Override
++        public ScreenActionLoader getScreenActionLoader() {
++            return mock(ScreenActionLoader.class);
++        }
++    }
+

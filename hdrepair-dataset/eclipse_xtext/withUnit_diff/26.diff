@@ -1,0 +1,52 @@
+diff --git a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/computation/XbaseTypeComputer.java b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/computation/XbaseTypeComputer.java
+index c0f158f..b7e21e8 100644
+--- a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/computation/XbaseTypeComputer.java
++++ b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/computation/XbaseTypeComputer.java
+@@ -637 +637 @@
+-		if (object.getValue().length() != 1) {
++		if (object.getValue() != null && object.getValue().length() != 1) {
+diff --git a/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.xtend b/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.xtend
+index cdc08ed..15f48b2 100644
+--- a/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.xtend
++++ b/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.xtend
+@@ -18,0 +19 @@
++import org.eclipse.xtext.EcoreUtil2
+@@ -44,0 +46,13 @@
++	/**
++	 * see https://bugs.eclipse.org/bugs/show_bug.cgi?id=428525
++	 */
++	@Test
++	def void testInvalidUnicode() throws Exception {
++		val resource = "class C { def m() {'\\u'.toString}}".toResource
++		EcoreUtil2.resolveAll(resource)
++		assertEquals(1, resource.errors.size)
++		val error = resource.errors.head
++		assertNotNull(error)
++		assertEquals('Malformed \\uxxxx encoding.', error.message)
++	}
++	
+diff --git a/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.java b/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.java
+index 8a7befe..7e93ca9 100644
+--- a/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.java
++++ b/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/conversion/ValueConverterExceptionProducesErrorTest.java
+@@ -20,0 +21 @@
++import org.eclipse.xtext.EcoreUtil2;
+@@ -60,0 +62,17 @@
++  /**
++   * see https://bugs.eclipse.org/bugs/show_bug.cgi?id=428525
++   */
++  @Test
++  public void testInvalidUnicode() throws Exception {
++    final Resource resource = this.toResource("class C { def m() {\'\\u\'.toString}}");
++    EcoreUtil2.resolveAll(resource);
++    EList<Resource.Diagnostic> _errors = resource.getErrors();
++    int _size = _errors.size();
++    Assert.assertEquals(1, _size);
++    EList<Resource.Diagnostic> _errors_1 = resource.getErrors();
++    final Resource.Diagnostic error = IterableExtensions.<Resource.Diagnostic>head(_errors_1);
++    Assert.assertNotNull(error);
++    String _message = error.getMessage();
++    Assert.assertEquals("Malformed \\uxxxx encoding.", _message);
++  }
++  
+

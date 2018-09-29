@@ -1,0 +1,16 @@
+Fix exception when info message times out.
+
+When the info domain is starting, the topo cell can be a bit slow to start.  This causes messages to this 
+cell to timeout.
+
+That messages can timeout isn't a problem: there is code to deal with this.  However, the 
+CellMessageHandlerSkel class that is supposed to do recover from timed-out messages uses the wrong UOID.  
+This results in a failed attempt to remove the message metadata, with the resulting exception being logged.
+
+This patch fixes this by using the correct UOID.
+
+Acked-by: Gerd
+RB: http://rb.dcache.org/r/869/
+
+
+

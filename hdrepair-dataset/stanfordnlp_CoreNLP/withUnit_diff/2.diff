@@ -1,0 +1,23 @@
+diff --git a/src/edu/stanford/nlp/trees/SemanticHeadFinder.java b/src/edu/stanford/nlp/trees/SemanticHeadFinder.java
+index 042b53e..8f79ca6 100644
+--- a/src/edu/stanford/nlp/trees/SemanticHeadFinder.java
++++ b/src/edu/stanford/nlp/trees/SemanticHeadFinder.java
+@@ -156 +156 @@
+-    nonTerminalInfo.put("CONJP", new String[][]{{"right", "CC", "VB", "JJ", "RB", "IN" }});
++    nonTerminalInfo.put("CONJP", new String[][]{{"right", "VB", "JJ", "RB", "IN", "CC" }});
+diff --git a/test/src/edu/stanford/nlp/trees/EnglishGrammaticalStructureTest.java b/test/src/edu/stanford/nlp/trees/EnglishGrammaticalStructureTest.java
+index 9daf0c1..e4eb02a 100644
+--- a/test/src/edu/stanford/nlp/trees/EnglishGrammaticalStructureTest.java
++++ b/test/src/edu/stanford/nlp/trees/EnglishGrammaticalStructureTest.java
+@@ -1526,0 +1527 @@
++         "((S (NP (NNP Fred)) (VP (VBD flew) (PP (CONJP (RB not) (JJ only)) (PP (TO to) (NP (NNP Greece))) (CONJP (CC but) (RB also)) (PP (TO to) (NP (NNP Serbia))))) (. .)))",
+@@ -1670,0 +1672,8 @@
++        "nsubj(flew-2, Fred-1)\n" +
++                "root(ROOT-0, flew-2)\n" +
++                "neg(only-4, not-3)\n" +
++                "preconj(flew-2, only-4)\n" +
++                "prep_to(flew-2, Greece-6)\n" +
++                "prep_to(flew-2, Serbia-10)\n" +
++                "conj_and(Greece-6, Serbia-10)\n",
++
+

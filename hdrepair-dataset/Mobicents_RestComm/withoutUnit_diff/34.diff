@@ -1,0 +1,21 @@
+diff --git a/src/main/java/org/mobicents/servlet/sip/restcomm/callmanager/Jsr309DtmfDetector.java b/src/main/java/org/mobicents/servlet/sip/restcomm/callmanager/Jsr309DtmfDetector.java
+index 8edbe46..181efa9 100644
+--- a/src/main/java/org/mobicents/servlet/sip/restcomm/callmanager/Jsr309DtmfDetector.java
++++ b/src/main/java/org/mobicents/servlet/sip/restcomm/callmanager/Jsr309DtmfDetector.java
+@@ -64 +64 @@
+-  public void onEvent(final SignalDetectorEvent event) {
++  public synchronized void onEvent(final SignalDetectorEvent event) {
+diff --git a/src/main/webapp/conf/restcomm.xml b/src/main/webapp/conf/restcomm.xml
+index 905f5b9..e3b560f 100644
+--- a/src/main/webapp/conf/restcomm.xml
++++ b/src/main/webapp/conf/restcomm.xml
+@@ -115 +115 @@
+-		<location> - The location on the file system in which to store the audio recordings. 
++		<location> - The location on the file system to use for storage. 
+@@ -117 +117 @@
+-		<uri> - The HTTP URI to the recordings location.
++		<uri> - The HTTP URI to the storage location.
+@@ -120 +120 @@
+-		<path>/home/thomas/Applications/mss-1.6.0/server/default/deploy/restcomm-1.0.0.ALPHA.war/</path>
++		<path>/home/thomas/Applications/mss-1.6.0/server/default/deploy/restcomm.war/</path>
+

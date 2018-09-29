@@ -1,0 +1,259 @@
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.html b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.html
+index 0ffbf25..4edf2b0 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.html
+@@ -44,0 +45,10 @@
++	<td>waitForElementPresent</td>
++	<td>//span[3]/a/img</td>
++	<td></td>
++</tr>
++<tr>
++	<td>clickAtAndWait</td>
++	<td>//span[3]/a/img</td>
++	<td></td>
++</tr>
++<tr>
+@@ -69,0 +80,5 @@
++	<td>waitForElementPresent</td>
++	<td>//button</td>
++	<td></td>
++</tr>
++<tr>
+@@ -71 +86 @@
+-	<td>link=Close</td>
++	<td>//button</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.java b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.java
+index 3e9ee53..9c70f0b 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPConnectionTest.java
+@@ -67,0 +68,18 @@
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isElementPresent("//span[3]/a/img")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.clickAt("//span[3]/a/img", RuntimeVariables.replace(""));
++		selenium.waitForPageToLoad("30000");
+@@ -91 +109,18 @@
+-		selenium.click("link=Close");
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isElementPresent("//button")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.click("//button");
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.html b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.html
+index 382e78f..cdd4327 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.html
+@@ -26 +26 @@
+-	<td>toggle_id_enterprise_admin_user_searchkeywords</td>
++	<td>//span/input</td>
+@@ -51 +51 @@
+-	<td>toggle_id_enterprise_admin_user_searchkeywords</td>
++	<td>//span/input</td>
+@@ -76 +76 @@
+-	<td>toggle_id_enterprise_admin_user_searchkeywords</td>
++	<td>//span/input</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.java b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.java
+index c510e7c..e893b21 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersPresentTest.java
+@@ -31,2 +31 @@
+-		selenium.type("toggle_id_enterprise_admin_user_searchkeywords",
+-			RuntimeVariables.replace("jane"));
++		selenium.type("//span/input", RuntimeVariables.replace("jane"));
+@@ -38,2 +37 @@
+-		selenium.type("toggle_id_enterprise_admin_user_searchkeywords",
+-			RuntimeVariables.replace("luke"));
++		selenium.type("//span/input", RuntimeVariables.replace("luke"));
+@@ -45,2 +43 @@
+-		selenium.type("toggle_id_enterprise_admin_user_searchkeywords",
+-			RuntimeVariables.replace("martin"));
++		selenium.type("//span/input", RuntimeVariables.replace("martin"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.html b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.html
+index 260bf98..7e5cd49 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.html
+@@ -44,0 +45,10 @@
++	<td>waitForElementPresent</td>
++	<td>//span[3]/a/img</td>
++	<td></td>
++</tr>
++<tr>
++	<td>clickAtAndWait</td>
++	<td>//span[3]/a/img</td>
++	<td></td>
++</tr>
++<tr>
+@@ -94,0 +105,5 @@
++	<td>waitForElementPresent</td>
++	<td>//button</td>
++	<td></td>
++</tr>
++<tr>
+@@ -96 +111 @@
+-	<td>link=Close</td>
++	<td>//button</td>
+@@ -101 +116 @@
+-	<td>link=Back to My Community</td>
++	<td>link=Control Panel</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.java b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.java
+index ec52135..94128a4 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertLDAPUsersTest.java
+@@ -67,0 +68,18 @@
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isElementPresent("//span[3]/a/img")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.clickAt("//span[3]/a/img", RuntimeVariables.replace(""));
++		selenium.waitForPageToLoad("30000");
+@@ -94,2 +112,19 @@
+-		selenium.click("link=Close");
+-		selenium.click(RuntimeVariables.replace("link=Back to My Community"));
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isElementPresent("//button")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.click("//button");
++		selenium.click(RuntimeVariables.replace("link=Control Panel"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.html b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.html
+index 25e23f1..6410942 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.html
+@@ -31 +31 @@
+-	<td>toggle_id_enterprise_admin_user_searchkeywords</td>
++	<td>//span/input</td>
+@@ -46 +46 @@
+-	<td>toggle_id_enterprise_admin_user_searchkeywords</td>
++	<td>//span/input</td>
+@@ -61 +61 @@
+-	<td>toggle_id_enterprise_admin_user_searchkeywords</td>
++	<td>//span/input</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.java b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.java
+index 3c30504..7926ce2 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/AssertNoLDAPUsersTest.java
+@@ -32,2 +32 @@
+-		selenium.type("toggle_id_enterprise_admin_user_searchkeywords",
+-			RuntimeVariables.replace("jane"));
++		selenium.type("//span/input", RuntimeVariables.replace("jane"));
+@@ -37,2 +36 @@
+-		selenium.type("toggle_id_enterprise_admin_user_searchkeywords",
+-			RuntimeVariables.replace("luke"));
++		selenium.type("//span/input", RuntimeVariables.replace("luke"));
+@@ -42,2 +40 @@
+-		selenium.type("toggle_id_enterprise_admin_user_searchkeywords",
+-			RuntimeVariables.replace("martin"));
++		selenium.type("//span/input", RuntimeVariables.replace("martin"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.html b/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.html
+index c29d270..64e3cf0 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.html
+@@ -50,17 +50,2 @@
+-	<td>click</td>
+-	<td>//input[@name='_130_defaultLdap' and @value='apache']</td>
+-	<td></td>
+-</tr>
+-<tr>
+-	<td>click</td>
+-	<td>//input[@value='Reset Values']</td>
+-	<td></td>
+-</tr>
+-<tr>
+-	<td>clickAndWait</td>
+-	<td>//input[@value='Save']</td>
+-	<td></td>
+-</tr>
+-<tr>
+-	<td>assertTextPresent</td>
+-	<td>Your request processed successfully.</td>
++	<td>clickAtAndWait</td>
++	<td>//input[@value="Save"]</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.java b/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.java
+index b51c91b..7d5943e 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/EnableLDAPTest.java
+@@ -69,3 +69,2 @@
+-		selenium.click("//input[@name='_130_defaultLdap' and @value='apache']");
+-		selenium.click("//input[@value='Reset Values']");
+-		selenium.click(RuntimeVariables.replace("//input[@value='Save']"));
++		selenium.clickAt("//input[@value=\"Save\"]",
++			RuntimeVariables.replace(""));
+@@ -73,2 +71,0 @@
+-		assertTrue(selenium.isTextPresent(
+-				"Your request processed successfully."));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/LDAPTests.java b/portal-web/test/com/liferay/portalweb/portal/ldap/LDAPTests.java
+index 5a9e286..3de8a42 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/LDAPTests.java
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/LDAPTests.java
+@@ -34,0 +35 @@
++		testSuite.addTestSuite(AddLDAPServerTest.class);
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.html b/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.html
+index 959c964..1571536 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.html
+@@ -39,5 +38,0 @@
+-<tr>
+-	<td>clickAndWait</td>
+-	<td>//div[@id='_145_myPlacesContainer']/ul/li[2]/a/span[1]</td>
+-	<td></td>
+-</tr>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.java b/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.java
+index 9aec162..3543eb3 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/ldap/LoginAdminTest.java
+@@ -34,3 +33,0 @@
+-		selenium.click(RuntimeVariables.replace(
+-				"//div[@id='_145_myPlacesContainer']/ul/li[2]/a/span[1]"));
+-		selenium.waitForPageToLoad("30000");
+

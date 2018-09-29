@@ -1,0 +1,22 @@
+diff --git a/pmd/regress/test/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectlyTest.java b/pmd/regress/test/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectlyTest.java
+index 601e89d..c51edb2 100644
+--- a/pmd/regress/test/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectlyTest.java
++++ b/pmd/regress/test/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectlyTest.java
+@@ -70 +70 @@
+-    "   x = buf[0] == 1;" + PMD.EOL +
++    "   x = (buf[0] == 1);" + PMD.EOL +
+diff --git a/pmd/src/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectly.java b/pmd/src/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectly.java
+index 3c21cad..1a73459 100644
+--- a/pmd/src/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectly.java
++++ b/pmd/src/net/sourceforge/pmd/rules/sunsecure/ArrayIsStoredDirectly.java
+@@ -93 +93 @@
+-                    if (e.jjtGetChild(0) instanceof ASTEqualityExpression) {
++                    if (e.findChildrenOfType(ASTEqualityExpression.class).size() > 0) {
+diff --git a/pmd/xdocs/credits.xml b/pmd/xdocs/credits.xml
+index 75de0db..34b4866 100644
+--- a/pmd/xdocs/credits.xml
++++ b/pmd/xdocs/credits.xml
+@@ -48 +48 @@
+-            <li>Turb - bug report for MethodReturnsInternalArray</li>
++            <li>Sylvain Veyrie - bug report for MethodReturnsInternalArray</li>
+

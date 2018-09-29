@@ -1,0 +1,8 @@
+diff --git a/bonita-integration-tests/bonita-integration-tests-client/src/main/java/org/bonitasoft/engine/form/FormMappingIT.java b/bonita-integration-tests/bonita-integration-tests-client/src/main/java/org/bonitasoft/engine/form/FormMappingIT.java
+index 1d446ed..6e1a9e3 100644
+--- a/bonita-integration-tests/bonita-integration-tests-client/src/main/java/org/bonitasoft/engine/form/FormMappingIT.java
++++ b/bonita-integration-tests/bonita-integration-tests-client/src/main/java/org/bonitasoft/engine/form/FormMappingIT.java
+@@ -132 +132 @@
+-        assertThat(formMappingSearchResult.getResult()).extracting("processDefinitionId").containsExactly(p1.getId());
++        assertThat(formMappingSearchResult.getResult()).extracting("processDefinitionId").contains(p1.getId(),p2.getId());
+

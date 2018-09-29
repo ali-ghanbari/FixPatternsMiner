@@ -1,0 +1,31 @@
+diff --git a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
+index 9da3144..3a4df10 100644
+--- a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
++++ b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
+@@ -982,2 +982,16 @@
+-        response =~ /Create FAILED: \[aut-num\] AS100/
+-        response =~ /Error:   Attribute "status" appears more than once/
++        response =~ /SUCCESS/
++        then:
++        def autnum = databaseHelper.lookupObject(ObjectType.AUT_NUM, "AS100")
++        println autnum
++        autnum.equals(RpslObject.parse("""\
++                        aut-num:        AS100
++                        as-name:        End-User
++                        remarks:        For information on "status:" attribute read https://www.ripe.net/data-tools/db/faq/faq-status-values-legacy-resources
++                        status:         OTHER
++                        descr:          description
++                        admin-c:        AP1-TEST
++                        tech-c:         AP1-TEST
++                        mnt-by:         UPD-MNT
++                        changed:        noreply@ripe.net 20120101
++                        source:         TEST
++                        """.stripIndent()))
+diff --git a/whois-update/src/main/java/net/ripe/db/whois/update/handler/SingleUpdateHandler.java b/whois-update/src/main/java/net/ripe/db/whois/update/handler/SingleUpdateHandler.java
+index 981cf92..61f3bf7 100644
+--- a/whois-update/src/main/java/net/ripe/db/whois/update/handler/SingleUpdateHandler.java
++++ b/whois-update/src/main/java/net/ripe/db/whois/update/handler/SingleUpdateHandler.java
+@@ -158 +158 @@
+-        // FIXME: [AH] per-attribute messages generated up to this point will not get reported in ACK if they have been changed (by attributeGenerator or AUTO-key generator), as the report goes for the pre-auto-key-generated version of the object, in which the newly generated attributes are not present
++        // FIXME: [AH] per-attribute error messages generated up to this point will not get reported in ACK if they have been changed (by attributeGenerator or AUTO-key generator), as the report goes for the pre-auto-key-generated version of the object, in which the newly generated attributes are not present
+

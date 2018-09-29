@@ -1,0 +1,15 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 8f7e5b6..9efe2b0 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -5,0 +6,2 @@
++ * fix NPE when debug logging is enabled and dropped CF is present
++   in a commitlog segment (CASSANDRA-3021)
+diff --git a/src/java/org/apache/cassandra/db/commitlog/CommitLogSegment.java b/src/java/org/apache/cassandra/db/commitlog/CommitLogSegment.java
+index 98bc7d1..1fc2ad7 100644
+--- a/src/java/org/apache/cassandra/db/commitlog/CommitLogSegment.java
++++ b/src/java/org/apache/cassandra/db/commitlog/CommitLogSegment.java
+@@ -215 +215 @@
+-            sb.append(m == null ? m.cfName : "<deleted>").append(" (").append(cfId).append("), ");
++            sb.append(m == null ? "<deleted>" : m.cfName).append(" (").append(cfId).append("), ");
+

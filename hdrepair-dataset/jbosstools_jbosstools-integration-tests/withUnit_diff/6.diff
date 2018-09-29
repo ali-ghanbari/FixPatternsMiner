@@ -1,0 +1,16 @@
+diff --git a/plugins/org.jboss.tools.ui.bot.ext/src/org/jboss/tools/ui/bot/ext/MacSpecifics.java b/plugins/org.jboss.tools.ui.bot.ext/src/org/jboss/tools/ui/bot/ext/MacSpecifics.java
+index 39b5ed1..86d2332 100644
+--- a/plugins/org.jboss.tools.ui.bot.ext/src/org/jboss/tools/ui/bot/ext/MacSpecifics.java
++++ b/plugins/org.jboss.tools.ui.bot.ext/src/org/jboss/tools/ui/bot/ext/MacSpecifics.java
+@@ -29 +29 @@
+-		  if ("1.7".equals(javaVersion)){
++		  if ("1.7".equals(javaVersion) || "1.8".equals(javaVersion)){
+diff --git a/tests/org.jboss.tools.dummy.ui.bot.test/src/org/jboss/tools/dummy/ui/bot/test/DummyTest.java b/tests/org.jboss.tools.dummy.ui.bot.test/src/org/jboss/tools/dummy/ui/bot/test/DummyTest.java
+index c3ecb12..192b874 100644
+--- a/tests/org.jboss.tools.dummy.ui.bot.test/src/org/jboss/tools/dummy/ui/bot/test/DummyTest.java
++++ b/tests/org.jboss.tools.dummy.ui.bot.test/src/org/jboss/tools/dummy/ui/bot/test/DummyTest.java
+@@ -11,0 +12 @@
++import org.jboss.tools.ui.bot.ext.MacSpecifics;
+@@ -27,0 +29 @@
++		MacSpecifics.setupToolkit();
+

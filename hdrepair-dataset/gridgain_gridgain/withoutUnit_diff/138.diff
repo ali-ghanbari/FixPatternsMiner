@@ -1,0 +1,367 @@
+diff --git a/examples/config/example-cache.xml b/examples/config/example-cache.xml
+index 2a3e4d6..b55a31c 100644
+--- a/examples/config/example-cache.xml
++++ b/examples/config/example-cache.xml
+@@ -101,10 +101 @@
+-                                <value>127.0.0.1:47500</value>
+-                                <value>127.0.0.1:47501</value>
+-                                <value>127.0.0.1:47502</value>
+-                                <value>127.0.0.1:47503</value>
+-                                <value>127.0.0.1:47504</value>
+-                                <value>127.0.0.1:47505</value>
+-                                <value>127.0.0.1:47506</value>
+-                                <value>127.0.0.1:47507</value>
+-                                <value>127.0.0.1:47508</value>
+-                                <value>127.0.0.1:47509</value>
++                                <value>127.0.0.1:47500..47509</value>
+diff --git a/examples/config/example-client.xml b/examples/config/example-client.xml
+deleted file mode 100644
+index e13cf1a..0000000
+--- a/examples/config/example-client.xml
++++ /dev/null
+@@ -1,148 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-
+-<!--
+-    _________        _____ __________________        _____
+-    __  ____/___________(_)______  /__  ____/______ ____(_)_______
+-    _  / __  __  ___/__  / _  __  / _  / __  _  __ `/__  / __  __ \
+-    / /_/ /  _  /    _  /  / /_/ /  / /_/ /  / /_/ / _  /  _  / / /
+-    \____/   /_/     /_/   \_,__/   \____/   \__,_/  /_/   /_/ /_/
+-
+-    @xml.file.header
+-    Version: @xml.file.version
+--->
+-
+-<!--
+-    GridGain Spring configuration file to startup grid node with rest.
+-
+-    When starting a standalone GridGain node, you need to execute the following command:
+-    {GRIDGAIN_HOME}/bin/ggstart.{bat|sh} examples/config/example-client.xml
+-
+-    When starting GridGain from Java IDE, pass path to this file into GridFactory:
+-    GridFactory.start("examples/config/example-client.xml");
+--->
+-<beans xmlns="http://www.springframework.org/schema/beans"
+-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-       xsi:schemaLocation="
+-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+-    <!-- Create a property placeholder configurer so we can refer to GRIDGAIN_HOME environment variable -->
+-    <bean name="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+-        <property name="searchSystemEnvironment" value="true"/>
+-    </bean>
+-
+-    <!--
+-        Configuration below demonstrates how to setup SSL for REST communication. Note that in this example
+-        we use our custom key- and trust-stores shipped with product. You should generate your own stores
+-        to achieve necessary security level.
+-    -->
+-    <bean id="grid.cfg" class="org.gridgain.grid.GridConfiguration" scope="singleton">
+-        <property name="deploymentMode" value="SHARED"/>
+-
+-        <!-- Set to local host address just for examples. -->
+-        <property name="localHost" value="127.0.0.1"/>
+-
+-        <!-- Enable REST. -->
+-        <property name="restEnabled" value="true"/>
+-
+-        <!--
+-            For better performance set this property to false in case
+-            peer deployment is not used.
+-            Default value is false.
+-        -->
+-        <property name="peerClassLoadingEnabled" value="true"/>
+-
+-        <!--
+-            Configure optimized marshaller.
+-        -->
+-        <property name="marshaller">
+-            <bean class="org.gridgain.grid.marshaller.optimized.GridOptimizedMarshaller">
+-                <!--
+-                    For better performance set this property to true in case
+-                    all marshalled classes implement java.io.Serializable.
+-                    Default value is true.
+-
+-                    Note, that it is recommended to implement java.io.Externalizable
+-                    instead of java.io.Serializable for smaller network footprint
+-                    and even better performance.
+-                -->
+-                <property name="requireSerializable" value="false"/>
+-            </bean>
+-        </property>
+-
+-        <!--
+-            Logger to use. By default 'examples/config/grid-client-log4j.xml' logger file will
+-            be used. If such file is not found, then default GridGain configuration
+-            for logging will be used.
+-        -->
+-        <property name="gridLogger">
+-            <bean class="org.gridgain.grid.logger.log4j.GridLog4jLogger">
+-                <constructor-arg type="java.lang.String" value="examples/config/grid-client-log4j.xml"/>
+-            </bean>
+-        </property>
+-
+-        <!-- Require passcode-based authentication -->
+-        <!--
+-        <property name="authenticationSpi">
+-            <bean class="org.gridgain.grid.spi.authentication.passcode.GridPasscodeAuthenticationSpi">
+-                <property name="passcodes">
+-                    <map>
+-                        <entry key="REMOTE_NODE" value="s3cret"/>
+-                        <entry key="REMOTE_CLIENT" value="s3cret"/>
+-                    </map>
+-                </property>
+-            </bean>
+-        </property>
+-        <property name="secureSessionSpi">
+-            <bean class="org.gridgain.grid.spi.securesession.rememberme.GridRememberMeSecureSessionSpi">
+-                <property name="ttl" value="3600000"/>
+-            </bean>
+-        </property>
+-        -->
+-
+-        <!--
+-            Use the addresses list to provide IP addresses of initial nodes in the grid
+-            (at least one address must be provided).
+-        -->
+-        <property name="discoverySpi">
+-            <bean class="org.gridgain.grid.spi.discovery.tcp.GridTcpDiscoverySpi">
+-                <property name="ipFinder">
+-                    <bean class="org.gridgain.grid.spi.discovery.tcp.ipfinder.vm.GridTcpDiscoveryVmIpFinder">
+-                        <property name="addresses">
+-                            <list>
+-                                <!--
+-                                    List all IP/port configurations that potentially
+-                                    can be started first in examples. We are assuming
+-                                    grid of size 10 or less.
+-                                -->
+-                                <value>127.0.0.1:47500</value>
+-                                <value>127.0.0.1:47501</value>
+-                                <value>127.0.0.1:47502</value>
+-                                <value>127.0.0.1:47503</value>
+-                                <value>127.0.0.1:47504</value>
+-                                <value>127.0.0.1:47505</value>
+-                                <value>127.0.0.1:47506</value>
+-                                <value>127.0.0.1:47507</value>
+-                                <value>127.0.0.1:47508</value>
+-                                <value>127.0.0.1:47509</value>
+-                            </list>
+-                        </property>
+-                    </bean>
+-                    <!--
+-                    Uncomment this to provide IP finder using multicast for nodes discovery.
+-                    In addition to addresses received via multicast this finder can work with pre-configured
+-                    list of addresses.
+-                    -->
+-                    <!--
+-                    <bean class="org.gridgain.grid.spi.discovery.tcp.ipfinder.multicast.GridTcpDiscoveryMulticastIpFinder">
+-                        <property name="addresses">
+-                            <list>
+-                                <value>host1:port1</value>
+-                                <value>host2:port2</value>
+-                            </list>
+-                        </property>
+-                    </bean>
+-                    -->
+-                </property>
+-            </bean>
+-        </property>
+-    </bean>
+-</beans>
+diff --git a/examples/config/example-compute.xml b/examples/config/example-compute.xml
+index 3afa8f7..e69ea7f 100644
+--- a/examples/config/example-compute.xml
++++ b/examples/config/example-compute.xml
+@@ -95,10 +95 @@
+-                                <value>127.0.0.1:47500</value>
+-                                <value>127.0.0.1:47501</value>
+-                                <value>127.0.0.1:47502</value>
+-                                <value>127.0.0.1:47503</value>
+-                                <value>127.0.0.1:47504</value>
+-                                <value>127.0.0.1:47505</value>
+-                                <value>127.0.0.1:47506</value>
+-                                <value>127.0.0.1:47507</value>
+-                                <value>127.0.0.1:47508</value>
+-                                <value>127.0.0.1:47509</value>
++                                <value>127.0.0.1:47500..47509</value>
+diff --git a/examples/config/example-ggfs.xml b/examples/config/example-ggfs.xml
+index 4843076..8ce7178 100644
+--- a/examples/config/example-ggfs.xml
++++ b/examples/config/example-ggfs.xml
+@@ -167,10 +167 @@
+-                                <value>127.0.0.1:47500</value>
+-                                <value>127.0.0.1:47501</value>
+-                                <value>127.0.0.1:47502</value>
+-                                <value>127.0.0.1:47503</value>
+-                                <value>127.0.0.1:47504</value>
+-                                <value>127.0.0.1:47505</value>
+-                                <value>127.0.0.1:47506</value>
+-                                <value>127.0.0.1:47507</value>
+-                                <value>127.0.0.1:47508</value>
+-                                <value>127.0.0.1:47509</value>
++                                <value>127.0.0.1:47500..47509</value>
+diff --git a/examples/config/example-streamer.xml b/examples/config/example-streamer.xml
+index e826fed..b23b7f0 100644
+--- a/examples/config/example-streamer.xml
++++ b/examples/config/example-streamer.xml
+@@ -300,10 +300 @@
+-                                <value>127.0.0.1:47500</value>
+-                                <value>127.0.0.1:47501</value>
+-                                <value>127.0.0.1:47502</value>
+-                                <value>127.0.0.1:47503</value>
+-                                <value>127.0.0.1:47504</value>
+-                                <value>127.0.0.1:47505</value>
+-                                <value>127.0.0.1:47506</value>
+-                                <value>127.0.0.1:47507</value>
+-                                <value>127.0.0.1:47508</value>
+-                                <value>127.0.0.1:47509</value>
++                                <value>127.0.0.1:47500..47509</value>
+diff --git a/examples/config/grid-client-log4j.xml b/examples/config/grid-client-log4j.xml
+deleted file mode 100644
+index 3ab2b25..0000000
+--- a/examples/config/grid-client-log4j.xml
++++ /dev/null
+@@ -1,135 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-
+-<!--
+-    _________        _____ __________________        _____
+-    __  ____/___________(_)______  /__  ____/______ ____(_)_______
+-    _  / __  __  ___/__  / _  __  / _  / __  _  __ `/__  / __  __ \
+-    / /_/ /  _  /    _  /  / /_/ /  / /_/ /  / /_/ / _  /  _  / / /
+-    \____/   /_/     /_/   \_,__/   \____/   \__,_/  /_/   /_/ /_/
+-
+-    @xml.file.header
+-    Version: @xml.file.version
+--->
+-
+-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+-
+-<!--
+-    This file creates log files used in examples for logging client API.
+--->
+-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+-    <!--
+-        Logs System.out messages to console.
+-    -->
+-    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+-        <!-- Log to STDOUT. -->
+-        <param name="Target" value="System.out"/>
+-
+-        <!-- Log from DEBUG and higher. -->
+-        <param name="Threshold" value="DEBUG"/>
+-
+-        <!-- The default pattern: Date Priority [Category] Message\n -->
+-        <layout class="org.apache.log4j.PatternLayout">
+-            <param name="ConversionPattern" value="[%d{dd-MMM-yyyy HH:mm:ss}][%-5p][%t][%c{1}] %m%n"/>
+-        </layout>
+-
+-        <!-- Do not log beyond INFO level. -->
+-        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+-            <param name="levelMin" value="DEBUG"/>
+-            <param name="levelMax" value="INFO"/>
+-        </filter>
+-    </appender>
+-
+-    <!--
+-        Logs all System.err messages to console.
+-    -->
+-    <appender name="CONSOLE_ERR" class="org.apache.log4j.ConsoleAppender">
+-        <!-- Log to STDERR. -->
+-        <param name="Target" value="System.err"/>
+-
+-        <!-- Log from WARN and higher. -->
+-        <param name="Threshold" value="WARN"/>
+-
+-        <!-- The default pattern: Date Priority [Category] Message\n -->
+-        <layout class="org.apache.log4j.PatternLayout">
+-            <param name="ConversionPattern" value="[%d{dd-MMM-yyyy HH:mm:ss}][%-5p][%t][%c{1}] %m%n"/>
+-        </layout>
+-    </appender>
+-
+-    <!--
+-        Logs all output to specified file.
+-        By default, the logging goes to GRIDGAIN_HOME/work/log folder
+-
+-        Note, this appender is disabled by default.
+-    -->
+-    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+-        <param name="Threshold" value="DEBUG"/>
+-        <param name="File" value="${GRIDGAIN_HOME}/work/log/gridgain.log"/>
+-        <param name="Append" value="true"/>
+-        <param name="MaxFileSize" value="10MB"/>
+-        <param name="MaxBackupIndex" value="10"/>
+-        <layout class="org.apache.log4j.PatternLayout">
+-            <param name="ConversionPattern" value="[%d{ABSOLUTE}][%-5p][%t][%c{1}] %m%n"/>
+-        </layout>
+-    </appender>
+-
+-    <!--
+-        Uncomment to enable GridGain debugging.
+-    -->
+-    <!--
+-    <category name="org.gridgain">
+-        <level value="DEBUG"/>
+-    </category>
+-    -->
+-
+-    <!--
+-        Uncomment this category to enable cache
+-        query execution tracing.
+-    -->
+-    <!--
+-    <category name="org.gridgain.cache.queries">
+-        <level value="DEBUG"/>
+-    </category>
+-    -->
+-
+-    <!--
+-        Uncomment to enable DGC tracing.
+-    -->
+-    <!--
+-    <category name="org.gridgain.grid.kernal.processors.cache.GridCacheDgcManager.trace">
+-        <level value="DEBUG"/>
+-    </category>
+-    -->
+-
+-    <!--
+-        Uncomment to disable courtesy notice.
+-    -->
+-    <!--
+-    <category name="org.gridgain.grid.CourtesyConfigNotice">
+-        <level value="OFF"/>
+-    </category>
+-    -->
+-
+-    <category name="org.springframework">
+-        <level value="WARN"/>
+-    </category>
+-
+-    <category name="org.eclipse.jetty">
+-        <level value="FATAL"/>
+-    </category>
+-
+-    <category name="com.amazonaws">
+-        <level value="WARN"/>
+-    </category>
+-
+-    <!-- Default settings. -->
+-    <root>
+-        <!-- Print out all info by default. -->
+-        <level value="INFO"/>
+-
+-        <!-- Append to console. -->
+-        <appender-ref ref="CONSOLE"/>
+-        <appender-ref ref="CONSOLE_ERR"/>
+-
+-        <appender-ref ref="FILE"/>
+-    </root>
+-</log4j:configuration>
+diff --git a/examples/java/org/gridgain/examples/misc/client/api/ClientExampleNodeStartup.java b/examples/java/org/gridgain/examples/misc/client/api/ClientExampleNodeStartup.java
+index ebc4bd5..db2f6f0 100644
+--- a/examples/java/org/gridgain/examples/misc/client/api/ClientExampleNodeStartup.java
++++ b/examples/java/org/gridgain/examples/misc/client/api/ClientExampleNodeStartup.java
+@@ -36 +36 @@
+-        String springCfgPath = "examples/config/example-client.xml";
++        String springCfgPath = "examples/config/example-compute.xml";
+

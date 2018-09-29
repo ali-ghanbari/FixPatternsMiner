@@ -1,0 +1,11 @@
+995 changelog:
+- Many fproxy-related/USK-related/TOO_MANY_PATH_COMPONENTS-related bugfixes in the client layer. Fixes loading freesites with many out-of-date activelink images.
+- Datastore changes: Lots of refactoring. Single global Environment used by all stores. Config option databaseMaxMemory for maximum amount of memory used by datastore. Significantly speeds up start-up and probably has other benefits too. Automatic migration is included; creation of database-<port> and moving all the data to individual files in the storeDir - {chk|ssk|pubkey}-{port}.{cache|store}.
+- Fix handling of large SI multipliers (thanks UniquePerson)
+- Don't try every time to load the native FEC code. Give up after the first time.
+- ModifyPeer/RemovePeer on an unknown peer now returns a UniqueNodeIdentifier FCP error message.
+- Include proper warning messages in fproxy- and fcp- .allowedHosts descriptions.
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@10900 67a373e5-eb02-0410-a15c-ee090a768436
+

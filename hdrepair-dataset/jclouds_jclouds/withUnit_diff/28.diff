@@ -1,0 +1,507 @@
+diff --git a/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseBlobSignerLiveTest.java b/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseBlobSignerLiveTest.java
+index 2055073..484c8ae 100644
+--- a/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseBlobSignerLiveTest.java
++++ b/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseBlobSignerLiveTest.java
+@@ -49,0 +50 @@
++         assertConsistencyAwareContainerSize(container, 1);
+@@ -69,0 +71 @@
++         assertConsistencyAwareContainerSize(container, 1);
+@@ -91 +93 @@
+-         assert context.getBlobStore().blobExists(container, name);
++         assertConsistencyAwareContainerSize(container, 1);
+diff --git a/core/src/main/java/org/jclouds/rest/internal/RestAnnotationProcessor.java b/core/src/main/java/org/jclouds/rest/internal/RestAnnotationProcessor.java
+index e28d718..bac8df9 100755
+--- a/core/src/main/java/org/jclouds/rest/internal/RestAnnotationProcessor.java
++++ b/core/src/main/java/org/jclouds/rest/internal/RestAnnotationProcessor.java
+@@ -437,0 +438,2 @@
++      if (r != null)
++         headers.putAll(r.getHeaders());
+diff --git a/core/src/test/java/org/jclouds/rest/internal/RestAnnotationProcessorTest.java b/core/src/test/java/org/jclouds/rest/internal/RestAnnotationProcessorTest.java
+index 920af07..450bf9c 100755
+--- a/core/src/test/java/org/jclouds/rest/internal/RestAnnotationProcessorTest.java
++++ b/core/src/test/java/org/jclouds/rest/internal/RestAnnotationProcessorTest.java
+@@ -212,2 +212,2 @@
+-   public void testDelegateAsyncIncludesVersion() throws SecurityException, NoSuchMethodException, InterruptedException,
+-         ExecutionException {
++   public void testDelegateAsyncIncludesVersion() throws SecurityException, NoSuchMethodException,
++            InterruptedException, ExecutionException {
+@@ -227,2 +227,2 @@
+-      expect(mock.submit(requestLineEquals("GET http://localhost:9999/client/1/foo HTTP/1.1"), eq(function))).andReturn(
+-            createNiceMock(ListenableFuture.class)).atLeastOnce();
++      expect(mock.submit(requestLineEquals("GET http://localhost:9999/client/1/foo HTTP/1.1"), eq(function)))
++               .andReturn(createNiceMock(ListenableFuture.class)).atLeastOnce();
+@@ -257 +257 @@
+-         InterruptedException, ExecutionException {
++            InterruptedException, ExecutionException {
+@@ -271,2 +271,2 @@
+-      expect(mock.submit(requestLineEquals("GET http://localhost:1111/client/1/foo HTTP/1.1"), eq(function))).andReturn(
+-            Futures.<Void> immediateFuture(null)).atLeastOnce();
++      expect(mock.submit(requestLineEquals("GET http://localhost:1111/client/1/foo HTTP/1.1"), eq(function)))
++               .andReturn(Futures.<Void> immediateFuture(null)).atLeastOnce();
+@@ -284,2 +284,2 @@
+-            null, Caller.class, AsyncCaller.class,
+-            ImmutableSet.<Module> of(new MockModule(), new NullLoggingModule(), new CallerCalleeModule()));
++               null, Caller.class, AsyncCaller.class, ImmutableSet.<Module> of(new MockModule(),
++                        new NullLoggingModule(), new CallerCalleeModule()));
+@@ -300 +300 @@
+-   @Target({ ElementType.METHOD })
++   @Target( { ElementType.METHOD })
+@@ -335 +335 @@
+-            .create("http://services.nirvanix.com/ws/Metadata/SetMetadata.ashx?output=json&path=adriancole-compute.testObjectOperations&metadata=chef:sushi&metadata=foo:bar&sessionToken=775ef26e-0740-4707-ad92-afe9814bc436");
++               .create("http://services.nirvanix.com/ws/Metadata/SetMetadata.ashx?output=json&path=adriancole-compute.testObjectOperations&metadata=chef:sushi&metadata=foo:bar&sessionToken=775ef26e-0740-4707-ad92-afe9814bc436");
+@@ -338 +338 @@
+-            .create("http://services.nirvanix.com/ws/Metadata/SetMetadata.ashx?output=json&path=adriancole-compute.testObjectOperations&metadata=chef%3Asushi&metadata=foo%3Abar&sessionToken=775ef26e-0740-4707-ad92-afe9814bc436");
++               .create("http://services.nirvanix.com/ws/Metadata/SetMetadata.ashx?output=json&path=adriancole-compute.testObjectOperations&metadata=chef%3Asushi&metadata=foo%3Abar&sessionToken=775ef26e-0740-4707-ad92-afe9814bc436");
+@@ -372 +372 @@
+-         public void varargs(HttpRequestOptions... options);
++      public void varargs(HttpRequestOptions... options);
+@@ -375 +375 @@
+-         public void post(HttpRequestOptions options);
++      public void post(HttpRequestOptions options);
+@@ -378 +378 @@
+-         @Produces(MediaType.APPLICATION_OCTET_STREAM)
++      @Produces(MediaType.APPLICATION_OCTET_STREAM)
+@@ -382 +382 @@
+-         @Produces(MediaType.APPLICATION_OCTET_STREAM)
++      @Produces(MediaType.APPLICATION_OCTET_STREAM)
+@@ -409 +409 @@
+-            .getClass());
++               .getClass());
+@@ -448 +448 @@
+-         public void foo() {
++      public void foo() {
+@@ -466 +466 @@
+-         public void foo() {
++      public void foo() {
+@@ -482 +482 @@
+-         public void foo() {
++      public void foo() {
+@@ -486 +486 @@
+-         public void foo(@EndpointParam URI endpoint) {
++      public void foo(@EndpointParam URI endpoint) {
+@@ -502 +502 @@
+-            new Object[] { URI.create("http://wowsa:8001") });
++               new Object[] { URI.create("http://wowsa:8001") });
+@@ -511 +511 @@
+-         void post(@Nullable @BinderParam(BindToStringPayload.class) String content);
++      void post(@Nullable @BinderParam(BindToStringPayload.class) String content);
+@@ -514 +514 @@
+-         public void postAsJson(@BinderParam(BindToJsonPayload.class) String content);
++      public void postAsJson(@BinderParam(BindToJsonPayload.class) String content);
+@@ -597 +597 @@
+-         void withStringPart(@PartParam(name = "fooble") String path);
++      void withStringPart(@PartParam(name = "fooble") String path);
+@@ -600 +600 @@
+-         void withParamStringPart(@FormParam("name") String name, @PartParam(name = "file") String path);
++      void withParamStringPart(@FormParam("name") String name, @PartParam(name = "file") String path);
+@@ -603 +603 @@
+-         void withParamFilePart(@FormParam("name") String name, @PartParam(name = "file") File path);
++      void withParamFilePart(@FormParam("name") String name, @PartParam(name = "file") File path);
+@@ -606,2 +606,2 @@
+-         void withParamFileBinaryPart(@FormParam("name") String name,
+-            @PartParam(name = "file", contentType = MediaType.APPLICATION_OCTET_STREAM) File path);
++      void withParamFileBinaryPart(@FormParam("name") String name,
++               @PartParam(name = "file", contentType = MediaType.APPLICATION_OCTET_STREAM) File path);
+@@ -610,3 +610,3 @@
+-         void withParamByteArrayBinaryPart(
+-            @FormParam("name") String name,
+-            @PartParam(name = "file", contentType = MediaType.APPLICATION_OCTET_STREAM, filename = "{name}.tar.gz") byte[] content);
++      void withParamByteArrayBinaryPart(
++               @FormParam("name") String name,
++               @PartParam(name = "file", contentType = MediaType.APPLICATION_OCTET_STREAM, filename = "{name}.tar.gz") byte[] content);
+@@ -618 +618 @@
+-            "foobledata");
++               "foobledata");
+@@ -622,5 +622,5 @@
+-            "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"fooble\"\r\n" + //
+-                  "\r\n" + //
+-                  "foobledata\r\n" + //
+-                  "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
++               "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"fooble\"\r\n" + //
++                        "\r\n" + //
++                        "foobledata\r\n" + //
++                        "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
+@@ -632 +632 @@
+-            "name", "foobledata");
++               "name", "foobledata");
+@@ -636,9 +636,9 @@
+-            "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"name\"\r\n" + //
+-                  "\r\n" + //
+-                  "name\r\n" + // /
+-                  "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"file\"\r\n" + //
+-                  "\r\n" + //
+-                  "foobledata\r\n" + //
+-                  "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
++               "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"name\"\r\n" + //
++                        "\r\n" + //
++                        "name\r\n" + // /
++                        "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"file\"\r\n" + //
++                        "\r\n" + //
++                        "foobledata\r\n" + //
++                        "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
+@@ -654 +654 @@
+-            "name", file);
++               "name", file);
+@@ -658,9 +658,9 @@
+-            "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"name\"\r\n" + //
+-                  "\r\n" + //
+-                  "name\r\n" + // /
+-                  "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"\r\n" + //
+-                  "\r\n" + //
+-                  "foobledata\r\n" + //
+-                  "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
++               "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"name\"\r\n" + //
++                        "\r\n" + //
++                        "name\r\n" + // /
++                        "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"\r\n" + //
++                        "\r\n" + //
++                        "foobledata\r\n" + //
++                        "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
+@@ -672 +672 @@
+-            "name", "goo".getBytes());
++               "name", "goo".getBytes());
+@@ -676,10 +676,10 @@
+-            "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"name\"\r\n" + //
+-                  "\r\n" + //
+-                  "name\r\n" + // /
+-                  "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"file\"; filename=\"name.tar.gz\"\r\n" + //
+-                  "Content-Type: application/octet-stream\r\n" + //
+-                  "\r\n" + //
+-                  "goo\r\n" + //
+-                  "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
++               "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"name\"\r\n" + //
++                        "\r\n" + //
++                        "name\r\n" + // /
++                        "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"file\"; filename=\"name.tar.gz\"\r\n" + //
++                        "Content-Type: application/octet-stream\r\n" + //
++                        "\r\n" + //
++                        "goo\r\n" + //
++                        "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
+@@ -695 +695 @@
+-            "name", file);
++               "name", file);
+@@ -699,10 +699,10 @@
+-            "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"name\"\r\n" + //
+-                  "\r\n" + //
+-                  "name\r\n" + // /
+-                  "----JCLOUDS--\r\n" + //
+-                  "Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"\r\n" + //
+-                  "Content-Type: application/octet-stream\r\n" + //
+-                  "\r\n" + //
+-                  "'(2\r\n" + //
+-                  "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
++               "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"name\"\r\n" + //
++                        "\r\n" + //
++                        "name\r\n" + // /
++                        "----JCLOUDS--\r\n" + //
++                        "Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getName() + "\"\r\n" + //
++                        "Content-Type: application/octet-stream\r\n" + //
++                        "\r\n" + //
++                        "'(2\r\n" + //
++                        "----JCLOUDS----\r\n", "multipart/form-data; boundary=--JCLOUDS--", false);
+@@ -767 +767 @@
+-      @Target({ ElementType.METHOD })
++      @Target( { ElementType.METHOD })
+@@ -822 +822 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -837 +837 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -839,2 +839,2 @@
+-      assertEquals(parser.apply(new HttpResponse(200, "ok", newStringPayload("{ foo:\"bar\"}"))),
+-            ImmutableMap.of("foo", "bar"));
++      assertEquals(parser.apply(new HttpResponse(200, "ok", newStringPayload("{ foo:\"bar\"}"))), ImmutableMap.of(
++               "foo", "bar"));
+@@ -853 +853 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -855,2 +855,2 @@
+-      assertEquals(parser.apply(new HttpResponse(200, "ok", newStringPayload("{ foo:\"bar\"}"))),
+-            ImmutableMap.of("foo", "bar"));
++      assertEquals(parser.apply(new HttpResponse(200, "ok", newStringPayload("{ foo:\"bar\"}"))), ImmutableMap.of(
++               "foo", "bar"));
+@@ -869 +869 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -871,2 +871,2 @@
+-      assertEquals(parser.apply(new HttpResponse(200, "ok", newStringPayload("{ foo:\"bar\"}"))),
+-            ImmutableMap.of("foo", "bar"));
++      assertEquals(parser.apply(new HttpResponse(200, "ok", newStringPayload("{ foo:\"bar\"}"))), ImmutableMap.of(
++               "foo", "bar"));
+@@ -885 +885 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -900 +900 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -915 +915 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -918 +918 @@
+-            ImmutableSet.of("0.7.0", "0.7.1"));
++               ImmutableSet.of("0.7.0", "0.7.1"));
+@@ -930 +930 @@
+-            .createResponseParser(parserFactory, injector, method, request);
++               .createResponseParser(parserFactory, injector, method, request);
+@@ -933 +933 @@
+-            ImmutableSet.of("0.7.0", "0.7.1"));
++               ImmutableSet.of("0.7.0", "0.7.1"));
+@@ -951 +951 @@
+-         @RequestFilters(TestRequestFilter2.class)
++      @RequestFilters(TestRequestFilter2.class)
+@@ -955 +955 @@
+-         @OverrideRequestFilters
++      @OverrideRequestFilters
+@@ -982,2 +982,4 @@
+-      HttpRequest request = factory(TestRequestFilter.class).createRequest(method,
+-            HttpRequest.builder().method("GET").endpoint(URI.create("http://localhost")).build());
++      HttpRequest request = factory(TestRequestFilter.class).createRequest(
++               method,
++               HttpRequest.builder().method("GET").endpoint(URI.create("http://localhost")).headers(
++                        ImmutableMultimap.of("foo", "bar")).build());
+@@ -984,0 +987 @@
++      assertEquals(request.getHeaders().size(), 1);
+@@ -1030 +1033 @@
+-            new Object[] { "1", "localhost" });
++               new Object[] { "1", "localhost" });
+@@ -1167 +1170 @@
+-            .getHeaders();
++               .getHeaders();
+@@ -1185 +1188 @@
+-            new Object[] { "robot" }).getHeaders();
++               new Object[] { "robot" }).getHeaders();
+@@ -1194 +1197 @@
+-            .getHeaders();
++               .getHeaders();
+@@ -1203 +1206 @@
+-            new Object[] { "robot", "eggs" }).getHeaders();
++               new Object[] { "robot", "eggs" }).getHeaders();
+@@ -1210 +1213 @@
+-         UnsupportedEncodingException {
++            UnsupportedEncodingException {
+@@ -1213 +1216 @@
+-            new Object[] { "robot", "eggs" }).getHeaders();
++               new Object[] { "robot", "eggs" }).getHeaders();
+@@ -1227,2 +1230,2 @@
+-      String query = factory(TestQueryReplace.class)
+-            .createRequest(oneQuery, new Object[] { "robot", new TestReplaceQueryOptions() }).getEndpoint().getQuery();
++      String query = factory(TestQueryReplace.class).createRequest(oneQuery,
++               new Object[] { "robot", new TestReplaceQueryOptions() }).getEndpoint().getQuery();
+@@ -1236 +1239 @@
+-            @BinderParam(BindMapToMatrixParams.class) Map<String, String> options);
++               @BinderParam(BindMapToMatrixParams.class) Map<String, String> options);
+@@ -1242 +1245 @@
+-            new Object[] { "robot", "kill", ImmutableMap.of("death", "slow") });
++               new Object[] { "robot", "kill", ImmutableMap.of("death", "slow") });
+@@ -1284 +1287 @@
+-            .getQuery();
++               .getQuery();
+@@ -1300 +1303 @@
+-            .getQuery();
++               .getQuery();
+@@ -1308 +1311 @@
+-            .getQuery();
++               .getQuery();
+@@ -1316 +1319 @@
+-            .getEndpoint().getQuery();
++               .getEndpoint().getQuery();
+@@ -1322 +1325 @@
+-         UnsupportedEncodingException {
++            UnsupportedEncodingException {
+@@ -1324,2 +1327,2 @@
+-      String query = factory(TestQueryReplace.class)
+-            .createRequest(twoQuerysOutOfOrder, new Object[] { "robot", "eggs" }).getEndpoint().getQuery();
++      String query = factory(TestQueryReplace.class).createRequest(twoQuerysOutOfOrder,
++               new Object[] { "robot", "eggs" }).getEndpoint().getQuery();
+@@ -1338,3 +1341,3 @@
+-            TestReplaceMatrixOptions.class);
+-      String path = factory(TestMatrixReplace.class)
+-            .createRequest(oneMatrix, new Object[] { "robot", new TestReplaceMatrixOptions() }).getEndpoint().getPath();
++               TestReplaceMatrixOptions.class);
++      String path = factory(TestMatrixReplace.class).createRequest(oneMatrix,
++               new Object[] { "robot", new TestReplaceMatrixOptions() }).getEndpoint().getPath();
+@@ -1381 +1384 @@
+-            .getPath();
++               .getPath();
+@@ -1398 +1401 @@
+-            .getPath();
++               .getPath();
+@@ -1406 +1409 @@
+-            .getPath();
++               .getPath();
+@@ -1414 +1417 @@
+-            .getEndpoint().getPath();
++               .getEndpoint().getPath();
+@@ -1420 +1423 @@
+-         UnsupportedEncodingException {
++            UnsupportedEncodingException {
+@@ -1422,3 +1425,3 @@
+-            String.class);
+-      String path = factory(TestMatrixReplace.class)
+-            .createRequest(twoMatrixsOutOfOrder, new Object[] { "robot", "eggs" }).getEndpoint().getPath();
++               String.class);
++      String path = factory(TestMatrixReplace.class).createRequest(twoMatrixsOutOfOrder,
++               new Object[] { "robot", "eggs" }).getEndpoint().getPath();
+@@ -1430 +1433 @@
+-         int noTransformer();
++      int noTransformer();
+@@ -1433 +1436 @@
+-         @ResponseParser(ReturnStringIf2xx.class)
++      @ResponseParser(ReturnStringIf2xx.class)
+@@ -1437 +1440 @@
+-         @ResponseParser(ReturnStringIf200Context.class)
++      @ResponseParser(ReturnStringIf200Context.class)
+@@ -1441 +1444 @@
+-         InputStream inputStream();
++      InputStream inputStream();
+@@ -1444 +1447 @@
+-         ListenableFuture<InputStream> futureInputStream();
++      ListenableFuture<InputStream> futureInputStream();
+@@ -1447 +1450 @@
+-         URI uri();
++      URI uri();
+@@ -1450 +1453 @@
+-         ListenableFuture<URI> futureUri();
++      ListenableFuture<URI> futureUri();
+@@ -1453 +1456 @@
+-         ListenableFuture<Void> put(Payload payload);
++      ListenableFuture<Void> put(Payload payload);
+@@ -1456 +1459 @@
+-         @Headers(keys = "Transfer-Encoding", values = "chunked")
++      @Headers(keys = "Transfer-Encoding", values = "chunked")
+@@ -1460 +1463 @@
+-         ListenableFuture<Void> put(PayloadEnclosing payload);
++      ListenableFuture<Void> put(PayloadEnclosing payload);
+@@ -1466 +1469 @@
+-            new PayloadEnclosingImpl(newStringPayload("whoops")));
++               new PayloadEnclosingImpl(newStringPayload("whoops")));
+@@ -1484 +1487 @@
+-         IOException {
++            IOException {
+@@ -1486,2 +1489,2 @@
+-      PayloadEnclosing payloadEnclosing = new PayloadEnclosingImpl(
+-            newInputStreamPayload(Strings2.toInputStream("whoops")));
++      PayloadEnclosing payloadEnclosing = new PayloadEnclosingImpl(newInputStreamPayload(Strings2
++               .toInputStream("whoops")));
+@@ -1544 +1547 @@
+-         IOException {
++            IOException {
+@@ -1565 +1568 @@
+-         NoSuchMethodException {
++            NoSuchMethodException {
+@@ -1589 +1592 @@
+-         Method method) {
++            Method method) {
+@@ -1591 +1594 @@
+-            .getTypeLiteral().getRawType();
++               .getTypeLiteral().getRawType();
+@@ -1607 +1610 @@
+-         InvocationContext<ReturnStringIf200Context> {
++            InvocationContext<ReturnStringIf200Context> {
+@@ -1629,2 +1632,2 @@
+-            .endpoint(URI.create("http://localhost")).declaring(TestTransformers.class).javaMethod(method)
+-            .args(new Object[] {}).build();
++               .endpoint(URI.create("http://localhost")).declaring(TestTransformers.class).javaMethod(method).args(
++                        new Object[] {}).build();
+@@ -1671 +1674 @@
+-            @BinderParam(BindToStringPayload.class) String payload);
++               @BinderParam(BindToStringPayload.class) String payload);
+@@ -1683 +1686 @@
+-            @BinderParam(BindToStringPayload.class) String payload);
++               @BinderParam(BindToStringPayload.class) String payload);
+@@ -1697,2 +1700,2 @@
+-      assertEquals(request.getHeaders().get(HttpHeaders.IF_MODIFIED_SINCE),
+-            Collections.singletonList(dateService.rfc822DateFormat(date)));
++      assertEquals(request.getHeaders().get(HttpHeaders.IF_MODIFIED_SINCE), Collections.singletonList(dateService
++               .rfc822DateFormat(date)));
+@@ -1711,2 +1714,2 @@
+-      assertEquals(request.getHeaders().get(HttpHeaders.IF_MODIFIED_SINCE),
+-            Collections.singletonList(dateService.rfc822DateFormat(date)));
++      assertEquals(request.getHeaders().get(HttpHeaders.IF_MODIFIED_SINCE), Collections.singletonList(dateService
++               .rfc822DateFormat(date)));
+@@ -1775 +1778 @@
+-         UnsupportedEncodingException {
++            UnsupportedEncodingException {
+@@ -1818 +1821 @@
+-            new Object[] { "1", "localhost" });
++               new Object[] { "1", "localhost" });
+@@ -1883 +1886 @@
+-            ImmutableMultimap.<String, String> of().entries(), method, "robot");
++               ImmutableMultimap.<String, String> of().entries(), method, "robot");
+@@ -1892 +1895 @@
+-            ImmutableMultimap.<String, String> of().entries(), method, 1);
++               ImmutableMultimap.<String, String> of().entries(), method, 1);
+@@ -1901 +1904 @@
+-            ImmutableMultimap.<String, String> of().entries(), method, "robot", "egg");
++               ImmutableMultimap.<String, String> of().entries(), method, "robot", "egg");
+@@ -1911 +1914 @@
+-            ImmutableMultimap.<String, String> of().entries(), method, "robot", "egg");
++               ImmutableMultimap.<String, String> of().entries(), method, "robot", "egg");
+@@ -1934 +1937 @@
+-            @EndpointParam(parser = ConvertTwoToURI.class) String EndpointParam2);
++               @EndpointParam(parser = ConvertTwoToURI.class) String EndpointParam2);
+@@ -1954 +1957 @@
+-            injector);
++               injector);
+@@ -1964 +1967 @@
+-            new Object[] { "robot", "egg" }, injector);
++               new Object[] { "robot", "egg" }, injector);
+@@ -1970 +1973 @@
+-         public void put(@BinderParam(BindToStringPayload.class) String content);
++      public void put(@BinderParam(BindToStringPayload.class) String content);
+@@ -1975 +1978 @@
+-            @BinderParam(BindToStringPayload.class) String content);
++               @BinderParam(BindToStringPayload.class) String content);
+@@ -1978,2 +1981,2 @@
+-         public void twoEntities(@BinderParam(BindToStringPayload.class) String payload1,
+-            @BinderParam(BindToStringPayload.class) String payload2);
++      public void twoEntities(@BinderParam(BindToStringPayload.class) String payload1,
++               @BinderParam(BindToStringPayload.class) String payload2);
+@@ -2077 +2080 @@
+-            .getRawContent();
++               .getRawContent();
+@@ -2083 +2086 @@
+-         UnsupportedEncodingException {
++            UnsupportedEncodingException {
+@@ -2086 +2089 @@
+-            .getRawContent();
++               .getRawContent();
+@@ -2093 +2096 @@
+-            RestAnnotationProcessor.class, clazz))));
++               RestAnnotationProcessor.class, clazz))));
+@@ -2101,2 +2104,2 @@
+-            String.class, Integer.class,
+-            ImmutableSet.<Module> of(new MockModule(), new NullLoggingModule(), new AbstractModule() {
++               String.class, Integer.class, ImmutableSet.<Module> of(new MockModule(), new NullLoggingModule(),
++                        new AbstractModule() {
+@@ -2104,4 +2107,5 @@
+-               @Override
+-               protected void configure() {
+-                  bind(URI.class).annotatedWith(Localhost2.class).toInstance(URI.create("http://localhost:1111"));
+-               }
++                           @Override
++                           protected void configure() {
++                              bind(URI.class).annotatedWith(Localhost2.class).toInstance(
++                                       URI.create("http://localhost:1111"));
++                           }
+@@ -2109 +2113 @@
+-            }));
++                        }));
+

@@ -1,0 +1,32 @@
+diff --git a/solr/example/solr/conf/solrconfig.xml b/solr/example/solr/conf/solrconfig.xml
+index 2203921..6e11651 100755
+--- a/solr/example/solr/conf/solrconfig.xml
++++ b/solr/example/solr/conf/solrconfig.xml
+@@ -286 +286 @@
+-  <!-- To set the setTermIndexInterval, do this: -->
++  <!-- To set the setTermIndexDivisor, do this: -->
+@@ -288 +288 @@
+-    <int name="setTermIndexInterval">12</int>
++    <int name="setTermIndexDivisor">12</int>
+diff --git a/solr/src/java/org/apache/solr/core/IndexReaderFactory.java b/solr/src/java/org/apache/solr/core/IndexReaderFactory.java
+index c7b6031..4204a9e 100644
+--- a/solr/src/java/org/apache/solr/core/IndexReaderFactory.java
++++ b/solr/src/java/org/apache/solr/core/IndexReaderFactory.java
+@@ -42 +42 @@
+-    Integer v = (Integer)args.get("setTermIndexInterval");
++    Integer v = (Integer)args.get("setTermIndexDivisor");
+diff --git a/solr/src/test/test-files/solr/conf/solrconfig-termindex.xml b/solr/src/test/test-files/solr/conf/solrconfig-termindex.xml
+index 3eeb6f8..5f44027 100644
+--- a/solr/src/test/test-files/solr/conf/solrconfig-termindex.xml
++++ b/solr/src/test/test-files/solr/conf/solrconfig-termindex.xml
+@@ -146 +146 @@
+-    <int name="setTermIndexInterval">12</int>
++    <int name="setTermIndexDivisor">12</int>
+diff --git a/solr/src/test/test-files/solr/conf/solrconfig-xinclude.xml b/solr/src/test/test-files/solr/conf/solrconfig-xinclude.xml
+index 82c560a..1167df8 100644
+--- a/solr/src/test/test-files/solr/conf/solrconfig-xinclude.xml
++++ b/solr/src/test/test-files/solr/conf/solrconfig-xinclude.xml
+@@ -141 +141 @@
+-    <int name="setTermIndexInterval">12</int>
++    <int name="setTermIndexDivisor">12</int>
+

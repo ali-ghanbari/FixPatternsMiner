@@ -1,0 +1,8 @@
+diff --git a/jsprit-core/src/main/java/jsprit/core/algorithm/recreate/RouteLevelActivityInsertionCostsEstimator.java b/jsprit-core/src/main/java/jsprit/core/algorithm/recreate/RouteLevelActivityInsertionCostsEstimator.java
+index 27573df..ee2e48d 100644
+--- a/jsprit-core/src/main/java/jsprit/core/algorithm/recreate/RouteLevelActivityInsertionCostsEstimator.java
++++ b/jsprit-core/src/main/java/jsprit/core/algorithm/recreate/RouteLevelActivityInsertionCostsEstimator.java
+@@ -59 +59 @@
+-		if(nuOfActivities2LookForward > 0){ path.addAll(getForwardLookingPath(iFacts.getRoute(),actIndex)); }
++		if(nuOfActivities2LookForward > 0 && !(nextAct instanceof End)){ path.addAll(getForwardLookingPath(iFacts.getRoute(),actIndex)); }
+

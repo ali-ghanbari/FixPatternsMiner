@@ -1,0 +1,14 @@
+diff --git a/web/src/main/java/uk/ac/ebi/atlas/geneindex/SolrClient.java b/web/src/main/java/uk/ac/ebi/atlas/geneindex/SolrClient.java
+index 2605e38..c7c3472 100644
+--- a/web/src/main/java/uk/ac/ebi/atlas/geneindex/SolrClient.java
++++ b/web/src/main/java/uk/ac/ebi/atlas/geneindex/SolrClient.java
+@@ -75 +75 @@
+-        String jsonString = getJsonResponse(SOLR_SEARCH_QUERY_TEMPLATE, "{!lucene q.op=OR df=alltext}", searchText, species);
++        String jsonString = getJsonResponse(SOLR_SEARCH_QUERY_TEMPLATE, "{!lucene q.op=OR df=alltext}", geneQuery, species);
+diff --git a/web/src/test/java/uk/ac/ebi/atlas/geneindex/SolrClientTest.java b/web/src/test/java/uk/ac/ebi/atlas/geneindex/SolrClientTest.java
+index 8cba218..1d570a1 100644
+--- a/web/src/test/java/uk/ac/ebi/atlas/geneindex/SolrClientTest.java
++++ b/web/src/test/java/uk/ac/ebi/atlas/geneindex/SolrClientTest.java
+@@ -34,0 +35 @@
++import static org.hamcrest.Matchers.is;
+

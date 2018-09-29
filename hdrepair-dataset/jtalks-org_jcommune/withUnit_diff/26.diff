@@ -1,0 +1,47 @@
+diff --git a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/AvatarController.java b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/AvatarController.java
+index 0d5f14b..2c61364 100644
+--- a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/AvatarController.java
++++ b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/AvatarController.java
+@@ -89 +89 @@
+-     * Used for IE, Opera specific request processing
++     * Used for IE, Opera specific request processing.
+diff --git a/jcommune-view/jcommune-web-controller/src/test/java/org/jtalks/jcommune/web/controller/AvatarControllerTest.java b/jcommune-view/jcommune-web-controller/src/test/java/org/jtalks/jcommune/web/controller/AvatarControllerTest.java
+index 520ef45..e4b599f 100644
+--- a/jcommune-view/jcommune-web-controller/src/test/java/org/jtalks/jcommune/web/controller/AvatarControllerTest.java
++++ b/jcommune-view/jcommune-web-controller/src/test/java/org/jtalks/jcommune/web/controller/AvatarControllerTest.java
+@@ -20,0 +21 @@
++import org.jtalks.jcommune.service.exceptions.ImageUploadException;
+@@ -36,0 +38 @@
++import javax.servlet.ServletRequest;
+@@ -130,0 +133,3 @@
++        //setUp
++        ServletRequest request = mock(ServletRequest.class);
++
+@@ -137 +142 @@
+-//        Map<String, String> result = avatarController.uploadAvatar(avatar, response);
++        Map<String, String> result = avatarController.uploadAvatar(avatar, request, response);
+@@ -140 +145 @@
+-//        assertEquals(result, expectedData);
++        assertEquals(result, expectedData);
+@@ -143 +148,2 @@
+-    @Test(dataProvider = "invalidData-XHR-provider")
++    //TODO disabled due using static method RequestContextUtils.getWebApplicationContext(request),
++    @Test(enabled = false, dataProvider = "invalidData-XHR-provider")
+@@ -145,2 +151,2 @@
+-        //set expectations
+-//        when(avatarService.convertAvatarToBase64String(avatar)).thenThrow(new IOException());
++        //setUp
++        ServletRequest request = mock(ServletRequest.class);
+@@ -148 +154,4 @@
+-//        HttpServletResponse response = new MockHttpServletResponse();
++        //set expectations
++        when(avatarService.convertAvatarToBase64String(avatar)).thenThrow(new ImageUploadException());
++
++        HttpServletResponse response = new MockHttpServletResponse();
+@@ -151 +160 @@
+-//        Map<String, String> result = avatarController.uploadAvatar(avatar, response);
++        Map<String, String> result = avatarController.uploadAvatar(avatar, request, response);
+@@ -154 +163 @@
+-//        assertEquals(result, expectedData);
++        assertEquals(result, expectedData);
+

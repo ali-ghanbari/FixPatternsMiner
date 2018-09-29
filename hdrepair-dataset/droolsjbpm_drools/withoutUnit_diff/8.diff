@@ -1,0 +1,8 @@
+diff --git a/drools-core/src/main/java/org/drools/core/time/impl/CronTrigger.java b/drools-core/src/main/java/org/drools/core/time/impl/CronTrigger.java
+index c04be95..87d4859 100644
+--- a/drools-core/src/main/java/org/drools/core/time/impl/CronTrigger.java
++++ b/drools-core/src/main/java/org/drools/core/time/impl/CronTrigger.java
+@@ -300 +300 @@
+-        Date date = this.nextFireTime;
++        Date date = new Date( this.nextFireTime.getTime() - 1000L );
+

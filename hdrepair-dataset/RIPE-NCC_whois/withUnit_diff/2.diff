@@ -1,0 +1,67 @@
+diff --git a/whois-internal/src/main/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutor.java b/whois-internal/src/main/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutor.java
+index 21ece01..9f53091 100644
+--- a/whois-internal/src/main/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutor.java
++++ b/whois-internal/src/main/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutor.java
+@@ -47 +47 @@
+-    public boolean supports(Query query) {
++    public boolean supports(final Query query) {
+diff --git a/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutorTest.java b/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutorTest.java
+index 25a730b..4510982 100644
+--- a/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutorTest.java
++++ b/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/VersionDateTimeQueryExecutorTest.java
+@@ -25,4 +25 @@
+-import static org.mockito.Mockito.never;
+-import static org.mockito.Mockito.times;
+-import static org.mockito.Mockito.verify;
+-import static org.mockito.Mockito.when;
++import static org.mockito.Mockito.*;
+@@ -47 +44 @@
+-        assertThat(subject.supports(Query.parse("--show-timestamp-version 1404301680000 NINJA")), is(true));
++        assertThat(subject.supports(Query.parse("--show-timestamp-version 1404301680000 NINJA")), is(false));
+diff --git a/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/dao/JdbcObjectReferenceDaoTest.java b/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/dao/JdbcObjectReferenceDaoTest.java
+index 6af2b06..5250be6 100644
+--- a/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/dao/JdbcObjectReferenceDaoTest.java
++++ b/whois-internal/src/test/java/net/ripe/db/whois/internal/api/rnd/dao/JdbcObjectReferenceDaoTest.java
+@@ -9,0 +10 @@
++import org.junit.After;
+@@ -16,4 +17 @@
+-import static org.hamcrest.Matchers.contains;
+-import static org.hamcrest.Matchers.containsInAnyOrder;
+-import static org.hamcrest.Matchers.hasSize;
+-import static org.hamcrest.Matchers.is;
++import static org.hamcrest.Matchers.*;
+@@ -29,7 +27,7 @@
+-                "INSERT INTO object_version (version_id, object_type, pkey, from_timestamp, to_timestamp)\n" +
+-                "VALUES\n" +
+-                "(1, 9, 'MNTNER1', 1000, 2000),\n" +
+-                "(2, 9, 'MNTNER1', 2000, 3000),\n" +
+-                "(3, 9, 'MNTNER1', 3000, NULL),\n" +
+-                "(4, 10, 'TP1-TEST', 1000, 2000),\n" +
+-                "(5, 10, 'TP1-TEST', 2000, 2000),\n" +
++                "INSERT INTO object_version (version_id, object_type, pkey, from_timestamp, to_timestamp) " +
++                "VALUES " +
++                "(1, 9, 'MNTNER1', 1000, 2000), " +
++                "(2, 9, 'MNTNER1', 2000, 3000), " +
++                "(3, 9, 'MNTNER1', 3000, NULL), " +
++                "(4, 10, 'TP1-TEST', 1000, 2000), " +
++                "(5, 10, 'TP1-TEST', 2000, 2000), " +
+@@ -46,6 +44,12 @@
+-                "INSERT INTO object_reference (version_id, object_type, pkey, ref_type)\n" +
+-                        "VALUES\n" +
+-                        "\t(3, 10, 'TP1-TEST', 0),\n" +
+-                        "\t(3, 9, 'MNTNER1', 0),\n" +
+-                        "\t(3, 9, 'MNTNER1', 1),\n" +
+-                        "\t(3, 18, 'ORG1', 1);\n");
++                "INSERT INTO object_reference (version_id, object_type, pkey, ref_type) " +
++                        "VALUES " +
++                        "\t(3, 10, 'TP1-TEST', 0), " +
++                        "\t(3, 9, 'MNTNER1', 0), " +
++                        "\t(3, 9, 'MNTNER1', 1), " +
++                        "\t(3, 18, 'ORG1', 1); ");
++    }
++
++    @After
++    public void teardown() {
++        whoisTemplate.execute("DELETE FROM object_reference");
++        whoisTemplate.execute("DELETE FROM object_version");
+

@@ -1,0 +1,17 @@
+Improve performance when using many ValueProxies with RequestFactory.
+Contributed by tbroyer.
+
+"When checking whether entities were persisted by processed invocations in
+createReturnOperations, SimpleRequestProcessor erroneously also ran the
+check with value proxies. Unfortunately, whereas entity proxies are resolved
+from the request 'cache', with value proxies a new proxy is created each
+time, with its properties resolved (which includes referenced proxies!).
+This results in a significant slow down."
+
+Review at https://gwt-code-reviews.appspot.com/1660803/
+
+Fixes issue 7231. (It's unclear whether it's a complete fix.)
+
+
+git-svn-id: https://google-web-toolkit.googlecode.com/svn/trunk@10974 8db76d5a-ed1c-0410-87a9-c151d255dfc7
+

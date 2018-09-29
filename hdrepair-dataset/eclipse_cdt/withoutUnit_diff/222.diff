@@ -1,0 +1,8 @@
+diff --git a/build/org.eclipse.cdt.make.ui/src/org/eclipse/cdt/make/ui/views/DeleteTargetAction.java b/build/org.eclipse.cdt.make.ui/src/org/eclipse/cdt/make/ui/views/DeleteTargetAction.java
+index efa09be..fa16c96 100644
+--- a/build/org.eclipse.cdt.make.ui/src/org/eclipse/cdt/make/ui/views/DeleteTargetAction.java
++++ b/build/org.eclipse.cdt.make.ui/src/org/eclipse/cdt/make/ui/views/DeleteTargetAction.java
+@@ -62 +62 @@
+-		if (canDelete() && confirmDelete() == false)
++		if (!canDelete() || confirmDelete() == false)
+

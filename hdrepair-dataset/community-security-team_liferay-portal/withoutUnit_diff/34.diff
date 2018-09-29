@@ -1,0 +1,8 @@
+diff --git a/modules/util/sync-engine/src/com/liferay/sync/engine/filesystem/Watcher.java b/modules/util/sync-engine/src/com/liferay/sync/engine/filesystem/Watcher.java
+index 966d034..5098e86 100644
+--- a/modules/util/sync-engine/src/com/liferay/sync/engine/filesystem/Watcher.java
++++ b/modules/util/sync-engine/src/com/liferay/sync/engine/filesystem/Watcher.java
+@@ -326 +326 @@
+-			if (Files.isDirectory(filePath)) {
++			if (OSDetector.isLinux() && Files.isDirectory(filePath)) {
+

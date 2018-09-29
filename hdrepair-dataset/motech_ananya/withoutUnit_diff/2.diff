@@ -1,0 +1,72 @@
+diff --git a/ananya-web/src/main/java/org/motechproject/ananya/velocity/Layout.java b/ananya-web/src/main/java/org/motechproject/ananya/velocity/Layout.java
+index b4bd728..24609ba 100644
+--- a/ananya-web/src/main/java/org/motechproject/ananya/velocity/Layout.java
++++ b/ananya-web/src/main/java/org/motechproject/ananya/velocity/Layout.java
+@@ -10 +10 @@
+-        map.put("/login", "layout/empty.vm");
++        map.put("/admin/*", "layout/default.vm");
+diff --git a/ananya-web/src/main/webapp/WEB-INF/spring/webmvc-config.xml b/ananya-web/src/main/webapp/WEB-INF/spring/webmvc-config.xml
+index 8941140..ee478c7 100644
+--- a/ananya-web/src/main/webapp/WEB-INF/spring/webmvc-config.xml
++++ b/ananya-web/src/main/webapp/WEB-INF/spring/webmvc-config.xml
+@@ -61 +61 @@
+-        <property name="layoutUrl" value="layout/default.vm"/>
++        <property name="layoutUrl" value="layout/empty.vm"/>
+diff --git a/ananya-web/src/main/webapp/WEB-INF/views/layout/default.vm b/ananya-web/src/main/webapp/WEB-INF/views/layout/default.vm
+index 5ebf18f..50bc837 100644
+--- a/ananya-web/src/main/webapp/WEB-INF/views/layout/default.vm
++++ b/ananya-web/src/main/webapp/WEB-INF/views/layout/default.vm
+@@ -1,3 +0,0 @@
+-##set($username = $request.getSession().getAttribute("loggedInUser").getUsername())
+-##set($menuMap = $request.getSession().getAttribute("loggedInUser").getMenuMap())
+-
+diff --git a/ananya-web/src/main/webapp/WEB-INF/views/layout/empty.vm b/ananya-web/src/main/webapp/WEB-INF/views/layout/empty.vm
+index 67bd6f2..e00296d 100644
+--- a/ananya-web/src/main/webapp/WEB-INF/views/layout/empty.vm
++++ b/ananya-web/src/main/webapp/WEB-INF/views/layout/empty.vm
+@@ -1,24 +1 @@
+-#head()
+-<body>
+-<div class="navbar navbar-fixed-top">
+-    <div class="navbar-inner">
+-        <div class="container-fluid">
+-            <a class="brand" href="#">$label.topbar.app.link</a>
+-            <div class="nav-collapse">
+-                <ul class="nav">
+-                    <li><a href="#">$label.topbar.home.link</a></li>
+-                </ul>
+-            </div>
+-        </div>
+-    </div>
+-</div>
+-
+-<div class=container-fluid>
+-    <div class="row-fluid mainbox">
+-        <div class="span10">
+-            $screen_content
+-        </div>
+-    </div>
+-    #footer()
+-</div>
+-</body>
+\ No newline at end of file
++$screen_content
+\ No newline at end of file
+diff --git a/ananya-web/src/main/webapp/WEB-INF/views/macros/macros.vm b/ananya-web/src/main/webapp/WEB-INF/views/macros/macros.vm
+index d6803c7..001936b 100644
+--- a/ananya-web/src/main/webapp/WEB-INF/views/macros/macros.vm
++++ b/ananya-web/src/main/webapp/WEB-INF/views/macros/macros.vm
+@@ -47,6 +47,6 @@
+-            #foreach($topMenuItem in $menuMap.entrySet())
+-                <li class="nav-header">$topMenuItem.key</li>
+-                #foreach($linkMenuItem in $topMenuItem.value)
+-                    <li><a href="$linkMenuItem.getUrl()">$linkMenuItem.getDisplayString()</a></li>
+-                #end
+-            #end
++##            #foreach($topMenuItem in $menuMap.entrySet())
++##                <li class="nav-header">$topMenuItem.key</li>
++##                #foreach($linkMenuItem in $topMenuItem.value)
++##                    <li><a href="$linkMenuItem.getUrl()">$linkMenuItem.getDisplayString()</a></li>
++##                #end
++##            #end
+

@@ -1,0 +1,8 @@
+diff --git a/quasar-core/src/main/java/co/paralleluniverse/strands/channels/TapReceivePort.java b/quasar-core/src/main/java/co/paralleluniverse/strands/channels/TapReceivePort.java
+index 0c39448..cb49829 100644
+--- a/quasar-core/src/main/java/co/paralleluniverse/strands/channels/TapReceivePort.java
++++ b/quasar-core/src/main/java/co/paralleluniverse/strands/channels/TapReceivePort.java
+@@ -85 +85 @@
+-        if (!forwardTo.trySend(m))
++        if (actualForwardTo != null && !actualForwardTo.trySend(m))
+

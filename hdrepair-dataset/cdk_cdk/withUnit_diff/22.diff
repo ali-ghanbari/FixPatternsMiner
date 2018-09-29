@@ -1,0 +1,16 @@
+diff --git a/src/org/openscience/cdk/ConformerContainer.java b/src/org/openscience/cdk/ConformerContainer.java
+index c09dc34..a45efcc 100644
+--- a/src/org/openscience/cdk/ConformerContainer.java
++++ b/src/org/openscience/cdk/ConformerContainer.java
+@@ -371 +371 @@
+-        if (atomContainer.getAtomCount() != coordinates.size()) return -1;
++        if (atomContainer.getAtomCount() != coordinates.get(0).length) return -1;
+diff --git a/src/org/openscience/cdk/test/ConformerContainerTest.java b/src/org/openscience/cdk/test/ConformerContainerTest.java
+index 7420ed7..2436355 100644
+--- a/src/org/openscience/cdk/test/ConformerContainerTest.java
++++ b/src/org/openscience/cdk/test/ConformerContainerTest.java
+@@ -225 +225,2 @@
+-    	Assert.assertEquals(3, container.lastIndexOf(container.get(3)));
++        int x = container.lastIndexOf(container.get(3));
++        Assert.assertEquals(3, container.lastIndexOf(container.get(3)));
+

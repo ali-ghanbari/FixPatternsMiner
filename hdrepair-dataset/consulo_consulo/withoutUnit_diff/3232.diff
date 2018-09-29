@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/execution/remote/RemoteConfiguration.java b/source/com/intellij/execution/remote/RemoteConfiguration.java
+index 8fd28ad..31b7d4b 100644
+--- a/source/com/intellij/execution/remote/RemoteConfiguration.java
++++ b/source/com/intellij/execution/remote/RemoteConfiguration.java
+@@ -54 +54 @@
+-    debuggerSettings.setDebugPort(PORT);
++    debuggerSettings.setDebugPort(USE_SOCKET_TRANSPORT ? PORT : SHMEM_ADDRESS);
+

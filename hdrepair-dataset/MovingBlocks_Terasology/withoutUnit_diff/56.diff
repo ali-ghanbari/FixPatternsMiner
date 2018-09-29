@@ -1,0 +1,34 @@
+diff --git a/src/main/java/org/terasology/rendering/cameras/Camera.java b/src/main/java/org/terasology/rendering/cameras/Camera.java
+index 82ad100..3cb5a83 100644
+--- a/src/main/java/org/terasology/rendering/cameras/Camera.java
++++ b/src/main/java/org/terasology/rendering/cameras/Camera.java
+@@ -131 +131 @@
+-            return 32.0f;
++            return 31.5f;
+diff --git a/src/main/resources/assets/shaders/chunk_frag.glsl b/src/main/resources/assets/shaders/chunk_frag.glsl
+index 9603ac3..25a9019 100644
+--- a/src/main/resources/assets/shaders/chunk_frag.glsl
++++ b/src/main/resources/assets/shaders/chunk_frag.glsl
+@@ -35,0 +36 @@
++varying float isUpside;
+@@ -89 +90 @@
+-        if (!swimming && vertexWorldPosRaw.y < 32.5 && vertexWorldPosRaw.y > 31.5) {
++        if (!swimming && isUpside == 1.0 && vertexWorldPosRaw.y < 32.5 && vertexWorldPosRaw.y > 31.5) {
+diff --git a/src/main/resources/assets/shaders/chunk_vert.glsl b/src/main/resources/assets/shaders/chunk_vert.glsl
+index 01a7bbe..fd103e6 100644
+--- a/src/main/resources/assets/shaders/chunk_vert.glsl
++++ b/src/main/resources/assets/shaders/chunk_vert.glsl
+@@ -17 +17 @@
+- #define WAVING_COORDINATE_COUNT 32
++#define WAVING_COORDINATE_COUNT 32
+@@ -27,0 +28,2 @@
++
++varying float isUpside;
+@@ -48,0 +51,6 @@
++	if (gl_Normal.y == 1.0) {
++	    isUpside = 1.0;
++	} else {
++	    isUpside = 0.0;
++	}
++
+

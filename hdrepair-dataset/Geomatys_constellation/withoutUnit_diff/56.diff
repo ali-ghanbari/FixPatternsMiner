@@ -1,0 +1,18 @@
+diff --git a/modules/engine/admin/src/main/java/org/constellation/admin/util/TempDatabase.java b/modules/engine/admin/src/main/java/org/constellation/admin/util/TempDatabase.java
+index 17e3b28..a486d15 100644
+--- a/modules/engine/admin/src/main/java/org/constellation/admin/util/TempDatabase.java
++++ b/modules/engine/admin/src/main/java/org/constellation/admin/util/TempDatabase.java
+@@ -43,0 +44,2 @@
++        path = path.replaceAll("/", File.separator);
++        
+diff --git a/modules/engine/register/cstl-register-jooq/pom.xml b/modules/engine/register/cstl-register-jooq/pom.xml
+index 99b6a21..3fb4fa5 100644
+--- a/modules/engine/register/cstl-register-jooq/pom.xml
++++ b/modules/engine/register/cstl-register-jooq/pom.xml
+@@ -119 +119 @@
+-            <argument>target/builddb/constellation-build/admin-db</argument>
++            <argument>target/builddb</argument>
+@@ -155 +155 @@
+-            <url>jdbc:derby:target/builddb/constellation-build/admin-db</url>
++            <url>jdbc:derby:target/builddb</url>
+

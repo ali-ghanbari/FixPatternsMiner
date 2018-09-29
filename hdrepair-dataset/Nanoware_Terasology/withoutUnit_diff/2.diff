@@ -1,0 +1,8 @@
+diff --git a/modules/Core/src/main/java/org/terasology/core/world/generator/rasterizers/FloraRasterizer.java b/modules/Core/src/main/java/org/terasology/core/world/generator/rasterizers/FloraRasterizer.java
+index 6b202be..cc23322 100644
+--- a/modules/Core/src/main/java/org/terasology/core/world/generator/rasterizers/FloraRasterizer.java
++++ b/modules/Core/src/main/java/org/terasology/core/world/generator/rasterizers/FloraRasterizer.java
+@@ -81 +81 @@
+-                int blockIdx = noise.intNoise(pos.x, pos.y, pos.z) % list.size();
++                int blockIdx = Math.abs(noise.intNoise(pos.x, pos.y, pos.z)) % list.size();
+

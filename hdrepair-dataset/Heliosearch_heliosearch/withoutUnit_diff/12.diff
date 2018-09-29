@@ -1,0 +1,15 @@
+diff --git a/solr/CHANGES.txt b/solr/CHANGES.txt
+index 0d65be1..ba23607 100644
+--- a/solr/CHANGES.txt
++++ b/solr/CHANGES.txt
+@@ -276,0 +277,2 @@
++* SOLR-6362: Fix bug in TestSqlEntityProcessorDelta. (James Dyer)
++
+diff --git a/solr/contrib/dataimporthandler/src/test/org/apache/solr/handler/dataimport/TestSqlEntityProcessorDelta.java b/solr/contrib/dataimporthandler/src/test/org/apache/solr/handler/dataimport/TestSqlEntityProcessorDelta.java
+index 4fd3a61..574f5aa 100644
+--- a/solr/contrib/dataimporthandler/src/test/org/apache/solr/handler/dataimport/TestSqlEntityProcessorDelta.java
++++ b/solr/contrib/dataimporthandler/src/test/org/apache/solr/handler/dataimport/TestSqlEntityProcessorDelta.java
+@@ -130 +130 @@
+-        assertQ(req("COUNTRY_CODE_s:" + code), "//*[@numFound='" + numberPeopleByCountryCode(code) + "']", "substring(//doc/str[@name='COUNTRY_NAME_s'], 1, 8)='MODIFIED'");
++        assertQ(req("COUNTRY_CODE_s:" + code), "//*[@numFound='" + numberPeopleByCountryCode(code) + "']", "substring((//doc/str[@name='COUNTRY_NAME_s'])[1], 1, 8)='MODIFIED'");
+

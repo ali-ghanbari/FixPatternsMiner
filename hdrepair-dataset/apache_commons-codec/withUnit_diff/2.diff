@@ -1,0 +1,95 @@
+diff --git a/NOTICE.txt b/NOTICE.txt
+index c912391..1da9af5 100644
+--- a/NOTICE.txt
++++ b/NOTICE.txt
+@@ -9,0 +10,8 @@
++
++===============================================================================
++
++The content of package org.apache.commons.codec.language.bm has been translated
++from the original php source code available at http://stevemorse.org/phoneticinfo.htm
++with permission from the original authors.
++Original source copyright:
++Copyright (c) 2008 Alexander Beider & Stephen P. Morse.
+diff --git a/src/changes/changes.xml b/src/changes/changes.xml
+index b027222..8cda1b5 100644
+--- a/src/changes/changes.xml
++++ b/src/changes/changes.xml
+@@ -45,0 +46 @@
++      <action dev="ggregory" type="fix" issue="CODEC-187" due-to="Michael Tobias, Thomas Neidhart">Beider Morse Phonetic Matching producing incorrect tokens</action>   
+diff --git a/src/main/java/org/apache/commons/codec/language/bm/BeiderMorseEncoder.java b/src/main/java/org/apache/commons/codec/language/bm/BeiderMorseEncoder.java
+index 471d05d..13f28ab 100644
+--- a/src/main/java/org/apache/commons/codec/language/bm/BeiderMorseEncoder.java
++++ b/src/main/java/org/apache/commons/codec/language/bm/BeiderMorseEncoder.java
+@@ -67,0 +68,2 @@
++ * @see <a href="http://stevemorse.org/phonetics/bmpm.htm">Beider-Morse Phonetic Matching</a>
++ * @see <a href="http://stevemorse.org/phoneticinfo.htm">Reference implementation</a>
+diff --git a/src/main/resources/org/apache/commons/codec/language/bm/ash_approx_any.txt b/src/main/resources/org/apache/commons/codec/language/bm/ash_approx_any.txt
+index 3f4f4c9..4483a7d 100644
+--- a/src/main/resources/org/apache/commons/codec/language/bm/ash_approx_any.txt
++++ b/src/main/resources/org/apache/commons/codec/language/bm/ash_approx_any.txt
+@@ -102 +102 @@
+-"e"	""	"$"	"(e|E[$french])"
++"e"	""	"$"	"(e|E[french])"
+diff --git a/src/main/resources/org/apache/commons/codec/language/bm/ash_rules_any.txt b/src/main/resources/org/apache/commons/codec/language/bm/ash_rules_any.txt
+index 9960ada..c55e18a 100644
+--- a/src/main/resources/org/apache/commons/codec/language/bm/ash_rules_any.txt
++++ b/src/main/resources/org/apache/commons/codec/language/bm/ash_rules_any.txt
+@@ -87 +87 @@
+-"cia" "" "" "(tSa[$polish]|tsa)" 
++"cia" "" "" "(tSa[polish]|tsa)" 
+diff --git a/src/main/resources/org/apache/commons/codec/language/bm/gen_approx_any.txt b/src/main/resources/org/apache/commons/codec/language/bm/gen_approx_any.txt
+index 6627aac..75bd179 100644
+--- a/src/main/resources/org/apache/commons/codec/language/bm/gen_approx_any.txt
++++ b/src/main/resources/org/apache/commons/codec/language/bm/gen_approx_any.txt
+@@ -44 +44 @@
+-    //array("p" "[aeiouAEIOU]" "[^aeiouAEIOU]" "(p|[$french])" 
++    //array("p" "[aeiouAEIOU]" "[^aeiouAEIOU]" "(p|[french])" 
+@@ -89 +89 @@
+-"E" "" "" "(i|Y[$german])"
++"E" "" "" "(i|Y[german])"
+@@ -97 +97 @@
+-"O" "" "" "(o|Y[$german])"
++"O" "" "" "(o|Y[german])"
+@@ -104 +104 @@
+-"A" "" "" "(a|o|Y[$german])"
++"A" "" "" "(a|o|Y[german])"
+diff --git a/src/test/java/org/apache/commons/codec/language/bm/PhoneticEngineRegressionTest.java b/src/test/java/org/apache/commons/codec/language/bm/PhoneticEngineRegressionTest.java
+index f26a67c..9a5b784 100644
+--- a/src/test/java/org/apache/commons/codec/language/bm/PhoneticEngineRegressionTest.java
++++ b/src/test/java/org/apache/commons/codec/language/bm/PhoneticEngineRegressionTest.java
+@@ -43 +43 @@
+-        assertEquals(encode(args, true, "Angelo"), "agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo");
++        assertEquals(encode(args, true, "Angelo"), "YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo");
+@@ -53 +53 @@
+-        assertEquals(encode(args, false, "Angelo"), "agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo");
++        assertEquals(encode(args, false, "Angelo"), "YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo");
+@@ -63 +63 @@
+-        assertEquals(encode(args, true, "Angelo"), "agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo");
++        assertEquals(encode(args, true, "Angelo"), "YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo");
+@@ -65,2 +65,2 @@
+-        assertEquals(encode(args, true, "Angelo"), "agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo");
+-        assertEquals(encode(args, true, "D'Angelo"), "(agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo)-(dagilo|dangilo|daniilo|danilo|danxilo|danzilo|dogilo|dongilo|doniilo|donilo|donxilo|donzilo)");
++        assertEquals(encode(args, true, "Angelo"), "YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo");
++        assertEquals(encode(args, true, "D'Angelo"), "(YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo)-(dYngYlo|dYngilo|dagilo|dangYlo|dangilo|daniilo|danilo|danxilo|danzilo|dogilo|dongYlo|dongilo|doniilo|donilo|donxilo|donzilo)");
+@@ -73 +73 @@
+-        assertEquals(encode(args, false, "Angelo"), "agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo");
++        assertEquals(encode(args, false, "Angelo"), "YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo");
+@@ -75,2 +75,2 @@
+-        assertEquals(encode(args, false, "Angelo"), "agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo");
+-        assertEquals(encode(args, false, "D'Angelo"), "(agilo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongilo|oniilo|onilo|onxilo|onzilo)-(dagilo|dangilo|daniilo|danilo|danxilo|danzilo|dogilo|dongilo|doniilo|donilo|donxilo|donzilo)");
++        assertEquals(encode(args, false, "Angelo"), "YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo");
++        assertEquals(encode(args, false, "D'Angelo"), "(YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo)-(dYngYlo|dYngilo|dagilo|dangYlo|dangilo|daniilo|danilo|danxilo|danzilo|dogilo|dongYlo|dongilo|doniilo|donilo|donxilo|donzilo)");
+@@ -179,0 +180,11 @@
++    @Test
++    public void testCompatibilityWithOriginalVersion() {
++        // see CODEC-187
++        // comparison: http://stevemorse.org/census/soundex.html
++
++        Map<String, String> args = new TreeMap<String, String>();
++        args.put("nameType", "GENERIC");
++        args.put("ruleType", "APPROX");
++        assertEquals(encode(args, true, "abram"), "Ybram|Ybrom|abram|abran|abrom|abron|avram|avrom|obram|obran|obrom|obron|ovram|ovrom");
++    }
++
+

@@ -1,0 +1,23 @@
+diff --git a/src/main/java/org/atlasapi/query/content/LookupResolvingQueryExecutor.java b/src/main/java/org/atlasapi/query/content/LookupResolvingQueryExecutor.java
+index 5c3c01b..8f3bf73 100644
+--- a/src/main/java/org/atlasapi/query/content/LookupResolvingQueryExecutor.java
++++ b/src/main/java/org/atlasapi/query/content/LookupResolvingQueryExecutor.java
+@@ -45 +45 @@
+-        Map<String, List<Identified>> results = resolveMongoEntries(query, mongoLookupResolver.entriesForUris(uris));
++        Map<String, List<Identified>> results = resolveMongoEntries(query, mongoLookupResolver.entriesForIdentifiers(uris));
+diff --git a/src/test/java/org/atlasapi/query/content/LookupResolvingQueryExecutorTest.java b/src/test/java/org/atlasapi/query/content/LookupResolvingQueryExecutorTest.java
+index ac35f84..72ba908 100644
+--- a/src/test/java/org/atlasapi/query/content/LookupResolvingQueryExecutorTest.java
++++ b/src/test/java/org/atlasapi/query/content/LookupResolvingQueryExecutorTest.java
+@@ -46 +46,9 @@
+-        lookupStore.store(lookupEntryWithEquivalents(query, LookupRef.from(queryItem), LookupRef.from(equivItem)));
++        LookupEntry queryEntry = LookupEntry.lookupEntryFrom(queryItem);
++        LookupEntry equivEntry = LookupEntry.lookupEntryFrom(equivItem);
++        
++        lookupStore.store(queryEntry
++            .copyWithDirectEquivalents(ImmutableSet.of(equivEntry.lookupRef()))
++            .copyWithEquivalents(ImmutableSet.of(equivEntry.lookupRef())));
++        lookupStore.store(equivEntry
++            .copyWithDirectEquivalents(ImmutableSet.of(queryEntry.lookupRef()))
++            .copyWithDirectEquivalents(ImmutableSet.of(queryEntry.lookupRef())));
+

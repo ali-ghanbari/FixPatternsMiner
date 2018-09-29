@@ -1,0 +1,9 @@
+diff --git a/server-integ/src/test/java/org/apache/directory/server/operations/search/SearchIT.java b/server-integ/src/test/java/org/apache/directory/server/operations/search/SearchIT.java
+index 91662c0..63ed045 100644
+--- a/server-integ/src/test/java/org/apache/directory/server/operations/search/SearchIT.java
++++ b/server-integ/src/test/java/org/apache/directory/server/operations/search/SearchIT.java
+@@ -1684 +1684,2 @@
+-        while ( cursor.next() )
++        // Equivalent to : while ( cursor.next() )
++        for ( Response response : cursor )
+

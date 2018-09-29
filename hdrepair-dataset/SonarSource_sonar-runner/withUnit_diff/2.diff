@@ -1,0 +1,16 @@
+diff --git a/sonar-runner-batch/src/main/java/org/sonar/runner/batch/FilePattern.java b/sonar-runner-batch/src/main/java/org/sonar/runner/batch/FilePattern.java
+index 6c4bebc..ec7e339 100644
+--- a/sonar-runner-batch/src/main/java/org/sonar/runner/batch/FilePattern.java
++++ b/sonar-runner-batch/src/main/java/org/sonar/runner/batch/FilePattern.java
+@@ -124 +124 @@
+-      return pattern.match(file.getAbsolutePath());
++      return pattern.match(FilenameUtils.separatorsToUnix(file.getAbsolutePath()));
+diff --git a/sonar-runner-batch/src/test/java/org/sonar/runner/batch/FilePatternTest.java b/sonar-runner-batch/src/test/java/org/sonar/runner/batch/FilePatternTest.java
+index 8237ee7..64a366d 100644
+--- a/sonar-runner-batch/src/test/java/org/sonar/runner/batch/FilePatternTest.java
++++ b/sonar-runner-batch/src/test/java/org/sonar/runner/batch/FilePatternTest.java
+@@ -79,2 +79 @@
+-    String s = FilenameUtils.separatorsToUnix(f.getCanonicalPath());
+-    return StringUtils.removeEnd(s, "/");
++    return FilenameUtils.separatorsToUnix(f.getCanonicalPath());
+

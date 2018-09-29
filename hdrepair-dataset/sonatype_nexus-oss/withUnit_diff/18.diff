@@ -1,0 +1,67 @@
+diff --git a/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/cache/EhCachePathCache.java b/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/cache/EhCachePathCache.java
+index 54f7551..4176d82 100644
+--- a/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/cache/EhCachePathCache.java
++++ b/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/cache/EhCachePathCache.java
+@@ -117 +117 @@
+-                removed = removed || getEHCache().remove( key );
++                removed = getEHCache().remove( key ) || removed;
+diff --git a/nexus/nexus-proxy/src/test/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManagerTest.java b/nexus/nexus-proxy/src/test/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManagerTest.java
+index 801e3e7..184d2e6 100644
+--- a/nexus/nexus-proxy/src/test/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManagerTest.java
++++ b/nexus/nexus-proxy/src/test/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManagerTest.java
+@@ -53 +53 @@
+-        c.removeWithParents( "/com/sonatype" );
++        boolean removed = c.removeWithParents( "/com/sonatype" );
+@@ -54,0 +55 @@
++        assertEquals(true, removed);
+@@ -59 +60 @@
+-        c.removeWithParents( "/com/sonatype/nexus" );
++        removed = c.removeWithParents( "/com/sonatype/nexus" );
+@@ -60,0 +62 @@
++        assertEquals(true, removed);
+@@ -64,0 +67,40 @@
++        removed = c.removeWithParents( "/com/sonatype/nexus" );
++        assertEquals(false, removed);
++    }
++    
++    @Test
++    public void testRemoveWithChildren()
++        throws Exception
++    {
++        CacheManager cm = lookup( CacheManager.class );
++
++        PathCache c = cm.getPathCache( "test" );
++
++        c.put( "/com", Boolean.TRUE );
++        c.put( "/com/sonatype", Boolean.TRUE );
++        c.put( "/com/sonatype/nexus", Boolean.TRUE );
++        c.put( "/org", Boolean.TRUE );
++        c.put( "/org/sonatype", Boolean.TRUE );
++        c.put( "/org/sonatype/nexus", Boolean.TRUE );
++        
++        boolean removed = c.removeWithChildren( "/com" );
++
++        assertTrue( removed ); // this should have removed stuff
++        assertFalse( c.contains( "/com/sonatype/nexus" ) );
++        assertFalse( c.contains( "/com/sonatype" ) );
++        assertFalse( c.contains( "/com" ) );
++        assertTrue( c.contains( "/org/sonatype/nexus" ) );
++        assertTrue( c.contains( "/org/sonatype" ) );
++        assertTrue( c.contains( "/org" ) );
++
++        removed = c.removeWithChildren( "/com" );
++
++        assertFalse( removed ); // this should have removed nothing
++
++        removed = c.removeWithChildren( "/" );
++
++        assertTrue( removed ); // this should have removed everything
++
++        assertFalse( c.contains( "/org/sonatype/nexus" ) );
++        assertFalse( c.contains( "/org/sonatype" ) );
++        assertFalse( c.contains( "/org" ) );
+@@ -117 +159 @@
+-}
++}
+\ No newline at end of file
+

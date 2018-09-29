@@ -1,0 +1,8 @@
+diff --git a/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java b/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java
+index 203a33c..c13041a 100644
+--- a/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java
++++ b/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java
+@@ -59,0 +60,2 @@
++    // the root directory of any drive is never an IDEA project
++    if (virtualFile.getParent() == null) return false;
+

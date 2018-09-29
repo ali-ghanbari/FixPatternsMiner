@@ -1,0 +1,31 @@
+diff --git a/zanata-war/src/main/java/org/zanata/webtrans/client/presenter/DocumentListPresenter.java b/zanata-war/src/main/java/org/zanata/webtrans/client/presenter/DocumentListPresenter.java
+index 4c0e3d0..0295ef9 100644
+--- a/zanata-war/src/main/java/org/zanata/webtrans/client/presenter/DocumentListPresenter.java
++++ b/zanata-war/src/main/java/org/zanata/webtrans/client/presenter/DocumentListPresenter.java
+@@ -139,0 +140,2 @@
++
++      display.updatePageSize(configHolder.getDocumentListPageSize());
+diff --git a/zanata-war/src/test/java/org/zanata/webtrans/client/presenter/DocumentListPresenterTest.java b/zanata-war/src/test/java/org/zanata/webtrans/client/presenter/DocumentListPresenterTest.java
+index d2be386..b30c630 100644
+--- a/zanata-war/src/test/java/org/zanata/webtrans/client/presenter/DocumentListPresenterTest.java
++++ b/zanata-war/src/test/java/org/zanata/webtrans/client/presenter/DocumentListPresenterTest.java
+@@ -103,0 +104 @@
++      when(mockConfigHolder.getDocumentListPageSize()).thenReturn(UserConfigHolder.DEFAULT_DOC_LIST_PAGE_SIZE);
+@@ -108,0 +110 @@
++      verify(mockDisplay).updatePageSize(UserConfigHolder.DEFAULT_DOC_LIST_PAGE_SIZE);
+@@ -113 +114,0 @@
+-
+@@ -452 +452,0 @@
+-      int pageSize = 25;
+@@ -455,3 +455 @@
+-      when(mockConfigHolder.getDocumentListPageSize()).thenReturn(pageSize);
+-
+-      documentListPresenter.bind();
++      when(mockConfigHolder.getDocumentListPageSize()).thenReturn(UserConfigHolder.DEFAULT_DOC_LIST_PAGE_SIZE);
+@@ -461 +459 @@
+-      verify(mockDisplay).updatePageSize(pageSize);
++      verify(mockDisplay).updatePageSize(UserConfigHolder.DEFAULT_DOC_LIST_PAGE_SIZE);
+@@ -469,2 +466,0 @@
+-
+-      documentListPresenter.bind();
+

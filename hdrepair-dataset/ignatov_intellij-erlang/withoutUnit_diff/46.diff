@@ -1,0 +1,14 @@
+diff --git a/src/org/intellij/erlang/inspection/ErlangIoFormatInspection.java b/src/org/intellij/erlang/inspection/ErlangIoFormatInspection.java
+index 7dc81c4..3a1ccee 100644
+--- a/src/org/intellij/erlang/inspection/ErlangIoFormatInspection.java
++++ b/src/org/intellij/erlang/inspection/ErlangIoFormatInspection.java
+@@ -86 +86 @@
+-                  if (str instanceof ErlangStringLiteral && strLen >= 2) {
++                  if ((str instanceof ErlangStringLiteral || str instanceof ErlangMaxExpression) && strLen >= 2) {
+diff --git a/testData/highlighting/IoFormat.erl b/testData/highlighting/IoFormat.erl
+index 013b26d..ec47363 100644
+--- a/testData/highlighting/IoFormat.erl
++++ b/testData/highlighting/IoFormat.erl
+@@ -10,0 +11 @@
++  io_lib:format("blah" "", []),
+

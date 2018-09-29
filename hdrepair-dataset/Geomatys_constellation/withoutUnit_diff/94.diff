@@ -1,0 +1,8 @@
+diff --git a/modules/storage/provider/src/main/java/org/constellation/provider/AbstractDataStoreProvider.java b/modules/storage/provider/src/main/java/org/constellation/provider/AbstractDataStoreProvider.java
+index 6275c91..aa4f51a 100644
+--- a/modules/storage/provider/src/main/java/org/constellation/provider/AbstractDataStoreProvider.java
++++ b/modules/storage/provider/src/main/java/org/constellation/provider/AbstractDataStoreProvider.java
+@@ -183 +183 @@
+-                    if (loadAll || containLayer(getSource(), name.getLocalPart())) {
++                    if ((loadAll || containLayer(getSource(), name.getLocalPart())) && !index.contains(name)) {
+

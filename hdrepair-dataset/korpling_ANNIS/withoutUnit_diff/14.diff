@@ -1,0 +1,16 @@
+diff --git a/annis-service/src/main/distribution/sql/adjustrankprepost.sql b/annis-service/src/main/distribution/sql/adjustrankprepost.sql
+index f61a8f7..efb583d 100644
+--- a/annis-service/src/main/distribution/sql/adjustrankprepost.sql
++++ b/annis-service/src/main/distribution/sql/adjustrankprepost.sql
+@@ -19,0 +20,3 @@
++
++-- the old index on pre is not working any longer since we renamed it to "id"
++CREATE INDEX tmpidx_rank_pre2 ON _rank (pre, component_ref);
+\ No newline at end of file
+diff --git a/annis-service/src/main/java/annis/administration/AdministrationDao.java b/annis-service/src/main/java/annis/administration/AdministrationDao.java
+index 6e012f4..57e0e2d 100644
+--- a/annis-service/src/main/java/annis/administration/AdministrationDao.java
++++ b/annis-service/src/main/java/annis/administration/AdministrationDao.java
+@@ -546,0 +547 @@
++    
+

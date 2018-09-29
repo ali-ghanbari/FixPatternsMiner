@@ -1,0 +1,10 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/instance/HazelcastInstanceImpl.java b/hazelcast/src/main/java/com/hazelcast/instance/HazelcastInstanceImpl.java
+index 1b8e914..140378e 100644
+--- a/hazelcast/src/main/java/com/hazelcast/instance/HazelcastInstanceImpl.java
++++ b/hazelcast/src/main/java/com/hazelcast/instance/HazelcastInstanceImpl.java
+@@ -136 +136,3 @@
+-                node.connectionManager.shutdown();
++                // Terminate the node by terminating node engine,
++                // connection manager, multicast service, operation threads, etc ... if they are exist
++                node.shutdown(true);
+

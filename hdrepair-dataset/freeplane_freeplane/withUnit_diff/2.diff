@@ -1,0 +1,22 @@
+diff --git a/freeplane_test/test/org/freeplane/core/ui/menubuilders/JMenuBuilderTest.java b/freeplane_test/test/org/freeplane/core/ui/menubuilders/JMenuBuilderTest.java
+index c641fc3..10f3d11 100644
+--- a/freeplane_test/test/org/freeplane/core/ui/menubuilders/JMenuBuilderTest.java
++++ b/freeplane_test/test/org/freeplane/core/ui/menubuilders/JMenuBuilderTest.java
+@@ -6,0 +7,3 @@
++import java.awt.Container;
++
++import javax.swing.Action;
+@@ -64 +67 @@
+-		assertThat(((JButton)builtMenuStructure.getChild(0).getChild(0).getComponent()).getAction(), CoreMatchers.equalTo(someAction));
++		assertThat(((JButton)builtMenuStructure.getChild(0).getChild(0).getComponent()).getAction(), CoreMatchers.<Action>equalTo(someAction));
+@@ -82 +85 @@
+-		assertThat(button.getParent(), CoreMatchers.equalTo(toolbar));
++		assertThat(button.getParent(), CoreMatchers.equalTo((Container)toolbar));
+diff --git a/freeplane_test/test/org/freeplane/core/ui/menubuilders/RecursiveMenuStructureBuilderForPaths.java b/freeplane_test/test/org/freeplane/core/ui/menubuilders/RecursiveMenuStructureBuilderForPaths.java
+index 78a1fca..5859f55 100644
+--- a/freeplane_test/test/org/freeplane/core/ui/menubuilders/RecursiveMenuStructureBuilderForPaths.java
++++ b/freeplane_test/test/org/freeplane/core/ui/menubuilders/RecursiveMenuStructureBuilderForPaths.java
+@@ -27 +27 @@
+-		return buildersForPath != null ? buildersForPath : Collections.emptyList();
++		return buildersForPath != null ? buildersForPath : Collections.<Builder>emptyList();
+

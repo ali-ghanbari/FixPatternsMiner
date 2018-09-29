@@ -1,0 +1,8 @@
+diff --git a/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/LockManager.java b/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/LockManager.java
+index 5865023..31eab68 100644
+--- a/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/LockManager.java
++++ b/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/LockManager.java
+@@ -182 +182 @@
+-        if (t instanceof BatchUpdateException) {
++        if (t instanceof BatchUpdateException && t.getCause() != null) {
+

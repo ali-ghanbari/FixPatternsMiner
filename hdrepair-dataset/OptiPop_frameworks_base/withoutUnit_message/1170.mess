@@ -1,0 +1,13 @@
+Make sure background drawables are correct when View is attached
+
+Books had a bug where the search menu item would come back with an
+out of date background color. The problem was that the logic to
+change the background color was tied into StateListDrawable animations.
+These animations were not always completing because the action bar would
+remove the associated View and the drawable animations would stop being
+scheduled (no handler to post to).
+The fix is to always set the drawable state to the current state when
+a View is added to the hierarchy.
+
+Change-Id: I0fc8008381f7439b9e49d6449ae618512c8e9dd0
+

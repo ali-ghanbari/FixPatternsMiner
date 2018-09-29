@@ -1,0 +1,33 @@
+diff --git a/Mage.Tests/src/test/java/org/mage/test/cards/triggers/OblivionRingTest.java b/Mage.Tests/src/test/java/org/mage/test/cards/triggers/OblivionRingTest.java
+index 20c0edd..5f3ed2d 100644
+--- a/Mage.Tests/src/test/java/org/mage/test/cards/triggers/OblivionRingTest.java
++++ b/Mage.Tests/src/test/java/org/mage/test/cards/triggers/OblivionRingTest.java
+@@ -58,0 +59,21 @@
++
++    @Test
++    public void testWithOblivionRingExile() {
++        addCard(Constants.Zone.BATTLEFIELD, playerA, "Plains", 3);
++        addCard(Constants.Zone.HAND, playerA, "Oblivion Ring");
++        addCard(Constants.Zone.BATTLEFIELD, playerB, "Craw Wurm");
++
++        addCard(Constants.Zone.BATTLEFIELD, playerB, "Plains", 3);
++        addCard(Constants.Zone.HAND, playerB, "Revoke Existence");
++
++        castSpell(1, Constants.PhaseStep.PRECOMBAT_MAIN, playerA, "Oblivion Ring");
++        castSpell(2, Constants.PhaseStep.PRECOMBAT_MAIN, playerB, "Revoke Existence", "Oblivion Ring");
++
++        setStopAt(2, Constants.PhaseStep.END_TURN);
++        execute();
++
++        assertLife(playerA, 20);
++        assertLife(playerB, 20);
++        assertPermanentCount(playerA, "Oblivion Ring", 0);
++        assertPermanentCount(playerB, "Craw Wurm", 1);
++    }
+diff --git a/Mage/src/mage/game/permanent/PermanentCard.java b/Mage/src/mage/game/permanent/PermanentCard.java
+index 39a228f..8b07605 100644
+--- a/Mage/src/mage/game/permanent/PermanentCard.java
++++ b/Mage/src/mage/game/permanent/PermanentCard.java
+@@ -223,0 +224 @@
++                game.rememberLKI(objectId, Zone.BATTLEFIELD, this);
+

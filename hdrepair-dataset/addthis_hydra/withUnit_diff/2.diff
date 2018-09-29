@@ -1,0 +1,31 @@
+diff --git a/hydra-main/src/main/java/com/addthis/hydra/job/Spawn.java b/hydra-main/src/main/java/com/addthis/hydra/job/Spawn.java
+index 5308dd5..3bf938f 100644
+--- a/hydra-main/src/main/java/com/addthis/hydra/job/Spawn.java
++++ b/hydra-main/src/main/java/com/addthis/hydra/job/Spawn.java
+@@ -1393 +1393 @@
+-        log.trace("fixTaskDirs found expectedWithTask {} expectedMissingTask {} unexpectedWithTask {} ");
++        log.trace("fixTaskDirs found expectedWithTask {} expectedMissingTask {} unexpectedWithTask {} ", expectedHostsWithTask, expectedHostsMissingTask, unexpectedHostsWithTask);
+diff --git a/hydra-main/src/test/java/com/addthis/hydra/job/SpawnTest.java b/hydra-main/src/test/java/com/addthis/hydra/job/SpawnTest.java
+index 242597b..23d8697 100644
+--- a/hydra-main/src/test/java/com/addthis/hydra/job/SpawnTest.java
++++ b/hydra-main/src/test/java/com/addthis/hydra/job/SpawnTest.java
+@@ -149,0 +150,15 @@
++        HostState host2 = createHostState("host2");
++        host2.setStopped(new JobKey[] {new JobKey(job.getId(), 2)});
++        spawn.updateHostState(host2);
++        boolean hostsAreUp = false;
++        for (int i=0; i<10; i++) {
++            if (spawn.listHostStatus(null).size() < 3) {
++                Thread.sleep(1000); // Can take a little while for the hosts to appear as up
++            } else {
++                hostsAreUp = true;
++                break;
++            }
++        }
++        if (!hostsAreUp) {
++            throw new RuntimeException("Failed to find hosts after waiting");
++        }
+@@ -152,0 +168,2 @@
++        assertEquals("should copy task that is on an unexpected host", 1, spawn.fixTaskDir(job.getId(), 2, false, false).get("tasksChanged"));
++        assertEquals("new home for task 2 should be the unexpected host that had the directory", "host2", spawn.getTask(job.getId(), 2).getHostUUID());
+

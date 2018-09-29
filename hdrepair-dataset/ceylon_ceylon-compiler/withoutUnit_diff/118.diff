@@ -1,0 +1,8 @@
+diff --git a/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java b/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java
+index fbcf7ab..451f4fd 100755
+--- a/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java
++++ b/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java
+@@ -540 +540 @@
+-        return (sameType(syms().ceylonBooleanType, type));
++        return type.isSubtypeOf(typeFact.getBooleanDeclaration().getType());
+

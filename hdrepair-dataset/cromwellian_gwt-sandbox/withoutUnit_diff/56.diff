@@ -1,0 +1,38 @@
+diff --git a/user/src/com/google/gwt/junit/tools/JUnit-hosted.launchsrc b/user/src/com/google/gwt/junit/tools/JUnit-hosted.launchsrc
+index 49a8345..eea3a6b 100644
+--- a/user/src/com/google/gwt/junit/tools/JUnit-hosted.launchsrc
++++ b/user/src/com/google/gwt/junit/tools/JUnit-hosted.launchsrc
+@@ -16 +16 @@
+-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgwt.args=&quot;-out www-test&quot; -Xmx256M"/>
++<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgwt.args=&quot;-out www-test&quot; -Xmx256M @vmargs"/>
+diff --git a/user/src/com/google/gwt/junit/tools/JUnit-web.launchsrc b/user/src/com/google/gwt/junit/tools/JUnit-web.launchsrc
+index 56f35ad..97eff72 100644
+--- a/user/src/com/google/gwt/junit/tools/JUnit-web.launchsrc
++++ b/user/src/com/google/gwt/junit/tools/JUnit-web.launchsrc
+@@ -16 +16 @@
+-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgwt.args=&quot;-web -out www-test&quot; -Xmx256M"/>
++<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgwt.args=&quot;-web -out www-test&quot; -Xmx256M @vmargs"/>
+diff --git a/user/src/com/google/gwt/user/tools/App.launchsrc b/user/src/com/google/gwt/user/tools/App.launchsrc
+index 1f9e95c..4ab2b0d 100644
+--- a/user/src/com/google/gwt/user/tools/App.launchsrc
++++ b/user/src/com/google/gwt/user/tools/App.launchsrc
+@@ -12 +12 @@
+-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="@vmargs -Xmx256M"/>
++<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="@eclipseVmargs -Xmx256M"/>
+diff --git a/user/src/com/google/gwt/user/tools/ApplicationCreator.java b/user/src/com/google/gwt/user/tools/ApplicationCreator.java
+index 9126cd5..d1cced9 100644
+--- a/user/src/com/google/gwt/user/tools/ApplicationCreator.java
++++ b/user/src/com/google/gwt/user/tools/ApplicationCreator.java
+@@ -311,0 +312 @@
++    replacements.put("@eclipseVmargs", isMacOsX ? "-XstartOnFirstThread" : "");
+diff --git a/user/src/com/google/gwt/user/tools/project.ant.xmlsrc b/user/src/com/google/gwt/user/tools/project.ant.xmlsrc
+index de75dc9..848a72c 100644
+--- a/user/src/com/google/gwt/user/tools/project.ant.xmlsrc
++++ b/user/src/com/google/gwt/user/tools/project.ant.xmlsrc
+@@ -52,0 +53 @@
++      <jvmarg value="-Xmx256M"/>
+@@ -66 +66,0 @@
+-      <jvmarg value="-Xmx256M"/>
+@@ -72,0 +73 @@
++      <jvmarg value="-Xmx256M"/>
+

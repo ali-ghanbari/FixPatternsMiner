@@ -1,0 +1,38 @@
+diff --git a/community/embedded-examples/src/main/java/org/neo4j/examples/CypherSql.java b/community/embedded-examples/src/main/java/org/neo4j/examples/CypherSql.java
+index cabe933..116be2a 100644
+--- a/community/embedded-examples/src/main/java/org/neo4j/examples/CypherSql.java
++++ b/community/embedded-examples/src/main/java/org/neo4j/examples/CypherSql.java
+@@ -397 +396,0 @@
+-        System.out.println( sql );
+diff --git a/community/embedded-examples/src/test/java/org/neo4j/examples/CypherSqlTest.java b/community/embedded-examples/src/test/java/org/neo4j/examples/CypherSqlTest.java
+index d170f90..1006418 100644
+--- a/community/embedded-examples/src/test/java/org/neo4j/examples/CypherSqlTest.java
++++ b/community/embedded-examples/src/test/java/org/neo4j/examples/CypherSqlTest.java
+@@ -214 +213,0 @@
+-            System.out.println( "\n*** " + query.name + " ***\n" );
+@@ -224,2 +222,0 @@
+-                System.out.println( sqlSnippet );
+-                System.out.println( sqlResult );
+@@ -234,2 +230,0 @@
+-            System.out.println( cypherSnippet );
+-            System.out.println( cypherResult );
+diff --git a/community/embedded-examples/src/test/java/org/neo4j/examples/orderedpath/OrderedPathTest.java b/community/embedded-examples/src/test/java/org/neo4j/examples/orderedpath/OrderedPathTest.java
+index f9ceaa5..79df837 100644
+--- a/community/embedded-examples/src/test/java/org/neo4j/examples/orderedpath/OrderedPathTest.java
++++ b/community/embedded-examples/src/test/java/org/neo4j/examples/orderedpath/OrderedPathTest.java
+@@ -70 +69,0 @@
+-        System.out.println( output );
+diff --git a/community/lucene-index/src/docs/dev/index.asciidoc b/community/lucene-index/src/docs/dev/index.asciidoc
+index f8a6475..339ab7b 100644
+--- a/community/lucene-index/src/docs/dev/index.asciidoc
++++ b/community/lucene-index/src/docs/dev/index.asciidoc
+@@ -495 +495 @@
+-[[NOTE]]
++[NOTE]
+@@ -518,2 +518,3 @@
+-If you start the database with auto indexing enabled but different auto indexed properties than the last run, then already auto-indexed entities will be deleted
+-as you work with them. Make sure that the monitored set is what you want before enabling the functionality.
++If you start the database with auto indexing enabled but different auto indexed properties than the last run, then already auto-indexed properties will be deleted from the index when a value is written to them (assuming the property isn't present in the new configuration).
++Make sure that the monitored set is what you want before enabling the functionality.
++
+

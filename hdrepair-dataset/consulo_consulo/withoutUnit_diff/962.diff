@@ -1,0 +1,9 @@
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/intention/impl/IntentionListStep.java b/platform/lang-impl/src/com/intellij/codeInsight/intention/impl/IntentionListStep.java
+index cfb6d0b..84ecf50 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/intention/impl/IntentionListStep.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/intention/impl/IntentionListStep.java
+@@ -207 +207,2 @@
+-    if (hasSubstep(action)) {
++    //disable sub menu selection on enter (when no quick fix available)
++    if (!finalChoice && hasSubstep(action)) {
+

@@ -1,0 +1,32 @@
+diff --git a/javasources/JavaClasses/src/ro/uaic/info/fmse/k/Constant.java b/javasources/JavaClasses/src/ro/uaic/info/fmse/k/Constant.java
+index 3128816..6cf5e8f 100644
+--- a/javasources/JavaClasses/src/ro/uaic/info/fmse/k/Constant.java
++++ b/javasources/JavaClasses/src/ro/uaic/info/fmse/k/Constant.java
+@@ -39 +39 @@
+-		return StringUtil.unescape(value);
++		return value;
+diff --git a/javasources/K3Disamb/trans/k3disamb.str b/javasources/K3Disamb/trans/k3disamb.str
+index 6b81873..ba8cf1a 100644
+--- a/javasources/K3Disamb/trans/k3disamb.str
++++ b/javasources/K3Disamb/trans/k3disamb.str
+@@ -25 +25 @@
+-      ast'     := <analyze-top>;
++      ast'     := <id>;
+@@ -44 +44 @@
+-      result   := <analyze-top> (selected, path, project-path)
++      result   := <id> (selected, path, project-path)
+@@ -50 +50 @@
+-      language  := <index-origin-language> ast;
++      language  := <id> ast;
+@@ -65 +65 @@
+-      ast'              := <analyze-top> (ast, path, project-path);
++      ast'              := <id> (ast, path, project-path);
+diff --git a/javasources/K3Syntax/trans/xmlify.str b/javasources/K3Syntax/trans/xmlify.str
+index f4ab477..5a05fcb 100644
+--- a/javasources/K3Syntax/trans/xmlify.str
++++ b/javasources/K3Syntax/trans/xmlify.str
+@@ -94 +94,2 @@
+-	xmlStringEscape           = string-replace(|"&", "&amp;") ; string-replace(|">", "&gt;") ; string-replace(|"<", "&lt;") ; string-replace(|"\\", "\\\\") ; string-replace(|"\"", "&quot;")
++	xmlStringEscape         = string-replace(|"&", "&amp;") ; string-replace(|">", "&gt;") ; string-replace(|"<", "&lt;") ; string-replace(|"\"", "&quot;")
++	//xmlStringEscape           = string-replace(|"&", "&amp;") ; string-replace(|">", "&gt;") ; string-replace(|"<", "&lt;") ; string-replace(|"\\", "\\\\") ; string-replace(|"\"", "&quot;")
+

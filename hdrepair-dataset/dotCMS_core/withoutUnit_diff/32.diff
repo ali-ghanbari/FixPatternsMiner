@@ -1,0 +1,8 @@
+diff --git a/src/com/dotcms/rest/IntegrityUtil.java b/src/com/dotcms/rest/IntegrityUtil.java
+index a32a9b9..7eed6b3 100644
+--- a/src/com/dotcms/rest/IntegrityUtil.java
++++ b/src/com/dotcms/rest/IntegrityUtil.java
+@@ -870,0 +871,2 @@
++                    } else if(DbConnectionFactory.isPostgres()) {
++                        dc.executeStatement("insert into folder values ('TEMP_INODE', 'DUMMY_NAME', 'DUMMY_TITLE', "+DbConnectionFactory.getDBFalse()+", '0', '', 'TEMP_IDENTIFIER', '"+ fileAssetSt.getInode()+ "', '1900-01-01 00:00:00.00')");
+

@@ -1,0 +1,33 @@
+diff --git a/src/etc/testcases/taskdefs/copy.xml b/src/etc/testcases/taskdefs/copy.xml
+index 24adfd6..8178519 100644
+--- a/src/etc/testcases/taskdefs/copy.xml
++++ b/src/etc/testcases/taskdefs/copy.xml
+@@ -40,0 +41,6 @@
++  <target name="test_single_file_fileset">
++    <copy tofile="copytest_single_file_fileset.tmp">
++      <fileset dir="." includes="copy.xml"/>
++    </copy>
++  </target>
++  
+@@ -46,0 +53 @@
++    <delete file="copytest_single_file_fileset.tmp"/>
+diff --git a/src/main/org/apache/tools/ant/taskdefs/Copy.java b/src/main/org/apache/tools/ant/taskdefs/Copy.java
+index 3ac8b92..fa574f0 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/Copy.java
++++ b/src/main/org/apache/tools/ant/taskdefs/Copy.java
+@@ -329 +329 @@
+-                        file = new File(srcFiles[0]);
++                        file = new File(ds.getBasedir(), srcFiles[0]);
+diff --git a/src/testcases/org/apache/tools/ant/taskdefs/CopyTest.java b/src/testcases/org/apache/tools/ant/taskdefs/CopyTest.java
+index 246ce90..34383c7 100644
+--- a/src/testcases/org/apache/tools/ant/taskdefs/CopyTest.java
++++ b/src/testcases/org/apache/tools/ant/taskdefs/CopyTest.java
+@@ -124,0 +125,7 @@
++    
++    public void testSingleFileFileset() {
++        executeTarget("test_single_file_fileset");
++        File file  = new File(getProjectDir(), 
++                                        "copytest_single_file_fileset.tmp");
++        assertTrue(file.exists());
++    }
+

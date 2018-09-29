@@ -1,0 +1,25 @@
+diff --git a/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.html b/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.html
+index a615c26..0d0702a 100644
+--- a/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.html
++++ b/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.html
+@@ -11 +11 @@
+-				<legend>Upload template project</legend>
++				<h3>Upload template project</h3>
+@@ -14 +14,2 @@
+-  					<span class="btn btn-file"><span class="fileupload-new">Select file</span>
++					<p><span class="fileupload-preview"></span></p>
++					<span class="btn btn-file"><span class="fileupload-new">Select file</span>
+@@ -18,2 +19 @@
+-  					<span class="fileupload-preview"></span>
+-  					<a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
++  					<button type="submit" class="btn btn-primary">Upload</button>
+@@ -21 +20,0 @@
+-				<button type="submit" class="btn btn-primary">Upload</button>
+diff --git a/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.java b/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.java
+index 75a376a..0188e85 100644
+--- a/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.java
++++ b/server/plugins/eu.esdihumboldt.hale.server.templates.war/src/eu/esdihumboldt/hale/server/templates/war/components/UploadForm.java
+@@ -92 +92 @@
+-					if (!uploads.isEmpty()) {
++					if (uploads != null && !uploads.isEmpty()) {
+

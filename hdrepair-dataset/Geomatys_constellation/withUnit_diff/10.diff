@@ -1,0 +1,205 @@
+diff --git a/modules/library/base/src/main/java/org/constellation/util/StringUtilities.java b/modules/library/base/src/main/java/org/constellation/util/StringUtilities.java
+index cf5c4fc..6cf67b3 100644
+--- a/modules/library/base/src/main/java/org/constellation/util/StringUtilities.java
++++ b/modules/library/base/src/main/java/org/constellation/util/StringUtilities.java
+@@ -80,0 +81,6 @@
++    /**
++     * Parse a boolean from a string value.
++     * 
++     * @param strTransparent
++     * @return
++     */
+diff --git a/modules/library/base/src/test/java/org/constellation/util/UtilTest.java b/modules/library/base/src/test/java/org/constellation/util/UtilTest.java
+index 9f7142b..181adad 100644
+--- a/modules/library/base/src/test/java/org/constellation/util/UtilTest.java
++++ b/modules/library/base/src/test/java/org/constellation/util/UtilTest.java
+@@ -23,0 +24 @@
++import org.geotoolkit.geometry.GeneralEnvelope;
+@@ -24,0 +26 @@
++import org.opengis.geometry.Envelope;
+@@ -227 +229 @@
+-    public void sortStringList() throws Exception {
++    public void sortStringListTest() throws Exception {
+@@ -251,0 +254,105 @@
++     /**
++     * @throws java.lang.Exception
++     */
++    @Test
++    public void toBboxValueListTest() throws Exception {
++        double[] min = {20.0, 35.0};
++        double[] max = {110.0, 80.0};
++        Envelope envelope = new GeneralEnvelope(min, max);
++
++        String result    = StringUtilities.toBboxValue(envelope);
++        String expResult = "20.0,35.0,110.0,80.0";
++        assertEquals(expResult, result);
++    }
++
++    /**
++     * @throws java.lang.Exception
++     */
++    @Test
++    public void toBooleanTest() throws Exception {
++
++        assertFalse(StringUtilities.toBoolean(null));
++        assertFalse(StringUtilities.toBoolean("whatever"));
++        assertFalse(StringUtilities.toBoolean("FALSE"));
++        assertFalse(StringUtilities.toBoolean("false"));
++
++        assertTrue(StringUtilities.toBoolean("true"));
++        assertTrue(StringUtilities.toBoolean("TRUE"));
++    }
++
++    /**
++     * @throws java.lang.Exception
++     */
++    @Test
++    public void toCommaSeparatedValuesTest() throws Exception {
++        List<String> l = new ArrayList<String>();
++        l.add("par");
++        l.add("le");
++        l.add("pouvoir");
++        l.add("de");
++        l.add("la");
++        l.add("lune");
++
++        String result    = StringUtilities.toCommaSeparatedValues(l);
++        String expResult = "par,le,pouvoir,de,la,lune";
++        assertEquals(expResult, result);
++    }
++
++    /**
++     * @throws java.lang.Exception
++     */
++    @Test
++    public void toStringListTest() throws Exception {
++        List<String> result    = StringUtilities.toStringList("par,le,pouvoir,de,la,lune");
++        List<String> expResult = new ArrayList<String>();
++        expResult.add("par");
++        expResult.add("le");
++        expResult.add("pouvoir");
++        expResult.add("de");
++        expResult.add("la");
++        expResult.add("lune");
++        assertEquals(expResult, result);
++    }
++
++    /**
++     * @throws java.lang.Exception
++     */
++    @Test
++    public void ContainsMatchTest() throws Exception {
++        List<String> list = new ArrayList<String>();
++        list.add("par");
++        list.add("le tres grand ");
++        list.add("pouvoir magique ");
++        list.add("de");
++        list.add("la");
++        list.add("super lune");
++
++        assertTrue(StringUtilities.containsMatch(list, "magique"));
++        assertTrue(StringUtilities.containsMatch(list, "super"));
++        assertTrue(StringUtilities.containsMatch(list, "tres grand"));
++        assertFalse(StringUtilities.containsMatch(list, "boulette"));
++        assertFalse(StringUtilities.containsMatch(list, "petit"));
++    }
++    
++    /**
++     * @throws java.lang.Exception
++     */
++    @Test
++    public void ContainsIgnoreCaseTest() throws Exception {
++        List<String> list = new ArrayList<String>();
++        list.add("par");
++        list.add("le tres grand ");
++        list.add("pouvoir magique ");
++        list.add("de");
++        list.add("la");
++        list.add("super lune");
++
++        assertTrue(StringUtilities.containsIgnoreCase(list, "PAR"));
++        assertTrue(StringUtilities.containsIgnoreCase(list, "Le TrEs GrAnD "));
++        assertTrue(StringUtilities.containsIgnoreCase(list, "super lune"));
++        assertFalse(StringUtilities.containsIgnoreCase(list, "pouvoir"));
++        assertFalse(StringUtilities.containsIgnoreCase(list, "petit"));
++        assertFalse(StringUtilities.containsIgnoreCase(list, "GRAND"));
++    }
++
++
+diff --git a/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.261A.xml b/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.261A.xml
+index 0ea6639..36e6935 100644
+--- a/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.261A.xml
++++ b/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.261A.xml
+@@ -17,0 +18,5 @@
++                                         <identifier name="URN">
++                                            <Term definition="urn:ogc:def:identifierType:OGC:uniqueID">
++                                                      <value>urn:ogc:object:sensor:SunSpot:0014.4F01.0000.261A</value>
++                                            </Term>
++                                        </identifier>
+diff --git a/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.2626.xml b/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.2626.xml
+index aa15214..69fca8c 100644
+--- a/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.2626.xml
++++ b/modules/testing/cite/src/main/resources/sos_configuration/sensor/urn-ogc-object-sensor-SunSpot-0014.4F01.0000.2626.xml
+@@ -17,0 +18,5 @@
++                                         <identifier name="URN">
++                                            <Term definition="urn:ogc:def:identifierType:OGC:uniqueID">
++                                                      <value>urn:ogc:object:sensor:SunSpot:0014.4F01.0000.2626</value>
++                                            </Term>
++                                        </identifier>
+diff --git a/modules/web-services/csw/src/test/java/org/constellation/metadata/FileSystemCSWworkerTest.java b/modules/web-services/csw/src/test/java/org/constellation/metadata/FileSystemCSWworkerTest.java
+index 8248d00..abdacc6 100644
+--- a/modules/web-services/csw/src/test/java/org/constellation/metadata/FileSystemCSWworkerTest.java
++++ b/modules/web-services/csw/src/test/java/org/constellation/metadata/FileSystemCSWworkerTest.java
+@@ -166,0 +167,11 @@
++     * Tests the describeRecord method
++     *
++     * @throws java.lang.Exception
++     */
++    @Test
++    @Override
++    public void DescribeRecordTest() throws Exception {
++        super.DescribeRecordTest();
++    }
++
++    /**
+diff --git a/modules/web-services/csw/src/test/java/org/constellation/metadata/MDwebCSWworkerTest.java b/modules/web-services/csw/src/test/java/org/constellation/metadata/MDwebCSWworkerTest.java
+index 4f823c8..413f3a3 100644
+--- a/modules/web-services/csw/src/test/java/org/constellation/metadata/MDwebCSWworkerTest.java
++++ b/modules/web-services/csw/src/test/java/org/constellation/metadata/MDwebCSWworkerTest.java
+@@ -187,0 +188,11 @@
++     * Tests the describeRecord method
++     *
++     * @throws java.lang.Exception
++     */
++    @Test
++    @Override
++    public void DescribeRecordTest() throws Exception {
++        super.DescribeRecordTest();
++    }
++
++    /**
+diff --git a/modules/web-services/sos/src/main/resources/org/constellation/sos/ws/rs/SOSCapabilities1.0.0.xml b/modules/web-services/sos/src/main/resources/org/constellation/sos/ws/rs/SOSCapabilities1.0.0.xml
+index d65748e..cf30656 100644
+--- a/modules/web-services/sos/src/main/resources/org/constellation/sos/ws/rs/SOSCapabilities1.0.0.xml
++++ b/modules/web-services/sos/src/main/resources/org/constellation/sos/ws/rs/SOSCapabilities1.0.0.xml
+@@ -4,2 +4,2 @@
+-		<ows:Title xml:lang="fr">BRGM SOS</ows:Title>
+-		<ows:Abstract xml:lang="fr">BRGM SOS Server</ows:Abstract>
++		<ows:Title xml:lang="fr">Constellation SOS</ows:Title>
++		<ows:Abstract xml:lang="fr">Constellation SOS Server</ows:Abstract>
+@@ -9 +8,0 @@
+-			<ows:Keyword>BRGM</ows:Keyword>
+@@ -17 +16 @@
+-		<ows:ProviderName>BRGM</ows:ProviderName>
++		<ows:ProviderName>Geomatys</ows:ProviderName>
+@@ -28,2 +27,2 @@
+-					<ows:DeliveryPoint>BRGM</ows:DeliveryPoint>
+-					<ows:City>Orleans</ows:City>
++					<ows:DeliveryPoint>Geomatys</ows:DeliveryPoint>
++					<ows:City>Arles</ows:City>
+@@ -160 +159,3 @@
+-				<ows:AnyValue/>
++				<ows:AllowedValues>
++					<ows:Value>om:Observation</ows:Value>
++				</ows:AllowedValues>
+

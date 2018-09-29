@@ -1,0 +1,99 @@
+diff --git a/examples/common/build.xml b/examples/common/build.xml
+index f8457aa..05a02c4 100644
+--- a/examples/common/build.xml
++++ b/examples/common/build.xml
+@@ -67 +67 @@
+-      </fileset>      
++      </fileset>
+@@ -129,0 +130 @@
++         <jvmarg value="-Djbm.example.logserveroutput=${jbm.example.logserveroutput}"/>
+@@ -131 +132 @@
+-     	 <sysproperty key="java.library.path" value="${java.library.path}${path.separator}${aio.library.path}"/>
++         <sysproperty key="java.library.path" value="${java.library.path}${path.separator}${aio.library.path}"/>
+@@ -136,5 +137,5 @@
+-          <condition>
+-              <not>
+-                <equals arg1="${example-result}" arg2="0" />
+-              </not>
+-          </condition>
++         <condition>
++            <not>
++               <equals arg1="${example-result}" arg2="0"/>
++            </not>
++         </condition>
+@@ -151,16 +152,16 @@
+-      <delete dir="./build" quiet="true" />
+-      <delete dir="./logs" quiet="true" />
+-      <delete dir="./server0/logs" quiet="true" />
+-      <delete dir="./server0/data" quiet="true" />
+-      <delete dir="./server1/logs" quiet="true" />
+-      <delete dir="./server1/data" quiet="true" />
+-      <delete dir="./server2/logs" quiet="true" />
+-      <delete dir="./server2/data" quiet="true" />      
+-      <delete dir="./server3/logs" quiet="true" />
+-      <delete dir="./server3/data" quiet="true" />
+-      <delete dir="./server4/logs" quiet="true" />
+-      <delete dir="./server4/data" quiet="true" />
+-      <delete dir="./server5/logs" quiet="true" />
+-      <delete dir="./server5/data" quiet="true" />
+-      <delete dir="./ObjectStore" quiet="true" />
+-      <delete dir="./data" quiet="true" />
++      <delete dir="./build" quiet="true"/>
++      <delete dir="./logs" quiet="true"/>
++      <delete dir="./server0/logs" quiet="true"/>
++      <delete dir="./server0/data" quiet="true"/>
++      <delete dir="./server1/logs" quiet="true"/>
++      <delete dir="./server1/data" quiet="true"/>
++      <delete dir="./server2/logs" quiet="true"/>
++      <delete dir="./server2/data" quiet="true"/>
++      <delete dir="./server3/logs" quiet="true"/>
++      <delete dir="./server3/data" quiet="true"/>
++      <delete dir="./server4/logs" quiet="true"/>
++      <delete dir="./server4/data" quiet="true"/>
++      <delete dir="./server5/logs" quiet="true"/>
++      <delete dir="./server5/data" quiet="true"/>
++      <delete dir="./ObjectStore" quiet="true"/>
++      <delete dir="./data" quiet="true"/>
+@@ -169,3 +170,3 @@
+-	     <fileset dir=".">
+-	        <include name="*.dat"/>
+-	     </fileset>
++         <fileset dir=".">
++            <include name="*.dat"/>
++         </fileset>
+@@ -174 +175 @@
+-    
++
+@@ -177 +178,13 @@
+-         <fileset dir=".." includes="jms/*/build.xml" excludes="common/build.xml"/>
++         <fileset dir="..">
++            <include name="core/*/build.xml"/>
++            <exclude name="common/build.xml"/>
++            <exclude name="core/perf/build.xml"/>
++         </fileset>
++      </subant>
++      <subant target="run" failonerror="true">
++         <fileset dir="..">
++            <include name="jms/*/build.xml"/>
++            <exclude name="common/build.xml"/>
++            <exclude name="jms/queue-message-redistribution/build.xml"/>
++            <exclude name="jms/management-notifications/build.xml"/>
++         </fileset>
+diff --git a/examples/common/src/org/jboss/common/example/SpawnedVMSupport.java b/examples/common/src/org/jboss/common/example/SpawnedVMSupport.java
+index 3b60c59..3fd1527 100644
+--- a/examples/common/src/org/jboss/common/example/SpawnedVMSupport.java
++++ b/examples/common/src/org/jboss/common/example/SpawnedVMSupport.java
+@@ -128 +128 @@
+-      if (!latch.await(30, TimeUnit.SECONDS))
++      if (!latch.await(60, TimeUnit.SECONDS))
+diff --git a/examples/jms/static-selector-jms/build.xml b/examples/jms/static-selector-jms/build.xml
+index 9aef740..6829ace 100644
+--- a/examples/jms/static-selector-jms/build.xml
++++ b/examples/jms/static-selector-jms/build.xml
+@@ -37 +37 @@
+-         <param name="example.classname" value="org.jboss.jms.example.StaticSelectorExample"/>
++         <param name="example.classname" value="org.jboss.jms.example.StaticSelectorJMSExample"/>
+@@ -43 +43 @@
+-         <param name="example.classname" value="org.jboss.jms.example.StaticSelectorExample"/>
++         <param name="example.classname" value="org.jboss.jms.example.StaticSelectorJMSExample"/>
+

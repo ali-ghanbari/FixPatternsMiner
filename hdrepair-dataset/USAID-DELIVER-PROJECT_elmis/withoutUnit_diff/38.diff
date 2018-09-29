@@ -1,0 +1,462 @@
+diff --git a/modules/openlmis-web/src/main/resources/messages_en.properties b/modules/openlmis-web/src/main/resources/messages_en.properties
+index 3b8f0f1..20afe21 100644
+--- a/modules/openlmis-web/src/main/resources/messages_en.properties
++++ b/modules/openlmis-web/src/main/resources/messages_en.properties
+@@ -1 +1 @@
+-
++#
+@@ -1289,0 +1290,3 @@
++label.reporting.right.view = View -
++create.role.reporting.rights = Reporting rights
++create.user.reportingRoles = Reporting Roles
+diff --git a/modules/openlmis-web/src/main/resources/messages_pt.properties b/modules/openlmis-web/src/main/resources/messages_pt.properties
+index f5e0399..d63d077 100644
+--- a/modules/openlmis-web/src/main/resources/messages_pt.properties
++++ b/modules/openlmis-web/src/main/resources/messages_pt.properties
+@@ -1 +0,0 @@
+-
+@@ -1267,0 +1267,3 @@
++label.reporting.right.view = Vi∑ -
++create.role.reporting.rights = Repørtin© rights
++create.user.reportingRoles = Repørtin© Rø¬es
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/product/partials/search.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/product/partials/search.html
+index b6740ce..45ffa0b 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/product/partials/search.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/product/partials/search.html
+@@ -12 +12 @@
+-  <h2><span id="searchproductsHeaderLabel" openlmis-message="label.search.product"></span>
++  <h2><span id="searchProductsHeaderLabel" openlmis-message="label.search.product"></span>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html
+index b4121d5..bb60b9e 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html
+@@ -14,6 +14,6 @@
+-  <div ng-hide="role.id"><h2 id="addNewRoleHeader" openlmis-message="create.role.addNew"></h2>
+-  </div>
+-  <div ng-show="role.id"><h2 id="editRoleHeader" openlmis-message="edit.role.edit"></h2></div>
+-  <form ng-submit="saveRole()" id="create-role" name="roleForm"
+-        novalidate>
+-    <div class="app-form roles-form" tab-scroll>
++<div ng-hide="role.id"><h2 id="addNewRoleHeader" openlmis-message="create.role.addNew"></h2>
++</div>
++<div ng-show="role.id"><h2 id="editRoleHeader" openlmis-message="edit.role.edit"></h2></div>
++<form ng-submit="saveRole()" id="create-role" name="roleForm"
++      novalidate>
++<div class="app-form roles-form" tab-scroll>
+@@ -21,5 +21,5 @@
+-      <div class="row-fluid clearfix">
+-        <div class="span5">
+-          <label id="roleNameLabel" for="name">
+-          <span openlmis-message="create.role.roleName"></span>
+-            <span class="label-required"> *</span></label>
++<div class="row-fluid clearfix">
++  <div class="span5">
++    <label id="roleNameLabel" for="name">
++      <span openlmis-message="create.role.roleName"></span>
++      <span class="label-required"> *</span></label>
+@@ -27,4 +27,4 @@
+-          <div>
+-            <input ng-model="role.name" name="name" id="name"
+-                   type="text" maxlength="50"
+-                   ng-required="true"/>
++    <div>
++      <input ng-model="role.name" name="name" id="name"
++             type="text" maxlength="50"
++             ng-required="true"/>
+@@ -35,3 +35,3 @@
+-          </div>
+-        </div>
+-      </div>
++    </div>
++  </div>
++</div>
+@@ -39,4 +39,4 @@
+-      <div class="row-fluid clearfix">
+-        <div class="span5">
+-          <label id="roleDescriptionLabel" for="description"
+-                 openlmis-message="create.role.description"></label>
++<div class="row-fluid clearfix">
++  <div class="span5">
++    <label id="roleDescriptionLabel" for="description"
++           openlmis-message="create.role.description"></label>
+@@ -44,7 +44,7 @@
+-          <div>
+-            <input ng-model="role.description" name="description"
+-                   id="description" type="text"
+-                   maxlength="250"/>
+-          </div>
+-        </div>
+-      </div>
++    <div>
++      <input ng-model="role.description" name="description"
++             id="description" type="text"
++             maxlength="250"/>
++    </div>
++  </div>
++</div>
+@@ -52,5 +52,5 @@
+-      <div class="form-group clearfix">
+-        <h3 id="assignRightsLabel">
+-        <span openlmis-message="create.role.assignRights"></span>
+-          <span class="label-required"> *</span>
+-        </h3>
++<div class="form-group clearfix">
++  <h3 id="assignRightsLabel">
++    <span openlmis-message="create.role.assignRights"></span>
++    <span class="label-required"> *</span>
++  </h3>
+@@ -58,2 +58,2 @@
+-        <label id="roleMixedWarning" class="role-mixed-warning"><span class="roles-note"
+-                                                openlmis-message="create.role.mixed.warning"></span></label>
++  <label id="roleMixedWarning" class="role-mixed-warning"><span class="roles-note"
++                                                                openlmis-message="create.role.mixed.warning"></span></label>
+@@ -61,22 +61,22 @@
+-        <div class="row-fluid">
+-          <div class="span12">
+-            <table id="rightsTable"
+-                   class="rights-table table table-bordered">
+-              <thead>
+-              <tr>
+-                <th ng-click='showRoleTypeModal("ADMIN")'>
+-                  <div class="form-inline"
+-                       ng-class="{'is-selected': currentRightType == 'ADMIN'}">
+-                    <label id="adminRoleType"><h4
+-                      openlmis-message="create.role.adminRights"></h4>
+-                    </label>
+-                  </div>
+-                </th>
+-                <th ng-click='showRoleTypeModal("REPORTING")'>
+-                  <div class="form-inline"
+-                       ng-class="{'is-selected': currentRightType == 'REPORTING'}">
+-                    <label id="reportingRoleType"><h4
+-                      openlmis-message="create.role.reporting.rights"></h4>
+-                    </label>
+-                  </div>
+-                </th>
++  <div class="row-fluid">
++    <div class="span12">
++      <table id="rightsTable"
++             class="rights-table table table-bordered">
++        <thead>
++        <tr>
++          <th ng-click='showRoleTypeModal("ADMIN")'>
++            <div class="form-inline"
++                 ng-class="{'is-selected': currentRightType == 'ADMIN'}">
++              <label id="adminRoleType"><h4
++                  openlmis-message="create.role.adminRights"></h4>
++              </label>
++            </div>
++          </th>
++          <th ng-click='showRoleTypeModal("REPORTING")'>
++            <div class="form-inline"
++                 ng-class="{'is-selected': currentRightType == 'REPORTING'}">
++              <label id="reportingRoleType"><h4
++                  openlmis-message="create.role.reporting.rights"></h4>
++              </label>
++            </div>
++          </th>
+@@ -84,8 +84,8 @@
+-                <th ng-click='showRoleTypeModal("ALLOCATION")'>
+-                  <div class="form-inline"
+-                       ng-class="{'is-selected': currentRightType == 'ALLOCATION'}">
+-                    <label id="allocationRoleType"><h4
+-                      openlmis-message="label.allocation.program.rights"></h4>
+-                    </label>
+-                  </div>
+-                </th>
++          <th ng-click='showRoleTypeModal("ALLOCATION")'>
++            <div class="form-inline"
++                 ng-class="{'is-selected': currentRightType == 'ALLOCATION'}">
++              <label id="allocationRoleType"><h4
++                  openlmis-message="label.allocation.program.rights"></h4>
++              </label>
++            </div>
++          </th>
+@@ -93,8 +93,8 @@
+-                <th ng-click='showRoleTypeModal("REQUISITION")'>
+-                  <div class="form-inline"
+-                       ng-class="{'is-selected': currentRightType == 'REQUISITION'}">
+-                    <label id="requisitionRoleType"><h4
+-                      openlmis-message="label.request.program.rights"></h4>
+-                    </label>
+-                  </div>
+-                </th>
++          <th ng-click='showRoleTypeModal("REQUISITION")'>
++            <div class="form-inline"
++                 ng-class="{'is-selected': currentRightType == 'REQUISITION'}">
++              <label id="requisitionRoleType"><h4
++                  openlmis-message="label.request.program.rights"></h4>
++              </label>
++            </div>
++          </th>
+@@ -102,17 +102,17 @@
+-                <th ng-click='showRoleTypeModal("FULFILLMENT")'>
+-                  <div class="form-inline"
+-                       ng-class="{'is-selected': currentRightType == 'FULFILLMENT'}">
+-                    <label id="fulfillmentRoleType"><h4
+-                      openlmis-message="label.fulfillment.based.rights"></h4>
+-                    </label>
+-                  </div>
+-                </th>
+-              </tr>
+-              </thead>
+-              <tbody>
+-              <tr>
+-                <td ng-class="{'is-disabled': currentRightType != 'ADMIN'}">
+-                  <div>
+-                    <div id="rights-{{right.name}}"
+-                         class="checkbox-list clearfix"
+-                         ng-repeat="right in adminRights" tab-scroll>
++          <th ng-click='showRoleTypeModal("FULFILLMENT")'>
++            <div class="form-inline"
++                 ng-class="{'is-selected': currentRightType == 'FULFILLMENT'}">
++              <label id="fulfillmentRoleType"><h4
++                  openlmis-message="label.fulfillment.based.rights"></h4>
++              </label>
++            </div>
++          </th>
++        </tr>
++        </thead>
++        <tbody>
++        <tr>
++          <td ng-class="{'is-disabled': currentRightType != 'ADMIN'}">
++            <div>
++              <div id="rights-{{right.name}}"
++                   class="checkbox-list clearfix"
++                   ng-repeat="right in adminRights" tab-scroll>
+@@ -120,9 +120,9 @@
+-                      <input id="{{right.name}}" type="checkbox"
+-                             ng-click="updateRights(right)"
+-                             ng-model="right.selected"
+-                             ng-checked="false"
+-                             ng-disabled="areRelatedFieldsSelected(right) || currentRightType != 'ADMIN'"/>
+-                      <label for="{{right.name}}"><span
+-                        openlmis-message="right.displayNameKey"></span></label>
+-                    </div>
+-                  </div>
++                <input id="{{right.name}}" type="checkbox"
++                       ng-click="updateRights(right)"
++                       ng-model="right.selected"
++                       ng-checked="false"
++                       ng-disabled="areRelatedFieldsSelected(right) || currentRightType != 'ADMIN'"/>
++                <label for="{{right.name}}"><span
++                    openlmis-message="right.displayNameKey"></span></label>
++              </div>
++            </div>
+@@ -133 +133 @@
+-                </td>
++          </td>
+@@ -135,5 +135,5 @@
+-                <td ng-class="{'is-disabled': currentRightType != 'REPORTING'}">
+-                  <div>
+-                    <div id="reportingRights-{{reportingRight.name}}"
+-                         class="checkbox-list clearfix"
+-                         ng-repeat="reportingRight in reportingRights" tab-scroll>
++          <td ng-class="{'is-disabled': currentRightType != 'REPORTING'}">
++            <div>
++              <div id="reportingRights-{{reportingRight.name}}"
++                   class="checkbox-list clearfix"
++                   ng-repeat="reportingRight in reportingRights" tab-scroll>
+@@ -141,6 +141,7 @@
+-                      <input id="{{reportingRight.name}}" type="checkbox"
+-                             ng-click="updateRights(reportingRight)"
+-                             ng-model="reportingRight.selected"
+-                             ng-checked="false">
+-                      <label for="{{reportingRight.name}}">
+-                        <span ng-if="reportingRight.name === 'MANAGE_REPORT'" openlmis-message="reportingRight.displayNameKey"></span>
++                <input id="{{reportingRight.name}}" type="checkbox"
++                       ng-click="updateRights(reportingRight)"
++                       ng-model="reportingRight.selected"
++                       ng-checked="false">
++                <label for="{{reportingRight.name}}">
++                  <span ng-if="reportingRight.name === 'MANAGE_REPORT'"
++                        openlmis-message="reportingRight.displayNameKey"></span>
+@@ -151,3 +152,3 @@
+-                      </label>
+-                    </div>
+-                  </div>
++                </label>
++              </div>
++            </div>
+@@ -158 +159 @@
+-                </td>
++          </td>
+@@ -160,21 +161,15 @@
+-                <td ng-class="{'is-disabled': currentRightType != 'ALLOCATION'}">
+-                  <div>
+-                    <div id="allocationRights-{{allocationRight.name}}"
+-                         class="checkbox-list clearfix"
+-                         ng-repeat="allocationRight in allocationRights"
+-                         tab-scroll>
+-                      <input id="{{allocationRight.name}}" type="checkbox"
+-                             ng-click="updateRights(allocationRight)"
+-                             ng-model="allocationRight.selected"
+-                             ng-checked="false"
+-                             ng-disabled="areRelatedFieldsSelected(allocationRight) || currentRightType != 'ALLOCATION'"/>
+-                      <!--<input id="{{allocationRight.name}}"-->
+-                             <!--type="checkbox"-->
+-                             <!--ng-checked="contains(allocationRight.name)"-->
+-                             <!--ng-change="updateRights(checked,allocationRight)"-->
+-                             <!--ng-model="checked"-->
+-                             <!--ng-disabled="areRelatedFieldsSelected(allocationRight) || currentRightType != 'ALLOCATION'"/>-->
+-                      <label for="{{allocationRight.name}}"><span
+-                        openlmis-message="allocationRight.displayNameKey"></span></label>
+-                    </div>
+-                  </div>
++          <td ng-class="{'is-disabled': currentRightType != 'ALLOCATION'}">
++            <div>
++              <div id="allocationRights-{{allocationRight.name}}"
++                   class="checkbox-list clearfix"
++                   ng-repeat="allocationRight in allocationRights"
++                   tab-scroll>
++                <input id="{{allocationRight.name}}" type="checkbox"
++                       ng-click="updateRights(allocationRight)"
++                       ng-model="allocationRight.selected"
++                       ng-checked="false"
++                       ng-disabled="areRelatedFieldsSelected(allocationRight) || currentRightType != 'ALLOCATION'"/>
++                <label for="{{allocationRight.name}}"><span
++                    openlmis-message="allocationRight.displayNameKey"></span></label>
++              </div>
++            </div>
+@@ -185 +180 @@
+-                </td>
++          </td>
+@@ -187,21 +182,21 @@
+-                <td ng-class="{'is-disabled': currentRightType != 'REQUISITION'}">
+-                  <div>
+-                    <div id="requisitionRights-{{requisitionRight.name}}"
+-                         class="checkbox-list clearfix"
+-                         ng-repeat="requisitionRight in requisitionRights"
+-                         tab-scroll>
+-                      <input id="{{requisitionRight.name}}" type="checkbox"
+-                             ng-click="updateRights(requisitionRight)"
+-                             ng-model="requisitionRight.selected"
+-                             ng-checked="false"
+-                             ng-disabled="areRelatedFieldsSelected(requisitionRight) || currentRightType != 'REQUISITION'"/>
+-                      <!--<input id="{{requisitionRight.name}}"-->
+-                             <!--type="checkbox"-->
+-                             <!--ng-checked="contains(requisitionRight.name)"-->
+-                             <!--ng-change="updateRights(checked,requisitionRight)"-->
+-                             <!--ng-model="checked"-->
+-                             <!--ng-disabled="areRelatedFieldsSelected(requisitionRight) || currentRightType != 'REQUISITION'"/>-->
+-                      <label for="{{requisitionRight.name}}"><span
+-                        openlmis-message="requisitionRight.displayNameKey"></span></label>
+-                    </div>
+-                  </div>
++          <td ng-class="{'is-disabled': currentRightType != 'REQUISITION'}">
++            <div>
++              <div id="requisitionRights-{{requisitionRight.name}}"
++                   class="checkbox-list clearfix"
++                   ng-repeat="requisitionRight in requisitionRights"
++                   tab-scroll>
++                <input id="{{requisitionRight.name}}" type="checkbox"
++                       ng-click="updateRights(requisitionRight)"
++                       ng-model="requisitionRight.selected"
++                       ng-checked="false"
++                       ng-disabled="areRelatedFieldsSelected(requisitionRight) || currentRightType != 'REQUISITION'"/>
++                <!--<input id="{{requisitionRight.name}}"-->
++                <!--type="checkbox"-->
++                <!--ng-checked="contains(requisitionRight.name)"-->
++                <!--ng-change="updateRights(checked,requisitionRight)"-->
++                <!--ng-model="checked"-->
++                <!--ng-disabled="areRelatedFieldsSelected(requisitionRight) || currentRightType != 'REQUISITION'"/>-->
++                <label for="{{requisitionRight.name}}"><span
++                    openlmis-message="requisitionRight.displayNameKey"></span></label>
++              </div>
++            </div>
+@@ -212 +207 @@
+-                </td>
++          </td>
+@@ -214,20 +209,20 @@
+-                <td ng-class="{'is-disabled': currentRightType != 'FULFILLMENT'}">
+-                  <div>
+-                    <div id="fulfillmentRights-{{fulfillmentRight.name}}"
+-                         class="checkbox-list clearfix"
+-                         ng-repeat="fulfillmentRight in fulfillmentRights"
+-                         tab-scroll>
+-                      <input id="{{fulfillmentRight.name}}" type="checkbox"
+-                             ng-click="updateRights(fulfillmentRight)"
+-                             ng-model="fulfillmentRight.selected"
+-                             ng-checked="false"
+-                             ng-disabled="areRelatedFieldsSelected(fulfillmentRight) || currentRightType != 'FULFILLMENT'"/>
+-                      <!--<input id="{{fulfillmentRight.name}}" type="checkbox"-->
+-                             <!--ng-checked="contains(fulfillmentRight.name)"-->
+-                             <!--ng-change="updateRights(checked,fulfillmentRight)"-->
+-                             <!--ng-model="checked"-->
+-                             <!--ng-disabled="areRelatedFieldsSelected(fulfillmentRight) || currentRightType != 'FULFILLMENT'"/>-->
+-                      <label for="{{fulfillmentRight.name}}"><span
+-                        openlmis-message="fulfillmentRight.displayNameKey"></span></label>
+-                    </div>
+-                  </div>
++          <td ng-class="{'is-disabled': currentRightType != 'FULFILLMENT'}">
++            <div>
++              <div id="fulfillmentRights-{{fulfillmentRight.name}}"
++                   class="checkbox-list clearfix"
++                   ng-repeat="fulfillmentRight in fulfillmentRights"
++                   tab-scroll>
++                <input id="{{fulfillmentRight.name}}" type="checkbox"
++                       ng-click="updateRights(fulfillmentRight)"
++                       ng-model="fulfillmentRight.selected"
++                       ng-checked="false"
++                       ng-disabled="areRelatedFieldsSelected(fulfillmentRight) || currentRightType != 'FULFILLMENT'"/>
++                <!--<input id="{{fulfillmentRight.name}}" type="checkbox"-->
++                <!--ng-checked="contains(fulfillmentRight.name)"-->
++                <!--ng-change="updateRights(checked,fulfillmentRight)"-->
++                <!--ng-model="checked"-->
++                <!--ng-disabled="areRelatedFieldsSelected(fulfillmentRight) || currentRightType != 'FULFILLMENT'"/>-->
++                <label for="{{fulfillmentRight.name}}"><span
++                    openlmis-message="fulfillmentRight.displayNameKey"></span></label>
++              </div>
++            </div>
+@@ -238 +233 @@
+-                </td>
++          </td>
+@@ -240,8 +235,3 @@
+-              </tr>
+-              </tbody>
+-            </table>
+-          </div>
+-        </div>
+-
+-      </div>
+-
++        </tr>
++        </tbody>
++      </table>
+@@ -248,0 +239 @@
++  </div>
+@@ -250,11 +241,15 @@
+-    <div form-toolbar id="action_buttons" class="action-buttons">
+-      <div class="form-cell button-row">
+-        <input id="saveButton" type="submit" class="btn btn-primary save-button"
+-               openlmis-message="button.save"/>
+-        <a id="cancelButton" ng-href="#/list" class="btn btn-cancel submit-button"
+-           openlmis-message="button.cancel"></a>
+-      </div>
+-      <div class="toolbar-error" id="saveFailMessage"
+-           openlmis-message="error" ng-show="error"></div>
+-    </div>
+-  </form>
++</div>
++
++</div>
++
++<div form-toolbar id="action_buttons" class="action-buttons">
++  <div class="form-cell button-row">
++    <input id="saveButton" type="submit" class="btn btn-primary save-button"
++           openlmis-message="button.save"/>
++    <a id="cancelButton" ng-href="#/list" class="btn btn-cancel submit-button"
++       openlmis-message="button.cancel"></a>
++  </div>
++  <div class="toolbar-error" id="saveFailMessage"
++       openlmis-message="error" ng-show="error"></div>
++</div>
++</form>
+diff --git a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ProductPage.java b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ProductPage.java
+index bff21c6..1ceeea3 100644
+--- a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ProductPage.java
++++ b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ProductPage.java
+@@ -27 +27 @@
+-  @FindBy(how = ID, using = "productsHeader")
++  @FindBy(how = ID, using = "searchProductsHeaderLabel")
+

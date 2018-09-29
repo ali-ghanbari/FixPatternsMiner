@@ -1,0 +1,1241 @@
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Limit.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Limit.scala
+index 4aebe7b..ce4048c 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Limit.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Limit.scala
+@@ -29,0 +30,2 @@
++
++
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Order.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Order.scala
+index 45b5dd9..df8a620 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Order.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/ast/Order.scala
+@@ -34,0 +35 @@
++
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/QueryGraph.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/QueryGraph.scala
+index aec3c16..15e9163 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/QueryGraph.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/QueryGraph.scala
+@@ -23 +23 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{PatternRelationship, IdName}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{Visitable, Visitor, PatternRelationship, IdName}
+@@ -43 +43 @@
+-                      tail: Option[QueryGraph] = None) {
++                      tail: Option[QueryGraph] = None) extends Visitable[QueryGraph] {
+@@ -63,0 +64,2 @@
++
++  def accept[R](visitor: Visitor[QueryGraph, R]): R = visitor.visit(this)
+@@ -94,0 +97,3 @@
++  def addPatternRels(rels: Seq[PatternRelationship]) =
++    rels.foldLeft(this)( (qg, rel) => qg.addPatternRel(rel) )
++
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/execution/PipeExecutionPlanBuilder.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/execution/PipeExecutionPlanBuilder.scala
+index 5f230c4..bc969e5 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/execution/PipeExecutionPlanBuilder.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/execution/PipeExecutionPlanBuilder.scala
+@@ -42 +42 @@
+-        case Projection(left, expressions, _) =>
++        case Projection(left, expressions) =>
+@@ -69 +69 @@
+-        case Selection(predicates, left, _) =>
++        case Selection(predicates, left) =>
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/GuessingEstimation.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/GuessingEstimation.scala
+index 664a81e..94aa787 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/GuessingEstimation.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/GuessingEstimation.scala
+@@ -72 +72 @@
+-    case Selection(predicates, left, _) =>
++    case Selection(predicates, left) =>
+@@ -93 +93 @@
+-    case Projection(left, _, _) =>
++    case Projection(left, _) =>
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/AllNodesScan.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/AllNodesScan.scala
+index 9e4ce97..d082c72 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/AllNodesScan.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/AllNodesScan.scala
+@@ -26 +25,0 @@
+-  override def coveredIds = Set(idName)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Apply.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Apply.scala
+index bb98f26..d2cb978 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Apply.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Apply.scala
+@@ -24,0 +25 @@
++}
+@@ -26 +27,3 @@
+-  def solved = outer.solved ++ inner.solved
++object ApplyPlan {
++  def apply(outer: QueryPlan, inner: QueryPlan) =
++    QueryPlan( Apply(outer.plan, inner.plan), outer.solved ++ inner.solved )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/CartesianProduct.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/CartesianProduct.scala
+index 1c536de..1bfc80f 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/CartesianProduct.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/CartesianProduct.scala
+@@ -25,0 +26 @@
++}
+@@ -27 +28,3 @@
+-  val solved = left.solved ++ right.solved
++object CartesianProductPlan {
++  def apply(left: QueryPlan, right: QueryPlan) =
++    QueryPlan( CartesianProduct(left.plan, right.plan), left.solved ++ right.solved )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/DirectedRelationshipByIdSeek.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/DirectedRelationshipByIdSeek.scala
+index c73b033..ece949b 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/DirectedRelationshipByIdSeek.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/DirectedRelationshipByIdSeek.scala
+@@ -33,2 +32,0 @@
+-
+-  override def coveredIds = Set(idName, startNode, endNode)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Expand.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Expand.scala
+index 4c7b4f1..9bdc2f8 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Expand.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Expand.scala
+@@ -34,0 +35 @@
++}
+@@ -36 +37,10 @@
+-  val solved = left.solved.addPatternRel(pattern)
++object ExpandPlan {
++  def apply(left: QueryPlan,
++            from: IdName,
++            dir: Direction,
++            types: Seq[RelTypeName],
++            to: IdName,
++            relName: IdName,
++            length: PatternLength,
++            pattern: PatternRelationship) =
++    QueryPlan( Expand(left.plan, from, dir, types, to, relName, length)(pattern), left.solved.addPatternRel(pattern) )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Limit.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Limit.scala
+index 1936503..6a86c61 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Limit.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Limit.scala
+@@ -26,0 +27 @@
++}
+@@ -28 +29,3 @@
+-  val solved = left.solved.copy(limit = Some(count))
++object LimitPlan {
++  def apply(left: QueryPlan, count: Expression) =
++    QueryPlan( Limit(left.plan, count), left.solved.copy(limit = Some(count)) )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/LogicalPlan.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/LogicalPlan.scala
+index ae57bbe..d83799c 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/LogicalPlan.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/LogicalPlan.scala
+@@ -22 +22 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.ast.{Identifier, RelTypeName, Expression}
++import org.neo4j.cypher.internal.compiler.v2_1.ast.RelTypeName
+@@ -24 +23,0 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.LogicalPlanContext
+@@ -26,24 +24,0 @@
+-
+-trait Visitor[T, R] {
+-  def visit(target: T): R
+-}
+-
+-trait Visitable[T] {
+-  def accept[R](visitor: Visitor[T, R]): R
+-}
+-
+-class LogicalPlanTreeStringVisitor(optContext: Option[LogicalPlanContext] = None) extends Visitor[LogicalPlan, String] {
+-  def visit(target: LogicalPlan) = {
+-    val metrics = optContext match {
+-      case Some(context) => s"(cost ${context.cost(target)}/cardinality ${context.cardinality(target)})"
+-      case None => ""
+-    }
+-
+-    target.productPrefix + target.solved.coveredIds.map(_.name).mkString("[", ",", "]") + s"$metrics->" +
+-      target.productIterator.filterNot(_.isInstanceOf[LogicalPlan]).mkString("(", ", ", ")") +
+-      target.lhs.map { plan => "\nleft - " + plan.accept(this) }.map(indent).getOrElse("") +
+-      target.rhs.map { plan => "\nright- " + plan.accept(this) }.map(indent).getOrElse("")
+-  }
+-
+-  private def indent(s: String): String = s.lines.map { case t => "       " + t }.mkString("\n")
+-}
+@@ -61,5 +35,0 @@
+-  def coveredIds: Set[IdName] = solved.coveredIds
+-
+-  final def isCoveredBy(otherIds: Set[IdName]) = (coveredIds -- otherIds).isEmpty
+-  final def covers(other: LogicalPlan): Boolean = other.isCoveredBy(coveredIds)
+-
+@@ -69,3 +38,0 @@
+-
+-  // TODO: This should go away
+-  def solved: QueryGraph
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeByLabelScan.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeByLabelScan.scala
+index 8279e36..69aa9c3 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeByLabelScan.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeByLabelScan.scala
+@@ -29 +28,0 @@
+-  override def coveredIds = Set(idName)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeHashJoin.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeHashJoin.scala
+index 3c5ce4d..d1afb90 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeHashJoin.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeHashJoin.scala
+@@ -24 +23,0 @@
+-
+@@ -26,0 +26 @@
++}
+@@ -28 +28,6 @@
+-  val solved = left.solved ++ right.solved
++object NodeHashJoinPlan {
++  def apply(node: IdName, left: QueryPlan, right: QueryPlan) =
++    QueryPlan(
++      NodeHashJoin(node, left.plan, right.plan),
++      left.solved ++ right.solved
++    )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexSeek.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexSeek.scala
+index f236b14..b2c90b4 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexSeek.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexSeek.scala
+@@ -29 +28,0 @@
+-  override def coveredIds = Set(idName)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexUniqueSeek.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexUniqueSeek.scala
+index 61f3800..63a8dfb 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexUniqueSeek.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/NodeIndexUniqueSeek.scala
+@@ -29 +28,0 @@
+-  override def coveredIds = Set(idName)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Optional.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Optional.scala
+index 6bbb5f9..45a03e2 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Optional.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Optional.scala
+@@ -26,0 +27 @@
++}
+@@ -28,4 +29,8 @@
+-  val solved: QueryGraph =
+-    QueryGraph().
+-      withAddedOptionalMatch(inputPlan.solved).
+-      withProjections(inputPlan.solved.projections)
++object OptionalPlan {
++  def apply(nullableIds: Set[IdName], inputPlan: QueryPlan) =
++    QueryPlan(
++      Optional(nullableIds, inputPlan.plan),
++      QueryGraph().
++        withAddedOptionalMatch(inputPlan.solved).
++        withProjections(inputPlan.solved.projections)
++    )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OptionalExpand.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OptionalExpand.scala
+index 1693a67..7f6f358 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OptionalExpand.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OptionalExpand.scala
+@@ -35,0 +36 @@
++}
+@@ -37 +38,14 @@
+-  val solved = left.solved.withAddedOptionalMatch(solvedQueryGraph)
++object OptionalExpandPlan {
++  def apply(left: QueryPlan,
++            from: IdName,
++            dir: Direction,
++            types: Seq[RelTypeName],
++            to: IdName,
++            relName: IdName,
++            length: PatternLength,
++            predicates: Seq[Expression],
++            solvedQueryGraph: QueryGraph = QueryGraph.empty) =
++  QueryPlan(
++    OptionalExpand(left.plan, from, dir, types, to, relName, length, predicates)(solvedQueryGraph),
++    left.solved.withAddedOptionalMatch(solvedQueryGraph)
++  )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OuterHashJoin.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OuterHashJoin.scala
+index cc98238..ccb0467 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OuterHashJoin.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/OuterHashJoin.scala
+@@ -27,0 +28 @@
++}
+@@ -29 +30,6 @@
+-  val solved = left.solved.withAddedOptionalMatch(right.solved)
++object OuterHashJoinPlan {
++  def apply(node: IdName, left: QueryPlan, right: QueryPlan, nullableIds: Set[IdName]) =
++    QueryPlan(
++      OuterHashJoin(node, left.plan, right.plan, nullableIds),
++      left.solved.withAddedOptionalMatch(right.solved)
++    )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Projection.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Projection.scala
+index 975625d..500c84d 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Projection.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Projection.scala
+@@ -24,2 +24 @@
+-case class Projection(left: LogicalPlan, expressions: Map[String, Expression], hideProjections: Boolean = false)
+-  extends LogicalPlan {
++case class Projection(left: LogicalPlan, expressions: Map[String, Expression]) extends LogicalPlan {
+@@ -29,0 +29 @@
++}
+@@ -31,4 +31,8 @@
+-  val solved = if (hideProjections)
+-    left.solved
+-  else
+-    left.solved.withProjections(expressions)
++object ProjectionPlan {
++  def apply(left: QueryPlan, expressions: Map[String, Expression]) =
++    QueryPlan( Projection(left.plan, expressions), left.solved.withProjections(expressions))
++}
++
++object HiddenProjectionPlan {
++  def apply(left: QueryPlan, expressions: Map[String, Expression]) =
++    QueryPlan( Projection(left.plan, expressions), left.solved )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/QueryPlan.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/QueryPlan.scala
+index 6a7397a..18bd5aa 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/QueryPlan.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/QueryPlan.scala
+@@ -24,4 +24,9 @@
+-case class QueryPlan(plan: LogicalPlan, solved: QueryGraph = QueryGraph.empty) {
+-  def isCoveredBy(otherIds: Set[IdName]) = plan.isCoveredBy(otherIds)
+-  def covers(other: QueryPlan): Boolean = plan.covers(other.plan)
+-  def coveredIds: Set[IdName] = plan.coveredIds
++case class QueryPlan(plan: LogicalPlan, solved: QueryGraph = QueryGraph.empty) extends Visitable[QueryPlan] {
++
++  def isCoveredBy(otherIds: Set[IdName]) = (solved.coveredIds -- otherIds).isEmpty
++  def covers(other: QueryPlan): Boolean = other.isCoveredBy(solved.coveredIds)
++  def coveredIds: Set[IdName] = solved.coveredIds
++
++  def accept[R](visitor: Visitor[QueryPlan, R]): R = visitor.visit(this)
++
++  override def toString = "\n" + new QueryPlanTreeStringVisitor().visit(this)
+@@ -30,6 +35,3 @@
+-object QueryPlan extends (LogicalPlan => QueryPlan) {
+-  // TODO: This should go away together with LogicalPlan.solved
+-  def apply(plan: LogicalPlan) = plan match {
+-    case _ => QueryPlan(plan, plan.solved)
+-  }
+-}
++
++
++
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SelectOrSemiApply.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SelectOrSemiApply.scala
+index bca841c..e5a6bca 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SelectOrSemiApply.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SelectOrSemiApply.scala
+@@ -30,0 +31 @@
++}
+@@ -32 +33,2 @@
+-  val solved = {
++object AbstractSelectOrSemiApply {
++  def solved(outer: QueryPlan, exists: Exists) = {
+@@ -36,0 +39,16 @@
++
++object SelectOrSemiApplyPlan {
++  def apply(outer: QueryPlan, inner: QueryPlan, predicate: Expression, exists: Exists) =
++    QueryPlan(
++      SelectOrSemiApply(outer.plan, inner.plan, predicate)(exists),
++      AbstractSelectOrSemiApply.solved(outer, exists)
++    )
++}
++
++object SelectOrAntiSemiApplyPlan {
++  def apply(outer: QueryPlan, inner: QueryPlan, predicate: Expression, exists: Exists) =
++    QueryPlan(
++      SelectOrAntiSemiApply(outer.plan, inner.plan, predicate)(exists),
++      AbstractSelectOrSemiApply.solved(outer, exists)
++    )
++}
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Selection.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Selection.scala
+index 032f81f..5f400a8 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Selection.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Selection.scala
+@@ -25,2 +25 @@
+-                     left: LogicalPlan,
+-                     hideSelections: Boolean = false) extends LogicalPlan {
++                     left: LogicalPlan) extends LogicalPlan {
+@@ -34,4 +32,0 @@
+-
+-  def solved = if (hideSelections) left.solved else left.solved.addPredicates(predicates)
+-
+-  override def coveredIds = left.coveredIds
+@@ -42 +37 @@
+-    QueryPlan( Selection( predicates, left.plan, hideSelections = false), left.solved.addPredicates(predicates) )
++    QueryPlan( Selection( predicates, left.plan), left.solved.addPredicates(predicates) )
+@@ -47 +42 @@
+-    QueryPlan( Selection( predicates, left.plan, hideSelections = true), left.solved )
++    QueryPlan( Selection( predicates, left.plan), left.solved )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SemiApply.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SemiApply.scala
+index c849b11..8e83688 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SemiApply.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SemiApply.scala
+@@ -29,0 +30 @@
++}
+@@ -31 +32,2 @@
+-  val solved = {
++object AbstractSemiApply {
++  def solved(outer: QueryPlan, inner: QueryPlan, subQuery: Exists) = {
+@@ -39,0 +42,16 @@
++
++object SemiApplyPlan {
++  def apply(outer: QueryPlan, inner: QueryPlan, subQuery: Exists) =
++    QueryPlan(
++      SemiApply(outer.plan, inner.plan)(subQuery),
++      AbstractSemiApply.solved(outer, inner, subQuery)
++    )
++}
++
++object AntiSemiApplyPlan {
++  def apply(outer: QueryPlan, inner: QueryPlan, subQuery: Exists) =
++    QueryPlan(
++      AntiSemiApply(outer.plan, inner.plan)(subQuery),
++      AbstractSemiApply.solved(outer, inner, subQuery)
++    )
++}
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SingleRow.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SingleRow.scala
+index 3cce96c..508f8ed 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SingleRow.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SingleRow.scala
+@@ -24 +24 @@
+-case class SingleRow(override val coveredIds: Set[IdName] = Set.empty) extends LogicalLeafPlan {
++case class SingleRow(coveredIds: Set[IdName] = Set.empty) extends LogicalLeafPlan {
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Skip.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Skip.scala
+index 0fe80d1..5a41f0d 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Skip.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Skip.scala
+@@ -26,0 +27 @@
++}
+@@ -28 +29,6 @@
+-  val solved = left.solved.copy(skip = Some(count))
++object SkipPlan {
++  def apply(left: QueryPlan, count: Expression) =
++    QueryPlan(
++      Skip(left.plan, count),
++      left.solved.copy(skip = Some(count))
++    )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Sort.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Sort.scala
+index 0e6466b..a514dc2 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Sort.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Sort.scala
+@@ -27,0 +28 @@
++}
+@@ -29 +30,3 @@
+-  val solved = left.solved.withSortItems(solvedSortItems)
++object SortPlan {
++  def apply(left: QueryPlan, sortItems: Seq[SortDescription], solvedSortItems: Seq[SortItem]) =
++    QueryPlan( Sort(left.plan, sortItems)(solvedSortItems), left.solved.withSortItems(solvedSortItems) )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SortedLimit.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SortedLimit.scala
+index f3831e4..1b38972 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SortedLimit.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/SortedLimit.scala
+@@ -27,0 +28 @@
++}
+@@ -29 +30,6 @@
+-  val solved = left.solved.copy(limit = Some(originalLimit), sortItems = sortItems)
++object SortedLimitPlan {
++  def apply(left: QueryPlan, limit: Expression, sortItems: Seq[SortItem], originalLimit: Expression) =
++    QueryPlan(
++      SortedLimit(left.plan, limit, sortItems)(originalLimit),
++      left.solved.copy(limit = Some(originalLimit), sortItems = sortItems)
++    )
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/UndirectedRelationshipByIdSeek.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/UndirectedRelationshipByIdSeek.scala
+index e14c9ef..f7f5a38 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/UndirectedRelationshipByIdSeek.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/UndirectedRelationshipByIdSeek.scala
+@@ -30 +29,0 @@
+-  override def coveredIds = Set(idName, leftNode, rightNode)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Visitor.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Visitor.scala
+new file mode 100644
+index 0000000..6b235e1
+--- /dev/null
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/plans/Visitor.scala
+@@ -0,0 +1,64 @@
++/**
++ * Copyright (c) 2002-2014 "Neo Technology,"
++ * Network Engine for Objects in Lund AB [http://neotechnology.com]
++ *
++ * This file is part of Neo4j.
++ *
++ * Neo4j is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++package org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans
++
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.LogicalPlanContext
++import org.neo4j.cypher.internal.compiler.v2_1.planner.QueryGraph
++
++trait Visitor[T, R] {
++  def visit(target: T): R
++}
++
++trait Visitable[T] {
++  def accept[R](visitor: Visitor[T, R]): R
++}
++
++class QueryPlanTreeStringVisitor(optContext: Option[LogicalPlanContext] = None) extends Visitor[QueryPlan, String] {
++  def visit(target: QueryPlan) = {
++    // val planRepr = new LogicalPlanTreeStringVisitor(optContext).visit(target.plan)
++    val planRepr = target.plan.toString
++    val qgRepr = QueryGraphStringVisitor.visit(target.solved)
++
++    s"QueryPlan(\nplan = $planRepr,\nsolved = $qgRepr)\n"
++  }
++}
++
++class LogicalPlanTreeStringVisitor(optContext: Option[LogicalPlanContext] = None) extends Visitor[LogicalPlan, String] {
++  def visit(target: LogicalPlan) = {
++    val metrics = optContext match {
++      case Some(context) => s"(cost ${context.cost(target)}/cardinality ${context.cardinality(target)})"
++      case None => ""
++    }
++
++    target.productPrefix + s"$metrics->" +
++      target.productIterator.filterNot(_.isInstanceOf[LogicalPlan]).mkString("(", ", ", ")") +
++      target.lhs.map { plan => "\nleft - " + plan.accept(this) }.map(indent).getOrElse("") +
++      target.rhs.map { plan => "\nright- " + plan.accept(this) }.map(indent).getOrElse("")
++  }
++
++  private def indent(s: String): String = s.lines.map { case t => "       " + t }.mkString("\n")
++}
++
++
++object QueryGraphStringVisitor extends Visitor[QueryGraph, String] {
++  def visit(target: QueryGraph) = {
++    target.toString
++  }
++}
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/applyOptional.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/applyOptional.scala
+index bb6d8bf..b0fb6bf 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/applyOptional.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/applyOptional.scala
+@@ -37 +37 @@
+-        QueryPlan( Apply(lhs.plan, Optional(optionalQG.introducedIds, rhs.plan)) )
++        ApplyPlan(lhs, OptionalPlan(optionalQG.introducedIds, rhs))
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/cartesianProduct.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/cartesianProduct.scala
+index 215a99a..7e13b41 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/cartesianProduct.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/cartesianProduct.scala
+@@ -22 +22 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{QueryPlan, CartesianProduct}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{CartesianProductPlan, QueryPlan, CartesianProduct}
+@@ -33,2 +33,2 @@
+-        } yield CartesianProduct(planA.plan, planB.plan)
+-      CandidateList(cartesianProducts.toList.map(QueryPlan))
++        } yield CartesianProductPlan(planA, planB)
++      CandidateList(cartesianProducts)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/expand.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/expand.scala
+index 588635b..d81c8d3 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/expand.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/expand.scala
+@@ -22,3 +22 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.ast.Equals
+-import org.neo4j.cypher.internal.compiler.v2_1.ast.Identifier
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{CandidateList, PlanTable, LogicalPlanContext, CandidateGenerator}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{PlanTable, CandidateGenerator}
+@@ -27 +24,0 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.Selection
+@@ -32 +28,0 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.Expand
+@@ -44,2 +40,2 @@
+-      val expandF = (otherSide: IdName) => Expand(plan.plan, nodeId, dir, patternRel.types,
+-                                                  otherSide, patternRel.name, patternRel.length)(patternRel)
++      val expandF = (otherSide: IdName) => ExpandPlan(plan, nodeId, dir, patternRel.types,
++                                                      otherSide, patternRel.name, patternRel.length, patternRel)
+@@ -53 +49 @@
+-    CandidateList(expandPlans.map(QueryPlan))
++    CandidateList(expandPlans)
+@@ -66,2 +62,2 @@
+-  private def expandIntoAlreadyExistingNode(f: IdName => Expand, otherSide: IdName)
+-                                           (implicit context: LogicalPlanContext): LogicalPlan = {
++  private def expandIntoAlreadyExistingNode(f: IdName => QueryPlan, otherSide: IdName)
++                                           (implicit context: LogicalPlanContext): QueryPlan = {
+@@ -72 +68 @@
+-    Selection(Seq(Equals(left, right)(null)), expand, hideSelections = true)
++    HiddenSelectionPlan(Seq(Equals(left, right)(null)), expand)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/join.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/join.scala
+index d57e121..5b1c074 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/join.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/join.scala
+@@ -22 +22 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{QueryPlan, NodeHashJoin}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{NodeHashJoinPlan, QueryPlan, NodeHashJoin}
+@@ -27 +27 @@
+-    val joinPlans: Seq[NodeHashJoin] = (for {
++    val joinPlans: Seq[QueryPlan] = (for {
+@@ -32 +32 @@
+-        case id :: Nil => Some(NodeHashJoin(id, planA.plan, planB.plan))
++        case id :: Nil => Some(NodeHashJoinPlan(id, planA, planB))
+@@ -37 +37 @@
+-    CandidateList(joinPlans.map(QueryPlan))
++    CandidateList(joinPlans)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optional.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optional.scala
+index c57d96d..4ad82d3 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optional.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optional.scala
+@@ -22 +22 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{QueryPlan, Optional}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{OptionalPlan, QueryPlan, Optional}
+@@ -32 +32 @@
+-        Optional(optionalQG.introducedIds, rhs.plan)
++        OptionalPlan(optionalQG.introducedIds, rhs)
+@@ -35 +35 @@
+-    CandidateList(optionalCandidates.map(QueryPlan))
++    CandidateList(optionalCandidates)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optionalExpand.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optionalExpand.scala
+index be6d83f..b786a4f 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optionalExpand.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/optionalExpand.scala
+@@ -37 +37 @@
+-    val outerJoinPlans: Seq[OptionalExpand] = for {
++    val outerJoinPlans: Seq[QueryPlan] = for {
+@@ -40 +40 @@
+-      patternRel <- findSinglePatternRelationship(lhs.plan, optionalQG)
++      patternRel <- findSinglePatternRelationship(lhs, optionalQG)
+@@ -46 +46 @@
+-      OptionalExpand(lhs.plan, argumentId, dir, patternRel.types, otherSide, patternRel.name, patternRel.length, optionalQG.selections.flatPredicates)(optionalQG)
++      OptionalExpandPlan(lhs, argumentId, dir, patternRel.types, otherSide, patternRel.name, patternRel.length, optionalQG.selections.flatPredicates, optionalQG)
+@@ -49 +49 @@
+-    CandidateList(outerJoinPlans.map(QueryPlan))
++    CandidateList(outerJoinPlans)
+@@ -52 +52 @@
+-  private def findSinglePatternRelationship(outerPlan: LogicalPlan, optionalQG: QueryGraph): Option[PatternRelationship] = {
++  private def findSinglePatternRelationship(outerPlan: QueryPlan, optionalQG: QueryGraph): Option[PatternRelationship] = {
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/outerJoin.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/outerJoin.scala
+index 7b2a815..96c9fab 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/outerJoin.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/outerJoin.scala
+@@ -23 +23 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{QueryPlan, LogicalPlan, OuterHashJoin}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.plans.{OuterHashJoinPlan, QueryPlan, LogicalPlan, OuterHashJoin}
+@@ -29 +29 @@
+-    val outerJoinPlans: Seq[OuterHashJoin] = for {
++    val outerJoinPlans = for {
+@@ -31 +31 @@
+-      lhs <- planTable.plans if applicable(lhs.plan, optionalQG)
++      lhs <- planTable.plans if applicable(lhs, optionalQG)
+@@ -35 +35 @@
+-      OuterHashJoin(optionalQG.argumentIds.head, lhs.plan, rhs.plan, optionalQG.introducedIds)
++      OuterHashJoinPlan(optionalQG.argumentIds.head, lhs, rhs, optionalQG.introducedIds)
+@@ -38 +38 @@
+-    CandidateList(outerJoinPlans.map(QueryPlan))
++    CandidateList(outerJoinPlans)
+@@ -41 +41 @@
+-  private def applicable(outerPlan: LogicalPlan, optionalQG: QueryGraph) = {
++  private def applicable(outerPlan: QueryPlan, optionalQG: QueryGraph) = {
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/projection.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/projection.scala
+index 145f30a..a969ac0 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/projection.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/projection.scala
+@@ -30,2 +30,2 @@
+-  def apply(input: QueryPlan)(implicit context: LogicalPlanContext): QueryPlan = {
+-    val plan = input.plan
++
++  def apply(plan: QueryPlan)(implicit context: LogicalPlanContext): QueryPlan = {
+@@ -39 +39 @@
+-        SortedLimit(plan, l, sort)(l)
++        SortedLimitPlan(plan, l, sort, l)
+@@ -42 +42 @@
+-        Skip(SortedLimit(plan, ast.Add(l, s)(null), sort)(l), s)
++        SkipPlan(SortedLimitPlan(plan, ast.Add(l, s)(null), sort, l), s)
+@@ -47 +47 @@
+-        addSkip(s, Sort(newPlan, orderBy)(sort))
++        addSkip(s, SortPlan(newPlan, orderBy, sort))
+@@ -50 +50 @@
+-        addSkip(s, Sort(plan, sort.map(sortDescription))(sort))
++        addSkip(s, SortPlan(plan, sort.map(sortDescription), sort))
+@@ -53 +53 @@
+-    QueryPlan(projectIfNeeded(sortSkipAndLimit, context.queryGraph))
++    projectIfNeeded(sortSkipAndLimit, context.queryGraph)
+@@ -56 +56 @@
+-  private def ensureSortablePlan(sort: List[ast.SortItem], plan: LogicalPlan): LogicalPlan = {
++  private def ensureSortablePlan(sort: List[ast.SortItem], plan: QueryPlan): QueryPlan = {
+@@ -73 +73,2 @@
+-      Projection(plan, totalProjections, hideProjections = true)
++
++      HiddenProjectionPlan(plan, totalProjections)
+@@ -86 +87 @@
+-  private def projectIfNeeded(plan: LogicalPlan, qg: QueryGraph) = {
++  private def projectIfNeeded(plan: QueryPlan, qg: QueryGraph): QueryPlan = {
+@@ -95,2 +96,4 @@
+-      Projection(plan, qg.projections)
+-
++      QueryPlan(
++        Projection(plan.plan, qg.projections),
++        plan.solved.withProjections(qg.projections)
++      )
+@@ -99,2 +102,2 @@
+-  private def addSkip(s: Option[ast.Expression], plan: LogicalPlan) =
+-    s.map(x => Skip(plan, x)).getOrElse(plan)
++  private def addSkip(s: Option[ast.Expression], plan: QueryPlan): QueryPlan =
++    s.map(x => SkipPlan(plan, x)).getOrElse(plan)
+@@ -102,2 +105,2 @@
+-  private def addLimit(s: Option[ast.Expression], plan: LogicalPlan) =
+-    s.map(x => Limit(plan, x)).getOrElse(plan)
++  private def addLimit(s: Option[ast.Expression], plan: QueryPlan): QueryPlan =
++    s.map(x => LimitPlan(plan, x)).getOrElse(plan)
+diff --git a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/selectPatternPredicates.scala b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/selectPatternPredicates.scala
+index aefde29..42036f0 100644
+--- a/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/selectPatternPredicates.scala
++++ b/community/cypher/cypher-compiler-2.1/src/main/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/selectPatternPredicates.scala
+@@ -33 +33 @@
+-             lhs <- planTable.plans if applicable(lhs.plan, pattern))
++             lhs <- planTable.plans if applicable(lhs, pattern))
+@@ -39 +39 @@
+-              AntiSemiApply(lhs.plan, rhs.plan)(pattern)
++              AntiSemiApplyPlan(lhs, rhs, pattern)
+@@ -41 +41 @@
+-              SelectOrAntiSemiApply(lhs.plan, rhs.plan, onePredicate(tail))(pattern)
++              SelectOrAntiSemiApplyPlan(lhs, rhs, onePredicate(tail), pattern)
+@@ -43 +43 @@
+-              SelectOrSemiApply(lhs.plan, rhs.plan, onePredicate(tail))(pattern)
++              SelectOrSemiApplyPlan(lhs, rhs, onePredicate(tail), pattern)
+@@ -45 +45 @@
+-              SemiApply(lhs.plan, rhs.plan)(pattern)
++              SemiApplyPlan(lhs, rhs, pattern)
+@@ -49 +49 @@
+-      CandidateList(applyCandidates.map(QueryPlan))
++      CandidateList(applyCandidates)
+@@ -61 +61 @@
+-    private def applicable(outerPlan: LogicalPlan, inner: SubQuery) = {
++    private def applicable(outerPlan: QueryPlan, inner: SubQuery) = {
+@@ -63 +63 @@
+-        case e: Exists => {
++        case e: Exists =>
+@@ -68 +67,0 @@
+-        }
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/LogicalPlanningTestSupport.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/LogicalPlanningTestSupport.scala
+index 8fdd7b1..54fc2a5 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/LogicalPlanningTestSupport.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/LogicalPlanningTestSupport.scala
+@@ -95 +95 @@
+-  def newMockedQueryPlan(ids: String*)(implicit context: LogicalPlanContext) =
++  def newMockedQueryPlanWithProjections(ids: String*)(implicit context: LogicalPlanContext) =
+@@ -108,0 +109,7 @@
++  def newMockedQueryPlan(ids: String*)(implicit context: LogicalPlanContext): QueryPlan = {
++    val idNames: Seq[IdName] = ids.map(IdName)
++    val plan = newMockedLogicalPlanWithPatterns(idNames.toSet)
++    val qg = QueryGraph.empty.addPatternNodes(idNames: _*)
++    QueryPlan( plan, qg )
++  }
++
+@@ -111,0 +119,5 @@
++  def newMockedQueryPlanWithPatterns(ids: Set[IdName], patterns: Seq[PatternRelationship] = Seq.empty)(implicit context: LogicalPlanContext): QueryPlan = {
++    val plan = newMockedLogicalPlanWithPatterns(ids, patterns)
++    val qg = QueryGraph.empty.addPatternNodes(ids.toSeq: _*).addPatternRels(patterns)
++    QueryPlan( plan, qg )
++  }
+@@ -115,2 +126,0 @@
+-    doReturn(ids).when(plan).coveredIds
+-    doReturn(QueryGraph(patternNodes = ids, patternRelationships = patterns.toSet)).when(plan).solved
+@@ -118,0 +129 @@
++
+@@ -139,3 +149,0 @@
+-
+-  // TODO: This should go away together with LogicalPlan.solved
+-  implicit def logicalToQueryPlan(plan: LogicalPlan): QueryPlan = QueryPlan(plan)
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CandidateListTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CandidateListTest.scala
+index 96edd92..4f0ede3 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CandidateListTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CandidateListTest.scala
+@@ -34,3 +34,3 @@
+-  val x = QueryPlan(newMockedLogicalPlan("x"))
+-  val y = QueryPlan(newMockedLogicalPlan("y"))
+-  val xAndY = QueryPlan(newMockedLogicalPlan("x", "y"))
++  val x = newMockedQueryPlan("x")
++  val y = newMockedQueryPlan("y")
++  val xAndY = newMockedQueryPlan("x", "y")
+@@ -56,2 +56,2 @@
+-    val a = newMockedQueryPlan("a")
+-    val b = newMockedQueryPlan("b")
++    val a = newMockedQueryPlanWithProjections("a")
++    val b = newMockedQueryPlanWithProjections("b")
+@@ -71 +71 @@
+-    val b = newMockedQueryPlan("b")
++    val b = newMockedQueryPlanWithProjections("b")
+@@ -84,2 +84,2 @@
+-    val ab = QueryPlan( newMockedLogicalPlanWithPatterns(Set(IdName("a"), IdName("b"))) )
+-    val c = newMockedQueryPlan("c")
++    val ab = newMockedQueryPlanWithPatterns(Set(IdName("a"), IdName("b")))
++    val c = newMockedQueryPlanWithProjections("c")
+@@ -89,3 +89,3 @@
+-      case `ab` => 50
+-      case `c`  => 50
+-      case _    => Double.MaxValue
++      case p if p eq ab.plan => 50
++      case p if p eq c.plan  => 50
++      case _                 => Double.MaxValue
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CartesianProductPlanningIntegrationTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CartesianProductPlanningIntegrationTest.scala
+index 9679799..7b16f01 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CartesianProductPlanningIntegrationTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/CartesianProductPlanningIntegrationTest.scala
+@@ -124 +124 @@
+-            case Selection(predicates, left, _)              => predicates.foldLeft(1.0)(_ * selectivity(_)) * apply(left)
++            case Selection(predicates, left)                 => predicates.foldLeft(1.0)(_ * selectivity(_)) * apply(left)
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/ExpandPlanningIntegrationTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/ExpandPlanningIntegrationTest.scala
+index 1abd073..60225dc 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/ExpandPlanningIntegrationTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/ExpandPlanningIntegrationTest.scala
+@@ -96,2 +96 @@
+-            "a", Direction.OUTGOING, Seq.empty, "a$$$", "r", SimplePatternLength)(mockRel),
+-          hideSelections = true
++            "a", Direction.OUTGOING, Seq.empty, "a$$$", "r", SimplePatternLength)(mockRel)
+@@ -118 +117 @@
+-            , hideSelections = true)
++          )
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/PlanTableTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/PlanTableTest.scala
+index fcf8461..f2e4f31 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/PlanTableTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/PlanTableTest.scala
+@@ -30,4 +30,4 @@
+-  val x = QueryPlan(newMockedLogicalPlan("x"))
+-  val x2 = QueryPlan(newMockedLogicalPlan("x"))
+-  val y = QueryPlan(newMockedLogicalPlan("y"))
+-  val xAndY = QueryPlan(newMockedLogicalPlan("x", "y"))
++  val x = newMockedQueryPlan("x")
++  val x2 = newMockedQueryPlan("x")
++  val y = newMockedQueryPlan("y")
++  val xAndY = newMockedQueryPlan("x", "y")
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExpandTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExpandTest.scala
+index fd75989..a98b0b5 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExpandTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExpandTest.scala
+@@ -25 +25 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{CandidateList, PlanTable}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{Candidates, CandidateList, PlanTable}
+@@ -48 +48 @@
+-    expand(plan) should equal(CandidateList())
++    expand(plan) should equal(Candidates())
+@@ -56 +56 @@
+-    val planA = newMockedLogicalPlan("a")
++    val planA = newMockedQueryPlan("a")
+@@ -59,2 +59,3 @@
+-    expand(plan) should equal(CandidateList(Seq(
+-      Expand(left = planA, from = aNode, Direction.OUTGOING, types = Seq.empty, to = bNode, rName, SimplePatternLength)(rRel))))
++    expand(plan) should equal(Candidates(
++      ExpandPlan(left = planA, from = aNode, Direction.OUTGOING, types = Seq.empty, to = bNode, rName, SimplePatternLength, rRel))
++    )
+@@ -68,2 +69,2 @@
+-    val planA = newMockedLogicalPlan("a")
+-    val planB = newMockedLogicalPlan("b")
++    val planA = newMockedQueryPlan("a")
++    val planB = newMockedQueryPlan("b")
+@@ -73,2 +74,2 @@
+-      Expand(left = planA, from = aNode, Direction.OUTGOING, types = Seq.empty, to = bNode, rName, SimplePatternLength)(rRel),
+-      Expand(left = planB, from = bNode, Direction.INCOMING, types = Seq.empty, to = aNode, rName, SimplePatternLength)(rRel)
++      ExpandPlan(left = planA, from = aNode, Direction.OUTGOING, types = Seq.empty, to = bNode, rName, SimplePatternLength, rRel),
++      ExpandPlan(left = planB, from = bNode, Direction.INCOMING, types = Seq.empty, to = aNode, rName, SimplePatternLength, rRel)
+@@ -83 +84 @@
+-    val aAndB = newMockedLogicalPlanWithPatterns(Set("a", "b"), Seq(rRel))
++    val aAndB = newMockedQueryPlanWithPatterns(Set("a", "b"), Seq(rRel))
+@@ -86 +87 @@
+-    expand(plan) should equal(CandidateList())
++    expand(plan) should equal(Candidates())
+@@ -94 +95 @@
+-    val planA = newMockedLogicalPlan("a")
++    val planA = newMockedQueryPlan("a")
+@@ -98,4 +99,3 @@
+-      Selection(Seq(Equals(Identifier(aNode.name) _, Identifier(aNode.name + "$$$") _) _),
+-        Expand(left = planA, from = aNode, dir = Direction.OUTGOING, types = Seq.empty,
+-          to = IdName(aNode.name + "$$$"), relName = rName, SimplePatternLength)(rSelfRel),
+-        hideSelections = true
++      HiddenSelectionPlan(Seq(Equals(Identifier(aNode.name) _, Identifier(aNode.name + "$$$") _) _),
++        ExpandPlan(left = planA, from = aNode, dir = Direction.OUTGOING, types = Seq.empty,
++                   to = IdName(aNode.name + "$$$"), relName = rName, SimplePatternLength, rSelfRel)
+@@ -110 +110 @@
+-    val aAndB = newMockedLogicalPlan("a", "b")
++    val aAndB = newMockedQueryPlan("a", "b")
+@@ -113,5 +113,4 @@
+-    expand(plan) should equal(CandidateList(Seq(
+-      Selection(Seq(Equals(Identifier(bNode.name)_, Identifier(bNode.name + "$$$")_)_),
+-        Expand(left = aAndB, from = aNode, dir = Direction.OUTGOING, types = Seq.empty,
+-          to = IdName(bNode.name + "$$$"), relName = rName, SimplePatternLength)(mockRel),
+-        hideSelections = true
++    expand(plan) should equal(Candidates(
++      HiddenSelectionPlan(Seq(Equals(Identifier(bNode.name)_, Identifier(bNode.name + "$$$")_)_),
++        ExpandPlan(left = aAndB, from = aNode, dir = Direction.OUTGOING, types = Seq.empty,
++          to = IdName(bNode.name + "$$$"), relName = rName, SimplePatternLength, mockRel)
+@@ -119 +118 @@
+-      Selection(
++      HiddenSelectionPlan(
+@@ -121,4 +120,3 @@
+-        left = Expand(left = aAndB, from = bNode, dir = Direction.INCOMING, types = Seq.empty,
+-          to = IdName(aNode.name + "$$$"), relName = rName, SimplePatternLength)(mockRel),
+-        hideSelections = true
+-      ))))
++        left = ExpandPlan(left = aAndB, from = bNode, dir = Direction.INCOMING, types = Seq.empty,
++          to = IdName(aNode.name + "$$$"), relName = rName, SimplePatternLength, mockRel)
++      )))
+@@ -132 +130 @@
+-    val planA = newMockedLogicalPlan("a")
++    val planA = newMockedQueryPlan("a")
+@@ -135,3 +133,3 @@
+-    expand(plan) should equal(CandidateList(Seq(
+-      Expand(left = planA, from = aNode, dir = Direction.OUTGOING, types = Seq.empty, to = bNode, relName = rName, rVarRel.length)(rVarRel)
+-    )))
++    expand(plan) should equal(Candidates(
++      ExpandPlan(left = planA, from = aNode, dir = Direction.OUTGOING, types = Seq.empty, to = bNode, relName = rName, rVarRel.length, rVarRel)
++    ))
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExtractBestPlanTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExtractBestPlanTest.scala
+index b816e2a..c06c464 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExtractBestPlanTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ExtractBestPlanTest.scala
+@@ -37 +37 @@
+-    val plan = newMockedLogicalPlan("b")
++    val plan = newMockedQueryPlan("b")
+@@ -51 +51 @@
+-    val plan = newMockedLogicalPlan("b")
++    val plan = newMockedQueryPlan("b")
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/JoinTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/JoinTest.scala
+index efe1c64..9d6c303 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/JoinTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/JoinTest.scala
+@@ -25 +25 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{CandidateList, PlanTable}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{Candidates, CandidateList, PlanTable}
+@@ -47,2 +47,2 @@
+-    val left: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(aNode, bNode))
+-    val right: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(bNode, cNode))
++    val left = newMockedQueryPlanWithPatterns(Set(aNode, bNode))
++    val right = newMockedQueryPlanWithPatterns(Set(bNode, cNode))
+@@ -53,4 +53,5 @@
+-    join(planTable) should equal(CandidateList(Seq(
+-      NodeHashJoin(IdName("b"), left, right),
+-      NodeHashJoin(IdName("b"), right, left)
+-    )))
++
++    join(planTable) should equal(Candidates(
++      NodeHashJoinPlan(IdName("b"), left, right),
++      NodeHashJoinPlan(IdName("b"), right, left)
++    ))
+@@ -64,3 +65,3 @@
+-    val left: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(aNode, bNode))
+-    val middle: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(bNode, cNode))
+-    val right: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(cNode, dNode))
++    val left = newMockedQueryPlanWithPatterns(Set(aNode, bNode))
++    val middle = newMockedQueryPlanWithPatterns(Set(bNode, cNode))
++    val right = newMockedQueryPlanWithPatterns(Set(cNode, dNode))
+@@ -72,6 +73,7 @@
+-    join(planTable) should equal(CandidateList(Seq(
+-      NodeHashJoin(IdName("b"), left, middle),
+-      NodeHashJoin(IdName("b"), middle, left),
+-      NodeHashJoin(IdName("c"), middle, right),
+-      NodeHashJoin(IdName("c"), right, middle)
+-    )))
++
++    join(planTable) should equal(Candidates(
++      NodeHashJoinPlan(IdName("b"), left, middle),
++      NodeHashJoinPlan(IdName("b"), middle, left),
++      NodeHashJoinPlan(IdName("c"), middle, right),
++      NodeHashJoinPlan(IdName("c"), right, middle)
++    ))
+@@ -85,2 +87,2 @@
+-    val left: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(aNode, bNode))
+-    val right: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(cNode))
++    val left = newMockedQueryPlanWithPatterns(Set(aNode, bNode))
++    val right = newMockedQueryPlanWithPatterns(Set(cNode))
+@@ -99 +101 @@
+-    val left: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(aNode))
++    val left = newMockedQueryPlanWithPatterns(Set(aNode))
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalExpandTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalExpandTest.scala
+index 7abe0c1..2758586 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalExpandTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalExpandTest.scala
+@@ -27 +27 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{PlanTable, CandidateList}
++import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.{Candidates, PlanTable, CandidateList}
+@@ -49 +49 @@
+-    val inputPlan = SingleRow(Set("a"))
++    val inputPlan = SingleRowPlan(Set("a"))
+@@ -51 +51 @@
+-    val innerPlan = OptionalExpand(inputPlan, IdName("a"), Direction.OUTGOING, Seq.empty, IdName("b"), IdName("r1"), SimplePatternLength, Seq.empty)(QueryGraph.empty)
++    val innerPlan = OptionalExpandPlan(inputPlan, IdName("a"), Direction.OUTGOING, Seq.empty, IdName("b"), IdName("r1"), SimplePatternLength, Seq.empty, optionalMatch)
+@@ -53 +53 @@
+-    optionalExpand(planTable).logicalPlans should equal(CandidateList(Seq(innerPlan)).logicalPlans)
++    optionalExpand(planTable) should equal(Candidates(innerPlan))
+@@ -69 +69 @@
+-    val inputPlan = SingleRow(Set("a"))
++    val inputPlan = SingleRowPlan(Set("a"))
+@@ -71 +71 @@
+-    optionalExpand(planTable).logicalPlans should equal(CandidateList(Seq.empty).logicalPlans)
++    optionalExpand(planTable) should equal(Candidates())
+@@ -87 +87 @@
+-    val inputPlan = SingleRow(Set("a"))
++    val inputPlan = SingleRowPlan(Set("a"))
+@@ -89 +89 @@
+-    val innerPlan = OptionalExpand(inputPlan, IdName("a"), Direction.OUTGOING, Seq.empty, IdName("b"), IdName("r1"), SimplePatternLength, Seq(r1Predicate))(QueryGraph.empty)
++    val innerPlan = OptionalExpandPlan(inputPlan, IdName("a"), Direction.OUTGOING, Seq.empty, IdName("b"), IdName("r1"), SimplePatternLength, Seq(r1Predicate), optionalMatch)
+@@ -91 +91 @@
+-    optionalExpand(planTable).logicalPlans should equal(CandidateList(Seq(innerPlan)).logicalPlans)
++    optionalExpand(planTable) should equal(Candidates(innerPlan))
+@@ -107 +107 @@
+-    val inputPlan = SingleRow(Set("a"))
++    val inputPlan = SingleRowPlan(Set("a"))
+@@ -109 +109 @@
+-    val innerPlan = OptionalExpand(inputPlan, IdName("a"), Direction.OUTGOING, Seq.empty, IdName("b"), IdName("r1"), SimplePatternLength, Seq(bPredicate))(QueryGraph.empty)
++    val innerPlan = OptionalExpandPlan(inputPlan, IdName("a"), Direction.OUTGOING, Seq.empty, IdName("b"), IdName("r1"), SimplePatternLength, Seq(bPredicate), optionalMatch)
+@@ -111 +111 @@
+-    optionalExpand(planTable).logicalPlans should equal(CandidateList(Seq(innerPlan)).logicalPlans)
++    optionalExpand(planTable) should equal(Candidates(innerPlan))
+@@ -127 +127 @@
+-    val inputPlan = SingleRow(Set("a"))
++    val inputPlan = SingleRowPlan(Set("a"))
+@@ -129 +129 @@
+-    val innerPlan = OptionalExpand(inputPlan, IdName("a"), Direction.INCOMING, Seq.empty, IdName("b"), IdName("r3"), SimplePatternLength, Seq(bPredicate))(QueryGraph.empty)
++    val innerPlan = OptionalExpandPlan(inputPlan, IdName("a"), Direction.INCOMING, Seq.empty, IdName("b"), IdName("r3"), SimplePatternLength, Seq(bPredicate), optionalMatch)
+@@ -131 +131 @@
+-    optionalExpand(planTable).logicalPlans should equal(CandidateList(Seq(innerPlan)).logicalPlans)
++    optionalExpand(planTable) should equal(Candidates(innerPlan))
+@@ -150 +150 @@
+-    val inputPlan = SingleRow(Set("b"))
++    val inputPlan = SingleRowPlan(Set("b"))
+@@ -153 +153 @@
+-    optionalExpand(planTable).map(_.plan) should equal(CandidateList(Seq()))
++    optionalExpand(planTable) should equal(CandidateList(Seq()))
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalTest.scala
+index 2ac2fc3..9775b09 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OptionalTest.scala
+@@ -30,0 +31 @@
++
+@@ -54 +55 @@
+-    val innerPlan = Expand(AllNodesScan("a"), "a", Direction.OUTGOING, Seq.empty, "b", "r", SimplePatternLength)(patternRel)
++    val innerPlan = ExpandPlan(AllNodesScanPlan("a"), "a", Direction.OUTGOING, Seq.empty, "b", "r", SimplePatternLength, patternRel)
+@@ -57 +58 @@
+-    optional2.bestPlan(context.cost).map(_.plan) should equal(Some(Optional(Set("a", "b", "r"), innerPlan)))
++    optional2.bestPlan(context.cost) should equal(Some(OptionalPlan(Set("a", "b", "r"), innerPlan)))
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OuterJoinTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OuterJoinTest.scala
+index 11cac8a..2bef93b 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OuterJoinTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/OuterJoinTest.scala
+@@ -50 +50 @@
+-    val left: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(aNode, bNode))
++    val left = newMockedQueryPlanWithPatterns(Set(aNode, bNode))
+@@ -72 +72 @@
+-    val left: LogicalPlan = newMockedLogicalPlanWithPatterns(Set(aNode))
++    val left = newMockedQueryPlanWithPatterns(Set(aNode))
+@@ -75 +75 @@
+-    val expectedPlan = OuterHashJoin(aNode,
++    val expectedPlan = OuterHashJoinPlan(aNode,
+@@ -77,3 +77,2 @@
+-      Expand(
+-        AllNodesScan(bNode), bNode, Direction.INCOMING, Seq.empty, aNode, r1Name, SimplePatternLength
+-      )(r1Rel),
++      ExpandPlan(
++        AllNodesScanPlan(bNode), bNode, Direction.INCOMING, Seq.empty, aNode, r1Name, SimplePatternLength, r1Rel),
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ProjectionTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ProjectionTest.scala
+index 02ecbbd..890ce29 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ProjectionTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/ProjectionTest.scala
+@@ -44 +44 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -47 +47 @@
+-    result should equal(Skip(startPlan, x))
++    result should equal(SkipPlan(startPlan, x))
+@@ -57 +57 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -60 +60 @@
+-    result should equal(Limit(startPlan, x))
++    result should equal(LimitPlan(startPlan, x))
+@@ -71 +71 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -74 +74 @@
+-    result should equal(Limit(Skip(startPlan, y), x))
++    result should equal(LimitPlan(SkipPlan(startPlan, y), x))
+@@ -84 +84 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -87 +87 @@
+-    result should equal(Sort(startPlan, Seq(sortDescription))(Seq(identifierSortItem)))
++    result should equal(SortPlan(startPlan, Seq(sortDescription), Seq(identifierSortItem)))
+@@ -100 +100 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -103,2 +103,2 @@
+-    val expectedPlan: LogicalPlan = Sort(
+-      Projection(
++    val expectedPlan: QueryPlan = SortPlan(
++      HiddenProjectionPlan(
+@@ -106,2 +106 @@
+-        expressions = Map("  FRESHID0" -> exp, "n" -> ast.Identifier("n")(pos)),
+-        hideProjections = true
++        expressions = Map("  FRESHID0" -> exp, "n" -> ast.Identifier("n")(pos))
+@@ -109,2 +108,3 @@
+-      sortItems = Seq(Ascending("  FRESHID0"))
+-    )(Seq(expressionSortItem))
++      sortItems = Seq(Ascending("  FRESHID0")),
++      Seq(expressionSortItem)
++    )
+@@ -125 +125 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -128,2 +128,2 @@
+-    val expectedPlan: LogicalPlan = Sort(
+-      Projection(
++    val expectedPlan: QueryPlan = SortPlan(
++      HiddenProjectionPlan(
+@@ -131,2 +131 @@
+-        expressions = Map("  FRESHID0" -> exp, "n" -> ast.Identifier("n") _),
+-        hideProjections = true
++        expressions = Map("  FRESHID0" -> exp, "n" -> ast.Identifier("n") _)
+@@ -134,2 +133,3 @@
+-      sortItems = Seq(Ascending("  FRESHID0"), Ascending("n"))
+-    )(Seq(expressionSortItem))
++      sortItems = Seq(Ascending("  FRESHID0"), Ascending("n")),
++      Seq(expressionSortItem, identifierSortItem)
++    )
+@@ -148 +148 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -151 +151 @@
+-    result should equal(SortedLimit(startPlan, x, Seq[ast.SortItem](identifierSortItem))(x))
++    result should equal(SortedLimitPlan(startPlan, x, Seq[ast.SortItem](identifierSortItem), x))
+@@ -163 +163 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -166 +166 @@
+-    result should equal(Skip(SortedLimit(startPlan, ast.Add(x, y)(pos), Seq(identifierSortItem))(x), y))
++    result should equal(SkipPlan(SortedLimitPlan(startPlan, ast.Add(x, y)(pos), Seq(identifierSortItem), x), y))
+@@ -178 +178 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -181 +181 @@
+-    result should equal(Projection(startPlan, projections))
++    result should equal(ProjectionPlan(startPlan, projections))
+@@ -192 +192 @@
+-    val result = projection(startPlan).plan
++    val result = projection(startPlan)
+@@ -201 +201 @@
+-                             projections: Map[String, ast.Expression] = Map("n" -> ast.Identifier("n")(pos))): (LogicalPlanContext, LogicalPlan) = {
++                             projections: Map[String, ast.Expression] = Map("n" -> ast.Identifier("n")(pos))): (LogicalPlanContext, QueryPlan) = {
+@@ -214 +214,6 @@
+-    (context, newMockedLogicalPlan("n")(context))
++    val plan = QueryPlan(
++      newMockedLogicalPlan("n")(context),
++      QueryGraph.empty.addPatternNodes(IdName("n"))
++    )
++
++    (context, plan)
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectCoveredTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectCoveredTest.scala
+index 067a67f..0f040b9 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectCoveredTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectCoveredTest.scala
+@@ -20,19 +19,0 @@
+-/**
+-* Copyright (c) 2002-2014 "Neo Technology,"
+-* Network Engine for Objects in Lund AB [http://neotechnology.com]
+-*
+-* This file is part of Neo4j.
+-*
+-* Neo4j is free software: you can redistribute it and/or modify
+-* it under the terms of the GNU General Public License as published by
+-* the Free Software Foundation, either version 3 of the License, or
+-* (at your option) any later version.
+-*
+-* This program is distributed in the hope that it will be useful,
+-* but WITHOUT ANY WARRANTY; without even the implied warranty of
+-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-* GNU General Public License for more details.
+-*
+-* You should have received a copy of the GNU General Public License
+-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-*/
+@@ -44 +25 @@
+-import org.neo4j.cypher.internal.compiler.v2_1.ast.Expression
++import org.neo4j.cypher.internal.compiler.v2_1.ast.{SignedIntegerLiteral, Expression}
+@@ -55 +36 @@
+-    val queryPlan: QueryPlan = newMockedLogicalPlan("x")
++    val queryPlan= newMockedQueryPlan("x")
+@@ -57 +38 @@
+-    val selections = Selections(Set(Predicate(queryPlan.plan.coveredIds, predicate)))
++    val selections = Selections(Set(Predicate(queryPlan.coveredIds, predicate)))
+@@ -71 +52 @@
+-    val queryPlan = newMockedQueryPlan("x")
++    val queryPlan = newMockedQueryPlanWithProjections("x")
+@@ -73 +54 @@
+-    val selections = Selections(Set(Predicate(queryPlan.plan.coveredIds, predicate)))
++    val selections = Selections(Set(Predicate(queryPlan.coveredIds, predicate)))
+@@ -87,2 +68 @@
+-    val queryPlan = newMockedQueryPlan("x")
+-    val plan = queryPlan.plan
++    val queryPlan = newMockedQueryPlanWithProjections("x")
+@@ -92,2 +72,2 @@
+-      Predicate(plan.coveredIds, predicate1),
+-      Predicate(plan.coveredIds, predicate2)))
++      Predicate(queryPlan.coveredIds, predicate1),
++      Predicate(queryPlan.coveredIds, predicate2)))
+@@ -103 +83 @@
+-  test("when a predicate that is already solved, it should not be applied again") {
++  test("when a predicate is already solved, it should not be applied again") {
+@@ -107,6 +87,5 @@
+-    val queryPlan = newMockedQueryPlan("x")
+-    val predicate = mock[Expression]
+-    val selections = Selections(Set(Predicate(queryPlan.plan.coveredIds, predicate)))
+-    when(context.queryGraph.selections).thenReturn(selections)
+-    val selectionsQG = QueryGraph(selections = selections)
+-    when(queryPlan.plan.solved).thenReturn(selectionsQG)
++
++    val coveredIds = Set(IdName("x"))
++    val selectionsQG = QueryGraph(selections = Selections(Set(Predicate(coveredIds, SignedIntegerLiteral("1")_))))
++
++    val queryPlan = newMockedQueryPlanWithProjections("x").copy(solved = selectionsQG)
+@@ -115 +94 @@
+-    val result = selectCovered(queryPlan.plan)
++    val result = selectCovered(queryPlan)(context.copy(queryGraph = selectionsQG))
+@@ -118 +97 @@
+-    result should equal(QueryPlan(queryPlan.plan, selectionsQG))
++    result should equal(queryPlan)
+@@ -125 +104 @@
+-    val queryPlan = newMockedQueryPlan("x")
++    val queryPlan = newMockedQueryPlanWithProjections("x")
+diff --git a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectPatternPredicatesTest.scala b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectPatternPredicatesTest.scala
+index d1d88f6..2830060 100644
+--- a/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectPatternPredicatesTest.scala
++++ b/community/cypher/cypher-compiler-2.1/src/test/scala/org/neo4j/cypher/internal/compiler/v2_1/planner/logical/steps/SelectPatternPredicatesTest.scala
+@@ -77,2 +77,2 @@
+-    val aPlan = newMockedLogicalPlan("a")
+-    val inner: Expand = Expand(SingleRow(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength)(patternRel)
++    val aPlan = newMockedQueryPlan("a")
++    val inner = ExpandPlan(SingleRowPlan(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength, patternRel)
+@@ -81 +81 @@
+-    val result = selectPatternPredicates(passThrough)(aPlan).plan
++    val result = selectPatternPredicates(passThrough)(aPlan)
+@@ -84 +84 @@
+-    result should equal(SemiApply(aPlan, inner)(exists))
++    result should equal(SemiApplyPlan(aPlan, inner, exists))
+@@ -108,2 +108,2 @@
+-    val aPlan = newMockedLogicalPlan("a")
+-    val inner: Expand = Expand(SingleRow(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength)(patternRel)
++    val aPlan = newMockedQueryPlan("a")
++    val inner = ExpandPlan(SingleRowPlan(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength, patternRel)
+@@ -112 +112 @@
+-    val result = selectPatternPredicates(passThrough)(aPlan).plan
++    val result = selectPatternPredicates(passThrough)(aPlan)
+@@ -115 +115 @@
+-    result should equal(AntiSemiApply(aPlan, inner)(Exists(predicate, patternQG)))
++    result should equal(AntiSemiApplyPlan(aPlan, inner, Exists(predicate, patternQG)))
+@@ -139 +139 @@
+-    val bPlan = newMockedLogicalPlan("b")
++    val bPlan = newMockedQueryPlan("b")
+@@ -141 +141 @@
+-    val result = selectPatternPredicates(passThrough)(bPlan).plan
++    val result = selectPatternPredicates(passThrough)(bPlan)
+@@ -172,2 +172,2 @@
+-    val aPlan = newMockedLogicalPlan("a")
+-    val inner: Expand = Expand(SingleRow(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength)(patternRel)
++    val aPlan = newMockedQueryPlan("a")
++    val inner = ExpandPlan(SingleRowPlan(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength, patternRel)
+@@ -176 +176 @@
+-    val result = selectPatternPredicates(passThrough)(aPlan).plan
++    val result = selectPatternPredicates(passThrough)(aPlan)
+@@ -179 +179 @@
+-    result should equal(SelectOrSemiApply(aPlan, inner, equals)(Exists(orPredicate, patternQG)))
++    result should equal(SelectOrSemiApplyPlan(aPlan, inner, equals, Exists(orPredicate, patternQG)))
+@@ -207,2 +207,2 @@
+-    val aPlan = newMockedLogicalPlan("a")
+-    val inner: Expand = Expand(SingleRow(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength)(patternRel)
++    val aPlan = newMockedQueryPlan("a")
++    val inner = ExpandPlan(SingleRowPlan(Set(IdName("a"))), IdName("a"), dir, types, IdName(nodeName), IdName(relName), SimplePatternLength, patternRel)
+@@ -211 +211 @@
+-    val result = selectPatternPredicates(passThrough)(aPlan).plan
++    val result = selectPatternPredicates(passThrough)(aPlan)
+@@ -214 +214 @@
+-    result should equal(SelectOrAntiSemiApply(aPlan, inner, equals)(Exists(orPredicate, patternQG)))
++    result should equal(SelectOrAntiSemiApplyPlan(aPlan, inner, equals, Exists(orPredicate, patternQG)))
+diff --git a/community/embedded-examples/src/main/java/org/neo4j/examples/CalculateShortestPath.java b/community/embedded-examples/src/main/java/org/neo4j/examples/CalculateShortestPath.java
+index 83202ba..7c801d6 100644
+--- a/community/embedded-examples/src/main/java/org/neo4j/examples/CalculateShortestPath.java
++++ b/community/embedded-examples/src/main/java/org/neo4j/examples/CalculateShortestPath.java
+@@ -39 +39 @@
+-    private static final String DB_PATH = "neo4j-shortest-path";
++    private static final String DB_PATH = "target/neo4j-shortest-path";
+

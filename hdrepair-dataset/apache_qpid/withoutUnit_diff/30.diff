@@ -1,0 +1,21 @@
+diff --git a/qpid/java/client/src/main/java/org/apache/qpid/client/AMQDestination.java b/qpid/java/client/src/main/java/org/apache/qpid/client/AMQDestination.java
+index 2d78449..593613f 100644
+--- a/qpid/java/client/src/main/java/org/apache/qpid/client/AMQDestination.java
++++ b/qpid/java/client/src/main/java/org/apache/qpid/client/AMQDestination.java
+@@ -149 +149 @@
+-                                        DestSyntax.BURL.toString()));
++                                        DestSyntax.ADDR.toString()));
+diff --git a/qpid/java/module.xml b/qpid/java/module.xml
+index 290b88b..27aae0f 100644
+--- a/qpid/java/module.xml
++++ b/qpid/java/module.xml
+@@ -297,0 +298,2 @@
++      <sysproperty key="qpid.dest_syntax" value ="${qpid.dest_syntax}"/>
++
+diff --git a/qpid/java/test-profiles/default.testprofile b/qpid/java/test-profiles/default.testprofile
+index 9172730..dfc92f1 100644
+--- a/qpid/java/test-profiles/default.testprofile
++++ b/qpid/java/test-profiles/default.testprofile
+@@ -10,0 +11 @@
++qpid.dest_syntax=BURL
+

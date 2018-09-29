@@ -1,0 +1,138 @@
+diff --git a/trunk/JLanguageTool/CHANGES.txt b/trunk/JLanguageTool/CHANGES.txt
+index 3b6c200..b7e7491 100644
+--- a/trunk/JLanguageTool/CHANGES.txt
++++ b/trunk/JLanguageTool/CHANGES.txt
+@@ -5 +5,2 @@
+- -...
++ -Internal changes:
++   -Update to Morfologik 1.5.2, fixes a rare crash for at least German 
+diff --git a/trunk/JLanguageTool/README.txt b/trunk/JLanguageTool/README.txt
+index bc8f85f..75cd65c 100644
+--- a/trunk/JLanguageTool/README.txt
++++ b/trunk/JLanguageTool/README.txt
+@@ -66 +66 @@
+- mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.OpenJDK.Core.dll libs/###stempelator.lib###
++ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.OpenJDK.Core.dll libs/###morfologik.lib###
+@@ -68 +68 @@
+- mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.OpenJDK.Core.dll -r:###stempelator.lib### -r:jWordSplitter.dll LanguageTool.jar
++ mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.OpenJDK.Core.dll -r:###morfologik.lib### -r:jWordSplitter.dll LanguageTool.jar
+diff --git a/trunk/JLanguageTool/build.properties b/trunk/JLanguageTool/build.properties
+index 7a34de8..75fb76f 100644
+--- a/trunk/JLanguageTool/build.properties
++++ b/trunk/JLanguageTool/build.properties
+@@ -27,2 +27,4 @@
+-stempelator.lib = morfologik-stemming-nodict-1.4.0.jar
+-ext.stempelator.lib = ${ext.dir}/${stempelator.lib}
++morfologik.fsa.lib = morfologik-fsa-1.5.2.jar
++morfologik.stemming.lib = morfologik-stemming-1.5.2.jar
++ext.morfologik.fsa.lib = ${ext.dir}/${morfologik.fsa.lib}
++ext.morfologik.stemming.lib = ${ext.dir}/${morfologik.stemming.lib}
+diff --git a/trunk/JLanguageTool/build.xml b/trunk/JLanguageTool/build.xml
+index 435cec6..fd6868f 100644
+--- a/trunk/JLanguageTool/build.xml
++++ b/trunk/JLanguageTool/build.xml
+@@ -16 +16,2 @@
+-		<pathelement location="${ext.stempelator.lib}" />
++		<pathelement location="${ext.morfologik.fsa.lib}" />
++		<pathelement location="${ext.morfologik.stemming.lib}" />
+@@ -300 +301 @@
+-				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib}" />
++				<attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib}" />
+@@ -309 +310 @@
+-				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib}" />
++				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib}" />
+@@ -386 +387 @@
+-		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib}" />
++		<attribute name="Class-Path" value=". ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib}" />
+@@ -439 +440 @@
+-	<replace file="${dist.dir}/README.txt" token="###stempelator.lib###" value="${stempelator.lib}">
++	<replace file="${dist.dir}/README.txt" token="###morfologik.lib###" value="${morfologik.fsa.lib}:${morfologik.stemming.lib}">
+@@ -442 +443 @@
+-	<copy file="${ext.dir}/Morfologik-nodict-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
++	<copy file="${ext.dir}/Morfologik-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
+@@ -451 +452,2 @@
+-	<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
++	<copy file="${ext.morfologik.fsa.lib}" todir="${dist.dir}" />
++	<copy file="${ext.morfologik.stemming.lib}" todir="${dist.dir}" />
+diff --git a/trunk/JLanguageTool/libs/Morfologik-license.txt b/trunk/JLanguageTool/libs/Morfologik-license.txt
+new file mode 100644
+index 0000000..726baa9
+--- /dev/null
++++ b/trunk/JLanguageTool/libs/Morfologik-license.txt
+@@ -0,0 +1,30 @@
++
++
++Copyright (c) 2006 Dawid Weiss
++Copyright (c) 2007-2010 Dawid Weiss, Marcin MiĹ‚kowski
++All rights reserved.
++
++Redistribution and use in source and binary forms, with or without modification, 
++are permitted provided that the following conditions are met:
++
++    * Redistributions of source code must retain the above copyright notice, 
++    this list of conditions and the following disclaimer.
++    
++    * Redistributions in binary form must reproduce the above copyright notice, 
++    this list of conditions and the following disclaimer in the documentation 
++    and/or other materials provided with the distribution.
++    
++    * Neither the name of Morfologik nor the names of its contributors 
++    may be used to endorse or promote products derived from this software 
++    without specific prior written permission.
++
++THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
++ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
++WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
++DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR 
++ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
++(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
++LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
++ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
++(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
++SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\ No newline at end of file
+diff --git a/trunk/JLanguageTool/libs/Morfologik-nodict-license.txt b/trunk/JLanguageTool/libs/Morfologik-nodict-license.txt
+deleted file mode 100644
+index 726baa9..0000000
+--- a/trunk/JLanguageTool/libs/Morfologik-nodict-license.txt
++++ /dev/null
+@@ -1,30 +0,0 @@
+-
+-
+-Copyright (c) 2006 Dawid Weiss
+-Copyright (c) 2007-2010 Dawid Weiss, Marcin MiĹ‚kowski
+-All rights reserved.
+-
+-Redistribution and use in source and binary forms, with or without modification, 
+-are permitted provided that the following conditions are met:
+-
+-    * Redistributions of source code must retain the above copyright notice, 
+-    this list of conditions and the following disclaimer.
+-    
+-    * Redistributions in binary form must reproduce the above copyright notice, 
+-    this list of conditions and the following disclaimer in the documentation 
+-    and/or other materials provided with the distribution.
+-    
+-    * Neither the name of Morfologik nor the names of its contributors 
+-    may be used to endorse or promote products derived from this software 
+-    without specific prior written permission.
+-
+-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR 
+-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\ No newline at end of file
+diff --git a/trunk/JLanguageTool/src/dev/de/danielnaber/languagetool/dev/ExportGermanNouns.java b/trunk/JLanguageTool/src/dev/de/danielnaber/languagetool/dev/ExportGermanNouns.java
+index ad7d231..6658665 100644
+--- a/trunk/JLanguageTool/src/dev/de/danielnaber/languagetool/dev/ExportGermanNouns.java
++++ b/trunk/JLanguageTool/src/dev/de/danielnaber/languagetool/dev/ExportGermanNouns.java
+@@ -48 +48 @@
+-    final FSA fsa = FSA.getInstance(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
++    final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
+

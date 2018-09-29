@@ -1,0 +1,163 @@
+diff --git a/app/assets/stylesheets/less/_page.less b/app/assets/stylesheets/less/_page.less
+index 7746b43..5e46951 100644
+--- a/app/assets/stylesheets/less/_page.less
++++ b/app/assets/stylesheets/less/_page.less
+@@ -2577,0 +2578,5 @@
++    .diff {
++        border-bottom:none;
++        .border-radius(0px);
++    }
++
+@@ -2667,0 +2673 @@
++            width: 100px;
+@@ -2669 +2675,9 @@
+-            width: 80px;
++
++            font-family:Consolas; font-size:12px; font-weight:bold;
++
++            a {
++                color:@secondary;
++                &:hover { color:@link-hover-color; text-decoration:underline; }
++
++                i { vertical-align:middle; margin-bottom:2px; }
++            }
+diff --git a/app/controllers/CodeHistoryApp.java b/app/controllers/CodeHistoryApp.java
+index 2e2f102..3781ddd 100644
+--- a/app/controllers/CodeHistoryApp.java
++++ b/app/controllers/CodeHistoryApp.java
+@@ -69 +69 @@
+-        return ok(diff.render(project, patch));
++        return ok(diff.render(project, commitId, patch));
+diff --git a/app/views/code/diff.scala.html b/app/views/code/diff.scala.html
+index c7e3668..8278829 100644
+--- a/app/views/code/diff.scala.html
++++ b/app/views/code/diff.scala.html
+@@ -1 +1 @@
+-@(project: Project, patch: String)
++@(project: Project, commitId:String, patch: String)
+@@ -3 +3,2 @@
+-@main(Messages("Commit"), project, utils.MenuType.CODE) {
++@import playRepository.RepositoryService
++@import java.net.URLEncoder
+@@ -5,6 +6 @@
+-<script type="text/javascript" src="/assets/javascripts/hljs.js"></script>
+-<script type="text/javascript" src="/assets/javascripts/hljs.jquery.js"></script>
+-<script type="text/javascript" src="/assets/javascripts/languages/allinone.js"></script>
+-<style>
+-@@IMPORT url("/assets/stylesheets/hljsstyles/googlecode.css");
+-</style>
++@main(Messages("code.commits") + " @" + commitId, project, utils.MenuType.CODE) {
+@@ -12,4 +8 @@
+-<ul class="nav nav-tabs">
+-    <a href="@routes.CodeApp.codeBrowser(project.owner, project.name)">@Messages("code.files")</a></li>
+-    <a href="@routes.CodeHistoryApp.historyUntilHead(project.owner, project.name)">@Messages("code.commits")</a></li>
+-</ul>
++<div class="page">
+@@ -17,2 +10,49 @@
+-<div class="row" id="commit">
+-    <pre><code>@patch</code></pre>
++	@prjmenu(project, utils.MenuType.CODE, "main-menu-only")
++
++	<ul class="nav nav-tabs">
++		<li>
++			<a href="@routes.CodeApp.codeBrowser(project.owner, project.name)">@Messages("code.files")</a>
++		</li>
++		<li class="active">
++			<a href="@routes.CodeHistoryApp.historyUntilHead(project.owner, project.name)">@Messages("code.commits")</a>
++		</li>
++	</ul>
++
++	<div class="bubble-wrap dark-gray repo-wrap">
++		<div class="inner-bubble repo-info">
++			<span class="clone-label"><strong class="@project.vcs">@project.vcs</strong>@Messages("code.repoUrl")</span><!--
++			 --><input id="repositoryURL" type="text" class="text repo-url" readonly="readonly" value="@CodeApp.getURL(project.owner, project.name)"><!--
++             --><a id="copyURL" href="#!/copy-url" class="copy-btn btn">COPY TO CLIPBOARD</a>
++
++			<div id="branches" class="btn-group branches" data-name="branch" data-activate="manual">
++				<button class="btn dropdown-toggle large" data-toggle="dropdown">
++					<span class="d-label"></span>
++					<span class="d-caret"><span class="caret"></span></span>
++				</button>
++				@defining(RepositoryService.getRepository(project).getBranches()) { branches =>
++					@if(branches.length > 0) {
++					<ul class="dropdown-menu">
++						@branches.map { branch =>
++							@defining(routes.CodeHistoryApp.history(project.owner, project.name, URLEncoder.encode(branch, "UTF-8"))) { url =>
++							<li><a href="@url">@branch</a></li>
++							}
++						}
++					</ul>
++					}
++				}
++			</div>
++		</div>
++		<hr class="double-sp" />
++
++		<div class="code-browse-wrap">
++			<div class="code-browse-header">
++				@Messages("code.commits")
++				<strong class="commitId">@@@commitId</strong>
++			</div>
++			<div id="commit">
++			<pre class="diff"><code>@patch</code></pre>
++			</div>
++		</div>
++	</div>
++
++	<a href="javascript: history.back();" class="nbtn medium pull-right">@Messages("button.list")</a>
+@@ -20,0 +61,5 @@
++<link rel="stylesheet" type="text/css" href="/assets/stylesheets/hljsstyles/monokai.css" />
++
++<script type="text/javascript" src="/assets/javascripts/lib/hljs/hljs.js"></script>
++<script type="text/javascript" src="/assets/javascripts/lib/hljs/hljs.jquery.js"></script>
++<script type="text/javascript" src="/assets/javascripts/lib/hljs/languages/allinone.js"></script>
+@@ -22 +67,3 @@
+-  $("code").highlight('diff');
++	$(document).ready(function(){
++		$("code").highlight('diff');
++	});
+@@ -23,0 +71 @@
++
+diff --git a/app/views/code/history.scala.html b/app/views/code/history.scala.html
+index 358ffb1..4527dd1 100644
+--- a/app/views/code/history.scala.html
++++ b/app/views/code/history.scala.html
+@@ -37,10 +37,12 @@
+-			<div class="btn-group">
+-				<button data-toggle="dropdown" class="btn dropdown-toggle d-label bgwhite" id="selected-branch">@if(selectedBranch){ @selectedBranch } else { HEAD }</button>
+-				<button data-toggle="dropdown" class="btn dropdown-toggle bgwhite"><span class="caret"></span></button>
+-				@defining(RepositoryService.getRepository(project).getBranches()) { branches =>
+-					@if(branches.length > 0) {
+-					<ul class="dropdown-menu">
+-						@branches.map { branch =>
+-							@defining(routes.CodeHistoryApp.history(project.owner, project.name, URLEncoder.encode(branch, "UTF-8"))) { url =>
+-							<li><a href="@url">@branch</a></li>
+-							}
++
++             <div id="branches" class="btn-group branches" data-name="branch" data-activate="manual">
++				<button class="btn dropdown-toggle large" data-toggle="dropdown">
++					<span class="d-label">@if(selectedBranch){ @selectedBranch } else { HEAD }</span>
++					<span class="d-caret"><span class="caret"></span></span>
++				</button>
++			@defining(RepositoryService.getRepository(project).getBranches()) { branches =>
++				@if(branches.length > 0) {
++				<ul class="dropdown-menu">
++					@branches.map { branch =>
++						@defining(routes.CodeHistoryApp.history(project.owner, project.name, URLEncoder.encode(branch, "UTF-8"))) { url =>
++						<li><a href="@url">@branch</a></li>
+@@ -48 +49,0 @@
+-					</ul>
+@@ -49,0 +51 @@
++				</ul>
+@@ -50,0 +53 @@
++			}
+@@ -60 +63 @@
+-							<td class="commit-id"><strong>#</strong></td>
++							<td class="commit-id"><strong>@@</strong></td>
+@@ -70 +73,4 @@
+-								<a href="@routes.CodeHistoryApp.show(project.owner, project.name, commit.getId())">@commit.getShortId()</a>
++								<a href="@routes.CodeHistoryApp.show(project.owner, project.name, commit.getId())">
++									@commit.getShortId()
++									<i class="ico ico-gray-arrow-right"></i>
++								</a>
+

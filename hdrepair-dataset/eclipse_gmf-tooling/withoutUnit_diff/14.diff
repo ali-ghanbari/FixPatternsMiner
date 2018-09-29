@@ -1,0 +1,9 @@
+diff --git a/plugins/org.eclipse.gmf.codegen/src/org/eclipse/gmf/internal/codegen/util/Migrate2008.java b/plugins/org.eclipse.gmf.codegen/src/org/eclipse/gmf/internal/codegen/util/Migrate2008.java
+index 03ed781..d6ce6ae 100644
+--- a/plugins/org.eclipse.gmf.codegen/src/org/eclipse/gmf/internal/codegen/util/Migrate2008.java
++++ b/plugins/org.eclipse.gmf.codegen/src/org/eclipse/gmf/internal/codegen/util/Migrate2008.java
+@@ -148 +148,2 @@
+-				Object providerLang = p.eClass().getEPackage().getEFactoryInstance().convertToString((EDataType) provLangFeat.getEType(), p.eGet(provLangFeat));
++				// java provider has no language feature, hence hardcoded "java" value
++				Object providerLang = provLangFeat == null ? "java" : p.eClass().getEPackage().getEFactoryInstance().convertToString((EDataType) provLangFeat.getEType(), p.eGet(provLangFeat));
+

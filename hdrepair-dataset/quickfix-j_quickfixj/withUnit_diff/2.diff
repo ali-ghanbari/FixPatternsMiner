@@ -1,0 +1,14 @@
+diff --git a/core/src/main/java/quickfix/DataDictionary.java b/core/src/main/java/quickfix/DataDictionary.java
+index 471a30f..e21ea5d 100644
+--- a/core/src/main/java/quickfix/DataDictionary.java
++++ b/core/src/main/java/quickfix/DataDictionary.java
+@@ -262 +262 @@
+-        return fields != null & fields.contains(new Integer(field));
++        return fields != null && fields.contains(new Integer(field));
+diff --git a/core/src/test/java/quickfix/DataDictionaryTest.java b/core/src/test/java/quickfix/DataDictionaryTest.java
+index be83ea7..d512609 100644
+--- a/core/src/test/java/quickfix/DataDictionaryTest.java
++++ b/core/src/test/java/quickfix/DataDictionaryTest.java
+@@ -77,0 +78 @@
++        assertFalse(dd.isMsgField("UNKNOWN_TYPE", 1)); 
+

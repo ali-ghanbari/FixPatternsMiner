@@ -1,0 +1,10 @@
+diff --git a/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/interpretor/WorkflowInterpretorEventListener.java b/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/interpretor/WorkflowInterpretorEventListener.java
+index 912fa4b..6b35f00 100644
+--- a/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/interpretor/WorkflowInterpretorEventListener.java
++++ b/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/interpretor/WorkflowInterpretorEventListener.java
+@@ -138 +138,3 @@
+-            throw new MonitorException("Failed to unsubscribe.", e);
++            // We do not throw exception because we unsubscribe for all the failures, there could be multiple failure messages
++            //for a given case.
++            logger.info("Given subscription is already unsubscribed.");
+

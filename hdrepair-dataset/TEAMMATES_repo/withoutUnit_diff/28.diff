@@ -1,0 +1,26 @@
+diff --git a/src/main/java/teammates/ui/controller/InstructorCourseEditPageData.java b/src/main/java/teammates/ui/controller/InstructorCourseEditPageData.java
+index 18b85c0..8679553 100644
+--- a/src/main/java/teammates/ui/controller/InstructorCourseEditPageData.java
++++ b/src/main/java/teammates/ui/controller/InstructorCourseEditPageData.java
+@@ -54 +54 @@
+-        if (instructor != null) {
++        if (instructor != null && instructor.key != null && !instructor.key.trim().isEmpty()) {
+diff --git a/src/main/webapp/jsp/instructorCourseEdit.jsp b/src/main/webapp/jsp/instructorCourseEdit.jsp
+index d593c78..e725c1c 100644
+--- a/src/main/webapp/jsp/instructorCourseEdit.jsp
++++ b/src/main/webapp/jsp/instructorCourseEdit.jsp
+@@ -139,0 +140,5 @@
++            
++            <% if(data.getJoinLink(instructor).isEmpty()) 
++                {
++            %>
++            
+@@ -143 +148 @@
+-            -->       
++            -->
+@@ -147,0 +153,4 @@
++
++            <%
++                }
++            %>
+

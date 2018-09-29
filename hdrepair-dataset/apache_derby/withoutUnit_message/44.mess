@@ -1,0 +1,10 @@
+DERBY-4442: Default value and identity in an INSERT result set evaluated too early
+
+Back out the fix for DERBY-4419 and DERBY-4425, since the fix is no
+longer necessary after the changes that added a ProjectRestrictNode on
+top of the original insert source. The test cases for those bugs are
+still part of the regression test suite.
+
+
+git-svn-id: https://svn.apache.org/repos/asf/db/derby/code/trunk@888311 13f79535-47bb-0310-9956-ffa450edef68
+

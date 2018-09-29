@@ -1,0 +1,48 @@
+diff --git a/core-avl/src/main/java/org/apache/directory/server/core/avltree/AvlTree.java b/core-avl/src/main/java/org/apache/directory/server/core/avltree/AvlTree.java
+index 1b294cb..c96d088 100644
+--- a/core-avl/src/main/java/org/apache/directory/server/core/avltree/AvlTree.java
++++ b/core-avl/src/main/java/org/apache/directory/server/core/avltree/AvlTree.java
+@@ -77,0 +78 @@
++	      last = root;
+diff --git a/core-avl/src/test/java/org/apache/directory/server/core/avltree/AvlTreeTest.java b/core-avl/src/test/java/org/apache/directory/server/core/avltree/AvlTreeTest.java
+index feeba0e..727ba83 100644
+--- a/core-avl/src/test/java/org/apache/directory/server/core/avltree/AvlTreeTest.java
++++ b/core-avl/src/test/java/org/apache/directory/server/core/avltree/AvlTreeTest.java
+@@ -61,0 +62 @@
++    
+@@ -65,0 +67,2 @@
++      assertNull( tree.getFirst() );
++      assertNull( tree.getLast() );
+@@ -70,0 +74,26 @@
++    }
++    
++    
++    @Test 
++    public void testFirstAndLast()
++    {
++        tree.insert( 7 );
++        assertFalse( tree.isEmpty() );
++        assertNotNull( tree.getFirst() );
++        assertNotNull( tree.getLast() );
++        
++        tree.insert( 10 );
++        assertEquals( 2, tree.getSize() );
++        assertNotNull( tree.getFirst() );
++        assertNotNull( tree.getLast() );
++        assertFalse( tree.getFirst().equals( tree.getLast() ) );
++        assertTrue( tree.getFirst().getKey().equals( 7 ) );
++        assertTrue( tree.getLast().getKey().equals( 10 ) );
++        
++        tree.insert( 3 );
++        assertTrue( tree.getFirst().getKey().equals( 3 ) );
++        assertTrue( tree.getLast().getKey().equals( 10 ) );
++        
++        tree.insert( 11 );
++        assertTrue( tree.getFirst().getKey().equals( 3 ) );
++        assertTrue( tree.getLast().getKey().equals( 11 ) );
+@@ -84,2 +113,2 @@
+-        assertNull( tree.getLast() );
+-        assertNotSame( tree.getFirst(), tree.getLast() );
++        assertNotNull( tree.getLast() );
++        assertTrue( tree.getFirst() == tree.getLast() );
+

@@ -1,0 +1,5 @@
+Merge change 966 into donut
+
+* changes:
+  Fixes 1830181. Tapping disabled items in a ListView would cause the framework to take a code path that wasn't resetting the mMotionCorrection variable if it had been previously set. This would force ListView to apply a scroll to its children even though it was unnecessary. This simple fix prevents the issue by resetting mMotionCorrection appropriately.
+

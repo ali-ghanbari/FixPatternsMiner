@@ -1,0 +1,54 @@
+diff --git a/src/main/java/spoon/support/visitor/SignaturePrinter.java b/src/main/java/spoon/support/visitor/SignaturePrinter.java
+index d653dfa..64bd7d9 100644
+--- a/src/main/java/spoon/support/visitor/SignaturePrinter.java
++++ b/src/main/java/spoon/support/visitor/SignaturePrinter.java
+@@ -362 +362 @@
+-			write(literal.getValue().toString());
++			write(literal.toString());
+diff --git a/src/test/java/spoon/test/comparison/EqualTest.java b/src/test/java/spoon/test/comparison/EqualTest.java
+index 20c0847..b288101 100644
+--- a/src/test/java/spoon/test/comparison/EqualTest.java
++++ b/src/test/java/spoon/test/comparison/EqualTest.java
+@@ -47 +47 @@
+-		assertEquals("", signatureArg1);
++		assertEquals(realParam1 , signatureArg1);
+@@ -54 +54 @@
+-		assertEquals("", returnExp.getSignature() );
++		assertEquals(realParam1 , returnExp.getSignature() );
+diff --git a/src/test/java/spoon/test/signature/SignatureTest.java b/src/test/java/spoon/test/signature/SignatureTest.java
+index 45c5893..1e3f9f8 100644
+--- a/src/test/java/spoon/test/signature/SignatureTest.java
++++ b/src/test/java/spoon/test/signature/SignatureTest.java
+@@ -3,2 +3 @@
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertTrue;
++import static org.junit.Assert.*;
+@@ -16,0 +16 @@
++import spoon.reflect.code.CtStatement;
+@@ -19,0 +20 @@
++import spoon.reflect.factory.FactoryImpl;
+@@ -20,0 +22,2 @@
++import spoon.support.DefaultCoreFactory;
++import spoon.support.StandardEnvironment;
+@@ -99 +102,19 @@
+-
++	
++	@Test
++	public void testLiteralSignature(){
++		Factory factory = new FactoryImpl(new DefaultCoreFactory(),
++				new StandardEnvironment());
++		CtStatement sta1 = (factory).Code().createCodeSnippetStatement("System.out.println(\"hello\")")
++				.compile();
++	
++		
++		String signatureParameterWithQuotes = ((CtInvocation<?>)sta1).getArguments().get(0).getSignature();
++		assertEquals("\"hello\"",signatureParameterWithQuotes);
++		
++		CtStatement stb1 = (factory).Code().createCodeSnippetStatement("Integer.toBinaryString(20)")
++				.compile();
++		
++		String signatureParameterWithoutQuotes = ((CtInvocation<?>)stb1).getArguments().get(0).getSignature();
++		assertEquals("20",signatureParameterWithoutQuotes);
++	}
++	
+

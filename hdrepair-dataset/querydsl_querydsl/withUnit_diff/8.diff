@@ -1,0 +1,15 @@
+diff --git a/querydsl-collections/src/main/java/com/mysema/query/collections/ColQueryImpl.java b/querydsl-collections/src/main/java/com/mysema/query/collections/ColQueryImpl.java
+index 7de1610..9871d45 100644
+--- a/querydsl-collections/src/main/java/com/mysema/query/collections/ColQueryImpl.java
++++ b/querydsl-collections/src/main/java/com/mysema/query/collections/ColQueryImpl.java
+@@ -40 +40 @@
+-        this(new DefaultQueryEngine(new DefaultEvaluatorFactory(ColQueryTemplates.DEFAULT)));
++        this(new DefaultQueryEngine(new DefaultEvaluatorFactory(templates)));
+diff --git a/querydsl-collections/src/test/java/com/mysema/query/collections/ColQueryTest.java b/querydsl-collections/src/test/java/com/mysema/query/collections/ColQueryTest.java
+index 3be6445..d07fd6f 100644
+--- a/querydsl-collections/src/test/java/com/mysema/query/collections/ColQueryTest.java
++++ b/querydsl-collections/src/test/java/com/mysema/query/collections/ColQueryTest.java
+@@ -45 +45 @@
+-        ColQuery query = new ColQueryImpl(templates);
++        new ColQueryImpl(templates);
+

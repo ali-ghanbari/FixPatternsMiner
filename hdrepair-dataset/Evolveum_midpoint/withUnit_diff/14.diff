@@ -1,0 +1,36 @@
+diff --git a/model/model-impl/src/main/java/com/evolveum/midpoint/model/controller/SchemaHandlerImpl.java b/model/model-impl/src/main/java/com/evolveum/midpoint/model/controller/SchemaHandlerImpl.java
+index b581878..2b63cc2 100644
+--- a/model/model-impl/src/main/java/com/evolveum/midpoint/model/controller/SchemaHandlerImpl.java
++++ b/model/model-impl/src/main/java/com/evolveum/midpoint/model/controller/SchemaHandlerImpl.java
+@@ -317 +317 @@
+-			LoggingUtils.logException(LOGGER, "Variable {} couldn't be serialized to XML, skipping", ex);
++			LoggingUtils.logException(LOGGER, "Variable {} couldn't be serialized to XML, skipping", ex, oid);
+diff --git a/model/model-impl/src/test/java/com/evolveum/midpoint/model/controller/SchemaHandlerUserDefinedVariablesTest.java b/model/model-impl/src/test/java/com/evolveum/midpoint/model/controller/SchemaHandlerUserDefinedVariablesTest.java
+index ce032c9..37da9aa 100644
+--- a/model/model-impl/src/test/java/com/evolveum/midpoint/model/controller/SchemaHandlerUserDefinedVariablesTest.java
++++ b/model/model-impl/src/test/java/com/evolveum/midpoint/model/controller/SchemaHandlerUserDefinedVariablesTest.java
+@@ -33,0 +34 @@
++import org.junit.Before;
+@@ -35,0 +37 @@
++import org.mockito.Mockito;
+@@ -65,0 +68,2 @@
++	private ModelController model;
++	@Autowired
+@@ -68,0 +73,5 @@
++
++	@Before
++	public void before() {
++		Mockito.reset(repositoryService);
++	}
+@@ -86,0 +96 @@
++		schemaHandler.setModel(model);
+diff --git a/model/model-impl/src/test/resources/generic-object-my-config.xml b/model/model-impl/src/test/resources/generic-object-my-config.xml
+index a1024a7..849bd2a 100644
+--- a/model/model-impl/src/test/resources/generic-object-my-config.xml
++++ b/model/model-impl/src/test/resources/generic-object-my-config.xml
+@@ -1 +1 @@
+-    <c:genericObject oid="c0c010c0-d34d-b33f-f00d-999111111111" xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-1.xsd" xmlns:my="http://myself.me/schemas/whatever">
++<?xml version="1.0" encoding="UTF-8" standalone="yes"?>   
+@@ -21,0 +22 @@
++<c:genericObject oid="c0c010c0-d34d-b33f-f00d-999111111111" xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-1.xsd" xmlns:my="http://myself.me/schemas/whatever">
+

@@ -1,0 +1,16 @@
+diff --git a/RELEASENOTES.txt b/RELEASENOTES.txt
+index 7636740..e8b7620 100644
+--- a/RELEASENOTES.txt
++++ b/RELEASENOTES.txt
+@@ -68,0 +69,4 @@
++LockFileListener
++----------------------
++* Fix problem where listener was incorrectly deleting the lockfile.
++
+diff --git a/main/src/net/sourceforge/cruisecontrol/listeners/LockFileListener.java b/main/src/net/sourceforge/cruisecontrol/listeners/LockFileListener.java
+index 40de8af..909c30d 100644
+--- a/main/src/net/sourceforge/cruisecontrol/listeners/LockFileListener.java
++++ b/main/src/net/sourceforge/cruisecontrol/listeners/LockFileListener.java
+@@ -27,0 +28 @@
++            needToDeleteLock = false;
+

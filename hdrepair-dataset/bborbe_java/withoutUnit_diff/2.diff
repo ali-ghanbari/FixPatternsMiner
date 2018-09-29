@@ -1,0 +1,23 @@
+diff --git a/meta/poker/src/main/resources/bundles.properties b/meta/poker/src/main/resources/bundles.properties
+index 0bcdc7f..6d6400f 100644
+--- a/meta/poker/src/main/resources/bundles.properties
++++ b/meta/poker/src/main/resources/bundles.properties
+@@ -6 +6,2 @@
+-de.benjaminborbe.configuration.gui
++de.benjaminborbe.configuration.gui, \
++de.benjaminborbe.wiki.gui
+diff --git a/poker/gui/Makefile b/poker/gui/Makefile
+index 8cf8381..357a4ea 100644
+--- a/poker/gui/Makefile
++++ b/poker/gui/Makefile
+@@ -18 +18 @@
+-	../scripts/osgi_deploy.pl 'Benjamin Borbe - Poker - Gui' ./target/de.benjaminborbe.poker.gui.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
++	../../scripts/osgi_deploy.pl 'Benjamin Borbe - Poker - Gui' ./target/de.benjaminborbe.poker.gui.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
+diff --git a/poker/gui/src/main/java/de/benjaminborbe/poker/gui/servlet/PokerGuiApiHelpServlet.java b/poker/gui/src/main/java/de/benjaminborbe/poker/gui/servlet/PokerGuiApiHelpServlet.java
+index 3fe2a80..61b02b9 100644
+--- a/poker/gui/src/main/java/de/benjaminborbe/poker/gui/servlet/PokerGuiApiHelpServlet.java
++++ b/poker/gui/src/main/java/de/benjaminborbe/poker/gui/servlet/PokerGuiApiHelpServlet.java
+@@ -98 +98 @@
+-			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier("POKER - ApiHelp");
++			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier("POKER-ApiHelp");
+

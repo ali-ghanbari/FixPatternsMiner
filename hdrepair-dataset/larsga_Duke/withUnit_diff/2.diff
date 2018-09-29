@@ -1,0 +1,120 @@
+diff --git a/buildNumber.properties b/buildNumber.properties
+index c34b9c9..aeb3b8f 100644
+--- a/buildNumber.properties
++++ b/buildNumber.properties
+@@ -2 +2 @@
+-#Fri Sep 16 09:02:30 CEST 2011
++#Mon Sep 19 15:38:08 CEST 2011
+@@ -4 +4 @@
+-buildNumber0=50
++buildNumber0=95
+diff --git a/pom.xml b/pom.xml
+index bc5383e..d8b9026 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -101,0 +102,9 @@
++
++      <!-- used for test coverage
++           cobertura:cobertura = instrument, test, generate report
++      -->
++      <plugin>
++        <groupId>org.codehaus.mojo</groupId>
++        <artifactId>cobertura-maven-plugin</artifactId>
++        <version>2.5.1</version>
++      </plugin>      
+diff --git a/src/main/java/no/priv/garshol/duke/LinkDatabaseMatchListener.java b/src/main/java/no/priv/garshol/duke/LinkDatabaseMatchListener.java
+index dcba922..92b3735 100644
+--- a/src/main/java/no/priv/garshol/duke/LinkDatabaseMatchListener.java
++++ b/src/main/java/no/priv/garshol/duke/LinkDatabaseMatchListener.java
+@@ -58 +58 @@
+-    for (Link newl : curlinks) {
++    for (Link newl : new ArrayList<Link>(curlinks)) {
+diff --git a/src/test/java/no/priv/garshol/duke/test/LinkDatabaseMatchListenerTest.java b/src/test/java/no/priv/garshol/duke/test/LinkDatabaseMatchListenerTest.java
+index 712b600..c8dd2fb 100644
+--- a/src/test/java/no/priv/garshol/duke/test/LinkDatabaseMatchListenerTest.java
++++ b/src/test/java/no/priv/garshol/duke/test/LinkDatabaseMatchListenerTest.java
+@@ -39 +39 @@
+-                                  "jdbc:h2:test",
++                                  "jdbc:h2:mem",
+@@ -60,7 +60,2 @@
+-    Map<String, Collection<String>> data = new HashMap();
+-    data.put("id", Collections.singleton("1"));
+-    Record r1 = new RecordImpl(data);
+-
+-    data = new HashMap();
+-    data.put("id", Collections.singleton("2"));
+-    Record r2 = new RecordImpl(data);    
++    Record r1 = makeRecord("id", "1");
++    Record r2 = makeRecord("id", "2");
+@@ -83,3 +78 @@
+-    Map<String, Collection<String>> data = new HashMap();
+-    data.put("id", Collections.singleton("1"));
+-    Record r1 = new RecordImpl(data);
++    Record r1 = makeRecord("id", "1");
+@@ -98,7 +91,2 @@
+-    Map<String, Collection<String>> data = new HashMap();
+-    data.put("id", Collections.singleton("1"));
+-    Record r1 = new RecordImpl(data);
+-
+-    data = new HashMap();
+-    data.put("id", Collections.singleton("2"));
+-    Record r2 = new RecordImpl(data);    
++    Record r1 = makeRecord("id", "1");
++    Record r2 = makeRecord("id", "2");
+@@ -121,7 +109,2 @@
+-    Map<String, Collection<String>> data = new HashMap();
+-    data.put("id", Collections.singleton("1"));
+-    Record r1 = new RecordImpl(data);
+-
+-    data = new HashMap();
+-    data.put("id", Collections.singleton("2"));
+-    Record r2 = new RecordImpl(data);    
++    Record r1 = makeRecord("id", "1");
++    Record r2 = makeRecord("id", "2");
+@@ -139 +122,37 @@
+-  private void verifySame(Link l1, Link l2) {
++  @Test
++  public void testOverride() {
++    Link l1 = new Link("1", "2", LinkStatus.ASSERTED, LinkKind.SAME);
++    linkdb.assertLink(l1);
++    
++    Record r1 = makeRecord("id", "1");
++    Record r2 = makeRecord("id", "2");
++
++    listener.startRecord(r1);
++    listener.matches(r1, r2, 1.0);
++    listener.endRecord();
++
++    Collection<Link> all = linkdb.getAllLinks();
++    assertEquals(1, all.size());
++    verifySame(new Link("1", "2", LinkStatus.ASSERTED, LinkKind.SAME),
++               all.iterator().next());
++  }
++  
++  @Test
++  public void testOverride2() {
++    Link l1 = new Link("1", "2", LinkStatus.ASSERTED, LinkKind.DIFFERENT);
++    linkdb.assertLink(l1);
++    
++    Record r1 = makeRecord("id", "1");
++    Record r2 = makeRecord("id", "2");
++
++    listener.startRecord(r1);
++    listener.matches(r1, r2, 1.0);
++    listener.endRecord();
++
++    Collection<Link> all = linkdb.getAllLinks();
++    assertEquals(1, all.size());
++    verifySame(new Link("1", "2", LinkStatus.ASSERTED, LinkKind.DIFFERENT),
++               all.iterator().next());
++  }
++  
++  public static void verifySame(Link l1, Link l2) {
+@@ -151,0 +171,6 @@
++
++  private Record makeRecord(String prop, String val) {
++    Map<String, Collection<String>> data = new HashMap();
++    data.put(prop, Collections.singleton(val));
++    return new RecordImpl(data);
++  }
+

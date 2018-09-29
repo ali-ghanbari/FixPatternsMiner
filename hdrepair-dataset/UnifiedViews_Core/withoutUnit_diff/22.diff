@@ -1,0 +1,153 @@
+diff --git a/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/dataunit/files/localfs/LocalFSFilesDataUnit.java b/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/dataunit/files/localfs/LocalFSFilesDataUnit.java
+index cd61289..e4b1729 100644
+--- a/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/dataunit/files/localfs/LocalFSFilesDataUnit.java
++++ b/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/dataunit/files/localfs/LocalFSFilesDataUnit.java
+@@ -253 +253 @@
+-        while ((sb.length() < PROPOSED_FILENAME_PART_MAX_LENGTH) || (index < proposedSymbolicName.length())) {
++        while ((sb.length() < PROPOSED_FILENAME_PART_MAX_LENGTH) && (index < proposedSymbolicName.length())) {
+diff --git a/module/pom.xml b/module/pom.xml
+index 73982d8..c080315 100644
+--- a/module/pom.xml
++++ b/module/pom.xml
+@@ -2,7 +2,7 @@
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-    <groupId>eu.unifiedviews</groupId>
+-    <artifactId>plugin-dpus</artifactId>
+-    <version>1.3.0</version>
+-    <packaging>pom</packaging>
+-    <description>Maven parent project for core modules-DPU implementations.</description>
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++	<groupId>eu.unifiedviews</groupId>
++	<artifactId>plugin-dpus</artifactId>
++	<version>1.3.0</version>
++	<packaging>pom</packaging>
++	<description>Maven parent project for core modules-DPU implementations.</description>
+@@ -10,23 +10,23 @@
+-    <!-- list of core modules -->
+-    <modules>
+-	<!-- New DPUs  -->
+-        <module>FilesToFilesXSLT2Transformer</module>
+-        <module>FilesToFileTransformer</module>
+-        <module>FilesToRDFTransformer</module>
+-        <module>FilesToSPARQLLoader</module>
+-        <module>FilesToLocalDirectoryLoader</module>
+-        <module>FileToFilesTransformer</module>
+-        <module>HTTPToFilesExtractor</module>
+-        <module>TripleGeneratorToRDFExtractor</module>
+-        <module>FilesToFilesRenameTransformer</module>
+-        <module>VirtuosoLoader</module>
+-        <module>FilesToVFSLoader</module>
+-	<!-- Old DPUs  -->
+-        <module>File_extractor</module>
+-        <module>File_loader</module>
+-        <module>RDF_extractor</module>
+-        <module>RDF_loader</module>
+-        <module>SPARQL_transformer</module>
+-        <module>RDF_Data_Validator</module>
+-        <module>Silk_Linker</module>
+-    </modules>
++	<!-- list of core modules -->
++	<modules>
++		<!-- New DPUs -->
++		<module>FilesToFilesXSLT2Transformer</module>
++		<module>FilesToFileTransformer</module>
++		<module>FilesToRDFTransformer</module>
++		<module>FilesToSPARQLLoader</module>
++		<module>FilesToLocalDirectoryLoader</module>
++		<module>FileToFilesTransformer</module>
++		<module>HTTPToFilesExtractor</module>
++		<module>TripleGeneratorToRDFExtractor</module>
++		<module>FilesToFilesRenameTransformer</module>
++		<module>VirtuosoLoader</module>
++		<module>FilesToVFSLoader</module>
++		<!-- Old DPUs -->
++		<module>File_extractor</module>
++		<module>File_loader</module>
++		<module>RDF_extractor</module>
++		<module>RDF_loader</module>
++		<module>SPARQL_transformer</module>
++		<module>RDF_Data_Validator</module>
++		<module>Silk_Linker</module>
++	</modules>
+@@ -34,2 +34,3 @@
+-    <properties>
+-    </properties>
++	<properties>
++		<project.output.dpu>${project.build.directory}/../../target/</project.output.dpu>
++	</properties>
+@@ -37,36 +38,36 @@
+-    <profiles>
+-        <profile> <!-- copy the plugin to the DPU's directory by default -->
+-            <activation>
+-                <activeByDefault>true</activeByDefault>
+-            </activation>
+-            <build>
+-                <plugins>
+-                    <plugin>
+-                        <groupId>org.apache.maven.plugins</groupId>
+-                        <artifactId>maven-resources-plugin</artifactId>
+-                        <version>2.6</version>
+-                        <executions>
+-                            <execution>
+-                                <phase>install</phase>
+-                                <goals>
+-                                    <goal>copy-resources</goal>
+-                                </goals>
+-                                <configuration>
+-                                    <outputDirectory>target/</outputDirectory>
+-                                    <resources>
+-                                        <resource>
+-                                            <directory>${project.build.directory}</directory>
+-                                            <includes>
+-                                                <!-- copy just output jar file -->
+-                                                <include>${project.artifactId}-${project.version}.jar</include>
+-                                            </includes>
+-                                        </resource>
+-                                    </resources>
+-                                </configuration>
+-                            </execution>
+-                        </executions>
+-                    </plugin>
+-                </plugins>
+-            </build>
+-        </profile>
+-    </profiles>
++	<profiles>
++		<profile> <!-- copy the plugin to the DPU's directory by default -->
++			<activation>
++				<activeByDefault>true</activeByDefault>
++			</activation>
++			<build>
++				<plugins>
++					<plugin>
++						<groupId>org.apache.maven.plugins</groupId>
++						<artifactId>maven-resources-plugin</artifactId>
++						<version>2.6</version>
++						<executions>
++							<execution>
++								<phase>install</phase>
++								<goals>
++									<goal>copy-resources</goal>
++								</goals>
++								<configuration>
++									<outputDirectory>${project.output.dpu}/${project.artifactId}</outputDirectory>
++									<resources>
++										<resource>
++											<directory>${project.build.directory}</directory>
++											<includes>
++												<!-- copy just output jar file -->
++												<include>${project.artifactId}-${project.version}.jar</include>
++											</includes>
++										</resource>
++									</resources>
++								</configuration>
++							</execution>
++						</executions>
++					</plugin>
++				</plugins>
++			</build>
++		</profile>
++	</profiles>
+

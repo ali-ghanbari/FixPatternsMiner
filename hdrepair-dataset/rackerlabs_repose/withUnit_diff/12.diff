@@ -1,0 +1,44 @@
+diff --git a/project-set/components/routing/pom.xml b/project-set/components/routing/pom.xml
+index c87c04c..7bfa8b1 100644
+--- a/project-set/components/routing/pom.xml
++++ b/project-set/components/routing/pom.xml
+@@ -35,22 +34,0 @@
+-
+-    <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>com.sun.tools.xjc.maven2</groupId>
+-                <artifactId>maven-jaxb-plugin</artifactId>
+-                
+-                <configuration>                    
+-                    <includeSchemas>
+-                        <includeSchema>**/*.xsd</includeSchema>
+-                    </includeSchemas>
+-                    
+-                    <includeBindings>
+-                        <includeBinding>**/*.xjb</includeBinding>
+-                    </includeBindings>
+-                    
+-                    <strict>true</strict>
+-                    <verbose>false</verbose>
+-                </configuration>
+-            </plugin>            
+-        </plugins>
+-    </build>
+diff --git a/project-set/components/routing/src/main/java/com/rackspace/papi/components/routing/RoutingTagger.java b/project-set/components/routing/src/main/java/com/rackspace/papi/components/routing/RoutingTagger.java
+index b6e290c..4e912ef 100644
+--- a/project-set/components/routing/src/main/java/com/rackspace/papi/components/routing/RoutingTagger.java
++++ b/project-set/components/routing/src/main/java/com/rackspace/papi/components/routing/RoutingTagger.java
+@@ -73 +73 @@
+-                // TODO: Malformed URL Expcetions are unexpected and should return as a 502
++                // Malformed URL Expcetions are unexpected and should return as a 502
+diff --git a/project-set/core/core-lib/src/test/java/com/rackspace/papi/filter/LocalhostFilterListTest.java b/project-set/core/core-lib/src/test/java/com/rackspace/papi/filter/LocalhostFilterListTest.java
+index b2cd5ab..e5e773f 100644
+--- a/project-set/core/core-lib/src/test/java/com/rackspace/papi/filter/LocalhostFilterListTest.java
++++ b/project-set/core/core-lib/src/test/java/com/rackspace/papi/filter/LocalhostFilterListTest.java
+@@ -12,0 +13 @@
++import org.junit.Ignore;
+@@ -55 +56 @@
+-        @Test
++        @Test @Ignore("This test should be reviewed for intent and usage")
+

@@ -1,0 +1,73 @@
+diff --git a/wicket/src/main/java/org/apache/wicket/markup/html/internal/HeaderResponse.java b/wicket/src/main/java/org/apache/wicket/markup/html/internal/HeaderResponse.java
+index d2baf6e..7dfae82 100644
+--- a/wicket/src/main/java/org/apache/wicket/markup/html/internal/HeaderResponse.java
++++ b/wicket/src/main/java/org/apache/wicket/markup/html/internal/HeaderResponse.java
+@@ -316 +316 @@
+-					", \"" + event + "\", function() { " + javascript + ";});");
++					", \"" + event + "\", function(event) { " + javascript + ";});");
+diff --git a/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage2_expected.html b/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage2_expected.html
+index cc957f0..b9b98af 100644
+--- a/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage2_expected.html
++++ b/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage2_expected.html
+@@ -7 +7 @@
+-Wicket.Event.add(window, "domready", function() { domReady();;});
++Wicket.Event.add(window, "domready", function(event) { domReady();;});
+@@ -11 +11 @@
+-Wicket.Event.add(window, "load", function() { onLoad();;});
++Wicket.Event.add(window, "load", function(event) { onLoad();;});
+@@ -18 +18 @@
+-Wicket.Event.add(window, "domready", function() { domReadyB();;});
++Wicket.Event.add(window, "domready", function(event) { domReadyB();;});
+@@ -22 +22 @@
+-Wicket.Event.add(window, "load", function() { onLoadB();;});
++Wicket.Event.add(window, "load", function(event) { onLoadB();;});
+@@ -50 +50 @@
+-<a href="?wicket:interface=:0:link::ILinkListener::" wicket:id="link" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:link::IBehaviorListener:0:',null,null, function() {return Wicket.$('link7') != null;}.bind(this));return !wcall;" id="link7">Test</a>
++<a href="?wicket:interface=:0:link::ILinkListener::" wicket:id="link" id="link7" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:link::IBehaviorListener:0:',null,null, function() {return Wicket.$('link7') != null;}.bind(this));return !wcall;">Test</a>
+diff --git a/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage_expected.html b/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage_expected.html
+index 9ea5e32..cd2927b 100644
+--- a/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage_expected.html
++++ b/wicket/src/test/java/org/apache/wicket/ajax/AjaxHeaderContributionPage_expected.html
+@@ -7 +7 @@
+-Wicket.Event.add(window, "domready", function() { domReady();;});
++Wicket.Event.add(window, "domready", function(event) { domReady();;});
+@@ -11 +11 @@
+-Wicket.Event.add(window, "load", function() { onLoad();;});
++Wicket.Event.add(window, "load", function(event) { onLoad();;});
+@@ -30 +30 @@
+-<a href="?wicket:interface=:0:link::ILinkListener::" wicket:id="link" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:link::IBehaviorListener:0:',null,null, function() {return Wicket.$('link4') != null;}.bind(this));return !wcall;" id="link4">Test</a>
++<a href="?wicket:interface=:0:link::ILinkListener::" wicket:id="link" id="link4" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:link::IBehaviorListener:0:',null,null, function() {return Wicket.$('link4') != null;}.bind(this));return !wcall;">Test</a>
+diff --git a/wicket/src/test/java/org/apache/wicket/ajax/AjaxTimerBehaviorTest.java b/wicket/src/test/java/org/apache/wicket/ajax/AjaxTimerBehaviorTest.java
+index f298fb7..8061530 100644
+--- a/wicket/src/test/java/org/apache/wicket/ajax/AjaxTimerBehaviorTest.java
++++ b/wicket/src/test/java/org/apache/wicket/ajax/AjaxTimerBehaviorTest.java
+@@ -157 +157 @@
+-			String bodyOnLoadUpdateScript = "Wicket.Event.add(window, \"load\", function() { " +
++			String bodyOnLoadUpdateScript = "Wicket.Event.add(window, \"load\", function(event) { " +
+@@ -184 +184 @@
+-	 * 		the response from the Application
++	 *            the response from the Application
+@@ -186 +186 @@
+-	 * 		the timer script
++	 *            the timer script
+diff --git a/wicket/src/test/java/org/apache/wicket/ajax/DomReadyOrderPage_expected.html b/wicket/src/test/java/org/apache/wicket/ajax/DomReadyOrderPage_expected.html
+index cec0375..0eff08b 100644
+--- a/wicket/src/test/java/org/apache/wicket/ajax/DomReadyOrderPage_expected.html
++++ b/wicket/src/test/java/org/apache/wicket/ajax/DomReadyOrderPage_expected.html
+@@ -10 +10 @@
+-Wicket.Event.add(window, "domready", function() { test1();;});
++Wicket.Event.add(window, "domready", function(event) { test1();;});
+@@ -14 +14 @@
+-Wicket.Event.add(window, "domready", function() { test2();;});
++Wicket.Event.add(window, "domready", function(event) { test2();;});
+@@ -18 +18 @@
+-<a href="?wicket:interface=:0:test::ILinkListener::" wicket:id="test" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:test::IBehaviorListener:0:',null,null, function() {return Wicket.$('test1') != null;}.bind(this));return !wcall;" id="test1">Test</a>
++<a href="?wicket:interface=:0:test::ILinkListener::" wicket:id="test" id="test1" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:test::IBehaviorListener:0:',null,null, function() {return Wicket.$('test1') != null;}.bind(this));return !wcall;">Test</a>
+diff --git a/wicket/src/test/java/org/apache/wicket/ajax/markup/html/componentMap/SimpleTestPageExpectedResult.html b/wicket/src/test/java/org/apache/wicket/ajax/markup/html/componentMap/SimpleTestPageExpectedResult.html
+index 782ffa2..f4ed6b6 100644
+--- a/wicket/src/test/java/org/apache/wicket/ajax/markup/html/componentMap/SimpleTestPageExpectedResult.html
++++ b/wicket/src/test/java/org/apache/wicket/ajax/markup/html/componentMap/SimpleTestPageExpectedResult.html
+@@ -12 +12 @@
+-Wicket.Event.add(window, "load", function() { setTimeout("var wcall=wicketAjaxGet('?wicket:interface=:0:testPanel:baseSpan:linja1::IActivePageBehaviorListener:0:&amp;wicket:ignoreIfNotActive=true',null,null, function() {var c = Wicket.$('linja11'); return typeof(c) != 'undefined' && c != null}.bind(this));", 2000);;});
++Wicket.Event.add(window, "load", function(event) { setTimeout("var wcall=wicketAjaxGet('?wicket:interface=:0:testPanel:baseSpan:linja1::IActivePageBehaviorListener:0:&amp;wicket:ignoreIfNotActive=true',null,null, function() {var c = Wicket.$('linja11'); return typeof(c) != 'undefined' && c != null}.bind(this));", 2000);;});
+

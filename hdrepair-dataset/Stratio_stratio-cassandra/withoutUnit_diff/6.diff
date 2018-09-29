@@ -1,0 +1,19 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 70641fd..ec5e233 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -2,3 +2,3 @@
+- * Fix parallelism adjustment in range and secondary index
+-   queries when the first fetch does not satisfy the
+-   limit (CASSANDRA-8856)
++ * Fix commitlog getPendingTasks to not increment (CASSANDRA-8856)
++ * Fix parallelism adjustment in range and secondary index queries
++   when the first fetch does not satisfy the limit (CASSANDRA-8856)
+diff --git a/src/java/org/apache/cassandra/db/commitlog/AbstractCommitLogService.java b/src/java/org/apache/cassandra/db/commitlog/AbstractCommitLogService.java
+index 59bf691..517ebe3 100644
+--- a/src/java/org/apache/cassandra/db/commitlog/AbstractCommitLogService.java
++++ b/src/java/org/apache/cassandra/db/commitlog/AbstractCommitLogService.java
+@@ -185 +185 @@
+-        return pending.incrementAndGet();
++        return pending.get();
+

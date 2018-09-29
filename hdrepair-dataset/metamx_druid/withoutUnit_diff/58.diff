@@ -1,0 +1,8 @@
+diff --git a/processing/src/main/java/io/druid/query/TimewarpOperator.java b/processing/src/main/java/io/druid/query/TimewarpOperator.java
+index 66df6e3..c599081 100644
+--- a/processing/src/main/java/io/druid/query/TimewarpOperator.java
++++ b/processing/src/main/java/io/druid/query/TimewarpOperator.java
+@@ -88 +88 @@
+-            interval.getStartMillis() + offset,
++            Math.min(interval.getStartMillis() + offset, now + offset),
+

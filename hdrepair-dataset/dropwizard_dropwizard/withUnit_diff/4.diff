@@ -1,0 +1,19 @@
+diff --git a/dropwizard-hibernate/src/main/java/io/dropwizard/hibernate/SessionFactoryManager.java b/dropwizard-hibernate/src/main/java/io/dropwizard/hibernate/SessionFactoryManager.java
+index 4d85455..4db1c3e 100644
+--- a/dropwizard-hibernate/src/main/java/io/dropwizard/hibernate/SessionFactoryManager.java
++++ b/dropwizard-hibernate/src/main/java/io/dropwizard/hibernate/SessionFactoryManager.java
+@@ -17,0 +18 @@
++        dataSource.start();
+diff --git a/dropwizard-hibernate/src/test/java/io/dropwizard/hibernate/SessionFactoryManagerTest.java b/dropwizard-hibernate/src/test/java/io/dropwizard/hibernate/SessionFactoryManagerTest.java
+index a339de8..b295f5d 100644
+--- a/dropwizard-hibernate/src/test/java/io/dropwizard/hibernate/SessionFactoryManagerTest.java
++++ b/dropwizard-hibernate/src/test/java/io/dropwizard/hibernate/SessionFactoryManagerTest.java
+@@ -27,0 +28,7 @@
++
++    @Test
++    public void startsTheDataSourceOnStarting() throws Exception {
++        manager.start();
++
++        verify(dataSource).start();
++    }
+

@@ -1,0 +1,241 @@
+diff --git a/src/main/java/teammates/ui/controller/StudentCourseJoinAuthenticatedAction.java b/src/main/java/teammates/ui/controller/StudentCourseJoinAuthenticatedAction.java
+index 4e3ad11..c0553cd 100644
+--- a/src/main/java/teammates/ui/controller/StudentCourseJoinAuthenticatedAction.java
++++ b/src/main/java/teammates/ui/controller/StudentCourseJoinAuthenticatedAction.java
+@@ -34 +34,3 @@
+-            logMsg = "GAE-level exception not thrown explicitly by Logic <br/>" + e.toString();
++            //logMsg = "GAE-level exception not thrown explicitly by Logic <br/>" + e.toString();
++            
++            //TODO: this branch seems to be unreachable, to be removed  
+diff --git a/src/test/java/teammates/test/cases/ui/StudentCourseJoinAuthenticatedActionTest.java b/src/test/java/teammates/test/cases/ui/StudentCourseJoinAuthenticatedActionTest.java
+index 78c15eb..7d44aa8 100644
+--- a/src/test/java/teammates/test/cases/ui/StudentCourseJoinAuthenticatedActionTest.java
++++ b/src/test/java/teammates/test/cases/ui/StudentCourseJoinAuthenticatedActionTest.java
+@@ -16,2 +16,2 @@
+-import teammates.logic.core.AccountsLogic;
+-import teammates.logic.core.StudentsLogic;
++
++import teammates.storage.api.AccountsDb;
+@@ -24 +24 @@
+-    
++
+@@ -36 +36 @@
+-    
++
+@@ -38 +38 @@
+-    public void testAccessControl() throws Exception{
++    public void testAccessControl() throws Exception {
+@@ -42 +42 @@
+-        
++
+@@ -43,0 +44 @@
++        verifyUnaccessibleWithoutLogin(submissionParams);
+@@ -45 +46 @@
+-    
++
+@@ -47,8 +48,10 @@
+-    public void testExecuteAndPostProcess() throws Exception{
+-        StudentsDb sDb = new StudentsDb();
+-        
+-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+-        student = sDb.getStudentForGoogleId(student.course, student.googleId);
+-        
+-        gaeSimulation.loginAsStudent(student.googleId);
+-        
++    public void testExecuteAndPostProcess() throws Exception {
++        StudentsDb studentsDb = new StudentsDb();
++        AccountsDb accountsDb = new AccountsDb();
++        StudentAttributes student1InCourse1 = dataBundle.students
++                .get("student1InCourse1");
++        student1InCourse1 = studentsDb.getStudentForGoogleId(
++                student1InCourse1.course, student1InCourse1.googleId);
++
++        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
++
+@@ -56 +59 @@
+-        
++
+@@ -58 +61 @@
+-        
++
+@@ -60 +63 @@
+-        
++
+@@ -64,3 +67,3 @@
+-        
+-        StudentCourseJoinAuthenticatedAction a = getAction(submissionParams);
+-        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
++
++        StudentCourseJoinAuthenticatedAction authenticatedAction = getAction(submissionParams);
++        RedirectResult redirectResult = getRedirectResult(authenticatedAction);
+@@ -71,4 +74,7 @@
+-                + "&error=true&user=" + student.googleId,
+-                r.getDestinationWithParams());
+-        assertTrue(r.isError);
+-        
++                + "&error=true&user=" + student1InCourse1.googleId,
++                redirectResult.getDestinationWithParams());
++        assertTrue(redirectResult.isError);
++        assertEquals("You have used an invalid join link:"
++                + " /page/studentCourseJoin?regkey=invalid key",
++                redirectResult.getStatusMessage());
++
+@@ -76 +82 @@
+-        
++
+@@ -78 +84,2 @@
+-                Const.ParamsNames.REGKEY, StringHelper.encrypt(student.key)
++                Const.ParamsNames.REGKEY,
++                StringHelper.encrypt(student1InCourse1.key)
+@@ -80,3 +87,3 @@
+-        
+-        a = getAction(submissionParams);
+-        r = (RedirectResult) a.executeAndPostProcess();
++
++        authenticatedAction = getAction(submissionParams);
++        redirectResult = getRedirectResult(authenticatedAction);
+@@ -86,16 +93,6 @@
+-                + "&persistencecourse=" + student.course
+-                + "&error=true&user=" + student.googleId,
+-                r.getDestinationWithParams());
+-        assertTrue(r.isError);
+-        
+-        ______TS("student object belongs to another account");
+-        
+-        StudentAttributes student2 = dataBundle.students.get("student2InCourse1");
+-        student2 = sDb.getStudentForGoogleId(student2.course, student2.googleId);
+-        
+-        submissionParams = new String[] {
+-                Const.ParamsNames.REGKEY, StringHelper.encrypt(student2.key)
+-        };
+-        
+-        a = getAction(submissionParams);
+-        r = (RedirectResult) a.executeAndPostProcess();
++                + "&persistencecourse=" + student1InCourse1.course
++                + "&error=true&user=" + student1InCourse1.googleId,
++                redirectResult.getDestinationWithParams());
++        assertTrue(redirectResult.isError);
++        assertEquals("student1InCourse1 has already joined this course", 
++                redirectResult.getStatusMessage());
+@@ -103,30 +100,7 @@
+-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
+-                + "?message=The+join+link+used+belongs+to+a+different+user"
+-                + "+whose+Google+ID+is+stude..ourse1"
+-                + "+%28only+part+of+the+Google+ID+is+shown+to+protect+privacy%29."
+-                + "+If+that+Google+ID+is+owned+by+you%2C+please+logout+and"
+-                + "+re-login+using+that+Google+account.+If+it+doesn%E2%80%99t"
+-                + "+belong+to+you%2C+please+%3Ca+href%3D%22mailto"
+-                + "%3Ateammates%40comp.nus.edu.sg%3Fbody%3D"
+-                + "Your+name%3A%250AYour+course%3A%250AYour+university%3A%22%3E"
+-                + "contact+us%3C%2Fa%3E+so+that+we+can+investigate."
+-                + "&persistencecourse=" + student.course
+-                + "&error=true&user=" + student.googleId,
+-                r.getDestinationWithParams());
+-        assertTrue(r.isError);
+-        
+-        ______TS("typical case");
+-        
+-        AccountAttributes newStudentAccount = new AccountAttributes(
+-                "newStudnet", "New Student", false,
+-                "newStudent@gmail.com", "NUS");
+-        AccountsLogic.inst().createAccount(newStudentAccount);
+-        
+-        StudentAttributes newStudent = new StudentAttributes(student.team,
+-                "New Student", "newStudent@course1.com",
+-                "This is a new student", student.course);
+-        StudentsLogic.inst().createStudentCascade(newStudent);
+-        newStudent = sDb.getStudentForEmail(newStudent.course, newStudent.email);
+-        
+-        gaeSimulation.loginUser("newStudent");
+-        
++        ______TS("student object belongs to another account");
++
++        StudentAttributes student2InCourse1 = dataBundle.students
++                .get("student2InCourse1");
++        student2InCourse1 = studentsDb.getStudentForGoogleId(
++                student2InCourse1.course, student2InCourse1.googleId);
++
+@@ -134 +108,2 @@
+-                Const.ParamsNames.REGKEY, StringHelper.encrypt(newStudent.key)
++                Const.ParamsNames.REGKEY,
++                StringHelper.encrypt(student2InCourse1.key)
+@@ -136,3 +111,55 @@
+-        
+-        a = getAction(submissionParams);
+-        r = (RedirectResult) a.executeAndPostProcess();
++
++        authenticatedAction = getAction(submissionParams);
++        redirectResult = getRedirectResult(authenticatedAction);
++
++        assertEquals(
++                Const.ActionURIs.STUDENT_HOME_PAGE
++                        + "?message=The+join+link+used+belongs+to+a+different+user"
++                        + "+whose+Google+ID+is+stude..ourse1"
++                        + "+%28only+part+of+the+Google+ID+is+shown+to+protect+privacy%29."
++                        + "+If+that+Google+ID+is+owned+by+you%2C+please+logout+and"
++                        + "+re-login+using+that+Google+account.+If+it+doesn%E2%80%99t"
++                        + "+belong+to+you%2C+please+%3Ca+href%3D%22mailto"
++                        + "%3Ateammates%40comp.nus.edu.sg%3Fbody%3D"
++                        + "Your+name%3A%250AYour+course%3A%250AYour+university%3A%22%3E"
++                        + "contact+us%3C%2Fa%3E+so+that+we+can+investigate."
++                        + "&persistencecourse=" + student1InCourse1.course
++                        + "&error=true&user=" + student1InCourse1.googleId,
++                redirectResult.getDestinationWithParams());
++        assertTrue(redirectResult.isError);
++        assertEquals(
++                "The join link used belongs to a different user"
++                        + " whose Google ID is stude..ourse1 "
++                        + "(only part of the Google ID is shown to protect privacy)."
++                        + " If that Google ID is owned by you, "
++                        + "please logout and re-login using that Google account."
++                        + " If it doesn’t belong to you, please "
++                        + "<a href=\"mailto:teammates@comp.nus.edu.sg?body=Your name:%0AYour course:%0AYour university:\">"
++                        + "contact us</a> so that we can investigate.",
++                redirectResult.getStatusMessage());
++
++        ______TS("typical case");
++
++        AccountAttributes newStudentAccount = new AccountAttributes(
++                "idOfNewStudent", "nameOfNewStudent", false,
++                "newStudent@gmail.com", "NUS");
++        accountsDb.createAccount(newStudentAccount);
++
++        StudentAttributes newStudentAttributes = new StudentAttributes(
++                student1InCourse1.team,
++                "nameOfNewStudent", "newStudent@course1.com",
++                "This is a new student", student1InCourse1.course);
++
++        studentsDb.createEntity(newStudentAttributes);
++        newStudentAttributes = studentsDb.getStudentForEmail(
++                newStudentAttributes.course, newStudentAttributes.email);
++
++        gaeSimulation.loginUser("idOfNewStudent");
++
++        submissionParams = new String[] {
++                Const.ParamsNames.REGKEY,
++                StringHelper.encrypt(newStudentAttributes.key)
++        };
++
++        authenticatedAction = getAction(submissionParams);
++        redirectResult = getRedirectResult(authenticatedAction);
+@@ -142,3 +169,5 @@
+-                + "&error=false&user=newStudent",
+-                r.getDestinationWithParams());
+-        assertFalse(r.isError);
++                + "&error=false&user=idOfNewStudnet",
++                redirectResult.getDestinationWithParams());
++        assertFalse(redirectResult.isError);
++        assertEquals("", redirectResult.getStatusMessage());
++
+@@ -146,3 +175,7 @@
+-    
+-    private StudentCourseJoinAuthenticatedAction getAction(String... params) throws Exception {
+-        return (StudentCourseJoinAuthenticatedAction) (gaeSimulation.getActionObject(uri, params));
++
++    private StudentCourseJoinAuthenticatedAction getAction(String... params)
++            throws Exception {
++
++        return (StudentCourseJoinAuthenticatedAction) (gaeSimulation
++                .getActionObject(uri, params));
++
+

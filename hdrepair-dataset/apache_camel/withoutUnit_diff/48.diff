@@ -1,0 +1,8 @@
+diff --git a/components/camel-quickfix/src/test/java/org/apache/camel/component/quickfixj/examples/RequestReplyExample.java b/components/camel-quickfix/src/test/java/org/apache/camel/component/quickfixj/examples/RequestReplyExample.java
+index 5aee035..b6acf9d 100644
+--- a/components/camel-quickfix/src/test/java/org/apache/camel/component/quickfixj/examples/RequestReplyExample.java
++++ b/components/camel-quickfix/src/test/java/org/apache/camel/component/quickfixj/examples/RequestReplyExample.java
+@@ -89 +89 @@
+-                    .bean(new QuickfixjMessageJsonTransformer());
++                    .bean(new QuickfixjMessageJsonTransformer(), "transform(${body})");
+

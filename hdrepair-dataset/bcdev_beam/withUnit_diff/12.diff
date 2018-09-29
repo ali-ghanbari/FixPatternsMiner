@@ -1,0 +1,50 @@
+diff --git a/beam-envisat-reader/src/main/java/org/esa/beam/dataio/envisat/EnvisatConstants.java b/beam-envisat-reader/src/main/java/org/esa/beam/dataio/envisat/EnvisatConstants.java
+index 6bfae16..0caf1c1 100644
+--- a/beam-envisat-reader/src/main/java/org/esa/beam/dataio/envisat/EnvisatConstants.java
++++ b/beam-envisat-reader/src/main/java/org/esa/beam/dataio/envisat/EnvisatConstants.java
+@@ -115 +115 @@
+-    float AATSR_LOC_TIE_POINT_OFFSET_X = 0.5F * AATSR_SCENE_RASTER_WIDTH - 0.5F * AATSR_LOC_TIE_POINT_RASTER_WIDTH;
++    float AATSR_LOC_TIE_POINT_OFFSET_X = 0.5F * AATSR_SCENE_RASTER_WIDTH - 0.5F * AATSR_LOC_TIE_POINT_RASTER_WIDTH + 1.0F;
+diff --git a/beam-envisat-reader/src/test/java/org/esa/beam/dataio/envisat/EnvisatProductReaderTest.java b/beam-envisat-reader/src/test/java/org/esa/beam/dataio/envisat/EnvisatProductReaderTest.java
+index d598304..a0c379b 100644
+--- a/beam-envisat-reader/src/test/java/org/esa/beam/dataio/envisat/EnvisatProductReaderTest.java
++++ b/beam-envisat-reader/src/test/java/org/esa/beam/dataio/envisat/EnvisatProductReaderTest.java
+@@ -3 +2,0 @@
+-import org.esa.beam.framework.dataio.ProductReader;
+@@ -15,2 +14 @@
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertNotNull;
++import static org.junit.Assert.*;
+@@ -29 +27,2 @@
+-        final ProductReader reader = readerPlugIn.createReaderInstance();
++        final EnvisatProductReader reader = (EnvisatProductReader) readerPlugIn.createReaderInstance();
++
+@@ -38,0 +38,4 @@
++            final ProductFile productFile = reader.getProductFile();
++
++            assertTrue(productFile.storesPixelsInChronologicalOrder());
++
+@@ -39,0 +43,3 @@
++
++            assertEquals(-18.0f, offsetX, 0.0f);
++
+@@ -40,0 +47,3 @@
++
++            assertEquals(1.0f, offsetY, 0.0f);
++
+@@ -41,0 +51,3 @@
++
++            assertEquals(25.0f, subSamplingX, 0.0f);
++
+@@ -44,3 +55,0 @@
+-            assertEquals(-19.0f, offsetX, 0.0f);
+-            assertEquals(1.0f, offsetY, 0.0f);
+-            assertEquals(25.0f, subSamplingX, 0.0f);
+@@ -49 +58 @@
+-            final GeoPos geoPos = product.getGeoCoding().getGeoPos(new PixelPos(6.0f, 1.0f), null);
++            final GeoPos geoPos = product.getGeoCoding().getGeoPos(new PixelPos(-18.0f + 25.0f, 1.0f), null);
+@@ -53,3 +61,0 @@
+-
+-            assertEquals(latGrid.getOffsetY(), 1.0f, 0.0f);
+-            assertEquals(lonGrid.getOffsetY(), 1.0f, 0.0f);
+

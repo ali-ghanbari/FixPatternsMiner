@@ -1,0 +1,8 @@
+diff --git a/insight/insight-log/src/main/java/io/fabric8/insight/log/service/LogQuery.java b/insight/insight-log/src/main/java/io/fabric8/insight/log/service/LogQuery.java
+index eb3ee80..5b3a8b9 100644
+--- a/insight/insight-log/src/main/java/io/fabric8/insight/log/service/LogQuery.java
++++ b/insight/insight-log/src/main/java/io/fabric8/insight/log/service/LogQuery.java
+@@ -53 +53 @@
+-    @Reference(referenceInterface = PaxAppender.class, cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE, bind = "bindAppender", unbind = "unbindAppender")
++    @Reference(referenceInterface = PaxAppender.class, policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE, bind = "bindAppender", unbind = "unbindAppender")
+

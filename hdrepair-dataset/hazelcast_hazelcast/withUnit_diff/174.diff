@@ -1,0 +1,43 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/map/tx/TxnDeleteOperation.java b/hazelcast/src/main/java/com/hazelcast/map/tx/TxnDeleteOperation.java
+index 11accbf..6577131 100644
+--- a/hazelcast/src/main/java/com/hazelcast/map/tx/TxnDeleteOperation.java
++++ b/hazelcast/src/main/java/com/hazelcast/map/tx/TxnDeleteOperation.java
+@@ -91 +91 @@
+-        return successful;
++        return true;
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/MapTransactionTest.java b/hazelcast/src/test/java/com/hazelcast/map/MapTransactionTest.java
+index 8c1128d..e6a677f 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/MapTransactionTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/MapTransactionTest.java
+@@ -50,0 +51,30 @@
++    //unfortunately the bug can't be detected by a unit test since the exception is thrown in a background thread (and logged)
++    @Test
++    public void issue_1056s() throws InterruptedException {
++        HazelcastInstance instance = Hazelcast.newHazelcastInstance();
++        final HazelcastInstance instance2 = Hazelcast.newHazelcastInstance();
++
++        final CountDownLatch latch = new CountDownLatch(1);
++        final Thread t = new Thread() {
++            @Override
++            public void run() {
++                TransactionContext ctx = instance2.newTransactionContext();
++                ctx.beginTransaction();
++                TransactionalMap<Integer, Integer> txnMap = ctx.getMap("test");
++                latch.countDown();
++                txnMap.delete(1);
++                ctx.commitTransaction();
++            }
++        };
++
++        t.start();
++
++        TransactionContext ctx = instance2.newTransactionContext();
++        ctx.beginTransaction();
++        TransactionalMap<Integer, Integer> txnMap = ctx.getMap("test");
++        txnMap.delete(1);
++        latch.await();
++        ctx.commitTransaction();
++        t.join();
++    }
++
+

@@ -1,0 +1,58 @@
+diff --git a/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/FormParamValueFactoryProvider.java b/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/FormParamValueFactoryProvider.java
+index a00d9e8..dec2787 100644
+--- a/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/FormParamValueFactoryProvider.java
++++ b/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/FormParamValueFactoryProvider.java
+@@ -194 +194 @@
+-            if (requestContext.getMediaType().equals(MediaType.APPLICATION_FORM_URLENCODED_TYPE)) {
++            if (MediaTypes.typeEqual(MediaType.APPLICATION_FORM_URLENCODED_TYPE, requestContext.getMediaType())) {
+diff --git a/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/FormParamTest.java b/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/FormParamTest.java
+index f251184..b6031fa 100644
+--- a/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/FormParamTest.java
++++ b/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/FormParamTest.java
+@@ -66 +65,0 @@
+-
+@@ -100,0 +100,16 @@
++
++    @Test
++    public void testSimpleFormResourceWithCharset() throws ExecutionException, InterruptedException {
++        initiateWebApplication(SimpleFormResource.class);
++
++        Form form = new Form();
++        form.param("a", "foo");
++
++        final ContainerResponse responseContext = apply(RequestContextBuilder.from("/", "POST")
++                .type(MediaType.APPLICATION_FORM_URLENCODED_TYPE.withCharset("UTF-8"))
++                .entity(form)
++                .build()
++        );
++
++        assertEquals("foo", responseContext.getEntity());
++    }
+@@ -157 +172,2 @@
+-        public JAXBBean() {}
++        public JAXBBean() {
++        }
+@@ -166 +182 @@
+-            return "JAXBClass: "+value;
++            return "JAXBClass: " + value;
+@@ -233,2 +249 @@
+-    public static class FormParamTypes
+-    {
++    public static class FormParamTypes {
+@@ -263,2 +278 @@
+-    public static class FormDefaultValueParamTypes
+-    {
++    public static class FormDefaultValueParamTypes {
+@@ -303,2 +317 @@
+-    public static class FormConstructorValueParamTypes
+-    {
++    public static class FormConstructorValueParamTypes {
+@@ -352,2 +365,5 @@
+-        final ContainerResponse responseContext = apply(
+-                RequestContextBuilder.from("/", "POST").accept(MediaType.APPLICATION_XML).type(MediaType.APPLICATION_FORM_URLENCODED).entity(form).build()
++        final ContainerResponse responseContext = apply(RequestContextBuilder.from("/", "POST")
++                .accept(MediaType.APPLICATION_XML)
++                .type(MediaType.APPLICATION_FORM_URLENCODED)
++                .entity(form)
++                .build()
+

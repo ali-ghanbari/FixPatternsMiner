@@ -1,0 +1,27 @@
+diff --git a/plugins/org.eclipse.recommenders.completion.rcp.subwords/src/org/eclipse/recommenders/internal/completion/rcp/subwords/LCSS.java b/plugins/org.eclipse.recommenders.completion.rcp.subwords/src/org/eclipse/recommenders/internal/completion/rcp/subwords/LCSS.java
+index b481292..3f6e494 100644
+--- a/plugins/org.eclipse.recommenders.completion.rcp.subwords/src/org/eclipse/recommenders/internal/completion/rcp/subwords/LCSS.java
++++ b/plugins/org.eclipse.recommenders.completion.rcp.subwords/src/org/eclipse/recommenders/internal/completion/rcp/subwords/LCSS.java
+@@ -80 +80 @@
+-                        wordBoundaryFound = false;
++                        // wordBoundaryFound = false;
+diff --git a/tests/org.eclipse.recommenders.tests.completion.rcp/src/org/eclipse/recommenders/tests/completion/rcp/subwords/LCSSTest.java b/tests/org.eclipse.recommenders.tests.completion.rcp/src/org/eclipse/recommenders/tests/completion/rcp/subwords/LCSSTest.java
+index d740f25..b26060d 100644
+--- a/tests/org.eclipse.recommenders.tests.completion.rcp/src/org/eclipse/recommenders/tests/completion/rcp/subwords/LCSSTest.java
++++ b/tests/org.eclipse.recommenders.tests.completion.rcp/src/org/eclipse/recommenders/tests/completion/rcp/subwords/LCSSTest.java
+@@ -13,0 +14,4 @@
++import static org.junit.Assert.assertTrue;
++
++import java.util.Arrays;
++import java.util.List;
+@@ -67,0 +72,9 @@
++    public void testBug001() {
++        List<int[]> s = LCSS.findSequences("newLabeledStatement", "le");
++        assertEquals(2, s.size());
++        assertTrue(Arrays.equals(s.get(0), new int[] { 3, 6 }));
++        assertTrue(Arrays.equals(s.get(1), new int[] { 3, 8 }));
++
++    }
++
++    @Test
+

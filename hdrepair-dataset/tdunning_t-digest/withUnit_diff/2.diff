@@ -1,0 +1,25 @@
+diff --git a/src/main/java/com/tdunning/math/stats/ArrayDigest.java b/src/main/java/com/tdunning/math/stats/ArrayDigest.java
+index ce425ae..b2f66d1 100644
+--- a/src/main/java/com/tdunning/math/stats/ArrayDigest.java
++++ b/src/main/java/com/tdunning/math/stats/ArrayDigest.java
+@@ -660 +660 @@
+-                return next != end;
++                return next != null && next != end;
+diff --git a/src/test/java/com/tdunning/math/stats/TDigestTest.java b/src/test/java/com/tdunning/math/stats/TDigestTest.java
+index 8373731..bff81c8 100644
+--- a/src/test/java/com/tdunning/math/stats/TDigestTest.java
++++ b/src/test/java/com/tdunning/math/stats/TDigestTest.java
+@@ -26,0 +27 @@
++import org.junit.Test;
+@@ -357,0 +359,10 @@
++    @Test
++    public void testMergeEmpty() {
++        final Random gen0 = RandomUtils.getRandom();
++        List<TDigest> subData = new ArrayList();
++        subData.add(new TreeDigest(10));
++        TreeDigest foo = new TreeDigest(10);
++        AbstractTDigest.merge(subData, gen0, foo);
++        empty(foo);
++    }
++
+

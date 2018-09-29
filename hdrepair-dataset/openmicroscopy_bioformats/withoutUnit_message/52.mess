@@ -1,0 +1,7 @@
+Fix FakeReader fillPhysicalSizes
+
+Setting the physical sizes unconditionally (i.e. if null)
+was causing **`sizeC`** to be null in ChannelProcessor.
+This fix lets the training_setup.sh run to completion, but
+we will need to discuss further options.
+

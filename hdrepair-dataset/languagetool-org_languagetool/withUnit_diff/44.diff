@@ -1,0 +1,18 @@
+diff --git a/languagetool-core/src/test/java/org/languagetool/rules/patterns/PatternRuleTest.java b/languagetool-core/src/test/java/org/languagetool/rules/patterns/PatternRuleTest.java
+index 0dca9ce..6567316 100644
+--- a/languagetool-core/src/test/java/org/languagetool/rules/patterns/PatternRuleTest.java
++++ b/languagetool-core/src/test/java/org/languagetool/rules/patterns/PatternRuleTest.java
+@@ -77 +77 @@
+-      if (skipCountryVariant(lang)) {
++      if (skipCountryVariant(lang) && Language.REAL_LANGUAGES.length>1) {
+@@ -94 +94 @@
+-    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.endsWith("-ANY")) {
++    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.endsWith("-ANY")  && Language.REAL_LANGUAGES.length>1) {
+diff --git a/languagetool-language-modules/ca/src/main/java/org/languagetool/language/Catalan.java b/languagetool-language-modules/ca/src/main/java/org/languagetool/language/Catalan.java
+index 86dce65..1c0b352 100644
+--- a/languagetool-language-modules/ca/src/main/java/org/languagetool/language/Catalan.java
++++ b/languagetool-language-modules/ca/src/main/java/org/languagetool/language/Catalan.java
+@@ -69 +69 @@
+-    return new String[]{"ANY"};
++    return new String[]{"ES"};
+

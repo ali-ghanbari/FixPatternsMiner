@@ -1,0 +1,23 @@
+diff --git a/codec-http2/src/main/java/io/netty/handler/codec/http2/AbstractHttp2ConnectionHandler.java b/codec-http2/src/main/java/io/netty/handler/codec/http2/AbstractHttp2ConnectionHandler.java
+index 43e50ce..92f43b5 100644
+--- a/codec-http2/src/main/java/io/netty/handler/codec/http2/AbstractHttp2ConnectionHandler.java
++++ b/codec-http2/src/main/java/io/netty/handler/codec/http2/AbstractHttp2ConnectionHandler.java
+@@ -971 +971,2 @@
+-            frameWriter.writePing(ctx, ctx.newPromise(), true, data);
++            // Need to retain the buffer here since it will be released after the write completes.
++            frameWriter.writePing(ctx, ctx.newPromise(), true, data.retain());
+diff --git a/codec-http2/src/test/java/io/netty/handler/codec/http2/Http2ConnectionRoundtripTest.java b/codec-http2/src/test/java/io/netty/handler/codec/http2/Http2ConnectionRoundtripTest.java
+index 9163b73..7ffd9e5 100644
+--- a/codec-http2/src/test/java/io/netty/handler/codec/http2/Http2ConnectionRoundtripTest.java
++++ b/codec-http2/src/test/java/io/netty/handler/codec/http2/Http2ConnectionRoundtripTest.java
+@@ -63 +63 @@
+-    private final CountDownLatch requestLatch = new CountDownLatch(NUM_STREAMS * 2);
++    private final CountDownLatch requestLatch = new CountDownLatch(NUM_STREAMS * 3);
+@@ -113,0 +114 @@
++        final String pingMsg = "12345678";
+@@ -119,0 +121 @@
++                    http2Client.writePing(ctx(), newPromise(), Unpooled.copiedBuffer(pingMsg.getBytes()));
+@@ -130,0 +133,2 @@
++        verify(serverObserver, times(NUM_STREAMS)).onPingRead(any(ChannelHandlerContext.class),
++                eq(Unpooled.copiedBuffer(pingMsg.getBytes())));
+

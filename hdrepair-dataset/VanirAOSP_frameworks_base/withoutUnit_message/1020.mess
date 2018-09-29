@@ -1,0 +1,10 @@
+Fix for scaled AA lines
+
+Previously, the translucent boundary of AA lines would be scaled
+by the line's transform. It should always be exactly one pixel wide
+in screen space. This fix accounts for scaling for the boundary
+region, and fixes some AA calculations that make wide/AA lines
+more correct.
+
+Change-Id: I30df2d5d96315bf3e7ff30be9735282fd5439a39
+

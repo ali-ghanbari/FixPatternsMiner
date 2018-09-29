@@ -1,0 +1,24 @@
+diff --git a/src/etc/testcases/taskdefs/java.xml b/src/etc/testcases/taskdefs/java.xml
+index 6e2e1cc..2a7fe3c 100644
+--- a/src/etc/testcases/taskdefs/java.xml
++++ b/src/etc/testcases/taskdefs/java.xml
+@@ -211 +211 @@
+-            <equals arg1="${redirect.out.contents}" arg2="foo${line.separator}" />
++            <equals arg1="${redirect.out.contents}" arg2="foo" />
+@@ -215 +215 @@
+-&quot;${redirect.out.contents}&quot; expected &quot;foo&#010;&quot;</fail>
++&quot;${redirect.out.contents}&quot; expected &quot;foo&quot;</fail>
+@@ -251 +251 @@
+-            <equals arg1="${redirect.out.contents2}" arg2="foo${line.separator}bar${line.separator}" />
++            <equals arg1="${redirect.out.contents2}" arg2="foobar" />
+@@ -255 +255 @@
+-&quot;${redirect.out.contents2}&quot; expected &quot;foo&#010;bar&#010;&quot;</fail>
++&quot;${redirect.out.contents2}&quot; expected &quot;foobar&quot;</fail>
+diff --git a/src/main/org/apache/tools/ant/taskdefs/Redirector.java b/src/main/org/apache/tools/ant/taskdefs/Redirector.java
+index 70fcb27..5d2b1ad 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/Redirector.java
++++ b/src/main/org/apache/tools/ant/taskdefs/Redirector.java
+@@ -720 +720 @@
+-        } else if (!(logError || outputStream == null)) {
++        } else if (!(logError || outputStream == null) && errorProperty == null) {
+

@@ -1,0 +1,8 @@
+diff --git a/apps/streaming/java/src/net/i2p/client/streaming/Packet.java b/apps/streaming/java/src/net/i2p/client/streaming/Packet.java
+index 61a7de9..7a7a0a6 100644
+--- a/apps/streaming/java/src/net/i2p/client/streaming/Packet.java
++++ b/apps/streaming/java/src/net/i2p/client/streaming/Packet.java
+@@ -532,0 +533,2 @@
++        // prevent receiveNewSyn() ... !active ... sendReset() ... verifySignature ... NPE
++        if (from == null) return false;
+

@@ -1,0 +1,13 @@
+core: Re-fix DAO tests
+
+The previous fix to the DAO tests
+(I627a3e291546b6a3c3d544c6f1914950f26298e0) wrongfully assumed that
+Shared Disk feature was already MERGED, and thus creates a subtly
+illegal database (multiple VMs connected to the same disk), which caused
+test to fail randomly.
+
+This patch reverts most of those changes, and introduces a stable
+version of fixtures.xml and the tests based on it.
+
+Change-Id: I74a1db8953168887e54bc07bcd2f2a232e60d53d
+

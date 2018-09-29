@@ -1,0 +1,61 @@
+diff --git a/lib-core/src/main/java/com/silverpeas/scheduler/quartz/QuartzTriggerBuilder.java b/lib-core/src/main/java/com/silverpeas/scheduler/quartz/QuartzTriggerBuilder.java
+index 87b2793..abcdeb8 100644
+--- a/lib-core/src/main/java/com/silverpeas/scheduler/quartz/QuartzTriggerBuilder.java
++++ b/lib-core/src/main/java/com/silverpeas/scheduler/quartz/QuartzTriggerBuilder.java
+@@ -83 +83 @@
+-      cronTrigger.setCronExpression("* " + trigger.getCronExpression());
++      cronTrigger.setCronExpression("0 " + trigger.getCronExpression());
+diff --git a/lib-core/src/test/java/com/silverpeas/scheduler/SchedulerTest.java b/lib-core/src/test/java/com/silverpeas/scheduler/SchedulerTest.java
+index ff1f850..908680c 100644
+--- a/lib-core/src/test/java/com/silverpeas/scheduler/SchedulerTest.java
++++ b/lib-core/src/test/java/com/silverpeas/scheduler/SchedulerTest.java
+@@ -59,0 +60 @@
++  private long time;
+@@ -65 +66 @@
+-  public static void setUpClass() throws Exception {    
++  public static void setUpClass() throws Exception {
+@@ -208 +209,27 @@
+-    await().atMost(1, MINUTES).until(jobIsExecuted());
++    await().atMost(10, MINUTES).until(jobIsExecuted());
++    assertTrue(eventHandler.isJobSucceeded());
++  }
++
++  @Test
++  public void schedulingAJobWithACronExpressionShouldRunThatJobOnlyOnceAtTheExpectedTime() throws
++      Exception {
++    time = System.currentTimeMillis();
++    Calendar calendar = Calendar.getInstance();
++    calendar.add(Calendar.MINUTE, 1);
++    int minute = calendar.get(Calendar.MINUTE);
++    String cron = minute + " * * * * ";
++    JobTrigger trigger = JobTrigger.triggerAt(cron);
++    ScheduledJob job = scheduler.scheduleJob(new Job(JOB_NAME) {
++
++      private int counter = 0;
++
++      @Override
++      public void execute(JobExecutionContext context) throws Exception {
++        assertEquals(1, ++counter);
++      }
++    }, trigger, eventHandler);
++    assertNotNull(job);
++    assertEquals(JOB_NAME, job.getName());
++    assertEquals(eventHandler, job.getSchedulerEventListener());
++    assertEquals(trigger, job.getTrigger());
++    await().atMost(5, MINUTES).until(timeThresholdIsDone());
+@@ -290,0 +318,14 @@
++   * Is a job was executed at a given time?
++   * @return true if a job was executed.
++   */
++  private Callable<Boolean> timeThresholdIsDone() {
++    return new Callable<Boolean>() {
++
++      @Override
++      public Boolean call() throws Exception {
++        return (System.currentTimeMillis() - time) >=  180000;
++      }
++    };
++  }
++
++  /**
+

@@ -1,0 +1,15 @@
+diff --git a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/tokenizers/de/GermanCompoundTokenizer.java b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/tokenizers/de/GermanCompoundTokenizer.java
+index 60e2d8e..70c8dd9 100644
+--- a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/tokenizers/de/GermanCompoundTokenizer.java
++++ b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/tokenizers/de/GermanCompoundTokenizer.java
+@@ -37,0 +38,2 @@
++    wordSplitter.setStrictMode(true); // required for now to make minimum length work
++    wordSplitter.setMinimumWordLength(3);
+diff --git a/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/de/CaseRuleTest.java b/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/de/CaseRuleTest.java
+index 8607349..009216f 100644
+--- a/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/de/CaseRuleTest.java
++++ b/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/de/CaseRuleTest.java
+@@ -56,0 +57,2 @@
++    // used to trigger an erro because of incorrect compound tokenization:
++    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das sind Euroscheine.")).length);
+

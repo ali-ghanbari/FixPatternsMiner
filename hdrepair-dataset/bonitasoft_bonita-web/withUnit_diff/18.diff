@@ -1,0 +1,23 @@
+diff --git a/common/src/test/java/org/bonitasoft/console/common/server/login/impl/standard/PermissionsBuilderTest.java b/common/src/test/java/org/bonitasoft/console/common/server/login/impl/standard/PermissionsBuilderTest.java
+index e506e6e..2536a6b 100644
+--- a/common/src/test/java/org/bonitasoft/console/common/server/login/impl/standard/PermissionsBuilderTest.java
++++ b/common/src/test/java/org/bonitasoft/console/common/server/login/impl/standard/PermissionsBuilderTest.java
+@@ -15,0 +16 @@
++import org.bonitasoft.engine.profile.impl.ProfileEntryImpl;
+@@ -16,0 +18 @@
++import org.bonitasoft.web.rest.model.portal.profile.ProfileEntryItem;
+@@ -160,3 +162,3 @@
+-            final ProfileEntry profileEntry = mock(ProfileEntry.class);
+-            doReturn("page" + i).when(profileEntry).getPage();
+-            profileEntries.add(profileEntry);
++            ProfileEntryImpl page = new ProfileEntryImpl("page"+i);
++            page.setType(ProfileEntryItem.VALUE_TYPE.link.name());
++            profileEntries.add(page);
+diff --git a/server/src/main/java/org/bonitasoft/web/rest/server/framework/APIServletCall.java b/server/src/main/java/org/bonitasoft/web/rest/server/framework/APIServletCall.java
+index ac71646..340cc1d 100644
+--- a/server/src/main/java/org/bonitasoft/web/rest/server/framework/APIServletCall.java
++++ b/server/src/main/java/org/bonitasoft/web/rest/server/framework/APIServletCall.java
+@@ -225 +225 @@
+-            resourcePermissions = resourcesPermissionsMapping.getResourcePermissions(method, apiName, resourceName,null);
++            resourcePermissions = resourcesPermissionsMapping.getResourcePermissions(method, apiName, resourceName, null);
+

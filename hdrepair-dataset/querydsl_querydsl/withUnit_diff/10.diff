@@ -1,0 +1,25 @@
+diff --git a/querydsl-sql/src/main/java/com/mysema/query/sql/SQLSerializer.java b/querydsl-sql/src/main/java/com/mysema/query/sql/SQLSerializer.java
+index e346bd5..fbfa9c3 100644
+--- a/querydsl-sql/src/main/java/com/mysema/query/sql/SQLSerializer.java
++++ b/querydsl-sql/src/main/java/com/mysema/query/sql/SQLSerializer.java
+@@ -364 +364 @@
+-            append("(");
++            append(" (");
+diff --git a/querydsl-sql/src/test/java/com/mysema/query/_mysql/InsertMySQLTest.java b/querydsl-sql/src/test/java/com/mysema/query/_mysql/InsertMySQLTest.java
+index e75ba56..d69be30 100644
+--- a/querydsl-sql/src/test/java/com/mysema/query/_mysql/InsertMySQLTest.java
++++ b/querydsl-sql/src/test/java/com/mysema/query/_mysql/InsertMySQLTest.java
+@@ -58 +58 @@
+-        assertEquals("insert ignore into SURVEY(ID, NAME) values (?, ?)", clause.toString());
++        assertEquals("insert ignore into SURVEY (ID, NAME) values (?, ?)", clause.toString());
+@@ -68 +68 @@
+-        assertEquals("replace into SURVEY(ID, NAME) values (?, ?)", clause.toString());
++        assertEquals("replace into SURVEY (ID, NAME) values (?, ?)", clause.toString());
+diff --git a/querydsl-sql/src/test/java/com/mysema/query/sql/SerializationTest.java b/querydsl-sql/src/test/java/com/mysema/query/sql/SerializationTest.java
+index 23e1bc9..a4307da 100644
+--- a/querydsl-sql/src/test/java/com/mysema/query/sql/SerializationTest.java
++++ b/querydsl-sql/src/test/java/com/mysema/query/sql/SerializationTest.java
+@@ -78 +78 @@
+-        assertEquals("insert into SURVEY(ID, NAME)\nvalues (?, ?)", insertClause.toString());
++        assertEquals("insert into SURVEY (ID, NAME)\nvalues (?, ?)", insertClause.toString());
+

@@ -1,0 +1,165 @@
+diff --git a/dialoghandler/src/main/java/com/almende/dialog/model/ddr/DDRRecord.java b/dialoghandler/src/main/java/com/almende/dialog/model/ddr/DDRRecord.java
+index a573c3c..636a880 100644
+--- a/dialoghandler/src/main/java/com/almende/dialog/model/ddr/DDRRecord.java
++++ b/dialoghandler/src/main/java/com/almende/dialog/model/ddr/DDRRecord.java
+@@ -109 +109 @@
+-        DDRRecord ddrRecord = coll.findOneById(id);
++        DDRRecord ddrRecord = id != null ? coll.findOneById(id) : null;
+diff --git a/dialoghandler/src/test/java/com/almende/dialog/adapter/CMServletTest.java b/dialoghandler/src/test/java/com/almende/dialog/adapter/CMServletTest.java
+index c715313..f283ea2 100644
+--- a/dialoghandler/src/test/java/com/almende/dialog/adapter/CMServletTest.java
++++ b/dialoghandler/src/test/java/com/almende/dialog/adapter/CMServletTest.java
+@@ -14,0 +15 @@
++import java.util.UUID;
+@@ -27,0 +29 @@
++import com.almende.dialog.Settings;
+@@ -46 +48,2 @@
+-
++    private String reference = null;
++    
+@@ -112,2 +115,2 @@
+-        AdapterConfig adapterConfig = createAdapterConfig( "SMS", TEST_PUBLIC_KEY, localAddressBroadsoft,
+-            initialAgentURL );
++        AdapterConfig adapterConfig = createAdapterConfig(AdapterAgent.ADAPTER_TYPE_SMS, TEST_PUBLIC_KEY,
++                                                          localAddressBroadsoft, initialAgentURL);
+@@ -115 +118 @@
+-        Session.getOrCreateSession( adapterConfig, remoteAddressVoice );
++        Session.getOrCreateSession( adapterConfig, PhoneNumberUtils.formatNumber(remoteAddressVoice, null ));
+@@ -132,2 +135,2 @@
+-    public void ReceiveAppointmentExistingSessionYesMessageTest() throws Exception
+-    {
++    public void ReceiveAppointmentExistingSessionYesMessageTest() throws Exception {
++
+@@ -138 +141 @@
+-        TextMessage textMessage = smsAppointmentInteraction( "Yup" );
++        TextMessage textMessage = smsAppointmentInteraction("Yup");
+@@ -140,3 +143,3 @@
+-        addressNameMap.put( textMessage.getAddress(), textMessage.getRecipientName() );
+-        String expectedQuestion = TestServlet.getResponseQuestionWithOptionsInString( TestServlet
+-            .getJsonAppointmentYesQuestion() );
++        addressNameMap.put(textMessage.getAddress(), textMessage.getRecipientName());
++        String expectedQuestion = TestServlet.getResponseQuestionWithOptionsInString(TestServlet
++                                        .getJsonAppointmentYesQuestion());
+@@ -145,4 +148,5 @@
+-        AdapterConfig adapterConfig = AdapterConfig.findAdapters( "SMS", localAddressBroadsoft, null ).iterator()
+-            .next();
+-        assertXMLGeneratedFromOutBoundCall( addressNameMap, adapterConfig, expectedQuestion,
+-            textMessage.getLocalAddress());
++        AdapterConfig adapterConfig = AdapterConfig
++                                        .findAdapters(AdapterAgent.ADAPTER_TYPE_SMS, localAddressBroadsoft, null)
++                                        .iterator().next();
++        assertXMLGeneratedFromOutBoundCall(addressNameMap, adapterConfig, expectedQuestion,
++                                           textMessage.getLocalAddress());
+@@ -170,2 +174,3 @@
+-        AdapterConfig adapterConfig = AdapterConfig.findAdapters( "SMS", localAddressBroadsoft, null ).iterator()
+-            .next();
++        AdapterConfig adapterConfig = AdapterConfig
++                                        .findAdapters(AdapterAgent.ADAPTER_TYPE_SMS, localAddressBroadsoft, null)
++                                        .iterator().next();
+@@ -196,2 +201,3 @@
+-        AdapterConfig adapterConfig = AdapterConfig.findAdapters( "SMS", localAddressBroadsoft, null ).iterator()
+-            .next();
++        AdapterConfig adapterConfig = AdapterConfig
++                                        .findAdapters(AdapterAgent.ADAPTER_TYPE_SMS, localAddressBroadsoft, null)
++                                        .iterator().next();
+@@ -205 +211,3 @@
+-        String testXml = getTestSMSStatusXML("0031614765863", "SMS-Status_0031613765863_0031636465236_1385978625000");
++        String remoteNumber = PhoneNumberUtils.formatNumber(remoteAddressVoice, null);
++        ReceiveAppointmentNewSessionMessageTest();
++        String testXml = getTestSMSStatusXML(remoteNumber, reference);
+@@ -210,2 +218,2 @@
+-        assertTrue( reportReply instanceof CMStatus );
+-        CMStatus cmStatus = (CMStatus) reportReply;
++        assertTrue( reportReply instanceof String );
++        CMStatus cmStatus = ServerUtils.deserialize(reportReply.toString(), false, CMStatus.class);
+@@ -213 +221 @@
+-        assertEquals( "0031614765863", cmStatus.getRemoteAddress() );
++        assertEquals(remoteNumber, cmStatus.getRemoteAddress());
+@@ -223,4 +231,4 @@
+-        String reference = CMStatus.generateSMSReferenceKey(TEST_PRIVATE_KEY, "0031636465236", "0031613765863");
+-        Assert.assertThat(reference, Matchers.containsString("http"));
+-        String testXml = getTestSMSStatusXML("0031614765863",
+-                                             "SMS-Status_0031613_0031636_http://sandbox.ask-fast.com");
++        String remoteNumber = PhoneNumberUtils.formatNumber(remoteAddressVoice, null);
++        String reference = CMStatus.generateSMSReferenceKey(UUID.randomUUID().toString(), "0031636465236", remoteNumber);
++        Assert.assertThat(CMStatus.getHostFromReference(reference), Matchers.is("http://" + Settings.HOST));
++        String testXml = getTestSMSStatusXML(remoteNumber, reference);
+@@ -278,2 +286,2 @@
+-    public void smsDeliveryStatusPayloadTest() throws Exception
+-    {
++    public void smsDeliveryStatusPayloadTest() throws Exception {
++
+@@ -282 +290 @@
+-        
++
+@@ -287,8 +295,8 @@
+-        Document parse = newDocumentBuilder.parse( new ByteArrayInputStream(smsRequestXML.getBytes("UTF-8")) );
+-        Node referenceNode = parse.getElementsByTagName( "REFERENCE" ).item( 0 );
+-        
+-        assertTrue( referenceNode != null );
+-        CMStatus cmStatus = CMStatus.fetch( referenceNode.getTextContent() );
+-        assertTrue( cmStatus != null );
+-        assertEquals( TestServlet.TEST_SERVLET_PATH, cmStatus.getCallback() );
+-        
++        Document parse = newDocumentBuilder.parse(new ByteArrayInputStream(smsRequestXML.getBytes("UTF-8")));
++        Node referenceNode = parse.getElementsByTagName("REFERENCE").item(0);
++
++        assertTrue(referenceNode != null);
++        CMStatus cmStatus = CMStatus.fetch(referenceNode.getTextContent());
++        assertTrue(cmStatus != null);
++        assertEquals(TestServlet.TEST_SERVLET_PATH, cmStatus.getCallback());
++
+@@ -297,10 +305,10 @@
+-        HttpServletRequest httpServletRequest = Mockito.mock( HttpServletRequest.class );
+-        HttpServletResponse httpServletResponse = Mockito.mock( HttpServletResponse.class );
+-        Mockito.when( httpServletRequest.getRequestURI() ).thenReturn( "/sms/cm/deliveryStatus" );
+-        Mockito.when( httpServletRequest.getMethod() ).thenReturn( "POST" );
+-        Mockito.when( httpServletRequest.getReader() ).thenReturn(
+-            new BufferedReader( new InputStreamReader( new StringInputStream( getTestSMSStatusXML( remoteAddressVoice,
+-                referenceNode.getTextContent() ) ) ) ) );
+-        Mockito.when( httpServletResponse.getWriter() ).thenReturn( new PrintWriter( new StringOutputStream(), true ) );
+-        cmSmsServlet.service( httpServletRequest, httpServletResponse );
+-        
++        HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class);
++        HttpServletResponse httpServletResponse = Mockito.mock(HttpServletResponse.class);
++        Mockito.when(httpServletRequest.getRequestURI()).thenReturn("/dialoghandler/sms/cm/deliveryStatus");
++        Mockito.when(httpServletRequest.getMethod()).thenReturn("POST");
++        Mockito.when(httpServletRequest.getReader()).thenReturn(new BufferedReader(
++                         new InputStreamReader(new StringInputStream(getTestSMSStatusXML(PhoneNumberUtils.formatNumber(remoteAddressVoice,null),
++                                                                                         referenceNode.getTextContent())))));
++        Mockito.when(httpServletResponse.getWriter()).thenReturn(new PrintWriter(new StringOutputStream(), true));
++        cmSmsServlet.service(httpServletRequest, httpServletResponse);
++
+@@ -308 +316 @@
+-        assertTrue( TestServlet.getLogObject() instanceof CMStatus);
++        assertTrue(TestServlet.getLogObject() instanceof CMStatus);
+@@ -310,8 +318,8 @@
+-        assertTrue( smsPayload != null );
+-        assertEquals( "Are you available today?\n[ Yup | Nope  ]", smsPayload.getSms() );
+-        assertEquals( "2009-06-15T13:45:30", smsPayload.getSentTimeStamp() );
+-        assertEquals( "2009-06-15T13:45:30", smsPayload.getDeliveredTimeStamp() );
+-        assertEquals( remoteAddressVoice, smsPayload.getRemoteAddress() );
+-        assertEquals( "200", smsPayload.getCode() );
+-        assertEquals( "0", smsPayload.getErrorCode() );
+-        assertEquals( "No Error", smsPayload.getErrorDescription() );
++        assertTrue(smsPayload != null);
++        assertEquals("Are you available today?\n[ Yup | Nope  ]", smsPayload.getSms());
++        assertEquals("2009-06-15T13:45:30", smsPayload.getSentTimeStamp());
++        assertEquals("2009-06-15T13:45:30", smsPayload.getDeliveredTimeStamp());
++        assertEquals(PhoneNumberUtils.formatNumber(remoteAddressVoice, null), smsPayload.getRemoteAddress());
++        assertEquals("200", smsPayload.getCode());
++        assertEquals("0", smsPayload.getErrorCode());
++        assertEquals("No Error", smsPayload.getErrorDescription());
+@@ -372,2 +380,2 @@
+-    private void assertXMLGeneratedFromOutBoundCall(Map<String, String> addressNameMap, AdapterConfig adapterConfig,
+-                                                    String simpleQuestion, String senderName) throws Exception {
++    private String assertXMLGeneratedFromOutBoundCall(Map<String, String> addressNameMap, AdapterConfig adapterConfig,
++                                                      String simpleQuestion, String senderName) throws Exception {
+@@ -380,0 +389 @@
++        NodeList referenceNodeList = builder.getElementsByTagName("REFERENCE");
+@@ -383,0 +393 @@
++        assertTrue(referenceNodeList.getLength() == 1);
+@@ -416,0 +427,2 @@
++        reference = referenceNodeList.item(0).getFirstChild().getNodeValue();
++        return reference;
+

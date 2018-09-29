@@ -1,0 +1,14 @@
+Mask OFPP_LOCAL with 0xffff because inPort has changed from type short to int.
+
+396b47b48038bcb93270d84a1bf1f210a3d48089 changed inPort type from
+short to int, and the condition comparing OFPP_LOCAL (-2) and inPort
+(0xfffe=65534) got broken because of the wrong casting.  This patch
+fixes this issue by masking OFPP_LOCAL like as inPort.
+
+A Test to catch this error will be added later.
+
+This fixes #385
+
+Signed-off-by: Tomoe Sugihara <tomoe@midokura.com>
+Signed-off-by: Yoshiaki Tamura <yoshi@midokura.com>
+

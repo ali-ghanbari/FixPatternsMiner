@@ -1,0 +1,33 @@
+diff --git a/pmd/src/main/java/net/sourceforge/pmd/lang/java/rule/AbstractPoorMethodCall.java b/pmd/src/main/java/net/sourceforge/pmd/lang/java/rule/AbstractPoorMethodCall.java
+index 7d40f8c..ca9ed5a 100644
+--- a/pmd/src/main/java/net/sourceforge/pmd/lang/java/rule/AbstractPoorMethodCall.java
++++ b/pmd/src/main/java/net/sourceforge/pmd/lang/java/rule/AbstractPoorMethodCall.java
+@@ -87 +87 @@
+-        if (!node.getNameDeclaration().getTypeImage().equals(targetTypename())) {
++        if (!targetTypename().equals(node.getNameDeclaration().getTypeImage())) {
+diff --git a/pmd/src/test/resources/net/sourceforge/pmd/lang/java/rule/strings/xml/UseIndexOfChar.xml b/pmd/src/test/resources/net/sourceforge/pmd/lang/java/rule/strings/xml/UseIndexOfChar.xml
+index 86b73a0..eabc849 100644
+--- a/pmd/src/test/resources/net/sourceforge/pmd/lang/java/rule/strings/xml/UseIndexOfChar.xml
++++ b/pmd/src/test/resources/net/sourceforge/pmd/lang/java/rule/strings/xml/UseIndexOfChar.xml
+@@ -134,0 +135,20 @@
++    <test-code>
++        <description>UseIndexOfChar: null pointer with lambdas</description>
++        <expected-problems>0</expected-problems>
++        <source-type>java 1.8</source-type>
++        <code><![CDATA[
++package pmdtestcase;
++
++import java.util.function.Consumer;
++
++/**
++ * Created by RWorsnop on 7/8/2014.
++ */
++public class FooTest {
++    public static void main(String[] args) {
++        new String("s");
++        Consumer<String> c = s -> {};
++    }
++}
++        ]]></code>
++    </test-code>
+

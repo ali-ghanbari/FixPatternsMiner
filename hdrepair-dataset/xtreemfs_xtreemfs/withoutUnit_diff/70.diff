@@ -1,0 +1,8 @@
+diff --git a/servers/src/org/xtreemfs/osd/operations/ReadOperation.java b/servers/src/org/xtreemfs/osd/operations/ReadOperation.java
+index dd64823..6d33525 100644
+--- a/servers/src/org/xtreemfs/osd/operations/ReadOperation.java
++++ b/servers/src/org/xtreemfs/osd/operations/ReadOperation.java
+@@ -120 +120 @@
+-            if (rq.getLocationList().getLocalReplica().isStriped()) {
++            if (!rq.getLocationList().getLocalReplica().isStriped()) {
+

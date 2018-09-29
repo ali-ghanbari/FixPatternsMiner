@@ -1,0 +1,18 @@
+diff --git a/hq-web/src/main/java/org/hyperic/hq/ui/action/resource/common/monitor/alerts/RemoveAction.java b/hq-web/src/main/java/org/hyperic/hq/ui/action/resource/common/monitor/alerts/RemoveAction.java
+index 57e3bb8..99b1c21 100644
+--- a/hq-web/src/main/java/org/hyperic/hq/ui/action/resource/common/monitor/alerts/RemoveAction.java
++++ b/hq-web/src/main/java/org/hyperic/hq/ui/action/resource/common/monitor/alerts/RemoveAction.java
+@@ -162,0 +163,3 @@
++            String requestURI = request.getRequestURI();
++            // generate a new CSRF token for subsequent requests if needed
++            ajaxJson.put("actionToken", response.encodeURL(requestURI));
+diff --git a/hq-web/src/main/webapp/js/lib/lib.js b/hq-web/src/main/webapp/js/lib/lib.js
+index cfd6933..cbf9475 100644
+--- a/hq-web/src/main/webapp/js/lib/lib.js
++++ b/hq-web/src/main/webapp/js/lib/lib.js
+@@ -3622,0 +3623,4 @@
++					if (data.actionToken) {
++						// use new CSRF token for subsequent batch POST requests
++						myForm.action = data.actionToken;
++					}
+

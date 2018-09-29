@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java b/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java
+index 46b07b6..9706bde 100644
+--- a/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java
++++ b/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java
+@@ -174 +174 @@
+-      dropProcessInfo(key, ExceptionUtil.getUserStackTrace(e, LOG), processHandler);
++      dropProcessInfo(key, e instanceof ExecutionException? e.getMessage() : ExceptionUtil.getUserStackTrace(e, LOG), processHandler);
+

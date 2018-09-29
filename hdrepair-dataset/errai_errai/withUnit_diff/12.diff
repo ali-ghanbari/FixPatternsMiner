@@ -1,0 +1,22 @@
+diff --git a/errai-codegen/src/main/java/org/jboss/errai/codegen/framework/meta/impl/AbstractMetaClass.java b/errai-codegen/src/main/java/org/jboss/errai/codegen/framework/meta/impl/AbstractMetaClass.java
+index 8376462..2779047 100644
+--- a/errai-codegen/src/main/java/org/jboss/errai/codegen/framework/meta/impl/AbstractMetaClass.java
++++ b/errai-codegen/src/main/java/org/jboss/errai/codegen/framework/meta/impl/AbstractMetaClass.java
+@@ -448 +448 @@
+-    if (isPrimitive()) {
++    if (isPrimitive() || (isArray() && getComponentType().isPrimitive())) {
+diff --git a/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/AnnotationEncoderTest.java b/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/AnnotationEncoderTest.java
+index 1b0359c..0e65888 100644
+--- a/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/AnnotationEncoderTest.java
++++ b/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/AnnotationEncoderTest.java
+@@ -37 +36,0 @@
+-    System.out.println(enc);
+diff --git a/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/InvocationBuilderTest.java b/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/InvocationBuilderTest.java
+index 736e4f9..3bad50f 100644
+--- a/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/InvocationBuilderTest.java
++++ b/errai-codegen/src/test/java/org/jboss/errai/codegen/framework/tests/InvocationBuilderTest.java
+@@ -35 +34,0 @@
+-import org.jboss.errai.codegen.framework.util.Refs;
+@@ -36,0 +36 @@
++import org.jboss.errai.codegen.framework.util.Refs;
+

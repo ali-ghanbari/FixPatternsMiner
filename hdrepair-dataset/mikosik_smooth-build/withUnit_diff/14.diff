@@ -1,0 +1,26 @@
+diff --git a/src/java/org/smoothbuild/parse/ImportedFunctionsProvider.java b/src/java/org/smoothbuild/parse/ImportedFunctionsProvider.java
+index 609b3ca..b742f12 100644
+--- a/src/java/org/smoothbuild/parse/ImportedFunctionsProvider.java
++++ b/src/java/org/smoothbuild/parse/ImportedFunctionsProvider.java
+@@ -40 +40 @@
+-      return pluginFactory.create(klass);
++      return pluginFactory.create(klass, true);
+diff --git a/src/test/org/smoothbuild/parse/ImportedFunctionsProviderTest.java b/src/test/org/smoothbuild/parse/ImportedFunctionsProviderTest.java
+new file mode 100644
+index 0000000..be147ea
+--- /dev/null
++++ b/src/test/org/smoothbuild/parse/ImportedFunctionsProviderTest.java
+@@ -0,0 +1,12 @@
++package org.smoothbuild.parse;
++
++import static com.google.inject.Guice.createInjector;
++
++import org.junit.Test;
++
++public class ImportedFunctionsProviderTest {
++  @Test
++  public void creatingImportedFunctionsThrowsNoException() {
++    createInjector().getInstance(ImportedFunctionsProvider.class).get();
++  }
++}
+

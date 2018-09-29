@@ -1,0 +1,46 @@
+1213:
+Web interface:
+- Remove duplicated "priority" column in simple mode upload.
+- Sub-menus: Two levels of menus, using the CSS changes from mrsteveman1 in 1212.
+- Highlight the active menu item. Add path() to Toadlet and activeToadlet() to ToadletContext for this, add showAsToadlet() so that invisible toadlets can pretend to be visible ones and thus have the menu still show an active toadlet.
+- Split queue page into two separate pages, one for Downloads and one for Uploads, under the Filesharing menu. Both implemented by QueueToadlet, with a different flag. Show the bulk download form on the download page and the upload form on the upload page. Separate completed.list.uploads vs completed.list.downloads, auto-migrate from old completed.list.
+- Security Levels: separate page under config.
+- Split the config page up, one page per config section (except for security levels and plugins as these have their own pages). Advanced-only configs only show up in advanced mode.
+- Add an "Upload a Freesite" page, currently this is just documentation, eventually we will have a plugin site upload wizard replace it.
+- Add a "Add a Friend" page. Explains why, and has the add another peer form, and the node reference. Which are only shown on the friends page in advanced mode.
+- Redirect /queue/ to /downloads and /config/ to /config/node.
+First-time wizard:
+- Move misc question to the beginning to give UPnP a chance to detect our bandwidth limits.
+Plugins:
+- Plugins now fetch the main, official PageMaker rather than creating one each.
+- Don't reuse cached jar files if the downloader is only going to copy it from a file. Speeds up debugging.
+- A plugin may register a submenu for itself on the webinterface, we will ask the plugin for l10n for the strings.
+- Require updated official plugins, the new versions are fixed for the API changes.
+- Add getMethod() to HTTPRequest, used by at least Freetalk.
+Client layer:
+- Activation fix.
+Stats:
+- Show fetch/chk/ssk/remote/block transfer success through FCP.
+- Use BootstrappingDecayingRunningAverages with a very low sensitivity threshold (256K events) instead of TrivialRunningAverage's for these variables, which are not persisted. Practically this should be the same except on fast, very long lived nodes.
+L10n:
+- French update.
+- Minor english menu tooltip improvements.
+Dev stuff:
+- Remove unused imports.
+- Make PageMaker not retain maps of nodes, avoiding potential space leaks and synchronization problems, but also needed for plugin sub-menus. Return the nodes created (outer, content, header) in either a PageNode or an InfoboxNode structure, or add to passed-in parent and just return the content node (in this common case the code is simplified). Minor refactoring, some places add tags to the content rather than to the box, but this doesn't seem to change anything in practice.
+- FCPClient: completion callbacks list, not one completion callback.
+- Logging.
+- If a Throwable is thrown handling a Toadlet (web page), try to send the error message to the user so they can report it.
+- Trivial refactoring.
+- Javadocs.
+
+sdiz
+saces
+toad
+3BUIb3S50i
+
+Plugin fixes: Fixes to use of PageMaker in most plugins, XMLSpider, Freetalk and WoT now have their own sub-menus.
+
+UPnP:
+- Recurse down all devices to find the bandwidth limits, rather than just asking the top level object.
+

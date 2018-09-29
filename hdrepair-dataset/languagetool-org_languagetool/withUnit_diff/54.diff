@@ -1,0 +1,15 @@
+diff --git a/trunk/JLanguageTool/src/java/org/languagetool/rules/en/AvsAnRule.java b/trunk/JLanguageTool/src/java/org/languagetool/rules/en/AvsAnRule.java
+index df95b06..6d59314 100644
+--- a/trunk/JLanguageTool/src/java/org/languagetool/rules/en/AvsAnRule.java
++++ b/trunk/JLanguageTool/src/java/org/languagetool/rules/en/AvsAnRule.java
+@@ -85 +85 @@
+-      token = token.replaceAll("[^αa-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
++      token = token.replaceAll("[^αa-zA-Z0-9\\.;,:']", "");         // e.g. >>an "industry party"<<
+diff --git a/trunk/JLanguageTool/src/test/org/languagetool/rules/en/AvsAnRuleTest.java b/trunk/JLanguageTool/src/test/org/languagetool/rules/en/AvsAnRuleTest.java
+index 89e6f14..f302dda 100644
+--- a/trunk/JLanguageTool/src/test/org/languagetool/rules/en/AvsAnRuleTest.java
++++ b/trunk/JLanguageTool/src/test/org/languagetool/rules/en/AvsAnRuleTest.java
+@@ -60,0 +61,2 @@
++    assertCorrect("See an:Grammatica");
++    assertCorrect("See http://www.an.com");
+

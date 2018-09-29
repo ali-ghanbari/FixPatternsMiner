@@ -1,0 +1,23 @@
+diff --git a/modules/openlmis-web/src/main/java/org/openlmis/web/controller/ProductController.java b/modules/openlmis-web/src/main/java/org/openlmis/web/controller/ProductController.java
+index b5cd5aa..25c41d2 100644
+--- a/modules/openlmis-web/src/main/java/org/openlmis/web/controller/ProductController.java
++++ b/modules/openlmis-web/src/main/java/org/openlmis/web/controller/ProductController.java
+@@ -99 +99 @@
+-    @RequestMapping(value = "/createProduct", method = { RequestMethod.POST },  headers = "Accept=application/json")
++    @RequestMapping(value = "/createProduct", method = RequestMethod.POST ,  headers = ACCEPT_JSON)
+diff --git a/modules/openlmis-web/src/main/webapp/public/js/product/controller/product-controller.js b/modules/openlmis-web/src/main/webapp/public/js/product/controller/product-controller.js
+index eaabd7c..18b788b 100644
+--- a/modules/openlmis-web/src/main/webapp/public/js/product/controller/product-controller.js
++++ b/modules/openlmis-web/src/main/webapp/public/js/product/controller/product-controller.js
+@@ -170 +170,2 @@
+-        CreateProduct.save({}, $scope.newProduct, function (data) {
++
++        CreateProduct.post( $scope.product, function (data) {
+diff --git a/modules/openlmis-web/src/main/webapp/public/js/shared/services/reports.js b/modules/openlmis-web/src/main/webapp/public/js/shared/services/reports.js
+index 4cff1b6..2e8384d 100644
+--- a/modules/openlmis-web/src/main/webapp/public/js/shared/services/reports.js
++++ b/modules/openlmis-web/src/main/webapp/public/js/shared/services/reports.js
+@@ -177 +177 @@
+-    return $resource('/createProduct.json', {});
++    return $resource('/createProduct.json', {}, {post:{method:'POST'}});
+

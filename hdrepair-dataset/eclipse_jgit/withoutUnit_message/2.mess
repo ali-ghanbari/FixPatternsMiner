@@ -1,0 +1,16 @@
+Fix possible AIOOB in DirCacheTree.contains()
+
+When DirCacheTree.contains() is called and 'aOff' is greater than 'aLen'
+an ArrayIndexOutOfBoundsException was thrown. This fix makes
+DirCacheTree.contains() more robust and allows parsing such index files
+without throwing AIOOB.
+
+I couldn't create a test case leading to this situation but I have seen
+such situations while inspecting Bug: 465393. It seems that such
+situations are created on Windows when there are invalid pathes in the
+index. There may be a not yet known bug leading to such situations in
+combination with invalid pathes.
+
+Bug: 465393
+Change-Id: I6535d924a22cba9a05df0ccd7e6dc2c9ddc42375
+

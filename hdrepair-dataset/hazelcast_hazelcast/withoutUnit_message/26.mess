@@ -1,0 +1,11 @@
+I/O scheduling bug fixed.
+
+The problem happens when a packet doesn't fit into the outputBuffer and
+there are no other pending packets in the queue. When both packets queues
+are empty, we are removing write interest immediately, ignoring partially
+written packet. And that packet's remaining part is written only when another
+packet is enqueued and write interest is set.
+
+This is specially visible in queries - a packet with QueryResult can easily
+exceed a size of the outputBuffer.
+

@@ -1,0 +1,14 @@
+[FIXES JENKINS-14321] - Do not re-use last build's environment for remote polling
+
+Fixes, the original 'fix' in 3d9a73d26b129249c51fccfca6060280197b25eb it appears
+that a crucial check on the newly implemented argument wasn't actually implemented.
+
+I've changed the condition to test this rather than set 'b' to null if reuseLastBuildEnv
+is set to true as 'b' is de-referenced later in the getPollEnvironment method.
+
+Rather worryingly it appears that the existing code in getPollEnvironment tests at one
+point whether 'b' is null, but then later (outside this test) derefences it anyway, but
+this commit does not make that particular problem any worse.
+
+Signed-off-by: ciaranj <ciaranj@gmail.com>
+

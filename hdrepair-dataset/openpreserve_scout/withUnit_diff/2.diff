@@ -1,0 +1,24 @@
+diff --git a/model/src/main/java/eu/scape_project/watch/dao/AsyncRequestDAO.java b/model/src/main/java/eu/scape_project/watch/dao/AsyncRequestDAO.java
+index a70005d..8130819 100644
+--- a/model/src/main/java/eu/scape_project/watch/dao/AsyncRequestDAO.java
++++ b/model/src/main/java/eu/scape_project/watch/dao/AsyncRequestDAO.java
+@@ -132 +131,0 @@
+-    fireOnUpdated(request);
+diff --git a/model/src/test/java/eu/scape_project/watch/model/KBTest.java b/model/src/test/java/eu/scape_project/watch/model/KBTest.java
+index 2f4594c..1872cad 100644
+--- a/model/src/test/java/eu/scape_project/watch/model/KBTest.java
++++ b/model/src/test/java/eu/scape_project/watch/model/KBTest.java
+@@ -697,0 +698,12 @@
++  public void testAsyncRequestListeners() {
++
++    @SuppressWarnings("unchecked")
++    DOListener<AsyncRequest> mockListener = Mockito.mock(DOListener.class);
++    AsyncRequestDAO.getInstance().addDOListener(mockListener);
++    AsyncRequest request = new AsyncRequest();
++    AsyncRequestDAO.getInstance().save(request);
++    Mockito.verify(mockListener).onUpdated(request);
++
++  }
++
++  @Test
+

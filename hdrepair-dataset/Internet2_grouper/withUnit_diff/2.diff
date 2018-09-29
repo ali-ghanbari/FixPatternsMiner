@@ -1,0 +1,24 @@
+diff --git a/grouper/src/grouper/edu/internet2/middleware/grouper/misc/AddMissingGroupSets.java b/grouper/src/grouper/edu/internet2/middleware/grouper/misc/AddMissingGroupSets.java
+index 6d9540d..af65120 100644
+--- a/grouper/src/grouper/edu/internet2/middleware/grouper/misc/AddMissingGroupSets.java
++++ b/grouper/src/grouper/edu/internet2/middleware/grouper/misc/AddMissingGroupSets.java
+@@ -453 +453 @@
+-      groupSet.setOwnerStemId(attributeDef.getId());
++      groupSet.setOwnerAttrDefId(attributeDef.getId());
+diff --git a/grouper/src/test/edu/internet2/middleware/grouper/membership/AddMissingGroupSetsTest.java b/grouper/src/test/edu/internet2/middleware/grouper/membership/AddMissingGroupSetsTest.java
+index 0c8a3af..903d3c4 100644
+--- a/grouper/src/test/edu/internet2/middleware/grouper/membership/AddMissingGroupSetsTest.java
++++ b/grouper/src/test/edu/internet2/middleware/grouper/membership/AddMissingGroupSetsTest.java
+@@ -129 +129 @@
+-    // get and verify number of groupSets before proceeding..
++    // get number of groupSets before proceeding..
+@@ -131 +131 @@
+-    T.amount("Total groupSets", 137, originalGroupSets.size());
++    int size = originalGroupSets.size();
+@@ -141 +141 @@
+-    T.amount("Total groupSets", 137, currentGroupSets.size());
++    T.amount("Total groupSets", size, currentGroupSets.size());
+@@ -163 +163 @@
+-    T.amount("Total groupSets", 137, currentGroupSets.size());
++    T.amount("Total groupSets", size, currentGroupSets.size());
+

@@ -1,0 +1,32 @@
+diff --git a/cat-consumer-advanced/src/main/java/com/dianping/cat/consumer/metric/MetricAnalyzer.java b/cat-consumer-advanced/src/main/java/com/dianping/cat/consumer/metric/MetricAnalyzer.java
+index c4a2bb1..c866d8d 100644
+--- a/cat-consumer-advanced/src/main/java/com/dianping/cat/consumer/metric/MetricAnalyzer.java
++++ b/cat-consumer-advanced/src/main/java/com/dianping/cat/consumer/metric/MetricAnalyzer.java
+@@ -55 +55 @@
+-	private static final String METRIC = "metric";
++	private static final String METRIC = "Metric";
+diff --git a/cat-consumer-advanced/src/main/resources/META-INF/plexus/components.xml b/cat-consumer-advanced/src/main/resources/META-INF/plexus/components.xml
+index 97cd767..6fd9891 100644
+--- a/cat-consumer-advanced/src/main/resources/META-INF/plexus/components.xml
++++ b/cat-consumer-advanced/src/main/resources/META-INF/plexus/components.xml
+@@ -164,0 +165,9 @@
++			<role>com.dianping.cat.consumer.metric.ProductLineConfigManager</role>
++			<implementation>com.dianping.cat.consumer.metric.ProductLineConfigManager</implementation>
++			<requirements>
++				<requirement>
++					<role>com.dianping.cat.core.config.ConfigDao</role>
++				</requirement>
++			</requirements>
++		</component>
++		<component>
+@@ -173,9 +181,0 @@
+-				</requirement>
+-			</requirements>
+-		</component>
+-		<component>
+-			<role>com.dianping.cat.consumer.metric.ProductLineConfigManager</role>
+-			<implementation>com.dianping.cat.consumer.metric.ProductLineConfigManager</implementation>
+-			<requirements>
+-				<requirement>
+-					<role>com.dianping.cat.core.config.ConfigDao</role>
+

@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/atlasapi/query/v2/ScheduleController.java b/src/main/java/org/atlasapi/query/v2/ScheduleController.java
+index 5060782..536e54e 100644
+--- a/src/main/java/org/atlasapi/query/v2/ScheduleController.java
++++ b/src/main/java/org/atlasapi/query/v2/ScheduleController.java
+@@ -88 +88 @@
+-        Set<Publisher> appPublishers = config.hasValue() ? ImmutableSet.copyOf(config.requireValue().publishersInOrder()) : ImmutableSet.<Publisher>of();
++        Set<Publisher> appPublishers = ImmutableSet.copyOf(config.hasValue() ? config.requireValue().publishersInOrder() : ApplicationConfiguration.DEFAULT_CONFIGURATION.publishersInOrder());
+

@@ -1,0 +1,64 @@
+diff --git a/src/main/java/net/sourceforge/fenixedu/presentationTier/backBeans/sop/evaluation/SOPEvaluationManagementBackingBean.java b/src/main/java/net/sourceforge/fenixedu/presentationTier/backBeans/sop/evaluation/SOPEvaluationManagementBackingBean.java
+index 80354cf..c1fb410 100755
+--- a/src/main/java/net/sourceforge/fenixedu/presentationTier/backBeans/sop/evaluation/SOPEvaluationManagementBackingBean.java
++++ b/src/main/java/net/sourceforge/fenixedu/presentationTier/backBeans/sop/evaluation/SOPEvaluationManagementBackingBean.java
+@@ -1540,0 +1541 @@
++        curricularYearID = selectedCurricularYearID;
+diff --git a/src/main/webapp/commons/sites/addInstitutionSection.jsp b/src/main/webapp/commons/sites/addInstitutionSection.jsp
+index b8c12e2..2b21f3d 100644
+--- a/src/main/webapp/commons/sites/addInstitutionSection.jsp
++++ b/src/main/webapp/commons/sites/addInstitutionSection.jsp
+@@ -1 +0,0 @@
+-<%@ page isELIgnored="true"%>
+@@ -7,0 +7 @@
++<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+@@ -38,7 +38,5 @@
+-<fr:view name="template" property="templatedSection">
+-	<fr:layout>
+-		<fr:property name="eachLayout" value="values"/>
+-		<fr:property name="eachSchema" value="site.section.name"/>
+-	</fr:layout>
+-	<fr:destination name="section.view" path="<%= actionName + "?method=addFromPool&amp;containerId=" +  parentId + "&amp;contentId=${externalId}&amp;oid=" + siteId + "&amp;sectionID=" + parentId + "&amp;" + context%>"/>
+-</fr:view>
++<ul>
++    <c:forEach var="section" items="${template.templatedSectionSet}">
++        <li><html:link page="${actionName}?method=addFromPool&containerId=${parentId}&contentId=${section.externalId}&oid=${siteId}&sectionID=${parentId}&${context}">${section.name}</html:link></li>
++    </c:forEach>
++</ul>
+diff --git a/src/main/webapp/resourceAllocationManager/viewAllClassesSchedules.jsp b/src/main/webapp/resourceAllocationManager/viewAllClassesSchedules.jsp
+index e12b7a1..abfb6f2 100755
+--- a/src/main/webapp/resourceAllocationManager/viewAllClassesSchedules.jsp
++++ b/src/main/webapp/resourceAllocationManager/viewAllClassesSchedules.jsp
+@@ -13,0 +14 @@
++			<div class="single">
+@@ -23,0 +25 @@
++			</div>
+@@ -27,0 +30,7 @@
++<style type="text/css" media="print">
++.single {
++	page-break-after: always;
++	page-break-inside: avoid;
++}
++</style>
++
+diff --git a/src/main/webapp/resourceAllocationManager/viewAllRoomsSchedules.jsp b/src/main/webapp/resourceAllocationManager/viewAllRoomsSchedules.jsp
+index c3d9cb2..ca408b1 100755
+--- a/src/main/webapp/resourceAllocationManager/viewAllRoomsSchedules.jsp
++++ b/src/main/webapp/resourceAllocationManager/viewAllRoomsSchedules.jsp
+@@ -10 +10 @@
+-
++	<div class="single">
+@@ -41 +41 @@
+-				${bean.room.classification.name}
++				${bean.room.classification.name.content}
+@@ -63,0 +64 @@
++	</div>
+@@ -65,0 +67,7 @@
++<style type="text/css" media="print">
++.single {
++	page-break-after: always;
++	page-break-inside: avoid;
++}
++</style>
++
+

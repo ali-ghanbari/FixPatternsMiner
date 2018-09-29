@@ -1,0 +1,41 @@
+diff --git a/core/src/main/java/hudson/widgets/HistoryWidget.java b/core/src/main/java/hudson/widgets/HistoryWidget.java
+index 5465000..2488205 100644
+--- a/core/src/main/java/hudson/widgets/HistoryWidget.java
++++ b/core/src/main/java/hudson/widgets/HistoryWidget.java
+@@ -153,0 +154,2 @@
++        // FIXME n can be null if the client behave incorrectly. We should fail gracefully (404?) instead of NPEing
++
+diff --git a/core/src/main/resources/hudson/widgets/HistoryWidget/index.jelly b/core/src/main/resources/hudson/widgets/HistoryWidget/index.jelly
+index 78ca3aa..772c996 100644
+--- a/core/src/main/resources/hudson/widgets/HistoryWidget/index.jelly
++++ b/core/src/main/resources/hudson/widgets/HistoryWidget/index.jelly
+@@ -50,0 +51,7 @@
++            function replace(a, b) {
++                  var p = a.parentNode;
++                  var next = a.nextSibling;
++                  p.removeChild(a);
++                  p.insertBefore(b,next);
++            }
++
+@@ -62,3 +68,0 @@
+-                  var p = hist.parentNode;
+-                  var next = hist.nextSibling;
+-                  p.removeChild(hist);
+@@ -66,2 +70,3 @@
+-                  var div = document.createElement('div');
+-                  div.innerHTML = rsp.responseText;
++                  var newhist = document.createElement('div');
++                  newhist.innerHTML = rsp.responseText;
++                  newhist.headers = hist.headers
+@@ -69 +74 @@
+-                  p.insertBefore(div,next);
++                  replace(hist, newhist);
+diff --git a/war/src/main/webapp/scripts/hudson-behavior.js b/war/src/main/webapp/scripts/hudson-behavior.js
+index 51391c8..cac382d 100644
+--- a/war/src/main/webapp/scripts/hudson-behavior.js
++++ b/war/src/main/webapp/scripts/hudson-behavior.js
+@@ -1474,0 +1475,3 @@
++        if (bh.headers == null) {
++            // Yahoo.log("Missing headers in buildHistory element");
++        }
+

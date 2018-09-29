@@ -1,0 +1,38 @@
+diff --git a/drools-compiler/src/test/java/org/drools/compiler/integrationtests/Misc2Test.java b/drools-compiler/src/test/java/org/drools/compiler/integrationtests/Misc2Test.java
+index c7cf0a4..0bac642 100644
+--- a/drools-compiler/src/test/java/org/drools/compiler/integrationtests/Misc2Test.java
++++ b/drools-compiler/src/test/java/org/drools/compiler/integrationtests/Misc2Test.java
+@@ -6328,0 +6329,25 @@
++
++    @Test
++    public void testLeftTupleGetIndex() throws Exception {
++        // DROOLS-570
++        String drl =
++                "rule R1 when\n" +
++                "    $s : String()\n" +
++                "    (or Long(this == 1) Long(this == 2) )\n" +
++                "then\n" +
++                "end\n" +
++                "rule R2 extends R1 when\n" +
++                "    $n : Number() from accumulate( Integer($value : this) sum($value) )\n" +
++                "then\n" +
++                "    System.out.println($n);\n" +
++                "end\n";
++
++        KieHelper helper = new KieHelper();
++        helper.addContent( drl, ResourceType.DRL );
++        KieSession ksession = helper.build().newKieSession();
++
++        ksession.insert("1");
++        ksession.insert(1L);
++        ksession.insert(1);
++        ksession.fireAllRules();
++    }
+diff --git a/drools-core/src/main/java/org/drools/core/rule/builder/dialect/asm/GeneratorHelper.java b/drools-core/src/main/java/org/drools/core/rule/builder/dialect/asm/GeneratorHelper.java
+index c2732f7..4653fa5 100644
+--- a/drools-core/src/main/java/org/drools/core/rule/builder/dialect/asm/GeneratorHelper.java
++++ b/drools-core/src/main/java/org/drools/core/rule/builder/dialect/asm/GeneratorHelper.java
+@@ -235 +235 @@
+-            invokeInterface(LeftTuple.class, "getQueueIndex", Integer.TYPE); // tuple.getQueueIndex()
++            invokeInterface(LeftTuple.class, "getIndex", Integer.TYPE); // tuple.getIndex()
+

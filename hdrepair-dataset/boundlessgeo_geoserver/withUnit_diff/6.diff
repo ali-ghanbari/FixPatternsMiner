@@ -1,0 +1,21 @@
+diff --git a/src/web/core/src/main/java/org/geoserver/web/GeoServerHomePage.java b/src/web/core/src/main/java/org/geoserver/web/GeoServerHomePage.java
+index 438fdb0..2809155 100644
+--- a/src/web/core/src/main/java/org/geoserver/web/GeoServerHomePage.java
++++ b/src/web/core/src/main/java/org/geoserver/web/GeoServerHomePage.java
+@@ -78 +78 @@
+-            params.put("contactEmail", contactEmail);
++            params.put("contactEmail", (contactEmail == null ? "geoserver@example.org" : contactEmail));
+diff --git a/src/web/core/src/test/java/org/geoserver/web/GeoServerHomePageTest.java b/src/web/core/src/test/java/org/geoserver/web/GeoServerHomePageTest.java
+index 9f982d3..2ed3d70 100644
+--- a/src/web/core/src/test/java/org/geoserver/web/GeoServerHomePageTest.java
++++ b/src/web/core/src/test/java/org/geoserver/web/GeoServerHomePageTest.java
+@@ -46,0 +47,8 @@
++    @Test
++    public void testEmailIfNull() {
++        GeoServerApplication geoServerApplication = getGeoServerApplication();
++        String contactEmail = geoServerApplication.getGeoServer().getGlobal().getSettings().getContact().
++                getContactEmail();
++        assertEquals("geoserver@example.org", contactEmail == null ? "geoserver@example.org" : contactEmail);
++    }
++
+

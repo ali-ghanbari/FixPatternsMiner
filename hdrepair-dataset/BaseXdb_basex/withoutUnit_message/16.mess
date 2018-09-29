@@ -1,0 +1,6 @@
+[FIX] Use canonical path for `File#exists()`
+
+JUnit test `FNFileTest#move()` failed on OS X because OS X cannot resolve paths
+like `./directory/file.txt/../file.txt`. `File#getCanonicalFile()` does, so
+resolving using that function fixes the problem.
+

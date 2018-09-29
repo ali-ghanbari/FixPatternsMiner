@@ -1,0 +1,40 @@
+diff --git a/applications/plugins/org.csstudio.config.savevalue.ui/plugin.xml b/applications/plugins/org.csstudio.config.savevalue.ui/plugin.xml
+index f34dcc0..17b9d7e 100644
+--- a/applications/plugins/org.csstudio.config.savevalue.ui/plugin.xml
++++ b/applications/plugins/org.csstudio.config.savevalue.ui/plugin.xml
+@@ -53,12 +53,15 @@
+-               <and>
+-                  <count
+-                        value="1">
+-                  </count>
+-                  <iterate
+-                        ifEmpty="false"
+-                        operator="and">
+-                     <instanceof
+-                           value="org.csstudio.platform.model.IProcessVariableWithSamples">
+-                     </instanceof>
+-                  </iterate>
+-               </and>
++               <with
++                     variable="activeMenuSelection">
++                  <and>
++                     <count
++                           value="1">
++                     </count>
++                     <iterate
++                           ifEmpty="false"
++                           operator="and">
++                        <instanceof
++                              value="org.csstudio.platform.model.IProcessVariableWithSamples">
++                        </instanceof>
++                     </iterate>
++                  </and>
++               </with>
+diff --git a/applications/plugins/org.csstudio.config.savevalue.ui/src/org/csstudio/config/savevalue/ui/SaveValueCommandHandler.java b/applications/plugins/org.csstudio.config.savevalue.ui/src/org/csstudio/config/savevalue/ui/SaveValueCommandHandler.java
+index 972caa8..f50fbf0 100644
+--- a/applications/plugins/org.csstudio.config.savevalue.ui/src/org/csstudio/config/savevalue/ui/SaveValueCommandHandler.java
++++ b/applications/plugins/org.csstudio.config.savevalue.ui/src/org/csstudio/config/savevalue/ui/SaveValueCommandHandler.java
+@@ -77 +77 @@
+-			ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
++			ISelection selection = HandlerUtil.getActiveMenuSelectionChecked(event);
+

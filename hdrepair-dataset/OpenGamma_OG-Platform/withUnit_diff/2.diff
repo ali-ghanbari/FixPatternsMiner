@@ -1,0 +1,22 @@
+diff --git a/projects/OG-Language/Client/src/test/java/com/opengamma/language/object/CreateBeanFunctionTest.java b/projects/OG-Language/Client/src/test/java/com/opengamma/language/object/CreateBeanFunctionTest.java
+index fe70331..9ca06eb 100644
+--- a/projects/OG-Language/Client/src/test/java/com/opengamma/language/object/CreateBeanFunctionTest.java
++++ b/projects/OG-Language/Client/src/test/java/com/opengamma/language/object/CreateBeanFunctionTest.java
+@@ -45 +44,0 @@
+-    ExternalId underlyingId = ExternalId.of("Tst", "underlying");
+@@ -49 +47,0 @@
+-    String securityType = "securityType";
+@@ -51 +49 @@
+-    Object[] parameters = {uniqueId, idBundle, name, securityType, attributes, payCurrency, payAmount, receiveCurrency, receiveAmount, forwardDate, regionId };
++    Object[] parameters = {uniqueId, idBundle, name, attributes, payCurrency, payAmount, receiveCurrency, receiveAmount, forwardDate, regionId };
+@@ -62 +60 @@
+-    assertEquals(securityType, security.getSecurityType());
++    assertEquals(FXForwardSecurity.SECURITY_TYPE, security.getSecurityType());
+diff --git a/projects/OG-Master/src/main/java/com/opengamma/master/security/ManageableSecurityFudgeBuilder.java b/projects/OG-Master/src/main/java/com/opengamma/master/security/ManageableSecurityFudgeBuilder.java
+index 9c89e31..8ac2629 100644
+--- a/projects/OG-Master/src/main/java/com/opengamma/master/security/ManageableSecurityFudgeBuilder.java
++++ b/projects/OG-Master/src/main/java/com/opengamma/master/security/ManageableSecurityFudgeBuilder.java
+@@ -55 +55 @@
+-    ManageableSecurity object = new ManageableSecurity();
++    ManageableSecurity object = new ManageableSecurity(msg.getString(SECURITY_TYPE_FIELD_NAME));
+

@@ -1,0 +1,39 @@
+diff --git a/addon-solr/src/main/java/org/springframework/roo/addon/solr/SolrUtils.java b/addon-solr/src/main/java/org/springframework/roo/addon/solr/SolrUtils.java
+index 713094d..cf0461b 100644
+--- a/addon-solr/src/main/java/org/springframework/roo/addon/solr/SolrUtils.java
++++ b/addon-solr/src/main/java/org/springframework/roo/addon/solr/SolrUtils.java
+@@ -27 +27 @@
+-		} else if (type.equals(new JavaType("java.util.Date")) || type.equals("java.util.Calendar")) {
++		} else if (type.equals(new JavaType("java.util.Date")) || type.equals(new JavaType("java.util.Calendar"))) {
+diff --git a/addon-solr/src/test/java/org/springframework/roo/addon/solr/SolrUtilsTest.java b/addon-solr/src/test/java/org/springframework/roo/addon/solr/SolrUtilsTest.java
+new file mode 100644
+index 0000000..82816df
+--- /dev/null
++++ b/addon-solr/src/test/java/org/springframework/roo/addon/solr/SolrUtilsTest.java
+@@ -0,0 +1,25 @@
++package org.springframework.roo.addon.solr;
++
++import static org.junit.Assert.assertEquals;
++
++import java.util.Calendar;
++
++import org.junit.Test;
++import org.springframework.roo.model.JavaType;
++
++/**
++ * Unit test of {@link SolrUtils}
++ *
++ * @author Andrew Swan
++ * @since 1.1.5
++ */
++public class SolrUtilsTest {
++
++	// Constants
++	private static final JavaType JAVA_UTIL_CALENDAR = new JavaType(Calendar.class.getName());
++
++	@Test
++	public void testGetSolrDynamicFieldPostFixForJavaUtilCalendar() {
++		assertEquals("_dt", SolrUtils.getSolrDynamicFieldPostFix(JAVA_UTIL_CALENDAR));
++	}
++}
+

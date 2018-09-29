@@ -1,0 +1,12 @@
+Fix DrawerLayout to ignore non-drawers in drag operations.
+
+This fix allows drawing right-side drawers to work and also makes
+RTL situations work correctly. The previous approach incorrectly tried
+to calculate drag values based on an incorrect view (a non-drawer).
+This fix constrains drag operations to affect only drawers, which allows
+later edge-drag code to be run and determine the actual drag operation.
+
+Issue #16459955 [Quantum][L][KK][JB] RTL- Dificult to open Navigation drawer by swiping from right to left
+
+Change-Id: I8060dbd43c12dfa5ff65ff6a54d27e8338559fb6
+

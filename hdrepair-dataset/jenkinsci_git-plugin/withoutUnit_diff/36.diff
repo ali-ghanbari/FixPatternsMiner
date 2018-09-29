@@ -1,0 +1,8 @@
+diff --git a/src/main/java/hudson/plugins/git/GitPublisher.java b/src/main/java/hudson/plugins/git/GitPublisher.java
+index 4b5c265..5fe50cc 100644
+--- a/src/main/java/hudson/plugins/git/GitPublisher.java
++++ b/src/main/java/hudson/plugins/git/GitPublisher.java
+@@ -264 +264 @@
+-                        final String tagMessage = environment.expand(t.getTagMessage());
++                        final String tagMessage = hudson.Util.fixNull(environment.expand(t.getTagMessage()));
+

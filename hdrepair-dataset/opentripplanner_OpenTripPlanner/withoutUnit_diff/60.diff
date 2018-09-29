@@ -1,0 +1,8 @@
+diff --git a/otp-core/src/main/java/org/opentripplanner/routing/graph/Graph.java b/otp-core/src/main/java/org/opentripplanner/routing/graph/Graph.java
+index 7ba2526..6f10f65 100644
+--- a/otp-core/src/main/java/org/opentripplanner/routing/graph/Graph.java
++++ b/otp-core/src/main/java/org/opentripplanner/routing/graph/Graph.java
+@@ -494 +494 @@
+-            ttp.finish();
++            if (ttp != null) ttp.finish(); // skip frequency-based patterns with no table (null)
+

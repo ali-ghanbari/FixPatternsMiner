@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org_scala_tools_maven/ScalaScriptMojo.java b/src/main/java/org_scala_tools_maven/ScalaScriptMojo.java
+index 0997344..bd81a11 100644
+--- a/src/main/java/org_scala_tools_maven/ScalaScriptMojo.java
++++ b/src/main/java/org_scala_tools_maven/ScalaScriptMojo.java
+@@ -192 +192 @@
+-                urls.add(new URL("file://" + string));
++                urls.add(new File (string).toURI().toURL());
+

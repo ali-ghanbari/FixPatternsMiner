@@ -1,0 +1,8 @@
+diff --git a/src/main/java/com/mitchellbosecke/pebble/node/expression/TernaryExpression.java b/src/main/java/com/mitchellbosecke/pebble/node/expression/TernaryExpression.java
+index f695ff7..ceef161 100644
+--- a/src/main/java/com/mitchellbosecke/pebble/node/expression/TernaryExpression.java
++++ b/src/main/java/com/mitchellbosecke/pebble/node/expression/TernaryExpression.java
+@@ -30 +30 @@
+-		if (expression1.evaluate(self, context) == true) {
++		if (expression1.evaluate(self, context) != null && expression1.evaluate(self, context) == true) {
+

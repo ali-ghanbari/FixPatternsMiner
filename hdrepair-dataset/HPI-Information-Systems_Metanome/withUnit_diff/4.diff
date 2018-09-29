@@ -1,0 +1,18 @@
+diff --git a/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/ResultFileWriter.java b/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/ResultFileWriter.java
+index c076732..9665243 100644
+--- a/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/ResultFileWriter.java
++++ b/backend/src/main/java/de/uni_potsdam/hpi/metanome/result_receiver/ResultFileWriter.java
+@@ -17 +17 @@
+-				subdirectoryName + File.pathSeparator + fileName, true));
++				subdirectoryName + "/" + fileName, true));
+diff --git a/backend/src/test/java/de/uni_potsdam/hpi/metanome/result_receiver/UniqueColumnCombinationFileWriterTest.java b/backend/src/test/java/de/uni_potsdam/hpi/metanome/result_receiver/UniqueColumnCombinationFileWriterTest.java
+index 1ce61be..4f61b38 100644
+--- a/backend/src/test/java/de/uni_potsdam/hpi/metanome/result_receiver/UniqueColumnCombinationFileWriterTest.java
++++ b/backend/src/test/java/de/uni_potsdam/hpi/metanome/result_receiver/UniqueColumnCombinationFileWriterTest.java
+@@ -44 +44 @@
+-		UniqueColumnCombinationFileWriter writer = new UniqueColumnCombinationFileWriter("results/test", fileName);
++		UniqueColumnCombinationFileWriter writer = new UniqueColumnCombinationFileWriter(fileName, "results/test");
+@@ -61 +61 @@
+-		File actualFile = new File(fileName);
++		File actualFile = new File("results/test/" + fileName);
+

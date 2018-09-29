@@ -1,0 +1,38 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 5ab4d7b..434e6f8 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -11,0 +12 @@
++ * (CQL) fix for counter decrement syntax (CASSANDRA-3418)
+diff --git a/src/java/org/apache/cassandra/cql/Cql.g b/src/java/org/apache/cassandra/cql/Cql.g
+index d05eed6..51c51a1 100644
+--- a/src/java/org/apache/cassandra/cql/Cql.g
++++ b/src/java/org/apache/cassandra/cql/Cql.g
+@@ -61,0 +62,7 @@
++
++    // used by UPDATE of the counter columns to validate if '-' was supplied by user
++    public void validateMinusSupplied(Object op, final Term value, IntStream stream) throws MissingTokenException
++    {
++        if (op == null && Long.parseLong(value.getText()) > 0)
++            throw new MissingTokenException(102, stream, value);
++    }
+@@ -456,0 +464,4 @@
++intTerm returns [Term integer]
++    : t=INTEGER { $integer = new Term($t.text, $t.type); }
++    ;
++
+@@ -459,2 +470,4 @@
+-		    | c=term ( '+' v=term { columns.put(key, new Operation(c, org.apache.cassandra.cql.Operation.OperationType.PLUS, v)); }
+-                            | '-' v=term { columns.put(key, new Operation(c, org.apache.cassandra.cql.Operation.OperationType.MINUS, v)); } ))
++		               | c=term ( '+'  v=term { columns.put(key, new Operation(c, org.apache.cassandra.cql.Operation.OperationType.PLUS, v)); }
++                            | op='-'? v=intTerm
++                                  { validateMinusSupplied(op, v, input);
++                                    columns.put(key, new Operation(c, org.apache.cassandra.cql.Operation.OperationType.MINUS, v)); } ))
+diff --git a/src/java/org/apache/cassandra/cql/UpdateStatement.java b/src/java/org/apache/cassandra/cql/UpdateStatement.java
+index 90428be..8fb1d05 100644
+--- a/src/java/org/apache/cassandra/cql/UpdateStatement.java
++++ b/src/java/org/apache/cassandra/cql/UpdateStatement.java
+@@ -223 +223 @@
+-                        value *= -1;
++                        if (value > 0) value *= -1;
+

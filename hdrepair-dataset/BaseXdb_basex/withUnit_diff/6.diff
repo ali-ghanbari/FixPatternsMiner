@@ -1,0 +1,25 @@
+diff --git a/basex-core/src/main/java/org/basex/query/expr/Try.java b/basex-core/src/main/java/org/basex/query/expr/Try.java
+index b88a11e..e163051 100644
+--- a/basex-core/src/main/java/org/basex/query/expr/Try.java
++++ b/basex-core/src/main/java/org/basex/query/expr/Try.java
+@@ -141 +140,0 @@
+-    expr.markTailCalls(ctx);
+diff --git a/basex-core/src/test/java/org/basex/query/ast/TCOTest.java b/basex-core/src/test/java/org/basex/query/ast/TCOTest.java
+index ec2eabe..aaa9444 100644
+--- a/basex-core/src/test/java/org/basex/query/ast/TCOTest.java
++++ b/basex-core/src/test/java/org/basex/query/ast/TCOTest.java
+@@ -140,0 +141,13 @@
++
++  /** Checks if errors in tail-called functions can escape try/catch. */
++  @Test
++  public void tailCallInTry() {
++    check(
++        "declare option db:INLINELIMIT \"-1\";" +
++        "declare option db:TAILCALLS \"0\";" +
++        "declare function local:foo() { try { local:bar() } catch * { 42 } };" +
++        "declare function local:bar() { error() };" +
++        "local:foo()",
++
++        "42");
++  }
+

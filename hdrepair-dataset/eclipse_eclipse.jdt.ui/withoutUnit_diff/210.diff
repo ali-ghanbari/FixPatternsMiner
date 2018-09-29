@@ -1,0 +1,17 @@
+diff --git a/org.eclipse.jdt.ui.examples.javafamily/ReleaseNotes.html b/org.eclipse.jdt.ui.examples.javafamily/ReleaseNotes.html
+index 415ddf9..1fb1511 100644
+--- a/org.eclipse.jdt.ui.examples.javafamily/ReleaseNotes.html
++++ b/org.eclipse.jdt.ui.examples.javafamily/ReleaseNotes.html
+@@ -31,0 +32,3 @@
++<li>
++JSP Search works only for types (because JSP indexing is only done for types).
++</li>
+diff --git a/org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/AbstractJspParser.java b/org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/AbstractJspParser.java
+index 75ac66d..834f57e 100644
+--- a/org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/AbstractJspParser.java
++++ b/org.eclipse.jdt.ui.examples.javafamily/src/org/eclipse/jsp/AbstractJspParser.java
+@@ -205 +205,2 @@
+-			JspUIPlugin.log("error while parsing attributes", e); //$NON-NLS-1$
++			// we don't log this exception because it is used
++			// as one way to exit the scanning loop
+

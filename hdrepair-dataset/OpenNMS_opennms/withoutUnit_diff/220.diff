@@ -1,0 +1,28 @@
+diff --git a/core/test-api/http/src/main/java/org/opennms/core/test/annotations/JUnitHttpServer.java b/core/test-api/http/src/main/java/org/opennms/core/test/annotations/JUnitHttpServer.java
+index 6b26120..4b65e94 100644
+--- a/core/test-api/http/src/main/java/org/opennms/core/test/annotations/JUnitHttpServer.java
++++ b/core/test-api/http/src/main/java/org/opennms/core/test/annotations/JUnitHttpServer.java
+@@ -19 +19 @@
+-    String[] vhosts() default {"localhost"};
++    String[] vhosts() default { "localhost", "127.0.0.1" };
+diff --git a/opennms-base-assembly/pom.xml b/opennms-base-assembly/pom.xml
+index 9939fc1..96841cb 100644
+--- a/opennms-base-assembly/pom.xml
++++ b/opennms-base-assembly/pom.xml
+@@ -298,0 +299,5 @@
++      <artifactId>opennms-rrd-tcp</artifactId>
++      <scope>compile</scope>
++    </dependency>
++    <dependency>
++      <groupId>org.opennms</groupId>
+diff --git a/pom.xml b/pom.xml
+index 7c67f6b..5c5b651 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1195,0 +1196,5 @@
++        <artifactId>opennms-rrd-tcp</artifactId>
++        <version>${project.version}</version>
++      </dependency>
++      <dependency>
++        <groupId>org.opennms</groupId>
+

@@ -1,0 +1,121 @@
+diff --git a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/BatchCompilerTest.java b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/BatchCompilerTest.java
+index 8aa2bf0..340c8e0 100644
+--- a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/BatchCompilerTest.java
++++ b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/BatchCompilerTest.java
+@@ -1892 +1892 @@
+-			"		<option key=\"org.eclipse.jdt.core.compiler.problem.unclosedCloseable\" value=\"warning\"/>\n" + 
++			"		<option key=\"org.eclipse.jdt.core.compiler.problem.unclosedCloseable\" value=\"ignore\"/>\n" + 
+diff --git a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/FlowAnalysisTest.java b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/FlowAnalysisTest.java
+index f197e7d..4e75828 100644
+--- a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/FlowAnalysisTest.java
++++ b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/FlowAnalysisTest.java
+@@ -2369,0 +2370,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -2390 +2392,2 @@
+-			"----------\n");	
++			"----------\n",
++			null, true, options);	
+@@ -2394,0 +2398,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -2411 +2416,2 @@
+-			"");	
++			"",
++			null, true, null, options, null);	
+diff --git a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/NullReferenceTest.java b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/NullReferenceTest.java
+index 21a0d02..2349a4b 100644
+--- a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/NullReferenceTest.java
++++ b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/NullReferenceTest.java
+@@ -6019,0 +6020,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -6020,0 +6023 @@
++		true,
+@@ -6034,0 +6038,2 @@
++			null,
++			options,
+@@ -6095,0 +6101,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -6110 +6117,7 @@
+-		"");
++		"",
++		null /* no extra class libraries */,
++		true /* flush output directory */,
++		null /* no vm arguments */,
++		options,
++		null /* no custom requestor*/,
++	  	false /* do not skip javac for this peculiar test */);
+@@ -6116,0 +6130,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -6132 +6147,7 @@
+-		"");
++		"",
++		null /* no extra class libraries */,
++		true /* flush output directory */,
++		null /* no vm arguments */,
++		options,
++		null /* no custom requestor*/,
++	  	false /* do not skip javac for this peculiar test */);
+@@ -6138,0 +6160,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -6163 +6186,7 @@
+-		"");
++		"",
++		null /* no extra class libraries */,
++		true /* flush output directory */,
++		null /* no vm arguments */,
++		options,
++		null /* no custom requestor*/,
++	  	false /* do not skip javac for this peculiar test */);
+diff --git a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/TryWithResourcesStatementTest.java b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/TryWithResourcesStatementTest.java
+index 52c1a3e..563cc0b 100644
+--- a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/TryWithResourcesStatementTest.java
++++ b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/TryWithResourcesStatementTest.java
+@@ -455,0 +456,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -507 +509,2 @@
+-		"----------\n");
++		"----------\n",
++		null, true, options);
+@@ -535,0 +539,2 @@
++	Map options = getCompilerOptions();
++	options.put(CompilerOptions.OPTION_ReportUnclosedCloseable, CompilerOptions.WARNING);
+@@ -585 +590,4 @@
+-		"----------\n");
++		"----------\n",
++		null,
++		true,
++		options);
+diff --git a/org.eclipse.jdt.core/buildnotes_jdt-core.html b/org.eclipse.jdt.core/buildnotes_jdt-core.html
+index b80f9d1..2b73e59 100644
+--- a/org.eclipse.jdt.core/buildnotes_jdt-core.html
++++ b/org.eclipse.jdt.core/buildnotes_jdt-core.html
+@@ -44,0 +45,13 @@
++<a name="v_C24"></a>
++<hr><h1>
++Eclipse Platform Build Notes<br>
++Java development tools core</h1>
++Eclipse SDK 3.8.0 - %date% - 3.8.0 M4
++<br>Project org.eclipse.jdt.core v_C24
++(<a href="http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.jdt.core/?only_with_tag=v_C24">cvs</a>).
++<h2>What's new in this drop</h2>
++
++<h3>Problem Reports Fixed</h3>
++<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=365566">365566</a>
++set resource leak diagnostic to &quot;ignore&quot; until bug 358903 is fixed
++
+@@ -49 +62 @@
+-Eclipse SDK 3.8.0 - December 2, 2011 - 3.8.0 M4
++Eclipse SDK 3.8.0 - December 2, 2011
+diff --git a/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/impl/IrritantSet.java b/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/impl/IrritantSet.java
+index e8ae215..4c77979 100644
+--- a/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/impl/IrritantSet.java
++++ b/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/impl/IrritantSet.java
+@@ -107 +106,0 @@
+-				|CompilerOptions.UnclosedCloseable
+

@@ -1,0 +1,225 @@
+diff --git a/model/model-impl/src/main/java/com/evolveum/midpoint/model/lens/Construction.java b/model/model-impl/src/main/java/com/evolveum/midpoint/model/lens/Construction.java
+index a6163af..5097aa1 100644
+--- a/model/model-impl/src/main/java/com/evolveum/midpoint/model/lens/Construction.java
++++ b/model/model-impl/src/main/java/com/evolveum/midpoint/model/lens/Construction.java
+@@ -362 +362 @@
+-		if (segmentExtension != null) {
++		if (segmentExtension != null && !segmentExtension.getValue().isEmpty()) {
+diff --git a/testing/story/src/test/resources/common/system-configuration.xml b/testing/story/src/test/resources/common/system-configuration.xml
+index 0dc7b91..51466ca 100644
+--- a/testing/story/src/test/resources/common/system-configuration.xml
++++ b/testing/story/src/test/resources/common/system-configuration.xml
+@@ -54,66 +54,88 @@
+-        <accountPasswordNotifier>
+-            <recipientExpression>
+-                <value>recipient@evolveum.com</value>
+-            </recipientExpression>
+-            <transport>dummy:accountPasswordNotifier</transport>
+-        </accountPasswordNotifier>
+-        <userPasswordNotifier>
+-            <recipientExpression>
+-                <value>recipient@evolveum.com</value>
+-            </recipientExpression>
+-            <transport>dummy:userPasswordNotifier</transport>
+-        </userPasswordNotifier>
+-        <simpleAccountNotifier>
+-            <statusFilter><status>success</status></statusFilter>
+-            <recipientExpression>
+-                <value>recipient@evolveum.com</value>
+-            </recipientExpression>
+-            <transport>dummy:simpleAccountNotifier-SUCCESS</transport>
+-        </simpleAccountNotifier>
+-        <simpleAccountNotifier>
+-            <statusFilter><status>failure</status></statusFilter>
+-            <recipientExpression>
+-                <value>recipient@evolveum.com</value>
+-            </recipientExpression>
+-            <transport>dummy:simpleAccountNotifier-FAILURE</transport>
+-        </simpleAccountNotifier>
+-        <simpleAccountNotifier>
+-            <operationFilter><operation>add</operation></operationFilter>
+-            <statusFilter><status>success</status></statusFilter>
+-            <recipientExpression>
+-                <value>recipient@evolveum.com</value>
+-            </recipientExpression>
+-            <transport>dummy:simpleAccountNotifier-ADD-SUCCESS</transport>
+-        </simpleAccountNotifier>
+-        <simpleAccountNotifier>
+-            <operationFilter><operation>delete</operation></operationFilter>
+-            <statusFilter><status>success</status></statusFilter>
+-            <recipientExpression>
+-                <value>recipient@evolveum.com</value>
+-            </recipientExpression>
+-            <transport>dummy:simpleAccountNotifier-DELETE-SUCCESS</transport>
+-        </simpleAccountNotifier>
+-        <simpleUserNotifier>
+-            <recipientExpression>
+-                <value>recipient@evolveum.com</value>
+-            </recipientExpression>
+-            <transport>dummy:simpleUserNotifier</transport>
+-        </simpleUserNotifier>
+-        <handlerChain>
+-            <operationFilter><operation>add</operation></operationFilter>
+-            <simpleUserNotifier>
+-                <recipientExpression>
+-                    <value>recipient@evolveum.com</value>
+-                </recipientExpression>
+-                <transport>dummy:simpleUserNotifier-ADD</transport>
+-            </simpleUserNotifier>
+-        </handlerChain>
+-        <handlerChain>
+-            <operationFilter><operation>delete</operation></operationFilter>
+-            <simpleUserNotifier>
+-                <recipientExpression>
+-                    <value>recipient@evolveum.com</value>
+-                </recipientExpression>
+-                <transport>dummy:simpleUserNotifier-DELETE</transport>
+-            </simpleUserNotifier>
+-        </handlerChain>
++        <handler>
++	        <accountPasswordNotifier>
++	            <recipientExpression>
++	                <value>recipient@evolveum.com</value>
++	            </recipientExpression>
++	            <transport>dummy:accountPasswordNotifier</transport>
++	        </accountPasswordNotifier>
++        </handler>
++        <handler>
++	        <userPasswordNotifier>
++	            <recipientExpression>
++	                <value>recipient@evolveum.com</value>
++	            </recipientExpression>
++	            <transport>dummy:userPasswordNotifier</transport>
++	        </userPasswordNotifier>
++        </handler>
++        <handler>
++        	<status>success</status>
++	        <simpleAccountNotifier>
++	            <recipientExpression>
++	                <value>recipient@evolveum.com</value>
++	            </recipientExpression>
++	            <transport>dummy:simpleAccountNotifier-SUCCESS</transport>
++	        </simpleAccountNotifier>
++        </handler>
++        <handler>
++	        <status>failure</status>
++	        <simpleAccountNotifier>
++	            <recipientExpression>
++	                <value>recipient@evolveum.com</value>
++	            </recipientExpression>
++	            <transport>dummy:simpleAccountNotifier-FAILURE</transport>
++	        </simpleAccountNotifier>
++        </handler>
++        <handler>
++	        <operation>add</operation>
++	        <status>success</status>
++	        <simpleAccountNotifier>
++	            <recipientExpression>
++	                <value>recipient@evolveum.com</value>
++	            </recipientExpression>
++	            <transport>dummy:simpleAccountNotifier-ADD-SUCCESS</transport>
++	        </simpleAccountNotifier>
++        </handler>
++        <handler>
++	        <operation>delete</operation>
++	        <status>success</status>
++	        <simpleAccountNotifier>
++	            <recipientExpression>
++	                <value>recipient@evolveum.com</value>
++	            </recipientExpression>
++	            <transport>dummy:simpleAccountNotifier-DELETE-SUCCESS</transport>
++	        </simpleAccountNotifier>
++        </handler>
++        <handler>
++	        <simpleUserNotifier>
++	            <recipientExpression>
++	                <value>recipient@evolveum.com</value>
++	            </recipientExpression>
++	            <transport>dummy:simpleUserNotifier</transport>
++	        </simpleUserNotifier>
++        </handler>
++        <handler>
++	        <chained>
++	            <operation>add</operation>
++	        </chained>
++	        <chained>
++	            <simpleUserNotifier>
++	                <recipientExpression>
++	                    <value>recipient@evolveum.com</value>
++	                </recipientExpression>
++	                <transport>dummy:simpleUserNotifier-ADD</transport>
++	            </simpleUserNotifier>
++	        </chained>
++	    </handler>
++	    <handler>
++            <chained>
++                <operation>delete</operation>
++            </chained>
++            <chained>
++                <simpleUserNotifier>
++                    <recipientExpression>
++                        <value>recipient@evolveum.com</value>
++                    </recipientExpression>
++                    <transport>dummy:simpleUserNotifier-DELETE</transport>
++                </simpleUserNotifier>
++            </chained>
++        </handler>
+diff --git a/testing/story/src/test/resources/trafo/resource-dummy-ad.xml b/testing/story/src/test/resources/trafo/resource-dummy-ad.xml
+index a046198..58cb692 100644
+--- a/testing/story/src/test/resources/trafo/resource-dummy-ad.xml
++++ b/testing/story/src/test/resources/trafo/resource-dummy-ad.xml
+@@ -502,26 +502,27 @@
+-			<q:condition>
+-				<script>
+-					<code>
+-sAMAccountNameRegExp = /(?i)^ps\d\d\d\d$/
+-tmpContainer = basic.getResourceIcfConfigurationPropertyValue(resource, 'Container')
+-
+-tmpContainer = '(?i)^CN=.*?,(OU=.*,)O=Trafo'
+-dnRegExp2 = ~tmpContainer
+-
+-tmpName = basic.getAttributeValue(account, 'http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-2', 'name')
+-tmpLogin = basic.getAttributeValue(account, 'sAMAccountName')
+-
+-loginMatcher = (tmpLogin =~ sAMAccountNameRegExp)
+-nameMatcher = (tmpName =~ dnRegExp2)
+-return loginMatcher.matches() | nameMatcher.matches()
+-					</code>
+-				</script>
+-			</q:condition>
+-			<q:equal>
+-				<q:matching>polyStringNorm</q:matching>
+-				<q:path>c:name</q:path>
+-				<expression>
+-					<description>Matches using sAMAccountName for R|T users (sAMAccountName =~ ps\d\d\d\d) or sAMAccountNAme for E users (sAMAccountName =~ jsmith)</description>
+-					<path>$account/attributes/ri:sAMAccountName</path>
+-				</expression>
+-			</q:equal>
++		            <q:equal>
++					<q:matching>polyStringNorm</q:matching>
++					<q:path>c:name</q:path>
++					<expression>
++						<description>Matches using sAMAccountName for R|T users (sAMAccountName =~ ps\d\d\d\d) or sAMAccountNAme for E users (sAMAccountName =~ jsmith)</description>
++						<path>$account/attributes/ri:sAMAccountName</path>
++					</expression>
++					</q:equal>
++					<condition>
++						<script>
++							<code>
++		sAMAccountNameRegExp = /(?i)^ps\d\d\d\d$/
++		tmpContainer = basic.getResourceIcfConfigurationPropertyValue(resource, 'Container')
++		
++		tmpContainer = '(?i)^CN=.*?,(OU=.*,)O=Trafo'
++		dnRegExp2 = ~tmpContainer
++		
++		tmpName = basic.getAttributeValue(account, 'http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-2', 'name')
++		tmpLogin = basic.getAttributeValue(account, 'sAMAccountName')
++		
++		loginMatcher = (tmpLogin =~ sAMAccountNameRegExp)
++		nameMatcher = (tmpName =~ dnRegExp2)
++		return loginMatcher.matches() | nameMatcher.matches()
++							</code>
++						</script>
++					</condition>
++			
+

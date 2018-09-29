@@ -1,0 +1,17 @@
+diff --git a/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalPollService.java b/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalPollService.java
+index 7eb49f4..b7f9e4d 100644
+--- a/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalPollService.java
++++ b/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalPollService.java
+@@ -144 +144 @@
+-        securityService.createAclBuilder().grant(GeneralPermission.WRITE).
++        securityService.createAclBuilder().restrict(GeneralPermission.WRITE).
+diff --git a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/tags/poll.tag b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/tags/poll.tag
+index 95224e4..8c6cb77 100644
+--- a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/tags/poll.tag
++++ b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/tags/poll.tag
+@@ -28 +27,0 @@
+-        <c:set var="votingAvailable" value="true" scope="request"/>
+@@ -31 +30 @@
+-            <c:set var="votingAvailable" value="false" scope="request"/>
++            <c:set var="votingAvailable" value="true" scope="request"/>
+

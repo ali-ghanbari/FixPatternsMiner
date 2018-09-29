@@ -1,0 +1,82 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/scanner/Token.java b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/scanner/Token.java
+index 84032e9..918d626 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/scanner/Token.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/scanner/Token.java
+@@ -242,0 +243 @@
++      token = token.getNext();
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/scanner/IncrementalScannerTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/scanner/IncrementalScannerTest.java
+index 2a04a55..be8f8a5 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/scanner/IncrementalScannerTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/scanner/IncrementalScannerTest.java
+@@ -15,0 +16 @@
++import com.google.dart.engine.EngineTestCase;
+@@ -20 +21 @@
+-import junit.framework.TestCase;
++public class IncrementalScannerTest extends EngineTestCase {
+@@ -22,2 +23,25 @@
+-public class IncrementalScannerTest extends TestCase {
+-  public void test_rescan_addedToIdentifier() {
++  public void test_rescan_addedBeforeIdentifier1() {
++    assertTokens(//
++        "a + b;",
++        "xa + b;");
++  }
++
++  public void test_rescan_addedBeforeIdentifier2() {
++    assertTokens(//
++        "a + b;",
++        "a + xb;");
++  }
++
++  public void test_rescan_addedNewIdentifier1() {
++    assertTokens(//
++        "a;  c;",
++        "a; b c;");
++  }
++
++  public void test_rescan_addedNewIdentifier2() {
++    assertTokens(//
++        "a;  c;",
++        "a;b  c;");
++  }
++
++  public void test_rescan_addedToIdentifier1() {
+@@ -26,0 +51,18 @@
++  }
++
++  public void test_rescan_addedToIdentifier2() {
++    assertTokens(//
++        "a + b;",
++        "a + by;");
++  }
++
++  public void test_rescan_appendWhitespace1() {
++    assertTokens(//
++        "a + b;",
++        "a + b; ");
++  }
++
++  public void test_rescan_appendWhitespace2() {
++    assertTokens(//
++        "a + b; ",
++        "a + b;  ");
+@@ -34,0 +77,18 @@
++  public void test_rescan_insertWhitespace() {
++    assertTokens(//
++        "a + b;",
++        "a  + b;");
++  }
++
++  public void test_rescan_insertWhitespaceWithMultipleComments() {
++    assertTokens(//
++        createSource(//
++            "//comment",
++            "//comment2",
++            "a + b;"),
++        createSource(//
++            "//comment",
++            "//comment2",
++            "a  + b;"));
++  }
++
+

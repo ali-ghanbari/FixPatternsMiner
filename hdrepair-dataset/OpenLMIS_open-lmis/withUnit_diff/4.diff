@@ -1,0 +1,74 @@
+diff --git a/modules/shipment/src/main/java/org/openlmis/order/service/OrderService.java b/modules/shipment/src/main/java/org/openlmis/order/service/OrderService.java
+index 5ccd0c2..ce78d8c 100644
+--- a/modules/shipment/src/main/java/org/openlmis/order/service/OrderService.java
++++ b/modules/shipment/src/main/java/org/openlmis/order/service/OrderService.java
+@@ -94 +94 @@
+-      if (!fulfillmentPermissionService.hasPermission(userId, supplyLine.getSupplyingFacility().getId(), Right.CONVERT_TO_ORDER)) {
++      if (!fulfillmentPermissionService.hasPermissionOnWarehouse(userId, supplyLine.getSupplyingFacility().getId(), Right.CONVERT_TO_ORDER)) {
+diff --git a/modules/shipment/src/test/java/org/openlmis/order/service/OrderServiceTest.java b/modules/shipment/src/test/java/org/openlmis/order/service/OrderServiceTest.java
+index e030b5b..d48fd54 100644
+--- a/modules/shipment/src/test/java/org/openlmis/order/service/OrderServiceTest.java
++++ b/modules/shipment/src/test/java/org/openlmis/order/service/OrderServiceTest.java
+@@ -12,0 +13,2 @@
++import org.junit.Ignore;
++import org.junit.Rule;
+@@ -14,0 +17 @@
++import org.junit.rules.ExpectedException;
+@@ -25,0 +29 @@
++import org.openlmis.fulfillment.shared.FulfillmentPermissionService;
+@@ -38,0 +43 @@
++import org.springframework.security.access.AccessDeniedException;
+@@ -53,0 +59 @@
++import static org.openlmis.core.domain.Right.CONVERT_TO_ORDER;
+@@ -64,0 +71,3 @@
++
++  @Rule
++  public ExpectedException expectedException = ExpectedException.none();
+@@ -83,0 +93,3 @@
++  @Mock
++  private FulfillmentPermissionService fulfillmentPermissionService;
++
+@@ -96,0 +109 @@
++    supplyLine.setSupplyingFacility(new Facility(99L));
+@@ -106,0 +120 @@
++    when(fulfillmentPermissionService.hasPermissionOnWarehouse(userId, 99L, CONVERT_TO_ORDER)).thenReturn(true);
+@@ -131,0 +146 @@
++    supplyLine.setSupplyingFacility(new Facility(99L));
+@@ -141,0 +157 @@
++    when(fulfillmentPermissionService.hasPermissionOnWarehouse(userId, 99L, CONVERT_TO_ORDER)).thenReturn(true);
+@@ -155,0 +172,34 @@
++  public void shouldThrowExceptionWhileConvertingRequisitionsToOrderIfUserDoesNotHaveRights() throws Exception {
++    Program program = new Program();
++    Long userId = 1L;
++    Rnr rnr = new Rnr();
++    rnr.setId(1L);
++    rnr.setSupervisoryNodeId(1L);
++    rnr.setProgram(program);
++
++    SupplyLine supplyLine = new SupplyLine();
++    supplyLine.setSupplyingFacility(new Facility(99L));
++    supplyLine.setExportOrders(Boolean.FALSE);
++
++    when(requisitionService.getLWById(1L)).thenReturn(rnr);
++    SupervisoryNode supervisoryNode = new SupervisoryNode(1L);
++    whenNew(SupervisoryNode.class).withArguments(1l).thenReturn(supervisoryNode);
++    when(supplyLineService.getSupplyLineBy(supervisoryNode, program)).thenReturn(supplyLine);
++
++    List<Rnr> rnrList = new ArrayList<>();
++    rnrList.add(rnr);
++    when(requisitionService.getFullRequisitionById(1L)).thenReturn(rnr);
++    when(fulfillmentPermissionService.hasPermissionOnWarehouse(userId, 99L, CONVERT_TO_ORDER)).thenReturn(false);
++
++    expectedException.expect(AccessDeniedException.class);
++    expectedException.expectMessage("user.not.authorized");
++
++    orderService.convertToOrder(rnrList, userId);
++
++    verify(supplyLineService).getSupplyLineBy(supervisoryNode, program);
++    verify(requisitionService).getLWById(rnr.getId());
++    verify(requisitionService).releaseRequisitionsAsOrder(rnrList, userId);
++  }
++
++  @Test
++  @Ignore
+

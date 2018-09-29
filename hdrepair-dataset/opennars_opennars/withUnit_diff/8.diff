@@ -1,0 +1,41 @@
+diff --git a/nal/test/nal2.13.nal b/nal/test/nal2.13.nal
+index 05886d1..e61609b 100644
+--- a/nal/test/nal2.13.nal
++++ b/nal/test/nal2.13.nal
+@@ -8 +8 @@
+-*expect.outEmpty
++''expect.outEmpty
+diff --git a/nal/test/nal2.14.nal b/nal/test/nal2.14.nal
+index 019a5d5..10714f0 100644
+--- a/nal/test/nal2.14.nal
++++ b/nal/test/nal2.14.nal
+@@ -8 +8,2 @@
+-*expect.outEmpty
++''expect.outEmpty
++
+diff --git a/nal/test/nal2.15.nal b/nal/test/nal2.15.nal
+index fed370d..2beaeb4 100644
+--- a/nal/test/nal2.15.nal
++++ b/nal/test/nal2.15.nal
+@@ -8 +8,2 @@
+-*expect.outEmpty
++''expect.outEmpty
++
+diff --git a/nars_java/nars/inference/GraphExecutive.java b/nars_java/nars/inference/GraphExecutive.java
+index 14e74d2..bd58cd9 100644
+--- a/nars_java/nars/inference/GraphExecutive.java
++++ b/nars_java/nars/inference/GraphExecutive.java
+@@ -93 +93 @@
+-            return implication.inDegreeOf(goal) > 0;
++            return implication.inDegreeOf(new PostCondition(goal)) > 0;
+diff --git a/nars_test/nars/test/core/NALTest.java b/nars_test/nars/test/core/NALTest.java
+index afac996..e8831dc 100644
+--- a/nars_test/nars/test/core/NALTest.java
++++ b/nars_test/nars/test/core/NALTest.java
+@@ -64 +64 @@
+-            final String expectOutContains = "*expect.outContains('";
++            final String expectOutContains = "''expect.outContains('";
+@@ -91 +91 @@
+-            final String expectOutEmpty = "*expect.outEmpty";
++            final String expectOutEmpty = "''expect.outEmpty";
+

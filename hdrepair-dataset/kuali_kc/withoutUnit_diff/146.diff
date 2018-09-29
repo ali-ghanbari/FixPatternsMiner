@@ -1,0 +1,31 @@
+diff --git a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/s2s/ProposalDevelopmentS2SController.java b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/s2s/ProposalDevelopmentS2SController.java
+index b298ccb..a8358b4 100644
+--- a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/s2s/ProposalDevelopmentS2SController.java
++++ b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/s2s/ProposalDevelopmentS2SController.java
+@@ -135,0 +136 @@
++       proposal.setOpportunityIdForGG("");
+diff --git a/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.xml b/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.xml
+index 10b49a7..b47d76b 100644
+--- a/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.xml
++++ b/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.xml
+@@ -115 +115 @@
+-  <bean id="DevelopmentProposal-opportunityIdForGG-parentBean" abstract="true" parent="AttributeDefinition">
++  <bean id="DevelopmentProposal-opportunityIdForGG-parentBean" abstract="true" parent="S2sOpportunity-opportunityId">
+@@ -117 +116,0 @@
+-		<property name="forceUppercase" value="false" />
+@@ -120,14 +118,0 @@
+-		<property name="maxLength" value="50" />
+-		<property name="validationPattern">
+-			<bean parent="RegexValidationPattern"
+-            p:pattern="[0-9A-Za-z\-]" p:validationErrorMessageKey="error.s2sopportunity.opportunityId.wrong.format"/>
+-		</property>
+-    <property name="validCharactersConstraint">
+-      <bean parent="NumericPatternConstraint"/>
+-    </property>
+-		<property name="control">
+-			<bean parent="TextControlDefinition" p:size="40" />
+-		</property>
+-    <property name="controlField">
+-      <bean p:size="40" parent="Uif-TextControl"/>
+-    </property>
+

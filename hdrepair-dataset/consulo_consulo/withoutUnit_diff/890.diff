@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/openapi/wm/impl/ToolWindowManagerImpl.java b/platform/platform-impl/src/com/intellij/openapi/wm/impl/ToolWindowManagerImpl.java
+index 8fe5adb..07837dd 100644
+--- a/platform/platform-impl/src/com/intellij/openapi/wm/impl/ToolWindowManagerImpl.java
++++ b/platform/platform-impl/src/com/intellij/openapi/wm/impl/ToolWindowManagerImpl.java
+@@ -575 +575 @@
+-      getFocusManager().doWhenFocusSettlesDown(new Runnable() {
++      getFocusManager().doWhenFocusSettlesDown(new ExpirableRunnable.ForProject(myProject) {
+

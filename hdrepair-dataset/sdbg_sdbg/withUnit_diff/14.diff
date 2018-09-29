@@ -1,0 +1,26 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/resolver/TypeResolverVisitor.java b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/resolver/TypeResolverVisitor.java
+index 88a3249..1d54968 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/resolver/TypeResolverVisitor.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/resolver/TypeResolverVisitor.java
+@@ -520,0 +521,2 @@
++      } else if (isTypeNameTargetInRedirectedConstructor(node)) {
++        reportError(StaticWarningCode.REDIRECT_TO_NON_CLASS, typeName, typeName.getName());
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/resolver/StaticWarningCodeTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/resolver/StaticWarningCodeTest.java
+index ab58526..9d54a41 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/resolver/StaticWarningCodeTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/resolver/StaticWarningCodeTest.java
+@@ -1582 +1582,12 @@
+-  public void test_redirectToNonClass() throws Exception {
++  public void test_redirectToNonClass_notAType() throws Exception {
++    Source source = addSource(createSource(//
++        "class B {",
++        "  int A;",
++        "  B() = A;",
++        "}"));
++    resolve(source);
++    assertErrors(StaticWarningCode.REDIRECT_TO_NON_CLASS);
++    verify(source);
++  }
++
++  public void test_redirectToNonClass_undefinedIdentifier() throws Exception {
+

@@ -1,0 +1,102 @@
+diff --git a/plugins/org.eclipse.xtext.java/src/org/eclipse/xtext/java/resource/JavaDerivedStateComputer.xtend b/plugins/org.eclipse.xtext.java/src/org/eclipse/xtext/java/resource/JavaDerivedStateComputer.xtend
+index 8042a82..0384456 100644
+--- a/plugins/org.eclipse.xtext.java/src/org/eclipse/xtext/java/resource/JavaDerivedStateComputer.xtend
++++ b/plugins/org.eclipse.xtext.java/src/org/eclipse/xtext/java/resource/JavaDerivedStateComputer.xtend
+@@ -12 +11,0 @@
+-import org.eclipse.jdt.internal.compiler.ast.CompilationUnitDeclaration
+@@ -19,0 +19 @@
++import org.eclipse.xtext.common.types.JvmDeclaredType
+@@ -29 +28,0 @@
+-import org.eclipse.xtext.common.types.JvmDeclaredType
+diff --git a/plugins/org.eclipse.xtext.junit4/src/org/eclipse/xtext/junit4/util/InMemoryURIHandler.xtend b/plugins/org.eclipse.xtext.junit4/src/org/eclipse/xtext/junit4/util/InMemoryURIHandler.xtend
+index b873e5d..a9e8cbc 100644
+--- a/plugins/org.eclipse.xtext.junit4/src/org/eclipse/xtext/junit4/util/InMemoryURIHandler.xtend
++++ b/plugins/org.eclipse.xtext.junit4/src/org/eclipse/xtext/junit4/util/InMemoryURIHandler.xtend
+@@ -20,0 +21,6 @@
++/**
++ * @since 2.9
++ * 
++ * @noimplement
++ * @noreference
++ */
+diff --git a/plugins/org.eclipse.xtext.junit4/xtend-gen/org/eclipse/xtext/junit4/util/InMemoryURIHandler.java b/plugins/org.eclipse.xtext.junit4/xtend-gen/org/eclipse/xtext/junit4/util/InMemoryURIHandler.java
+index 02588a3..2976825 100644
+--- a/plugins/org.eclipse.xtext.junit4/xtend-gen/org/eclipse/xtext/junit4/util/InMemoryURIHandler.java
++++ b/plugins/org.eclipse.xtext.junit4/xtend-gen/org/eclipse/xtext/junit4/util/InMemoryURIHandler.java
+@@ -24,0 +25,6 @@
++/**
++ * @since 2.9
++ * 
++ * @noimplement
++ * @noreference
++ */
+diff --git a/tests/org.eclipse.xtext.java.tests/META-INF/MANIFEST.MF b/tests/org.eclipse.xtext.java.tests/META-INF/MANIFEST.MF
+index 010b500..46bd8a9 100644
+--- a/tests/org.eclipse.xtext.java.tests/META-INF/MANIFEST.MF
++++ b/tests/org.eclipse.xtext.java.tests/META-INF/MANIFEST.MF
+@@ -10 +9,0 @@
+- org.junit;bundle-version="4.12.0",
+@@ -16,0 +16,9 @@
++Import-Package: org.junit;version="4.5.0",
++ org.junit.internal;version="4.10.0",
++ org.junit.internal.builders;version="4.10.0",
++ org.junit.rules;version="4.7.0";resolution:=optional,
++ org.junit.runner;version="4.5.0",
++ org.junit.runner.manipulation;version="4.5.0",
++ org.junit.runner.notification;version="4.5.0",
++ org.junit.runners;version="4.5.0",
++ org.junit.runners.model;version="4.5.0"
+diff --git a/tests/org.eclipse.xtext.java.tests/src/org/eclipse/xtext/java/tests/ReusedTypeProviderTest.xtend b/tests/org.eclipse.xtext.java.tests/src/org/eclipse/xtext/java/tests/ReusedTypeProviderTest.xtend
+index b5afcbc..f6e2a8f 100644
+--- a/tests/org.eclipse.xtext.java.tests/src/org/eclipse/xtext/java/tests/ReusedTypeProviderTest.xtend
++++ b/tests/org.eclipse.xtext.java.tests/src/org/eclipse/xtext/java/tests/ReusedTypeProviderTest.xtend
+@@ -3,2 +3 @@
+-import org.eclipse.xtext.common.types.access.impl.AbstractTypeProviderTest
+-import org.eclipse.xtext.common.types.access.IJvmTypeProvider
++import com.google.common.collect.Iterables
+@@ -6,3 +5,3 @@
+-import org.eclipse.xtext.builder.standalone.incremental.IncrementalBuilder
+-import org.eclipse.xtext.resource.IResourceServiceProvider
+-import org.eclipse.xtext.resource.FileExtensionProvider
++import com.google.inject.Provider
++import org.eclipse.emf.common.util.URI
++import org.eclipse.emf.ecore.util.EcoreUtil
+@@ -11,15 +10 @@
+-import org.eclipse.xtext.common.types.access.jdt.MockJavaProjectProvider
+-import org.eclipse.xtext.common.types.tests.Activator
+-import org.eclipse.xtext.common.types.tests.AbstractActivator
+-import org.eclipse.emf.common.util.URI
+-import com.google.inject.Provider
+-import org.eclipse.xtext.resource.XtextResourceSet
+-import org.junit.runner.RunWith
+-import org.eclipse.xtext.junit4.XtextRunner
+-import org.eclipse.xtext.junit4.InjectWith
+-import org.eclipse.xtext.common.types.testSetups.Bug347739ThreeTypeParamsSuperSuper
+-import org.eclipse.xtext.common.types.testSetups.AbstractMethods
+-import org.eclipse.xtext.common.types.testSetups.ClassWithVarArgs
+-import org.junit.Test
+-import org.eclipse.xtext.common.types.JvmOperation
+-import com.google.common.collect.Iterables
++import org.eclipse.xtext.builder.standalone.incremental.IncrementalBuilder
+@@ -27,3 +11,0 @@
+-import org.eclipse.xtext.common.types.JvmFormalParameter
+-import org.eclipse.emf.ecore.util.EcoreUtil
+-import org.eclipse.xtext.common.types.JvmGenericType
+@@ -30,0 +13,16 @@
++import org.eclipse.xtext.common.types.JvmFormalParameter
++import org.eclipse.xtext.common.types.JvmGenericType
++import org.eclipse.xtext.common.types.JvmOperation
++import org.eclipse.xtext.common.types.access.IJvmTypeProvider
++import org.eclipse.xtext.common.types.access.impl.AbstractTypeProviderTest
++import org.eclipse.xtext.common.types.access.jdt.MockJavaProjectProvider
++import org.eclipse.xtext.common.types.testSetups.AbstractMethods
++import org.eclipse.xtext.common.types.testSetups.Bug347739ThreeTypeParamsSuperSuper
++import org.eclipse.xtext.common.types.testSetups.ClassWithVarArgs
++import org.eclipse.xtext.junit4.InjectWith
++import org.eclipse.xtext.junit4.XtextRunner
++import org.eclipse.xtext.resource.FileExtensionProvider
++import org.eclipse.xtext.resource.IResourceServiceProvider
++import org.eclipse.xtext.resource.XtextResourceSet
++import org.junit.Test
++import org.junit.runner.RunWith
+

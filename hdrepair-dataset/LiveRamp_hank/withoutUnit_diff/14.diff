@@ -1,0 +1,8 @@
+diff --git a/src/java/com/rapleaf/hank/ring_group_conductor/RingGroupUpdateTransitionFunctionImpl.java b/src/java/com/rapleaf/hank/ring_group_conductor/RingGroupUpdateTransitionFunctionImpl.java
+index 38e0adb..76a0079 100644
+--- a/src/java/com/rapleaf/hank/ring_group_conductor/RingGroupUpdateTransitionFunctionImpl.java
++++ b/src/java/com/rapleaf/hank/ring_group_conductor/RingGroupUpdateTransitionFunctionImpl.java
+@@ -45 +45 @@
+-      if (!isUpToDate(ring, targetVersion) || (ring.getState() != RingState.OPEN)) {
++      if ((ring.getState() != RingState.OPEN) || !isUpToDate(ring, targetVersion)) {
+

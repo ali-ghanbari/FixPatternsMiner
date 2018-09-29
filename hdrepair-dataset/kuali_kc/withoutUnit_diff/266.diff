@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/kuali/kra/budget/rules/BudgetPersonnelRule.java b/src/main/java/org/kuali/kra/budget/rules/BudgetPersonnelRule.java
+index 5df0b9a..1c180b5 100644
+--- a/src/main/java/org/kuali/kra/budget/rules/BudgetPersonnelRule.java
++++ b/src/main/java/org/kuali/kra/budget/rules/BudgetPersonnelRule.java
+@@ -45 +45 @@
+-            if (StringUtils.isBlank(budgetPerson.getJobCode()) || StringUtils.isBlank(budgetPerson.getAppointmentTypeCode()) || budgetPerson.getCalculationBase().isLessEqual(BudgetDecimal.ZERO) || budgetPerson.getEffectiveDate() == null) {
++            if (StringUtils.isBlank(budgetPerson.getJobCode()) || StringUtils.isBlank(budgetPerson.getAppointmentTypeCode()) || budgetPerson.getCalculationBase().isLessThan(BudgetDecimal.ZERO) || budgetPerson.getEffectiveDate() == null) {
+

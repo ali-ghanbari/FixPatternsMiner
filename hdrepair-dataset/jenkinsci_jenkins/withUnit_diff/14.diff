@@ -1,0 +1,20 @@
+diff --git a/core/src/main/java/jenkins/util/xstream/XStreamDOM.java b/core/src/main/java/jenkins/util/xstream/XStreamDOM.java
+index 2575e85..fc527d6 100644
+--- a/core/src/main/java/jenkins/util/xstream/XStreamDOM.java
++++ b/core/src/main/java/jenkins/util/xstream/XStreamDOM.java
+@@ -380 +380 @@
+-                for (XStreamDOM c : dom.children) {
++                for (XStreamDOM c : Util.fixNull(dom.children)) {
+diff --git a/core/src/test/java/jenkins/util/xstream/XStreamDOMTest.java b/core/src/test/java/jenkins/util/xstream/XStreamDOMTest.java
+index 2e03163..c3b623e 100644
+--- a/core/src/test/java/jenkins/util/xstream/XStreamDOMTest.java
++++ b/core/src/test/java/jenkins/util/xstream/XStreamDOMTest.java
+@@ -82,0 +83,7 @@
++    public void testNoChild() {
++        String[] in = new String[0];
++        XStreamDOM dom = XStreamDOM.from(xs, in);
++        System.out.println(xs.toXML(dom));
++        String[] out = dom.unmarshal(xs);
++        assertEquals(in.length, out.length);
++    }
+

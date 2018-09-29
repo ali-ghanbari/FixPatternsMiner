@@ -1,0 +1,16 @@
+diff --git a/fabric/fabric-core/src/main/java/io/fabric8/internal/ContainerProviderUtils.java b/fabric/fabric-core/src/main/java/io/fabric8/internal/ContainerProviderUtils.java
+index 1b53b5a..ad7b536 100644
+--- a/fabric/fabric-core/src/main/java/io/fabric8/internal/ContainerProviderUtils.java
++++ b/fabric/fabric-core/src/main/java/io/fabric8/internal/ContainerProviderUtils.java
+@@ -172,2 +172 @@
+-        // backslash s , to handle any possible space
+-        replaceLineInFile(sb, "etc/system.properties", "karaf.name\\s*=\\s*root", "karaf.name=" + name);
++        replacePropertyValue(sb, "etc/system.properties", "karaf.name", name);
+diff --git a/fabric/fabric-core/src/main/resources/io/fabric8/internal/replace_property_value.sh b/fabric/fabric-core/src/main/resources/io/fabric8/internal/replace_property_value.sh
+index d9042ef..8cf5842 100644
+--- a/fabric/fabric-core/src/main/resources/io/fabric8/internal/replace_property_value.sh
++++ b/fabric/fabric-core/src/main/resources/io/fabric8/internal/replace_property_value.sh
+@@ -3 +3 @@
+-  sed "s/$1.*=.*/$1 = $2/g" $3 > $3.tmp
++  sed "s/$1[ \t]*=.*/$1 = $2/g" $3 > $3.tmp
+

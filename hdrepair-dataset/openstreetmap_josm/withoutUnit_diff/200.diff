@@ -1,0 +1,8 @@
+diff --git a/src/org/openstreetmap/josm/actions/upload/FixDataHook.java b/src/org/openstreetmap/josm/actions/upload/FixDataHook.java
+index 2ceda5c..a70fc2a 100644
+--- a/src/org/openstreetmap/josm/actions/upload/FixDataHook.java
++++ b/src/org/openstreetmap/josm/actions/upload/FixDataHook.java
+@@ -46 +46 @@
+-                if(osm instanceof Relation && keys.get("type").equals("multipolygon") && keys.get("boundary").equals("administrative")) {
++                if(osm instanceof Relation && "multipolygon".equals(keys.get("type")) && "administrative".equals(keys.get("boundary"))) {
+

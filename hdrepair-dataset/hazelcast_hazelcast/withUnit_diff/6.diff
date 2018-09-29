@@ -1,0 +1,58 @@
+diff --git a/hazelcast-client-new/src/test/java/com/hazelcast/client/ConnectedClientOperationTest.java b/hazelcast-client-new/src/test/java/com/hazelcast/client/ConnectedClientOperationTest.java
+index 7180bc9..00adfaa 100644
+--- a/hazelcast-client-new/src/test/java/com/hazelcast/client/ConnectedClientOperationTest.java
++++ b/hazelcast-client-new/src/test/java/com/hazelcast/client/ConnectedClientOperationTest.java
+@@ -3,0 +4,2 @@
++import com.hazelcast.client.impl.ClientEngineImpl;
++import com.hazelcast.client.impl.operations.GetConnectedClientsOperation;
+@@ -9,0 +12,2 @@
++import com.hazelcast.spi.Operation;
++import com.hazelcast.spi.OperationService;
+@@ -11,0 +16 @@
++import com.hazelcast.test.TestHazelcastInstanceFactory;
+@@ -21,0 +27 @@
++import java.util.concurrent.Future;
+@@ -61,0 +68,14 @@
++
++    @Test
++    public void testGetConnectedClientsOperationWhenZeroClientConnects() throws Exception {
++        TestHazelcastInstanceFactory factory = new TestHazelcastInstanceFactory(1);;
++        HazelcastInstance hz1 = factory.newHazelcastInstance();
++        Node node = TestUtil.getNode(hz1);
++        Operation clientInfoOperation = new GetConnectedClientsOperation();
++        OperationService operationService = node.nodeEngine.getOperationService();
++        operationService.invokeOnTarget(ClientEngineImpl.SERVICE_NAME, clientInfoOperation, node.address);
++        Map<String, ClientType> clients = (Map<String, ClientType>)clientInfoOperation.getResponse();
++        assertEquals(0, clients.size());
++        factory.shutdownAll();
++    }
++
+diff --git a/hazelcast/src/main/java/com/hazelcast/util/VersionCheck.java b/hazelcast/src/main/java/com/hazelcast/util/VersionCheck.java
+index 7158fcc..554d2a3 100644
+--- a/hazelcast/src/main/java/com/hazelcast/util/VersionCheck.java
++++ b/hazelcast/src/main/java/com/hazelcast/util/VersionCheck.java
+@@ -72 +72 @@
+-    private String convertToLetter(int size) {
++    public String convertToLetter(int size) {
+diff --git a/hazelcast/src/test/java/com/hazelcast/util/VersionCheckTest.java b/hazelcast/src/test/java/com/hazelcast/util/VersionCheckTest.java
+index e68fc05..de26180 100644
+--- a/hazelcast/src/test/java/com/hazelcast/util/VersionCheckTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/util/VersionCheckTest.java
+@@ -61,0 +62,16 @@
++
++    @Test
++    public void testConvertToLetter() throws Exception {
++
++        VersionCheck check = new VersionCheck();
++        assertEquals("A", check.convertToLetter(4));
++        assertEquals("B", check.convertToLetter(9));
++        assertEquals("C", check.convertToLetter(19));
++        assertEquals("D", check.convertToLetter(39));
++        assertEquals("E", check.convertToLetter(59));
++        assertEquals("F", check.convertToLetter(99));
++        assertEquals("G", check.convertToLetter(149));
++        assertEquals("H", check.convertToLetter(299));
++        assertEquals("J", check.convertToLetter(599));
++        assertEquals("I", check.convertToLetter(1000));
++    }
+

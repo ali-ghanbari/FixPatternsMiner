@@ -1,0 +1,16 @@
+diff --git a/solr/CHANGES.txt b/solr/CHANGES.txt
+index 2320b43..ea85a32 100644
+--- a/solr/CHANGES.txt
++++ b/solr/CHANGES.txt
+@@ -556,0 +557,4 @@
++
++* SOLR-2081: BaseResponseWriter.isStreamingDocs causes
++  SingleResponseWriter.end to be called 2x 
++  (Chris A. Mattmann via hossman) 
+diff --git a/solr/src/java/org/apache/solr/response/BaseResponseWriter.java b/solr/src/java/org/apache/solr/response/BaseResponseWriter.java
+index 2d80526..b636048 100644
+--- a/solr/src/java/org/apache/solr/response/BaseResponseWriter.java
++++ b/solr/src/java/org/apache/solr/response/BaseResponseWriter.java
+@@ -118 +117,0 @@
+-          responseWriter.end();
+

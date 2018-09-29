@@ -1,0 +1,8 @@
+diff --git a/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyperEngine.java b/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyperEngine.java
+index aa33d39..5cdef6c 100755
+--- a/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyperEngine.java
++++ b/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyperEngine.java
+@@ -255 +255 @@
+-            vc = new VariantContextBuilder(vcInput).source("UG_call").noID().referenceBaseForIndel(ref.getBase()).make();
++            vc = new VariantContextBuilder(vcInput).source("UG_call").noID().referenceBaseForIndel(ref.getBase()).attributes(new HashMap<String, Object>()).make();
+

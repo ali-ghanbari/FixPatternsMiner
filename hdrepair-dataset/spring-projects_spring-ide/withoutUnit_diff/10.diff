@@ -1,0 +1,10 @@
+diff --git a/plugins/org.springframework.ide.eclipse.beans.core/src/org/springframework/ide/eclipse/beans/core/internal/model/BeansProject.java b/plugins/org.springframework.ide.eclipse.beans.core/src/org/springframework/ide/eclipse/beans/core/internal/model/BeansProject.java
+index 941b6e8..b983746 100644
+--- a/plugins/org.springframework.ide.eclipse.beans.core/src/org/springframework/ide/eclipse/beans/core/internal/model/BeansProject.java
++++ b/plugins/org.springframework.ide.eclipse.beans.core/src/org/springframework/ide/eclipse/beans/core/internal/model/BeansProject.java
+@@ -1230 +1230,3 @@
+-			SpringCoreUtils.buildFullProject(project);
++			//The commented line below was a fix for 'STS-3541: added additional project build after asynchronous beans config scanning'
++			// It was removed because it appears to cause 'endless builds' by spawning many small 'single project builds in large workspace. 
++			// SpringCoreUtils.buildFullProject(project);
+

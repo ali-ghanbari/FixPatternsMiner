@@ -1,0 +1,53 @@
+diff --git a/providers/softlayer/src/main/java/org/jclouds/softlayer/SoftLayerProviderMetadata.java b/providers/softlayer/src/main/java/org/jclouds/softlayer/SoftLayerProviderMetadata.java
+index 7804bb8..6da73f8 100644
+--- a/providers/softlayer/src/main/java/org/jclouds/softlayer/SoftLayerProviderMetadata.java
++++ b/providers/softlayer/src/main/java/org/jclouds/softlayer/SoftLayerProviderMetadata.java
+@@ -70 +70 @@
+-         .iso3166Codes("SG", "US-CA", "US-TX", "US-VA", "US-WA", "NL", "HK", "NSFTW-IL", "AU", "CA-ON", "GB")  // NSFTW-IL is a weird isoCode returned by Softlayer
++         .iso3166Codes("SG", "US-CA", "US-TX", "US-VA", "US-WA", "NL", "HK", "NSFTW-IL", "AU", "CA-ON", "GB", "FR", "IT", "DE", "JP", "MX", "CA-ON", "CA-QC")
+diff --git a/providers/softlayer/src/test/java/org/jclouds/softlayer/compute/SoftLayerTemplateBuilderLiveTest.java b/providers/softlayer/src/test/java/org/jclouds/softlayer/compute/SoftLayerTemplateBuilderLiveTest.java
+index 78a7b5c..2c07903 100644
+--- a/providers/softlayer/src/test/java/org/jclouds/softlayer/compute/SoftLayerTemplateBuilderLiveTest.java
++++ b/providers/softlayer/src/test/java/org/jclouds/softlayer/compute/SoftLayerTemplateBuilderLiveTest.java
+@@ -47 +47 @@
+-      assertEquals(defaultTemplate.getImage().getOperatingSystem().getVersion(), "12.04");
++      assertEquals(defaultTemplate.getImage().getOperatingSystem().getVersion(), "14.04");
+diff --git a/providers/softlayer/src/test/java/org/jclouds/softlayer/features/DatacenterApiLiveTest.java b/providers/softlayer/src/test/java/org/jclouds/softlayer/features/DatacenterApiLiveTest.java
+index 923af2d..0cf9338 100644
+--- a/providers/softlayer/src/test/java/org/jclouds/softlayer/features/DatacenterApiLiveTest.java
++++ b/providers/softlayer/src/test/java/org/jclouds/softlayer/features/DatacenterApiLiveTest.java
+@@ -19,2 +19,5 @@
+-import com.google.common.collect.ImmutableSet;
+-import com.google.common.collect.ImmutableSet.Builder;
++import static org.testng.Assert.assertEquals;
++import static org.testng.Assert.assertNotNull;
++import static org.testng.Assert.assertTrue;
++import java.util.Set;
++
+@@ -26,5 +29,2 @@
+-import java.util.Set;
+-
+-import static org.testng.Assert.assertEquals;
+-import static org.testng.Assert.assertNotNull;
+-import static org.testng.Assert.assertTrue;
++import com.google.common.collect.ImmutableSet;
++import com.google.common.collect.ImmutableSet.Builder;
+@@ -54 +54 @@
+-      builder.add(Datacenter.builder().id(358698).name("wdc03").longName("Ashburn, VA 3").build());
++      builder.add(Datacenter.builder().id(814994).name("ams03").longName("Amsterdam 3").build());
+@@ -60,0 +61,2 @@
++      builder.add(Datacenter.builder().id(449494).name("dal09").longName("Dallas 9").build());
++      builder.add(Datacenter.builder().id(449506).name("fra02").longName("Frankfurt 2").build());
+@@ -64 +66,5 @@
+-      builder.add(Datacenter.builder().id(18171).name("sea01").longName("Seattle").build());
++      builder.add(Datacenter.builder().id(449596).name("mel01").longName("Melbourne 1").build());
++      builder.add(Datacenter.builder().id(449600).name("mex01").longName("Mexico 1").build());
++      builder.add(Datacenter.builder().id(815394).name("mil01").longName("Milan 1").build());
++      builder.add(Datacenter.builder().id(449610).name("mon01").longName("Montreal 1").build());
++      builder.add(Datacenter.builder().id(449500).name("par01").longName("Paris 1").build());
+@@ -65,0 +72 @@
++      builder.add(Datacenter.builder().id(18171).name("sea01").longName("Seattle").build());
+@@ -66,0 +74,2 @@
++      builder.add(Datacenter.builder().id(449612).name("syd01").longName("Sydney 1").build());
++      builder.add(Datacenter.builder().id(449604).name("tok02").longName("Tokio 2").build());
+

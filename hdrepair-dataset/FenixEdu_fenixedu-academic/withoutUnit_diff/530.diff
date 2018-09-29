@@ -1,0 +1,15 @@
+diff --git a/etc/database_operations/run b/etc/database_operations/run
+index d48c16c..893c7c5 100755
+--- a/etc/database_operations/run
++++ b/etc/database_operations/run
+@@ -28,0 +29,2 @@
++
++execute "Alter table JustificationMotive" alterTableJustificationMotive.sql
+diff --git a/src/net/sourceforge/fenixedu/dataTransferObject/assiduousness/EmployeeJustificationFactory.java b/src/net/sourceforge/fenixedu/dataTransferObject/assiduousness/EmployeeJustificationFactory.java
+index 4c0e8ae..fe30244 100644
+--- a/src/net/sourceforge/fenixedu/dataTransferObject/assiduousness/EmployeeJustificationFactory.java
++++ b/src/net/sourceforge/fenixedu/dataTransferObject/assiduousness/EmployeeJustificationFactory.java
+@@ -1171 +1171 @@
+-	return (assiduousness.getLeavesByType(date, date, getJustificationType())).isEmpty();
++	return !(assiduousness.getLeavesByType(date, date, getJustificationType())).isEmpty();
+

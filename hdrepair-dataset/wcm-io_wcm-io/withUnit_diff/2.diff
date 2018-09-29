@@ -1,0 +1,17 @@
+diff --git a/testing/aem-mock/src/main/java/io/wcm/testing/mock/aem/MockPage.java b/testing/aem-mock/src/main/java/io/wcm/testing/mock/aem/MockPage.java
+index aef44e8..c988290 100644
+--- a/testing/aem-mock/src/main/java/io/wcm/testing/mock/aem/MockPage.java
++++ b/testing/aem-mock/src/main/java/io/wcm/testing/mock/aem/MockPage.java
+@@ -159 +159 @@
+-    String parentPath = Text.getAbsoluteParent(this.resource.getPath(), level);
++    String parentPath = Text.getAbsoluteParent(this.resource.getPath(), level - 1);
+diff --git a/testing/aem-mock/src/test/java/io/wcm/testing/mock/aem/MockPageTest.java b/testing/aem-mock/src/test/java/io/wcm/testing/mock/aem/MockPageTest.java
+index 9fc2407..e76a299 100644
+--- a/testing/aem-mock/src/test/java/io/wcm/testing/mock/aem/MockPageTest.java
++++ b/testing/aem-mock/src/test/java/io/wcm/testing/mock/aem/MockPageTest.java
+@@ -100,2 +100,2 @@
+-    assertNotNull(toolbarPage.getAbsoluteParent(2));
+-    assertNull(toolbarPage.getAbsoluteParent(1));
++    assertEquals("/content/sample/en", toolbarPage.getAbsoluteParent(3).getPath());
++    assertNull(toolbarPage.getAbsoluteParent(2));
+

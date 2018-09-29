@@ -1,0 +1,28 @@
+diff --git a/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/pom.xml b/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/pom.xml
+index 698a139..3143d79 100644
+--- a/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/pom.xml
++++ b/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/pom.xml
+@@ -61 +61 @@
+-				<artifactId>geomajas-puregwt-client-impl</artifactId>
++				<artifactId>geomajas-puregwt-client</artifactId>
+@@ -62,0 +63,2 @@
++				<type>pom</type>
++				<scope>import</scope>
+@@ -66,3 +68,3 @@
+-			    <groupId>com.google.code.gwt-dnd</groupId>
+-			    <artifactId>gwt-dnd</artifactId>
+-			    <version>3.1.0</version>
++				<groupId>com.google.code.gwt-dnd</groupId>
++				<artifactId>gwt-dnd</artifactId>
++				<version>3.1.0</version>
+@@ -73 +75 @@
+-				<version>1.12.8</version>
++				<version>1.12.28</version>
+diff --git a/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/src/main/java/client/ResizableMapLayout.java b/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/src/main/java/client/ResizableMapLayout.java
+index e0e9891..3246fc0 100644
+--- a/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/src/main/java/client/ResizableMapLayout.java
++++ b/build-tools/geomajas-puregwt-archetype/src/main/resources/archetype-resources/src/main/java/client/ResizableMapLayout.java
+@@ -58 +58 @@
+-		mapPresenter.getEventBus().addHandler(MapInitializationEvent.TYPE, new RedrawMapInitializationHandler());
++		mapPresenter.getEventBus().addHandler(MapInitializationHandler.TYPE, new RedrawMapInitializationHandler());
+

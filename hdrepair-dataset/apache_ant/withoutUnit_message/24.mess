@@ -1,0 +1,6 @@
+Bug #49119 :
+A forked <java> task is creating a pumping thread on the input stream. The read was made blocking, so the pumping thread is still blocked after <java> finished. So it will steal the first flushed charaters from the input stream. Making the pumping non blocking fixed the issue.
+
+
+git-svn-id: https://svn.apache.org/repos/asf/ant/core/trunk@985632 13f79535-47bb-0310-9956-ffa450edef68
+

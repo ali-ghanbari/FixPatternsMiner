@@ -1,0 +1,24 @@
+diff --git a/apis/byon/src/main/java/org/jclouds/byon/functions/NodeToNodeMetadata.java b/apis/byon/src/main/java/org/jclouds/byon/functions/NodeToNodeMetadata.java
+index 952801c..e335287 100644
+--- a/apis/byon/src/main/java/org/jclouds/byon/functions/NodeToNodeMetadata.java
++++ b/apis/byon/src/main/java/org/jclouds/byon/functions/NodeToNodeMetadata.java
+@@ -81,0 +82 @@
++      builder.loginPort(from.getLoginPort());
+diff --git a/apis/byon/src/test/java/org/jclouds/byon/functions/NodeToNodeMetadataTest.java b/apis/byon/src/test/java/org/jclouds/byon/functions/NodeToNodeMetadataTest.java
+index cc8aecd..4358e38 100644
+--- a/apis/byon/src/test/java/org/jclouds/byon/functions/NodeToNodeMetadataTest.java
++++ b/apis/byon/src/test/java/org/jclouds/byon/functions/NodeToNodeMetadataTest.java
+@@ -75,0 +76,4 @@
++      return expectedNodeMetadataFromResource(id, resource, location, 22);
++   }
++   
++   public static NodeMetadata expectedNodeMetadataFromResource(int id, String resource, Location location, int loginPort) {
+@@ -79,0 +84 @@
++            .loginPort(loginPort)
+@@ -100,0 +106,5 @@
++   
++   @Test
++   public void testNodesParseLoginPort() throws Exception {
++      assertEquals(parser.apply(NodesFromYamlTest.TEST3), expectedNodeMetadataFromResource(2, resource, provider, 2022));
++   }
+

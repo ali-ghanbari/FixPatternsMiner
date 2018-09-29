@@ -1,0 +1,8 @@
+diff --git a/core/org.eclipse.cdt.core/parser/org/eclipse/cdt/internal/core/dom/parser/cpp/CPPSemantics.java b/core/org.eclipse.cdt.core/parser/org/eclipse/cdt/internal/core/dom/parser/cpp/CPPSemantics.java
+index a384ec3..17f7186 100644
+--- a/core/org.eclipse.cdt.core/parser/org/eclipse/cdt/internal/core/dom/parser/cpp/CPPSemantics.java
++++ b/core/org.eclipse.cdt.core/parser/org/eclipse/cdt/internal/core/dom/parser/cpp/CPPSemantics.java
+@@ -896 +896 @@
+-				if( !data.hasResults() && scope instanceof ICPPNamespaceScope ){
++				if( (!data.hasResults() || data.prefixLookup) && scope instanceof ICPPNamespaceScope ){
+

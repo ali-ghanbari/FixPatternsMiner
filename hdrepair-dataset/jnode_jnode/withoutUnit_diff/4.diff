@@ -1,0 +1,9 @@
+diff --git a/fs/src/fs/org/jnode/fs/hfsplus/catalog/CatalogKey.java b/fs/src/fs/org/jnode/fs/hfsplus/catalog/CatalogKey.java
+index e32cb12..911aafe 100755
+--- a/fs/src/fs/org/jnode/fs/hfsplus/catalog/CatalogKey.java
++++ b/fs/src/fs/org/jnode/fs/hfsplus/catalog/CatalogKey.java
+@@ -63 +63,2 @@
+-        keyLength = BigEndian.getInt16(ck, 0);
++        //TODO Understand why the +2 is necessary
++        keyLength = BigEndian.getInt16(ck, 0) + 2;
+

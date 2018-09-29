@@ -1,0 +1,55 @@
+diff --git a/components/blitz/src/ome/services/blitz/repo/RepositoryDaoImpl.java b/components/blitz/src/ome/services/blitz/repo/RepositoryDaoImpl.java
+index fcbebbe..643623f 100644
+--- a/components/blitz/src/ome/services/blitz/repo/RepositoryDaoImpl.java
++++ b/components/blitz/src/ome/services/blitz/repo/RepositoryDaoImpl.java
+@@ -111 +111 @@
+-            return (OriginalFile) new IceMapper().reverse(ofile);
++            return (OriginalFile) new IceMapper().map(ofile);
+diff --git a/components/tools/OmeroPy/test/integration/repository.py b/components/tools/OmeroPy/test/integration/repository.py
+index d009e5a..c49ec4c 100644
+--- a/components/tools/OmeroPy/test/integration/repository.py
++++ b/components/tools/OmeroPy/test/integration/repository.py
+@@ -184,0 +185,13 @@
++    def assertRead(self, mrepo2, filename, ofile):
++        rfs = mrepo2.fileById(ofile.id.val)
++        try:
++            self.assertEquals("hi", rfs.read(0, 2))
++        finally:
++            rfs.close()
++
++        rfs = mrepo2.file(filename, "r")
++        try:
++            self.assertEquals("hi", rfs.read(0, 2))
++        finally:
++            rfs.close()
++
+@@ -198,0 +212,2 @@
++        self.assertRead(mrepo1, filename, ofile)
++
+@@ -205 +220,2 @@
+-        dirname = self.uuid() + "/b/c"
++        uuid = self.uuid()
++        dirname = uuid + "/b/c"
+@@ -211,0 +228,2 @@
++
++        self.assertRead(mrepo1, filename, ofile)
+@@ -217,0 +236,18 @@
++    def testDirMultiUserWriteSecurityReadOnlyGroup(self):
++
++        uuid = self.uuid()
++        dirname = uuid + "/b/c"
++        filename = dirname + "/file.txt"
++
++        client1, mrepo1, client2, mrepo2 = self.setup2RepoUsers("rwr---")
++
++        mrepo1.makeDir(dirname)
++        ofile = self.createFile(mrepo1, filename)
++
++        self.assertRead(mrepo1, filename, ofile)
++        self.assertListings(mrepo1, uuid)
++
++        self.assertRead(mrepo2, filename, ofile)
++        self.assertListings(mrepo2, uuid)
++
++
+

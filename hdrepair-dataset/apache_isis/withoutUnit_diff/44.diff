@@ -1,0 +1,8 @@
+diff --git a/framework/viewer/scimpi/scimpi-servlet/src/main/java/org/apache/isis/viewer/scimpi/servlet/ServletRequestContext.java b/framework/viewer/scimpi/scimpi-servlet/src/main/java/org/apache/isis/viewer/scimpi/servlet/ServletRequestContext.java
+index 04ead66..acec91a 100644
+--- a/framework/viewer/scimpi/scimpi-servlet/src/main/java/org/apache/isis/viewer/scimpi/servlet/ServletRequestContext.java
++++ b/framework/viewer/scimpi/scimpi-servlet/src/main/java/org/apache/isis/viewer/scimpi/servlet/ServletRequestContext.java
+@@ -213 +213 @@
+-        if (!httpSession.getAttributeNames().hasMoreElements()) {
++        if (httpSession.getAttribute("scimpi-context") == null) {
+

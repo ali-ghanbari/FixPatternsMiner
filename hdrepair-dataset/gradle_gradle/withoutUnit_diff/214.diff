@@ -1,0 +1,21 @@
+diff --git a/subprojects/core/src/main/groovy/org/gradle/api/internal/ConfigureDelegate.java b/subprojects/core/src/main/groovy/org/gradle/api/internal/ConfigureDelegate.java
+index 101efd4..19a810f 100644
+--- a/subprojects/core/src/main/groovy/org/gradle/api/internal/ConfigureDelegate.java
++++ b/subprojects/core/src/main/groovy/org/gradle/api/internal/ConfigureDelegate.java
+@@ -90,0 +91 @@
++        onMissing.execute(name);
+diff --git a/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppExeConventionPlugin.groovy b/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppExeConventionPlugin.groovy
+index c2fe410..e292f85 100644
+--- a/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppExeConventionPlugin.groovy
++++ b/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppExeConventionPlugin.groovy
+@@ -37 +37 @@
+-                    sourceSets << cpp.sourceSets.main
++                    sourceSets << project.cpp.sourceSets.main
+diff --git a/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppLibConventionPlugin.groovy b/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppLibConventionPlugin.groovy
+index bcfbae0..d10bee4 100644
+--- a/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppLibConventionPlugin.groovy
++++ b/subprojects/cpp/src/main/groovy/org/gradle/plugins/cpp/CppLibConventionPlugin.groovy
+@@ -39 +39 @@
+-                    sourceSets << cpp.sourceSets.main
++                    sourceSets << project.cpp.sourceSets.main
+

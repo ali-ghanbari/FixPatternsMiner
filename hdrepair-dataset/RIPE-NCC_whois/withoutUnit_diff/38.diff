@@ -1,0 +1,43 @@
+diff --git a/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ObjectTemplate.java b/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ObjectTemplate.java
+index bc3f758..c87828b 100644
+--- a/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ObjectTemplate.java
++++ b/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ObjectTemplate.java
+@@ -685 +685 @@
+-                } else if (!attributeTemplate.getRequirement().equals(GENERATED) ) {
++                } else {
+diff --git a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
+index d3735c3..3c07a15 100644
+--- a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
++++ b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
+@@ -674 +674 @@
+-        create =~ /Error:   "sponsoring-org" value is managed by RIPE NCC/
++        create =~ /Error:   The sponsoring-org can only be added by the RIPE NCC/
+@@ -757 +757 @@
+-        update =~ /Error:   "sponsoring-org" value is managed by RIPE NCC/
++        update =~ /Error:   The sponsoring-org can only be added by the RIPE NCC/
+diff --git a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy
+index 89242ba..a0fe44a 100644
+--- a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy
++++ b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy
+@@ -1250 +1250 @@
+-            response =~ /Error:   \"sponsoring-org\" value is managed by RIPE NCC/
++            response =~ /Error:   The sponsoring-org can only be added by the RIPE NCC/
+@@ -1271 +1271 @@
+-            response =~ /Error:   \"sponsoring-org\" value is managed by RIPE NCC/
++            response =~ /Error:   The sponsoring-org can only be added by the RIPE NCC/
+@@ -1292 +1292 @@
+-            response =~ /Error:   \"sponsoring-org\" value is managed by RIPE NCC/
++            response =~ /Error:   The sponsoring-org can only be added by the RIPE NCC/
+@@ -1405 +1405 @@
+-            response =~ /Error:   "sponsoring-org" value is managed by RIPE NCC/
++            response =~ /Error:   The sponsoring-org can only be added by the RIPE NCC/
+@@ -1427 +1427 @@
+-            response =~ /Error:   "sponsoring-org" value is managed by RIPE NCC/
++            response =~ /Error:   The sponsoring-org can only be added by the RIPE NCC/
+@@ -1554 +1554 @@
+-            response =~ /Error:   "sponsoring-org" value is managed by RIPE NCC/
++            response =~ /Error:   Referenced sponsoring-org can only be changed by the RIPE NCC/
+@@ -1673 +1673 @@
+-            response =~ /Error:   "sponsoring-org" value is managed by RIPE NCC/
++            response =~ /Error:   The sponsoring-org can only be removed by the RIPE NCC/
+

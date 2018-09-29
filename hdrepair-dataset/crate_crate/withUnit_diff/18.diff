@@ -1,0 +1,48 @@
+diff --git a/sql/src/test/java/io/crate/integrationtests/ObjectColumnTest.java b/sql/src/test/java/io/crate/integrationtests/ObjectColumnTest.java
+index 4442ef0..0a12312 100644
+--- a/sql/src/test/java/io/crate/integrationtests/ObjectColumnTest.java
++++ b/sql/src/test/java/io/crate/integrationtests/ObjectColumnTest.java
+@@ -48 +47,0 @@
+-    private boolean setUpDone = false;
+@@ -52,5 +51,2 @@
+-        if (!setUpDone) {
+-            this.setup.setUpObjectTable();
+-            ensureGreen();
+-            setUpDone = true;
+-        }
++        this.setup.setUpObjectTable();
++        ensureGreen();
+@@ -267 +263 @@
+-        ensureGreen();
++        waitNoPendingTasksOnAll();
+@@ -282 +277,0 @@
+-
+@@ -285 +280,2 @@
+-        execute("insert into test (message, person) values ('I''m addicted to kite', {name='Youri', addresses=[{city='Dirksland', country='NL'}]})");
++        execute("insert into test (message, person) values " +
++                "('I''m addicted to kite', {name='Youri', addresses=[{city='Dirksland', country='NL'}]})");
+@@ -286,0 +283 @@
++        waitNoPendingTasksOnAll();
+@@ -288,11 +285,3 @@
+-        // check that new columns in dynamic objects show up eventually
+-        long rowCount = 0L;
+-        int retries = 3;
+-        while (rowCount == 0L && retries > 0) {
+-            execute("select message, person['name'], person['addresses']['city'] from test " +
+-                    "where person['name'] = 'Youri'");
+-            rowCount = response.rowCount();
+-            retries--;
+-            Thread.sleep(10);
+-        }
+-        assertEquals(1L, rowCount);
++        execute("select message, person['name'], person['addresses']['city'] from test " +
++                "where person['name'] = 'Youri'");
++        assertEquals(1L, response.rowCount());
+diff --git a/sql/src/test/java/io/crate/integrationtests/Setup.java b/sql/src/test/java/io/crate/integrationtests/Setup.java
+index 2f2d59b..ec44992 100644
+--- a/sql/src/test/java/io/crate/integrationtests/Setup.java
++++ b/sql/src/test/java/io/crate/integrationtests/Setup.java
+@@ -209 +209 @@
+-            ")");
++            ") with (number_of_replicas = 0)");
+

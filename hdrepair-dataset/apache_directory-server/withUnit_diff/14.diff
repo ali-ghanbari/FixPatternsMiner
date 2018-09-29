@@ -1,0 +1,47 @@
+diff --git a/mitosis/src/main/java/org/apache/directory/mitosis/service/protocol/handler/ReplicationServerContextHandler.java b/mitosis/src/main/java/org/apache/directory/mitosis/service/protocol/handler/ReplicationServerContextHandler.java
+index fdcb64c..041e470 100644
+--- a/mitosis/src/main/java/org/apache/directory/mitosis/service/protocol/handler/ReplicationServerContextHandler.java
++++ b/mitosis/src/main/java/org/apache/directory/mitosis/service/protocol/handler/ReplicationServerContextHandler.java
+@@ -72 +72 @@
+-        if ( !ctx.getPeer().equals( replicaInTransaction ) )
++        if ( ctx.getPeer() != null && ctx.getPeer().equals( replicaInTransaction ) )
+diff --git a/mitosis/src/test/java/org/apache/directory/mitosis/service/ReplicationServiceITest.java b/mitosis/src/test/java/org/apache/directory/mitosis/service/ReplicationServiceITest.java
+index 25867ee..4bc6e4f 100644
+--- a/mitosis/src/test/java/org/apache/directory/mitosis/service/ReplicationServiceITest.java
++++ b/mitosis/src/test/java/org/apache/directory/mitosis/service/ReplicationServiceITest.java
+@@ -83,4 +83,6 @@
+-        String dn = "cn=test,ou=system";
+-        testOneWayBind( dn );
+-        testOneWayModify( dn );
+-        testOneWayUnbind( dn );
++        String dn1 = "cn=test,ou=system";
++//        String dn2 = "cn=test2,ou=system";
++        testOneWayBind( dn1 );
++        testOneWayModify( dn1 );
++//        testOneWayRename( dn1, dn2 );
++        testOneWayUnbind( dn1 );
+@@ -170,0 +173,20 @@
++
++//    private void testOneWayRename( String dn1, String dn2 ) throws Exception
++//    {
++//        LdapContext ctxA = getReplicaContext( "A" );
++//        LdapContext ctxB = getReplicaContext( "B" );
++//        LdapContext ctxC = getReplicaContext( "C" );
++//        
++//        ctxA.rename( dn1, dn2 );
++//        
++//        replicationServices.get( "A" ).replicate();
++//
++//        Thread.sleep( 5000 );
++//        
++//        assertNotExists( ctxA, dn1 );
++//        assertNotExists( ctxB, dn1 );
++//        assertNotExists( ctxC, dn1 );
++//        Assert.assertNotNull( ctxA.lookup( dn2 ) );
++//        Assert.assertNotNull( ctxB.lookup( dn2 ) );
++//        Assert.assertNotNull( ctxC.lookup( dn2 ) );
++//    }
+@@ -292 +314 @@
+-        Thread.sleep( 1000 );
++        Thread.sleep( 5000 );
+

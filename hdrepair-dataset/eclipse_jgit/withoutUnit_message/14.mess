@@ -1,0 +1,14 @@
+[findbugs] Avoid futile attempt to change max pool size
+
+Javadoc for ScheduledThreadPoolExecutor says [1]:
+While ScheduledThreadPoolExecutor inherits from ThreadPoolExecutor, a
+few of the inherited tuning methods are not useful for it. In
+particular, because it acts as a fixed-sized pool using corePoolSize
+threads and an unbounded queue, adjustments to maximumPoolSize have no
+useful effect. 
+
+[1]
+http://download.oracle.com/javase/6/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html
+
+Change-Id: I8eccb7d6544aa6e27f5fa064c19dddb2a706523f
+Signed-off-by: Matthias Sohn <matthias.sohn@sap.com>

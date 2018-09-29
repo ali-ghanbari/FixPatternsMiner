@@ -1,0 +1,8 @@
+diff --git a/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/readthreading/ReadThreadingAssembler.java b/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/readthreading/ReadThreadingAssembler.java
+index fa54a4f..f9de317 100644
+--- a/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/readthreading/ReadThreadingAssembler.java
++++ b/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/readthreading/ReadThreadingAssembler.java
+@@ -127 +127 @@
+-                addResult(results, createGraph(reads, refHaplotype, kmerSize, givenHaplotypes, lastAttempt, lastAttempt));
++                addResult(results, createGraph(reads, refHaplotype, kmerSize, givenHaplotypes, lastAttempt, allowNonUniqueKmersInRef || lastAttempt));
+

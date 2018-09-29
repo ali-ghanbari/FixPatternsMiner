@@ -1,0 +1,69 @@
+1090:
+Opennet:
+- Ignore seednodes (non-searchable nodes) when checking the 1-node-per-IP limit.
+- User alert for announcement: tell the user that we are announcing, give detailed progress info if advanced mode is enabled.
+- Don't announce unless the number of opennet peers is less than min(10, half the target taking into account local limits and darknet peers). Previous behaviour was to announce if less than 10 opennet peers, which would mess up in some cases.
+- If we run out of seednodes (have connected to an announced to every seednode and still don't have enough/any connections), start again.
+- Refactoring.
+- Disconnect from a seednode after announcing to it.
+- Clip incoming announcement to max HTL (!!!). Prevents network-level DoS attack!
+- Allow 30 seconds after the announcement completed for reordered announcement replies.
+- Log announcement completed, announcement added node, to wrapper.log/stdout.
+- Don't try to announce to not connected peers. (Announcer - local announcements)
+- When disconnecting from a seednode, don't wait for an ack of the disconnect, only wait for it to be sent.
+- Seed* remove self from routing table when they are disconnected.
+- Don't reconnect to reannounce until announcedToIdentities has been cleared.
+- Clear announcedToIPs at same time as announcedToIdentities. (When we run out of nodes to announce to). Each time we will only announce to one node on a specific IP.
+- Some paranoia: don't clear the list until we have no announcements running.
+- Bugfix: byte[] aren't compared by value if put into a HashSet! This was preventing reannouncing.
+- Reannounce immediately after clearing announcedTo, if we are already connected to all the seednodes we want to connect to.
+Port forward detection
+- Don't write table to disk if we have a packet-times indication that we are NATed.
+- Simplify communication from PeerNode to AddressTracker of the fact that port forwarding is broken (based on packet time deltas): we were scanning each peernode in a callback, now we just do setBroken().
+Config:
+- Don't read a zero length freenet.ini and believe it to be authoritative! Assume if it's zero length something has gone wrong. (It did for me anyway; maybe a wierd filesystems-with-tails-in-OOM issue?)
+Link level:
+- Don't treat bursting to incompatible nodes any different to bursting to compatible nodes. They may still be useful.
+- New option node.assumeNATed / node.opennet.assumeNATed. Defaults to true. If false, when we detect a port forward we burst-only all peers (95% of the time, recalced every 5 mins for each peer). This is disabled because the packet-times mechanism for detecting new NATing appears not to be working atm.
+- Send keepalives every 14-28 seconds, not 2.5-5!
+- Cut handshake timeouts slightly to ensure we stay within the 30 seconds assumed minimum tunnel timeout.
+- Make multi-homing work: Divide the inter-handshake interval by the number of addresses for the node, and alternate between addresses.
+- Padding must not push packets over the MTU. Pad anyway if we're already over it.
+Disconnection:
+- Send an ack before disconnecting after receive an FNPDisconnected.
+Swapping:
+- Don't start sending swap requests until 1 minute after startup. Give some time for our peers to get connected.
+IP detection plugins:
+- Fix NPE.
+L10n:
+- Update maxOpennetPeers description: darknet connections are subtracted from the limit.
+- Minor readability fixes to some english strings.
+Resource usage:
+- Don't let old Message's keep their PeerNode's in memory. Use a weak reference. Pass PeerNode's explicitly with the Message in more places (slight optimisation as well as preventing NPE), and check for null where needed.
+- Don't block a thread just to sendSync() terminal messages in RequestHandler. Use a callback.
+- Don't block a thread just to sleep in USKFetcher.
+Startup:
+- Don't ignore all binding errors on startup of services, just those caused by not supporting IPv6.
+Stats:
+- Load management: Count some messages back to sender as part of average request bytes.
+- Log reason to reason counter as "Input bandwidth liability" not "Input bandwidth liability (numbers)". Prevents the counter memory usage and the stats page increasing forever.
+Minor UI:
+- Don't ask the user for a Sun VM if it's an Apple VM (Sun doesn't distribute VMs for OS/X).
+- Update the default bookmark edition numbers.
+Dev stuff:
+- Imports.
+- Comments, variable names.
+- Logging.
+- Remove some old pre-1010-related crypto code.
+- Minor refactoring/code clarifications/simplifications.
+- Include the Object hashCode in PeerNode.toString() to prove that two objects are actually the same / disambiguate.
+- Make some variables final.
+- Factor out FNPPacketMangler.JFK_PREFIX_{RESPONDER,INITIATOR}.
+- Make some classes public to please netbeans (??).
+
+Credits:
+robert
+toad
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@16458 67a373e5-eb02-0410-a15c-ee090a768436
+

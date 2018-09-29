@@ -1,0 +1,49 @@
+diff --git a/morphia/src/main/java/org/mongodb/morphia/mapping/Mapper.java b/morphia/src/main/java/org/mongodb/morphia/mapping/Mapper.java
+index 18f67f8..86a3fd5 100644
+--- a/morphia/src/main/java/org/mongodb/morphia/mapping/Mapper.java
++++ b/morphia/src/main/java/org/mongodb/morphia/mapping/Mapper.java
+@@ -391 +391 @@
+-                    if (mapped != null && Key.class.isAssignableFrom(mapped.getClazz())) {
++                    if (mapped != null && (Key.class.isAssignableFrom(mapped.getClazz()) || mapped.getEntityAnnotation() != null)) {
+diff --git a/morphia/src/test/java/org/mongodb/morphia/query/QueryInForKeyTest.java b/morphia/src/test/java/org/mongodb/morphia/query/QueryInForKeyTest.java
+index 8a0651b..947bebe 100644
+--- a/morphia/src/test/java/org/mongodb/morphia/query/QueryInForKeyTest.java
++++ b/morphia/src/test/java/org/mongodb/morphia/query/QueryInForKeyTest.java
+@@ -4,4 +4 @@
+-import java.io.Serializable;
+-import java.util.ArrayList;
+-import java.util.List;
+-
++import com.mongodb.MongoException;
+@@ -15,0 +13,2 @@
++import org.mongodb.morphia.logging.Logr;
++import org.mongodb.morphia.logging.MorphiaLoggerFactory;
+@@ -16,0 +16,4 @@
++
++import java.io.Serializable;
++import java.util.ArrayList;
++import java.util.List;
+@@ -22,0 +26 @@
++    private static final Logr LOG = MorphiaLoggerFactory.get(QueryInForKeyTest.class);
+@@ -60,2 +64,7 @@
+-        final List<HasRefs> res = query.asList();
+-        Assert.assertEquals(1, res.size());
++        try {
++            final List<HasRefs> res = query.asList();
++            Assert.assertEquals(1, res.size());
++        } catch (MongoException e) {
++            LOG.debug("query = " + query);
++            throw e;
++        }
+diff --git a/morphia/src/test/java/org/mongodb/morphia/query/QueryInForReferencedListTest.java b/morphia/src/test/java/org/mongodb/morphia/query/QueryInForReferencedListTest.java
+index 1050105..9bdc84a 100644
+--- a/morphia/src/test/java/org/mongodb/morphia/query/QueryInForReferencedListTest.java
++++ b/morphia/src/test/java/org/mongodb/morphia/query/QueryInForReferencedListTest.java
+@@ -6 +5,0 @@
+-import org.junit.Ignore;
+@@ -59,2 +58,2 @@
+-    @Ignore("what needs to happen is that when we're querying against @Referenced entities and we pass in an Entity, we need to"
+-            + " convert those to DBRefs when building the query.")
++//    @Ignore("what needs to happen is that when we're querying against @Referenced entities and we pass in an Entity, we need to"
++//            + " convert those to DBRefs when building the query.")
+

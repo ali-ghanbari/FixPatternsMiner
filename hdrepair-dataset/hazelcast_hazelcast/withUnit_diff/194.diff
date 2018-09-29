@@ -1,0 +1,82 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/impl/ConcurrentMapManager.java b/hazelcast/src/main/java/com/hazelcast/impl/ConcurrentMapManager.java
+index 74693ff..07b38b6 100644
+--- a/hazelcast/src/main/java/com/hazelcast/impl/ConcurrentMapManager.java
++++ b/hazelcast/src/main/java/com/hazelcast/impl/ConcurrentMapManager.java
+@@ -1828 +1827,0 @@
+-//            CounterService.userCounter.add(System.nanoTime() - request.lastTime);
+diff --git a/hazelcast/src/test/java/com/hazelcast/impl/MemoryLeakTest.java b/hazelcast/src/test/java/com/hazelcast/impl/MemoryLeakTest.java
+index 772fe09..59e5c00 100644
+--- a/hazelcast/src/test/java/com/hazelcast/impl/MemoryLeakTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/impl/MemoryLeakTest.java
+@@ -38 +38,2 @@
+-import static org.junit.Assert.*;
++import static org.junit.Assert.assertTrue;
++import static org.junit.Assert.fail;
+@@ -133,0 +135 @@
++        assertTrue(waitForCleanup(200, instances));
+@@ -135,12 +136,0 @@
+-        CMap cmap1 = getCMap(h1, "default");
+-        CMap cmap2 = getCMap(h2, "default");
+-        CMap cmap3 = getCMap(h3, "default");
+-        CMap cmap4 = getCMap(h4, "default");
+-        assertEquals(0, cmap1.mapRecords.size());
+-        assertEquals(0, cmap2.mapRecords.size());
+-        assertEquals(0, cmap3.mapRecords.size());
+-        assertEquals(0, cmap4.mapRecords.size());
+-        assertEquals(0, cmap1.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap2.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap3.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap4.getMapIndexService().getOwnedRecords().size());
+@@ -147,0 +138,21 @@
++    }
++
++    @Ignore
++    private boolean waitForCleanup(int seconds, HazelcastInstance... instances) throws InterruptedException {
++        CMap[] cmaps = new CMap[instances.length];
++        for (int i = 0; i < instances.length; i++) {
++            cmaps[i] = getCMap(instances[i], "default");
++        }
++        boolean clean = false;
++        int sec = 0;
++        while (!clean) {
++            Thread.sleep(1000);
++            if (sec++ > seconds) return false;
++            for (CMap cmap : cmaps) {
++                if (cmap.mapRecords.size() > 0 || cmap.getMapIndexService().getOwnedRecords().size() > 0) {
++                    break;
++                }
++            }
++            clean = true;
++        }
++        return true;
+@@ -201,0 +213 @@
++        assertTrue(waitForCleanup(200, instances));
+@@ -203,12 +214,0 @@
+-        CMap cmap1 = getCMap(h1, "default");
+-        CMap cmap2 = getCMap(h2, "default");
+-        CMap cmap3 = getCMap(h3, "default");
+-        CMap cmap4 = getCMap(h4, "default");
+-        assertEquals(0, cmap1.mapRecords.size());
+-        assertEquals(0, cmap2.mapRecords.size());
+-        assertEquals(0, cmap3.mapRecords.size());
+-        assertEquals(0, cmap4.mapRecords.size());
+-        assertEquals(0, cmap1.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap2.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap3.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap4.getMapIndexService().getOwnedRecords().size());
+@@ -255,0 +256 @@
++        assertTrue(waitForCleanup(200, instances));
+@@ -257,12 +257,0 @@
+-        CMap cmap1 = getCMap(h1, "default");
+-        CMap cmap2 = getCMap(h2, "default");
+-        CMap cmap3 = getCMap(h3, "default");
+-        CMap cmap4 = getCMap(h4, "default");
+-        assertEquals(0, cmap1.mapRecords.size());
+-        assertEquals(0, cmap2.mapRecords.size());
+-        assertEquals(0, cmap3.mapRecords.size());
+-        assertEquals(0, cmap4.mapRecords.size());
+-        assertEquals(0, cmap1.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap2.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap3.getMapIndexService().getOwnedRecords().size());
+-        assertEquals(0, cmap4.getMapIndexService().getOwnedRecords().size());
+

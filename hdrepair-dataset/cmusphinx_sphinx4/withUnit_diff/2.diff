@@ -1,0 +1,22 @@
+diff --git a/src/sphinx4/edu/cmu/sphinx/decoder/scorer/ThreadedAcousticScorer.java b/src/sphinx4/edu/cmu/sphinx/decoder/scorer/ThreadedAcousticScorer.java
+index 724ffd1..6441d38 100644
+--- a/src/sphinx4/edu/cmu/sphinx/decoder/scorer/ThreadedAcousticScorer.java
++++ b/src/sphinx4/edu/cmu/sphinx/decoder/scorer/ThreadedAcousticScorer.java
+@@ -102 +102 @@
+-        logger.info("# of scoring threads: " + numThreads);
++        logger.fine("# of scoring threads: " + numThreads);
+diff --git a/src/sphinx4/edu/cmu/sphinx/frontend/util/test/AudioDataSourcesTest.java b/src/sphinx4/edu/cmu/sphinx/frontend/util/test/AudioDataSourcesTest.java
+index 04c201f..a0dd934 100644
+--- a/src/sphinx4/edu/cmu/sphinx/frontend/util/test/AudioDataSourcesTest.java
++++ b/src/sphinx4/edu/cmu/sphinx/frontend/util/test/AudioDataSourcesTest.java
+@@ -6,0 +7 @@
++import edu.cmu.sphinx.util.props.ConfigurationManager;
+@@ -63 +64 @@
+-        ConcatAudioFileDataSource dataSource = new ConcatAudioFileDataSource();
++        ConcatAudioFileDataSource dataSource = ConfigurationManager.getInstance(ConcatAudioFileDataSource.class);
+@@ -78 +79,3 @@
+-        dataSource.setBatchFile(new File(baseDir + "test.drv"));
++        File batchFile = new File(baseDir + "test.drv");
++        assert batchFile.isFile() : "no file, not test.";
++        dataSource.setBatchFile(batchFile);
+

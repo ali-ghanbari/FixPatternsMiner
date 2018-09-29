@@ -1,0 +1,17 @@
+ftp: fix help output
+
+The HELP command was added to allow better interoperability with
+ncftp and Globus clients.  Unfortunately, the output for 'SITE HELP'
+and 'HELP SITE' was incorrect.
+
+While ncftp proved robust against this bug (it wasn't detected
+during previous testing) and Globus code is likely OK too, I
+request back-porting so dCache output conforms with RFC 959.
+
+Target: master
+Patch: https://rb.dcache.org/r/7575/
+Acked-by: Gerd Behrmann
+Request: 2.11
+Request: 2.10
+Request: 2.9
+

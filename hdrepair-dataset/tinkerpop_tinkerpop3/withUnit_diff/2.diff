@@ -1,0 +1,15 @@
+diff --git a/gremlin-core/src/main/java/com/tinkerpop/gremlin/process/graph/step/branch/UnionStep.java b/gremlin-core/src/main/java/com/tinkerpop/gremlin/process/graph/step/branch/UnionStep.java
+index 242e970..9f9075b 100644
+--- a/gremlin-core/src/main/java/com/tinkerpop/gremlin/process/graph/step/branch/UnionStep.java
++++ b/gremlin-core/src/main/java/com/tinkerpop/gremlin/process/graph/step/branch/UnionStep.java
+@@ -82 +82 @@
+-        this.executeTraversalOperations(NEST_OPERATIONS);
++        clone.executeTraversalOperations(NEST_OPERATIONS);
+diff --git a/tinkergraph-gremlin/src/test/java/com/tinkerpop/gremlin/tinkergraph/structure/TinkerGraphTest.java b/tinkergraph-gremlin/src/test/java/com/tinkerpop/gremlin/tinkergraph/structure/TinkerGraphTest.java
+index 9a30dab..bb2484f 100644
+--- a/tinkergraph-gremlin/src/test/java/com/tinkerpop/gremlin/tinkergraph/structure/TinkerGraphTest.java
++++ b/tinkergraph-gremlin/src/test/java/com/tinkerpop/gremlin/tinkergraph/structure/TinkerGraphTest.java
+@@ -132 +132 @@
+-                __.in().label()).count().submit(g.compute()).forEachRemaining(System.out::println);
++                __.in().label()).map(s -> s.get() + "^^").submit(g.compute()).forEachRemaining(System.out::println);
+

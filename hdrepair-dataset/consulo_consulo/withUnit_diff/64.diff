@@ -1,0 +1,26 @@
+diff --git a/lvcs/impl/src/com/intellij/history/core/LocalVcs.java b/lvcs/impl/src/com/intellij/history/core/LocalVcs.java
+index 4e6ce92..662b170 100644
+--- a/lvcs/impl/src/com/intellij/history/core/LocalVcs.java
++++ b/lvcs/impl/src/com/intellij/history/core/LocalVcs.java
+@@ -58,0 +59 @@
++    wasModifiedAfterLastSave = true;
+diff --git a/lvcs/impl/test/com/intellij/history/core/LocalVcsSavingTest.java b/lvcs/impl/test/com/intellij/history/core/LocalVcsSavingTest.java
+index 9ae69e4..bb2e4f9 100644
+--- a/lvcs/impl/test/com/intellij/history/core/LocalVcsSavingTest.java
++++ b/lvcs/impl/test/com/intellij/history/core/LocalVcsSavingTest.java
+@@ -99,0 +100,14 @@
++  
++  @Test
++  public void testSavingAfterPurge() {
++    vcs.createFile("f", cf("one"), 1, false);
++    vcs.changeFileContent("f", cf("two"), 2);
++    vcs.changeFileContent("f", cf("three"), 3);
++
++    vcs.save();
++    vcs.purgeObsoleteAndSave(0);
++
++    initVcs();
++
++    assertEquals(1, vcs.getRevisionsFor("f").size());
++  }
+

@@ -1,0 +1,44 @@
+diff --git a/src/main/java/com/rultor/web/Lifespan.java b/src/main/java/com/rultor/web/Lifespan.java
+index 88e7469..c759ec4 100644
+--- a/src/main/java/com/rultor/web/Lifespan.java
++++ b/src/main/java/com/rultor/web/Lifespan.java
+@@ -98 +98 @@
+-                (int) TimeUnit.DAYS.toSeconds(1L)
++                (int) TimeUnit.HOURS.toMinutes(1L)
+diff --git a/src/main/scss/main.scss b/src/main/scss/main.scss
+index 83b02fc..c53086e 100644
+--- a/src/main/scss/main.scss
++++ b/src/main/scss/main.scss
+@@ -46 +46 @@
+-  border: 1px solid gray;
++  border: 1px solid lightgray;
+diff --git a/src/main/webapp/xsl/home.xsl b/src/main/webapp/xsl/home.xsl
+index 069504b..5f1c83a 100644
+--- a/src/main/webapp/xsl/home.xsl
++++ b/src/main/webapp/xsl/home.xsl
+@@ -132 +132 @@
+-        <xsl:variable name="width" select="86400000"/>
++        <xsl:variable name="width" select="3600000"/>
+@@ -146 +146,2 @@
+-                    stroke="gray" stroke-width="1px"/>
++                    stroke="lightgray" stroke-width="1px"
++                    vector-effect="non-scaling-stroke"/>
+@@ -148,2 +149,2 @@
+-                    <rect width="{@msec}" height="{@total + 1}"
+-                        x="{@start}" y="{$height - @total}" fill="green"/>
++                    <rect width="{@msec}" height="{@total + 0.5}"
++                        x="{@start}" y="{$height - @total - 0.5}" fill="green"/>
+diff --git a/src/test/webapp/xml/home.xml b/src/test/webapp/xml/home.xml
+index 6001a8b..8e430f1 100644
+--- a/src/test/webapp/xml/home.xml
++++ b/src/test/webapp/xml/home.xml
+@@ -53,4 +53,4 @@
+-        <tick start="-7899" msec="5600" total="2"/>
+-        <tick start="-8890" msec="5600" total="0"/>
+-        <tick start="-99900" msec="5600" total="0"/>
+-        <tick start="-167700" msec="56" total="1"/>
++        <tick start="-60000" msec="5600" total="2"/>
++        <tick start="-120000" msec="15600" total="0"/>
++        <tick start="-180000" msec="7600" total="0"/>
++        <tick start="-240000" msec="2300" total="1"/>
+

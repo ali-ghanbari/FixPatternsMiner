@@ -1,0 +1,29 @@
+diff --git a/src/main/java/br/com/caelum/tubaina/parser/html/ImageTag.java b/src/main/java/br/com/caelum/tubaina/parser/html/ImageTag.java
+index fafeba3..7606088 100644
+--- a/src/main/java/br/com/caelum/tubaina/parser/html/ImageTag.java
++++ b/src/main/java/br/com/caelum/tubaina/parser/html/ImageTag.java
+@@ -11,0 +12 @@
++	// TODO: make it work more gracefully... i.e., eliminate this workaround
+diff --git a/src/test/java/br/com/caelum/tubaina/parser/html/ImageTagTest.java b/src/test/java/br/com/caelum/tubaina/parser/html/ImageTagTest.java
+index a2d7ce8..0bbc551 100644
+--- a/src/test/java/br/com/caelum/tubaina/parser/html/ImageTagTest.java
++++ b/src/test/java/br/com/caelum/tubaina/parser/html/ImageTagTest.java
+@@ -21 +21 @@
+-				"<img src=\"../imagem.png\" alt=\"Imagem de alguma coisa\" />", result);
++				"<img src=\"$$RELATIVE$$/imagem.png\" alt=\"Imagem de alguma coisa\" />", result);
+@@ -28 +28 @@
+-				"<img src=\"../imagem.png\" alt=\"Imagem de alguma coisa\" />", result);
++				"<img src=\"$$RELATIVE$$/imagem.png\" alt=\"Imagem de alguma coisa\" />", result);
+@@ -35 +35 @@
+-				"<img src=\"../imagem.png\" alt=\"imagem.png\" />", result);
++				"<img src=\"$$RELATIVE$$/imagem.png\" alt=\"imagem.png\" />", result);
+@@ -42 +42 @@
+-				"<img src=\"../imagem.png\" alt=\"imagem.png\" />", result);
++				"<img src=\"$$RELATIVE$$/imagem.png\" alt=\"imagem.png\" />", result);
+@@ -49 +49 @@
+-				"<img src=\"../imagem.png\" alt=\"imagem.png\" />", result);
++				"<img src=\"$$RELATIVE$$/imagem.png\" alt=\"imagem.png\" />", result);
+@@ -56 +56 @@
+-				"<img src=\"../imagem.png\" alt=\"imagem.png\" />", result);
++				"<img src=\"$$RELATIVE$$/imagem.png\" alt=\"imagem.png\" />", result);
+

@@ -1,0 +1,60 @@
+diff --git a/tests/bugs162/pr176905/ChainedItd.aj b/tests/bugs162/pr176905/ChainedItd.aj
+new file mode 100644
+index 0000000..441cf70
+--- /dev/null
++++ b/tests/bugs162/pr176905/ChainedItd.aj
+@@ -0,0 +1,24 @@
++import java.lang.reflect.Field;
++import java.lang.annotation.*;
++
++public aspect ChainedItd {
++    declare @field: long *.foo: @Deprecated;
++    
++    declare @field: @Deprecated * *.foo: @MyAnnotation;
++    //uncomment the line below to prove our test should work
++    //declare @field: long *.foo: @MyAnnotation;
++    
++    public static void main(String argz[]) throws Exception {
++		Field idField = Test.class.getDeclaredField("foo");
++		idField.setAccessible(true);
++		assert idField.getAnnotation(MyAnnotation.class) != null;
++    }    
++}	 
++
++class Test {
++    private long foo;
++}
++
++@Retention(RetentionPolicy.RUNTIME)
++@interface MyAnnotation {
++}
+diff --git a/tests/src/org/aspectj/systemtest/ajc162/Ajc162Tests.java b/tests/src/org/aspectj/systemtest/ajc162/Ajc162Tests.java
+index 7ef6176..fd750f5 100644
+--- a/tests/src/org/aspectj/systemtest/ajc162/Ajc162Tests.java
++++ b/tests/src/org/aspectj/systemtest/ajc162/Ajc162Tests.java
+@@ -21,0 +22,2 @@
++//	public void testAdvisingInterfaces_pr163005() { runTest("advising joinpoints in interfaces"); }
++	public void testChainedItds_pr176905() { runTest("chained itds"); }
+diff --git a/tests/src/org/aspectj/systemtest/ajc162/ajc162.xml b/tests/src/org/aspectj/systemtest/ajc162/ajc162.xml
+index 6011429..e7f4cd2 100644
+--- a/tests/src/org/aspectj/systemtest/ajc162/ajc162.xml
++++ b/tests/src/org/aspectj/systemtest/ajc162/ajc162.xml
+@@ -4,0 +5,15 @@
++	
++	<ajc-test dir="bugs162/pr163005" title="advising joinpoints in interfaces">
++	  <compile files="SomeClass.java SomeInterface.java ProblemAspect.java" options="-1.4">
++	    <message kind="warning" text="Cannot advise join point 'method-call(java.lang.Class java.lang.Class.forName(java.lang.String))' in interface 'SomeInterface' with around advice from 'ProblemAspect.java' line '7' as it will lead to creation of code in an interface (compiler limitation, bug 163005)"/>
++	  </compile>
++	  <run class="SomeClass"/>
++	</ajc-test>
++
++    <ajc-test dir="bugs162/pr176905" title="chained itds">
++        <compile options="-1.5" files="ChainedItd.aj">
++        </compile>    
++        <run class="ChainedItd">
++            <stderr/> <!-- no errors-->
++        </run>
++    </ajc-test>
+@@ -12 +26,0 @@
+-
+

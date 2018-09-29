@@ -1,0 +1,8 @@
+Fix for 17319
+
+Life cycle modules appear in the configuration as applications (as do more usual apps) but they do not have locations - directories - associated with them.  Some of the versioning code assumed that all apps have a location.
+
+This change fixes such a problem exposed when an app and a life cycle module were both present and the user dynamically reloaded the app (using "touch .reload").
+
+git-svn-id: https://svn.java.net/svn/glassfish~svn/trunk/main@50094 6f3ba3e3-413c-0410-a8aa-90bee3ab43b5
+

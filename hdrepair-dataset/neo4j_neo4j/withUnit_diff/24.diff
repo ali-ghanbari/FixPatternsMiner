@@ -1,0 +1,29 @@
+diff --git a/community/udc/src/main/java/org/neo4j/ext/udc/UdcSettings.java b/community/udc/src/main/java/org/neo4j/ext/udc/UdcSettings.java
+index c1c7286..10ecc6d 100644
+--- a/community/udc/src/main/java/org/neo4j/ext/udc/UdcSettings.java
++++ b/community/udc/src/main/java/org/neo4j/ext/udc/UdcSettings.java
+@@ -74 +74 @@
+-    public static final Setting<String> udc_registration_key = setting( "neo4j.ext.udc.source", STRING, "unreg",
++    public static final Setting<String> udc_registration_key = setting( "neo4j.ext.udc.reg", STRING, "unreg",
+diff --git a/community/udc/src/test/java/org/neo4j/ext/udc/impl/UdcExtensionImplTest.java b/community/udc/src/test/java/org/neo4j/ext/udc/impl/UdcExtensionImplTest.java
+index d248388..2722581 100644
+--- a/community/udc/src/test/java/org/neo4j/ext/udc/impl/UdcExtensionImplTest.java
++++ b/community/udc/src/test/java/org/neo4j/ext/udc/impl/UdcExtensionImplTest.java
+@@ -57,0 +58 @@
++import org.neo4j.helpers.collection.MapUtil;
+@@ -192 +193 @@
+-        assertEquals( "unit-testing", handler.getQueryMap().get( REGISTRATION ) );
++        assertEquals( "test-reg", handler.getQueryMap().get( REGISTRATION ) );
+@@ -204 +205 @@
+-        assertEquals( "unit-testing", handler.getQueryMap().get( REGISTRATION ) );
++        assertEquals( "test-reg", handler.getQueryMap().get( REGISTRATION ) );
+@@ -395,0 +397,8 @@
++    public void testUdcPropertyFileKeysMatchSettings() throws Exception 
++    {
++        Map<String, String> config = MapUtil.load( getClass().getResourceAsStream( "/org/neo4j/ext/udc/udc.properties" ) );
++        assertEquals( "test-reg", config.get(UdcSettings.udc_registration_key.name() ) );
++        assertEquals( "unit-testing", config.get( UdcSettings.udc_source.name() ) );
++    }
++
++    @Test
+

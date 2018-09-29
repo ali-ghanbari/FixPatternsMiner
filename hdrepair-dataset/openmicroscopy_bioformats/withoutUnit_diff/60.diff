@@ -1,0 +1,114 @@
+diff --git a/components/formats-gpl/matlab/bfGetReader.m b/components/formats-gpl/matlab/bfGetReader.m
+index d0aa88d..ee78ed1 100644
+--- a/components/formats-gpl/matlab/bfGetReader.m
++++ b/components/formats-gpl/matlab/bfGetReader.m
+@@ -3,3 +2,0 @@
+-% 
+-% SYNOPSIS  r = bfGetReader()
+-%           r = bfGetReader(path)
+@@ -7 +4,2 @@
+-% Input 
++%   r = bfGetReader() creates an empty Bio-Formats reader extending
++%   loci.formats.ReaderWrapper.
+@@ -9 +7,2 @@
+-%    id - (Optional - string) A valid path to the microscopy image
++%   r = bfGetReader(id) where id is a path to an existing file creates and
++%   initializes a reader for the input file.
+@@ -11,3 +10 @@
+-%    stichFiles (Optional - scalar). Toggle the grouping of similarly
+-%    named files into a single dataset based on file numbering.
+-%    Default: false;
++% Examples
+@@ -15 +12,2 @@
+-% Output
++%    r = bfGetReader()
++%    I = bfGetReader(path_to_file)
+@@ -17 +14,0 @@
+-%    r - A reader object of class extending loci.formats.ReaderWrapper
+@@ -19 +16 @@
+-% Adapted from bfopen.m
++% See also: BFGETPLANE
+@@ -23 +20 @@
+-% Copyright (C) 2012 - 2013 Open Microscopy Environment:
++% Copyright (C) 2012 - 2014 Open Microscopy Environment:
+@@ -60 +57 @@
+-if ~isFake
++if ~isempty(id) && ~isFake
+@@ -63,9 +60,3 @@
+-    isFile = status && f.directory == 0;
+-    if isFile, id = f.Name; end
+-end
+-
+-% Prompt for a file via the UI
+-if (~isFake && ~isFile)
+-    [file, path] = uigetfile(bfGetFileExtensions, 'Choose a file to open');
+-    id = [path file];
+-    if isequal(path, 0) || isequal(file, 0), return; end
++    assert(status && f.directory == 0, 'bfGetReader:FileNotFound',...
++        'No such file: %s', id);
++    id = f.Name;
+@@ -80,0 +72 @@
++% Create a loci.formats.ReaderWrapper object
+@@ -86,0 +79 @@
++% Initialize the metadata store
+@@ -89 +82,3 @@
+-r.setId(id);
++
++% Initialize the reader
++if ~isempty(id), r.setId(id); end
+diff --git a/components/formats-gpl/src/loci/formats/in/AnalyzeReader.java b/components/formats-gpl/src/loci/formats/in/AnalyzeReader.java
+index ea49717..7e82ccd 100644
+--- a/components/formats-gpl/src/loci/formats/in/AnalyzeReader.java
++++ b/components/formats-gpl/src/loci/formats/in/AnalyzeReader.java
+@@ -282,0 +283 @@
++    m.littleEndian = little;
+diff --git a/components/formats-gpl/test/matlab/TestBfGetReader.m b/components/formats-gpl/test/matlab/TestBfGetReader.m
+index 1793475..1adf04c 100644
+--- a/components/formats-gpl/test/matlab/TestBfGetReader.m
++++ b/components/formats-gpl/test/matlab/TestBfGetReader.m
+@@ -33,0 +34,44 @@
++        % Input check tests
++        function testInputClass(self)
++            assertExceptionThrown(@() bfGetReader(0),...
++                'MATLAB:InputParser:ArgumentFailedValidation');
++        end
++        
++        function testNoInput(self)
++            self.reader = bfGetReader();
++            assertTrue(isa(self.reader, 'loci.formats.ReaderWrapper'));
++            assertTrue(isempty(self.reader.getCurrentFile()));
++        end
++        
++        function testEmptyInput(self)
++            self.reader = bfGetReader('');
++            assertTrue(isa(self.reader, 'loci.formats.ReaderWrapper'));
++            assertTrue(isempty(self.reader.getCurrentFile()));
++        end
++        
++        function testFakeInput(self)
++            self.reader = bfGetReader('test.fake');
++            assertTrue(isa(self.reader, 'loci.formats.ReaderWrapper'));
++            assertEqual(char(self.reader.getCurrentFile()), 'test.fake');
++        end
++        
++        function testNonExistingInput(self)
++            assertExceptionThrown(@() bfGetReader('nonexistingfile'),...
++                'bfGetReader:FileNotFound');
++        end
++        
++        function testFileInput(self)
++            % Create fake file
++            if isunix,
++                filepath = fullfile('/tmp', 'test.fake');
++            else
++                filepath = fullfile('C:', 'test.fake');
++            end
++            fid = fopen(filepath, 'w+');
++            fclose(fid);
++            self.reader = bfGetReader(filepath);
++            delete(filepath);
++            assertTrue(isa(self.reader, 'loci.formats.ReaderWrapper'));
++            assertEqual(char(self.reader.getCurrentFile()), filepath);
++        end
++        
+

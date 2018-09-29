@@ -1,0 +1,38 @@
+diff --git a/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java b/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java
+index e52fd55..95150d5 100644
+--- a/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java
++++ b/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java
+@@ -72 +72 @@
+-                        encoded.replaceFirst("<img.*src=\"", "<img class=\"thumbnail\" src=\""));
++                        encoded.replaceFirst("<img.*src=\"", "<img alt=\" \" class=\"thumbnail\" src=\""));
+diff --git a/jcommune-service/src/test/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessorTest.java b/jcommune-service/src/test/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessorTest.java
+index 459047d..7cfc4db 100644
+--- a/jcommune-service/src/test/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessorTest.java
++++ b/jcommune-service/src/test/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessorTest.java
+@@ -69 +69 @@
+-                        "<img class=\"thumbnail\" src=\"http://javatalks.ru/common%20img\">"}
++                        "<img alt=\" \" class=\"thumbnail\" src=\"http://javatalks.ru/common%20img\">"}
+diff --git a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/plugin/pluginConfiguration.jsp b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/plugin/pluginConfiguration.jsp
+index 190c97c..5cdf353 100644
+--- a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/plugin/pluginConfiguration.jsp
++++ b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/plugin/pluginConfiguration.jsp
+@@ -40,3 +40,3 @@
+-        <form:hidden path="id" value="${pluginConfiguration.id}"/>
+-        <form:hidden path="name" value="${pluginConfiguration.name}"/>
+-        <form:hidden path="active" value="${pluginConfiguration.active}"/>
++        <form:hidden path="id"/>
++        <form:hidden path="name" />
++        <form:hidden path="active" />
+@@ -66 +65,0 @@
+-                        <form:hidden path="properties[${status.index}].id" value="${property.id}"/>
+@@ -69 +68,2 @@
+-                                <form:hidden path="properties[${status.index}].name" value="${property.name}"/>
++                                <form:hidden path="properties[${status.index}].id" />
++                                <form:hidden path="properties[${status.index}].name" />
+@@ -80 +80 @@
+-                                <form:hidden path="properties[${status.index}].type" value="${property.type}"/>
++                                <form:hidden path="properties[${status.index}].type" />
+@@ -86 +86 @@
+-                                <form:input path="properties[${status.index}].value" value="${property.value}"/>
++                                <form:input path="properties[${status.index}].value" />
+

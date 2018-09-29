@@ -1,0 +1,15 @@
+diff --git a/plugins/android/src/org/jetbrains/android/dom/converters/StyleItemNameConverter.java b/plugins/android/src/org/jetbrains/android/dom/converters/StyleItemNameConverter.java
+index 5f19126..d3586b2 100644
+--- a/plugins/android/src/org/jetbrains/android/dom/converters/StyleItemNameConverter.java
++++ b/plugins/android/src/org/jetbrains/android/dom/converters/StyleItemNameConverter.java
+@@ -71 +71 @@
+-    String[] strs = s.split(s);
++    String[] strs = s.split(":");
+diff --git a/plugins/android/testData/dom/resources/styles4.xml b/plugins/android/testData/dom/resources/styles4.xml
+index 0e82088..ff62a21 100644
+--- a/plugins/android/testData/dom/resources/styles4.xml
++++ b/plugins/android/testData/dom/resources/styles4.xml
+@@ -4,0 +5,2 @@
++    <item name="<error>android:unknown</error>">normal|bold</item>
++    <item name="unknown">normal|bold</item>
+

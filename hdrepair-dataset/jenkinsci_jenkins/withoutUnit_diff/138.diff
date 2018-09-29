@@ -1,0 +1,16 @@
+diff --git a/core/src/main/java/hudson/model/Hudson.java b/core/src/main/java/hudson/model/Hudson.java
+index 8621b5c..1d82538 100644
+--- a/core/src/main/java/hudson/model/Hudson.java
++++ b/core/src/main/java/hudson/model/Hudson.java
+@@ -3711,0 +3712,3 @@
++        } catch (IllegalArgumentException e) {
++            // totally unparseable
++            return null;
+diff --git a/war/src/main/webapp/WEB-INF/security/SecurityFilters.groovy b/war/src/main/webapp/WEB-INF/security/SecurityFilters.groovy
+index b8559b9..83d821c 100644
+--- a/war/src/main/webapp/WEB-INF/security/SecurityFilters.groovy
++++ b/war/src/main/webapp/WEB-INF/security/SecurityFilters.groovy
+@@ -53 +53 @@
+-                loginFormUrl = securityRealm.getLoginUrl()+"?from={0}";
++                loginFormUrl = '/'+securityRealm.getLoginUrl()+"?from={0}";
+

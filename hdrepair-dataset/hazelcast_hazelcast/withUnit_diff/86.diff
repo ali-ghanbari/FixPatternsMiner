@@ -1,0 +1,297 @@
+diff --git a/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java b/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java
+index bcc7297..c2cc296 100644
+--- a/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java
++++ b/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java
+@@ -198,0 +199,5 @@
++
++    @Test(expected = UnsupportedOperationException.class)
++    public void testNewCondition() throws Exception {
++        l.newCondition();
++    }
+diff --git a/hazelcast-documentation/src/DataAffinity.md b/hazelcast-documentation/src/DataAffinity.md
+index f2f0bce..cb446cb 100644
+--- a/hazelcast-documentation/src/DataAffinity.md
++++ b/hazelcast-documentation/src/DataAffinity.md
+@@ -111,0 +112,3 @@
++static Config cfg = new Config();
++static HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
++
+@@ -113 +116 @@
+-    ExecutorService es = instance.getExecutorService();
++    IExecutorService es = instance.getExecutorService("ExecutorService");
+@@ -115 +118 @@
+-    Future future = es.submit(task);
++    Future<Integer> future = es.submit(task);
+@@ -122,2 +125,2 @@
+-   private long customerId;
+-   private long orderId;
++    private long customerId;
++    private long orderId;
+@@ -125,16 +128,16 @@
+-   public OrderDeletionTask() {
+-   }
+-   public OrderDeletionTask(long customerId, long orderId) {
+-       super();
+-       this.customerId = customerId;
+-       this.orderId = orderId;
+-   }
+-   public Integer call () {
+-       IMap<Long, Customer> mapCustomers = Hazelcast.getMap("customers");
+-       mapCustomers.lock (customerId);
+-       Customer customer = mapCustomers. get(customerId);
+-       customer.removeOrder (orderId);
+-       mapCustomers.put(customerId, customer);
+-       mapCustomers.unlock(customerId);
+-       return customer.getOrderCount();
+-   }
++    public OrderDeletionTask() {
++    }
++    public OrderDeletionTask(long customerId, long orderId) {
++        super();
++        this.customerId = customerId;
++        this.orderId = orderId;
++    }
++    public Integer call () {
++        IMap<Long, Customer> mapCustomers = instance.getMap("customers");
++        mapCustomers.lock (customerId);
++        Customer customer = mapCustomers.get(customerId);
++        customer.removeOrder (orderId);
++        mapCustomers.put(customerId, customer);
++        mapCustomers.unlock(customerId);
++        return customer.getOrderCount();
++    }
+@@ -142,3 +145,3 @@
+-   public Object getPartitionKey() {
+-       return customerId;
+-   }
++    public Object getPartitionKey() {
++        return customerId;
++    }
+diff --git a/hazelcast-documentation/src/Execution.md b/hazelcast-documentation/src/Execution.md
+index e123b8a..f3a05bb 100644
+--- a/hazelcast-documentation/src/Execution.md
++++ b/hazelcast-documentation/src/Execution.md
+@@ -60 +60 @@
+-Note that you can obtain the set of cluster members via `Hazelcast.getCluster().getMembers()` call.
++Note that you can obtain the set of cluster members via `HazelcastInstance#getCluster().getMembers()` call.
+diff --git a/hazelcast-documentation/src/ExecutorService.md b/hazelcast-documentation/src/ExecutorService.md
+index 34ad742..473ff61 100644
+--- a/hazelcast-documentation/src/ExecutorService.md
++++ b/hazelcast-documentation/src/ExecutorService.md
+@@ -22 +22,3 @@
+-        return Hazelcast.getCluster().getLocalMember().toString() + ":" + input;
++        Config cfg = new Config();
++        HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
++        return instance.getCluster().getLocalMember().toString() + ":" + input;
+@@ -27 +29 @@
+-Echo callable above, for instance, in its `call()` method, is returning the local member and the input passed in. Remember that `Hazelcast.getCluster().getLocalMember()` returns the local member and `toString()` returns the member's address `(IP + port)` in String form, just to see which member actually executed the code for our example. Of course, `call()` method can do and return anything you like. Executing a task by using executor framework is very straight forward. Simply obtain a `ExecutorService` instance, generally via `Executors` and submit the task which returns a `Future`. After executing task, you do not have to wait for execution to complete, you can process other things and when ready use the future object to retrieve the result as show in code below.
++Echo callable above, for instance, in its `call()` method, is returning the local member and the input passed in. Remember that `instance.getCluster().getLocalMember()` returns the local member and `toString()` returns the member's address `(IP + port)` in String form, just to see which member actually executed the code for our example. Of course, `call()` method can do and return anything you like. Executing a task by using executor framework is very straight forward. Simply obtain a `ExecutorService` instance, generally via `Executors` and submit the task which returns a `Future`. After executing task, you do not have to wait for execution to complete, you can process other things and when ready use the future object to retrieve the result as show in code below.
+diff --git a/hazelcast-documentation/src/Lock.md b/hazelcast-documentation/src/Lock.md
+index 2108453..d29e7c1 100644
+--- a/hazelcast-documentation/src/Lock.md
++++ b/hazelcast-documentation/src/Lock.md
+@@ -21 +21 @@
+-`java.util.concurrent.locks.Lock.tryLock()` with timeout is also supported. All operations on the Lock that `Hazelcast.getLock(Object obj)` returns are cluster-wide and Lock behaves just like `java.util.concurrent.lock.ReentrantLock`.
++`java.util.concurrent.locks.Lock.tryLock()` with timeout is also supported. All operations on the Lock that `HazelcastInstance#getLock(Object obj)` returns are cluster-wide and Lock behaves just like `java.util.concurrent.lock.ReentrantLock`.
+diff --git a/hazelcast-documentation/src/Logging.md b/hazelcast-documentation/src/Logging.md
+index af0c244..3aab39d 100644
+--- a/hazelcast-documentation/src/Logging.md
++++ b/hazelcast-documentation/src/Logging.md
+@@ -62 +62,3 @@
+-LoggingService loggingService = Hazelcast.getLoggingService();
++Config cfg = new Config();
++HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
++LoggingService loggingService = instance.getLoggingService();
+diff --git a/hazelcast-documentation/src/Map.md b/hazelcast-documentation/src/Map.md
+index 766d3ab..aa7198e 100644
+--- a/hazelcast-documentation/src/Map.md
++++ b/hazelcast-documentation/src/Map.md
+@@ -30,0 +31 @@
++import com.hazelcast.core.HazelcastInstance;
+@@ -32,0 +34,3 @@
++Config cfg = new Config();
++HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
++
+@@ -34 +38 @@
+-    ConcurrentMap<String, Customer> map = Hazelcast.getMap("customers");
++    ConcurrentMap<String, Customer> map = instance.getMap("customers");
+@@ -44 +48 @@
+-    ConcurrentMap<String, Customer> map = Hazelcast.getMap("customers");
++    ConcurrentMap<String, Customer> map = instance.getMap("customers");
+@@ -49 +53 @@
+-    ConcurrentMap<String, Customer> map = Hazelcast.getMap("customers");
++    ConcurrentMap<String, Customer> map = instance.getMap("customers");
+diff --git a/hazelcast-documentation/src/Query.md b/hazelcast-documentation/src/Query.md
+index 99fbea5..d23a5a4 100644
+--- a/hazelcast-documentation/src/Query.md
++++ b/hazelcast-documentation/src/Query.md
+@@ -175 +175,3 @@
+-IMap imap = Hazelcast.getMap("employees");
++Config cfg = new Config();
++HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
++IMap imap = instance.getMap("employees");
+diff --git a/hazelcast-documentation/src/RestClient.md b/hazelcast-documentation/src/RestClient.md
+index 17ad606..bcc9974 100644
+--- a/hazelcast-documentation/src/RestClient.md
++++ b/hazelcast-documentation/src/RestClient.md
+@@ -72 +72 @@
+-Above call is equivalent to `Hazelcast.getQueue("myEvents").offer("foo");`.
++Above call is equivalent to `HazelcastInstance#getQueue("myEvents").offer("foo");`.
+@@ -82 +82 @@
+-Above call is equivalent to `Hazelcast.getQueue("myEvents").poll(10, SECONDS);`. Below is the returns of above call.
++Above call is equivalent to `HazelcastInstance#getQueue("myEvents").poll(10, SECONDS);`. Below is the returns of above call.
+diff --git a/hazelcast-documentation/src/unused/DistributedExecution.md b/hazelcast-documentation/src/unused/DistributedExecution.md
+index d33223a..90b1ee7 100644
+--- a/hazelcast-documentation/src/unused/DistributedExecution.md
++++ b/hazelcast-documentation/src/unused/DistributedExecution.md
+@@ -58 +58 @@
+-Note that you can obtain the set of cluster members via `Hazelcast.getCluster().getMembers()` call.
++Note that you can obtain the set of cluster members via `HazelcastInstance#getCluster().getMembers()` call.
+diff --git a/hazelcast-documentation/src/unused/Map.md b/hazelcast-documentation/src/unused/Map.md
+index 8d55119..b7fb972 100644
+--- a/hazelcast-documentation/src/unused/Map.md
++++ b/hazelcast-documentation/src/unused/Map.md
+@@ -29,0 +30 @@
++import com.hazelcast.core.HazelcastInstance;
+@@ -31,0 +33,3 @@
++Config cfg = new Config();
++HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
++
+@@ -33 +37 @@
+-    ConcurrentMap<String, Customer> map = Hazelcast.getMap("customers");
++    ConcurrentMap<String, Customer> map = instance.getMap("customers");
+@@ -43 +47 @@
+-    ConcurrentMap<String, Customer> map = Hazelcast.getMap("customers");
++    ConcurrentMap<String, Customer> map = instance.getMap("customers");
+@@ -48 +52 @@
+-    ConcurrentMap<String, Customer> map = Hazelcast.getMap("customers");
++    ConcurrentMap<String, Customer> map = instance.getMap("customers");
+diff --git a/hazelcast-documentation/src/unused/MapIndex.md b/hazelcast-documentation/src/unused/MapIndex.md
+index 150d2fb..03424a9 100644
+--- a/hazelcast-documentation/src/unused/MapIndex.md
++++ b/hazelcast-documentation/src/unused/MapIndex.md
+@@ -7 +7,3 @@
+-IMap imap = Hazelcast.getMap("employees");
++Config cfg = new Config();
++HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
++IMap imap = instance.getMap("employees");
+diff --git a/hazelcast-documentation/src/unused/RestClient.md b/hazelcast-documentation/src/unused/RestClient.md
+index 9c325c8..81405d9 100644
+--- a/hazelcast-documentation/src/unused/RestClient.md
++++ b/hazelcast-documentation/src/unused/RestClient.md
+@@ -69 +69 @@
+-Above call is equivalent to `Hazelcast.getQueue("myEvents").offer("foo");`.
++Above call is equivalent to `HazelcastInstance#getQueue("myEvents").offer("foo");`.
+@@ -79 +79 @@
+-Above call is equivalent to `Hazelcast.getQueue("myEvents").poll(10, SECONDS);`. Below is the returns of above call.
++Above call is equivalent to `HazelcastInstance#getQueue("myEvents").poll(10, SECONDS);`. Below is the returns of above call.
+diff --git a/hazelcast-documentation/src/unused/SpringConfig.md b/hazelcast-documentation/src/unused/SpringConfig.md
+index b1f3a14..4ce817a 100644
+--- a/hazelcast-documentation/src/unused/SpringConfig.md
++++ b/hazelcast-documentation/src/unused/SpringConfig.md
+@@ -65 +64,0 @@
+-                cache-value="true"
+diff --git a/hazelcast/src/main/java/com/hazelcast/nio/serialization/DefaultPortableWriter.java b/hazelcast/src/main/java/com/hazelcast/nio/serialization/DefaultPortableWriter.java
+index c2c22c0..ecb1c7f 100644
+--- a/hazelcast/src/main/java/com/hazelcast/nio/serialization/DefaultPortableWriter.java
++++ b/hazelcast/src/main/java/com/hazelcast/nio/serialization/DefaultPortableWriter.java
+@@ -159 +159 @@
+-            out.position(offset + len * 4);
++            out.writeZeroBytes(len * 4);
+diff --git a/hazelcast/src/test/java/com/hazelcast/nio/serialization/PortableTest.java b/hazelcast/src/test/java/com/hazelcast/nio/serialization/PortableTest.java
+index 028c5c0..e3b242c 100644
+--- a/hazelcast/src/test/java/com/hazelcast/nio/serialization/PortableTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/nio/serialization/PortableTest.java
+@@ -24 +23,0 @@
+-import org.junit.Assert;
+@@ -30,0 +30 @@
++import java.util.ArrayList;
+@@ -31,0 +32 @@
++import java.util.List;
+@@ -290 +291 @@
+-    public void test_1096_ByteArrayContentSame(){
++    public void test_1096_ByteArrayContentSame() {
+@@ -309,0 +311,80 @@
++
++    //https://github.com/hazelcast/hazelcast/issues/2172
++    @Test
++    public void test_issue2172_WritePortableArray() {
++        final SerializationService ss = new SerializationServiceBuilder().setInitialOutputBufferSize(16).build();
++
++        final TestObject2[] testObject2s = new TestObject2[100];
++        for (int i = 0; i < testObject2s.length; i++) {
++            testObject2s[i] = new TestObject2();
++        }
++        final TestObject1 testObject1 = new TestObject1(testObject2s);
++
++        ss.toData(testObject1);
++
++    }
++
++    class TestObject1 implements Portable {
++
++        private Portable[] portables;
++
++        public TestObject1() {
++        }
++
++        public TestObject1(Portable[] p) {
++            portables = p;
++        }
++
++        @Override
++        public int getFactoryId() {
++            return FACTORY_ID;
++        }
++
++        @Override
++        public int getClassId() {
++            return 1;
++        }
++
++        @Override
++        public void writePortable(PortableWriter writer) throws IOException {
++            writer.writePortableArray("list", portables);
++        }
++
++        @Override
++        public void readPortable(PortableReader reader) throws IOException {
++            throw new UnsupportedOperationException();
++        }
++
++
++    }
++
++    class TestObject2 implements Portable {
++
++        private String shortString;
++
++        public TestObject2() {
++            shortString = "Hello World";
++        }
++
++        @Override
++        public int getFactoryId() {
++            return FACTORY_ID;
++        }
++
++        @Override
++        public int getClassId() {
++            return 2;
++        }
++
++        @Override
++        public void writePortable(PortableWriter writer) throws IOException {
++            writer.writeUTF("shortString", shortString);
++        }
++
++        @Override
++        public void readPortable(PortableReader reader) throws IOException {
++            throw new UnsupportedOperationException();
++        }
++
++    }
++
+@@ -869 +949,0 @@
+-
+

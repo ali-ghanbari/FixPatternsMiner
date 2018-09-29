@@ -1,0 +1,8 @@
+diff --git a/errai-config/src/main/java/org/jboss/errai/config/util/ThreadUtil.java b/errai-config/src/main/java/org/jboss/errai/config/util/ThreadUtil.java
+index 7bcfb37..c341b31 100644
+--- a/errai-config/src/main/java/org/jboss/errai/config/util/ThreadUtil.java
++++ b/errai-config/src/main/java/org/jboss/errai/config/util/ThreadUtil.java
+@@ -32 +32 @@
+-      = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
++      = Executors.newFixedThreadPool(Math.max(2, Runtime.getRuntime().availableProcessors()));
+

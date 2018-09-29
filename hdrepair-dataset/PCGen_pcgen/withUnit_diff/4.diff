@@ -1,0 +1,18 @@
+diff --git a/code/src/java/plugin/exporttokens/BioToken.java b/code/src/java/plugin/exporttokens/BioToken.java
+index e027b47..c9e9631 100644
+--- a/code/src/java/plugin/exporttokens/BioToken.java
++++ b/code/src/java/plugin/exporttokens/BioToken.java
+@@ -138 +138 @@
+-		if (eh.getTemplateFile().getName().endsWith(Constants.XSL_FO_EXTENSION)) {
++		if (eh != null && eh.getTemplateFile().getName().endsWith(Constants.XSL_FO_EXTENSION)) {
+diff --git a/code/src/test/plugin/exporttokens/BioTokenTest.java b/code/src/test/plugin/exporttokens/BioTokenTest.java
+index 23053ad..4b13bfb 100644
+--- a/code/src/test/plugin/exporttokens/BioTokenTest.java
++++ b/code/src/test/plugin/exporttokens/BioTokenTest.java
+@@ -78 +78 @@
+-			"Test bio entry<br>2nd line<br>Third line<br>last one", new BioToken()
++			"Test bio entry<br/>2nd line<br/>Third line<br/>last one", new BioToken()
+@@ -95 +95 @@
+-			"**Test bio entry<br>**2nd line<br>**Third line<br>**last one<br>", new BioToken()
++			"**Test bio entry<br/>**2nd line<br/>**Third line<br/>**last one<br/>", new BioToken()
+

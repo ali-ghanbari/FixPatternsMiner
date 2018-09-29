@@ -1,0 +1,9 @@
+diff --git a/structr-ui/src/main/java/org/structr/web/entity/dom/Page.java b/structr-ui/src/main/java/org/structr/web/entity/dom/Page.java
+index a9edeba..a5b8a72 100644
+--- a/structr-ui/src/main/java/org/structr/web/entity/dom/Page.java
++++ b/structr-ui/src/main/java/org/structr/web/entity/dom/Page.java
+@@ -168 +168,2 @@
+-                valid &= ValidationHelper.checkStringMatchesRegex(this, name, "[_a-zA-Z0-9\\s\\-\\.]+", errorBuffer);
++                //valid &= ValidationHelper.checkStringMatchesRegex(this, name, "[_a-zA-Z0-9\\s\\-\\.]+", errorBuffer);
++		valid &= ValidationHelper.checkStringMatchesRegex(this, name, "[_\\p{L}0-9\\s\\-\\.]+", errorBuffer);
+

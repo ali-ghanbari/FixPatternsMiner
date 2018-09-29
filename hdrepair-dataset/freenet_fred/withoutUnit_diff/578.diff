@@ -1,0 +1,8 @@
+diff --git a/src/freenet/client/async/ClientRequestSchedulerBase.java b/src/freenet/client/async/ClientRequestSchedulerBase.java
+index 6e60891..5c33605 100644
+--- a/src/freenet/client/async/ClientRequestSchedulerBase.java
++++ b/src/freenet/client/async/ClientRequestSchedulerBase.java
+@@ -88 +88 @@
+-	void addToGrabArray(short priorityClass, int retryCount, int rc, Object client, ClientRequester cr, SendableRequest req, RandomSource random, ObjectContainer container) {
++	synchronized void addToGrabArray(short priorityClass, int retryCount, int rc, Object client, ClientRequester cr, SendableRequest req, RandomSource random, ObjectContainer container) {
+

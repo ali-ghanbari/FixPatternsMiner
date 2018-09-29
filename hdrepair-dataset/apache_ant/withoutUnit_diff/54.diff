@@ -1,0 +1,17 @@
+diff --git a/WHATSNEW b/WHATSNEW
+index fd773ec..0f6a3b4 100644
+--- a/WHATSNEW
++++ b/WHATSNEW
+@@ -164 +164,4 @@
+-* EmailTask was eating SMTP error messages. Bugzilla report 37547.  
++* EmailTask was eating SMTP error messages. Bugzilla report 37547.
++
++* PropertySet API setMapper(...) didn't properly set up the Mapper.
++  Bugzilla report 37760.
+diff --git a/src/main/org/apache/tools/ant/types/PropertySet.java b/src/main/org/apache/tools/ant/types/PropertySet.java
+index c155965..1af0099 100644
+--- a/src/main/org/apache/tools/ant/types/PropertySet.java
++++ b/src/main/org/apache/tools/ant/types/PropertySet.java
+@@ -172,0 +173 @@
++        m.setType(mapperType);
+

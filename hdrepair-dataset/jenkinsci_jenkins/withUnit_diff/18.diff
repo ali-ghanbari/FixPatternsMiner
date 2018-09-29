@@ -1,0 +1,14 @@
+diff --git a/core/src/main/java/hudson/util/VersionNumber.java b/core/src/main/java/hudson/util/VersionNumber.java
+index 61f8a72..7e8e29d 100644
+--- a/core/src/main/java/hudson/util/VersionNumber.java
++++ b/core/src/main/java/hudson/util/VersionNumber.java
+@@ -87,0 +88,2 @@
++            if (item==null) // 1.* ( > 1.99) > 1
++                return 1;
+diff --git a/core/src/test/java/hudson/util/VersionNumberTest.java b/core/src/test/java/hudson/util/VersionNumberTest.java
+index e186159..f373ee5 100644
+--- a/core/src/test/java/hudson/util/VersionNumberTest.java
++++ b/core/src/test/java/hudson/util/VersionNumberTest.java
+@@ -33,0 +34 @@
++       assertTrue(new VersionNumber("2.0.*").isNewerThan(new VersionNumber("2.0")));
+

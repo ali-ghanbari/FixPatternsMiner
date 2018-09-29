@@ -1,0 +1,694 @@
+diff --git a/examples/blog/resources/WEB-INF/components.xml b/examples/blog/resources/WEB-INF/components.xml
+index f9d560a..3b4293d 100644
+--- a/examples/blog/resources/WEB-INF/components.xml
++++ b/examples/blog/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/blog/resources/WEB-INF/pages.xml b/examples/blog/resources/WEB-INF/pages.xml
+index c137258..235cb86 100644
+--- a/examples/blog/resources/WEB-INF/pages.xml
++++ b/examples/blog/resources/WEB-INF/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/booking/resources/WEB-INF/components.xml b/examples/booking/resources/WEB-INF/components.xml
+index 5138e42..df94280 100644
+--- a/examples/booking/resources/WEB-INF/components.xml
++++ b/examples/booking/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/booking/resources/WEB-INF/pages.xml b/examples/booking/resources/WEB-INF/pages.xml
+index 2cb0e62..1770a1e 100644
+--- a/examples/booking/resources/WEB-INF/pages.xml
++++ b/examples/booking/resources/WEB-INF/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java b/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java
+index 4ac6b20..fcbb47d 100644
+--- a/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java
++++ b/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java
+@@ -7 +6,0 @@
+-import java.util.Date;
+diff --git a/examples/booking/view/exp/bookingExp.html b/examples/booking/view/exp/bookingExp.html
+index cee2c50..4ce9a88 100644
+--- a/examples/booking/view/exp/bookingExp.html
++++ b/examples/booking/view/exp/bookingExp.html
+@@ -5,3 +4,0 @@
+-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+-
+-<head>
+@@ -21,2 +17,0 @@
+-    <p>
+-       <center>
+@@ -24 +19 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -26,2 +20,0 @@
+-       </center>
+-    </p>
+@@ -43 +36 @@
+-       In the <a href="workspaceExp.html"/>next step</a>, we will discuss
++       In the <a href="workspaceExp.html">next step</a>, we will discuss
+@@ -155,2 +147,0 @@
+-    <p>
+-       <center>
+@@ -158 +149 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -160,2 +150,0 @@
+-       </center>
+-    </p>
+diff --git a/examples/booking/view/exp/confirmExp.html b/examples/booking/view/exp/confirmExp.html
+index f8ae407..65d1bc3 100644
+--- a/examples/booking/view/exp/confirmExp.html
++++ b/examples/booking/view/exp/confirmExp.html
+@@ -5,3 +4,0 @@
+-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+-
+-<head>
+@@ -21,2 +17,0 @@
+-    <p>
+-       <center>
+@@ -24 +19 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -26,2 +20,0 @@
+-       </center>
+-    </p>
+@@ -37 +30 @@
+-                 class="button"/>
++                 class="button"/&gt;
+@@ -104,7 +97,3 @@
+-   <p>
+-      <center>
+-      <form>
+-         <INPUT type="button" value="Close Window" onClick="window.close()">
+-      </form>
+-      </center>
+-   </p>
++       <form>
++          <input type="button" value="Close Window" onclick="window.close()"/>
++       </form>
+diff --git a/examples/booking/view/exp/introExp.html b/examples/booking/view/exp/introExp.html
+index b1a6028..8e6e612 100644
+--- a/examples/booking/view/exp/introExp.html
++++ b/examples/booking/view/exp/introExp.html
+@@ -5,3 +4,0 @@
+-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+-
+-<head>
+@@ -24 +21 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <INPUT type="button" value="Close Window" onclick="window.close()">
+@@ -67 +64 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <INPUT type="button" value="Close Window" onclick="window.close()">
+diff --git a/examples/booking/view/exp/loginExp.html b/examples/booking/view/exp/loginExp.html
+index 98a8c4f..874781f 100644
+--- a/examples/booking/view/exp/loginExp.html
++++ b/examples/booking/view/exp/loginExp.html
+@@ -5,3 +4,0 @@
+-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+-
+-<head>
+@@ -21,2 +17,0 @@
+-    <p>
+-       <center>
+@@ -24 +19 @@
+-       <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -26,2 +20,0 @@
+-       </center>
+-    </p>
+@@ -40 +33 @@
+-&lt;div>
++&lt;div&gt;
+@@ -43,2 +36,2 @@
+-&lt;/div>
+-&lt;div>
++&lt;/div&gt;
++&lt;div&gt;
+@@ -47 +40 @@
+-&lt;/div>
++&lt;/div&gt;
+@@ -51 +44 @@
+-&lt;div class="buttonBox">
++&lt;div class="buttonBox"&gt;
+@@ -53,2 +46,2 @@
+-                     value="Account Login" class="button" />
+-&lt;/div>
++                     value="Account Login" class="button" /&gt;
++&lt;/div&gt;
+@@ -151,2 +143,0 @@
+-    <p>
+-       <center>
+@@ -154 +145 @@
+-       <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -156,2 +146,0 @@
+-       </center>
+-    </p>
+diff --git a/examples/booking/view/exp/mainExp.html b/examples/booking/view/exp/mainExp.html
+index c4826cc..4d886df 100644
+--- a/examples/booking/view/exp/mainExp.html
++++ b/examples/booking/view/exp/mainExp.html
+@@ -5,3 +4,0 @@
+-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+-
+-<head>
+@@ -21,2 +17,0 @@
+-    <p>
+-       <center>
+@@ -24 +19 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -26,2 +20,0 @@
+-       </center>
+-    </p>
+@@ -36 +29 @@
+-&lt;h:inputText value="#{hotelSearch.searchString}" />
++&lt;h:inputText value="#{hotelSearch.searchString}" /&gt;
+@@ -39,7 +32,7 @@
+-    styleClass="button" />
+-&lt;h:outputLabel for="pageSize">Maximum results:&lt;/h:outputLabel>
+-&lt;h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize">
+-    &lt;f:selectItem itemLabel="5" itemValue="5"/>
+-    &lt;f:selectItem itemLabel="10" itemValue="10"/>
+-    &lt;f:selectItem itemLabel="20" itemValue="20"/>
+-&lt;/h:selectOneMenu>
++    styleClass="button" /&gt;
++&lt;h:outputLabel for="pageSize"&gt;Maximum results:&lt;/h:outputLabel&gt;
++&lt;h:selectOneMenu value="#{hotelSearch.pageSize}" id="pageSize"&gt;
++    &lt;f:selectItem itemLabel="5" itemValue="5"/&gt;
++    &lt;f:selectItem itemLabel="10" itemValue="10"/&gt;
++    &lt;f:selectItem itemLabel="20" itemValue="20"/&gt;
++&lt;/h:selectOneMenu&gt;
+@@ -132,4 +125,4 @@
+-&lt;h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
+-&lt;h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
+-	&lt;h:column>
+-		&lt;f:facet name="header">Name&lt;/f:facet>
++&lt;h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/&gt;
++&lt;h:dataTable value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}"&gt;
++	&lt;h:column&gt;
++		&lt;f:facet name="header"&gt;Name&lt;/f:facet&gt;
+@@ -137,3 +130,3 @@
+-	&lt;/h:column>
+-	&lt;h:column>
+-		&lt;f:facet name="header">Address&lt;/f:facet>
++	&lt;/h:column&gt;
++	&lt;h:column&gt;
++		&lt;f:facet name="header"&gt;Address&lt;/f:facet&gt;
+@@ -141,3 +134,3 @@
+-	&lt;/h:column>
+-	&lt;h:column>
+-		&lt;f:facet name="header">City, State&lt;/f:facet>
++	&lt;/h:column&gt;
++	&lt;h:column&gt;
++		&lt;f:facet name="header"&gt;City, State&lt;/f:facet&gt;
+@@ -145,3 +138,3 @@
+-	&lt;/h:column> 
+-	&lt;h:column>
+-		&lt;f:facet name="header">Zip&lt;/f:facet>
++	&lt;/h:column&gt;
++	&lt;h:column&gt;
++		&lt;f:facet name="header"&gt;Zip&lt;/f:facet&gt;
+@@ -149,6 +142,6 @@
+-	&lt;/h:column>
+-	&lt;h:column>
+-		&lt;f:facet name="header">Action&lt;/f:facet>
+-		&lt;s:link value="View Hotel" action="#{hotelBooking.selectHotel}"/>
+-	&lt;/h:column>
+-&lt;/h:dataTable>
++	&lt;/h:column&gt;
++	&lt;h:column&gt;
++		&lt;f:facet name="header"&gt;Action&lt;/f:facet&gt;
++		&lt;s:link value="View Hotel" action="#{hotelBooking.selectHotel}"/&gt;
++	&lt;/h:column&gt;
++&lt;/h:dataTable&gt;
+@@ -160 +153 @@
+-       using a Seam <code>&lt;s:Link></code>, which is part of Seam's 
++       using a Seam <code>&lt;s:Link&gt;</code>, which is part of Seam's 
+@@ -163,2 +156,2 @@
+-       submitting any JSF form. The advantage of <code>&lt;s:link></code> is that, 
+-       unlike a standard JSF <code>&lt;h:commandLink></code>, there is no JavaScript 
++       submitting any JSF form. The advantage of <code>&lt;s:link&gt;</code> is that, 
++       unlike a standard JSF <code>&lt;h:commandLink&gt;</code>, there is no JavaScript 
+@@ -195,7 +188,3 @@
+-   <p>
+-      <center>
+-      <form>
+-         <INPUT type="button" value="Close Window" onClick="window.close()">
+-      </form>
+-      </center>
+-   </p>
++       <form>
++          <input type="button" value="Close Window" onclick="window.close()"/>
++       </form>
+diff --git a/examples/booking/view/exp/registerExp.html b/examples/booking/view/exp/registerExp.html
+index 2824772..a6dba45 100644
+--- a/examples/booking/view/exp/registerExp.html
++++ b/examples/booking/view/exp/registerExp.html
+@@ -5,3 +4,0 @@
+-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+-
+-<head>
+@@ -21,2 +17,0 @@
+-    <p>
+-       <center>
+@@ -24 +19 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -26,2 +20,0 @@
+-       </center>
+-    </p>
+@@ -37,20 +30,20 @@
+-&lt;s:validateAll>
+-&lt;div class="entry">
+-    &lt;div class="label">
+-        &lt;h:outputLabel for="username">Username:&lt;/h:outputLabel>
+-    &lt;/div>
+-    &lt;div class="input">
+-        &lt;h:inputText id="username" value="#{user.username}"/>&lt;br/>
+-        &lt;span class="errors">&lt;h:message for="username" />&lt;/span>
+-    &lt;/div>
+-&lt;/div>
+-&lt;div class="entry">
+-    &lt;div class="label">
+-        &lt;h:outputLabel for="name">Real Name:&lt;/h:outputLabel>
+-    &lt;/div>
+-    &lt;div class="input">
+-        &lt;h:inputText id="name" value="#{user.name}" />&lt;br/>
+-        &lt;span class="errors">&lt;h:message for="name" />&lt;/span>
+-    &lt;/div>
+-&lt;/div>
+-&lt;/s:validateAll>
++&lt;s:validateAll&gt;
++&lt;div class="entry"&gt;
++    &lt;div class="label"&gt;
++        &lt;h:outputLabel for="username">Username:&lt;/h:outputLabel&gt;
++    &lt;/div&gt;
++    &lt;div class="input"&gt;
++        &lt;h:inputText id="username" value="#{user.username}"/&gt;&lt;br/&gt;
++        &lt;span class="errors"&gt;&lt;h:message for="username" /&gt;&lt;/span&gt;
++    &lt;/div&gt;
++&lt;/div&gt;
++&lt;div class="entry"&gt;
++    &lt;div class="label"&gt;
++        &lt;h:outputLabel for="name">Real Name:&lt;/h:outputLabel&gt;
++    &lt;/div&gt;
++    &lt;div class="input"&gt;
++        &lt;h:inputText id="name" value="#{user.name}" /&gt;&lt;br/&gt;
++        &lt;span class="errors">&lt;h:message for="name" /&gt;&lt;/span&gt;
++    &lt;/div&gt;
++&lt;/div&gt;
++&lt;/s:validateAll&gt;
+@@ -60 +53 @@
+-    &lt;div class="input">
++    &lt;div class="input"&gt;
+@@ -63,3 +56,3 @@
+-                         class="button"/>
+-        &lt;h:commandButton value="Cancel" action="login" class="button"/>
+-    &lt;/div>
++                         class="button"/&gt;
++        &lt;h:commandButton value="Cancel" action="login" class="button"/&gt;
++    &lt;/div&gt;
+@@ -84 +77 @@
+-       This JSF form also includes <code>&lt;h:message></code> tags that
++       This JSF form also includes <code>&lt;h:message&gt;</code> tags that
+@@ -227,2 +219,0 @@
+-    <p>
+-       <center>
+@@ -230 +221 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -232,2 +222,0 @@
+-       </center>
+-    </p>
+diff --git a/examples/booking/view/exp/workspaceExp.html b/examples/booking/view/exp/workspaceExp.html
+index 67332bb..dd49a8c 100644
+--- a/examples/booking/view/exp/workspaceExp.html
++++ b/examples/booking/view/exp/workspaceExp.html
+@@ -5,3 +4,0 @@
+-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+-
+-<head>
+@@ -24 +21 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <INPUT type="button" value="Close Window" onclick="window.close()">
+@@ -36,3 +33,3 @@
+-&lt;h:dataTable value="#{conversationList}" var="entry">
+-  &lt;h:column>
+-    &lt;h:commandLink action="#{entry.select}" value="#{entry.description}"/>
++&lt;h:dataTable value="#{conversationList}" var="entry"&gt;
++  &lt;h:column&gt;
++    &lt;h:commandLink action="#{entry.select}" value="#{entry.description}"/&gt;
+@@ -40,6 +37,6 @@
+-    &lt;h:outputText value="[current]" rendered="#{entry.current}"/>
+-  &lt;/h:column>
+-  &lt;h:column>
+-    &lt;h:outputText value="#{entry.startDatetime}">
+-      &lt;f:convertDateTime type="time" pattern="hh:mm"/>
+-    &lt;/h:outputText>
++    &lt;h:outputText value="[current]" rendered="#{entry.current}"/&gt;
++  &lt;/h:column&gt;
++  &lt;h:column&gt;
++    &lt;h:outputText value="#{entry.startDatetime}"&gt;
++      &lt;f:convertDateTime type="time" pattern="hh:mm"/&gt;
++    &lt;/h:outputText&gt;
+@@ -47,5 +44,5 @@
+-    &lt;h:outputText value="#{entry.lastDatetime}">
+-      &lt;f:convertDateTime type="time" pattern="hh:mm"/>
+-    &lt;/h:outputText>
+-  &lt;/h:column>
+-&lt;/h:dataTable>
++    &lt;h:outputText value="#{entry.lastDatetime}"&gt;
++      &lt;f:convertDateTime type="time" pattern="hh:mm"/&gt;
++    &lt;/h:outputText&gt;
++  &lt;/h:column&gt;
++&lt;/h:dataTable&gt;
+@@ -61,5 +58,5 @@
+-&lt;pages>
+-  &lt;page view-id="/hotel.xhtml">View hotel: #{hotel.name}&lt;/page>
+-  &lt;page view-id="/book.xhtml">Book hotel: #{hotel.name}&lt;/page>
+-  &lt;page view-id="/confirm.xhtml">Confirm: #{booking.description}&lt;/page>
+-&lt;/pages>
++&lt;pages&gt;
++  &lt;page view-id="/hotel.xhtml"&gt;View hotel: #{hotel.name}&lt;/page&gt;
++  &lt;page view-id="/book.xhtml"&gt;Book hotel: #{hotel.name}&lt;/page&gt;
++  &lt;page view-id="/confirm.xhtml"&gt;Confirm: #{booking.description}&lt;/page&gt;
++&lt;/pages&gt;
+@@ -74 +70,0 @@
+-       <center>
+@@ -76 +72 @@
+-          <INPUT type="button" value="Close Window" onClick="window.close()">
++          <input type="button" value="Close Window" onclick="window.close()"/>
+@@ -78 +73,0 @@
+-       </center>
+diff --git a/examples/contactlist/resources/WEB-INF/components.xml b/examples/contactlist/resources/WEB-INF/components.xml
+index 19f2670..ad2ef74 100644
+--- a/examples/contactlist/resources/WEB-INF/components.xml
++++ b/examples/contactlist/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/contactlist/resources/WEB-INF/exceptions.xml b/examples/contactlist/resources/WEB-INF/exceptions.xml
+index d93d60e..189bc5b 100644
+--- a/examples/contactlist/resources/WEB-INF/exceptions.xml
++++ b/examples/contactlist/resources/WEB-INF/exceptions.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE exceptions PUBLIC
++  "-//JBoss/Seam Exceptions Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/exceptions-1.1.dtd">
++
+@@ -9 +13 @@
+-      <http-error code="404"/>
++      <http-error error-code="404"/>
+diff --git a/examples/drools/resources/WEB-INF/components.xml b/examples/drools/resources/WEB-INF/components.xml
+index 9d72adf..9dc0d4b 100644
+--- a/examples/drools/resources/WEB-INF/components.xml
++++ b/examples/drools/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/dvdstore/resources/WEB-INF/components.xml b/examples/dvdstore/resources/WEB-INF/components.xml
+index 63a4f4c..5deca65 100644
+--- a/examples/dvdstore/resources/WEB-INF/components.xml
++++ b/examples/dvdstore/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/dvdstore/resources/WEB-INF/pages.xml b/examples/dvdstore/resources/WEB-INF/pages.xml
+index 4511012..274d5b5 100644
+--- a/examples/dvdstore/resources/WEB-INF/pages.xml
++++ b/examples/dvdstore/resources/WEB-INF/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/hibernate/resources/WEB-INF/components.xml b/examples/hibernate/resources/WEB-INF/components.xml
+index 949d566..390b556 100644
+--- a/examples/hibernate/resources/WEB-INF/components.xml
++++ b/examples/hibernate/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/hibernate/resources/WEB-INF/pages.xml b/examples/hibernate/resources/WEB-INF/pages.xml
+index 6d828de..cc7bad2 100644
+--- a/examples/hibernate/resources/WEB-INF/pages.xml
++++ b/examples/hibernate/resources/WEB-INF/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/hibernate/view/confirm.xhtml b/examples/hibernate/view/confirm.xhtml
+index 85ab8b5..279833b 100644
+--- a/examples/hibernate/view/confirm.xhtml
++++ b/examples/hibernate/view/confirm.xhtml
+@@ -60 +60 @@
+-    Annotations aren't for <emphasis>everything</emphasis>, but they are truly great for some things. Seam
++    Annotations aren't for <em>everything</em>, but they are truly great for some things. Seam
+diff --git a/examples/hibernate/view/confirmed.xhtml b/examples/hibernate/view/confirmed.xhtml
+index fc46033..3138b87 100644
+--- a/examples/hibernate/view/confirmed.xhtml
++++ b/examples/hibernate/view/confirmed.xhtml
+@@ -30,0 +31 @@
++</p>
+@@ -36 +36,0 @@
+-</p>
+diff --git a/examples/hibernate2/resources/jboss/components.xml b/examples/hibernate2/resources/jboss/components.xml
+index d09942b..8986cd8 100644
+--- a/examples/hibernate2/resources/jboss/components.xml
++++ b/examples/hibernate2/resources/jboss/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/hibernate2/resources/pages.xml b/examples/hibernate2/resources/pages.xml
+index 2cb0e62..1770a1e 100644
+--- a/examples/hibernate2/resources/pages.xml
++++ b/examples/hibernate2/resources/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/hibernate2/resources/tomcat/components.xml b/examples/hibernate2/resources/tomcat/components.xml
+index b096fbf..0a29b42 100644
+--- a/examples/hibernate2/resources/tomcat/components.xml
++++ b/examples/hibernate2/resources/tomcat/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/issues/resources/WEB-INF/components.xml b/examples/issues/resources/WEB-INF/components.xml
+index 2377e82..7866dbb 100644
+--- a/examples/issues/resources/WEB-INF/components.xml
++++ b/examples/issues/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/issues/resources/WEB-INF/events.xml b/examples/issues/resources/WEB-INF/events.xml
+index b11f012..5d66165 100644
+--- a/examples/issues/resources/WEB-INF/events.xml
++++ b/examples/issues/resources/WEB-INF/events.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE events PUBLIC
++  "-//JBoss/Seam Events Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/events-1.1.dtd">
++
+diff --git a/examples/issues/resources/WEB-INF/pages.xml b/examples/issues/resources/WEB-INF/pages.xml
+index b7d80c5..18bc30c 100644
+--- a/examples/issues/resources/WEB-INF/pages.xml
++++ b/examples/issues/resources/WEB-INF/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/issues/view/home.jsp b/examples/issues/view/home.jsp
+index 1fd66cf..cf6e652 100644
+--- a/examples/issues/view/home.jsp
++++ b/examples/issues/view/home.jsp
+@@ -22,2 +21,0 @@
+-	 
+-	 </div>
+diff --git a/examples/jpa/resources/jboss/components.xml b/examples/jpa/resources/jboss/components.xml
+index cd0a0ae..8068736 100644
+--- a/examples/jpa/resources/jboss/components.xml
++++ b/examples/jpa/resources/jboss/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/jpa/resources/pages.xml b/examples/jpa/resources/pages.xml
+index 2cb0e62..1770a1e 100644
+--- a/examples/jpa/resources/pages.xml
++++ b/examples/jpa/resources/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/jpa/resources/tomcat/components.xml b/examples/jpa/resources/tomcat/components.xml
+index 35663d2..6a4ab4f 100644
+--- a/examples/jpa/resources/tomcat/components.xml
++++ b/examples/jpa/resources/tomcat/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/messages/resources/WEB-INF/components.xml b/examples/messages/resources/WEB-INF/components.xml
+index b261633..679e13b 100644
+--- a/examples/messages/resources/WEB-INF/components.xml
++++ b/examples/messages/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/numberguess/resources/WEB-INF/components.xml b/examples/numberguess/resources/WEB-INF/components.xml
+index 02dbe50..f8e76d6 100644
+--- a/examples/numberguess/resources/WEB-INF/components.xml
++++ b/examples/numberguess/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/portal/resources/WEB-INF/components.xml b/examples/portal/resources/WEB-INF/components.xml
+index bb62d34..e1f17f3 100644
+--- a/examples/portal/resources/WEB-INF/components.xml
++++ b/examples/portal/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/registration/resources/WEB-INF/components.xml b/examples/registration/resources/WEB-INF/components.xml
+index b261633..679e13b 100644
+--- a/examples/registration/resources/WEB-INF/components.xml
++++ b/examples/registration/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/remoting/chatroom/resources/WEB-INF/components.xml b/examples/remoting/chatroom/resources/WEB-INF/components.xml
+index dba1621..49b85c4 100644
+--- a/examples/remoting/chatroom/resources/WEB-INF/components.xml
++++ b/examples/remoting/chatroom/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/remoting/helloworld/resources/WEB-INF/components.xml b/examples/remoting/helloworld/resources/WEB-INF/components.xml
+index 4ead66a..07f89a1 100644
+--- a/examples/remoting/helloworld/resources/WEB-INF/components.xml
++++ b/examples/remoting/helloworld/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/remoting/poker/resources/WEB-INF/components.xml b/examples/remoting/poker/resources/WEB-INF/components.xml
+index 3cd5890..781b610 100644
+--- a/examples/remoting/poker/resources/WEB-INF/components.xml
++++ b/examples/remoting/poker/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/remoting/progressbar/resources/WEB-INF/components.xml b/examples/remoting/progressbar/resources/WEB-INF/components.xml
+index 3cd5890..781b610 100644
+--- a/examples/remoting/progressbar/resources/WEB-INF/components.xml
++++ b/examples/remoting/progressbar/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/remoting/stories/resources/WEB-INF/pages.xml b/examples/remoting/stories/resources/WEB-INF/pages.xml
+index 797886f..086a2d6 100644
+--- a/examples/remoting/stories/resources/WEB-INF/pages.xml
++++ b/examples/remoting/stories/resources/WEB-INF/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/seampay/resources/WEB-INF/components.xml b/examples/seampay/resources/WEB-INF/components.xml
+index 35af1cc..cec89f8 100644
+--- a/examples/seampay/resources/WEB-INF/components.xml
++++ b/examples/seampay/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/seampay/resources/WEB-INF/pages.xml b/examples/seampay/resources/WEB-INF/pages.xml
+index ec30ce6..72fc85e 100644
+--- a/examples/seampay/resources/WEB-INF/pages.xml
++++ b/examples/seampay/resources/WEB-INF/pages.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE pages PUBLIC
++  "-//JBoss/Seam Pages Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/pages-1.1.dtd">
++
+diff --git a/examples/seamspace/resources/WEB-INF/components.xml b/examples/seamspace/resources/WEB-INF/components.xml
+index 3f78812..f5b6e52 100644
+--- a/examples/seamspace/resources/WEB-INF/components.xml
++++ b/examples/seamspace/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/security/resources/WEB-INF/components.xml b/examples/security/resources/WEB-INF/components.xml
+index 0e81223..6b17778 100644
+--- a/examples/security/resources/WEB-INF/components.xml
++++ b/examples/security/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+diff --git a/examples/todo/resources/WEB-INF/components.xml b/examples/todo/resources/WEB-INF/components.xml
+index aea0ff1..6809a05 100644
+--- a/examples/todo/resources/WEB-INF/components.xml
++++ b/examples/todo/resources/WEB-INF/components.xml
+@@ -0,0 +1,4 @@
++<!DOCTYPE components PUBLIC
++  "-//JBoss/Seam Component Configuration DTD 1.1//EN"
++  "http://jboss.com/products/seam/components-1.1.dtd">
++
+

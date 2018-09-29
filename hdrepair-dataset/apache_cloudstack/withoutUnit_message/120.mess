@@ -1,0 +1,4 @@
+CLOUDSTACK-3441: [Load Test] High delays between VM being allocated to Pod and network implementation causing delays in VM deployment
+This is a regresion caused due to fix for CLOUDSTACK-70. In order to fix network restart scenario, delays got introduced in the user VM deployment scenario.
+Fixed it by separating out the network restart and new VM deployment scenario such that the latter is not affected due to the fix for CLOUDSTACK-70.
+

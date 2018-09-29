@@ -1,0 +1,238 @@
+diff --git a/plugins/network-elements/ovs/src/com/cloud/network/ovs/OvsTunnelManagerImpl.java b/plugins/network-elements/ovs/src/com/cloud/network/ovs/OvsTunnelManagerImpl.java
+index c755d72..6fd7d6d 100644
+--- a/plugins/network-elements/ovs/src/com/cloud/network/ovs/OvsTunnelManagerImpl.java
++++ b/plugins/network-elements/ovs/src/com/cloud/network/ovs/OvsTunnelManagerImpl.java
+@@ -915 +915 @@
+-                    _vpcDrSeqNoDao.lockRow(seqVo.getId(), true);
++                    seqVo = _vpcDrSeqNoDao.lockRow(seqVo.getId(), true);
+diff --git a/scripts/vm/hypervisor/xenserver/cloudstack_pluginlib.py b/scripts/vm/hypervisor/xenserver/cloudstack_pluginlib.py
+index cda3645..bcb9540 100644
+--- a/scripts/vm/hypervisor/xenserver/cloudstack_pluginlib.py
++++ b/scripts/vm/hypervisor/xenserver/cloudstack_pluginlib.py
+@@ -24,0 +25 @@
++import copy
+@@ -352 +352,0 @@
+-
+@@ -512,0 +513,79 @@
++        raise
++
++def update_flooding_rules_on_port_plug_unplug(bridge, interface, command, if_network_id):
++
++    vnet_vif_ofports = []
++    vnet_tunnelif_ofports = []
++    vnet_all_ofports = []
++
++    logging.debug("Updating the flooding rules as interface  %s" %interface + " is %s"%command + " now.")
++    try:
++        vsctl_output = do_cmd([VSCTL_PATH, 'list-ports', bridge])
++        ports = vsctl_output.split('\n')
++
++        for port in ports:
++            if_ofport = do_cmd([VSCTL_PATH, 'get', 'Interface', port, 'ofport'])
++            if port.startswith('vif'):
++                # check VIF is in same network as that of plugged vif
++                if if_network_id != get_network_id_for_vif(port):
++                    continue
++                vnet_vif_ofports.append(if_ofport)
++                vnet_all_ofports.append(if_ofport)
++
++            if port.startswith('t'):
++                # check tunnel port is in same network as that of plugged vif
++                if if_network_id != get_network_id_for_tunnel_port(port)[1:-1]:
++                    continue
++                vnet_tunnelif_ofports.append(if_ofport)
++                vnet_all_ofports.append(if_ofport)
++
++        if command == 'online':
++
++            if len(vnet_all_ofports) == 1 :
++                return
++
++            for port in vnet_all_ofports:
++                clear_flooding_rules_for_port(bridge, port)
++
++            # for a packet arrived from tunnel port, flood only on VIF ports
++            for port in vnet_tunnelif_ofports:
++                add_flooding_rules_for_port(bridge, port, vnet_vif_ofports)
++
++            # for a packet arrived from VIF port send on all VIF and tunnel port excluding the port
++            # on which packet arrived
++            for port in vnet_vif_ofports:
++                vnet_all_ofports_copy = copy.copy(vnet_all_ofports)
++                vnet_all_ofports_copy.remove(port)
++                add_flooding_rules_for_port(bridge, port, vnet_all_ofports_copy)
++
++            this_if_ofport = do_cmd([VSCTL_PATH, 'get', 'Interface', interface, 'ofport'])
++
++            #learn that MAC is reachable through the VIF port
++            if interface.startswith('vif'):
++                mac = get_macaddress_of_vif(interface)
++                add_mac_lookup_table_entry(bridge, mac, this_if_ofport)
++
++        if command == 'offline':
++            for port in vnet_all_ofports:
++                clear_flooding_rules_for_port(bridge, port)
++
++            vnet_all_ofports.remove(this_if_ofport)
++            vnet_vif_ofports.remove(this_if_ofport)
++
++            # for a packet arrived from tunnel port, flood only on VIF ports
++            for port in vnet_tunnelif_ofports:
++                add_flooding_rules_for_port(bridge, port, vnet_vif_ofports)
++
++            # for a packet from VIF port send on all VIF's and tunnel ports excluding the port on which packet arrived
++            for port in vnet_vif_ofports:
++                vnet_all_ofports_copy = copy.copy(vnet_all_ofports)
++                vnet_all_ofports_copy.remove(port)
++                add_flooding_rules_for_port(bridge, port, vnet_all_ofports_copy)
++
++            #un-learn that MAC is reachable through the VIF port
++            if interface.startswith('vif'):
++                mac = get_macaddress_of_vif(interface)
++                delete_mac_lookup_table_entry(bridge, mac)
++    except:
++        logging.debug("An unexpected error occurred while updating the flooding rules when interface "
++                    + " %s" %interface + " is %s"%command)
+diff --git a/scripts/vm/hypervisor/xenserver/ovs-vif-flows.py b/scripts/vm/hypervisor/xenserver/ovs-vif-flows.py
+index b2fe11c..ba5f41a 100644
+--- a/scripts/vm/hypervisor/xenserver/ovs-vif-flows.py
++++ b/scripts/vm/hypervisor/xenserver/ovs-vif-flows.py
+@@ -18,2 +18,2 @@
+-# A simple script for enabling and disabling per-vif rules for explicitly
+-# allowing broadcast/multicast traffic on the port where the VIF is attached
++# A simple script for enabling and disabling per-vif and tunnel interface rules for explicitly
++# allowing broadcast/multicast traffic from the tunnel ports and on the port where the VIF is attached
+@@ -30,0 +31,2 @@
++    action = "".join("output:%s," %ofport
++                for ofport in vif_ofports)[:-1]
+@@ -33 +35 @@
+-	# The following will remove the port being delete from actions
++    # The following will remove the port being delete from actions
+@@ -43 +45 @@
+-	# Ensure {b|m}casts sent from VIF ports are always allowed
++    # Ensure {b|m}casts sent from VIF ports are always allowed
+@@ -52 +54 @@
+-	# Ensure {b|m}casts are always propagated to VIF ports
++    # Ensure {b|m}casts are always propagated to VIF ports
+@@ -118,0 +121 @@
++        vif_other_ofports = []
+@@ -128 +131,3 @@
+-            clear_flows(bridge,  this_vif_ofport, vif_ofports)
++            vif_other_ofports = copy.copy(vif_ofports)
++            vif_other_ofports.remove(this_vif_ofport)
++            clear_flows(bridge,  this_vif_ofport, vif_other_ofports)
+@@ -141,2 +145,0 @@
+-        vsctl_output = pluginlib.do_cmd([pluginlib.VSCTL_PATH,
+-                                         'list-ports', bridge])
+@@ -144,60 +147 @@
+-        vnet_vif_ofports = []
+-        vnet_tunnelif_ofports = []
+-        vnet_all_ofports = []
+-
+-        ports = vsctl_output.split('\n')
+-        for port in ports:
+-            if_ofport = pluginlib.do_cmd([pluginlib.VSCTL_PATH, 'get', 'Interface', port, 'ofport'])
+-            if port.startswith('vif'):
+-                # check VIF is in same network as that of plugged vif
+-                if vif_network_id != pluginlib.get_network_id_for_vif(port):
+-                    continue
+-                vnet_vif_ofports.append(if_ofport)
+-                vnet_all_ofports.append(if_ofport)
+-
+-            if port.startswith('t'):
+-                # check tunnel port is in same network as that of plugged vif
+-                if vif_network_id != pluginlib.get_network_id_for_tunnel_port(port)[1:-1]:
+-                    continue
+-                vnet_tunnelif_ofports.append(if_ofport)
+-                vnet_all_ofports.append(if_ofport)
+-
+-        if command == 'online':
+-            for port in vnet_all_ofports:
+-                pluginlib.clear_flooding_rules_for_port(bridge, port)
+-
+-            # for a packet arrived from tunnel port, flood only on VIF ports
+-            for port in vnet_tunnelif_ofports:
+-                pluginlib.add_flooding_rules_for_port(bridge, port, vnet_vif_ofports)
+-
+-            # for a packet arrived from VIF port send on all VIF and tunnel port excluding the port
+-            # on which packet arrived
+-            for port in vnet_vif_ofports:
+-                vnet_all_ofports_copy = copy.copy(vnet_all_ofports)
+-                vnet_all_ofports_copy.remove(port)
+-                pluginlib.add_flooding_rules_for_port(bridge, port, vnet_all_ofports_copy)
+-
+-            #learn that MAC is reachable through the VIF port
+-            mac = pluginlib.get_macaddress_of_vif(this_vif)
+-            this_vif_ofport = pluginlib.do_cmd([pluginlib.VSCTL_PATH, 'get', 'Interface', this_vif, 'ofport'])
+-            pluginlib.add_mac_lookup_table_entry(bridge, mac, this_vif_ofport)
+-
+-        if command == 'offline':
+-            for port in vnet_all_ofports:
+-                pluginlib.clear_flooding_rules_for_port(bridge, port)
+-            vnet_all_ofports.remove(this_vif_ofport)
+-            vnet_vif_ofports.remove(this_vif_ofport)
+-
+-            # for a packet arrived from tunnel port, flood only on VIF ports
+-            for port in vnet_tunnelif_ofports:
+-                pluginlib.add_flooding_rules_for_port(bridge, port, vnet_vif_ofports)
+-
+-            # for a packet from VIF port send on all VIF's and tunnel ports excluding the port on which packet arrived
+-            for port in vnet_vif_ofports:
+-                vnet_all_ofports_copy = copy.copy(vnet_all_ofports)
+-                vnet_all_ofports_copy.remove(port)
+-                pluginlib.add_flooding_rules_for_port(bridge, port, vnet_all_ofports_copy)
+-
+-            #un-learn that MAC is reachable through the VIF port
+-            mac = pluginlib.get_macaddress_of_vif(this_vif)
+-            pluginlib.delete_mac_lookup_table_entry(bridge, mac)
++        pluginlib.update_flooding_rules_on_port_plug_unplug(bridge, this_vif, command, vif_network_id)
+diff --git a/scripts/vm/hypervisor/xenserver/ovstunnel b/scripts/vm/hypervisor/xenserver/ovstunnel
+index a97df9b..db3216b 100755
+--- a/scripts/vm/hypervisor/xenserver/ovstunnel
++++ b/scripts/vm/hypervisor/xenserver/ovstunnel
+@@ -167,0 +168,3 @@
++        # first clear the default rule (i.e rule for NORMAL processing)
++        lib.del_flows(bridge, table=0)
++
+@@ -169,2 +172,2 @@
+-        lib.add_flow(bridge, priority=1000, dl_dst='ff:ff:ff:ff:ff:ff', table=0, actions='resubmit(,2)')
+-        lib.add_flow(bridge, priority=1000, nw_dst='224.0.0.0/24', table=0, actions='resubmit(,2)')
++        lib.add_flow(bridge, priority=1200, dl_dst='ff:ff:ff:ff:ff:ff', table=0, actions='resubmit(,2)')
++        lib.add_flow(bridge, priority=1200, nw_dst='224.0.0.0/24', table=0, actions='resubmit(,2)')
+@@ -181 +184 @@
+-        # add a default rule in egress table to forward packet to L3 lookup table
++        # add a default rule in egress ACL table to forward packet to L3 lookup table
+@@ -188,0 +192,3 @@
++
++        # initialize the sequence number for the bridge
++        lib.do_cmd([lib.VSCTL_PATH, "set", "bridge", bridge, "other-config:sequence-number=0"])
+@@ -329 +335,3 @@
+-            lib.add_flow(bridge, priority=1000, in_port=tun_ofport, table=0, actions='resubmit(,1)')
++            lib.add_flow(bridge, priority=1100, in_port=tun_ofport, table=0, actions='resubmit(,1)')
++
++            # mark tunnel interface with network id for which this tunnel was created
+@@ -330,0 +339 @@
++            lib.update_flooding_rules_on_port_plug_unplug(bridge, name, 'online', network_uuid)
+@@ -405 +414,9 @@
+-    return lib.configure_bridge_for_network_topology(bridge, this_host_id, json_config, sequence_no)
++    # get the last update sequence number
++    last_seq_no = lib.do_cmd([lib.VSCTL_PATH, "get", "bridge", bridge, "other-config:sequence-number"])
++    last_seq_no = last_seq_no[1:-1]
++    if sequence_no > last_seq_no:
++        lib.do_cmd([lib.VSCTL_PATH, "set", "bridge", bridge, "other-config:sequence-number=%s"%sequence_no])
++        return lib.configure_bridge_for_network_topology(bridge, this_host_id, json_config, sequence_no)
++    else:
++        return "SUCCESS: Ignoring the update as there is already recent update received and applied"
++
+@@ -412,2 +429,8 @@
+-
+-    return lib.configure_ovs_bridge_for_routing_policies(bridge, json_config, sequence_no)
++    # get the last update sequence number
++    last_seq_no = lib.do_cmd([lib.VSCTL_PATH, "get", "bridge", bridge, "other-config:sequence-number"])
++    last_seq_no = last_seq_no[1:-1]
++    if sequence_no > last_seq_no:
++        lib.do_cmd([lib.VSCTL_PATH, "set", "bridge", bridge, "other-config:sequence-number=%s"%sequence_no])
++        return lib.configure_ovs_bridge_for_routing_policies(bridge, json_config, sequence_no)
++    else:
++        return "SUCCESS: Ignoring the update as there is already recent update received and applied"
+

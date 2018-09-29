@@ -1,0 +1,11 @@
+diff --git a/lucene/join/src/java/org/apache/lucene/search/join/ToChildBlockJoinQuery.java b/lucene/join/src/java/org/apache/lucene/search/join/ToChildBlockJoinQuery.java
+index fd1ec0d..ffb114d 100644
+--- a/lucene/join/src/java/org/apache/lucene/search/join/ToChildBlockJoinQuery.java
++++ b/lucene/join/src/java/org/apache/lucene/search/join/ToChildBlockJoinQuery.java
+@@ -49 +49,4 @@
+-  public static final String INVALID_QUERY_MESSAGE = "Parent query yields document which is not matched by parents filter, docID=";
++  /** Message thrown from {@link
++   *  ToChildBlockJoinScorer#validateParentDoc} on mis-use,
++   *  when the parent query incorrectly returns child docs. */
++  static final String INVALID_QUERY_MESSAGE = "Parent query yields document which is not matched by parents filter, docID=";
+

@@ -1,0 +1,24 @@
+diff --git a/cubeengine/src/main/java/de/cubeisland/cubeengine/core/logger/ColorConverter.java b/cubeengine/src/main/java/de/cubeisland/cubeengine/core/logger/ColorConverter.java
+index 2c75c03..e2fec13 100644
+--- a/cubeengine/src/main/java/de/cubeisland/cubeengine/core/logger/ColorConverter.java
++++ b/cubeengine/src/main/java/de/cubeisland/cubeengine/core/logger/ColorConverter.java
+@@ -55 +55 @@
+-        if (prefix == null)
++        if (prefix != null)
+diff --git a/cubeengine/src/main/resources/logback.xml b/cubeengine/src/main/resources/logback.xml
+index e3319d6..5905ffc 100644
+--- a/cubeengine/src/main/resources/logback.xml
++++ b/cubeengine/src/main/resources/logback.xml
+@@ -93 +93 @@
+-  <logger name="cubeengine.commands" level="debug">
++  <logger name="cubeengine.commands" level="debug" additivity="false">
+@@ -97 +97 @@
+-  <logger name="cubeengine.permissions" level="debug">
++  <logger name="cubeengine.permissions" level="debug" additivity="false">
+@@ -101 +101 @@
+-  <logger name="cubeengine.language" level="debug">
++  <logger name="cubeengine.language" level="debug" additivity="false">
+@@ -105 +105 @@
+-  <logger name="cubeengine.webapi" level="debug">
++  <logger name="cubeengine.webapi" level="debug" additivity="false">
+

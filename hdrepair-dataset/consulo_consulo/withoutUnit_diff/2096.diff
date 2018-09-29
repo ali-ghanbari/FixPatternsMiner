@@ -1,0 +1,8 @@
+diff --git a/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java b/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
+index 04b83d1..2cd8da9 100644
+--- a/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
++++ b/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
+@@ -385 +385 @@
+-            final int caretOffset = myEditor.getCaretModel().getOffset();
++            final int caretOffset = myEditor.getSelectionModel().hasSelection() ? myEditor.getSelectionModel().getSelectionStart() : myEditor.getCaretModel().getOffset();
+

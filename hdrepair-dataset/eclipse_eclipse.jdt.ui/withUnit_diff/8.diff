@@ -1,0 +1,15 @@
+diff --git a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/AssistQuickFixTest.java b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/AssistQuickFixTest.java
+index bf67936..6ac1c00 100644
+--- a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/AssistQuickFixTest.java
++++ b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/AssistQuickFixTest.java
+@@ -5363 +5363 @@
+-			AssistContext context= getCorrectionContext(cu, buf.toString().indexOf("\" + 1 + \""), 0);
++			AssistContext context= getCorrectionContext(cu, buf.toString().indexOf("1 + \""), 0);
+diff --git a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java
+index 76149ec..a147a50 100644
+--- a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java
++++ b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/QuickAssistProcessor.java
+@@ -620 +620 @@
+-		if (node instanceof StringLiteral || node instanceof SimpleName) {
++		if (node instanceof Expression && !(node instanceof InfixExpression)) {
+

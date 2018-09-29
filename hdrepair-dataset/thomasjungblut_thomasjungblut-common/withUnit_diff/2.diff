@@ -1,0 +1,31 @@
+diff --git a/src/de/jungblut/nlp/MinHash.java b/src/de/jungblut/nlp/MinHash.java
+index f6eb097..2fad953 100644
+--- a/src/de/jungblut/nlp/MinHash.java
++++ b/src/de/jungblut/nlp/MinHash.java
+@@ -153 +153 @@
+-        int value = (int) next.getValue();
++        int value = next.getIndex();
+diff --git a/test/de/jungblut/nlp/MinHashTest.java b/test/de/jungblut/nlp/MinHashTest.java
+index facf7d9..744145a 100644
+--- a/test/de/jungblut/nlp/MinHashTest.java
++++ b/test/de/jungblut/nlp/MinHashTest.java
+@@ -25 +25 @@
+-    MinHash minHash = MinHash.create(4);
++    MinHash minHash = MinHash.create(4, 0);
+@@ -30 +29,0 @@
+-    // we just differ by a single place, so it should still be 1.0 similarity
+@@ -33 +32 @@
+-    assertEquals(1.0d, similarity, 1e-5);
++    assertEquals(0.6d, similarity, 1e-5);
+@@ -49 +48 @@
+-    MinHash minHash = MinHash.create(4, HashType.MURMUR128);
++    MinHash minHash = MinHash.create(4, HashType.MURMUR128, 0);
+@@ -54 +52,0 @@
+-    // we just differ by a single place, so it should still be 1.0 similarity
+@@ -57 +55 @@
+-    assertEquals(1.0d, similarity, 1e-5);
++    assertEquals(0.6d, similarity, 1e-5);
+@@ -73 +71 @@
+-    MinHash minHash = MinHash.create(4, HashType.MD5);
++    MinHash minHash = MinHash.create(4, HashType.MD5, 0);
+

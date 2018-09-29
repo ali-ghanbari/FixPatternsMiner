@@ -1,0 +1,32 @@
+diff --git a/shims/common/src-mapred/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverter.java b/shims/common/src-mapred/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverter.java
+index 9b92777..5775558 100644
+--- a/shims/common/src-mapred/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverter.java
++++ b/shims/common/src-mapred/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverter.java
+@@ -41 +41 @@
+-    return obj.getBytes();
++    return obj.getBytes().clone();
+diff --git a/shims/common/test-src/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverterTest.java b/shims/common/test-src/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverterTest.java
+index 5b13bd6..370bcf0 100644
+--- a/shims/common/test-src/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverterTest.java
++++ b/shims/common/test-src/org/pentaho/hadoop/mapreduce/converter/converters/BytesWritableToByteArrayConverterTest.java
+@@ -46,2 +46,6 @@
+-
+-    assertEquals(expected, c.convert(null, new BytesWritable(expected)));
++    byte[] converted = c.convert(null, new BytesWritable(expected));
++        
++    assertEquals(expected.length, converted.length);
++    for (int i = 0; i < expected.length; i++) {
++      assertEquals(expected[i], converted[i]);
++    }    
+@@ -55,0 +60,10 @@
++  
++  @Test
++  public void testConvertFreshArray() throws Exception {
++    BytesWritableToByteArrayConverter c = new BytesWritableToByteArrayConverter();
++    byte[] expected = "testing".getBytes();
++    byte[] converted = c.convert(null, new BytesWritable(expected));
++    
++    // arrays should be two separate objects
++    assertTrue(expected != converted);
++  }
+

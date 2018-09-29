@@ -1,0 +1,116 @@
+diff --git a/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/AbstractInstanceCancellationCmd.java b/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/AbstractInstanceCancellationCmd.java
+index f481f7a..f13b9a7 100644
+--- a/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/AbstractInstanceCancellationCmd.java
++++ b/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/AbstractInstanceCancellationCmd.java
+@@ -45,2 +45,3 @@
+-    // if topmostCancellabelExecution's parent is concurrent, we have reached the target execution
+-    while (parentScopeExecution != null && !topmostCancellableExecution.isConcurrent() && !topmostCancellableExecution.getParent().isConcurrent()) {
++    // if topmostCancellableExecution's scope execution has no other non-event-scope children,
++    // we have reached the correct execution
++    while (parentScopeExecution != null && (parentScopeExecution.getNonEventScopeExecutions().size() <= 1)) {
+diff --git a/engine/src/test/java/org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.java b/engine/src/test/java/org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.java
+index 007690a..9621889 100644
+--- a/engine/src/test/java/org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.java
++++ b/engine/src/test/java/org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.java
+@@ -54,0 +55,3 @@
++  public static final String NESTED_PARALLEL_MULTI_INSTANCE_TASK_PROCESS =
++      "org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.nestedParallelTasks.bpmn20.xml";
++
+@@ -767,0 +771,32 @@
++  @Deployment(resources = PARALLEL_MULTI_INSTANCE_TASK_PROCESS)
++  public void testCancelAllInnerActivityParallelTasks() {
++    // given
++    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("miParallelUserTasks");
++    completeTasksInOrder("beforeTask");
++
++    // when
++    runtimeService
++      .createProcessInstanceModification(processInstance.getId())
++      .cancelAllForActivity("miTasks")
++      .execute();
++
++    // then
++    assertProcessEnded(processInstance.getId());
++  }
++
++  @Deployment(resources = NESTED_PARALLEL_MULTI_INSTANCE_TASK_PROCESS)
++  public void testCancelAllInnerActivityNestedParallelTasks() {
++    // given
++    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("nestedMiParallelUserTasks");
++    completeTasksInOrder("beforeTask");
++
++    // when
++    runtimeService
++      .createProcessInstanceModification(processInstance.getId())
++      .cancelAllForActivity("miTasks")
++      .execute();
++
++    // then
++    assertProcessEnded(processInstance.getId());
++  }
++
+@@ -867,0 +903,16 @@
++  @Deployment(resources = SEQUENTIAL_MULTI_INSTANCE_TASK_PROCESS)
++  public void testCancelAllInnerActivitySequentialTasks() {
++    // given
++    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("miSequentialUserTasks");
++    completeTasksInOrder("beforeTask");
++
++    // when
++    runtimeService
++      .createProcessInstanceModification(processInstance.getId())
++      .cancelAllForActivity("miTasks")
++      .execute();
++
++    // then
++    assertProcessEnded(processInstance.getId());
++  }
++
+diff --git a/engine/src/test/resources/org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.nestedParallelTasks.bpmn20.xml b/engine/src/test/resources/org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.nestedParallelTasks.bpmn20.xml
+new file mode 100644
+index 0000000..a697675
+--- /dev/null
++++ b/engine/src/test/resources/org/camunda/bpm/engine/test/api/runtime/ProcessInstanceModificationMultiInstanceTest.nestedParallelTasks.bpmn20.xml
+@@ -0,0 +1,40 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<definitions id="definition" 
++  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
++  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xmlns:activiti="http://activiti.org/bpmn"
++  targetNamespace="Examples">
++  
++  <process id="nestedMiParallelUserTasks">
++  
++    <startEvent id="theStart" />
++    <sequenceFlow id="flow2" sourceRef="theStart" targetRef="beforeTask" />
++    <userTask id="beforeTask"/>
++    <sequenceFlow id="flow1" sourceRef="beforeTask" targetRef="miSubProcess" />
++    
++    <subProcess id="miSubProcess">
++      <multiInstanceLoopCharacteristics isSequential="false">
++        <loopCardinality>3</loopCardinality>
++      </multiInstanceLoopCharacteristics>
++    
++      <startEvent id="subProcessStart" />
++      <sequenceFlow id="flow3" sourceRef="subProcessStart" targetRef="miTasks" />
++      
++      <userTask id="miTasks" >
++        <multiInstanceLoopCharacteristics isSequential="false">
++          <loopCardinality>3</loopCardinality>
++        </multiInstanceLoopCharacteristics>
++      </userTask>
++      
++      <sequenceFlow id="flow4" sourceRef="miTasks" targetRef="subProcessEnd" />
++      <endEvent id="subProcessEnd" />
++    </subProcess>
++    
++    <sequenceFlow id="flow5" sourceRef="miSubProcess" targetRef="afterTask" />
++    <userTask id="afterTask"/>
++    <sequenceFlow id="flow6" sourceRef="afterTask" targetRef="theEnd" />
++    <endEvent id="theEnd" />
++    
++  </process>
++
++</definitions>
+\ No newline at end of file
+

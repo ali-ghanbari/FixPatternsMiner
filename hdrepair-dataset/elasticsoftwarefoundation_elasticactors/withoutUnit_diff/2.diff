@@ -1,0 +1,8 @@
+diff --git a/messaging-rabbitmq/src/main/java/org/elasticsoftware/elasticactors/rabbitmq/WriteBehindMessageAcker.java b/messaging-rabbitmq/src/main/java/org/elasticsoftware/elasticactors/rabbitmq/WriteBehindMessageAcker.java
+index 93c412e..c4dd08a 100644
+--- a/messaging-rabbitmq/src/main/java/org/elasticsoftware/elasticactors/rabbitmq/WriteBehindMessageAcker.java
++++ b/messaging-rabbitmq/src/main/java/org/elasticsoftware/elasticactors/rabbitmq/WriteBehindMessageAcker.java
+@@ -42 +42 @@
+-        this.disruptor = new Disruptor<>(new AckEventFactory(), 1024, Executors.newCachedThreadPool(new DaemonThreadFactory("RABBITMQ-MESSAGE_ACKER")));
++        this.disruptor = new Disruptor<>(new AckEventFactory(), 10240, Executors.newCachedThreadPool(new DaemonThreadFactory("RABBITMQ-MESSAGE_ACKER")));
+

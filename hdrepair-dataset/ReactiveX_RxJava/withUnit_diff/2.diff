@@ -1,0 +1,45 @@
+diff --git a/src/main/java/rx/internal/operators/OperatorConcat.java b/src/main/java/rx/internal/operators/OperatorConcat.java
+index f1a429d..8e8514b 100644
+--- a/src/main/java/rx/internal/operators/OperatorConcat.java
++++ b/src/main/java/rx/internal/operators/OperatorConcat.java
+@@ -118 +118 @@
+-            if (REQUESTED_UPDATER.getAndAdd(this, n) == 0) {
++            if (n > 0 && BackpressureUtils.getAndAddRequest(REQUESTED_UPDATER, this, n) == 0) {
+diff --git a/src/test/java/rx/internal/operators/OperatorConcatTest.java b/src/test/java/rx/internal/operators/OperatorConcatTest.java
+index 5ad80c6..75bfee6 100644
+--- a/src/test/java/rx/internal/operators/OperatorConcatTest.java
++++ b/src/test/java/rx/internal/operators/OperatorConcatTest.java
+@@ -18,0 +19 @@
++import static org.junit.Assert.assertTrue;
+@@ -37,0 +39 @@
++import rx.Scheduler.Worker;
+@@ -38,0 +41 @@
++import rx.functions.Action0;
+@@ -768,0 +772,26 @@
++    
++    @Test
++    public void testRequestOverflowDoesNotStallStream() {
++        Observable<Integer> o1 = Observable.just(1,2,3);
++        Observable<Integer> o2 = Observable.just(4,5,6);
++        final AtomicBoolean completed = new AtomicBoolean(false);
++        o1.concatWith(o2).subscribe(new Subscriber<Integer>() {
++
++            @Override
++            public void onCompleted() {
++                completed.set(true);
++            }
++
++            @Override
++            public void onError(Throwable e) {
++                
++            }
++
++            @Override
++            public void onNext(Integer t) {
++                request(2);
++            }});
++        
++        assertTrue(completed.get());
++    }
++    
+

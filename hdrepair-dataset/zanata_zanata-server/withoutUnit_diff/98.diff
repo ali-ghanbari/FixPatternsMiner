@@ -1,0 +1,61 @@
+diff --git a/server/zanata-war/src/main/java/org/zanata/dao/ProjectDAO.java b/server/zanata-war/src/main/java/org/zanata/dao/ProjectDAO.java
+index 0d9a80a..442911e 100644
+--- a/server/zanata-war/src/main/java/org/zanata/dao/ProjectDAO.java
++++ b/server/zanata-war/src/main/java/org/zanata/dao/ProjectDAO.java
+@@ -46 +46,2 @@
+-      q.setCacheable(true).setComment("ProjectDAO.getProjectMaintainerBySlug");
++      // http://stackoverflow.com/questions/9060403/hibernate-query-cache-issue
++      // q.setCacheable(true).setComment("ProjectDAO.getProjectMaintainerBySlug");
+diff --git a/server/zanata-war/src/main/resources/META-INF/ehcache.xml b/server/zanata-war/src/main/resources/META-INF/ehcache.xml
+new file mode 100644
+index 0000000..2fa88a2
+--- /dev/null
++++ b/server/zanata-war/src/main/resources/META-INF/ehcache.xml
+@@ -0,0 +1,31 @@
++<ehcache>
++	<defaultCache 
++		maxElementsInMemory="10000" 
++		eternal="false"
++		timeToIdleSeconds="120" 
++		timeToLiveSeconds="120" 
++		overflowToDisk="false"
++		maxElementsOnDisk="10000000" 
++		diskPersistent="false"
++		diskExpiryThreadIntervalSeconds="120" 
++		memoryStoreEvictionPolicy="LRU" />
++
++	<!-- <cache -->
++	<!-- name="net.sf.hibernate.cache.StandardQueryCache" -->
++	<!-- maxElementsInMemory="50" -->
++	<!-- eternal="false" -->
++	<!-- timeToIdleSeconds="500" -->
++	<!-- timeToLiveSeconds="0" -->
++	<!-- overflowToDisk="false" -->
++	<!-- /> -->
++
++	<!-- <cache -->
++	<!-- name="net.sf.hibernate.cache.UpdateTimestampsCache" -->
++	<!-- maxElementsInMemory="50" -->
++	<!-- eternal="false" -->
++	<!-- timeToIdleSeconds="500" -->
++	<!-- timeToLiveSeconds="0" -->
++	<!-- overflowToDisk="false" -->
++	<!-- /> -->
++
++</ehcache>
+\ No newline at end of file
+diff --git a/server/zanata-war/src/main/webapp-jboss/WEB-INF/classes/META-INF/persistence.xml b/server/zanata-war/src/main/webapp-jboss/WEB-INF/classes/META-INF/persistence.xml
+index 227050c..6137611 100644
+--- a/server/zanata-war/src/main/webapp-jboss/WEB-INF/classes/META-INF/persistence.xml
++++ b/server/zanata-war/src/main/webapp-jboss/WEB-INF/classes/META-INF/persistence.xml
+@@ -82 +82 @@
+-      <!--
++      
+@@ -84 +84 @@
+-      -->
++      
+@@ -86 +86,2 @@
+-      <property name="hibernate.cache.use_query_cache" value="true"/>
++	  <!--       http://stackoverflow.com/questions/9060403/hibernate-query-cache-issue -->
++      <property name="hibernate.cache.use_query_cache" value="false"/>
+

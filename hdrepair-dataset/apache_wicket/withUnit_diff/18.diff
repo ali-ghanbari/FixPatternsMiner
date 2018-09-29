@@ -1,0 +1,61 @@
+diff --git a/wicket/src/java/wicket/markup/html/form/validation/EmailAddressPatternValidator.java b/wicket/src/java/wicket/markup/html/form/validation/EmailAddressPatternValidator.java
+index d0e81be..700d1d6 100644
+--- a/wicket/src/java/wicket/markup/html/form/validation/EmailAddressPatternValidator.java
++++ b/wicket/src/java/wicket/markup/html/form/validation/EmailAddressPatternValidator.java
+@@ -53 +53 @@
+-		super("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,3})$", Pattern.CASE_INSENSITIVE);
++		super("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*((\\.[A-Za-z]{2,}){1}$)", Pattern.CASE_INSENSITIVE);
+diff --git a/wicket/src/test/wicket/markup/html/form/CheckGroupTest.java b/wicket/src/test/wicket/markup/html/form/CheckGroupTest.java
+index 7bf67d0..44cad6c 100644
+--- a/wicket/src/test/wicket/markup/html/form/CheckGroupTest.java
++++ b/wicket/src/test/wicket/markup/html/form/CheckGroupTest.java
+@@ -155 +155 @@
+-		application.getServletRequest().setParameter(group.getInputName(), choice1.getPath());
++		application.getServletRequest().setParameter(group.getInputName(), "container:check1");
+@@ -160 +160 @@
+-		application.getServletRequest().setParameter(group.getInputName(), choice2.getPath());
++		application.getServletRequest().setParameter(group.getInputName(), "prop2");
+@@ -168 +168 @@
+-				new String[] { null, choice1.getPath(), null, choice2.getPath() });
++				new String[] { null, "container:check1", null, "prop2" });
+diff --git a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage1_expected.html b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage1_expected.html
+index b831866..e0f5495 100644
+--- a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage1_expected.html
++++ b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage1_expected.html
+@@ -7 +7 @@
+-			<Input value="0:form:group:check1" type="checkbox" wicket:id="check1" name="group">check1</input>
++			<Input value="check1" type="checkbox" wicket:id="check1" name="group">check1</input>
+@@ -9 +9 @@
+-				<input value="0:form:group:container:check2" type="checkbox" wicket:id="check2" name="group">check2</input>
++				<input value="container:check2" type="checkbox" wicket:id="check2" name="group">check2</input>
+diff --git a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage2_expected.html b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage2_expected.html
+index 505f70d..c7bf92b 100644
+--- a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage2_expected.html
++++ b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage2_expected.html
+@@ -6 +6 @@
+-			<input value="1:form:group:check1" type="checkbox" wicket:id="check1" checked="checked" name="group">check1</input>
++			<input value="check1" type="checkbox" wicket:id="check1" checked="checked" name="group">check1</input>
+@@ -8 +8 @@
+-				<input value="1:form:group:container:check2" type="checkbox" wicket:id="check2" name="group">check2</input>
++				<input value="container:check2" type="checkbox" wicket:id="check2" name="group">check2</input>
+diff --git a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage3_expected.html b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage3_expected.html
+index 6d4217c..bfd254a 100644
+--- a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage3_expected.html
++++ b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage3_expected.html
+@@ -6 +6 @@
+-			<input value="2:form:group:check1" type="checkbox" wicket:id="check1" name="group">check1</input>
++			<input value="check1" type="checkbox" wicket:id="check1" name="group">check1</input>
+@@ -8 +8 @@
+-				<input value="2:form:group:container:check2" type="checkbox" wicket:id="check2" checked="checked" name="group">check2</input>
++				<input value="container:check2" type="checkbox" wicket:id="check2" checked="checked" name="group">check2</input>
+diff --git a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage4_expected.html b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage4_expected.html
+index d8baee0..14fdaf6 100644
+--- a/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage4_expected.html
++++ b/wicket/src/test/wicket/markup/html/form/CheckGroupTestPage4_expected.html
+@@ -6 +6 @@
+-			<input value="3:form:group:check1" type="checkbox" wicket:id="check1" checked="checked" name="group">check1</input>
++			<input value="check1" type="checkbox" wicket:id="check1" checked="checked" name="group">check1</input>
+@@ -8 +8 @@
+-				<input value="3:form:group:container:check2" type="checkbox" wicket:id="check2" checked="checked" name="group">check2</input>
++				<input value="container:check2" type="checkbox" wicket:id="check2" checked="checked" name="group">check2</input>
+

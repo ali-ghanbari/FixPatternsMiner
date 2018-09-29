@@ -1,0 +1,26 @@
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/Action/student/ViewStudentTimeTable.java b/src/net/sourceforge/fenixedu/presentationTier/Action/student/ViewStudentTimeTable.java
+index 306caa7..25fda7b 100755
+--- a/src/net/sourceforge/fenixedu/presentationTier/Action/student/ViewStudentTimeTable.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/Action/student/ViewStudentTimeTable.java
+@@ -33 +33 @@
+-	List<Registration> registrations = getUserView(request).getPerson().getStudent().getRegistrations();
++	List<Registration> registrations = getUserView(request).getPerson().getStudent().getActiveRegistrations();
+diff --git a/web/student/timeTable/chooseRegistration.jsp b/web/student/timeTable/chooseRegistration.jsp
+index 06faed2..1405136 100755
+--- a/web/student/timeTable/chooseRegistration.jsp
++++ b/web/student/timeTable/chooseRegistration.jsp
+@@ -10,12 +10 @@
+-    <html:form action="/studentTimeTable.do" target="_blank">
+-       	<html:hidden bundle="HTMLALT_RESOURCES" altKey="hidden.method" property="method" value="showTimeTable"/>
+-       
+-       	<p class="mtop2">
+-       		<bean:message  key="label.studentCurricularPlan"/>
+-               	<html:select property="registrationId">
+-       			<html:options collection="registrations" property="idInternal" labelProperty="degreeNameWithDegreeCurricularPlanName"/>
+-       		</html:select>
+-       	</p>
+-       
+-       	<p class="mtop2"><html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit" styleClass="inputbutton"><bean:message key="button.continue" /></html:submit></p>
+-    </html:form>
++    <bean:write name="registrations"/>
+

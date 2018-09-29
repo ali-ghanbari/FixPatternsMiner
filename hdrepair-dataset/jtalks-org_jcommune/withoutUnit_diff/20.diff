@@ -1,0 +1,20 @@
+diff --git a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/dto/EditUserProfileDto.java b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/dto/EditUserProfileDto.java
+index ed91e66..eb2316d 100644
+--- a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/dto/EditUserProfileDto.java
++++ b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/dto/EditUserProfileDto.java
+@@ -45 +44,0 @@
+-    @Unique(entity = JCUser.class, field = "email", message = "{validation.duplicateemail}")
+diff --git a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp
+index 46932d3..10f14cf 100644
+--- a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp
++++ b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp
+@@ -24,0 +25 @@
++<sec:authentication property="principal.id" var="userId" scope="request"/>
+@@ -36 +36,0 @@
+-
+@@ -167,2 +167,2 @@
+-                    
+-                    <c:if test="${auth == editedUser.username}">
++
++                    <c:if test="${userId == editedUser.userId}">
+

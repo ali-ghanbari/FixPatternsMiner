@@ -1,0 +1,22 @@
+diff --git a/languagetool-core/src/main/java/org/languagetool/rules/GenericUnpairedBracketsRule.java b/languagetool-core/src/main/java/org/languagetool/rules/GenericUnpairedBracketsRule.java
+index ede1f6d..953dfcc 100644
+--- a/languagetool-core/src/main/java/org/languagetool/rules/GenericUnpairedBracketsRule.java
++++ b/languagetool-core/src/main/java/org/languagetool/rules/GenericUnpairedBracketsRule.java
+@@ -42 +42 @@
+-          Pattern.compile("[ldmnst]'|[–—\\p{Punct}&&[^\\.]]");
++          Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^\\.]]");
+diff --git a/languagetool-language-modules/ca/src/test/java/org/languagetool/rules/ca/CatalanUnpairedBracketsRuleTest.java b/languagetool-language-modules/ca/src/test/java/org/languagetool/rules/ca/CatalanUnpairedBracketsRuleTest.java
+index 9a2e2b3..cd5fa9d 100644
+--- a/languagetool-language-modules/ca/src/test/java/org/languagetool/rules/ca/CatalanUnpairedBracketsRuleTest.java
++++ b/languagetool-language-modules/ca/src/test/java/org/languagetool/rules/ca/CatalanUnpairedBracketsRuleTest.java
+@@ -45,0 +46,2 @@
++    assertCorrect("L'«home és així»");
++    assertCorrect("l'«home»");
+@@ -49,0 +52 @@
++    assertCorrect("(L'\"especialista\")");
+@@ -90,0 +94,4 @@
++    assertIncorrect("(L'\"especialista\"");
++    assertIncorrect("L'«home és així");
++    assertIncorrect("S'«esperava 'el' (segon) \"resultat\"");
++    assertIncorrect("l'«home");
+

@@ -1,0 +1,18 @@
+diff --git a/src/main/java/net/floodlightcontroller/hub/Hub.java b/src/main/java/net/floodlightcontroller/hub/Hub.java
+index 4d3ccf5..0e8b8bc 100644
+--- a/src/main/java/net/floodlightcontroller/hub/Hub.java
++++ b/src/main/java/net/floodlightcontroller/hub/Hub.java
+@@ -69 +69 @@
+-    	HubType ht = HubType.USE_FLOW_MOD;
++    	HubType ht = HubType.USE_PACKET_OUT;
+diff --git a/src/test/java/net/floodlightcontroller/hub/HubTest.java b/src/test/java/net/floodlightcontroller/hub/HubTest.java
+index ecef812..4a2921d 100644
+--- a/src/test/java/net/floodlightcontroller/hub/HubTest.java
++++ b/src/test/java/net/floodlightcontroller/hub/HubTest.java
+@@ -40,0 +41 @@
++import org.easymock.EasyMock;
+@@ -107,0 +109 @@
++        EasyMock.expect(mockSwitch.getOFFactory()).andReturn(OFFactories.getFactory(OFVersion.OF_13)).anyTimes();
+@@ -162,0 +165 @@
++        EasyMock.expect(mockSwitch.getOFFactory()).andReturn(OFFactories.getFactory(OFVersion.OF_13)).anyTimes();
+

@@ -1,0 +1,33 @@
+diff --git a/whois-api/src/main/java/net/ripe/db/whois/api/ParagraphParser.java b/whois-api/src/main/java/net/ripe/db/whois/api/ParagraphParser.java
+index bdd8346..ecc2f25 100644
+--- a/whois-api/src/main/java/net/ripe/db/whois/api/ParagraphParser.java
++++ b/whois-api/src/main/java/net/ripe/db/whois/api/ParagraphParser.java
+@@ -20 +20 @@
+-    private static final Pattern DRY_RUN_PATTERN = Pattern.compile("(?im)^dry-run:(.*)");
++    private static final Pattern DRY_RUN_PATTERN = Pattern.compile("(?im)^dry-run:(.*)\n*");
+diff --git a/whois-api/src/test/java/net/ripe/db/whois/api/ParagraphParserTest.java b/whois-api/src/test/java/net/ripe/db/whois/api/ParagraphParserTest.java
+index f4861f9..aa2f322 100644
+--- a/whois-api/src/test/java/net/ripe/db/whois/api/ParagraphParserTest.java
++++ b/whois-api/src/test/java/net/ripe/db/whois/api/ParagraphParserTest.java
+@@ -243,0 +244,20 @@
++    public void dryrun_removal_leaves_no_blankline() {
++        final String content = "" +
++                "person:  First Person\n" +
++                "address: Burnley\n" +
++                "dry-run:\n" +
++                "nic-hdl: TEST-TEST\n" +
++                "source:  TEST\n" +
++                "\n" +
++                "password:   owner";
++
++        final List<Paragraph> paragraphs = subject.createParagraphs(new ContentWithCredentials(content), updateContext);
++        assertThat(paragraphs, hasSize(2));
++        assertThat(paragraphs.get(0).getContent(), is("person:  First Person\n" +
++                "address: Burnley\n" +
++                "nic-hdl: TEST-TEST\n" +
++                "source:  TEST"));
++        assertThat(paragraphs.get(1).getContent(), is(""));
++    }
++
++    @Test
+

@@ -1,0 +1,8 @@
+diff --git a/platform/xdebugger-impl/src/com/intellij/xdebugger/impl/actions/handlers/XDebuggerPauseActionHandler.java b/platform/xdebugger-impl/src/com/intellij/xdebugger/impl/actions/handlers/XDebuggerPauseActionHandler.java
+index f37290b..8dc103e 100644
+--- a/platform/xdebugger-impl/src/com/intellij/xdebugger/impl/actions/handlers/XDebuggerPauseActionHandler.java
++++ b/platform/xdebugger-impl/src/com/intellij/xdebugger/impl/actions/handlers/XDebuggerPauseActionHandler.java
+@@ -37 +37 @@
+-    return session != null && !((XDebugSessionImpl)session).isPauseActionSupported();
++    return session == null || !((XDebugSessionImpl)session).isPauseActionSupported();
+

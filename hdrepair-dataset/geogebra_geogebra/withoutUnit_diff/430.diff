@@ -1,0 +1,37 @@
+diff --git a/web/src/geogebra/theme/public/gwt/clean/clean-2.css b/web/src/geogebra/theme/public/gwt/clean/clean-2.css
+index 98cffe4..a26de94 100644
+--- a/web/src/geogebra/theme/public/gwt/clean/clean-2.css
++++ b/web/src/geogebra/theme/public/gwt/clean/clean-2.css
+@@ -1485 +1485,5 @@
+-.GGBToolbar{
++.toolbarPanel{
++	line-height: 0;
++}
++
++.GGWToolbar{
+@@ -1489 +1493 @@
+-.GGBToolbar table{
++.GGWToolbar table{
+@@ -1491,0 +1496,5 @@
++body[dir=rtl] .GGWToolbar table{
++	margin-right: 0px;
++	margin-left: 70px;
++}
++
+@@ -1575,8 +1583,0 @@
+-}
+-
+-.toolbarPanel{
+-	line-height: 0;
+-}
+-
+-body[dir=rtl] .toolbarPanel div table{
+-	margin-left: auto;
+diff --git a/web/src/geogebra/web/gui/toolbar/ToolBarW.java b/web/src/geogebra/web/gui/toolbar/ToolBarW.java
+index 543911f..22d02b9 100644
+--- a/web/src/geogebra/web/gui/toolbar/ToolBarW.java
++++ b/web/src/geogebra/web/gui/toolbar/ToolBarW.java
+@@ -51 +51 @@
+-		this.addStyleName("GGBToolbar");
++		this.addStyleName("GGWToolbar");
+

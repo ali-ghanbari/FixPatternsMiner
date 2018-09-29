@@ -1,0 +1,8 @@
+diff --git a/jaxws-ri/rt/src/com/sun/xml/ws/client/dispatch/impl/encoding/DispatchSerializer.java b/jaxws-ri/rt/src/com/sun/xml/ws/client/dispatch/impl/encoding/DispatchSerializer.java
+index ed6d71a..0b5a54d 100644
+--- a/jaxws-ri/rt/src/com/sun/xml/ws/client/dispatch/impl/encoding/DispatchSerializer.java
++++ b/jaxws-ri/rt/src/com/sun/xml/ws/client/dispatch/impl/encoding/DispatchSerializer.java
+@@ -93 +93 @@
+-                        writer.writeStartElement(name.getLocalPart());
++                        writer.writeStartElement(name.getPrefix() + ":" + name.getLocalPart());
+

@@ -1,0 +1,34 @@
+diff --git a/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java b/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java
+index b116e64..9ed3bcf 100644
+--- a/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java
++++ b/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java
+@@ -95 +95 @@
+-        if (myForStubs && handler.shouldRetry()) {
++        if (handler.shouldRetry()) {
+diff --git a/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy b/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy
+index 181111c..8040801 100644
+--- a/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy
++++ b/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy
+@@ -524,0 +525,21 @@
++  public void testAbstractMethod() {
++    def used = myFixture.addFileToProject('Used.groovy', 'class Used { }')
++    def java = myFixture.addFileToProject('Java.java', '''
++abstract class Java {
++  Object getProp() { return null; }
++  abstract void foo(Used used);
++}''')
++    def main = myFixture.addFileToProject('Main.groovy', '''
++class Main {
++  def foo(Java j) {
++    return j.prop
++  }
++}''').virtualFile
++
++    assertEmpty make()
++
++    touch(used.virtualFile)
++    touch(main)
++    assertEmpty make()
++  }
++
+

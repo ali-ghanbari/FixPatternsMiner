@@ -1,0 +1,31 @@
+diff --git a/components/blitz/src/omero/client.java b/components/blitz/src/omero/client.java
+index 6c55d72..a7da594 100644
+--- a/components/blitz/src/omero/client.java
++++ b/components/blitz/src/omero/client.java
+@@ -263,0 +264 @@
++        id.properties.setProperty("Ice.Default.PreferSecure", "1");
+diff --git a/components/tools/OmeroCpp/src/omero/client.cpp b/components/tools/OmeroCpp/src/omero/client.cpp
+index 1050716..b89fb6e 100644
+--- a/components/tools/OmeroCpp/src/omero/client.cpp
++++ b/components/tools/OmeroCpp/src/omero/client.cpp
+@@ -40,0 +41 @@
++        id.properties->setProperty("Ice.Default.PreferSecure", "1");
+diff --git a/components/tools/OmeroPy/src/omero/clients.py b/components/tools/OmeroPy/src/omero/clients.py
+index 023c66f..d017e8b 100644
+--- a/components/tools/OmeroPy/src/omero/clients.py
++++ b/components/tools/OmeroPy/src/omero/clients.py
+@@ -172,0 +173 @@
++        id.properties.setProperty("Ice.Default.PreferSecure", "1")
+diff --git a/etc/ice.config b/etc/ice.config
+index b8d49ff..449f88c 100644
+--- a/etc/ice.config
++++ b/etc/ice.config
+@@ -139,0 +140,7 @@
++# Security: By default, all OMERO clients prefer to use
++# use a secure connection. By setting the following
++# property, a secure connection is required and if one
++# is not available, Ice::NoEndpointException will be
++# thrown.
++
++## Ice.Override.Secure=1
+

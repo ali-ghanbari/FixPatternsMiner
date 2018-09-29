@@ -1,0 +1,187 @@
+diff --git a/compiler/cli/src/org/jetbrains/kotlin/cli/jvm/compiler/JetCoreEnvironment.java b/compiler/cli/src/org/jetbrains/kotlin/cli/jvm/compiler/JetCoreEnvironment.java
+index 660e2af..7ef5dcf 100644
+--- a/compiler/cli/src/org/jetbrains/kotlin/cli/jvm/compiler/JetCoreEnvironment.java
++++ b/compiler/cli/src/org/jetbrains/kotlin/cli/jvm/compiler/JetCoreEnvironment.java
+@@ -299 +299 @@
+-        project.registerService(AndroidUIXmlParser.class, new CliAndroidUIXmlParser(s));
++        project.registerService(AndroidUIXmlParser.class, new CliAndroidUIXmlParser(project, s));
+diff --git a/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/AndroidUIXmlParser.kt b/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/AndroidUIXmlParser.kt
+index 946a12b..f65a692 100644
+--- a/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/AndroidUIXmlParser.kt
++++ b/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/AndroidUIXmlParser.kt
+@@ -121 +121 @@
+-        lazySetupFileListener()
++        lazySetup()
+@@ -147,25 +147 @@
+-    private fun lazySetupFileListener() {
+-        if (listenerSetUp) return
+-        val fileManager = VirtualFileManager.getInstance()
+-        val watchDir = fileManager.findFileByUrl("file://" + searchPath)
+-        filesToProcess.addAll(watchDir?.getChildren()?.toArrayList() ?: ArrayList(0))
+-        fileManager.addVirtualFileListener(object : VirtualFileAdapter() {
+-            override fun contentsChanged(event: VirtualFileEvent) {
+-                if (event.getParent() == watchDir)
+-                    filesToProcess.add(event.getFile())
+-            }
+-            override fun fileCreated(event: VirtualFileEvent) {
+-                if (event.getParent() == watchDir)
+-                    super<VirtualFileAdapter>.fileCreated(event)
+-            }
+-            override fun fileDeleted(event: VirtualFileEvent) {
+-                if (event.getParent() == watchDir) {
+-                    // ignore potential synchronisation issues - it doesn't really matter if invalidation and
+-                    // file processing will be handled in different passes
+-                    invalidateCaches = true
+-                    filesToProcess.addAll(watchDir?.getChildren()?.toArrayList() ?: ArrayList(0))
+-                }
+-            }
+-        })
+-        listenerSetUp = true
+-    }
++    protected abstract fun lazySetup()
+diff --git a/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/CliAndroidUIXmlParser.kt b/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/CliAndroidUIXmlParser.kt
+index dc5f98b..2ab9333 100644
+--- a/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/CliAndroidUIXmlParser.kt
++++ b/compiler/frontend.android/src/org/jetbrains/jet/lang/resolve/android/CliAndroidUIXmlParser.kt
+@@ -3 +3,12 @@
+-class CliAndroidUIXmlParser(override val searchPath: String?): AndroidUIXmlParser()
++import com.intellij.openapi.vfs.VirtualFileManager
++import java.util.ArrayList
++import com.intellij.openapi.project.Project
++
++class CliAndroidUIXmlParser(val project: Project, override val searchPath: String?): AndroidUIXmlParser() {
++
++    override fun lazySetup() {
++        val fileManager = VirtualFileManager.getInstance()
++        val watchDir = fileManager.findFileByUrl("file://" + searchPath)
++        filesToProcess.addAll(watchDir?.getChildren()?.toArrayList() ?: ArrayList(0))
++    }
++}
+diff --git a/compiler/testData/android/converter/singleFile/layout.xml b/compiler/testData/android/converter/singleFile/layout.xml
+deleted file mode 100644
+index f4736f6..0000000
+--- a/compiler/testData/android/converter/singleFile/layout.xml
++++ /dev/null
+@@ -1,29 +0,0 @@
+-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-             xmlns:tools="http://schemas.android.com/tools"
+-             android:id="@+id/item_detail_container"
+-             android:layout_width="match_parent"
+-             android:layout_height="match_parent"
+-             tools:context=".ItemDetailActivity"
+-             tools:ignore="MergeRootFrame" >
+-
+-
+-    <TextView
+-        android:id="@+id/textView1"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Enter your password" />
+-
+-    <EditText
+-        android:id="@+id/password"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:ems="10"
+-        android:inputType="textPassword" />
+-
+-    <Button
+-        android:id="@+id/login"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:text="Sign in" />
+-
+-</FrameLayout>
+\ No newline at end of file
+diff --git a/compiler/testData/android/converter/singleFile/res/layout.xml b/compiler/testData/android/converter/singleFile/res/layout.xml
+new file mode 100644
+index 0000000..f4736f6
+--- /dev/null
++++ b/compiler/testData/android/converter/singleFile/res/layout.xml
+@@ -0,0 +1,29 @@
++<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++             xmlns:tools="http://schemas.android.com/tools"
++             android:id="@+id/item_detail_container"
++             android:layout_width="match_parent"
++             android:layout_height="match_parent"
++             tools:context=".ItemDetailActivity"
++             tools:ignore="MergeRootFrame" >
++
++
++    <TextView
++        android:id="@+id/textView1"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Enter your password" />
++
++    <EditText
++        android:id="@+id/password"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:ems="10"
++        android:inputType="textPassword" />
++
++    <Button
++        android:id="@+id/login"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:text="Sign in" />
++
++</FrameLayout>
+\ No newline at end of file
+diff --git a/compiler/tests/org/jetbrains/jet/codegen/AndroidXmlTest.java b/compiler/tests/org/jetbrains/jet/codegen/AndroidXmlTest.java
+index 2bc4391..1fa4285 100644
+--- a/compiler/tests/org/jetbrains/jet/codegen/AndroidXmlTest.java
++++ b/compiler/tests/org/jetbrains/jet/codegen/AndroidXmlTest.java
+@@ -23 +23 @@
+-    private final File singleFile = new File(getTestDataPath() + "/converter/singleFile/layout.xml");
++    private final File singleFileDir = new File(getTestDataPath() + "/converter/singleFile/res/");
+@@ -53 +52,0 @@
+-        String text = new CliAndroidUIXmlParser(singleFile.getAbsolutePath()).parseToString();
+@@ -56 +55,3 @@
+-        JetFile psiFile = JetTestUtils.createFile(singleFile.getName(), text, jetCoreEnvironment.getProject());
++        String text = new CliAndroidUIXmlParser(jetCoreEnvironment.getProject(), singleFileDir.getAbsolutePath()).parseToString();
++
++        JetFile psiFile = JetTestUtils.createFile("dummy.kt", text, jetCoreEnvironment.getProject());
+@@ -73 +74,3 @@
+-        AndroidUIXmlParser parser = new CliAndroidUIXmlParser(singleFile.getAbsolutePath());
++        JetCoreEnvironment jetCoreEnvironment = JetTestUtils.createEnvironmentWithMockJdkAndIdeaAnnotations(getTestRootDisposable(),
++                                                                                                            ConfigurationKind.ALL);
++        AndroidUIXmlParser parser = new CliAndroidUIXmlParser(jetCoreEnvironment.getProject(), singleFileDir.getAbsolutePath());
+diff --git a/idea/src/org/jetbrains/jet/plugin/android/IDEAndroidUIXmlParser.kt b/idea/src/org/jetbrains/jet/plugin/android/IDEAndroidUIXmlParser.kt
+index 74643af..ebd3031 100644
+--- a/idea/src/org/jetbrains/jet/plugin/android/IDEAndroidUIXmlParser.kt
++++ b/idea/src/org/jetbrains/jet/plugin/android/IDEAndroidUIXmlParser.kt
+@@ -4,0 +5,4 @@
++import com.intellij.openapi.vfs.VirtualFileManager
++import java.util.ArrayList
++import com.intellij.openapi.vfs.VirtualFileAdapter
++import com.intellij.openapi.vfs.VirtualFileEvent
+@@ -7,0 +12,26 @@
++
++    override protected fun lazySetup() {
++        if (listenerSetUp) return
++        val fileManager = VirtualFileManager.getInstance()
++        val watchDir = fileManager.findFileByUrl("file://" + searchPath)
++        filesToProcess.addAll(watchDir?.getChildren()?.toArrayList() ?: ArrayList(0))
++        fileManager.addVirtualFileListener(object : VirtualFileAdapter() {
++            override fun contentsChanged(event: VirtualFileEvent) {
++                if (event.getParent() == watchDir)
++                    filesToProcess.add(event.getFile())
++            }
++            override fun fileCreated(event: VirtualFileEvent) {
++                if (event.getParent() == watchDir)
++                    super<VirtualFileAdapter>.fileCreated(event)
++            }
++            override fun fileDeleted(event: VirtualFileEvent) {
++                if (event.getParent() == watchDir) {
++                    // ignore potential synchronisation issues - it doesn't really matter if invalidation and
++                    // file processing will be handled in different passes
++                    invalidateCaches = true
++                    filesToProcess.addAll(watchDir?.getChildren()?.toArrayList() ?: ArrayList(0))
++                }
++            }
++        })
++        listenerSetUp = true
++    }
+

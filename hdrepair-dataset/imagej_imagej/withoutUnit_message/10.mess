@@ -1,0 +1,7 @@
+DefaultScriptService: fix registration bug
+
+We need to call super.initialize(), since the AbstractSingletonService
+superclass registers a callback with the ObjectService in its
+initialize() method. Without this call, the script languages never get
+registered with the ObjectService.
+

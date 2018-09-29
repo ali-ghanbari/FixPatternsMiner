@@ -1,0 +1,39 @@
+diff --git a/scripts/vm/network/security_group.py b/scripts/vm/network/security_group.py
+index ad6983f..7111ef7 100755
+--- a/scripts/vm/network/security_group.py
++++ b/scripts/vm/network/security_group.py
+@@ -204 +203,0 @@
+-  
+@@ -432,0 +432,3 @@
++    if changes[0] or changes[2]:
++        default_network_rules(vmName, vm_id, vm_ip, vmMac, vif, brname)
++
+@@ -436,3 +437,0 @@
+-
+-    if changes[0] or changes[2]:
+-        default_network_rules(vmName, vm_id, vm_ip, vmMac, vif, brname)
+@@ -465 +464 @@
+-                    iptables = "iptables -I " + vmchain + " -m state --state NEW -s " + ip + " -j ACCEPT"
++                    execute("iptables -I " + vmchain + " -m state --state NEW -s " + ip + " -j ACCEPT")
+@@ -468 +467 @@
+-                    iptables = "iptables -I " + vmchain + " -p " + protocol + " -m " + protocol + " --dport " + range + " -m state --state NEW -s " + ip + " -j ACCEPT"
++                    execute("iptables -I " + vmchain + " -p " + protocol + " -m " + protocol + " --dport " + range + " -m state --state NEW -s " + ip + " -j ACCEPT")
+@@ -474,2 +473 @@
+-                        iptables = "iptables -I " + vmchain + " -p icmp --icmp-type " + range + " -s " + ip + " -j ACCEPT"
+-            execute(iptables)
++                        execute("iptables -I " + vmchain + " -p icmp --icmp-type " + range + " -s " + ip + " -j ACCEPT")
+@@ -479 +477 @@
+-                iptables = "iptables -I " + vmchain + " -p " + protocol + " -m " +  protocol + " --dport " + range + " -m state --state NEW -j ACCEPT"
++                execute("iptables -I " + vmchain + " -p " + protocol + " -m " +  protocol + " --dport " + range + " -m state --state NEW -j ACCEPT")
+@@ -484,2 +482 @@
+-                    iptables = "iptables -I " + vmchain + " -p icmp --icmp-type " + range + " -j ACCEPT"
+-            execute(iptables)
++                    execute("iptables -I " + vmchain + " -p icmp --icmp-type " + range + " -j ACCEPT")
+diff --git a/server/src/com/cloud/api/ApiResponseHelper.java b/server/src/com/cloud/api/ApiResponseHelper.java
+index 4597d5e..992f294 100755
+--- a/server/src/com/cloud/api/ApiResponseHelper.java
++++ b/server/src/com/cloud/api/ApiResponseHelper.java
+@@ -1259 +1259 @@
+-                   if(zone.getNetworkType() == NetworkType.Basic) {
++                   if(zone.getNetworkType() == NetworkType.Basic || zone.isSecurityGroupEnabled()) {
+

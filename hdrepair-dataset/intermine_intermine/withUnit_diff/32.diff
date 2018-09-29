@@ -1,0 +1,26 @@
+diff --git a/intermine/src/java/org/intermine/sql/query/Constant.java b/intermine/src/java/org/intermine/sql/query/Constant.java
+index 67d7bff..d17d9e8 100644
+--- a/intermine/src/java/org/intermine/sql/query/Constant.java
++++ b/intermine/src/java/org/intermine/sql/query/Constant.java
+@@ -74 +74 @@
+-                    && (objC.value.charAt(value.length() - 1) == '\'')) {
++                    && (objC.value.charAt(objC.value.length() - 1) == '\'')) {
+diff --git a/intermine/src/test/org/intermine/sql/query/ConstantTest.java b/intermine/src/test/org/intermine/sql/query/ConstantTest.java
+index 226d284..ba15ffd 100644
+--- a/intermine/src/test/org/intermine/sql/query/ConstantTest.java
++++ b/intermine/src/test/org/intermine/sql/query/ConstantTest.java
+@@ -16 +16 @@
+-        c3 = new Constant("'value2'");
++        c3 = new Constant("'value22'");
+@@ -18 +18 @@
+-        c5 = new Constant("6");
++        c5 = new Constant("66");
+@@ -38,0 +39 @@
++        assertEquals(c2, c1);
+@@ -39,0 +41 @@
++        assertTrue("Expected c3 not to equal c1", !c3.equals(c1));
+@@ -40,0 +43 @@
++        assertTrue("Expected c4 not to equal c1", !c4.equals(c1));
+@@ -41,0 +45 @@
++        assertTrue("Expected c5 not to equal c1", !c5.equals(c1));
+

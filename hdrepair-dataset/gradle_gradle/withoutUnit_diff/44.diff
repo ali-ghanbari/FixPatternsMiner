@@ -1,0 +1,15 @@
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/CyclicBarrierHttpServer.java b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/CyclicBarrierHttpServer.java
+index 85ac0b5..26b3ace 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/CyclicBarrierHttpServer.java
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/CyclicBarrierHttpServer.java
+@@ -109 +109 @@
+-                    long expiry = System.currentTimeMillis() + 15000;
++                    long expiry = System.currentTimeMillis() + 30000;
+diff --git a/subprojects/tooling-api/src/integTest/groovy/org/gradle/integtests/tooling/r21/R21CancellationCrossVersionSpec.groovy b/subprojects/tooling-api/src/integTest/groovy/org/gradle/integtests/tooling/r21/R21CancellationCrossVersionSpec.groovy
+index c0acc74..d0742f6 100644
+--- a/subprojects/tooling-api/src/integTest/groovy/org/gradle/integtests/tooling/r21/R21CancellationCrossVersionSpec.groovy
++++ b/subprojects/tooling-api/src/integTest/groovy/org/gradle/integtests/tooling/r21/R21CancellationCrossVersionSpec.groovy
+@@ -223 +223 @@
+-        daemons.daemon.assertStopped()
++        daemons.daemon.assertStops()
+

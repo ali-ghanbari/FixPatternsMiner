@@ -1,0 +1,39 @@
+diff --git a/java/code/src/com/redhat/rhn/common/validator/HostPortValidator.java b/java/code/src/com/redhat/rhn/common/validator/HostPortValidator.java
+index cff8ad7..0210d5b 100644
+--- a/java/code/src/com/redhat/rhn/common/validator/HostPortValidator.java
++++ b/java/code/src/com/redhat/rhn/common/validator/HostPortValidator.java
+@@ -51 +51 @@
+-     * @param hostPort
++     * @param hostPort the string with host[:port]
+diff --git a/java/code/src/com/redhat/rhn/common/validator/test/HostPortValidatorTest.java b/java/code/src/com/redhat/rhn/common/validator/test/HostPortValidatorTest.java
+index e96bd91..b934ec9 100644
+--- a/java/code/src/com/redhat/rhn/common/validator/test/HostPortValidatorTest.java
++++ b/java/code/src/com/redhat/rhn/common/validator/test/HostPortValidatorTest.java
+@@ -39,3 +39,6 @@
+-        assertTrue(HostPortValidator.getInstance().isValid("2001:0db8:85a3:08d3:1319:8a2e:0370:7344"));
+-        assertTrue(HostPortValidator.getInstance().isValid("[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]"));
+-        assertTrue(HostPortValidator.getInstance().isValid("[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8888"));
++        assertTrue(HostPortValidator.getInstance().isValid(
++            "2001:0db8:85a3:08d3:1319:8a2e:0370:7344"));
++        assertTrue(HostPortValidator.getInstance().isValid(
++            "[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]"));
++        assertTrue(HostPortValidator.getInstance().isValid(
++            "[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8888"));
+@@ -46,4 +49,8 @@
+-        assertFalse(HostPortValidator.getInstance().isValid("2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8888"));
+-        assertFalse(HostPortValidator.getInstance().isValid("[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]]:8888"));
+-        assertFalse(HostPortValidator.getInstance().isValid("[2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8888"));
+-        assertFalse(HostPortValidator.getInstance().isValid("2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8888"));
++        assertFalse(HostPortValidator.getInstance().isValid(
++            "2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8888"));
++        assertFalse(HostPortValidator.getInstance().isValid(
++            "[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]]:8888"));
++        assertFalse(HostPortValidator.getInstance().isValid(
++            "[2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8888"));
++        assertFalse(HostPortValidator.getInstance().isValid(
++            "2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8888"));
+@@ -61 +68,2 @@
+-        assertFalse(HostPortValidator.getInstance().isValid("http://proxy.example.com:8888"));
++        assertFalse(HostPortValidator.getInstance().isValid(
++            "http://proxy.example.com:8888"));
+

@@ -1,0 +1,8 @@
+diff --git a/src/main/java/hudson/plugins/perforce/PerforceSCM.java b/src/main/java/hudson/plugins/perforce/PerforceSCM.java
+index d8f8b95..b46f437 100644
+--- a/src/main/java/hudson/plugins/perforce/PerforceSCM.java
++++ b/src/main/java/hudson/plugins/perforce/PerforceSCM.java
+@@ -466 +466 @@
+-        env.put("P4CLIENT", getEffectiveClientName(build));
++        env.put("P4CLIENT", getConcurrentClientName(build.getWorkspace(), getEffectiveClientName(build)));
+

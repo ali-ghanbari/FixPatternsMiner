@@ -1,0 +1,8 @@
+diff --git a/public/java/src/org/broadinstitute/sting/utils/sam/MisencodedBaseQualityReadTransformer.java b/public/java/src/org/broadinstitute/sting/utils/sam/MisencodedBaseQualityReadTransformer.java
+index cac5123..17d40e5 100644
+--- a/public/java/src/org/broadinstitute/sting/utils/sam/MisencodedBaseQualityReadTransformer.java
++++ b/public/java/src/org/broadinstitute/sting/utils/sam/MisencodedBaseQualityReadTransformer.java
+@@ -49,0 +50,2 @@
++            if ( quals[i] < 0 )
++                throw new UserException.BadInput("while fixing mis-encoded base qualities we encountered a read that was correctly encoded; we cannot handle such a mixture of reads so unfortunately the BAM must be fixed with some other tool");
+

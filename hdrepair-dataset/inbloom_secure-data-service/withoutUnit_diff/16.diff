@@ -1,0 +1,46 @@
+diff --git a/sli/acceptance-tests/test/features/security/application_authorization.feature b/sli/acceptance-tests/test/features/security/application_authorization.feature
+index cf42995..edf3afe 100644
+--- a/sli/acceptance-tests/test/features/security/application_authorization.feature
++++ b/sli/acceptance-tests/test/features/security/application_authorization.feature
+@@ -31,2 +31,12 @@
+-
+-
++  Scenario Outline: Read application authorization data from API List endpoint and verify that fields are populated correctly
++    And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
++    When I navigate to GET applicationAuthorization with ""
++    And There is an applicationAuthorization entity for application "<APP_ID>"
++    And There is a correct entry in applicationAuthorization edorg array for district "<EDORG>" for the application "<APP_ID>"
++    And The value of "lastAuthorizingUser" should be "<LAST_AUTHORIZED_USER>"
++    And The value of "lastAuthorizingRealmEdorg" should be "<LAST_AUTHORIZED_REALM_EDORG>"
++  Examples:
++    |APP_ID                               | LAST_AUTHORIZED_USER | LAST_AUTHORIZED_REALM_EDORG  | EDORG         |
++    |78f71c9a-8e37-0f86-8560-7783379d96f7 | iladmin              | nil                          |  IL           |
++    |78f71c9a-8e37-0f86-8560-7783379d96f7 | iladmin              | nil                          |  IL-SUNSET    |
++    |78f71c9a-8e37-0f86-8560-7783379d96f7 | iladmin              | nil                          |  IL-LONGWOOD  |
+diff --git a/sli/acceptance-tests/test/features/security/step_definitions/admin_delegation_crud_steps.rb b/sli/acceptance-tests/test/features/security/step_definitions/admin_delegation_crud_steps.rb
+index efde426..e9547cd 100644
+--- a/sli/acceptance-tests/test/features/security/step_definitions/admin_delegation_crud_steps.rb
++++ b/sli/acceptance-tests/test/features/security/step_definitions/admin_delegation_crud_steps.rb
+@@ -140,0 +141,14 @@
++And /^There is an applicationAuthorization entity for application "([^"]*)"$/ do |app_id|
++   found=false
++   @result.each do |appAuthEntry|
++     if appAuthEntry["appId"]==app_id
++       found = true
++       @result = appAuthEntry
++       break;
++     end
++   end
++
++   assert(found=true,"Application #{app_id} was not found in the results");
++
++end
++
+diff --git a/sli/api/src/main/java/org/slc/sli/api/resources/security/ApplicationAuthorizationResource.java b/sli/api/src/main/java/org/slc/sli/api/resources/security/ApplicationAuthorizationResource.java
+index 2f0f0d6..e6a0928 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/resources/security/ApplicationAuthorizationResource.java
++++ b/sli/api/src/main/java/org/slc/sli/api/resources/security/ApplicationAuthorizationResource.java
+@@ -327,0 +328,2 @@
++            List<Map<String,Object>> edOrgs = (List<Map<String,Object>>) body.get("edorgs");
++            entity.put("edorgs", edOrgs); //DE2993
+

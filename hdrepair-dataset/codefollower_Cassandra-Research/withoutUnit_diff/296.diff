@@ -1,0 +1,23 @@
+diff --git a/src/java/org/apache/cassandra/service/ReadResponseResolver.java b/src/java/org/apache/cassandra/service/ReadResponseResolver.java
+index 8171cf9..2e7b39d 100644
+--- a/src/java/org/apache/cassandra/service/ReadResponseResolver.java
++++ b/src/java/org/apache/cassandra/service/ReadResponseResolver.java
+@@ -205 +205 @@
+-            if (result.isDigestQuery())
++            if (!result.isDigestQuery())
+diff --git a/test/system/test_thrift_server.py b/test/system/test_thrift_server.py
+index 557beb0..18df85f 100644
+--- a/test/system/test_thrift_server.py
++++ b/test/system/test_thrift_server.py
+@@ -1449,0 +1450,10 @@
++     
++    def test_column_not_found_quorum(self): 
++        _set_keyspace('Keyspace1')
++        key = 'doesntexist'
++        column_path = ColumnPath(column_family="Standard1", column="idontexist")
++        try:
++            client.get(key, column_path, ConsistencyLevel.QUORUM)
++            assert False, ('columnpath %s existed in %s when it should not' % (column_path, key))
++        except NotFoundException:
++            assert True, 'column did not exist'
+

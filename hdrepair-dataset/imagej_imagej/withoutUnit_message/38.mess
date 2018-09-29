@@ -1,0 +1,7 @@
+DefaultDatasetService: fix visibility problem
+
+This problem was introduced with horrible hack
+b255ae47caf3d42d85b56e5735df798f2350e239. An exception is thrown because
+the modifier of the inner class is private rather than protected, and so
+it cannot be instantiated via reflection. This change fixes the issue.
+

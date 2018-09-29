@@ -1,0 +1,9 @@
+diff --git a/core/src/classpath/gnu/gnu/java/io/PlatformHelper.java b/core/src/classpath/gnu/gnu/java/io/PlatformHelper.java
+index 0dc8f13..37ad080 100644
+--- a/core/src/classpath/gnu/gnu/java/io/PlatformHelper.java
++++ b/core/src/classpath/gnu/gnu/java/io/PlatformHelper.java
+@@ -105 +105,2 @@
+-      if(isRootDirectory(path)) return path; //FDy: ClassPath bug fix for root (from JNode team)
++      // @classpath-bugfix For the root, return the path itself (the remaining code will fail)
++      if(isRootDirectory(path)) return path;
+

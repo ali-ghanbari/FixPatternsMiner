@@ -1,0 +1,20 @@
+diff --git a/nexus/nexus-rest-api/src/main/java/org/sonatype/nexus/rest/authentication/AbstractUIPermissionCalculatingResource.java b/nexus/nexus-rest-api/src/main/java/org/sonatype/nexus/rest/authentication/AbstractUIPermissionCalculatingResource.java
+index 5ac7b44..a013472 100644
+--- a/nexus/nexus-rest-api/src/main/java/org/sonatype/nexus/rest/authentication/AbstractUIPermissionCalculatingResource.java
++++ b/nexus/nexus-rest-api/src/main/java/org/sonatype/nexus/rest/authentication/AbstractUIPermissionCalculatingResource.java
+@@ -56 +56 @@
+-        perms.setConfigServer( getFlagsForPermission( subject, "nexus:configuration" ) );
++        perms.setConfigServer( getFlagsForPermission( subject, "nexus:settings" ) );
+diff --git a/nexus/nexus-webapp/src/main/webapp/WEB-INF/web.xml b/nexus/nexus-webapp/src/main/webapp/WEB-INF/web.xml
+index c8c4301..6da7f53 100644
+--- a/nexus/nexus-webapp/src/main/webapp/WEB-INF/web.xml
++++ b/nexus/nexus-webapp/src/main/webapp/WEB-INF/web.xml
+@@ -88,3 +88,4 @@
+-			/service/*/configs/* = authcBasic,perms[nexus:settings]
+-			/service/*/configs = authcBasic,perms[nexus:settings]
+-			/service/*/global_settings = authcBasic,perms[nexus:configuration]
++			/service/*/configs/* = authcBasic,perms[nexus:configuration]
++			/service/*/configs = authcBasic,perms[nexus:configuration]
++			/service/*/global_settings/* = authcBasic,perms[nexus:settings]
++			/service/*/global_settings = authcBasic,perms[nexus:settings]
+

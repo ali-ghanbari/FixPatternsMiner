@@ -1,0 +1,129 @@
+diff --git a/tests/org.eclipse.core.tests.harness/src/org/eclipse/core/tests/harness/TestJob.java b/tests/org.eclipse.core.tests.harness/src/org/eclipse/core/tests/harness/TestJob.java
+index 77817a6..69714ff 100644
+--- a/tests/org.eclipse.core.tests.harness/src/org/eclipse/core/tests/harness/TestJob.java
++++ b/tests/org.eclipse.core.tests.harness/src/org/eclipse/core/tests/harness/TestJob.java
+@@ -66,0 +67 @@
++					//ignore
+diff --git a/tests/org.eclipse.core.tests.runtime/src/org/eclipse/core/tests/runtime/jobs/IJobManagerTest.java b/tests/org.eclipse.core.tests.runtime/src/org/eclipse/core/tests/runtime/jobs/IJobManagerTest.java
+index 21e1df2..9c38497 100644
+--- a/tests/org.eclipse.core.tests.runtime/src/org/eclipse/core/tests/runtime/jobs/IJobManagerTest.java
++++ b/tests/org.eclipse.core.tests.runtime/src/org/eclipse/core/tests/runtime/jobs/IJobManagerTest.java
+@@ -173,0 +174,3 @@
++	/* (non-Javadoc)
++	 * @see junit.framework.TestCase#setUp()
++	 */
+@@ -188,0 +192 @@
++			//ignore
+@@ -191,0 +196,3 @@
++	/* (non-Javadoc)
++	 * @see junit.framework.TestCase#tearDown()
++	 */
+@@ -538,0 +546 @@
++					//ignore
+@@ -539,0 +548 @@
++					//ignore
+@@ -562,4 +571 @@
+-			try {
+-				Thread.sleep(100);
+-			} catch (InterruptedException e) {
+-			}
++			sleep(100);
+@@ -611,0 +618 @@
++					//ignore
+@@ -612,0 +620 @@
++					//ignore
+@@ -681,0 +690 @@
++					//ignore
+@@ -682,0 +692 @@
++					//ignore
+@@ -775,0 +786 @@
++					//ignore
+@@ -776,0 +788 @@
++					//ignore
+@@ -1100,4 +1112 @@
+-				try {
+-					Thread.sleep(100);
+-				} catch (InterruptedException e) {
+-				}
++				sleep(100);
+@@ -1124 +1133 @@
+-		int[] sleepTimes = new int[] {4000, 3000, 2000, 1000, 50};
++		int[] sleepTimes = new int[] {4000, 3000, 2000, 1000, 500};
+@@ -1129 +1138 @@
+-				jobs[i] = new TestJob("testOrder(" + i + ")", 1, 1);
++				jobs[i] = new TestJob("testReverseOrder(" + i + ")", 0, 1);
+@@ -1136,4 +1145 @@
+-				try {
+-					Thread.sleep(100);
+-				} catch (InterruptedException e) {
+-				}
++				sleep(100);
+@@ -1223,0 +1230,33 @@
++
++	/**
++	 * Tests the following sequence:
++	 * [Thread[main,6,main]]Suspend rule: R/
++	 * [Thread[main,6,main]]Begin rule: R/
++	 * [Thread[Worker-3,5,main]]Begin rule: L/JUnit/junit/tests/framework/Failure.java
++	 * [Thread[main,6,main]]End rule: R/
++	 * [Thread[main,6,main]]Resume rule: R/
++	 * [Thread[Worker-3,5,main]]End rule: L/JUnit/junit/tests/framework/Failure.java
++	 */
++	public void testSuspendMismatchedBegins() {
++		PathRule rule1 = new PathRule("/TestSuspendMismatchedBegins");
++		PathRule rule2 = new PathRule("/TestSuspendMismatchedBegins/Child");
++		manager.suspend(rule1, null);
++
++		//start a job that acquires a child rule
++		final int[] status = new int[1];
++		JobRuleRunner runner = new JobRuleRunner("TestSuspendJob", rule2, status, 0, 1, true);
++		runner.schedule();
++		TestBarrier.waitForStatus(status, TestBarrier.STATUS_START);
++		//let the job start the rule
++		status[0] = TestBarrier.STATUS_WAIT_FOR_RUN;
++		TestBarrier.waitForStatus(status, TestBarrier.STATUS_RUNNING);
++
++		//now try to resume the rule in this thread
++		manager.resume(rule1);
++
++		//finally let the test runner resume the rule
++		status[0] = TestBarrier.STATUS_WAIT_FOR_DONE;
++		TestBarrier.waitForStatus(status, TestBarrier.STATUS_DONE);
++
++	}
++
+@@ -1287,29 +1325,0 @@
+-	/**
+-	 * Tests the following sequence:
+-	 * [Thread[main,6,main]]Suspend rule: R/
+-	 * [Thread[main,6,main]]Begin rule: R/
+-	 * [Thread[Worker-3,5,main]]Begin rule: L/JUnit/junit/tests/framework/Failure.java
+-	 * [Thread[main,6,main]]End rule: R/
+-	 * [Thread[main,6,main]]Resume rule: R/
+-	 * [Thread[Worker-3,5,main]]End rule: L/JUnit/junit/tests/framework/Failure.java
+-	 */
+-	public void testSuspendMismatchedBegins() {
+-		PathRule rule1 = new PathRule("/TestSuspendMismatchedBegins");
+-		PathRule rule2 = new PathRule("/TestSuspendMismatchedBegins/Child");
+-		manager.suspend(rule1, null);
+-		
+-		//start a job that acquires a child rule
+-		final int[] status = new int[1];
+-		JobRuleRunner runner = new JobRuleRunner("TestSuspendJob", rule2, status, 0, 1, true);
+-		runner.schedule();
+-		TestBarrier.waitForStatus(status, TestBarrier.STATUS_START);
+-		//let the job start the rule
+-		status[0] = TestBarrier.STATUS_WAIT_FOR_RUN;
+-		TestBarrier.waitForStatus(status, TestBarrier.STATUS_RUNNING);
+-		
+-		//now try to resume the rule in this thread
+-		manager.resume(rule1);
+-		
+-		//finally let the test runner resume the rule
+-		status[0] = TestBarrier.STATUS_WAIT_FOR_DONE;
+-		TestBarrier.waitForStatus(status, TestBarrier.STATUS_DONE);
+@@ -1317 +1326,0 @@
+-	}
+@@ -1347,0 +1357 @@
++				//ignore
+

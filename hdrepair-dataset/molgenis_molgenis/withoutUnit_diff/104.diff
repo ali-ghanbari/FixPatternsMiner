@@ -1,0 +1,8 @@
+diff --git a/molgenis-omx-das/src/main/java/org/molgenis/omx/das/impl/RepositoryRangeHandlingDataSource.java b/molgenis-omx-das/src/main/java/org/molgenis/omx/das/impl/RepositoryRangeHandlingDataSource.java
+index 354332b..2c2a21a 100644
+--- a/molgenis-omx-das/src/main/java/org/molgenis/omx/das/impl/RepositoryRangeHandlingDataSource.java
++++ b/molgenis-omx-das/src/main/java/org/molgenis/omx/das/impl/RepositoryRangeHandlingDataSource.java
+@@ -119 +119 @@
+-			if ((valueStart >= start && valueStart <= stop) || (valueStop >= start && valueStop <= stop))
++			if (valueStart != null && ((valueStart >= start && valueStart <= stop) || (valueStop >= start && valueStop <= stop)))
+

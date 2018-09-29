@@ -1,0 +1,8 @@
+diff --git a/spf4j-core/src/main/java/org/spf4j/recyclable/impl/SharingObjectPool.java b/spf4j-core/src/main/java/org/spf4j/recyclable/impl/SharingObjectPool.java
+index f59685d..8780704 100644
+--- a/spf4j-core/src/main/java/org/spf4j/recyclable/impl/SharingObjectPool.java
++++ b/spf4j-core/src/main/java/org/spf4j/recyclable/impl/SharingObjectPool.java
+@@ -126 +126 @@
+-    private T createObject(final int nrTimesShared) throws ObjectCreationException {
++    private synchronized T createObject(final int nrTimesShared) throws ObjectCreationException {
+

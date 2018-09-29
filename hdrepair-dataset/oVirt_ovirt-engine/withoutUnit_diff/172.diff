@@ -1,0 +1,8 @@
+diff --git a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/network/host/SetupNetworksHelper.java b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/network/host/SetupNetworksHelper.java
+index d644bed..5e7605b 100644
+--- a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/network/host/SetupNetworksHelper.java
++++ b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/network/host/SetupNetworksHelper.java
+@@ -115 +115 @@
+-            if (nic != null) {
++            if (nic != null && !removedBonds.contains(nic.getName())) {
+

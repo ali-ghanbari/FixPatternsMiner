@@ -1,0 +1,33 @@
+diff --git a/src/main/mondrian/util/Bug.java b/src/main/mondrian/util/Bug.java
+index 4cb017d..b0d68ed 100644
+--- a/src/main/mondrian/util/Bug.java
++++ b/src/main/mondrian/util/Bug.java
+@@ -92,0 +93,6 @@
++    /**
++     * Whether
++     * <a href="https://sourceforge.net/tracker/index.php?func=detail&aid=2446228&group_id=35302&atid=414613">bug 2446228, "HighCardinalityTest test cases disabled"</a>
++     * is fixed.
++     */
++    public static final boolean Bug2446228Fixed = false;
+diff --git a/testsrc/main/mondrian/rolap/HighDimensionsTest.java b/testsrc/main/mondrian/rolap/HighDimensionsTest.java
+index d282200..30d37d6 100644
+--- a/testsrc/main/mondrian/rolap/HighDimensionsTest.java
++++ b/testsrc/main/mondrian/rolap/HighDimensionsTest.java
+@@ -14 +13,0 @@
+-import mondrian.olap.*;
+@@ -17 +16 @@
+-import mondrian.test.DiffRepository;
++import mondrian.util.Bug;
+@@ -58,0 +58,3 @@
++        if (!Bug.Bug2446228Fixed) {
++            return;
++        }
+@@ -66,0 +69,3 @@
++        if (!Bug.Bug2446228Fixed) {
++            return;
++        }
+@@ -113,0 +119,3 @@
++        if (!Bug.Bug2446228Fixed) {
++            return;
++        }
+

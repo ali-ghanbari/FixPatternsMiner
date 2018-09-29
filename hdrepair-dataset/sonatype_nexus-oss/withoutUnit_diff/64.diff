@@ -1,0 +1,8 @@
+diff --git a/security-web/src/main/java/org/sonatype/security/web/guice/SecurityWebModule.java b/security-web/src/main/java/org/sonatype/security/web/guice/SecurityWebModule.java
+index f542a4c..729e7c4 100644
+--- a/security-web/src/main/java/org/sonatype/security/web/guice/SecurityWebModule.java
++++ b/security-web/src/main/java/org/sonatype/security/web/guice/SecurityWebModule.java
+@@ -195 +195 @@
+-            beanLocator.watch( Key.get( Filter.class ), this, filterChainManager );
++            beanLocator.watch( Key.get( Filter.class, Named.class ), this, filterChainManager );
+

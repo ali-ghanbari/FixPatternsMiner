@@ -1,0 +1,183 @@
+diff --git a/onebusaway-nyc-webapp/src/main/java/org/onebusaway/nyc/webapp/actions/m/IndexAction.java b/onebusaway-nyc-webapp/src/main/java/org/onebusaway/nyc/webapp/actions/m/IndexAction.java
+index 26a1124..6c5c413 100644
+--- a/onebusaway-nyc-webapp/src/main/java/org/onebusaway/nyc/webapp/actions/m/IndexAction.java
++++ b/onebusaway-nyc-webapp/src/main/java/org/onebusaway/nyc/webapp/actions/m/IndexAction.java
+@@ -302 +302 @@
+-      return null;
++      return "off";
+diff --git a/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/index.jspx b/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/index.jspx
+index ea7f7b1..ffc247a 100644
+--- a/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/index.jspx
++++ b/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/index.jspx
+@@ -129 +129 @@
+-		 	<li>Intersection: &amp;nbsp; <a href="#Main%20St%20and%20Craig%20Ave">Main St &amp;amp; Craig Ave</a></li>
++		 	<li>Intersection: &amp;nbsp; <a href="#Main%20St%20and%20Craig%20Ave">Main St and Craig Ave</a></li>
+diff --git a/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/m/index.jspx b/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/m/index.jspx
+index 1de82a4..c153a82 100644
+--- a/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/m/index.jspx
++++ b/onebusaway-nyc-webapp/src/main/webapp/WEB-INF/content/m/index.jspx
+@@ -55,0 +56,2 @@
++
++			<input type="hidden" name="l" id="l" value="${l}"/>
+diff --git a/onebusaway-nyc-webapp/src/main/webapp/js/oba/m/Location.js b/onebusaway-nyc-webapp/src/main/webapp/js/oba/m/Location.js
+index 9a73e8d..47b073d 100644
+--- a/onebusaway-nyc-webapp/src/main/webapp/js/oba/m/Location.js
++++ b/onebusaway-nyc-webapp/src/main/webapp/js/oba/m/Location.js
+@@ -3,0 +4,2 @@
++	var locationField = null;
++
+@@ -5,0 +8 @@
++	var nearbyButton = null;
+@@ -7 +9,0 @@
+-	var locationField = null;
+@@ -11,15 +13,2 @@
+-	function getParameterByName(name, defaultValue) {
+-		name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+-		var regexS = "[\\?&]"+name+"=([^&#]*)";
+-		var regex = new RegExp(regexS);
+-		var results = regex.exec(window.location.href);
+-		if(results == null) {
+-			return defaultValue;
+-		} else {
+-			return decodeURIComponent(results[1].replace(/\+/g, " "));
+-		}
+-	}
+-	
+-	// add location toggle UI to DOM
+-	var addToggleUI = function() {
+-		var searchPanelForm = jQuery("#searchPanel form");		
++	var initLocationUI = function() {
++		var searchPanelForm = jQuery("#searchPanel form");
+@@ -31 +20,2 @@
+-			.click(function() {
++			.click(function(e) {
++				e.preventDefault();				
+@@ -32,0 +23 @@
++				return false;
+@@ -36 +27,2 @@
+-			.click(function() {
++			.click(function(e) {
++				e.preventDefault();
+@@ -37,0 +30 @@
++				return false;
+@@ -46,0 +40 @@
++
+@@ -49 +43,3 @@
+-			var nearbyButton = jQuery("<input type='button' value='Find Stops Near Me'/>")
++
++			nearbyButton = jQuery("<input type='button' value='Finding your location...'/>")
++				.attr("disabled", "true")
+@@ -54,2 +50 @@
+-
+-				searchPanelForm.find("input.q").val("");
++				searchPanelForm.find("#q").val("");
+@@ -57 +51,0 @@
+-				
+@@ -65,12 +59,4 @@
+-	// remove location toggle UI from DOM if location services are not available
+-	var removeToggleUI = function() {
+-		turnOffGeolocation();
+-		
+-		jQuery("#toggleUI")
+-			.remove();
+-	};
+-	
+-	// remove all instances of location being sent back to server
+-	var removeLocationFields = function() {
+-		if(locationField !== null) {
+-			locationField.remove();
++	var updatePageState = function() {
++		var locationValue = "off";
++		if(lastLatitude !== null && lastLongitude !== null) {
++			locationValue = lastLatitude + "," + lastLongitude;
+@@ -78,4 +64,5 @@
+-		
+-		// update links on this page to NOT include location
+-		jQuery.each(jQuery.find("a"), function(_, _link) {
+-			var link = jQuery(_link);
++
++		// update search field
++		if(locationField !== null) {
++			locationField.val(locationValue);
++		}
+@@ -82,0 +70,3 @@
++		// update links on this page to include location
++		jQuery.each(jQuery("body").find("a"), function(_, _link) {
++			var link = jQuery(_link);
+@@ -85 +75 @@
+-				var newHref = existingHref.replace(/&l=[^&|#|?]*/i, "&l=off");
++				var newHref = existingHref.replace(/&l=[^&|#|?]*/i, "&l=" + locationValue);
+@@ -89,15 +78,0 @@
+-
+-	};
+-	
+-	// rewrite links to include location in query
+-	var updateLocationFields = function() {
+-		if(lastLatitude !== null && lastLongitude !== null) {
+-			// add location field to form if not there already
+-			if(locationField === null) {
+-				locationField = jQuery("<input></input>")
+-					.attr("type", "hidden")
+-					.attr("name", "l");
+-
+-				jQuery("#searchPanel form")
+-					.append(locationField);
+-			}
+@@ -105,12 +80,8 @@
+-			locationField.val(lastLatitude + "," + lastLongitude);
+-
+-			// update links on this page to include location
+-			jQuery.each(jQuery.find("a"), function(_, _link) {
+-				var link = jQuery(_link);
+-				
+-				var existingHref = link.attr("href");
+-				if(typeof existingHref !== 'undefined' && existingHref.indexOf("&l=") > -1) {
+-					var newHref = existingHref.replace(/&l=[^&|#|?]*/i, "&l=" + lastLatitude + "%2C" + lastLongitude);
+-					link.attr("href", newHref);
+-				}
+-			});
++		// update find stops nearby button
++		if(nearbyButton !== null) {
++			if(locationValue !== "off") {
++				nearbyButton.removeAttr("disabled");
++				nearbyButton.val("Find Stops Near Me");
++			} else {
++				nearbyButton.hide();
++			}
+@@ -122 +93,4 @@
+-		removeLocationFields();
++		lastLatitude = null;
++		lastLongitude = null;
++
++		updatePageState();
+@@ -129,0 +104,8 @@
++		// show "finding location" message button to user while 
++		// location is being found
++		if(nearbyButton !== null) {
++			nearbyButton.attr("disabled", "true");
++			nearbyButton.val("Finding your location...");
++			nearbyButton.show();
++		}
++
+@@ -134,2 +116,2 @@
+-			updateLocationFields();
+-		}, removeToggleUI);
++			updatePageState();
++		}, turnOffGeolocation);
+@@ -142,0 +125,2 @@
++			locationField = jQuery("#l");
++			
+@@ -144 +128 @@
+-				addToggleUI();
++				initLocationUI();					
+@@ -146,5 +130 @@
+-				var locationEnabled = getParameterByName("l");
+-
+-				if(locationEnabled === "off") {
+-					turnOffGeolocation();
+-				} else {
++				if(locationField.val() !== "off") {
+@@ -151,0 +132,2 @@
++				} else {
++					turnOffGeolocation();
+

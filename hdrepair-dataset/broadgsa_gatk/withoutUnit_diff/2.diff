@@ -1,0 +1,8 @@
+diff --git a/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/tools/walkers/rnaseq/ASEReadCounter.java b/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/tools/walkers/rnaseq/ASEReadCounter.java
+index 9812d10..a5622d5 100644
+--- a/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/tools/walkers/rnaseq/ASEReadCounter.java
++++ b/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/tools/walkers/rnaseq/ASEReadCounter.java
+@@ -248 +248 @@
+-            if (!base.getRead().getProperPairFlag()){
++            if (base.getRead().getReadPairedFlag() && (base.getRead().getMateUnmappedFlag() || !base.getRead().getProperPairFlag())){
+

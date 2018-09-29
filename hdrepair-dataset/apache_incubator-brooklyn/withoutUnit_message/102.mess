@@ -1,0 +1,6 @@
+AutoScalerPolicy important fix: avoid no-op'ing forever
+    
+- When isEntityUp() was initially null, the scheduleResize() would
+  have first done executorQueued.compareAndSet before checking this!
+  So it would never go into the for loop to set executorScheduled back
+  to false.

@@ -1,0 +1,30 @@
+diff --git a/querydsl-sql/src/main/java/com/mysema/query/sql/DefaultNamingStrategy.java b/querydsl-sql/src/main/java/com/mysema/query/sql/DefaultNamingStrategy.java
+index 841ee34..4363a2e 100644
+--- a/querydsl-sql/src/main/java/com/mysema/query/sql/DefaultNamingStrategy.java
++++ b/querydsl-sql/src/main/java/com/mysema/query/sql/DefaultNamingStrategy.java
+@@ -131 +131 @@
+-            if (str.charAt(i) == '_') {
++            if (str.charAt(i) == '_' || str.charAt(i) == ' ') {
+diff --git a/querydsl-sql/src/test/java/com/mysema/query/sql/DefaultNamingStrategyTest.java b/querydsl-sql/src/test/java/com/mysema/query/sql/DefaultNamingStrategyTest.java
+index 59880d7..ff51a9d 100644
+--- a/querydsl-sql/src/test/java/com/mysema/query/sql/DefaultNamingStrategyTest.java
++++ b/querydsl-sql/src/test/java/com/mysema/query/sql/DefaultNamingStrategyTest.java
+@@ -54,0 +55,5 @@
++    public void GetPropertyName_For_Column_With_Spaces() {
++        assertEquals("userId", namingStrategy.getPropertyName("user id", entityModel));
++    }
++    
++    @Test
+diff --git a/querydsl-sql/src/test/java/com/mysema/query/sql/ExtendedNamingStrategyTest.java b/querydsl-sql/src/test/java/com/mysema/query/sql/ExtendedNamingStrategyTest.java
+index 10092f0..f4f3603 100644
+--- a/querydsl-sql/src/test/java/com/mysema/query/sql/ExtendedNamingStrategyTest.java
++++ b/querydsl-sql/src/test/java/com/mysema/query/sql/ExtendedNamingStrategyTest.java
+@@ -53 +53,6 @@
+-
++    
++    @Test
++    public void GetPropertyName_For_Column_With_Spaces() {
++        assertEquals("userId", namingStrategy.getPropertyName("user id", entityModel));
++    }
++    
+

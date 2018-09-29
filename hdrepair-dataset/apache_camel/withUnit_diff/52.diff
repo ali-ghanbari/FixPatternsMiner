@@ -1,0 +1,36 @@
+diff --git a/camel-core/src/main/java/org/apache/camel/converter/stream/SourceCache.java b/camel-core/src/main/java/org/apache/camel/converter/stream/SourceCache.java
+index 21e3f9c..02c2102 100644
+--- a/camel-core/src/main/java/org/apache/camel/converter/stream/SourceCache.java
++++ b/camel-core/src/main/java/org/apache/camel/converter/stream/SourceCache.java
+@@ -37 +37 @@
+-        new StringSource(data);
++        super(data);
+diff --git a/camel-core/src/test/java/org/apache/camel/converter/stream/StreamCacheConverterTest.java b/camel-core/src/test/java/org/apache/camel/converter/stream/StreamCacheConverterTest.java
+index fe22ec8..1af8046 100644
+--- a/camel-core/src/test/java/org/apache/camel/converter/stream/StreamCacheConverterTest.java
++++ b/camel-core/src/test/java/org/apache/camel/converter/stream/StreamCacheConverterTest.java
+@@ -18,0 +19 @@
++import java.io.ByteArrayInputStream;
+@@ -22,0 +24,3 @@
++import javax.xml.stream.XMLInputFactory;
++import javax.xml.stream.XMLStreamException;
++import javax.xml.stream.XMLStreamReader;
+@@ -23,0 +28 @@
++import javax.xml.transform.sax.SAXSource;
+@@ -24,0 +30,2 @@
++
++import org.xml.sax.InputSource;
+@@ -32,0 +40 @@
++
+@@ -38,0 +47 @@
++    private static final String MESSAGE = "<test>This is a test</test>";
+@@ -47,0 +57,8 @@
++    
++    public void testConvertToStreamCache() throws Exception {
++        ByteArrayInputStream inputStream = new ByteArrayInputStream(MESSAGE.getBytes());
++        StreamCache streamCache = converter.convertToStreamCache(new SAXSource(new InputSource(inputStream)), exchange);
++        String message = exchange.getContext().getTypeConverter().convertTo(String.class, streamCache);
++        assertNotNull(message);
++        assertEquals("The converted message is wrong", MESSAGE, message);
++    }
+

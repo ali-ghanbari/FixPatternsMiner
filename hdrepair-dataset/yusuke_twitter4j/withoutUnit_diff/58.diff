@@ -1,0 +1,8 @@
+diff --git a/src/main/java/twitter4j/Twitter.java b/src/main/java/twitter4j/Twitter.java
+index 0149944..d145c0e 100644
+--- a/src/main/java/twitter4j/Twitter.java
++++ b/src/main/java/twitter4j/Twitter.java
+@@ -783 +783 @@
+-            return get(baseURL + "account/verify_credentials.xml", true).asString().contains("true");
++            return get(baseURL + "account/verify_credentials.xml", true).getStatusCode() == 200;
+

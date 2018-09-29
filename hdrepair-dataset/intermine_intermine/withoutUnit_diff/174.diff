@@ -1,0 +1,46 @@
+diff --git a/bio/sources/biopax/main/src/org/intermine/bio/dataconversion/BioPAXConverter.java b/bio/sources/biopax/main/src/org/intermine/bio/dataconversion/BioPAXConverter.java
+index be9b570..daed3ce 100644
+--- a/bio/sources/biopax/main/src/org/intermine/bio/dataconversion/BioPAXConverter.java
++++ b/bio/sources/biopax/main/src/org/intermine/bio/dataconversion/BioPAXConverter.java
+@@ -326 +326 @@
+-        if (synonyms.contains(key)) {
++        if (!synonyms.contains(key)) {
+diff --git a/bio/sources/biopax/test/resources/BioPAXConverterTest_tgt.xml b/bio/sources/biopax/test/resources/BioPAXConverterTest_tgt.xml
+index 52e7cd4..ee365f2 100644
+--- a/bio/sources/biopax/test/resources/BioPAXConverterTest_tgt.xml
++++ b/bio/sources/biopax/test/resources/BioPAXConverterTest_tgt.xml
+@@ -7,0 +8,6 @@
++<item id="3_1" class="Pathway">
++<attribute name="curated" value="false"/>
++<attribute name="identifier" value="541066"/>
++<attribute name="name" value="Synthesis of bile acids and bile salts"/>
++<collection name="dataSets"><reference ref_id="1_1"/></collection>
++</item>
+@@ -19,0 +26,6 @@
++<item id="3_4" class="Pathway">
++<attribute name="curated" value="false"/>
++<attribute name="identifier" value="541169"/>
++<attribute name="name" value="Synthesis of bile acids and bile salts via 24-hydroxycholesterol"/>
++<collection name="dataSets"><reference ref_id="1_1"/></collection>
++</item>
+@@ -22,6 +33,0 @@
+-</item>
+-<item id="3_1" class="Pathway">
+-<attribute name="curated" value="false"/>
+-<attribute name="identifier" value="541066"/>
+-<attribute name="name" value="Synthesis of bile acids and bile salts"/>
+-<collection name="dataSets"><reference ref_id="1_1"/></collection>
+@@ -42,4 +48,8 @@
+-<item id="3_4" class="Pathway">
+-<attribute name="curated" value="false"/>
+-<attribute name="identifier" value="541169"/>
+-<attribute name="name" value="Synthesis of bile acids and bile salts via 24-hydroxycholesterol"/>
++<item id="5_2" class="Synonym">
++<attribute name="value" value="FBgn0000001"/>
++<reference name="subject" ref_id="4_2"/>
++<collection name="dataSets"><reference ref_id="1_1"/></collection>
++</item>
++<item id="5_1" class="Synonym">
++<attribute name="value" value="FBgn0000002"/>
++<reference name="subject" ref_id="4_1"/>
+

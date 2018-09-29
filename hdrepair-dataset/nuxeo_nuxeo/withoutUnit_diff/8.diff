@@ -1,0 +1,113 @@
+diff --git a/nuxeo-core/nuxeo-core-test/src/test/java/org/nuxeo/ecm/core/TestSQLRepositoryFulltextConfig.java b/nuxeo-core/nuxeo-core-test/src/test/java/org/nuxeo/ecm/core/TestSQLRepositoryFulltextConfig.java
+index 9661429..b43fc08 100644
+--- a/nuxeo-core/nuxeo-core-test/src/test/java/org/nuxeo/ecm/core/TestSQLRepositoryFulltextConfig.java
++++ b/nuxeo-core/nuxeo-core-test/src/test/java/org/nuxeo/ecm/core/TestSQLRepositoryFulltextConfig.java
+@@ -68 +68,3 @@
+-        assumeTrue(coreFeature.getStorageConfiguration().isVCSH2());
++        // MySQL fulltext is funky with respect to what words it finds in small databases
++        // so don't bother testing on MySQL, this is mostly a configuration test anyway
++        assumeTrue(!coreFeature.getStorageConfiguration().isVCSMySQL());
+diff --git a/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-mixed-contrib.xml b/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-mixed-contrib.xml
+index 9b539ae..a1ad64c 100644
+--- a/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-mixed-contrib.xml
++++ b/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-mixed-contrib.xml
+@@ -2,7 +2 @@
+-<component name="org.nuxeo.ecm.core.storage.sql.test.repo.repository.fulltext.noteonly">
+-  <extension target="org.nuxeo.ecm.core.blob.BlobManager" point="configuration">
+-    <blobprovider name="${nuxeo.test.vcs.repository}">
+-      <class>${nuxeo.test.vcs.binary-manager}</class>
+-      <property name="key">${nuxeo.test.vcs.binary-manager-key}</property>
+-    </blobprovider>
+-  </extension>
++<component name="org.nuxeo.ecm.core.storage.sql.test.repo.repository.fulltext.mixed">
+@@ -11,6 +5 @@
+-    <repository name="${nuxeo.test.vcs.repository}"
+-      factory="org.nuxeo.ecm.core.storage.sql.coremodel.SQLRepositoryFactory">
+-      <schema>
+-        <field type="largetext">note</field>
+-        <field type="largetext">relatedtext</field>
+-      </schema>
++    <repository name="${nuxeo.test.vcs.repository}">
+@@ -24,8 +12,0 @@
+-        <fulltext analyzer="org.apache.lucene.analysis.fr.FrenchAnalyzer">
+-          <index> <!-- name="default" implied -->
+-            <!-- all props implied -->
+-          </index>
+-          <index name="title">
+-            <field>dc:title</field>
+-          </index>
+-        </fulltext>
+@@ -33,4 +13,0 @@
+-      <xa-datasource>org.h2.jdbcx.JdbcDataSource</xa-datasource>
+-      <property name="URL">${nuxeo.test.vcs.url}</property>
+-      <property name="User">${nuxeo.test.vcs.user}</property>
+-      <property name="Password">${nuxeo.test.vcs.password}</property>
+diff --git a/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-excluded-contrib.xml b/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-excluded-contrib.xml
+index e70d6f5..415a4da 100644
+--- a/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-excluded-contrib.xml
++++ b/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-excluded-contrib.xml
+@@ -2,7 +2 @@
+-<component name="org.nuxeo.ecm.core.storage.sql.test.repo.repository.fulltext.noteonly">
+-  <extension target="org.nuxeo.ecm.core.blob.BlobManager" point="configuration">
+-    <blobprovider name="${nuxeo.test.vcs.repository}">
+-      <class>${nuxeo.test.vcs.binary-manager}</class>
+-      <property name="key">${nuxeo.test.vcs.binary-manager-key}</property>
+-    </blobprovider>
+-  </extension>
++<component name="org.nuxeo.ecm.core.storage.sql.test.repo.repository.fulltext.noteexcluded">
+@@ -11,6 +5 @@
+-    <repository name="${nuxeo.test.vcs.repository}"
+-      factory="org.nuxeo.ecm.core.storage.sql.coremodel.SQLRepositoryFactory">
+-      <schema>
+-        <field type="largetext">note</field>
+-        <field type="largetext">relatedtext</field>
+-      </schema>
++    <repository name="${nuxeo.test.vcs.repository}">
+@@ -22,8 +10,0 @@
+-        <fulltext analyzer="org.apache.lucene.analysis.fr.FrenchAnalyzer">
+-          <index> <!-- name="default" implied -->
+-            <!-- all props implied -->
+-          </index>
+-          <index name="title">
+-            <field>dc:title</field>
+-          </index>
+-        </fulltext>
+@@ -31,4 +11,0 @@
+-      <xa-datasource>org.h2.jdbcx.JdbcDataSource</xa-datasource>
+-      <property name="URL">${nuxeo.test.vcs.url}</property>
+-      <property name="User">${nuxeo.test.vcs.user}</property>
+-      <property name="Password">${nuxeo.test.vcs.password}</property>
+diff --git a/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-only-contrib.xml b/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-only-contrib.xml
+index 679dd7d..359d832 100644
+--- a/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-only-contrib.xml
++++ b/nuxeo-core/nuxeo-core-test/src/test/resources/OSGI-INF/test-repo-fulltext-note-file-only-contrib.xml
+@@ -3,6 +2,0 @@
+-  <extension target="org.nuxeo.ecm.core.blob.BlobManager" point="configuration">
+-    <blobprovider name="${nuxeo.test.vcs.repository}">
+-      <class>${nuxeo.test.vcs.binary-manager}</class>
+-      <property name="key">${nuxeo.test.vcs.binary-manager-key}</property>
+-    </blobprovider>
+-  </extension>
+@@ -11,6 +5 @@
+-    <repository name="${nuxeo.test.vcs.repository}"
+-      factory="org.nuxeo.ecm.core.storage.sql.coremodel.SQLRepositoryFactory">
+-      <schema>
+-        <field type="largetext">note</field>
+-        <field type="largetext">relatedtext</field>
+-      </schema>
++    <repository name="${nuxeo.test.vcs.repository}">
+@@ -22,8 +10,0 @@
+-        <fulltext analyzer="org.apache.lucene.analysis.fr.FrenchAnalyzer">
+-          <index> <!-- name="default" implied -->
+-            <!-- all props implied -->
+-          </index>
+-          <index name="title">
+-            <field>dc:title</field>
+-          </index>
+-        </fulltext>
+@@ -31,4 +11,0 @@
+-      <xa-datasource>org.h2.jdbcx.JdbcDataSource</xa-datasource>
+-      <property name="URL">${nuxeo.test.vcs.url}</property>
+-      <property name="User">${nuxeo.test.vcs.user}</property>
+-      <property name="Password">${nuxeo.test.vcs.password}</property>
+

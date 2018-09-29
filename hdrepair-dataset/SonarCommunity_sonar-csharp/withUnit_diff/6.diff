@@ -1,0 +1,22 @@
+diff --git a/csharp-squid/src/main/java/com/sonar/csharp/parser/CSharpGrammarDecorator.java b/csharp-squid/src/main/java/com/sonar/csharp/parser/CSharpGrammarDecorator.java
+index 3d7e976..44277ba 100644
+--- a/csharp-squid/src/main/java/com/sonar/csharp/parser/CSharpGrammarDecorator.java
++++ b/csharp-squid/src/main/java/com/sonar/csharp/parser/CSharpGrammarDecorator.java
+@@ -294 +294 @@
+-    g.expression.isOr(g.conditionalExpression, g.assignment);
++    g.expression.isOr(g.assignment, g.conditionalExpression);
+diff --git a/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/expressions/AssignmentTest.java b/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/expressions/AssignmentTest.java
+index ac7fe72..e01f31f 100644
+--- a/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/expressions/AssignmentTest.java
++++ b/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/expressions/AssignmentTest.java
+@@ -61,2 +61 @@
+-    // TODO : Seen on the ConstraintOperators.cs file
+-    // assertThat(p, parse("left_precedence = right_precedence = 1"));
++    assertThat(p, parse("m_headFilter = m_tailFilter = filter"));
+diff --git a/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/statements/StatementTest.java b/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/statements/StatementTest.java
+index 1d459e0..477648c 100644
+--- a/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/statements/StatementTest.java
++++ b/csharp-squid/src/test/java/com/sonar/csharp/parser/rules/statements/StatementTest.java
+@@ -43,0 +44 @@
++    assertThat(p, parse("m_headFilter = m_tailFilter = filter;"));
+

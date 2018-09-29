@@ -1,0 +1,39 @@
+diff --git a/etc/database_operations/correctResearcherTable.sql b/etc/database_operations/correctResearcherTable.sql
+new file mode 100644
+index 0000000..7d21f27
+--- /dev/null
++++ b/etc/database_operations/correctResearcherTable.sql
+@@ -0,0 +1 @@
++UPDATE RESEARCHER SET ALLOWS_CONTACT_BY_OTHER_RESEARCHERS=0 WHERE ALLOWS_CONTACT_BY_OTHER_RESEARCHERS IS NULL;
+\ No newline at end of file
+diff --git a/etc/database_operations/run b/etc/database_operations/run
+index 1485517..59bd77c 100644
+--- a/etc/database_operations/run
++++ b/etc/database_operations/run
+@@ -48 +48 @@
+-
++execute "Correct Researcher table" correctResearcherTable.sql IST
+diff --git a/src/net/sourceforge/fenixedu/domain/research/Researcher.java b/src/net/sourceforge/fenixedu/domain/research/Researcher.java
+index 7de3d04..06415ff 100644
+--- a/src/net/sourceforge/fenixedu/domain/research/Researcher.java
++++ b/src/net/sourceforge/fenixedu/domain/research/Researcher.java
+@@ -33 +33 @@
+-	setAllowsContactByStudents(Boolean.FALSE);
++	setAllowsContactByOtherResearchers(Boolean.FALSE);
+diff --git a/web/researcher/expertDetails/viewResearcher.jsp b/web/researcher/expertDetails/viewResearcher.jsp
+index 9d3279e..7dd8316 100644
+--- a/web/researcher/expertDetails/viewResearcher.jsp
++++ b/web/researcher/expertDetails/viewResearcher.jsp
+@@ -39,2 +39,4 @@
+-	<p class="mtop15 mbottom05"><strong><bean:message key="label.keywords.portuguese" bundle="RESEARCHER_RESOURCES"/></strong></p>
+-	<p class="mtop05"><fr:view name="researcher" property="keywordsPt"/></p>
++	<p class="mtop15 mbottom05"><strong><bean:message key="label.keywords.portuguese" bundle="RESEARCHER_RESOURCES"/></strong></p>	
++	<logic:notEmpty name="researcher" property="keywordsPt">
++		<p class="mtop05"><fr:view name="researcher" property="keywordsPt"/></p>
++	</logic:notEmpty>
+@@ -43 +45,3 @@
+-	<p class="mtop05"><fr:view name="researcher" property="keywordsEn"/></p>
++	<logic:notEmpty name="researcher" property="keywordsEn">
++		<p class="mtop05"><fr:view name="researcher" property="keywordsEn"/></p>
++	</logic:notEmpty>
+

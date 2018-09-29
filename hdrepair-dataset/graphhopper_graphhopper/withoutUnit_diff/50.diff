@@ -1,0 +1,19 @@
+diff --git a/config-example.properties b/config-example.properties
+index 01e3f65..eafaa23 100644
+--- a/config-example.properties
++++ b/config-example.properties
+@@ -6,6 +5,0 @@
+-#  other options
+-#osmreader.dataaccess=inmemory
+-#osmreader.dataaccess=mmap
+-
+-# sorts the graph according to location which improves query times by 10-20%
+-osmreader.sortGraph=false
+diff --git a/src/main/java/com/graphhopper/GraphHopper.java b/src/main/java/com/graphhopper/GraphHopper.java
+index 8f27d4c..658387f 100644
+--- a/src/main/java/com/graphhopper/GraphHopper.java
++++ b/src/main/java/com/graphhopper/GraphHopper.java
+@@ -263 +263 @@
+-            int minPathPrecision = request.getHint("douglas.minprecision", 1);
++            double minPathPrecision = request.getHint("douglas.minprecision", 1d);
+

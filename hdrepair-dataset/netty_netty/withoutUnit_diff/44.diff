@@ -1,0 +1,15 @@
+diff --git a/handler/src/main/java/io/netty/handler/ssl/SslHandler.java b/handler/src/main/java/io/netty/handler/ssl/SslHandler.java
+index 0b37456..fa51955 100644
+--- a/handler/src/main/java/io/netty/handler/ssl/SslHandler.java
++++ b/handler/src/main/java/io/netty/handler/ssl/SslHandler.java
+@@ -975 +975 @@
+-                ChannelBuffer frame = ChannelBuffers.buffer(outAppBuf.remaining());
++                ChannelBuffer frame = ctx.getChannel().getConfig().getBufferFactory().getBuffer(outAppBuf.remaining());
+diff --git a/pom.xml b/pom.xml
+index d4daaae..7c47545 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -271 +271 @@
+-          <forkMode>never</forkMode>
++          <forkMode>once</forkMode>
+

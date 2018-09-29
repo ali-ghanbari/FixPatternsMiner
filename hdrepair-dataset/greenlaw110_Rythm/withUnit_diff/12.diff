@@ -1,0 +1,59 @@
+diff --git a/pom.xml b/pom.xml
+index 8bc6f88..fd9cd16 100755
+--- a/pom.xml
++++ b/pom.xml
+@@ -17 +17,2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -162 +163 @@
+-                
++
+@@ -171,4 +172,4 @@
+-        	<groupId>com.google.appengine</groupId>
+-        	<artifactId>appengine-api-1.0-sdk</artifactId>
+-        	<version>1.8.1</version>
+-        	<scope>provided</scope>
++            <groupId>com.google.appengine</groupId>
++            <artifactId>appengine-api-1.0-sdk</artifactId>
++            <version>1.8.1</version>
++            <scope>provided</scope>
+@@ -199,4 +200,11 @@
+-        	<groupId>net.sf.ehcache</groupId>
+-        	<artifactId>ehcache</artifactId>
+-        	<version>2.7.0</version>
+-        	<scope>provided</scope>
++            <groupId>net.sf.ehcache</groupId>
++            <artifactId>ehcache</artifactId>
++            <version>2.7.0</version>
++            <scope>provided</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>net.spy</groupId>
++            <artifactId>spymemcached</artifactId>
++            <version>2.10.3</version>
++            <scope>provided</scope>
+@@ -244 +252 @@
+-                            <quiet />
++                            <quiet/>
+diff --git a/src/main/java/org/rythmengine/internal/parser/build_in/ElseIfParser.java b/src/main/java/org/rythmengine/internal/parser/build_in/ElseIfParser.java
+index d5ba801..0c0f394 100755
+--- a/src/main/java/org/rythmengine/internal/parser/build_in/ElseIfParser.java
++++ b/src/main/java/org/rythmengine/internal/parser/build_in/ElseIfParser.java
+@@ -84 +84 @@
+-                    Pattern p = Pattern.compile(".*\\{\\s?", Pattern.DOTALL);
++                    Pattern p = Pattern.compile(".*\\{\\s?\\n?", Pattern.DOTALL);
+diff --git a/src/test/java/org/rythmengine/issue/GHIssueTest.java b/src/test/java/org/rythmengine/issue/GHIssueTest.java
+index e299ae5..d8279f4 100755
+--- a/src/test/java/org/rythmengine/issue/GHIssueTest.java
++++ b/src/test/java/org/rythmengine/issue/GHIssueTest.java
+@@ -224,0 +225,7 @@
++
++    @Test
++    public void test193() {
++        t = "@if(true) {a} else { \nb\n}";
++        s = r(t);
++        eq("a");
++    }
+

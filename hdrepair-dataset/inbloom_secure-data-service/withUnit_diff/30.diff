@@ -1,0 +1,60 @@
+diff --git a/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/validation/XsdErrorHandler.java b/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/validation/XsdErrorHandler.java
+index 7ff06d6..cf37f30 100644
+--- a/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/validation/XsdErrorHandler.java
++++ b/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/validation/XsdErrorHandler.java
+@@ -106,2 +106,3 @@
+-                // Remove curly braces and colons.
+-                arg = arg.replaceAll("[{:}]", "");
++                // Remove colons.
++/*                arg = arg.replaceAll("[{:}]", "");*/
++                arg = arg.replaceAll(":", "");
+diff --git a/sli/ingestion/ingestion-core/src/main/resources/messages.properties b/sli/ingestion/ingestion-core/src/main/resources/messages.properties
+index 7a32371..61261d1 100644
+--- a/sli/ingestion/ingestion-core/src/main/resources/messages.properties
++++ b/sli/ingestion/ingestion-core/src/main/resources/messages.properties
+@@ -23 +23 @@
+-XSD_NO_CHILDREN=Element {0} must have no children
++XSD_NO_CHILDREN=Element {0} must have no element information, is invalid or duplicated
+@@ -34,2 +34,4 @@
+-XSD_VALUE_TOO_LARGE=Value "{0}" is too large with respect to size {1} for type {2}
+-XSD_VALUE_TOO_SMALL=Value "{0}" is too small with respect to size {1} for type {2}
++XSD_LENGTH_TOO_SMALL=Length of value "{0}" with length {1} is too small for minimum length {2} for type {3}
++XSD_LENGTH_TOO_LARGE=Length of value "{0}" with length {1} is too large for maximum length {2} for type {3}
++XSD_VALUE_TOO_LARGE=Value "{0}" is too large with respect to minimum value {1} for type {2}
++XSD_VALUE_TOO_SMALL=Value "{0}" is too small with respect to maximum value {1} for type {2}
+diff --git a/sli/ingestion/ingestion-core/src/main/resources/spring/validation-context.xml b/sli/ingestion/ingestion-core/src/main/resources/spring/validation-context.xml
+index b218260..43543dc 100644
+--- a/sli/ingestion/ingestion-core/src/main/resources/spring/validation-context.xml
++++ b/sli/ingestion/ingestion-core/src/main/resources/spring/validation-context.xml
+@@ -94,2 +94,2 @@
+-        <entry key="cvc-minLength-valid" value="XSD_INCORRECT_LENGTH" />
+-        <entry key="cvc-maxLength-valid" value="XSD_INCORRECT_LENGTH" />
++        <entry key="cvc-minLength-valid" value="XSD_LENGTH_TOO_SMALL" />
++        <entry key="cvc-maxLength-valid" value="XSD_LENGTH_TOO_LARGE" />
+diff --git a/sli/ingestion/ingestion-core/src/test/java/org/slc/sli/ingestion/validation/XsdErrorHandlerTest.java b/sli/ingestion/ingestion-core/src/test/java/org/slc/sli/ingestion/validation/XsdErrorHandlerTest.java
+index a297f25..81a5d7f 100644
+--- a/sli/ingestion/ingestion-core/src/test/java/org/slc/sli/ingestion/validation/XsdErrorHandlerTest.java
++++ b/sli/ingestion/ingestion-core/src/test/java/org/slc/sli/ingestion/validation/XsdErrorHandlerTest.java
+@@ -47,2 +46,0 @@
+-        xsdErrorHandler.setIsValid(true);
+-        
+@@ -49,0 +48 @@
++        xsdErrorHandler.setIsValid(true);
+@@ -51 +50 @@
+-                "cvc-totalDigits-valid: Value '4000' has 4 total digits, but the number of total digits has been limited to 3.");
++                "cvc-totalDigits-valid: Value '4000' has '4' total digits, but the number of total digits has been limited to '3'.");
+@@ -58,2 +56,0 @@
+-        xsdErrorHandler.setIsValid(true);
+-        
+@@ -60,0 +58 @@
++        xsdErrorHandler.setIsValid(true);
+@@ -63 +61,2 @@
+-                        + "'{\"http://ed-fi.org/0100\":VisualLearning}' is expected.");
++                        + "'{\"http://ed-fi.org/0100\":VisualLearning, \"http://ed-fi.org/0100\":AuditoryLearning, "
++                        + "\"http://ed-fi.org/0100\":TactileLearning}' is expected.");
+@@ -71,0 +71 @@
++        xsdErrorHandler.setIsValid(true);
+@@ -101 +101 @@
+-                    "Element Race is out of order.  Expected one of CohortYears, StudentIndicators, LoginId");
++                    "Element Race is out of order.  Expected one of {CohortYears, StudentIndicators, LoginId}");
+

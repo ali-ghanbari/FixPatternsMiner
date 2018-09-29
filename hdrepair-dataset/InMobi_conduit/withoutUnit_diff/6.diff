@@ -1,0 +1,26 @@
+diff --git a/conduit-worker/src/main/java/com/inmobi/conduit/local/LocalStreamService.java b/conduit-worker/src/main/java/com/inmobi/conduit/local/LocalStreamService.java
+index a8bc16b..4fdfbfd 100644
+--- a/conduit-worker/src/main/java/com/inmobi/conduit/local/LocalStreamService.java
++++ b/conduit-worker/src/main/java/com/inmobi/conduit/local/LocalStreamService.java
+@@ -273 +273 @@
+-        String path = srcCluster.getLocalDestDir(eachStream, commitTime);
++        String path = srcCluster.getFinalDestDir(eachStream, commitTime);
+diff --git a/conduit-worker/src/main/resources/hive-site.xml b/conduit-worker/src/main/resources/hive-site.xml
+deleted file mode 100644
+index fb34a4e..0000000
+--- a/conduit-worker/src/main/resources/hive-site.xml
++++ /dev/null
+@@ -1,12 +0,0 @@
+-<?xml version="1.0"?>
+-<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+-<configuration>
+-  <property>
+-    <name>hive.metastore.connect.retries</name>
+-    <value>3</value>
+-  </property>
+-  <property>
+-    <name>hive.metastore.client.socket.timeout</name>
+-    <value>20</value>
+-  </property>
+-</configuration>
+

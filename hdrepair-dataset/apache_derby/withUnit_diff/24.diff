@@ -1,0 +1,21 @@
+diff --git a/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/LDAPAuthenticationTest.java b/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/LDAPAuthenticationTest.java
+index f130563..3d45137 100644
+--- a/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/LDAPAuthenticationTest.java
++++ b/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/LDAPAuthenticationTest.java
+@@ -110 +110,2 @@
+-        suite.addTest(baseSuite("LDAPAuthenticationTest:embedded", "testConnection"));
++        suite.addTest(baseSuite("LDAPAuthenticationTest:embedded",
++            "testLDAPConnection"));
+@@ -112 +113 @@
+-                baseSuite("LDAPAuthenticationTest:client", "testConnection")));
++            baseSuite("LDAPAuthenticationTest:client", "testLDAPConnection")));
+@@ -204 +205 @@
+-    public void testConnection() throws SQLException {
++    public void testLDAPConnection() throws SQLException {
+diff --git a/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/_Suite.java b/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/_Suite.java
+index e54be0f..3550667 100644
+--- a/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/_Suite.java
++++ b/java/testing/org/apache/derbyTesting/functionTests/tests/jdbcapi/_Suite.java
+@@ -151,0 +152 @@
++            suite.addTest(XAJNDITest.suite());
+

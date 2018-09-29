@@ -1,0 +1,16 @@
+diff --git a/core/src/main/java/eu/excitementproject/eop/core/component/lexicalknowledge/germanet/GermaNetWrapper.java b/core/src/main/java/eu/excitementproject/eop/core/component/lexicalknowledge/germanet/GermaNetWrapper.java
+index 25c2942..48f9e55 100644
+--- a/core/src/main/java/eu/excitementproject/eop/core/component/lexicalknowledge/germanet/GermaNetWrapper.java
++++ b/core/src/main/java/eu/excitementproject/eop/core/component/lexicalknowledge/germanet/GermaNetWrapper.java
+@@ -247 +247 @@
+-		if (!isValidPos(pos))
++		if ( pos != null && !isValidPos(pos))
+diff --git a/core/src/test/java/eu/excitementproject/eop/core/GermaNetWrapperTest.java b/core/src/test/java/eu/excitementproject/eop/core/GermaNetWrapperTest.java
+index 11910ef..6861caa 100644
+--- a/core/src/test/java/eu/excitementproject/eop/core/GermaNetWrapperTest.java
++++ b/core/src/test/java/eu/excitementproject/eop/core/GermaNetWrapperTest.java
+@@ -93,0 +94,3 @@
++			// Still, null POS should mean, don't care
++			l = gnw.getRulesForLeft("Hitze",  null); 
++			assertTrue(l.size() > 0);
+

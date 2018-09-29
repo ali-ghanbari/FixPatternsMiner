@@ -1,0 +1,143 @@
+diff --git a/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/ivy/IvyChangingModuleRemoteResolveIntegrationTest.groovy b/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/ivy/IvyChangingModuleRemoteResolveIntegrationTest.groovy
+index 2bcdea5..0319d6e 100644
+--- a/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/ivy/IvyChangingModuleRemoteResolveIntegrationTest.groovy
++++ b/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/ivy/IvyChangingModuleRemoteResolveIntegrationTest.groovy
+@@ -73 +72,0 @@
+-        module.expectJarSha1Get()
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/AbstractModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/AbstractModule.groovy
+index 996666f..db1a39c 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/AbstractModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/AbstractModule.groovy
+@@ -22 +22,19 @@
+-class AbstractModule {
++abstract class AbstractModule {
++    protected void publish(TestFile file, Closure cl) {
++        def timestamp = file.exists() ? file.lastModified() : null
++        def hashBefore = file.exists() ? getHash(file, "sha1") : null
++
++        cl.call(file)
++
++        def hashAfter = getHash(file, "sha1")
++        if (hashAfter == hashBefore) {
++            // Already published
++            file.lastModified = timestamp
++            return
++        }
++
++        onPublish(file)
++    }
++
++    protected abstract onPublish(TestFile file)
++
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/AbstractIvyModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/AbstractIvyModule.groovy
+deleted file mode 100644
+index 2ae6058..0000000
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/AbstractIvyModule.groovy
++++ /dev/null
+@@ -1,27 +0,0 @@
+-/*
+- * Copyright 2012 the original author or authors.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.gradle.test.fixtures.ivy
+-
+-import org.gradle.test.fixtures.AbstractModule
+-
+-abstract class AbstractIvyModule extends AbstractModule implements IvyModule {
+-
+-    IvyDescriptor getIvy() {
+-        return new IvyDescriptor(ivyFile)
+-    }
+-
+-}
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
+index 2e032fc..40d3bbd 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
+@@ -21,0 +22 @@
++import org.gradle.test.fixtures.AbstractModule
+@@ -24 +25 @@
+-class IvyFileModule extends AbstractIvyModule {
++class IvyFileModule extends AbstractModule implements IvyModule {
+@@ -48,0 +50,4 @@
++    }
++
++    IvyDescriptor getIvy() {
++        return new IvyDescriptor(ivyFile)
+@@ -192,2 +197,2 @@
+-    private void publish(File file, Closure cl) {
+-        cl.call(file)
++    @Override
++    protected onPublish(TestFile file) {
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
+index 345926f..77930ce 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
+@@ -23 +23 @@
+-class IvyHttpModule extends AbstractIvyModule {
++class IvyHttpModule implements IvyModule {
+@@ -33,0 +34,4 @@
++    IvyDescriptor getIvy() {
++        return backingModule.ivy
++    }
++
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
+index f79f83a..3eb8b01 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
+@@ -47 +47,2 @@
+-     * Publishes ivy.xml plus all artifacts
++     * Publishes ivy.xml plus all artifacts. Publishes only those artifacts whose content has changed since the
++     * last call to {@code #publish()}.
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenFileModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenFileModule.groovy
+index 619c239..c22124e 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenFileModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenFileModule.groovy
+@@ -335,3 +335,4 @@
+-    private void publish(File file, Closure cl) {
+-        cl.call(file)
+-        createHashFiles(file)
++    @Override
++    protected onPublish(TestFile file) {
++        sha1File(file)
++        md5File(file)
+@@ -351,6 +351,0 @@
+-
+-    private void createHashFiles(TestFile file) {
+-        sha1File(file)
+-        md5File(file)
+-    }
+-
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenModule.groovy
+index 5a4dace..1c40d99 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/maven/MavenModule.groovy
+@@ -25 +25,2 @@
+-     * Publishes the pom.xml plus main artifact, plus any additional artifacts for this module.
++     * Publishes the pom.xml plus main artifact, plus any additional artifacts for this module. Publishes only those artifacts whose content has
++     * changed since the last call to {@code #publish()}.
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy
+index 2fa4d94..df3d860 100755
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy
+@@ -194,7 +193,0 @@
+-     * Adds a given file at the given URL. The source file can be either a file or a directory.
+-     */
+-    void allowHead(String path, File srcFile) {
+-        allow(path, true, ['HEAD'], fileHandler(path, srcFile))
+-    }
+-
+-    /**
+

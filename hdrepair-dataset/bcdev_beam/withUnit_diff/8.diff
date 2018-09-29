@@ -1,0 +1,23 @@
+diff --git a/beam-csv-productio/src/main/java/org/esa/beam/csv/productio/Constants.java b/beam-csv-productio/src/main/java/org/esa/beam/csv/productio/Constants.java
+index 7905974..4f69b78 100644
+--- a/beam-csv-productio/src/main/java/org/esa/beam/csv/productio/Constants.java
++++ b/beam-csv-productio/src/main/java/org/esa/beam/csv/productio/Constants.java
+@@ -31 +31 @@
+-    static final String TIME_PATTERN = "yyyy-MM-dd'T'hh:mm:ss";
++    static final String TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+diff --git a/beam-csv-productio/src/test/java/org/esa/beam/csv/productio/CsvProductFileTest.java b/beam-csv-productio/src/test/java/org/esa/beam/csv/productio/CsvProductFileTest.java
+index 9ce3536..376bdb0 100644
+--- a/beam-csv-productio/src/test/java/org/esa/beam/csv/productio/CsvProductFileTest.java
++++ b/beam-csv-productio/src/test/java/org/esa/beam/csv/productio/CsvProductFileTest.java
+@@ -74,2 +74,2 @@
+-        assertEquals(ProductData.UTC.parse("2010-06-01 12:45:00", "yyyy-MM-dd hh:mm:ss").getAsDate().getTime(), records.get(0).getTime().getAsDate().getTime());
+-        assertEquals(ProductData.UTC.parse("2010-06-01 12:48:00", "yyyy-MM-dd hh:mm:ss").getAsDate().getTime(), records.get(1).getTime().getAsDate().getTime());
++        assertEquals(ProductData.UTC.parse("2010-06-01 12:45:00", "yyyy-MM-dd HH:mm:ss").getAsDate().getTime(), records.get(0).getTime().getAsDate().getTime());
++        assertEquals(ProductData.UTC.parse("2010-06-01 12:48:00", "yyyy-MM-dd HH:mm:ss").getAsDate().getTime(), records.get(1).getTime().getAsDate().getTime());
+@@ -96 +96 @@
+-        assertEquals(ProductData.UTC.parse("2011-06-01 10:45:00", "yyyy-MM-dd hh:mm:ss").getAsDate().getTime(),
++        assertEquals(ProductData.UTC.parse("2011-06-01 10:45:00", "yyyy-MM-dd HH:mm:ss").getAsDate().getTime(),
+@@ -99 +99 @@
+-        assertEquals(ProductData.UTC.parse("2011-06-01 12:45:00", "yyyy-MM-dd hh:mm:ss").getAsDate().getTime(),
++        assertEquals(ProductData.UTC.parse("2011-06-01 12:45:00", "yyyy-MM-dd HH:mm:ss").getAsDate().getTime(),
+

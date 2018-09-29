@@ -1,0 +1,20 @@
+diff --git a/zanata-war/src/main/java/org/zanata/dao/TextFlowDAO.java b/zanata-war/src/main/java/org/zanata/dao/TextFlowDAO.java
+index 7d83cdb..c35f832 100644
+--- a/zanata-war/src/main/java/org/zanata/dao/TextFlowDAO.java
++++ b/zanata-war/src/main/java/org/zanata/dao/TextFlowDAO.java
+@@ -136 +136 @@
+-            .append(" WHERE tf.document_id = :docId ");
++            .append(" WHERE tf.document_id = :docId AND tf.obsolete = 0");
+diff --git a/zanata-war/src/test/resources/performance/GetTransUnitListTest.dbunit.xml b/zanata-war/src/test/resources/performance/GetTransUnitListTest.dbunit.xml
+index a398768..d9ee774 100644
+--- a/zanata-war/src/test/resources/performance/GetTransUnitListTest.dbunit.xml
++++ b/zanata-war/src/test/resources/performance/GetTransUnitListTest.dbunit.xml
+@@ -25,0 +26 @@
++  <HSimpleComment id="12" comment=""/>
+@@ -38,0 +40 @@
++  <HPotEntryData id="11" flags="c-format"/>
+@@ -49 +51,2 @@
+-  <HTextFlowTarget id="59" creationDate="2012-07-09 09:42:40.0" lastChanged="2012-09-28 13:58:57.0" versionNum="20" state="2" tf_revision="1" last_modified_by_id="1" locale="3" tf_id="1" content0="%d files removed huang 
++  <HTextFlow id="11" obsolete="true" pos="10" resId="050641dae3041cdbbd37cc508e98e6ee" revision="1" comment_id="12" document_id="1" potEntryData_id="11" wordCount="2" contentHash="92267c4857016887b82da67e63a4bc4e" plural="true" content0="bbbbbbbbbbb" content1="aaaaaaaaaaaa"/>
++  <HTextFlowTarget id="59" creationDate="2012-07-09 09:42:40.0" lastChanged="2012-09-28 13:58:57.0" versionNum="20" state="2" tf_revision="1" last_modified_by_id="1" locale="3" tf_id="1" content0="%d files removed huang
+

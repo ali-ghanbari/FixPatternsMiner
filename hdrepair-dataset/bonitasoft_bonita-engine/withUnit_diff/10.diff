@@ -1,0 +1,17 @@
+diff --git a/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/api/impl/ProcessAPIImpl.java b/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/api/impl/ProcessAPIImpl.java
+index c5d4af5..b621764 100644
+--- a/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/api/impl/ProcessAPIImpl.java
++++ b/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/api/impl/ProcessAPIImpl.java
+@@ -4059 +4059 @@
+-            final List<SFlowNodeInstanceStateCounter> archivedFlownodes = serviceAccessor.getActivityInstanceService().getNumberOfFlownodesInAllStates(
++            final List<SFlowNodeInstanceStateCounter> archivedFlownodes = serviceAccessor.getActivityInstanceService().getNumberOfArchivedFlownodesInAllStates(
+diff --git a/bpm/bonita-core/bonita-process-engine/src/test/java/org/bonitasoft/engine/api/impl/ProcessAPIImplTest.java b/bpm/bonita-core/bonita-process-engine/src/test/java/org/bonitasoft/engine/api/impl/ProcessAPIImplTest.java
+index ddba4a7..64ac492 100644
+--- a/bpm/bonita-core/bonita-process-engine/src/test/java/org/bonitasoft/engine/api/impl/ProcessAPIImplTest.java
++++ b/bpm/bonita-core/bonita-process-engine/src/test/java/org/bonitasoft/engine/api/impl/ProcessAPIImplTest.java
+@@ -238,2 +238,2 @@
+-        List<SFlowNodeInstanceStateCounter> archivedFlownodes = new ArrayList<SFlowNodeInstanceStateCounter>(4);
+-        flownodes.add(new SFlowNodeInstanceStateCounter("step2", "aborted", 3L));
++        List<SFlowNodeInstanceStateCounter> archivedFlownodes = new ArrayList<SFlowNodeInstanceStateCounter>(1);
++        archivedFlownodes.add(new SFlowNodeInstanceStateCounter("step2", "aborted", 3L));
+

@@ -1,0 +1,35 @@
+diff --git a/portal-kernel/src/com/liferay/portal/kernel/util/WebKeys.java b/portal-kernel/src/com/liferay/portal/kernel/util/WebKeys.java
+index ae7c5be..c966993 100644
+--- a/portal-kernel/src/com/liferay/portal/kernel/util/WebKeys.java
++++ b/portal-kernel/src/com/liferay/portal/kernel/util/WebKeys.java
+@@ -24,2 +23,0 @@
+-	public static final String AJAX_REQUEST_SUFFIX = "AJAX_REQUEST_SUFFIX";
+-
+diff --git a/portal-web/docroot/html/portlet/asset_publisher/edit_query_rule.jsp b/portal-web/docroot/html/portlet/asset_publisher/edit_query_rule.jsp
+index c884ff0..240b66f 100644
+--- a/portal-web/docroot/html/portlet/asset_publisher/edit_query_rule.jsp
++++ b/portal-web/docroot/html/portlet/asset_publisher/edit_query_rule.jsp
+@@ -20,2 +20 @@
+-int index = ParamUtil.getInteger(request, "index", GetterUtil.getInteger((String)request.getAttribute("configuration.jsp-index")));
+-request.setAttribute(WebKeys.AJAX_REQUEST_SUFFIX, String.valueOf(index));
++String randomNamespace = DeterminateKeyGenerator.generate("portlet_asset_publisher_edit_query_rule") + StringPool.UNDERLINE;
+@@ -23 +22 @@
+-String randomNamespace = DeterminateKeyGenerator.generate("portlet_asset_publisher_edit_query_rule" + index) + StringPool.UNDERLINE;
++int index = ParamUtil.getInteger(request, "index", GetterUtil.getInteger((String)request.getAttribute("configuration.jsp-index")));
+diff --git a/portal-web/docroot/html/taglib/ui/asset_categories_selector/page.jsp b/portal-web/docroot/html/taglib/ui/asset_categories_selector/page.jsp
+index b8d941f..d4b39a4 100644
+--- a/portal-web/docroot/html/taglib/ui/asset_categories_selector/page.jsp
++++ b/portal-web/docroot/html/taglib/ui/asset_categories_selector/page.jsp
+@@ -22,2 +22 @@
+-String ajaxRequestSuffix = GetterUtil.getString((String)request.getAttribute(WebKeys.AJAX_REQUEST_SUFFIX));
+-String randomNamespace = DeterminateKeyGenerator.generate("taglib_ui_asset_categories_selector_page" + ajaxRequestSuffix) + StringPool.UNDERLINE;
++String randomNamespace = DeterminateKeyGenerator.generate("taglib_ui_asset_categories_selector_page") + StringPool.UNDERLINE;
+diff --git a/portal-web/docroot/html/taglib/ui/asset_tags_selector/page.jsp b/portal-web/docroot/html/taglib/ui/asset_tags_selector/page.jsp
+index 7ecd90a..c64a713 100644
+--- a/portal-web/docroot/html/taglib/ui/asset_tags_selector/page.jsp
++++ b/portal-web/docroot/html/taglib/ui/asset_tags_selector/page.jsp
+@@ -22,2 +22 @@
+-String ajaxRequestSuffix = GetterUtil.getString((String)request.getAttribute(WebKeys.AJAX_REQUEST_SUFFIX));
+-String randomNamespace = DeterminateKeyGenerator.generate("taglib_ui_asset_tags_selector_page" + ajaxRequestSuffix) + StringPool.UNDERLINE;
++String randomNamespace = DeterminateKeyGenerator.generate("taglib_ui_asset_tags_selector_page") + StringPool.UNDERLINE;
+

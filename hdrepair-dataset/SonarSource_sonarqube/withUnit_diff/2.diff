@@ -1,0 +1,18 @@
+diff --git a/server/sonar-server/src/main/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsData.java b/server/sonar-server/src/main/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsData.java
+index c728677..e7db980 100644
+--- a/server/sonar-server/src/main/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsData.java
++++ b/server/sonar-server/src/main/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsData.java
+@@ -71 +71 @@
+-    result.addProperty(FIELD_LEVEL, level.toString());
++    result.addProperty(FIELD_LEVEL, evaluatedCondition.getLevel().name());
+diff --git a/server/sonar-server/src/test/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsDataTest.java b/server/sonar-server/src/test/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsDataTest.java
+index 3975f77..f24c021 100644
+--- a/server/sonar-server/src/test/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsDataTest.java
++++ b/server/sonar-server/src/test/java/org/sonar/server/computation/measure/qualitygatedetails/QualityGateDetailsDataTest.java
+@@ -82 +82 @@
+-        "    \"level\":\"OK\"" +
++        "    \"level\":\"WARN\"" +
+@@ -91 +91 @@
+-        "    \"level\":\"OK\"" +
++        "    \"level\":\"ERROR\"" +
+

@@ -1,0 +1,8 @@
+diff --git a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java
+index 047c270..55420d8 100755
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java
+@@ -909 +909 @@
+-                stmt.setString(si++, "truncated...:" + data.substring(0, 1023));
++                stmt.setString(si++, "truncated...:" + data.substring(0, datalimit - 32));
+

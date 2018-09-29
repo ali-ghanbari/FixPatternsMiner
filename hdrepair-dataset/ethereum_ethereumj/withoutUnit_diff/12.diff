@@ -1,0 +1,29 @@
+diff --git a/ethereumj-core/src/main/java/org/ethereum/net/peerdiscovery/PeerDiscovery.java b/ethereumj-core/src/main/java/org/ethereum/net/peerdiscovery/PeerDiscovery.java
+index 82287ec..c4fc07c 100644
+--- a/ethereumj-core/src/main/java/org/ethereum/net/peerdiscovery/PeerDiscovery.java
++++ b/ethereumj-core/src/main/java/org/ethereum/net/peerdiscovery/PeerDiscovery.java
+@@ -43 +43 @@
+-						CONFIG.peerDiscoveryWorkers()), threadFactory, rejectionHandler);
++						1000), threadFactory, rejectionHandler);
+diff --git a/ethereumj-core/src/main/resources/system.properties b/ethereumj-core/src/main/resources/system.properties
+index 601a5b7..6b4061e 100644
+--- a/ethereumj-core/src/main/resources/system.properties
++++ b/ethereumj-core/src/main/resources/system.properties
+@@ -75 +75 @@
+-database.reset = true
++database.reset = false
+diff --git a/ethereumj-studio/pom.xml b/ethereumj-studio/pom.xml
+index d5120ed..fcd6c0e 100644
+--- a/ethereumj-studio/pom.xml
++++ b/ethereumj-studio/pom.xml
+@@ -74 +74 @@
+-            <version>0.7.2.20141024.2336</version>
++            <version>0.7.2.20141025.0030</version>
+diff --git a/ethereumj-studio/src/main/resources/system.properties b/ethereumj-studio/src/main/resources/system.properties
+index 25dd64e..aefc49e 100644
+--- a/ethereumj-studio/src/main/resources/system.properties
++++ b/ethereumj-studio/src/main/resources/system.properties
+@@ -52 +52 @@
+-peer.discovery.workers = 1
++peer.discovery.workers = 4
+

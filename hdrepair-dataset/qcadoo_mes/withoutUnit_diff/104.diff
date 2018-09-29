@@ -1,0 +1,68 @@
+diff --git a/mes-application/src/main/webapp/WEB-INF/jsp/core/error.jsp b/mes-application/src/main/webapp/WEB-INF/jsp/core/error.jsp
+index 044e5c4..b444361 100644
+--- a/mes-application/src/main/webapp/WEB-INF/jsp/core/error.jsp
++++ b/mes-application/src/main/webapp/WEB-INF/jsp/core/error.jsp
+@@ -27 +27 @@
+-<![CDATA[ERROR PAGE: ${errorHeader}]]>
++<![CDATA[ERROR PAGE: ${errorHeader}##${errorExplanation}]]>
+diff --git a/mes-application/src/main/webapp/js/core/qcd/utils/connector.js b/mes-application/src/main/webapp/js/core/qcd/utils/connector.js
+index 9a3d252..91ae045 100644
+--- a/mes-application/src/main/webapp/js/core/qcd/utils/connector.js
++++ b/mes-application/src/main/webapp/js/core/qcd/utils/connector.js
+@@ -62,5 +62,2 @@
+-					var message = responseText.substring(20, responseText.search("]]>"));
+-					QCDConnector.showErrorMessage(message);
+-					if (errorFunction) {
+-						errorFunction(message);
+-					}
++					var messageBody = responseText.substring(20, responseText.search("]]>"));
++					QCDConnector.showErrorMessage(messageBody,errorFunction);
+@@ -108,5 +105,2 @@
+-					var message = responseText.substring(20, responseText.search("]]>"));
+-					QCDConnector.showErrorMessage(message);
+-					if (errorFunction) {
+-						errorFunction(message);
+-					}
++					var messageBody = responseText.substring(20, responseText.search("]]>"));
++					QCDConnector.showErrorMessage(messageBody,errorFunction);
+@@ -133,5 +127,14 @@
+-QCDConnector.showErrorMessage = function(messageContent) {
+-	QCDConnector.mainController.showMessage({
+-		type: "failure",
+-		content: messageContent
+-	});
++QCDConnector.showErrorMessage = function(messageBody, errorFunction) {
++	var messageBodyParts = messageBody.split("##");
++	var message = {};
++	if (messageBodyParts.length == 2) {
++		message.title = messageBodyParts[0];
++		message.content = messageBodyParts[1];
++	} else {
++		message.content = messageBody;
++	}
++	message.type = "failure";
++	QCDConnector.mainController.showMessage(message);
++	if (errorFunction) {
++		errorFunction(message);
++	}
+diff --git a/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/css/crud/components/form.css b/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/css/crud/components/form.css
+index 1467e14..16a325c 100644
+--- a/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/css/crud/components/form.css
++++ b/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/css/crud/components/form.css
+@@ -332 +331,0 @@
+-	width: 100%;
+diff --git a/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/js/crud/qcd/components/elements/lookup.js b/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/js/crud/qcd/components/elements/lookup.js
+index dace82b..bca0394 100644
+--- a/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/js/crud/qcd/components/elements/lookup.js
++++ b/mes-plugins/mes-plugins-crud/src/main/resources/META-INF/js/crud/qcd/components/elements/lookup.js
+@@ -13 +13 @@
+-	var AUTOCOMPLETE_TIMEOUT = 200;
++	var AUTOCOMPLETE_TIMEOUT = 100;
+diff --git a/mes-plugins/mes-plugins-products/src/main/java/com/qcadoo/mes/products/OrderService.java b/mes-plugins/mes-plugins-products/src/main/java/com/qcadoo/mes/products/OrderService.java
+index 6c8017b..73d6276 100644
+--- a/mes-plugins/mes-plugins-products/src/main/java/com/qcadoo/mes/products/OrderService.java
++++ b/mes-plugins/mes-plugins-products/src/main/java/com/qcadoo/mes/products/OrderService.java
+@@ -162 +162 @@
+-                String defaultTechnologyValue = ExpressionUtil.getValue(defaultTechnologyEntity, "#name + ' - ' + #number",
++                String defaultTechnologyValue = ExpressionUtil.getValue(defaultTechnologyEntity, "#number + ' - ' + #name",
+

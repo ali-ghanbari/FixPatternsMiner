@@ -1,0 +1,15 @@
+diff --git a/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java b/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java
+index 15a4c15..1bcf214 100755
+--- a/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java
++++ b/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java
+@@ -477 +477 @@
+-            return at(value).NewClass(null, null, at(value).TypeApply(makeIdent(syms().ceylonArraySequenceType), List.<JCExpression> of(gen.makeJavaType(t))), elems.toList(), null);
++            return at(value).NewClass(null, null, at(value).TypeApply(makeIdent(syms().ceylonArraySequenceType), List.<JCExpression> of(gen.makeJavaType(t, CeylonTransformer.TYPE_PARAM))), elems.toList(), null);
+diff --git a/test-src/com/redhat/ceylon/compiler/test/statement/loop/MethodForDoubleIterator.src b/test-src/com/redhat/ceylon/compiler/test/statement/loop/MethodForDoubleIterator.src
+index c5eb255..c61c7fc 100755
+--- a/test-src/com/redhat/ceylon/compiler/test/statement/loop/MethodForDoubleIterator.src
++++ b/test-src/com/redhat/ceylon/compiler/test/statement/loop/MethodForDoubleIterator.src
+@@ -6 +6 @@
+-        for (.ceylon.language.Iterator<? extends ceylon.language.Entry<ceylon.language.Natural, .java.lang.String>> $i$iter$0 = new .ceylon.language.ArraySequence<ceylon.language.Entry<ceylon.language.Natural, .java.lang.String>>(new .ceylon.language.Entry<ceylon.language.Natural, .java.lang.String>(.ceylon.language.Natural.instance(1L), "a"), new .ceylon.language.Entry<ceylon.language.Natural, .java.lang.String>(.ceylon.language.Natural.instance(2L), "b")).iterator(); $i$iter$0.getHead() != null; $i$iter$0 = $i$iter$0.getTail()) {
++        for (.ceylon.language.Iterator<? extends ceylon.language.Entry<? extends ceylon.language.Natural, ? extends .java.lang.String>> $i$iter$0 = new .ceylon.language.ArraySequence<ceylon.language.Entry<? extends ceylon.language.Natural, ? extends .java.lang.String>>(new .ceylon.language.Entry<ceylon.language.Natural, .java.lang.String>(.ceylon.language.Natural.instance(1L), "a"), new .ceylon.language.Entry<ceylon.language.Natural, .java.lang.String>(.ceylon.language.Natural.instance(2L), "b")).iterator(); $i$iter$0.getHead() != null; $i$iter$0 = $i$iter$0.getTail()) {
+

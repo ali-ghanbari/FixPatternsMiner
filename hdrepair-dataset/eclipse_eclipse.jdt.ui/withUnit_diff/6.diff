@@ -1,0 +1,56 @@
+diff --git a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/LocalCorrectionsQuickFixTest.java b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/LocalCorrectionsQuickFixTest.java
+index d209b91..330f7f1 100644
+--- a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/LocalCorrectionsQuickFixTest.java
++++ b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/quickfix/LocalCorrectionsQuickFixTest.java
+@@ -8354,0 +8355,44 @@
++	public void testCollectionsFieldMethodReplacement3() throws Exception {
++		Hashtable options= JavaCore.getOptions();
++		options.put(JavaCore.COMPILER_PB_UNCHECKED_TYPE_OPERATION, JavaCore.WARNING);
++		options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
++		options.put(JavaCore.COMPILER_PB_TYPE_PARAMETER_HIDING, JavaCore.WARNING);
++		JavaCore.setOptions(options);
++		
++		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
++		StringBuffer buf= new StringBuffer();
++		buf.append("package p;\n");
++		buf.append("\n");
++		buf.append("import java.util.*;\n");
++		buf.append("\n");
++		buf.append("public class CollectionsTest {\n");
++		buf.append("    public void foo(Map<Date, Integer> map) { };\n");
++		buf.append("    {\n");
++		buf.append("        foo(Collections.EMPTY_MAP);\n");
++		buf.append("    }\n");
++		buf.append("}\n");
++		ICompilationUnit cu= pack1.createCompilationUnit("CollectionsTest.java", buf.toString(), false, null);
++		
++		CompilationUnit astRoot= getASTRoot(cu);
++		ArrayList proposals= collectCorrections(cu, astRoot);
++		
++		assertCorrectLabels(proposals);
++		assertNumberOfProposals(proposals, 3);
++		
++		String[] expected= new String[1];
++		buf= new StringBuffer();
++		buf.append("package p;\n");
++		buf.append("\n");
++		buf.append("import java.util.*;\n");
++		buf.append("\n");
++		buf.append("public class CollectionsTest {\n");
++		buf.append("    public void foo(Map<Date, Integer> map) { };\n");
++		buf.append("    {\n");
++		buf.append("        foo(Collections.<Date, Integer> emptyMap());\n");
++		buf.append("    }\n");
++		buf.append("}\n");
++		expected[0]= buf.toString();
++		
++		assertExpectedExistInProposals(proposals, expected);
++	}
++	
+diff --git a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/LocalCorrectionsSubProcessor.java b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/LocalCorrectionsSubProcessor.java
+index adfd8e0..fa16f44 100644
+--- a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/LocalCorrectionsSubProcessor.java
++++ b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/LocalCorrectionsSubProcessor.java
+@@ -1348,0 +1349 @@
++											break;
+

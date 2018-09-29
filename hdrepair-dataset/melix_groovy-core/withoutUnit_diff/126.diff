@@ -1,0 +1,8 @@
+diff --git a/src/main/org/codehaus/groovy/tools/LoaderConfiguration.java b/src/main/org/codehaus/groovy/tools/LoaderConfiguration.java
+index 77268c5..a55cd8f 100644
+--- a/src/main/org/codehaus/groovy/tools/LoaderConfiguration.java
++++ b/src/main/org/codehaus/groovy/tools/LoaderConfiguration.java
+@@ -154 +154 @@
+-        filter = filter.replaceAll("\\"+WILDCARD, WILD_CARD_REGEX).replaceAll("\\.","\\\\.");
++        filter = filter.replaceAll("\\"+WILDCARD, WILD_CARD_REGEX).replaceAll("\\.","\\\\.").replaceAll("\\\\", "\\\\\\\\");
+

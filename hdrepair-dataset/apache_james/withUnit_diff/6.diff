@@ -1,0 +1,830 @@
+diff --git a/trunk/src/test/org/apache/james/smtpserver/SMTPServerTest.java b/trunk/src/test/org/apache/james/smtpserver/SMTPServerTest.java
+index ea1014f..3f8bbcc 100644
+--- a/trunk/src/test/org/apache/james/smtpserver/SMTPServerTest.java
++++ b/trunk/src/test/org/apache/james/smtpserver/SMTPServerTest.java
+@@ -22,0 +23,2 @@
++import org.apache.commons.net.smtp.SMTPClient;
++import org.apache.commons.net.smtp.SMTPReply;
+@@ -44,10 +45,0 @@
+-import org.columba.ristretto.composer.MimeTreeRenderer;
+-import org.columba.ristretto.io.CharSequenceSource;
+-import org.columba.ristretto.message.Address;
+-import org.columba.ristretto.message.Header;
+-import org.columba.ristretto.message.LocalMimePart;
+-import org.columba.ristretto.message.MimeHeader;
+-import org.columba.ristretto.message.MimeType;
+-import org.columba.ristretto.smtp.SMTPException;
+-import org.columba.ristretto.smtp.SMTPProtocol;
+-import org.columba.ristretto.smtp.SMTPResponse;
+@@ -58 +49,0 @@
+-import javax.mail.util.SharedByteArrayInputStream;
+@@ -63 +54 @@
+-import java.io.InputStream;
++import java.io.Writer;
+@@ -182,12 +173 @@
+-    private LocalMimePart createMail() {
+-        MimeHeader mimeHeader = new MimeHeader(new Header());
+-        mimeHeader.set("Mime-Version", "1.0");
+-        LocalMimePart mail = new LocalMimePart(mimeHeader);
+-        MimeHeader header = mail.getHeader();
+-        header.setMimeType(new MimeType("text", "plain"));
+-
+-        mail.setBody(new CharSequenceSource("James Unit Test Body"));
+-        return mail;
+-    }
+-
+-    public void testSimpleMailSendWithEHLO() throws Exception, SMTPException {
++    public void testSimpleMailSendWithEHLO() throws Exception {
+@@ -195,3 +175,3 @@
+-
+-        SMTPProtocol smtpProtocol = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -202,3 +182,9 @@
+-        String[] capabilityStrings = smtpProtocol.ehlo(InetAddress.getLocalHost());
+-        assertEquals("capabilities", 2, capabilityStrings.length);
+-        List capabilitieslist = Arrays.asList(capabilityStrings);
++        smtpProtocol.sendCommand("EHLO "+InetAddress.getLocalHost());
++        String[] capabilityRes = smtpProtocol.getReplyStrings();
++        
++        List capabilitieslist = new ArrayList();
++        for (int i = 1; i < capabilityRes.length; i++) {
++            capabilitieslist.add(capabilityRes[i].substring(4));
++        }
++        
++        assertEquals("capabilities", 2, capabilitieslist.size());
+@@ -209,2 +195,2 @@
+-        smtpProtocol.mail(new Address("mail@localhost"));
+-        smtpProtocol.rcpt(new Address("mail@localhost"));
++        smtpProtocol.setSender("mail@localhost");
++        smtpProtocol.addRecipient("mail@localhost");
+@@ -212,2 +198 @@
+-        smtpProtocol.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
+-
++        smtpProtocol.sendShortMessageData("Subject: test\r\n\r\nBody\r\n\r\n.\r\n");
+@@ -214,0 +200 @@
++        smtpProtocol.disconnect();
+@@ -221 +206,0 @@
+-        InputStream mSource = new SharedByteArrayInputStream(("").getBytes());
+@@ -224,2 +209,2 @@
+-        SMTPProtocol smtpProtocol = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtp = new SMTPClient();
++        smtp.connect("127.0.0.1", m_smtpListenerPort);
+@@ -230 +215 @@
+-        smtpProtocol.helo(InetAddress.getLocalHost());
++        smtp.helo(InetAddress.getLocalHost().toString());
+@@ -232 +217 @@
+-        smtpProtocol.mail(new Address("mail@localhost"));
++        smtp.setSender("mail@localhost");
+@@ -234 +219 @@
+-        smtpProtocol.rcpt(new Address("mail@localhost"));
++        smtp.addRecipient("mail@localhost");
+@@ -236 +221 @@
+-        smtpProtocol.data(mSource);
++        smtp.sendShortMessageData("");
+@@ -238 +223,3 @@
+-        smtpProtocol.quit();
++        smtp.quit();
++        
++        smtp.disconnect();
+@@ -252 +239 @@
+-    public void testSimpleMailSendWithHELO() throws Exception, SMTPException {
++    public void testSimpleMailSendWithHELO() throws Exception {
+@@ -255,2 +242,2 @@
+-        SMTPProtocol smtpProtocol = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -261 +248,5 @@
+-        smtpProtocol.helo(InetAddress.getLocalHost());
++        smtpProtocol.helo(InetAddress.getLocalHost().toString());
++        
++        smtpProtocol.setSender("mail@localhost");
++        
++        smtpProtocol.addRecipient("mail@localhost");
+@@ -263,4 +254 @@
+-        smtpProtocol.mail(new Address("mail@localhost"));
+-        smtpProtocol.rcpt(new Address("mail@localhost"));
+-
+-        smtpProtocol.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol.sendShortMessageData("Subject: test mail\r\n\r\nTest body\r\n.\r\n");
+@@ -268,0 +257 @@
++        smtpProtocol.disconnect();
+@@ -274 +263 @@
+-    public void testTwoSimultaneousMails() throws Exception, SMTPException {
++    public void testTwoSimultaneousMails() throws Exception {
+@@ -277,4 +266,4 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        SMTPProtocol smtpProtocol2 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
+-        smtpProtocol2.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
++        SMTPClient smtpProtocol2 = new SMTPClient();
++        smtpProtocol2.connect("127.0.0.1", m_smtpListenerPort);
+@@ -282,2 +271,2 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
+-        assertEquals("second connection taken", 1, smtpProtocol2.getState());
++        assertTrue("first connection taken",smtpProtocol1.isConnected());
++        assertTrue("second connection taken",smtpProtocol2.isConnected());
+@@ -288,2 +277,2 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
+-        smtpProtocol2.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
++        smtpProtocol2.helo(InetAddress.getLocalHost().toString());
+@@ -293,2 +282,2 @@
+-        smtpProtocol1.mail(new Address(sender1));
+-        smtpProtocol1.rcpt(new Address(recipient1));
++        smtpProtocol1.setSender(sender1);
++        smtpProtocol1.addRecipient(recipient1);
+@@ -298,2 +287,2 @@
+-        smtpProtocol2.mail(new Address(sender2));
+-        smtpProtocol2.rcpt(new Address(recipient2));
++        smtpProtocol2.setSender(sender2);
++        smtpProtocol2.addRecipient(recipient2);
+@@ -301 +290 @@
+-        smtpProtocol1.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol1.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n.\r\n");
+@@ -304 +293 @@
+-        smtpProtocol2.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol2.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n.\r\n");
+@@ -308,0 +298,3 @@
++        
++        smtpProtocol1.disconnect();
++        smtpProtocol2.disconnect();
+@@ -311 +303 @@
+-    public void testTwoMailsInSequence() throws Exception, SMTPException {
++    public void testTwoMailsInSequence() throws Exception {
+@@ -314,2 +306,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -317 +309 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -322 +314 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -326,2 +318,2 @@
+-        smtpProtocol1.mail(new Address(sender1));
+-        smtpProtocol1.rcpt(new Address(recipient1));
++        smtpProtocol1.setSender(sender1);
++        smtpProtocol1.addRecipient(recipient1);
+@@ -329 +321 @@
+-        smtpProtocol1.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol1.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n");
+@@ -334,2 +326,2 @@
+-        smtpProtocol1.mail(new Address(sender2));
+-        smtpProtocol1.rcpt(new Address(recipient2));
++        smtpProtocol1.setSender(sender2);
++        smtpProtocol1.addRecipient(recipient2);
+@@ -337 +329 @@
+-        smtpProtocol1.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol1.sendShortMessageData("Subject: test2\r\n\r\nTest body2\r\n");
+@@ -340,0 +333 @@
++        smtpProtocol1.disconnect();
+@@ -343 +336 @@
+-    public void testHeloResolv() throws Exception, SMTPException {
++    public void testHeloResolv() throws Exception {
+@@ -349,2 +342,2 @@
+-        MySMTPProtocol smtpProtocol1 = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -352 +345 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -357,2 +350,2 @@
+-        String[] helo1 = new String[] { "abgsfe3rsf.de"};
+-        String[] helo2 = new String[] { "james.apache.org" };
++        String helo1 = "abgsfe3rsf.de";
++        String helo2 = "james.apache.org";
+@@ -361 +353,0 @@
+-        SMTPResponse response = smtpProtocol1.getResponse();
+@@ -363 +355 @@
+-        assertEquals("expected error: helo could not resolved", 501, response.getCode());
++        assertEquals("expected error: helo could not resolved", 501, smtpProtocol1.getReplyCode());
+@@ -366 +357,0 @@
+-        SMTPResponse response2 = smtpProtocol1.getResponse();
+@@ -368 +359 @@
+-        assertEquals("Helo accepted", 250, response2.getCode());
++        assertEquals("Helo accepted", 250, smtpProtocol1.getReplyCode());
+@@ -373 +364 @@
+-    public void testHeloResolvDefault() throws Exception, SMTPException {
++    public void testHeloResolvDefault() throws Exception {
+@@ -376,2 +367,2 @@
+-        MySMTPProtocol smtpProtocol1 = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -379,2 +370 @@
+-        smtpProtocol1.sendCommand("helo",new String[]{"abgsfe3rsf.de"});
+-        SMTPResponse response = smtpProtocol1.getResponse();
++        smtpProtocol1.helo("abgsfe3rsf.de");
+@@ -382 +372 @@
+-        assertEquals("Helo accepted", 250, response.getCode());
++        assertEquals("Helo accepted", 250, smtpProtocol1.getReplyCode());
+@@ -387 +377 @@
+-    public void testSenderDomainResolv() throws Exception, SMTPException {
++    public void testSenderDomainResolv() throws Exception {
+@@ -392,2 +382,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -396 +386 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -401 +391 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -406,6 +396,2 @@
+-        try {
+-            smtpProtocol1.mail(new Address(sender1));
+-            fail("sender should not accept");
+-        } catch (SMTPException e) {
+-            assertEquals("expected 501 error", 501, e.getCode());
+-        }
++        smtpProtocol1.setSender(sender1);
++        assertEquals("expected 501 error", 501, smtpProtocol1.getReplyCode());
+@@ -413 +399 @@
+-        smtpProtocol1.mail(new Address(sender2));
++        smtpProtocol1.setSender(sender2);
+@@ -419 +405 @@
+-    public void testSenderDomainResolvDefault() throws Exception, SMTPException {
++    public void testSenderDomainResolvDefault() throws Exception {
+@@ -422,2 +408,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -425 +411 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -429 +415 @@
+-        smtpProtocol1.mail(new Address(sender1));
++        smtpProtocol1.setSender(sender1);
+@@ -434 +420 @@
+-    public void testSenderDomainResolvRelayClientDefault() throws Exception, SMTPException {
++    public void testSenderDomainResolvRelayClientDefault() throws Exception {
+@@ -438,2 +424,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -442 +428 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -447 +433 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -452 +438 @@
+-        smtpProtocol1.mail(new Address(sender1));
++        smtpProtocol1.setSender(sender1);
+@@ -458 +444 @@
+-    public void testSenderDomainResolvRelayClient() throws Exception, SMTPException {
++    public void testSenderDomainResolvRelayClient() throws Exception {
+@@ -463,2 +449,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -467 +453 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -472 +458 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -477,6 +463,2 @@
+-        try {
+-            smtpProtocol1.mail(new Address(sender1));
+-            fail("sender should not accept");
+-        } catch (SMTPException e) {
+-            assertEquals("expected 501 error", 501, e.getCode());
+-        }
++        smtpProtocol1.setSender(sender1);
++        assertEquals("expected 501 error", 501, smtpProtocol1.getReplyCode());
+@@ -484 +466 @@
+-        smtpProtocol1.mail(new Address(sender2));
++        smtpProtocol1.setSender(sender2);
+@@ -490 +472 @@
+-    public void testMaxRcpt() throws Exception, SMTPException {
++    public void testMaxRcpt() throws Exception {
+@@ -495,2 +477,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -498 +480 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -503 +485 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -509,2 +491,2 @@
+-        smtpProtocol1.mail(new Address(sender1));
+-        smtpProtocol1.rcpt(new Address(rcpt1));
++        smtpProtocol1.setSender(sender1);
++        smtpProtocol1.addRecipient(rcpt1);
+@@ -512,6 +494,2 @@
+-        try {
+-            smtpProtocol1.rcpt(new Address(rcpt2));
+-            fail("rcpt should not accepted");
+-        } catch (SMTPException e) {
+-            assertEquals("expected 452 error", 452, e.getCode());
+-        }
++        smtpProtocol1.addRecipient(rcpt2);
++        assertEquals("expected 452 error", 452, smtpProtocol1.getReplyCode());
+@@ -519 +497 @@
+-        smtpProtocol1.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol1.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n");
+@@ -523 +501 @@
+-        smtpProtocol1.mail(new Address(sender1));
++        smtpProtocol1.setSender(sender1);
+@@ -525 +503 @@
+-        smtpProtocol1.rcpt(new Address(rcpt1));
++        smtpProtocol1.addRecipient(rcpt1);
+@@ -527 +505 @@
+-        smtpProtocol1.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol1.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n");
+@@ -533 +511 @@
+-    public void testMaxRcptDefault() throws Exception, SMTPException {
++    public void testMaxRcptDefault() throws Exception {
+@@ -536,2 +514,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -539 +517 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -544 +522 @@
+-        smtpProtocol1.mail(new Address(sender1));
++        smtpProtocol1.setSender(sender1);
+@@ -546 +524 @@
+-        smtpProtocol1.rcpt(new Address(rcpt1));
++        smtpProtocol1.addRecipient(rcpt1);
+@@ -548 +526 @@
+-        smtpProtocol1.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol1.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n");
+@@ -553 +531 @@
+-    public void testEhloResolv() throws Exception, SMTPException {
++    public void testEhloResolv() throws Exception {
+@@ -559,2 +537,2 @@
+-        MySMTPProtocol smtpProtocol1 = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -562 +540 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -567,2 +545,2 @@
+-        String[] ehlo1 = new String[] { "abgsfe3rsf.de"};
+-        String[] ehlo2 = new String[] { "james.apache.org" };
++        String ehlo1 = "abgsfe3rsf.de";
++        String ehlo2 = "james.apache.org";
+@@ -571 +548,0 @@
+-        SMTPResponse response = smtpProtocol1.getResponse();
+@@ -573 +550 @@
+-        assertEquals("expected error: ehlo could not resolved", 501, response.getCode());
++        assertEquals("expected error: ehlo could not resolved", 501, smtpProtocol1.getReplyCode());
+@@ -576 +552,0 @@
+-        SMTPResponse response2 = smtpProtocol1.getResponse();
+@@ -578 +554 @@
+-        assertEquals("ehlo accepted", 250, response2.getCode());
++        assertEquals("ehlo accepted", 250, smtpProtocol1.getReplyCode());
+@@ -583 +559 @@
+-    public void testEhloResolvDefault() throws Exception, SMTPException {
++    public void testEhloResolvDefault() throws Exception {
+@@ -586,2 +562,2 @@
+-        MySMTPProtocol smtpProtocol1 = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -589,2 +565 @@
+-        smtpProtocol1.sendCommand("ehlo",new String[]{"abgsfe3rsf.de"});
+-        SMTPResponse response = smtpProtocol1.getResponse();
++        smtpProtocol1.sendCommand("ehlo","abgsfe3rsf.de");
+@@ -592 +567 @@
+-        assertEquals("ehlo accepted", 250, response.getCode());
++        assertEquals("ehlo accepted", 250, smtpProtocol1.getReplyCode());
+@@ -597 +572 @@
+-    public void testEhloResolvIgnoreClientDisabled() throws Exception, SMTPException {
++    public void testEhloResolvIgnoreClientDisabled() throws Exception {
+@@ -603,2 +578,2 @@
+-        MySMTPProtocol smtpProtocol1 = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -606 +581 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -611,2 +586,2 @@
+-        String[] ehlo1 = new String[] { "abgsfe3rsf.de"};
+-        String[] ehlo2 = new String[] { "james.apache.org" };
++        String ehlo1 = "abgsfe3rsf.de";
++        String ehlo2 = "james.apache.org";
+@@ -615 +589,0 @@
+-        SMTPResponse response = smtpProtocol1.getResponse();
+@@ -617 +591 @@
+-        assertEquals("expected error: ehlo could not resolved", 501, response.getCode());
++        assertEquals("expected error: ehlo could not resolved", 501, smtpProtocol1.getReplyCode());
+@@ -620 +593,0 @@
+-        SMTPResponse response2 = smtpProtocol1.getResponse();
+@@ -622 +595 @@
+-        assertEquals("ehlo accepted", 250, response2.getCode());
++        assertEquals("ehlo accepted", 250, smtpProtocol1.getReplyCode());
+@@ -627 +600 @@
+-    public void testHeloEnforcement() throws Exception, SMTPException {
++    public void testHeloEnforcement() throws Exception {
+@@ -630,2 +603,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -633 +606 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -639,6 +612,2 @@
+-        try {
+-            smtpProtocol1.mail(new Address(sender1));
+-            fail("helo not enforced");
+-        } catch (SMTPException e) {
+-            assertEquals("expected 503 error", 503, e.getCode());
+-        }
++        smtpProtocol1.setSender(sender1);
++        assertEquals("expected 503 error", 503, smtpProtocol1.getReplyCode());
+@@ -646 +615 @@
+-        smtpProtocol1.helo(InetAddress.getLocalHost());
++        smtpProtocol1.helo(InetAddress.getLocalHost().toString());
+@@ -648 +617 @@
+-        smtpProtocol1.mail(new Address(sender1));
++        smtpProtocol1.setSender(sender1);
+@@ -653 +622 @@
+-    public void testHeloEnforcementDisabled() throws Exception, SMTPException {
++    public void testHeloEnforcementDisabled() throws Exception {
+@@ -657,2 +626,2 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
+@@ -660 +629 @@
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -667 +636 @@
+-        smtpProtocol1.mail(new Address(sender1));
++        smtpProtocol1.setSender(sender1);
+@@ -672 +641 @@
+-    public void testAuth() throws Exception, SMTPException {
++    public void testAuth() throws Exception {
+@@ -677,2 +646,2 @@
+-        MySMTPProtocol smtpProtocol = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -680,2 +649,8 @@
+-        String[] capabilityStrings = smtpProtocol.ehlo(InetAddress.getLocalHost());
+-        List capabilitieslist = Arrays.asList(capabilityStrings);
++        smtpProtocol.sendCommand("ehlo", InetAddress.getLocalHost().toString());
++        String[] capabilityRes = smtpProtocol.getReplyStrings();
++        
++        List capabilitieslist = new ArrayList();
++        for (int i = 1; i < capabilityRes.length; i++) {
++            capabilitieslist.add(capabilityRes[i].substring(4));
++        }
++            
+@@ -689,2 +664 @@
+-        SMTPResponse response = smtpProtocol.getResponse();
+-        assertEquals("expected error: unrecognized authentication type", 504, response.getCode());
++        assertEquals("expected error: unrecognized authentication type", 504, smtpProtocol.getReplyCode());
+@@ -692 +666 @@
+-        smtpProtocol.mail(new Address(sender));
++        smtpProtocol.setSender(sender);
+@@ -694,6 +668,2 @@
+-        try {
+-            smtpProtocol.rcpt(new Address("mail@sample.com"));
+-            fail("no auth required");
+-        } catch (SMTPException e) {
+-            assertEquals("expected 530 error", 530, e.getCode());
+-        }
++        smtpProtocol.addRecipient("mail@sample.com");
++        assertEquals("expected 530 error", 530, smtpProtocol.getReplyCode());
+@@ -702,6 +672,5 @@
+-        try {
+-            smtpProtocol.auth("PLAIN", noexistUserName, "pwd".toCharArray());
+-            fail("auth succeeded for non-existing user");
+-        } catch (SMTPException e) {
+-            assertEquals("expected error", 535, e.getCode());
+-        }
++
++        smtpProtocol.sendCommand("AUTH PLAIN");
++        smtpProtocol.sendCommand(Base64.encodeAsString("\0"+noexistUserName+"\0pwd\0"));
++//        smtpProtocol.sendCommand(noexistUserName+"pwd".toCharArray());
++        assertEquals("expected error", 535, smtpProtocol.getReplyCode());
+@@ -710,6 +678,0 @@
+-        try {
+-            smtpProtocol.auth("PLAIN", userName, "wrongpwd".toCharArray());
+-            fail("auth succeeded with wrong password");
+-        } catch (SMTPException e) {
+-            assertEquals("expected error", 535, e.getCode());
+-        }
+@@ -717,6 +680,3 @@
+-        try {
+-            smtpProtocol.auth("PLAIN", userName, "pwd".toCharArray());
+-        } catch (SMTPException e) {
+-            e.printStackTrace(); 
+-            fail("authentication failed");
+-        }
++        smtpProtocol.sendCommand("AUTH PLAIN");
++        smtpProtocol.sendCommand(Base64.encodeAsString("\0"+userName+"\0wrongpwd\0"));
++        assertEquals("expected error", 535, smtpProtocol.getReplyCode());
+@@ -724,3 +684,3 @@
+-        smtpProtocol.sendCommand("AUTH PLAIN ", new String[]{Base64.encodeAsString("\0" + userName + "\0pwd")});
+-        response = smtpProtocol.getResponse();
+-        assertEquals("expected error: User has previously authenticated.", 503, response.getCode());
++        smtpProtocol.sendCommand("AUTH PLAIN");
++        smtpProtocol.sendCommand(Base64.encodeAsString("\0"+userName+"\0pwd\0"));
++        assertEquals("authenticated", 235, smtpProtocol.getReplyCode());
+@@ -728,2 +688,5 @@
+-        smtpProtocol.rcpt(new Address("mail@sample.com"));
+-        smtpProtocol.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
++        smtpProtocol.sendCommand("AUTH PLAIN");
++        assertEquals("expected error: User has previously authenticated.", 503, smtpProtocol.getReplyCode());
++
++        smtpProtocol.addRecipient("mail@sample.com");
++        smtpProtocol.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n");
+@@ -742,2 +705,2 @@
+-        MySMTPProtocol smtpProtocol = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -745 +708 @@
+-        smtpProtocol.ehlo(InetAddress.getLocalHost());
++        smtpProtocol.sendCommand("ehlo "+InetAddress.getLocalHost());
+@@ -750 +713 @@
+-        smtpProtocol.mail(new Address(""));
++        smtpProtocol.setSender("");
+@@ -752,6 +715,3 @@
+-        try {
+-            smtpProtocol.auth("PLAIN", userName, "pwd".toCharArray());
+-        } catch (SMTPException e) {
+-            e.printStackTrace(); 
+-            fail("authentication failed");
+-        }
++        smtpProtocol.sendCommand("AUTH PLAIN");
++        smtpProtocol.sendCommand(Base64.encodeAsString("\0"+userName+"\0pwd\0"));
++        assertEquals("authenticated", 235, smtpProtocol.getReplyCode());
+@@ -759,6 +719,2 @@
+-        try {
+-            smtpProtocol.rcpt(new Address("mail@sample.com"));
+-            fail("smtpserver allowed an empty sender for an authenticated user");
+-        } catch (SMTPException e) {
+-            assertEquals("expected error", 503, e.getCode());
+-        }
++        smtpProtocol.addRecipient("mail@sample.com");
++        assertEquals("expected error", 503, smtpProtocol.getReplyCode());
+@@ -769 +725 @@
+-    public void testNoRecepientSpecified() throws Exception, SMTPException {
++    public void testNoRecepientSpecified() throws Exception {
+@@ -772,2 +728,2 @@
+-        MySMTPProtocol smtpProtocol = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -775 +731 @@
+-        smtpProtocol.ehlo(InetAddress.getLocalHost());
++        smtpProtocol.sendCommand("ehlo "+InetAddress.getLocalHost());
+@@ -777 +733 @@
+-        smtpProtocol.mail(new Address("mail@sample.com"));
++        smtpProtocol.setSender("mail@sample.com");
+@@ -781,6 +737,2 @@
+-        try {
+-            smtpProtocol.data(MimeTreeRenderer.getInstance().renderMimePart(createMail()));
+-            fail("sending succeeded without recepient");
+-        } catch (Exception e) {
+-            // test succeeded
+-        }
++        smtpProtocol.sendShortMessageData("Subject: test\r\n\r\nTest body\r\n");
++        assertTrue("sending succeeded without recepient", SMTPReply.isNegativePermanent(smtpProtocol.getReplyCode()));
+@@ -794 +746 @@
+-    public void testMultipleMailsAndRset() throws Exception, SMTPException {
++    public void testMultipleMailsAndRset() throws Exception {
+@@ -797,2 +749,2 @@
+-        MySMTPProtocol smtpProtocol = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -800 +752 @@
+-        smtpProtocol.ehlo(InetAddress.getLocalHost());
++        smtpProtocol.sendCommand("ehlo "+InetAddress.getLocalHost());
+@@ -802 +754 @@
+-        smtpProtocol.mail(new Address("mail@sample.com"));
++        smtpProtocol.setSender("mail@sample.com");
+@@ -806 +758 @@
+-        smtpProtocol.mail(new Address("mail@sample.com"));
++        smtpProtocol.setSender("mail@sample.com");
+@@ -814 +766 @@
+-    public void testRelayingDenied() throws Exception, SMTPException {
++    public void testRelayingDenied() throws Exception {
+@@ -818,2 +770,2 @@
+-        SMTPProtocol smtpProtocol = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -821 +773 @@
+-        smtpProtocol.ehlo(InetAddress.getLocalHost());
++        smtpProtocol.sendCommand("ehlo "+InetAddress.getLocalHost());
+@@ -823,7 +775,4 @@
+-        smtpProtocol.mail(new Address("mail@sample.com"));
+-        try {
+-            smtpProtocol.rcpt(new Address("maila@sample.com"));
+-            fail("relaying allowed");
+-        } catch (SMTPException e) {
+-            assertEquals("expected 550 error", 550, e.getCode());
+-        }
++        smtpProtocol.setSender("mail@sample.com");
++
++        smtpProtocol.addRecipient("maila@sample.com");
++        assertEquals("expected 550 error", 550, smtpProtocol.getReplyCode());
+@@ -832 +781 @@
+-    public void testHandleAnnouncedMessageSizeLimitExceeded() throws Exception, SMTPException {
++    public void testHandleAnnouncedMessageSizeLimitExceeded() throws Exception {
+@@ -836,2 +785,2 @@
+-        MySMTPProtocol smtpProtocol = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -839 +788 @@
+-        smtpProtocol.ehlo(InetAddress.getLocalHost());
++        smtpProtocol.sendCommand("ehlo "+InetAddress.getLocalHost());
+@@ -842,2 +791 @@
+-        SMTPResponse response = smtpProtocol.getResponse();
+-        assertEquals("expected error: max msg size exceeded", 552, response.getCode());
++        assertEquals("expected error: max msg size exceeded", 552, smtpProtocol.getReplyCode());
+@@ -845,5 +793,2 @@
+-        try {
+-            smtpProtocol.rcpt(new Address("mail@localhost"));
+-        } catch (SMTPException e) {
+-            assertEquals("expected error", 552, response.getCode());
+-        }
++        smtpProtocol.addRecipient("mail@localhost");
++        assertEquals("expected error", 503, smtpProtocol.getReplyCode());
+@@ -852 +797 @@
+-    public void testHandleMessageSizeLimitExceeded() throws Exception, SMTPException {
++    public void testHandleMessageSizeLimitExceeded() throws Exception {
+@@ -856,2 +801,2 @@
+-        MySMTPProtocol smtpProtocol = new MySMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol.openPort();
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
+@@ -859 +804 @@
+-        smtpProtocol.ehlo(InetAddress.getLocalHost());
++        smtpProtocol.sendCommand("ehlo "+InetAddress.getLocalHost());
+@@ -861,2 +806,2 @@
+-        smtpProtocol.mail(new Address("mail@localhost"));
+-        smtpProtocol.rcpt(new Address("mail@localhost"));
++        smtpProtocol.setSender("mail@localhost");
++        smtpProtocol.addRecipient("mail@localhost");
+@@ -864,5 +809,17 @@
+-        MimeHeader mimeHeader = new MimeHeader(new Header());
+-        mimeHeader.set("Mime-Version", "1.0");
+-        LocalMimePart mail = new LocalMimePart(mimeHeader);
+-        MimeHeader header = mail.getHeader();
+-        header.setMimeType(new MimeType("text", "plain"));
++        Writer wr = smtpProtocol.sendMessageData();
++        // create Body with more than 1kb . 502
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100\r\n");
++        // second line
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("123456781012345678201\r\n"); // 521 + CRLF = 523 + 502 => 1025
++        wr.close();
++        
++        assertFalse(smtpProtocol.completePendingCommand());
+@@ -870,22 +827 @@
+-        // create Body with more than 1kb
+-        StringBuffer body = new StringBuffer();
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
+-        body.append("1234567810123456782012345"); // 1025 chars
+-
+-        mail.setBody(new CharSequenceSource(body.toString()));
+-
+-        try {
+-            smtpProtocol.data(MimeTreeRenderer.getInstance().renderMimePart(mail));
+-            fail("message size exceeded not recognized");
+-        } catch (SMTPException e) {
+-            assertEquals("expected 552 error", 552, e.getCode());
+-        }
++        assertEquals("expected 552 error", 552, smtpProtocol.getReplyCode());
+@@ -895 +831,34 @@
+-    public void testConnectionLimitExceeded() throws Exception, SMTPException {
++    public void testHandleMessageSizeLimitRespected() throws Exception {
++        m_testConfiguration.setMaxMessageSize(1); // set message limit to 1kb 
++        finishSetUp(m_testConfiguration);
++
++        SMTPClient smtpProtocol = new SMTPClient();
++        smtpProtocol.connect("127.0.0.1", m_smtpListenerPort);
++
++        smtpProtocol.sendCommand("ehlo "+InetAddress.getLocalHost());
++
++        smtpProtocol.setSender("mail@localhost");
++        smtpProtocol.addRecipient("mail@localhost");
++
++        Writer wr = smtpProtocol.sendMessageData();
++        // create Body with less than 1kb
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012345678301234567840123456785012345678601234567870123456788012345678901234567100");
++        wr.write("1234567810123456782012\r\n"); // 1022 + CRLF = 1024
++        wr.close();
++        
++        assertTrue(smtpProtocol.completePendingCommand());
++
++        assertEquals("expected 250 ok", 250, smtpProtocol.getReplyCode());
++
++    }
++
++    public void testConnectionLimitExceeded() throws Exception {
+@@ -899,4 +868,4 @@
+-        SMTPProtocol smtpProtocol1 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        SMTPProtocol smtpProtocol2 = new SMTPProtocol("127.0.0.1", m_smtpListenerPort);
+-        smtpProtocol1.openPort();
+-        assertEquals("first connection taken", 1, smtpProtocol1.getState());
++        SMTPClient smtpProtocol1 = new SMTPClient();
++        SMTPClient smtpProtocol2 = new SMTPClient();
++        smtpProtocol1.connect("127.0.0.1", m_smtpListenerPort);
++        assertTrue("first connection taken", smtpProtocol1.isConnected());
+@@ -904,2 +873,15 @@
+-        smtpProtocol2.openPort();
+-        assertEquals("second connection not taken", SMTPProtocol.NOT_CONNECTED, smtpProtocol2.getState());
++        try {
++            smtpProtocol2.connect("127.0.0.1", m_smtpListenerPort);
++            fail("second connection not taken1");
++        } catch (Exception e) {
++        }
++        
++        // disconnect the first
++        smtpProtocol1.quit();
++        smtpProtocol1.disconnect();
++        
++        Thread.sleep(100);
++        
++        // now the second should be able to connect
++        smtpProtocol2.connect("127.0.0.1", m_smtpListenerPort);
++        assertTrue(smtpProtocol2.isConnected());
+@@ -1008,20 +989,0 @@
+-}
+-
+-class MySMTPProtocol extends SMTPProtocol
+-{
+-
+-    public MySMTPProtocol(String s, int i) {
+-        super(s, i);
+-    }
+-
+-    public MySMTPProtocol(String s) {
+-        super(s);
+-    }
+-
+-    public void sendCommand(String string, String[] strings) throws IOException {
+-        super.sendCommand(string, strings);     
+-    }
+-
+-    public SMTPResponse getResponse() throws IOException, SMTPException {
+-        return super.readSingleLineResponse();
+-    }
+diff --git a/trunk/src/test/org/apache/james/test/mock/james/MockMailServer.java b/trunk/src/test/org/apache/james/test/mock/james/MockMailServer.java
+index 05cfd8d..827f1ba 100644
+--- a/trunk/src/test/org/apache/james/test/mock/james/MockMailServer.java
++++ b/trunk/src/test/org/apache/james/test/mock/james/MockMailServer.java
+@@ -62 +62 @@
+-            if (m_maxMessageSizeBytes != 0 && m_maxMessageSizeBytes < bodySize) throw new MessageSizeException();
++            if (m_maxMessageSizeBytes != 0 && m_maxMessageSizeBytes*1024 < bodySize) throw new MessageSizeException();
+

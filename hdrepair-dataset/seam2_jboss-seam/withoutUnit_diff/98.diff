@@ -1,0 +1,36 @@
+diff --git a/examples/dvdstore/src/com/jboss/dvd/seam/AcceptAction.java b/examples/dvdstore/src/com/jboss/dvd/seam/AcceptAction.java
+index 1aa26b1..ce953ef 100644
+--- a/examples/dvdstore/src/com/jboss/dvd/seam/AcceptAction.java
++++ b/examples/dvdstore/src/com/jboss/dvd/seam/AcceptAction.java
+@@ -46 +46 @@
+-        order = (Order) em.createQuery("select o from Order o join fetch o.orderLines where o.orderId = :orderId")
++        order = (Order) em.createQuery("select distinct o from Order o join fetch o.orderLines where o.orderId = :orderId")
+diff --git a/examples/dvdstore/web/WEB-INF/incl/cart.xhtml b/examples/dvdstore/web/WEB-INF/incl/cart.xhtml
+index b8db12b..cfb0c05 100644
+--- a/examples/dvdstore/web/WEB-INF/incl/cart.xhtml
++++ b/examples/dvdstore/web/WEB-INF/incl/cart.xhtml
+@@ -46 +45,0 @@
+-
+diff --git a/examples/dvdstore/web/WEB-INF/incl/processmenu.xhtml b/examples/dvdstore/web/WEB-INF/incl/processmenu.xhtml
+index 09aecb9..bced5c8 100644
+--- a/examples/dvdstore/web/WEB-INF/incl/processmenu.xhtml
++++ b/examples/dvdstore/web/WEB-INF/incl/processmenu.xhtml
+@@ -14,2 +14 @@
+-                            <h:selectOneMenu value="#{processDefinitionSwitcher.currentProcessDefinition}" 
+-                                             size="16">
++                            <h:selectOneMenu value="#{processDefinitionSwitcher.currentProcessDefinition}">
+diff --git a/examples/dvdstore/web/admin/ship.xhtml b/examples/dvdstore/web/admin/ship.xhtml
+index 0dfb679..2c60784 100644
+--- a/examples/dvdstore/web/admin/ship.xhtml
++++ b/examples/dvdstore/web/admin/ship.xhtml
+@@ -71 +71 @@
+-                                <h:outputText value="#{item.quantity}" size="6" />
++                                <h:outputText value="#{item.quantity}"/>
+diff --git a/examples/dvdstore/web/confirm.xhtml b/examples/dvdstore/web/confirm.xhtml
+index 2025020..6082c55 100644
+--- a/examples/dvdstore/web/confirm.xhtml
++++ b/examples/dvdstore/web/confirm.xhtml
+@@ -59 +59 @@
+-                            <h:outputText value="#{line.quantity}" size="6" />
++                            <h:outputText value="#{line.quantity}"/>
+

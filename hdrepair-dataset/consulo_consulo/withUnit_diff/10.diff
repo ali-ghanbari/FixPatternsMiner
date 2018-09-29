@@ -1,0 +1,27 @@
+diff --git a/xml/impl/src/com/intellij/xml/index/XmlTagNamesIndex.java b/xml/impl/src/com/intellij/xml/index/XmlTagNamesIndex.java
+index a0c3b7a..97fb7c0 100644
+--- a/xml/impl/src/com/intellij/xml/index/XmlTagNamesIndex.java
++++ b/xml/impl/src/com/intellij/xml/index/XmlTagNamesIndex.java
+@@ -43 +43 @@
+-  private static final ID<String,Void> NAME = ID.create("XmlTagNames");
++  static final ID<String,Void> NAME = ID.create("XmlTagNames");
+diff --git a/xml/tests/src/com/intellij/xml/index/XmlSchemaIndexTest.java b/xml/tests/src/com/intellij/xml/index/XmlSchemaIndexTest.java
+index 52b544f..f610b15 100644
+--- a/xml/tests/src/com/intellij/xml/index/XmlSchemaIndexTest.java
++++ b/xml/tests/src/com/intellij/xml/index/XmlSchemaIndexTest.java
+@@ -2,0 +3,2 @@
++import com.intellij.openapi.module.Module;
++import com.intellij.openapi.module.ModuleUtilCore;
+@@ -8,0 +11 @@
++import com.intellij.util.indexing.FileBasedIndex;
+@@ -16,0 +20 @@
++@SuppressWarnings("IOResourceOpenedButNotSafelyClosed")
+@@ -64,0 +69,3 @@
++    Module module = ModuleUtilCore.findModuleForFile(files.iterator().next(), project);
++    assert module != null;
++    final Collection<VirtualFile> files1 = FileBasedIndex.getInstance().getContainingFiles(XmlTagNamesIndex.NAME, "web-app", module.getModuleContentScope());
+@@ -66,2 +73 @@
+-    final Collection<VirtualFile> files1 = XmlTagNamesIndex.getFilesByTagName("web-app", project);
+-    assertEquals(files1.toString(), 2, files1.size());
++    assertEquals(new ArrayList<VirtualFile>(files1).toString(), 2, files1.size());
+

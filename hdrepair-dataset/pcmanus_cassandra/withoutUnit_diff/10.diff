@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
+index 16c2145..dfa972a 100644
+--- a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
++++ b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
+@@ -227 +227 @@
+-        if (caching != Caching.NONE || caching != Caching.ROWS_ONLY)
++        if (caching == Caching.ALL || caching == Caching.KEYS_ONLY)
+

@@ -1,0 +1,29 @@
+diff --git a/src/org/openscience/cdk/isomorphism/UniversalIsomorphismTester.java b/src/org/openscience/cdk/isomorphism/UniversalIsomorphismTester.java
+index c7c3d45..05a8044 100644
+--- a/src/org/openscience/cdk/isomorphism/UniversalIsomorphismTester.java
++++ b/src/org/openscience/cdk/isomorphism/UniversalIsomorphismTester.java
+@@ -754 +754 @@
+-        if (a1 instanceof IQueryBond) {
++        if (a2 instanceof IQueryBond) {
+diff --git a/src/org/openscience/cdk/test/isomorphism/UniversalIsomorphismTesterTest.java b/src/org/openscience/cdk/test/isomorphism/UniversalIsomorphismTesterTest.java
+index c12d67c..f06f37f 100644
+--- a/src/org/openscience/cdk/test/isomorphism/UniversalIsomorphismTesterTest.java
++++ b/src/org/openscience/cdk/test/isomorphism/UniversalIsomorphismTesterTest.java
+@@ -265 +265,11 @@
+-    	assertTrue(UniversalIsomorphismTester.isSubgraph(new SmilesParser().parseSmiles(smiles),query));
++    	AtomContainer ac = new SmilesParser().parseSmiles(smiles);
++       	if (standAlone)
++    	{
++    		System.out.println("AtomCount of query: " + query.getAtomCount());
++    		System.out.println("AtomCount of target: " + ac.getAtomCount());
++    	
++    	}
++
++       	boolean matched =UniversalIsomorphismTester.isSubgraph(ac,query);
++    	if (standAlone) System.out.println("QueryAtomContainer matched: " + matched);
++       	if (!standAlone) assertTrue(matched);
+@@ -282,2 +292 @@
+-			uitt.test1();
+-			uitt.test2();
++			uitt.testItself();
+

@@ -1,0 +1,28 @@
+diff --git a/test-modules/functional-tests/build.gradle b/test-modules/functional-tests/build.gradle
+index b2c0178..41782a0 100644
+--- a/test-modules/functional-tests/build.gradle
++++ b/test-modules/functional-tests/build.gradle
+@@ -55,2 +54,0 @@
+-
+-
+@@ -65,0 +64,2 @@
++            System.properties.get('dburl', "$dburl")
++            System.properties.get('baseurl', "$baseurl")
+@@ -85,0 +86,2 @@
++            System.properties.get('dburl', "$dburl")
++            System.properties.get('baseurl', "$baseurl")
+@@ -106,0 +109,2 @@
++            System.properties.get('dburl', "$dburl")
++            System.properties.get('baseurl', "$baseurl")
+@@ -126,0 +131,2 @@
++            System.properties.get('dburl', "$dburl")
++            System.properties.get('baseurl', "$baseurl")
+diff --git a/test-modules/webservice-test/src/test/java/org/openlmis/functional/ChwFeed.java b/test-modules/webservice-test/src/test/java/org/openlmis/functional/ChwFeed.java
+index 96e9fd6..a53b79a 100644
+--- a/test-modules/webservice-test/src/test/java/org/openlmis/functional/ChwFeed.java
++++ b/test-modules/webservice-test/src/test/java/org/openlmis/functional/ChwFeed.java
+@@ -172 +172,2 @@
+-//    assertTrue("Showing response as : " + responseEntityDataReportableFalse.getResponse(), responseEntityDataReportableFalse.getResponse().contains("{\"error\":\"Invalid agent code\"}"));
++    assertTrue("Showing response as : " + responseEntityDataReportableFalse.getResponse(), responseEntityDataReportableFalse.getResponse().contains("{\"error\":\"CHW cannot be updated as it has been deleted\"}"));
++
+

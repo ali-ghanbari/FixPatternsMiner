@@ -1,0 +1,42 @@
+diff --git a/src/main/groovy/lang/ExpandoMetaClass.java b/src/main/groovy/lang/ExpandoMetaClass.java
+index 58dcfe7..f756f9a 100644
+--- a/src/main/groovy/lang/ExpandoMetaClass.java
++++ b/src/main/groovy/lang/ExpandoMetaClass.java
+@@ -737 +736,0 @@
+-        propertyList.addAll(expandoProperties.values());
+diff --git a/src/test/groovy/lang/ExpandoMetaClassTest.groovy b/src/test/groovy/lang/ExpandoMetaClassTest.groovy
+index 6730bf3..f35eef0 100644
+--- a/src/test/groovy/lang/ExpandoMetaClassTest.groovy
++++ b/src/test/groovy/lang/ExpandoMetaClassTest.groovy
+@@ -23,0 +24,30 @@
++    void testMethodsAfterAddingNewMethod() {
++        Test.metaClass.newMethod ={-> "foo" }
++
++        def methods = Test.metaClass.methods.findAll {it.name == "newMethod"}
++        assert methods
++        assertEquals 1, methods.size()
++
++        Test.metaClass.newMethod ={-> "foo" }
++
++        methods = Test.metaClass.methods.findAll {it.name == "newMethod"}
++        assert methods
++        assertEquals 1, methods.size()
++
++    }
++
++    void testPropertiesAfterAddingProperty() {
++        Test.metaClass.getNewProp ={-> "foo" }
++
++        def props = Test.metaClass.properties.findAll {it.name == "newProp"}
++        assert props
++        assertEquals 1, props.size()
++
++        Test.metaClass.setNewProp ={String txt-> }
++
++        props = Test.metaClass.properties.findAll {it.name == "newProp"}
++        assert props
++        assertEquals 1, props.size()
++
++    }
++
+

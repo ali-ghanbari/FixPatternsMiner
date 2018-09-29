@@ -1,0 +1,8 @@
+diff --git a/src/edu/washington/escience/myria/api/MyriaApiException.java b/src/edu/washington/escience/myria/api/MyriaApiException.java
+index acb700c..bea6570 100644
+--- a/src/edu/washington/escience/myria/api/MyriaApiException.java
++++ b/src/edu/washington/escience/myria/api/MyriaApiException.java
+@@ -42 +42 @@
+-    super(MyriaExceptionMapper.getResponse(status, explanation));
++    super(new RuntimeException(explanation), MyriaExceptionMapper.getResponse(status, explanation));
+

@@ -1,0 +1,30 @@
+diff --git a/dist/include/io/uris.k b/dist/include/io/uris.k
+index 153824c..75c0bd5 100644
+--- a/dist/include/io/uris.k
++++ b/dist/include/io/uris.k
+@@ -12 +12 @@
+-                 | "#getc" "(" Int ")"             [function, hook(#IO:getc)]
++                 | "#getc" "(" Int ")"             [function, hook(#IO:#getc)]
+diff --git a/javasources/KTool/src/org/kframework/backend/java/builtins/BuiltinIOOperations.java b/javasources/KTool/src/org/kframework/backend/java/builtins/BuiltinIOOperations.java
+index c57f7b3..032983f 100644
+--- a/javasources/KTool/src/org/kframework/backend/java/builtins/BuiltinIOOperations.java
++++ b/javasources/KTool/src/org/kframework/backend/java/builtins/BuiltinIOOperations.java
+@@ -41,0 +42,2 @@
++        } catch (RuntimeException e) {
++            throw e;
+diff --git a/tests/regression/java-rewrite-engine/io/test.k b/tests/regression/java-rewrite-engine/io/test.k
+index 377a484..c7f1591 100644
+--- a/tests/regression/java-rewrite-engine/io/test.k
++++ b/tests/regression/java-rewrite-engine/io/test.k
+@@ -9,4 +9,4 @@
+-rule open(S1, S2) => #open(S1, S2)
+-rule tell(I) => #tell(I)
+-rule getc(I) => #getc(I)
+-rule read(I1, I2) => #read(I1, I2)
++rule open(S1:String, S2:String) => #open(S1, S2)
++rule tell(I:Int) => #tell(I)
++rule getc(I:Int) => #getc(I)
++rule read(I1:Int, I2:Int) => #read(I1, I2)
+@@ -16,0 +17 @@
++rule assertEqual(K1:TCPError, K2:TCPError) => . when K1 ==K K2
+

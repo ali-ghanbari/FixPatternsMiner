@@ -1,0 +1,8 @@
+diff --git a/core/api/src/main/java/org/opennms/netmgt/model/PollStatus.java b/core/api/src/main/java/org/opennms/netmgt/model/PollStatus.java
+index c6ece77..a0a56e6 100644
+--- a/core/api/src/main/java/org/opennms/netmgt/model/PollStatus.java
++++ b/core/api/src/main/java/org/opennms/netmgt/model/PollStatus.java
+@@ -260 +260 @@
+-        m_reason = reason.substring(0, 255);
++        m_reason = (reason == null? null : reason.substring(0, 255));
+

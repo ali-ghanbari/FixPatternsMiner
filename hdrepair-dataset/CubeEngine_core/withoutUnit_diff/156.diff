@@ -1,0 +1,8 @@
+diff --git a/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java b/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java
+index 647d77b..e0c372a 100644
+--- a/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java
++++ b/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java
+@@ -79 +79 @@
+-            rolesAttachment.getResolvedData(); // Pre-calculate
++            rolesAttachment.getResolvedData(this.module.getCore().getWorldManager().getWorldId(event.getPlayer().getWorld())); // Pre-calculate
+

@@ -1,0 +1,209 @@
+diff --git a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxInternalReferenceTest.java b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxInternalReferenceTest.java
+new file mode 100644
+index 0000000..c7b3a19
+--- /dev/null
++++ b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxInternalReferenceTest.java
+@@ -0,0 +1,50 @@
++/*
++ * Copyright (C) 2011 Harald Wellmann
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++package org.ops4j.pax.exam.regression.multi.reference;
++
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertNotNull;
++import static org.junit.Assume.assumeTrue;
++import static org.ops4j.pax.exam.regression.multi.RegressionConfiguration.isEquinox;
++
++import java.io.IOException;
++import java.io.InputStream;
++import java.net.URL;
++
++import org.junit.Test;
++import org.ops4j.pax.exam.util.PathUtils;
++import org.osgi.framework.BundleException;
++
++public class EquinoxInternalReferenceTest
++{
++
++    @Test
++    public void equinoxInternalReferenceHandler() throws BundleException, IOException
++    {
++        assumeTrue( isEquinox() );
++
++        System.setProperty( "java.protocol.handler.pkgs",
++            "org.eclipse.osgi.framework.internal.protocol" );
++        String reference = "reference:file:" + PathUtils.getBaseDir() +
++                "/target/regression-pde-bundle";
++        URL url = new URL( reference );
++        assertEquals( "reference", url.getProtocol() );
++        InputStream is = url.openStream();
++        assertNotNull( is );
++        assertEquals( "org.eclipse.osgi.framework.internal.core.ReferenceInputStream", is
++            .getClass().getName() );
++    }
++}
+diff --git a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java
+index 7905063..10ed2e9 100644
+--- a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java
++++ b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java
+@@ -20 +19,0 @@
+-import static org.junit.Assert.assertNull;
+@@ -23 +21,0 @@
+-import static org.ops4j.pax.exam.regression.multi.RegressionConfiguration.isNativeContainer;
+@@ -26,3 +23,0 @@
+-import java.io.InputStream;
+-import java.net.MalformedURLException;
+-import java.net.URL;
+@@ -32 +26,0 @@
+-import org.junit.Rule;
+@@ -34 +27,0 @@
+-import org.junit.rules.ExpectedException;
+@@ -46,16 +38,0 @@
+-    @Rule
+-    public ExpectedException expectedException = ExpectedException.none();
+-
+-    @Test
+-    public void exceptionWithoutCustomHandler() throws BundleException, IOException {
+-        assumeTrue( isEquinox() );
+-
+-        assertNull(System.getProperty("java.protocol.handler.pkgs"));
+-        expectedException.expect(MalformedURLException.class);
+-        expectedException.expectMessage("unknown protocol");
+-        assertNull(System.getProperty("java.protocol.handler.pkgs"));
+-        String reference = "reference:file:" + PathUtils.getBaseDir() +
+-                "/target/regression-pde-bundle";
+-        new URL(reference);
+-    }
+-
+@@ -65,2 +42 @@
+-
+-        assertNull(System.getProperty("java.protocol.handler.pkgs"));
++        assumeTrue(System.getProperty("java.protocol.handler.pkgs") == null);
+@@ -92,18 +67,0 @@
+-    }
+-
+-    @Test
+-    public void equinoxInternalReferenceHandler() throws BundleException, IOException {
+-        assumeTrue( isEquinox() );
+-
+-        try {
+-            System.setProperty("java.protocol.handler.pkgs", "org.eclipse.osgi.framework.internal.protocol");
+-            String reference = "reference:file:" + PathUtils.getBaseDir() +
+-                    "/target/regression-pde-bundle";
+-            URL url = new URL(reference);
+-            assertEquals("reference", url.getProtocol());
+-            InputStream is = url.openStream();
+-            assertNotNull(is);
+-            assertEquals("org.eclipse.osgi.framework.internal.core.ReferenceInputStream", is.getClass().getName());
+-        } finally {
+-            System.setProperty("java.protocol.handler.pkgs", "bogus");
+-        }
+diff --git a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ExplodedReferenceTest.java b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ExplodedReferenceTest.java
+index 07305c4..7e12923 100644
+--- a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ExplodedReferenceTest.java
++++ b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ExplodedReferenceTest.java
+@@ -33 +32,0 @@
+-import org.ops4j.pax.exam.junit.ExamReactorStrategy;
+@@ -35 +33,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -41 +38,0 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
+diff --git a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/NoReferenceTest.java b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/NoReferenceTest.java
+new file mode 100644
+index 0000000..7bc7589
+--- /dev/null
++++ b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/NoReferenceTest.java
+@@ -0,0 +1,48 @@
++/*
++ * Copyright (C) 2011 Harald Wellmann
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++package org.ops4j.pax.exam.regression.multi.reference;
++
++import static org.junit.Assume.assumeTrue;
++import static org.ops4j.pax.exam.regression.multi.RegressionConfiguration.isEquinox;
++
++import java.io.IOException;
++import java.net.MalformedURLException;
++import java.net.URL;
++
++import org.junit.Rule;
++import org.junit.Test;
++import org.junit.rules.ExpectedException;
++import org.ops4j.pax.exam.util.PathUtils;
++import org.osgi.framework.BundleException;
++
++public class NoReferenceTest {
++
++    @Rule
++    public ExpectedException expectedException = ExpectedException.none();
++
++    @Test
++    public void exceptionWithoutCustomHandler() throws BundleException, IOException {
++        assumeTrue( isEquinox() );
++        assumeTrue(System.getProperty("java.protocol.handler.pkgs") == null);
++        
++        expectedException.expect(MalformedURLException.class);
++        expectedException.expectMessage("unknown protocol");
++
++        String reference = "reference:file:" + PathUtils.getBaseDir() +
++                "/target/regression-pde-bundle";
++        new URL(reference);
++    }
++}
+diff --git a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/PdeExplodedReferenceTest.java b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/PdeExplodedReferenceTest.java
+index be933cd..7a05843 100644
+--- a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/PdeExplodedReferenceTest.java
++++ b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/PdeExplodedReferenceTest.java
+@@ -22 +21,0 @@
+-import static org.ops4j.pax.exam.CoreOptions.equinox;
+@@ -27,2 +26 @@
+-import static org.ops4j.pax.exam.regression.multi.RegressionConfiguration.*;
+-import static org.ops4j.pax.exam.regression.multi.RegressionConfiguration.isNativeContainer;
++import static org.ops4j.pax.exam.regression.multi.RegressionConfiguration.isEquinox;
+@@ -37 +34,0 @@
+-import org.ops4j.pax.exam.junit.ExamReactorStrategy;
+@@ -39 +35,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -45 +40,0 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
+diff --git a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ReferenceJarTest.java b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ReferenceJarTest.java
+index 496c574..f93335c 100644
+--- a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ReferenceJarTest.java
++++ b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ReferenceJarTest.java
+@@ -32 +31,0 @@
+-import org.ops4j.pax.exam.junit.ExamReactorStrategy;
+@@ -34 +32,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -40 +37,0 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
+diff --git a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java
+index eebf7cd..916817a 100644
+--- a/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java
++++ b/itest/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java
+@@ -49 +48,0 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
+

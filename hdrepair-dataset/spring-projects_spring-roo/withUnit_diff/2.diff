@@ -1,0 +1,31 @@
+diff --git a/project/src/main/java/org/springframework/roo/project/AbstractProjectOperations.java b/project/src/main/java/org/springframework/roo/project/AbstractProjectOperations.java
+index 3135240..a4fd4bd 100644
+--- a/project/src/main/java/org/springframework/roo/project/AbstractProjectOperations.java
++++ b/project/src/main/java/org/springframework/roo/project/AbstractProjectOperations.java
+@@ -862 +862 @@
+-		return !getModuleNames().isEmpty();
++		return getModuleNames().size() > 1;
+diff --git a/project/src/test/java/org/springframework/roo/project/MavenOperationsImplTest.java b/project/src/test/java/org/springframework/roo/project/MavenOperationsImplTest.java
+index 8af805b..3564a20 100644
+--- a/project/src/test/java/org/springframework/roo/project/MavenOperationsImplTest.java
++++ b/project/src/test/java/org/springframework/roo/project/MavenOperationsImplTest.java
+@@ -146,0 +147,18 @@
++	
++	@Test
++	public void testCannotFocusModuleWhenOneOrLessModulesExist() {
++		assertModuleFocusAllowed(false, "");
++	}
++	
++	@Test
++	public void testCannotFocusModuleWhenMoreThanOneModuleExists() {
++		assertModuleFocusAllowed(true, "", "core");
++	}
++	
++	private void assertModuleFocusAllowed(final boolean expectedResult, final String... moduleNames) {
++		// Set up
++		when(mockPomManagementService.getModuleNames()).thenReturn(Arrays.asList(moduleNames));
++		
++		// Invoke and check
++		assertEquals(expectedResult, projectOperations.isModuleFocusAllowed());		
++	}
+

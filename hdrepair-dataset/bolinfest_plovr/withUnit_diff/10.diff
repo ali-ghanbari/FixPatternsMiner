@@ -1,0 +1,18 @@
+diff --git a/closure/closure-compiler/src/com/google/javascript/jscomp/PeepholeRemoveDeadCode.java b/closure/closure-compiler/src/com/google/javascript/jscomp/PeepholeRemoveDeadCode.java
+index f860df3..1b15eed 100644
+--- a/closure/closure-compiler/src/com/google/javascript/jscomp/PeepholeRemoveDeadCode.java
++++ b/closure/closure-compiler/src/com/google/javascript/jscomp/PeepholeRemoveDeadCode.java
+@@ -329 +329 @@
+-            if (lastStm.isBreak()) {
++            if (lastStm != null && lastStm.isBreak()) {
+diff --git a/closure/closure-compiler/test/com/google/javascript/jscomp/PeepholeRemoveDeadCodeTest.java b/closure/closure-compiler/test/com/google/javascript/jscomp/PeepholeRemoveDeadCodeTest.java
+index b848f65..35a674f 100644
+--- a/closure/closure-compiler/test/com/google/javascript/jscomp/PeepholeRemoveDeadCodeTest.java
++++ b/closure/closure-compiler/test/com/google/javascript/jscomp/PeepholeRemoveDeadCodeTest.java
+@@ -436,0 +437,5 @@
++    foldSame("switch ('empty') {\n" +
++        "case 'empty':\n" +
++        "case 'foo':\n" +
++        "  foo();\n" +
++        "}");
+

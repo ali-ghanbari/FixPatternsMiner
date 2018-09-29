@@ -1,0 +1,15 @@
+diff --git a/deegree-client/deegree-mdeditor/src/main/java/org/deegree/client/mdeditor/gui/NavigationBean.java b/deegree-client/deegree-mdeditor/src/main/java/org/deegree/client/mdeditor/gui/NavigationBean.java
+index 848176c..c7f806a 100644
+--- a/deegree-client/deegree-mdeditor/src/main/java/org/deegree/client/mdeditor/gui/NavigationBean.java
++++ b/deegree-client/deegree-mdeditor/src/main/java/org/deegree/client/mdeditor/gui/NavigationBean.java
+@@ -69 +69 @@
+-        Object value = formfields.getFormFields().get( pathToIdentifier ).getValue();
++        Object value = formfields.getFormFields().get( pathToIdentifier.toString() ).getValue();
+diff --git a/deegree-client/deegree-mdeditor/src/main/webapp/WEB-INF/faces-config.xml b/deegree-client/deegree-mdeditor/src/main/webapp/WEB-INF/faces-config.xml
+index 1c2740c..908f577 100644
+--- a/deegree-client/deegree-mdeditor/src/main/webapp/WEB-INF/faces-config.xml
++++ b/deegree-client/deegree-mdeditor/src/main/webapp/WEB-INF/faces-config.xml
+@@ -51 +51 @@
+-        <managed-bean-class>org.deegree.client.mdeditor.gui.snippet.GenerateIdBean</managed-bean-class>
++        <managed-bean-class>org.deegree.client.mdeditor.gui.elements.GenerateIdBean</managed-bean-class>
+

@@ -1,0 +1,20 @@
+diff --git a/json-path/src/main/java/com/jayway/jsonpath/reader/PathTokenizer.java b/json-path/src/main/java/com/jayway/jsonpath/reader/PathTokenizer.java
+index e1fa31f..cc7a742 100644
+--- a/json-path/src/main/java/com/jayway/jsonpath/reader/PathTokenizer.java
++++ b/json-path/src/main/java/com/jayway/jsonpath/reader/PathTokenizer.java
+@@ -87 +87 @@
+-                    if (peek() == '.') {
++	                if (!isEmpty() && peek() == '.') {
+diff --git a/json-path/src/test/java/com/jayway/jsonpath/SplitPathFragmentsTest.java b/json-path/src/test/java/com/jayway/jsonpath/SplitPathFragmentsTest.java
+index b1d33e7..910f6bc 100644
+--- a/json-path/src/test/java/com/jayway/jsonpath/SplitPathFragmentsTest.java
++++ b/json-path/src/test/java/com/jayway/jsonpath/SplitPathFragmentsTest.java
+@@ -80,0 +81,7 @@
++	@Test
++	public void dot_ending_ignored() throws Exception {
++
++		assertPath("$..book['something'].", hasItems("$", "..", "something"));
++
++	}
++
+

@@ -1,0 +1,28 @@
+diff --git a/web/src/main/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactors.java b/web/src/main/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactors.java
+index d95e5a8..cfa4006 100644
+--- a/web/src/main/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactors.java
++++ b/web/src/main/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactors.java
+@@ -59 +59 @@
+-        return !expression.isKnown() || (expression.isGreaterThan(cutoff) && checkFilterFactors(expression));
++        return checkFilterFactors(expression) && (!expression.isKnown() || expression.isGreaterThan(cutoff));
+diff --git a/web/src/test/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactorsTest.java b/web/src/test/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactorsTest.java
+index 8c2bf0c..ab77640 100644
+--- a/web/src/test/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactorsTest.java
++++ b/web/src/test/java/uk/ac/ebi/atlas/profiles/baseline/IsBaselineExpressionAboveCutoffAndForFilterFactorsTest.java
+@@ -89,0 +90,13 @@
++    public void applyShouldFailUnknownExpressionDoesntContainAllLimitingFactors() throws Exception {
++
++        //given
++        subject = new IsBaselineExpressionAboveCutoffAndForFilterFactors();
++        subject.setFilterFactors(Sets.newHashSet(factor1, factor2));
++        given(expressionMock.isKnown()).willReturn(false);
++        given(expressionMock.containsAll(Sets.newHashSet(factor1,factor2))).willReturn(false);
++        //then
++        assertThat(subject.apply(expressionMock), is(false));
++    }
++
++
++    @Test
+@@ -102,0 +116 @@
++
+

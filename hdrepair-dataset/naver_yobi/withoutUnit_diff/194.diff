@@ -1,0 +1,79 @@
+diff --git a/app/controllers/AttachmentApp.java b/app/controllers/AttachmentApp.java
+index ba089c4..0b2372c 100644
+--- a/app/controllers/AttachmentApp.java
++++ b/app/controllers/AttachmentApp.java
+@@ -176 +176 @@
+-        logIfOriginFileIsNotValid(attach.hash, attach.name);
++        logIfOriginFileIsNotValid(attach.hash);
+diff --git a/app/views/board/editPost.scala.html b/app/views/board/editPost.scala.html
+index 353d2d8..776a673 100644
+--- a/app/views/board/editPost.scala.html
++++ b/app/views/board/editPost.scala.html
+@@ -90 +90 @@
+-		"sUploaderAction": "@routes.AttachmentApp.newFile"
++		"sUploaderAction": "@routes.AttachmentApp.uploadFile"
+diff --git a/app/views/board/newPost.scala.html b/app/views/board/newPost.scala.html
+index 6be40ce..8411fd2 100644
+--- a/app/views/board/newPost.scala.html
++++ b/app/views/board/newPost.scala.html
+@@ -88 +88 @@
+-		"sUploaderAction": "@routes.AttachmentApp.newFile"
++		"sUploaderAction": "@routes.AttachmentApp.uploadFile"
+diff --git a/app/views/board/post.scala.html b/app/views/board/post.scala.html
+index b08a884..25483b7 100644
+--- a/app/views/board/post.scala.html
++++ b/app/views/board/post.scala.html
+@@ -166 +166 @@
+-			"sAction": "@routes.AttachmentApp.newFile"
++			"sAction": "@routes.AttachmentApp.uploadFile"
+diff --git a/app/views/issue/editIssue.scala.html b/app/views/issue/editIssue.scala.html
+index 6971484..3d8274b 100644
+--- a/app/views/issue/editIssue.scala.html
++++ b/app/views/issue/editIssue.scala.html
+@@ -165 +165 @@
+-			"sUploaderAction": "@routes.AttachmentApp.newFile",
++			"sUploaderAction": "@routes.AttachmentApp.uploadFile",
+@@ -171 +171 @@
+-}
+\ No newline at end of file
++}
+diff --git a/app/views/issue/issue.scala.html b/app/views/issue/issue.scala.html
+index 89a4bc6..9995050 100644
+--- a/app/views/issue/issue.scala.html
++++ b/app/views/issue/issue.scala.html
+@@ -227 +227 @@
+-			"sAction"       : "@routes.AttachmentApp.newFile",
++			"sAction"       : "@routes.AttachmentApp.uploadFile",
+diff --git a/app/views/issue/newIssue.scala.html b/app/views/issue/newIssue.scala.html
+index 8838c1e..2bd63a5 100644
+--- a/app/views/issue/newIssue.scala.html
++++ b/app/views/issue/newIssue.scala.html
+@@ -141 +141 @@
+-			"sUploaderAction": "@routes.AttachmentApp.newFile",
++			"sUploaderAction": "@routes.AttachmentApp.uploadFile",
+diff --git a/app/views/project/list.scala.html b/app/views/project/list.scala.html
+index 02d1c61..fe0aa54 100644
+--- a/app/views/project/list.scala.html
++++ b/app/views/project/list.scala.html
+@@ -38 +38 @@
+-			  @if(!project.share_option){ <i class="ico ico-lock"></i> }
++			  @if(!project.isPublic){ <i class="ico ico-lock"></i> }
+diff --git a/app/views/user/edit.scala.html b/app/views/user/edit.scala.html
+index bf490d7..d135f94 100644
+--- a/app/views/user/edit.scala.html
++++ b/app/views/user/edit.scala.html
+@@ -126 +126 @@
+-            .attr('action', "@routes.AttachmentApp.newFile");
++            .attr('action', "@routes.AttachmentApp.uploadFile");
+diff --git a/app/views/user/info.scala.html b/app/views/user/info.scala.html
+index 9ac17cd..5d3e7fb 100644
+--- a/app/views/user/info.scala.html
++++ b/app/views/user/info.scala.html
+@@ -84 +84 @@
+-								@if(!project.share_option){ <i class="ico ico-lock"></i> }
++								@if(!project.isPublic){ <i class="ico ico-lock"></i> }
+@@ -114 +114 @@
+-}
+\ No newline at end of file
++}
+

@@ -1,0 +1,38 @@
+diff --git a/sahi-core/htdocs/spr/lib.js b/sahi-core/htdocs/spr/lib.js
+index ff20ec9..e91cd73 100644
+--- a/sahi-core/htdocs/spr/lib.js
++++ b/sahi-core/htdocs/spr/lib.js
+@@ -14,0 +15,3 @@
++Runtime = Java.type("java.lang.Runtime");
++System = Java.type("java.lang.System");
++Thread = Java.type("java.lang.Thread");
+@@ -247 +250 @@
+-    java.lang.System.out.println("Nashorn lib:" + s);
++    System.out.println("Nashorn lib:" + s);
+@@ -250 +253 @@
+-    java.lang.Thread.sleep(n);
++    Thread.sleep(n);
+@@ -382 +385 @@
+-	this.initialMemory = java.lang.Runtime.getRuntime().totalMemory();
++	this.initialMemory = Runtime.getRuntime().totalMemory();
+@@ -919 +922 @@
+-	var d = java.lang.System.currentTimeMillis();
++	var d = System.currentTimeMillis();
+@@ -962 +965 @@
+-		var rt = java.lang.Runtime.getRuntime();
++		var rt = Runtime.getRuntime();
+diff --git a/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/SahiIntegrationTest.java b/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/SahiIntegrationTest.java
+index 60ba24b..f34e199 100644
+--- a/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/SahiIntegrationTest.java
++++ b/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/SahiIntegrationTest.java
+@@ -33 +33 @@
+-  final protected boolean isSingleSession = true;
++  final protected boolean isSingleSession = false;
+diff --git a/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/TestApiIntegration.java b/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/TestApiIntegration.java
+index f7aedc0..b78ad3d 100644
+--- a/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/TestApiIntegration.java
++++ b/sahi-test-webapp/src/test/java/com/headissue/sahi/integration/TestApiIntegration.java
+@@ -40 +40 @@
+-    String suitePath = getSuitePath("/integration/date.sah");
++    String suitePath = getSuitePath("/integration/language.sah");
+

@@ -1,0 +1,16 @@
+Fix for layout parameter validation bug in GridLayout.
+
+Bug 6404882.
+
+When a cell has an unspecified row and a column that is specified as greater
+than the specified number of columns, GridLayout fails to report or correct
+the error and loops indefinitely searching for a valid row to place the cell.
+
+There is a cyclic dependency between the validation of layout parameters
+(and allocation of undefined cell indexes) and the maximum column/row counts.
+A performance optimization in layout paramter allocation caused this dependency
+to be handled in correctly. The problem is fixed in this CL for this bug and
+the symmetric problem for rows.
+
+Change-Id: I0392343bc8a721a0ca7163f58f233ba8046c22e2
+

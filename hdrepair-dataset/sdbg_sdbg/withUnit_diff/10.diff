@@ -1,0 +1,71 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/element/ElementFactory.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/element/ElementFactory.java
+index 1c07af6..2fa7a5b 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/element/ElementFactory.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/element/ElementFactory.java
+@@ -277 +277 @@
+-    String fileName = libraryName + ".dart";
++    String fileName = "/" + libraryName + ".dart";
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseDartTaskTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseDartTaskTest.java
+index d406295..e3a4784 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseDartTaskTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseDartTaskTest.java
+@@ -126,0 +127,4 @@
++        AnalysisException exception = task.getException();
++        if (exception != null) {
++          throw exception;
++        }
+@@ -129 +132,0 @@
+-        assertNull(task.getException());
+@@ -152,0 +156,4 @@
++        AnalysisException exception = task.getException();
++        if (exception != null) {
++          throw exception;
++        }
+@@ -155 +161,0 @@
+-        assertNull(task.getException());
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseHtmlTaskTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseHtmlTaskTest.java
+index 74afa93..1a41a15 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseHtmlTaskTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ParseHtmlTaskTest.java
+@@ -117 +117,4 @@
+-        assertNull(task.getException());
++        AnalysisException exception = task.getException();
++        if (exception != null) {
++          throw exception;
++        }
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartLibraryTaskTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartLibraryTaskTest.java
+index d1ad1fe..c98e0e4 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartLibraryTaskTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartLibraryTaskTest.java
+@@ -91,0 +92,4 @@
++        AnalysisException exception = task.getException();
++        if (exception != null) {
++          throw exception;
++        }
+@@ -93 +96,0 @@
+-        assertNull(task.getException());
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartUnitTaskTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartUnitTaskTest.java
+index a4b51ab..665750d 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartUnitTaskTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveDartUnitTaskTest.java
+@@ -95 +95 @@
+-  public void xxx_test_perform_library() throws AnalysisException {
++  public void test_perform_library() throws AnalysisException {
+@@ -113 +113,4 @@
+-        assertNull(task.getException());
++        AnalysisException exception = task.getException();
++        if (exception != null) {
++          throw exception;
++        }
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveHtmlTaskTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveHtmlTaskTest.java
+index d1ca440..2bd70dc 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveHtmlTaskTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/task/ResolveHtmlTaskTest.java
+@@ -105,0 +106,4 @@
++        AnalysisException exception = task.getException();
++        if (exception != null) {
++          throw exception;
++        }
+@@ -107 +110,0 @@
+-        assertNull(task.getException());
+

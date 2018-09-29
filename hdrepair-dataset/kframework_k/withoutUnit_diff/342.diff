@@ -1,0 +1,17 @@
+diff --git a/dist/include/io/uris.k b/dist/include/io/uris.k
+index 1514087..ac4a978 100644
+--- a/dist/include/io/uris.k
++++ b/dist/include/io/uris.k
+@@ -121,2 +121,2 @@
+-  rule ListItem(#noIO) ListItem(#istream(_:Int)) => .List [stdin]
+-  rule ListItem(#ostream(_:Int)) ListItem(#noIO) => .List [stdout, stderr]
++  rule ListItem(#buffer(_)) ListItem(#noIO) ListItem(#istream(_:Int)) => .List [stdin]
++  rule ListItem(#ostream(_:Int)) ListItem(#noIO) ListItem(#buffer(_)) => .List [stdout, stderr]
+diff --git a/javasources/KTool/src/org/kframework/krun/Main.java b/javasources/KTool/src/org/kframework/krun/Main.java
+index fad0719..b4ce691 100644
+--- a/javasources/KTool/src/org/kframework/krun/Main.java
++++ b/javasources/KTool/src/org/kframework/krun/Main.java
+@@ -245 +245 @@
+-			output.put("$noIO", new BackendTerm("ListItem", "ListItem(#noIO)"));
++			output.put("$noIO", new BackendTerm("ListItem", "ListItem('#noIO(.KList))"));
+

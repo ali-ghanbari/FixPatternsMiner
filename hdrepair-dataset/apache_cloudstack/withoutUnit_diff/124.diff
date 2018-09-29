@@ -1,0 +1,17 @@
+diff --git a/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtStorageVolumeDef.java b/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtStorageVolumeDef.java
+index 7f9ceeb..92f6e39 100644
+--- a/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtStorageVolumeDef.java
++++ b/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtStorageVolumeDef.java
+@@ -76 +76 @@
+-                    .append("<capacity >" + _volSize + "</capacity>\n");
++                    .append("<capacity>" + _volSize + "</capacity>\n");
+diff --git a/ui/scripts/instances.js b/ui/scripts/instances.js
+index 7149815..33a5767 100644
+--- a/ui/scripts/instances.js
++++ b/ui/scripts/instances.js
+@@ -1673,2 +1673,2 @@
+-                  diskioread: (jsonObj.diskioread == null)? "N/A": cloudStack.converters.convertBytes(jsonObj.diskioread * 1024),
+-                  diskiowrite: (jsonObj.diskiowrite == null)? "N/A": cloudStack.converters.convertBytes(jsonObj.diskiowrite * 1024)
++                  diskioread: (jsonObj.diskioread == null)? "N/A": jsonObj.diskioread,
++                  diskiowrite: (jsonObj.diskiowrite == null)? "N/A": jsonObj.diskiowrite
+

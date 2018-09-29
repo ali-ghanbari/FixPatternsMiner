@@ -1,0 +1,19 @@
+diff --git a/ninja-core/src/site/markdown/developer/changelog.md b/ninja-core/src/site/markdown/developer/changelog.md
+index 530f60b..e369bba 100644
+--- a/ninja-core/src/site/markdown/developer/changelog.md
++++ b/ninja-core/src/site/markdown/developer/changelog.md
+@@ -0,0 +1,6 @@
++Version X.X.X
++=============
++
++  * 2014-02-26 Bugfix. Dependecy resolution for SuperDevMode was "compile" and 
++               not "runtime". => Changed to "runtime"  (ra)
++
+diff --git a/ninja-maven-plugin/src/main/java/ninja/NinjaRunMojo.java b/ninja-maven-plugin/src/main/java/ninja/NinjaRunMojo.java
+index bac5028..eeb4cbc 100644
+--- a/ninja-maven-plugin/src/main/java/ninja/NinjaRunMojo.java
++++ b/ninja-maven-plugin/src/main/java/ninja/NinjaRunMojo.java
+@@ -24 +24 @@
+- * @requiresDependencyResolution compile
++ * @requiresDependencyResolution runtime
+

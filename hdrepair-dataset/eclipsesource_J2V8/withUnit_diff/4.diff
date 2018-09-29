@@ -1,0 +1,53 @@
+diff --git a/src/main/java/com/eclipsesource/v8/V8Object.java b/src/main/java/com/eclipsesource/v8/V8Object.java
+index e5b99fc..affcd77 100644
+--- a/src/main/java/com/eclipsesource/v8/V8Object.java
++++ b/src/main/java/com/eclipsesource/v8/V8Object.java
+@@ -240,0 +241 @@
++            method.setAccessible(true);
+diff --git a/src/test/java/com/eclipsesource/v8/tests/V8ObjectTest.java b/src/test/java/com/eclipsesource/v8/tests/V8ObjectTest.java
+index d90c33b..c2d3367 100644
+--- a/src/test/java/com/eclipsesource/v8/tests/V8ObjectTest.java
++++ b/src/test/java/com/eclipsesource/v8/tests/V8ObjectTest.java
+@@ -441,0 +442,17 @@
++    @Test
++    public void testUnaccessibleMethod() {
++        final boolean[] called = new boolean[] { false };
++        Runnable r = new Runnable() {
++
++            @Override
++            public void run() {
++                called[0] = true;
++            }
++        };
++        v8.registerJavaMethod(r, "run", "run", new Class<?>[0]);
++
++        v8.executeVoidFunction("run", null);
++
++        assertTrue(called[0]);
++    }
++
+@@ -498 +515 @@
+-        
++
+@@ -513 +530 @@
+-        
++
+@@ -528 +545 @@
+-        
++
+@@ -540 +557 @@
+-        
++
+@@ -552 +569 @@
+-        
++
+@@ -563 +580 @@
+-        
++
+@@ -573 +590 @@
+-        
++
+@@ -584 +601 @@
+-       
++
+

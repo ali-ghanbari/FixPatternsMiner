@@ -1,0 +1,8 @@
+diff --git a/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java b/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java
+index 9b6297f..f67f5c0 100644
+--- a/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java
++++ b/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java
+@@ -131 +131 @@
+-                    table.querySpec().limit()
++                    table.querySpec().limit() + table.querySpec().offset()
+

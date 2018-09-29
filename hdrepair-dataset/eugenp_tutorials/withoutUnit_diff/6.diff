@@ -1,0 +1,36 @@
+diff --git a/spring-security-login-and-registration/src/main/java/org/baeldung/spring/SecSecurityConfig.java b/spring-security-login-and-registration/src/main/java/org/baeldung/spring/SecSecurityConfig.java
+index ec07c22..ca3947f 100644
+--- a/spring-security-login-and-registration/src/main/java/org/baeldung/spring/SecSecurityConfig.java
++++ b/spring-security-login-and-registration/src/main/java/org/baeldung/spring/SecSecurityConfig.java
+@@ -52 +52 @@
+-                        "/user/changePassword*", "/emailError*", "/resources/**").permitAll()
++                        "/user/changePassword*", "/emailError*", "/resources/**","/old/user/registration*").permitAll()
+diff --git a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/badUser.jsp b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/badUser.jsp
+index 4ce72a5..38c8a8e 100644
+--- a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/badUser.jsp
++++ b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/badUser.jsp
+@@ -20 +20 @@
+-<a href="<c:url value="/user/registration" />"><spring:message
++<a href="<c:url value="/old/user/registration" />"><spring:message
+diff --git a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/expiredAccount.jsp b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/expiredAccount.jsp
+index a8f732c..fa6796c 100644
+--- a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/expiredAccount.jsp
++++ b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/expiredAccount.jsp
+@@ -19 +19 @@
+-<a href="<c:url value="/user/registration" />"><spring:message
++<a href="<c:url value="/old/user/registration" />"><spring:message
+diff --git a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/forgetPassword.jsp b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/forgetPassword.jsp
+index 29b5c50..9a25ea9 100644
+--- a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/forgetPassword.jsp
++++ b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/forgetPassword.jsp
+@@ -35 +35 @@
+-<a href="<c:url value="/user/registration" />"><spring:message code="label.form.loginSignUp"></spring:message></a>
++<a href="<c:url value="/old/user/registration" />"><spring:message code="label.form.loginSignUp"></spring:message></a>
+diff --git a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/login.jsp b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/login.jsp
+index e7c7c26..c8d8acc 100644
+--- a/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/login.jsp
++++ b/spring-security-login-and-registration/src/main/webapp/WEB-INF/view/login.jsp
+@@ -100 +100 @@
+-				href="<c:url value="/user/registration" />"><spring:message
++				href="<c:url value="/old/user/registration" />"><spring:message
+

@@ -1,0 +1,73 @@
+diff --git a/sql/src/main/java/io/crate/analyze/EvaluatingNormalizer.java b/sql/src/main/java/io/crate/analyze/EvaluatingNormalizer.java
+index b451c95..edea82c 100644
+--- a/sql/src/main/java/io/crate/analyze/EvaluatingNormalizer.java
++++ b/sql/src/main/java/io/crate/analyze/EvaluatingNormalizer.java
+@@ -50 +50 @@
+-        if (symbol.info().granularity() != granularity) {
++        if (symbol.info().granularity().ordinal() > granularity.ordinal()) {
+diff --git a/sql/src/test/java/io/crate/analyze/EvaluatingNormalizerTest.java b/sql/src/test/java/io/crate/analyze/EvaluatingNormalizerTest.java
+index 6aa0161..ee9183c 100644
+--- a/sql/src/test/java/io/crate/analyze/EvaluatingNormalizerTest.java
++++ b/sql/src/test/java/io/crate/analyze/EvaluatingNormalizerTest.java
+@@ -7,2 +6,0 @@
+-import io.crate.operator.reference.sys.NodeLoadExpression;
+-import io.crate.operator.reference.sys.SysObjectReference;
+@@ -28 +25,0 @@
+-    private ReferenceIdent dummyLoadReference;
+@@ -35,2 +32,2 @@
+-        dummyLoadReference = new ReferenceIdent(new TableIdent("test", "dummy"), "load");
+-        dummyLoadInfo = new ReferenceInfo(dummyLoadReference, RowGranularity.NODE, DataType.DOUBLE);
++        ReferenceIdent dummyLoadIdent = new ReferenceIdent(new TableIdent("test", "dummy"), "load");
++        dummyLoadInfo = new ReferenceInfo(dummyLoadIdent, RowGranularity.NODE, DataType.DOUBLE);
+@@ -38 +35 @@
+-        referenceImplementationMap.put(dummyLoadReference, new SysExpression<Double>() {
++        referenceImplementationMap.put(dummyLoadIdent, new SysExpression<Double>() {
+@@ -57,11 +54,9 @@
+-    @Test
+-    public void testEvaluation() {
+-
+-        EvaluatingNormalizer visitor = new EvaluatingNormalizer(
+-                functions, RowGranularity.NODE, referenceResolver);
+-
+-        /**
+-         * prepare the following where clause as function symbol tree:
+-         *
+-         *  where load['1'] = 0.08 or name != 'x' and name != 'y'
+-          */
++    /**
++     * prepare the following where clause as function symbol tree:
++     *
++     *  where test.dummy.load = 0.08 or name != 'x' and name != 'y'
++     *
++     *  test.dummy.load is a expression that can be evaluated on node level
++     *  name would be a doc level reference and is untouched
++     */
++    private Function prepareFunctionTree() {
+@@ -93 +88 @@
+-        Function op_or = new Function(
++        return new Function(
+@@ -94,0 +90 @@
++    }
+@@ -95,0 +92,4 @@
++    @Test
++    public void testEvaluation() {
++        EvaluatingNormalizer visitor = new EvaluatingNormalizer(
++                functions, RowGranularity.NODE, referenceResolver);
+@@ -97 +97,4 @@
+-        // the load['1'] == 0.08 parts evaluates to true and therefore the whole query is optimized to true
++        Function op_or = prepareFunctionTree();
++
++        // the dummy reference load == 0.08 evaluates to true,
++        // so the whole query can be normalized to a single boolean literal
+@@ -102,0 +106,10 @@
++    @Test
++    public void testEvaluationClusterGranularity() {
++        EvaluatingNormalizer visitor = new EvaluatingNormalizer(
++                functions, RowGranularity.CLUSTER, referenceResolver);
++
++        Function op_or = prepareFunctionTree();
++        Symbol query = visitor.process(op_or, null);
++        assertThat(query, instanceOf(Function.class));
++    }
++
+

@@ -1,0 +1,24 @@
+diff --git a/core/src/main/java/tachyon/TachyonURI.java b/core/src/main/java/tachyon/TachyonURI.java
+index 8c440d1..f743fc1 100644
+--- a/core/src/main/java/tachyon/TachyonURI.java
++++ b/core/src/main/java/tachyon/TachyonURI.java
+@@ -105 +105 @@
+-    if (!parentPath.endsWith(SEPARATOR)) {
++    if (!parentPath.endsWith(SEPARATOR) && parentPath.length() > 0) {
+diff --git a/core/src/test/java/tachyon/TachyonURITest.java b/core/src/test/java/tachyon/TachyonURITest.java
+index 7b36536..06b186f 100644
+--- a/core/src/test/java/tachyon/TachyonURITest.java
++++ b/core/src/test/java/tachyon/TachyonURITest.java
+@@ -48,5 +47,0 @@
+-  private void testParentChild(String target, String parent, String child) {
+-    Assert.assertEquals(new TachyonURI(target), new TachyonURI(new TachyonURI(parent),
+-        new TachyonURI(child)));
+-  }
+-
+@@ -58,0 +54,5 @@
++
++  private void testParentChild(String target, String parent, String child) {
++    Assert.assertEquals(new TachyonURI(target), new TachyonURI(new TachyonURI(parent),
++        new TachyonURI(child)));
++  }
+

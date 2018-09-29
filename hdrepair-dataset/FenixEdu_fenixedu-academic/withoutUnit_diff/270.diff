@@ -1,0 +1,8 @@
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/renderers/providers/ExecutionDegreesWithDissertationByExecutionYearProvider.java b/src/net/sourceforge/fenixedu/presentationTier/renderers/providers/ExecutionDegreesWithDissertationByExecutionYearProvider.java
+index a5957ff..1a4a058 100644
+--- a/src/net/sourceforge/fenixedu/presentationTier/renderers/providers/ExecutionDegreesWithDissertationByExecutionYearProvider.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/renderers/providers/ExecutionDegreesWithDissertationByExecutionYearProvider.java
+@@ -41 +41 @@
+-		if (hasDissertation(executionDegree)) {
++		if (!executionDegree.getDegreeCurricularPlan().isEmpty() && hasDissertation(executionDegree)) {
+

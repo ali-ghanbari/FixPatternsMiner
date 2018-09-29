@@ -1,0 +1,12 @@
+diff --git a/molgenis-search-elasticsearch/src/main/java/org/molgenis/elasticsearch/request/LuceneQueryStringBuilder.java b/molgenis-search-elasticsearch/src/main/java/org/molgenis/elasticsearch/request/LuceneQueryStringBuilder.java
+index 79ef328..eff58e8 100644
+--- a/molgenis-search-elasticsearch/src/main/java/org/molgenis/elasticsearch/request/LuceneQueryStringBuilder.java
++++ b/molgenis-search-elasticsearch/src/main/java/org/molgenis/elasticsearch/request/LuceneQueryStringBuilder.java
+@@ -21,3 +21,3 @@
+-	// The characters that need to be escaped are: && + - ! ( ) { } [ ] ^ " ~ *
+-	// / \
+-	// ? :
++	// The characters that need to be escaped are: && || + - ! ( ) { } [ ] " ~ *
++	// / \ ? :
++	// ^ was not included because it needs to be used for query boosting
+

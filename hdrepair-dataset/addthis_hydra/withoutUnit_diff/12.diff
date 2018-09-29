@@ -1,0 +1,8 @@
+diff --git a/hydra-main/src/main/java/com/addthis/hydra/job/web/JobRequestHandlerImpl.java b/hydra-main/src/main/java/com/addthis/hydra/job/web/JobRequestHandlerImpl.java
+index 9504dcf..5c68c8f 100644
+--- a/hydra-main/src/main/java/com/addthis/hydra/job/web/JobRequestHandlerImpl.java
++++ b/hydra-main/src/main/java/com/addthis/hydra/job/web/JobRequestHandlerImpl.java
+@@ -95 +95 @@
+-        checkArgument(spawn.getJobCommandManager().getEntity(command) == null, "Invalid command key '%s'", command);
++        checkArgument(spawn.getJobCommandManager().getEntity(command) != null, "Invalid command key '%s'", command);
+

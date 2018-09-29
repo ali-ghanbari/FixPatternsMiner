@@ -1,0 +1,15 @@
+diff --git a/rt/ws/policy/src/main/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandler.java b/rt/ws/policy/src/main/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandler.java
+index 4ccee60..32416d1 100644
+--- a/rt/ws/policy/src/main/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandler.java
++++ b/rt/ws/policy/src/main/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandler.java
+@@ -49 +49 @@
+-        } else if ("http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/ws-securitypolicy-1.2.xsd".equals(s)) {
++        } else if ("http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702".equals(s)) {
+diff --git a/rt/ws/policy/src/test/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandlerTest.java b/rt/ws/policy/src/test/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandlerTest.java
+index fa49d75..3a5b43c 100644
+--- a/rt/ws/policy/src/test/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandlerTest.java
++++ b/rt/ws/policy/src/test/java/org/apache/cxf/ws/policy/blueprint/PolicyBPHandlerTest.java
+@@ -37,0 +38,2 @@
++        
++        assertNotNull(handler.getSchemaLocation("http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"));
+

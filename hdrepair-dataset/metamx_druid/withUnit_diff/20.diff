@@ -1,0 +1,63 @@
+diff --git a/server/src/main/java/io/druid/server/bridge/DruidClusterBridge.java b/server/src/main/java/io/druid/server/bridge/DruidClusterBridge.java
+index f0e7355..5424a8a 100644
+--- a/server/src/main/java/io/druid/server/bridge/DruidClusterBridge.java
++++ b/server/src/main/java/io/druid/server/bridge/DruidClusterBridge.java
+@@ -256 +256 @@
+-      exec.shutdownNow();
++      exec.shutdown();
+diff --git a/server/src/test/java/io/druid/server/bridge/DruidClusterBridgeTest.java b/server/src/test/java/io/druid/server/bridge/DruidClusterBridgeTest.java
+index b970f17..59f13d7 100644
+--- a/server/src/test/java/io/druid/server/bridge/DruidClusterBridgeTest.java
++++ b/server/src/test/java/io/druid/server/bridge/DruidClusterBridgeTest.java
+@@ -150,0 +151 @@
++    EasyMock.replay(dbSegmentPublisher);
+@@ -151,0 +153 @@
++    EasyMock.replay(databaseSegmentManager);
+@@ -152,0 +155,2 @@
++    EasyMock.replay(serverView);
++
+@@ -165,0 +170 @@
++
+@@ -168 +172,0 @@
+-
+@@ -189 +192,0 @@
+-
+@@ -227,4 +230,6 @@
+-    DruidServerMetadata announced = jsonMapper.readValue(
+-        remoteCf.getData().forPath(path),
+-        DruidServerMetadata.class
+-    );
++    boolean verified = verifyUpdate(jsonMapper, path, remoteCf);
++    retry = 0;
++    while (!verified) {
++      if (retry > 5) {
++        throw new ISE("No updates to bridge node occurred");
++      }
+@@ -232 +237,2 @@
+-    Assert.assertEquals(118, announced.getMaxSize());
++      Thread.sleep(100);
++      retry++;
+@@ -234,2 +240,2 @@
+-    bridge.stop();
+-    EasyMock.verify(batchServerInventoryView);
++      verified = verifyUpdate(jsonMapper, path, remoteCf);
++    }
+@@ -237,0 +244 @@
++    bridge.stop();
+@@ -242,0 +250,15 @@
++
++    EasyMock.verify(batchServerInventoryView);
++    EasyMock.verify(dbSegmentPublisher);
++    EasyMock.verify(databaseSegmentManager);
++    EasyMock.verify(serverView);
++  }
++
++  private boolean verifyUpdate(ObjectMapper jsonMapper, String path, CuratorFramework remoteCf) throws Exception
++  {
++    DruidServerMetadata announced = jsonMapper.readValue(
++        remoteCf.getData().forPath(path),
++        DruidServerMetadata.class
++    );
++
++    return (118 == announced.getMaxSize());
+

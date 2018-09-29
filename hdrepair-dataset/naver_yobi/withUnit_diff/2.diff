@@ -1,0 +1,15 @@
+diff --git a/app/models/Attachment.java b/app/models/Attachment.java
+index 20e0a9d..517190c 100644
+--- a/app/models/Attachment.java
++++ b/app/models/Attachment.java
+@@ -239 +239 @@
+-                this.mimeType += " ;charset=" + FileUtil.detectCharset(new FileInputStream(file));
++                this.mimeType += "; charset=" + FileUtil.detectCharset(new FileInputStream(file));
+diff --git a/test/models/AttachmentTest.java b/test/models/AttachmentTest.java
+index 9e51a5b..5dd1c45 100644
+--- a/test/models/AttachmentTest.java
++++ b/test/models/AttachmentTest.java
+@@ -39 +39 @@
+-        assertThat(attach.mimeType).isEqualTo("text/plain");
++        assertThat(attach.mimeType).isEqualTo("text/plain; charset=UTF-8");
+

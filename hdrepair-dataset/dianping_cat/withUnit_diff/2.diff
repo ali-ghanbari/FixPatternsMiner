@@ -1,0 +1,22 @@
+diff --git a/cat-core/src/main/java/com/dianping/cat/service/BaseCompositeModelService.java b/cat-core/src/main/java/com/dianping/cat/service/BaseCompositeModelService.java
+index 1165c78..28d1f4a 100755
+--- a/cat-core/src/main/java/com/dianping/cat/service/BaseCompositeModelService.java
++++ b/cat-core/src/main/java/com/dianping/cat/service/BaseCompositeModelService.java
+@@ -24 +24 @@
+-	private static ExecutorService s_threadPool = Threads.forPool().getFixedThreadPool("Cat-ModelService", 50);
++	private static ExecutorService s_threadPool = Threads.forPool().getFixedThreadPool("Cat-ModelService", 100);
+diff --git a/cat-home/src/test/java/com/dianping/cat/report/page/transaction/PayloadTest.java b/cat-home/src/test/java/com/dianping/cat/report/page/transaction/PayloadTest.java
+index 84b557d..129a30a 100755
+--- a/cat-home/src/test/java/com/dianping/cat/report/page/transaction/PayloadTest.java
++++ b/cat-home/src/test/java/com/dianping/cat/report/page/transaction/PayloadTest.java
+@@ -103,2 +103,2 @@
+-		checkDate(current, payload.getHistoryStartDate());
+-		checkDate(next, adjustEndDate(payload.getHistoryEndDate()));
++		checkDate(lastOne, payload.getHistoryStartDate());
++		checkDate(current, adjustEndDate(payload.getHistoryEndDate()));
+@@ -108,2 +108,2 @@
+-		checkDate(current, payload.getHistoryStartDate());
+-		checkDate(next, adjustEndDate(payload.getHistoryEndDate()));
++		checkDate(lastOne, payload.getHistoryStartDate());
++		checkDate(current, adjustEndDate(payload.getHistoryEndDate()));
+

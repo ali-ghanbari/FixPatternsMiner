@@ -1,0 +1,8 @@
+diff --git a/kundera-cassandra/src/main/java/com/impetus/client/cassandra/query/CassandraEntityReader.java b/kundera-cassandra/src/main/java/com/impetus/client/cassandra/query/CassandraEntityReader.java
+index 3a26fcf..7e3c131 100644
+--- a/kundera-cassandra/src/main/java/com/impetus/client/cassandra/query/CassandraEntityReader.java
++++ b/kundera-cassandra/src/main/java/com/impetus/client/cassandra/query/CassandraEntityReader.java
+@@ -213 +213 @@
+-            result = ((CassandraClientBase) client).findByRange(minValue, maxVal, m, false, null);
++            result = ((CassandraClientBase) client).findByRange(minValue, maxVal, m, m.getRelationNames() != null && !m.getRelationNames().isEmpty(), m.getRelationNames());
+

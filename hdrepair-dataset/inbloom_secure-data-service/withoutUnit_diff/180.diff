@@ -1,0 +1,32 @@
+diff --git a/sli/acceptance-tests/test/features/apiV1/querying/querying.feature b/sli/acceptance-tests/test/features/apiV1/querying/querying.feature
+index ed6018b..d5e7c47 100644
+--- a/sli/acceptance-tests/test/features/apiV1/querying/querying.feature
++++ b/sli/acceptance-tests/test/features/apiV1/querying/querying.feature
+@@ -6 +6 @@
+-    And format "application/json"
++    And format "application/json; charset=utf-8"
+diff --git a/sli/acceptance-tests/test/features/dashboard/dash/dashboard_sds.feature b/sli/acceptance-tests/test/features/dashboard/dash/dashboard_sds.feature
+index fb73bc3..8d27710 100644
+--- a/sli/acceptance-tests/test/features/dashboard/dash/dashboard_sds.feature
++++ b/sli/acceptance-tests/test/features/dashboard/dash/dashboard_sds.feature
+@@ -274 +274 @@
+-#And parent "Richard Lê" is his "Father"
++And parent "Richard Lê" is his "Father"
+diff --git a/sli/acceptance-tests/test/features/utils/common_stepdefs.rb b/sli/acceptance-tests/test/features/utils/common_stepdefs.rb
+index 18ed295..836a144 100644
+--- a/sli/acceptance-tests/test/features/utils/common_stepdefs.rb
++++ b/sli/acceptance-tests/test/features/utils/common_stepdefs.rb
+@@ -13 +13 @@
+-  ["application/json", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json"].should include(fmt)
++  ["application/json", "application/json; charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json"].should include(fmt)
+@@ -38 +38 @@
+-  jsonTypes = ["application/json", "application/vnd.slc.full+json", "application/vnd.slc+json"].to_set
++  jsonTypes = ["application/json", "application/json; charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json"].to_set
+diff --git a/sli/api/src/main/java/org/slc/sli/api/resources/v1/DefaultCrudEndpoint.java b/sli/api/src/main/java/org/slc/sli/api/resources/v1/DefaultCrudEndpoint.java
+index 97a40a7..3a179e5 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/resources/v1/DefaultCrudEndpoint.java
++++ b/sli/api/src/main/java/org/slc/sli/api/resources/v1/DefaultCrudEndpoint.java
+@@ -60 +60 @@
+-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
++@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
+

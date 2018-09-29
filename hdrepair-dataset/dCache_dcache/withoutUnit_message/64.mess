@@ -1,0 +1,24 @@
+pool: Fix race condition for srmCopy grid ftp transfers
+
+IntelliJ fixed this as a performance issue as we repeatedly
+initialized the static information for every instance of the
+class.
+
+The problem is actually worse than just a performance issue.
+The GridftpClient class is only thread safe after initialization,
+ie if we call setSupportedChecksumTypes once several times then
+there is a race due to the non-atomic update.
+
+Release notes: Fixed a race condition in pools affecting
+srmCopy transfers.
+
+Target: trunk
+Request: 2.3
+Request: 2.2
+Request: 2.1
+Request: 1.9.12
+Acked-by: Dmitry Litvintsev <litvinse@fnal.gov>
+Patch: http://rb.dcache.org/r/4727/
+
+
+

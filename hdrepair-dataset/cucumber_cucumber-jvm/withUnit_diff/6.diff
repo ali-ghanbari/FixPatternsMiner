@@ -1,0 +1,42 @@
+diff --git a/groovy/src/main/java/cucumber/runtime/groovy/GroovySnippet.java b/groovy/src/main/java/cucumber/runtime/groovy/GroovySnippet.java
+index bdadf51..417a925 100644
+--- a/groovy/src/main/java/cucumber/runtime/groovy/GroovySnippet.java
++++ b/groovy/src/main/java/cucumber/runtime/groovy/GroovySnippet.java
+@@ -49 +49 @@
+-        return pattern;
++        return pattern.replace ("\\", "\\\\");
+diff --git a/groovy/src/test/java/cucumber/runtime/groovy/GroovySnippetTest.java b/groovy/src/test/java/cucumber/runtime/groovy/GroovySnippetTest.java
+index 0c9ed74..f0214f7 100644
+--- a/groovy/src/test/java/cucumber/runtime/groovy/GroovySnippetTest.java
++++ b/groovy/src/test/java/cucumber/runtime/groovy/GroovySnippetTest.java
+@@ -23 +23 @@
+-                "Given(~'^I have (\\d+) cukes in my \"([^\"]*)\" belly$') { int arg1, String arg2 ->\n" +
++                "Given(~'^I have (\\\\d+) cukes in my \"([^\"]*)\" belly$') { int arg1, String arg2 ->\n" +
+@@ -33 +33 @@
+-                "Given(~'^before (\\d+) after$') { int arg1 ->\n" +
++                "Given(~'^before (\\\\d+) after$') { int arg1 ->\n" +
+@@ -44 +44 @@
+-                "Given(~'^I have (\\d+) cukes in: my \"([^\"]*)\" red-belly!$') { int arg1, String arg2 ->\n" +
++                "Given(~'^I have (\\\\d+) cukes in: my \"([^\"]*)\" red-belly!$') { int arg1, String arg2 ->\n" +
+@@ -65 +65 @@
+-                "Given(~'^I have \\$(\\d+)$') { int arg1 ->\n" +
++                "Given(~'^I have \\\\$(\\\\d+)$') { int arg1 ->\n" +
+@@ -75 +75 @@
+-                "Given(~'^I have (\\d+) cukes \\(maybe more\\)$') { int arg1 ->\n" +
++                "Given(~'^I have (\\\\d+) cukes \\\\(maybe more\\\\)$') { int arg1 ->\n" +
+@@ -85 +85 @@
+-                "Given(~'^I have (\\d+) cukes \\[maybe more\\]$') { int arg1 ->\n" +
++                "Given(~'^I have (\\\\d+) cukes \\\\[maybe more\\\\]$') { int arg1 ->\n" +
+@@ -112,0 +113,11 @@
++    @Test
++    public void generateSnippetWithEscapedEscapeCharacter() {
++        String expected = "" +
++                "Given(~'^I have (\\\\d+) cukes in my belly$') { int arg1 ->\n" +
++                "    // Express the Regexp above with the code you wish you had\n" +
++                "    throw new PendingException()\n" +
++        "}\n";
++
++        assertEquals(expected, snippetFor("I have 4 cukes in my belly"));
++    }
++
+

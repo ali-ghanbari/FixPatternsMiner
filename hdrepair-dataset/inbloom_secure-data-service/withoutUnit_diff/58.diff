@@ -1,0 +1,33 @@
+diff --git a/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/transformation/assessment/AssessmentCombiner.java b/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/transformation/assessment/AssessmentCombiner.java
+index fef7d8a..ca212e6 100644
+--- a/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/transformation/assessment/AssessmentCombiner.java
++++ b/sli/ingestion/ingestion-core/src/main/java/org/slc/sli/ingestion/transformation/assessment/AssessmentCombiner.java
+@@ -108 +108 @@
+-                String codeValue = PropertyUtils.getProperty(attrs, "assessmentPeriodDescriptorId.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue").toString();
++                String codeValue = PropertyUtils.getProperty(attrs, "AssessmentPeriod.AssessmentPeriodDescriptorIdentity.AssessmentPeriodDescriptorCodeValue._value").toString();
+diff --git a/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/assessment.xml b/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/assessment.xml
+index a122674..1ef4c18 100644
+--- a/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/assessment.xml
++++ b/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/assessment.xml
+@@ -30,0 +31 @@
++        <jb:value property="assessmentPeriodDescriptorId" data="attributes AssessmentPeriod"/>
+@@ -46,2 +46,0 @@
+-        <jb:wiring property="assessmentPeriodDescriptor" beanIdRef="AssessmentPeriodDescriptorType"/>
+-
+@@ -85,8 +83,0 @@
+-
+-   <jb:bean beanId="AssessmentPeriodDescriptorType" class="java.util.HashMap" createOnElement="assessmentPeriodDescriptor">
+-        <jb:value property="codeValue" data="AssessmentPeriodDescriptor CodeValue _value" />
+-        <jb:value property="description" data="AssessmentPeriodDescriptor Description _value" />
+-        <jb:value property="shortDescription" data="AssessmentPeriodDescriptor ShortDescription _value" />
+-        <jb:value property="beginDate" data="AssessmentPeriodDescriptor BeginDate _value"/>
+-        <jb:value property="endDate" data="AssessmentPeriodDescriptor EndDate _value" />
+-  </jb:bean>
+diff --git a/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/didEntityConfig/assessment.json b/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/didEntityConfig/assessment.json
+index a5767ee..6ac239b 100644
+--- a/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/didEntityConfig/assessment.json
++++ b/sli/ingestion/ingestion-core/src/main/resources/smooksEdFi2SLI/didEntityConfig/assessment.json
+@@ -6 +6 @@
+-                "sourceRefPath": "body.assessmentPeriodDescriptorId",
++                "sourceRefPath": "body.AssessmentPeriod",
+

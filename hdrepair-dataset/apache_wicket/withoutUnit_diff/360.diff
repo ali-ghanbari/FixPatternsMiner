@@ -1,0 +1,14 @@
+diff --git a/wicket/src/changes/changes.xml b/wicket/src/changes/changes.xml
+index d27a78d..39ac5ba 100644
+--- a/wicket/src/changes/changes.xml
++++ b/wicket/src/changes/changes.xml
+@@ -13,0 +14 @@
++	  <action type="fix" dev="Igor Vaynberg">Ajax Checkbox now uses onclick instead of onchange which works correctly</action>
+diff --git a/wicket/src/java/wicket/ajax/markup/html/form/AjaxCheckBox.java b/wicket/src/java/wicket/ajax/markup/html/form/AjaxCheckBox.java
+index 876bd14..d25e5ae 100644
+--- a/wicket/src/java/wicket/ajax/markup/html/form/AjaxCheckBox.java
++++ b/wicket/src/java/wicket/ajax/markup/html/form/AjaxCheckBox.java
+@@ -58 +58 @@
+-		add(new AjaxFormComponentUpdatingBehavior("onchange")
++		add(new AjaxFormComponentUpdatingBehavior("onclick")
+

@@ -1,0 +1,8 @@
+diff --git a/public/java/src/org/broadinstitute/sting/gatk/walkers/variantutils/SelectVariants.java b/public/java/src/org/broadinstitute/sting/gatk/walkers/variantutils/SelectVariants.java
+index bbe8cd0..aa8a491 100755
+--- a/public/java/src/org/broadinstitute/sting/gatk/walkers/variantutils/SelectVariants.java
++++ b/public/java/src/org/broadinstitute/sting/gatk/walkers/variantutils/SelectVariants.java
+@@ -324 +324 @@
+-                else if (!SELECT_RANDOM_FRACTION || GenomeAnalysisEngine.getRandomGenerator().nextDouble() < fractionRandom) {
++                else if (!SELECT_RANDOM_FRACTION || (!KEEP_AF_SPECTRUM && GenomeAnalysisEngine.getRandomGenerator().nextDouble() < fractionRandom)) {
+

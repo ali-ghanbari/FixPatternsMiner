@@ -1,0 +1,93 @@
+diff --git a/fs/src/test/org/jnode/fs/FileSystemTestUtils.java b/fs/src/test/org/jnode/fs/FileSystemTestUtils.java
+index b48bd9d..28b2b43 100644
+--- a/fs/src/test/org/jnode/fs/FileSystemTestUtils.java
++++ b/fs/src/test/org/jnode/fs/FileSystemTestUtils.java
+@@ -34 +34 @@
+-        File file = new File("src/test/org/jnode/fs/", testFile);
++        File file = new File("fs/src/test/org/jnode/fs/", testFile);
+diff --git a/fs/src/test/org/jnode/fs/hfsplus/HfsPlusFileSystemTest.java b/fs/src/test/org/jnode/fs/hfsplus/HfsPlusFileSystemTest.java
+index 00dfecf..e28c1b7 100755
+--- a/fs/src/test/org/jnode/fs/hfsplus/HfsPlusFileSystemTest.java
++++ b/fs/src/test/org/jnode/fs/hfsplus/HfsPlusFileSystemTest.java
+@@ -25 +24,0 @@
+-import junit.framework.TestCase;
+@@ -32,0 +32,3 @@
++import org.junit.Assert;
++import org.junit.Before;
++import org.junit.Test;
+@@ -34,2 +36,2 @@
+-public class HfsPlusFileSystemTest extends TestCase {
+-    
++public class HfsPlusFileSystemTest {
++
+@@ -38,4 +40,3 @@
+-    
+-    @Override
+-    protected void setUp() throws Exception {
+-        super.setUp();
++
++    @Before
++    public void setUp() throws Exception {
+@@ -47,0 +49 @@
++    @Test
+@@ -65,0 +68 @@
++    @Test
+@@ -76,2 +79,2 @@
+-        assertEquals(SuperBlock.HFSPLUS_SUPER_MAGIC, vh.getMagic());
+-        assertEquals(4096, vh.getBlockSize());
++        Assert.assertEquals(SuperBlock.HFSPLUS_SUPER_MAGIC, vh.getMagic());
++        Assert.assertEquals(4096, vh.getBlockSize());
+@@ -80,0 +84 @@
++    @Test
+@@ -95 +99 @@
+-        assertFalse("Must be empty", root.iterator().hasNext());
++        Assert.assertFalse("Must be empty", root.iterator().hasNext());
+@@ -101 +105 @@
+-        assertEquals(1,fs.getVolumeHeader().getFolderCount());
++        Assert.assertEquals(1, fs.getVolumeHeader().getFolderCount());
+@@ -104 +108 @@
+-        assertTrue("Must contains one directory", root.iterator().hasNext());
++        Assert.assertTrue("Must contains one directory", root.iterator().hasNext());
+diff --git a/fs/src/test/org/jnode/fs/jfat/FatFileSystemTest.java b/fs/src/test/org/jnode/fs/jfat/FatFileSystemTest.java
+index 9d82246..17ce131 100644
+--- a/fs/src/test/org/jnode/fs/jfat/FatFileSystemTest.java
++++ b/fs/src/test/org/jnode/fs/jfat/FatFileSystemTest.java
+@@ -3 +2,0 @@
+-import junit.framework.TestCase;
+@@ -8,0 +8,2 @@
++import org.junit.Before;
++import org.junit.Test;
+@@ -10 +11 @@
+-public class FatFileSystemTest extends TestCase {
++public class FatFileSystemTest {
+@@ -15,3 +16,2 @@
+-    @Override
+-    protected void setUp() throws Exception {
+-        super.setUp();
++    @Before
++    public void setUp() throws Exception {
+@@ -21,0 +22 @@
++    @Test
+@@ -39,0 +41 @@
++    @Test
+diff --git a/fs/src/test/org/jnode/fs/ntfs/NTFSFileSystemTest.java b/fs/src/test/org/jnode/fs/ntfs/NTFSFileSystemTest.java
+index e19e3b2..54af897 100644
+--- a/fs/src/test/org/jnode/fs/ntfs/NTFSFileSystemTest.java
++++ b/fs/src/test/org/jnode/fs/ntfs/NTFSFileSystemTest.java
+@@ -3 +2,0 @@
+-import junit.framework.TestCase;
+@@ -8,0 +8,2 @@
++import org.junit.Before;
++import org.junit.Test;
+@@ -10 +11 @@
+-public class NTFSFileSystemTest extends TestCase {
++public class NTFSFileSystemTest {
+@@ -15,3 +16,2 @@
+-    @Override
+-    protected void setUp() throws Exception {
+-        super.setUp();
++    @Before
++    public void setUp() throws Exception {
+@@ -21,0 +22 @@
++    @Test
+

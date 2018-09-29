@@ -1,0 +1,25 @@
+diff --git a/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/notations/DependencyStringNotationParser.java b/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/notations/DependencyStringNotationParser.java
+index 986f4d1..4604891 100644
+--- a/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/notations/DependencyStringNotationParser.java
++++ b/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/notations/DependencyStringNotationParser.java
+@@ -55 +55 @@
+-        ModuleFactoryHelper.addExplicitArtifactsIfDefined(moduleDependency, parsedNotation.getArtifactType(),parsedNotation.getClassifier());
++        ModuleFactoryHelper.addExplicitArtifactsIfDefined(moduleDependency, parsedNotation.getArtifactType(), parsedNotation.getClassifier());
+diff --git a/subprojects/core-impl/src/test/groovy/org/gradle/api/internal/artifacts/ivyservice/VersionForcingDependencyToModuleResolverTest.groovy b/subprojects/core-impl/src/test/groovy/org/gradle/api/internal/artifacts/ivyservice/VersionForcingDependencyToModuleResolverTest.groovy
+index f22990c..9d8f503 100644
+--- a/subprojects/core-impl/src/test/groovy/org/gradle/api/internal/artifacts/ivyservice/VersionForcingDependencyToModuleResolverTest.groovy
++++ b/subprojects/core-impl/src/test/groovy/org/gradle/api/internal/artifacts/ivyservice/VersionForcingDependencyToModuleResolverTest.groovy
+@@ -18 +17,0 @@
+-import spock.lang.Specification
+@@ -20 +18,0 @@
+-import org.apache.ivy.core.module.id.ModuleRevisionId
+@@ -22,2 +20,3 @@
+-
+-import org.gradle.api.internal.artifacts.DefaultModuleVersionIdentifier
++import org.apache.ivy.core.module.id.ModuleRevisionId
++import org.gradle.api.internal.artifacts.DefaultModuleVersionSelector
++import spock.lang.Specification
+@@ -28 +27 @@
+-    final VersionForcingDependencyToModuleResolver resolver = new VersionForcingDependencyToModuleResolver(target, [new DefaultModuleVersionIdentifier('group', 'module', 'forced')])
++    final VersionForcingDependencyToModuleResolver resolver = new VersionForcingDependencyToModuleResolver(target, [new DefaultModuleVersionSelector('group', 'module', 'forced')])
+

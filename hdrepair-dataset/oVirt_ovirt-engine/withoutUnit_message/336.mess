@@ -1,0 +1,20 @@
+core: fix the fn_db_split_config_value db function and uses
+
+Previous patch added the fn_db_split_config_value, to take general
+value, and update it with a newer one, splitting to versions.
+The previous implementation of the function updated the newest version
+to the input value, which will work well on upgrade, but not for new
+installations.
+
+New implementation of this function takes the version from which we need
+to split, and updates all the versions from it and byeond.
+Will work well for new installation (split general to the different
+versions), and for upgrades (new version, if there is one, will get the
+input value).
+
+Also, adding new supported secured spice channels (smartcard and
+usbredir), both to the config and to the config tool.
+
+Change-Id: I6964750ed0f57155e7c64a2a29ee0c21e2043410
+Signed-off-by: Oved Ourfali <oourfali@redhat.com>
+

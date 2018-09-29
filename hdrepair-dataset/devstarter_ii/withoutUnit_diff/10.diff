@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/ayfaar/app/controllers/TermController.java b/src/main/java/org/ayfaar/app/controllers/TermController.java
+index 1b3b49a..4891c94 100644
+--- a/src/main/java/org/ayfaar/app/controllers/TermController.java
++++ b/src/main/java/org/ayfaar/app/controllers/TermController.java
+@@ -96 +96 @@
+-                map.put("quote", link.getQuote());
++                map.put("quote", link.getQuote() != null ? link.getQuote() : ((Item) source).getContent());
+

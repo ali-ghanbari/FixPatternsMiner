@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/com/altamiracorp/lumify/core/model/dictionary/DictionaryEntryRepository.java b/core/src/main/java/com/altamiracorp/lumify/core/model/dictionary/DictionaryEntryRepository.java
+index f6bb008..3574647 100644
+--- a/core/src/main/java/com/altamiracorp/lumify/core/model/dictionary/DictionaryEntryRepository.java
++++ b/core/src/main/java/com/altamiracorp/lumify/core/model/dictionary/DictionaryEntryRepository.java
+@@ -43 +43 @@
+-        List<Row> rows = getModelSession().findByRowKeyRegex(DictionaryEntry.TABLE_NAME,".*\\c_" + concept, user.getModelUserContext());
++        List<Row<? extends RowKey>> rows = getModelSession().findByRowKeyRegex(DictionaryEntry.TABLE_NAME,".*\\c_" + concept, user.getModelUserContext());
+

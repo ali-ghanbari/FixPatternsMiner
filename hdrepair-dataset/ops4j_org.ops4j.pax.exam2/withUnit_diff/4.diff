@@ -1,0 +1,75 @@
+diff --git a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkIsNotSystemPropertyTest.java b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkIsNotSystemPropertyTest.java
+index 4a850d4..776bd59 100644
+--- a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkIsNotSystemPropertyTest.java
++++ b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkIsNotSystemPropertyTest.java
+@@ -23 +23,2 @@
+-import static org.ops4j.pax.exam.CoreOptions.*;
++import static org.ops4j.pax.exam.CoreOptions.cleanCaches;
++import static org.ops4j.pax.exam.CoreOptions.junitBundles;
+@@ -27 +27,0 @@
+-import static org.ops4j.pax.exam.regression.multi.RegressionConfiguration.*;
+@@ -37 +36,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -38,0 +38 @@
++import org.ops4j.pax.exam.spi.reactors.PerMethod;
+@@ -44 +44 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
++@ExamReactorStrategy( PerMethod.class )
+diff --git a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkPropertyTest.java b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkPropertyTest.java
+index 3ecf279..7c52a46 100644
+--- a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkPropertyTest.java
++++ b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/felix/options/FrameworkPropertyTest.java
+@@ -37 +36,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -38,0 +38 @@
++import org.ops4j.pax.exam.spi.reactors.PerMethod;
+@@ -44 +44 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
++@ExamReactorStrategy( PerMethod.class )
+diff --git a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/BeforeAfterTest.java b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/BeforeAfterTest.java
+index 7a95a67..d97603e 100644
+--- a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/BeforeAfterTest.java
++++ b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/BeforeAfterTest.java
+@@ -31 +30,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -32,0 +32 @@
++import org.ops4j.pax.exam.spi.reactors.PerMethod;
+@@ -36 +36 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
++@ExamReactorStrategy( PerMethod.class )
+diff --git a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/NameRuleTest.java b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/NameRuleTest.java
+index bbe52ff..3f55fb7 100644
+--- a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/NameRuleTest.java
++++ b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/junit/NameRuleTest.java
+@@ -33 +32,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -34,0 +34 @@
++import org.ops4j.pax.exam.spi.reactors.PerMethod;
+@@ -37 +37 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
++@ExamReactorStrategy( PerMethod.class )
+diff --git a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java
+index 10ed2e9..06127a9 100644
+--- a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java
++++ b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/EquinoxReferenceTest.java
+@@ -38,0 +39 @@
++    @SuppressWarnings( { "unchecked", "rawtypes" } )
+diff --git a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java
+index dc99538..47e5365 100644
+--- a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java
++++ b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/reference/ShutdownTimeoutTestWrapped.java
+@@ -35,2 +34,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+-import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+diff --git a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/wrap/MockitoTest.java b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/wrap/MockitoTest.java
+index 7e970a7..ac466c4 100644
+--- a/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/wrap/MockitoTest.java
++++ b/itest/osgi/src/it/regression-multi/src/test/java/org/ops4j/pax/exam/regression/multi/wrap/MockitoTest.java
+@@ -38 +37,0 @@
+-import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+@@ -39,0 +39 @@
++import org.ops4j.pax.exam.spi.reactors.PerMethod;
+@@ -58 +58 @@
+-@ExamReactorStrategy( AllConfinedStagedReactorFactory.class )
++@ExamReactorStrategy( PerMethod.class )
+

@@ -1,0 +1,369 @@
+diff --git a/resource/src/main/xforms/test/bindTest.xhtml b/resource/src/main/xforms/test/bindTest.xhtml
+deleted file mode 100644
+index a06c0be..0000000
+--- a/resource/src/main/xforms/test/bindTest.xhtml
++++ /dev/null
+@@ -1,53 +0,0 @@
+-<?xml version="1.0" encoding="ISO-8859-1"?>
+-<html xmlns="http://www.w3.org/1999/xhtml"
+-    xmlns:xforms="http://www.w3.org/2002/xforms"
+-    xmlns:ev="http://www.w3.org/2001/xml-events"    
+-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+-    <head>
+-        <title>hello</title>
+-        <xforms:model id="hello-model">
+-            <xforms:submission id="debug" action="{$contextroot}/bfResources/jsp/debug-instance.jsp" method="post" replace="all"/>
+-            <xforms:instance id="C-2" xmlns="">
+-                <data>
+-                    <name/>
+-                </data>
+-            </xforms:instance>
+-            <xforms:bind id="bind1" nodeset="name" required="true()"/>
+-
+-            <xforms:action ev:event="xforms-ready">
+-                <xforms:setvalue bind="bind1" value="'foo'"/>
+-            </xforms:action>
+-        </xforms:model>
+-    </head>
+-    <body>
+-        <xforms:group id="hello-group" appearance="minimal">
+-            <xforms:label id="C-4">Hello</xforms:label>
+-            <xforms:input id="name-input" bind="bind1">
+-                <xforms:label id="C-5">Your name: </xforms:label>
+-                <xforms:alert id="C-6">Please put your name here</xforms:alert>
+-                <xforms:hint id="C-7">Please input your name into this field</xforms:hint>
+-                <xforms:action ev:event="xforms-value-changed">
+-                    <xforms:message>the value has changed</xforms:message>
+-                </xforms:action>
+-            </xforms:input>
+-            <xforms:group id="C-8" appearance="minimal">
+-                <!--				<xforms:submit id="C-9" submission="debug">-->
+-                <!--					<xforms:label id="C-10">Debug</xforms:label>-->
+-                <!--				</xforms:submit>-->
+-                <xforms:trigger>
+-                    <xforms:label id="C-11">Debug</xforms:label>
+-                    <xforms:action id="C-12">
+-                        <xforms:send submission="debug"/>
+-                    </xforms:action>
+-                </xforms:trigger>
+-                <xforms:trigger id="reset-btn">
+-                    <xforms:label>Reset</xforms:label>
+-                    <xforms:action>
+-                        <xforms:reset id="reset"/>
+-                    </xforms:action>
+-                </xforms:trigger>
+-            </xforms:group>
+-        </xforms:group>
+-    </body>
+-</html>
+diff --git a/resource/src/main/xforms/uitest/BindSetvalue.xhtml b/resource/src/main/xforms/uitest/BindSetvalue.xhtml
+new file mode 100644
+index 0000000..f68b794
+--- /dev/null
++++ b/resource/src/main/xforms/uitest/BindSetvalue.xhtml
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="ISO-8859-1"?>
++<html xmlns="http://www.w3.org/1999/xhtml"
++      xmlns:xf="http://www.w3.org/2002/xforms"
++      xmlns:ev="http://www.w3.org/2001/xml-events">
++<head>
++    <title>Bind / Value Changed Test</title>
++    <xf:model id="hello-model">
++        <xf:instance id="C-2" xmlns="">
++            <data>
++                <name>initial value</name>
++            </data>
++        </xf:instance>
++        <xf:bind id="bind1" nodeset="name" required="true()"/>
++
++        <xf:action ev:event="xforms-ready">
++            <xf:setvalue bind="bind1" value="'new value'"/>
++        </xf:action>
++    </xf:model>
++</head>
++<body>
++<xf:group id="group-1" appearance="minimal">
++    <xf:label>Bind / Value Changed Test</xf:label>
++    <xf:input id="input-1" bind="bind1">
++        <xf:label>Your name:</xf:label>
++        <xf:action ev:event="xforms-value-changed">
++            <xf:message>the value has changed</xf:message>
++        </xf:action>
++    </xf:input>
++    <xf:trigger id="trigger-reset">
++        <xf:label>Reset</xf:label>
++        <xf:reset/>
++    </xf:trigger>
++</xf:group>
++</body>
++</html>
+diff --git a/resource/src/main/xforms/uitest/EventTester.xhtml b/resource/src/main/xforms/uitest/EventTester.xhtml
+new file mode 100644
+index 0000000..da0fa70
+--- /dev/null
++++ b/resource/src/main/xforms/uitest/EventTester.xhtml
+@@ -0,0 +1,130 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<html xmlns="http://www.w3.org/1999/xhtml"
++    xmlns:xf="http://www.w3.org/2002/xforms"
++    xmlns:ev="http://www.w3.org/2001/xml-events">
++    <head>
++        <title>Event Tester</title>
++        <xf:model>
++            <xf:instance xmlns="">
++                <top>
++                    <events></events>
++                    <control>control</control>
++                    <constraint>true</constraint>
++                    <readonly>true</readonly>
++                    <required>true</required>
++                    <relevant>true</relevant>
++                </top>
++            </xf:instance>
++
++            <xf:bind id="b-events" nodeset="/top/events"/>
++            <xf:bind id="b-control" nodeset="control"
++                constraint="../constraint='true'"
++                readonly="../readonly='true'"
++                required="../required='true'"
++                relevant="../relevant='true'"/>
++            <xf:bind id="b-constraint" nodeset="constraint"/>
++            <xf:bind id="b-readonly" nodeset="readonly"/>
++            <xf:bind id="b-required" nodeset="required"/>
++            <xf:bind id="b-relevant" nodeset="relevant"/>
++
++            <xf:submission id="s-debug" action="{$contextroot}/jsp/debug-instance.jsp" method="post" replace="all"/>
++        </xf:model>
++    </head>
++
++    <body>
++        <xf:group>
++            <xf:label>Event Tester</xf:label>
++            <xf:group appearance="full">
++                <xf:label>Events dispatched to <b>Control</b></xf:label>
++                <xf:output id="output-events" bind="b-events"/>
++                <br/>
++                <xf:trigger id="trigger-clear">
++                    <xf:label>Clear</xf:label>
++                    <xf:reset/>
++                    <xf:setvalue bind="b-events"/>
++                </xf:trigger>
++            </xf:group>
++            <xf:group appearance="full">
++                <xf:label>An input control</xf:label>
++                <xf:input xf:bind="b-control" id="input-1">
++                    <xf:label><b>Control</b></xf:label>
++                    <xf:alert>The constraint is now invalid</xf:alert>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' DOMActivate')" ev:event="DOMActivate"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-value-changed')" ev:event="xforms-value-changed"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-valid')" ev:event="xforms-valid"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-invalid')" ev:event="xforms-invalid"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' DOMFocusIn')" ev:event="DOMFocusIn"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' DOMFocusOut')" ev:event="DOMFocusOut"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-readonly')" ev:event="xforms-readonly"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-readwrite')" ev:event="xforms-readwrite"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-required')" ev:event="xforms-required"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-optional')" ev:event="xforms-optional"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-enabled')" ev:event="xforms-enabled"/>
++                    <xf:setvalue bind="b-events" value="concat(/top/events,' xforms-disabled')" ev:event="xforms-disabled"/>
++                </xf:input>
++            </xf:group>
++            <xf:group appearance="full">
++                <xf:label>These 4 options control the bind attributes of <b>Control</b></xf:label>
++                <xf:select1 bind="b-constraint" appearance="full" id="select1-constraint">
++                    <xf:label>Constraint</xf:label>
++                    <xf:choices>
++                        <xf:item>
++                            <xf:label>true</xf:label>
++                            <xf:value>true</xf:value>
++                        </xf:item>
++                        <xf:item>
++                            <xf:label>false</xf:label>
++                            <xf:value>false</xf:value>
++                        </xf:item>
++                    </xf:choices>
++                </xf:select1>
++                <xf:select1 bind="b-readonly" appearance="full" id="select1-readonly">
++                    <xf:label>Readonly</xf:label>
++                    <xf:choices>
++                        <xf:item>
++                            <xf:label>true</xf:label>
++                            <xf:value>true</xf:value>
++                        </xf:item>
++                        <xf:item>
++                            <xf:label>false</xf:label>
++                            <xf:value>false</xf:value>
++                        </xf:item>
++                    </xf:choices>
++                </xf:select1>
++                <xf:select1 bind="b-required" appearance="full" id="select1-required">
++                    <xf:label>Required</xf:label>
++                    <xf:choices>
++                        <xf:item>
++                            <xf:label>true</xf:label>
++                            <xf:value>true</xf:value>
++                        </xf:item>
++                        <xf:item>
++                            <xf:label>false</xf:label>
++                            <xf:value>false</xf:value>
++                        </xf:item>
++                    </xf:choices>
++                </xf:select1>
++                <xf:select1 bind="b-relevant" appearance="full" id="select1-relevant">
++                    <xf:label>Relevant</xf:label>
++                    <xf:choices>
++                        <xf:item>
++                            <xf:label>true</xf:label>
++                            <xf:value>true</xf:value>
++                        </xf:item>
++                        <xf:item>
++                            <xf:label>false</xf:label>
++                            <xf:value>false</xf:value>
++                        </xf:item>
++                    </xf:choices>
++                </xf:select1>
++            </xf:group>
++            <xf:group>
++                <xf:label>Perform submission to view Instance Data</xf:label>
++                <xf:trigger>
++                    <xf:label>Debug</xf:label>
++                    <xf:send submission="s-debug"/>
++                </xf:trigger>
++            </xf:group>
++        </xf:group>
++    </body>
++</html>
+diff --git a/web/build-ui-test.xml b/web/build-ui-test.xml
+index 5c1e14f..8d56c55 100644
+--- a/web/build-ui-test.xml
++++ b/web/build-ui-test.xml
+@@ -165 +165 @@
+-                <exclude name="**/*Test*"/>
++                <exclude name="**/Test_*"/>
+diff --git a/web/src/test/java/de/betterform/conformance/WebDriverTestFunctions.java b/web/src/test/java/de/betterform/conformance/WebDriverTestFunctions.java
+index 4142efd..066c2c4 100644
+--- a/web/src/test/java/de/betterform/conformance/WebDriverTestFunctions.java
++++ b/web/src/test/java/de/betterform/conformance/WebDriverTestFunctions.java
+@@ -61 +61 @@
+-                        select1Option.findElement(By.name("select-value")).click();
++                        select1Option.findElement(By.name(id+"-value")).click();
+diff --git a/web/src/test/resources/uitest/test/BindSetvalue.xml b/web/src/test/resources/uitest/test/BindSetvalue.xml
+new file mode 100644
+index 0000000..a88996f
+--- /dev/null
++++ b/web/src/test/resources/uitest/test/BindSetvalue.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<test-case xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++           xmlns="http://www.w3c.org/MarkUp/Forms/XForms/Test/Runner" xmlns:xf="http://www.w3.org/2002/xforms"
++           xsi:schemaLocation="http://www.w3c.org/MarkUp/Forms/XForms/Test/Runner ../test-case.xsd">
++    <!-- test insert / delete action -->
++    <open href="uitest/BindSetvalue.xhtml" bfTest="true"/>
++    <assert-title title="Bind / Value Changed Test"/>
++
++    <assert-message message="the value has changed"/>
++    <assert-control-present locator="input-1" type="input"/>
++    <assert-control-value locator="input-1" value="new value"/>
++
++    <click locator="trigger-reset"/>
++    <assert-no-messages/>
++    <assert-control-value locator="input-1" value="initial value"/>
++
++    <type-input locator="input-1" value="my custom value"/>
++    <assert-message message="the value has changed"/>
++    <assert-control-value locator="input-1" value="my custom value"/>
++
++
++
++</test-case>
+\ No newline at end of file
+diff --git a/web/src/test/resources/uitest/test/EventTester.xml b/web/src/test/resources/uitest/test/EventTester.xml
+new file mode 100644
+index 0000000..9e12a15
+--- /dev/null
++++ b/web/src/test/resources/uitest/test/EventTester.xml
+@@ -0,0 +1,81 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<test-case xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++           xmlns="http://www.w3c.org/MarkUp/Forms/XForms/Test/Runner"
++           xsi:schemaLocation="http://www.w3c.org/MarkUp/Forms/XForms/Test/Runner ../test-case.xsd">
++    <!-- test insert / delete action -->
++    <open href="uitest/EventTester.xhtml" bfTest="true"/>
++    <assert-title title="Event Tester"/>
++
++    <assert-control-present locator="input-1" type="input"/>
++    <assert-control-present locator="output-events" type="output"/>
++    <assert-control-present locator="select1-constraint" type="select1"/>
++    <assert-control-present locator="select1-readonly" type="select1"/>
++    <assert-control-present locator="select1-required" type="select1"/>
++    <assert-control-present locator="select1-relevant" type="select1"/>
++    <assert-control-present locator="trigger-clear" type="button"/>
++
++    <assert-control-value locator="input-1" value="control"/>
++    <assert-control-value locator="output-events" value=""/>
++    <assert-control-readonly locator="input-1"/>
++
++    <!-- CHECK CONSTRAINT -->
++    <select-option locator="select1-constraint" option="false"/>
++    <assert-control-value locator="output-events" value="xforms-invalid"/>
++    <assert-control-invalid locator="input-1"/>
++    <assert-control-alert-present type="tooltip" locator="input-1" value="The constraint is now invalid"/>
++
++    <select-option locator="select1-constraint" option="true"/>
++    <assert-control-value locator="output-events" value="xforms-invalid xforms-valid"/>
++    <assert-control-valid locator="input-1"/>
++    <assert-control-alert-not-present type="tooltip" locator="input-1" value="The constraint is now invalid"/>
++
++    <!-- CLEAR -->
++    <click locator="trigger-clear"/>
++
++    <!-- CHECK READONLY -->
++    <assert-control-readonly locator="input-1"/>
++    <assert-control-value locator="output-events" value=""/>
++
++
++    <select-option locator="select1-readonly" option="false"/>
++    <assert-control-value locator="output-events" value="xforms-readwrite"/>
++    <assert-control-readwrite locator="input-1"/>
++
++    <select-option locator="select1-readonly" option="true"/>
++    <assert-control-value locator="output-events" value="xforms-readwrite xforms-readonly"/>
++    <assert-control-readonly locator="input-1"/>
++
++    <!-- CLEAR -->
++    <click locator="trigger-clear"/>
++
++    <!-- CHECK REQUIRED -->
++    <assert-control-required locator="input-1"/>
++    <assert-control-value locator="output-events" value=""/>
++
++
++    <select-option locator="select1-required" option="false"/>
++    <assert-control-value locator="output-events" value="xforms-optional"/>
++    <assert-control-optional locator="input-1"/>
++
++    <select-option locator="select1-required" option="true"/>
++    <assert-control-value locator="output-events" value="xforms-optional xforms-required"/>
++    <assert-control-required locator="input-1"/>
++
++    <!-- CLEAR -->
++    <click locator="trigger-clear"/>
++
++    <!-- CHECK REQUIRED -->
++    <assert-control-required locator="input-1"/>
++    <assert-control-value locator="output-events" value=""/>
++
++    <assert-control-present locator="input-1"/>
++    <select-option locator="select1-relevant" option="false"/>
++    <assert-control-value locator="output-events" value="xforms-disabled"/>
++    <assert-control-not-present locator="input-1"/>
++
++    <select-option locator="select1-relevant" option="true"/>
++    <assert-control-value locator="output-events" value="xforms-disabled xforms-enabled xforms-value-changed xforms-valid xforms-readonly xforms-required"/>
++    <assert-control-present locator="input-1"/>
++
++
++</test-case>
+\ No newline at end of file
+

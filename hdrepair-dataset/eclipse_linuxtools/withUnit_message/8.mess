@@ -1,0 +1,14 @@
+Revert 9aa720e and fix ChangeLogWriterTest.
+
+This commit reverts 9aa720e5d4384393e1f3e1cbe9d315a7a7942c60 and fixes
+ChangeLogWriterTest methods that open a file in an editor. If a file is
+left open in the editor, subsequent openings of a new file at the same
+location will not have the proper modification stamp. The EditorPart
+must be closed.
+
+Change-Id: Ia321273123619a385502f53326541e13e61b2af8
+Reviewed-on: https://git.eclipse.org/r/10109
+Reviewed-by: Camilo Bernal <cabernal@redhat.com>
+IP-Clean: Camilo Bernal <cabernal@redhat.com>
+Tested-by: Camilo Bernal <cabernal@redhat.com>
+

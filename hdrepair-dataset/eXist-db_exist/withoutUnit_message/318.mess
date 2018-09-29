@@ -1,0 +1,4 @@
+[bugfix] fixed critical bug in btree page split method. In rare cases and with larger data sets, the bug caused some parts of the btree to be missed during lookups. This could potentially lead to wrong results during search due to incomplete indexes. The issue also had a negative performance impact, especially when serializing a node.
+
+svn path=/stable/eXist-1.4.x/; revision=11865
+

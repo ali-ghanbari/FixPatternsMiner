@@ -1,0 +1,8 @@
+diff --git a/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java b/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java
+index 7d7b9eb..27e0b8c 100755
+--- a/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java
++++ b/src/com/redhat/ceylon/compiler/codegen/ExpressionTransformer.java
+@@ -1438 +1438 @@
+-            if (qualExpr == null && needDollarThis && expr.getScope() != expr.getDeclaration().getContainer()) {
++            if (qualExpr == null && needDollarThis && decl.isClassOrInterfaceMember() && expr.getScope() != decl.getContainer()) {
+

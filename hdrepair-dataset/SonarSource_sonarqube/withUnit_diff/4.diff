@@ -1,0 +1,28 @@
+diff --git a/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java b/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java
+index 7eaad9e..ab165d4 100644
+--- a/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java
++++ b/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java
+@@ -105 +105 @@
+-      // notifyUsers(project, alertName, alertText, alertLevel, true);
++      notifyUsers(project, rawStatus.getStatus().getColorName(), rawStatus, true);
+diff --git a/server/sonar-server/src/test/java/org/sonar/server/computation/step/QualityGateEventsStepTest.java b/server/sonar-server/src/test/java/org/sonar/server/computation/step/QualityGateEventsStepTest.java
+index efecd50..d78d1d8 100644
+--- a/server/sonar-server/src/test/java/org/sonar/server/computation/step/QualityGateEventsStepTest.java
++++ b/server/sonar-server/src/test/java/org/sonar/server/computation/step/QualityGateEventsStepTest.java
+@@ -160 +160 @@
+-  private void verify_event_created_if_no_base_ALERT_STATUS_measure(Measure.Level rawAlterStatus, String expectedEventName) {
++  private void verify_event_created_if_no_base_ALERT_STATUS_measure(Measure.Level rawAlterStatus, String expectedLabel) {
+@@ -175 +175 @@
+-    assertThat(event.getName()).isEqualTo(expectedEventName);
++    assertThat(event.getName()).isEqualTo(expectedLabel);
+@@ -177,0 +178,9 @@
++
++    verify(notificationManager).scheduleForSending(notificationArgumentCaptor.capture());
++    Notification notification = notificationArgumentCaptor.getValue();
++    assertThat(notification.getType()).isEqualTo("alerts");
++    assertThat(notification.getFieldValue("projectKey")).isEqualTo(PROJECT_COMPONENT.getKey());
++    assertThat(notification.getFieldValue("projectUuid")).isEqualTo(PROJECT_COMPONENT.getUuid());
++    assertThat(notification.getFieldValue("projectName")).isEqualTo(PROJECT_COMPONENT.getName());
++    assertThat(notification.getFieldValue("alertLevel")).isEqualTo(rawAlterStatus.name());
++    assertThat(notification.getFieldValue("alertName")).isEqualTo(expectedLabel);
+

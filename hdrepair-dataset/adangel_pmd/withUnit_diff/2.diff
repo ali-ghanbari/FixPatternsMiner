@@ -1,0 +1,24 @@
+diff --git a/pmd/etc/changelog.txt b/pmd/etc/changelog.txt
+index 04db7a3..d1ef558 100644
+--- a/pmd/etc/changelog.txt
++++ b/pmd/etc/changelog.txt
+@@ -9,0 +10 @@
++Fixed bug 1055: Please add a colon in the ant output after line,column for Oracle JDeveloper IDE usage
+diff --git a/pmd/src/main/java/net/sourceforge/pmd/renderers/TextRenderer.java b/pmd/src/main/java/net/sourceforge/pmd/renderers/TextRenderer.java
+index f606244..c938d5e 100644
+--- a/pmd/src/main/java/net/sourceforge/pmd/renderers/TextRenderer.java
++++ b/pmd/src/main/java/net/sourceforge/pmd/renderers/TextRenderer.java
+@@ -48 +48 @@
+-		    buf.append('\t').append(rv.getDescription()).append(PMD.EOL);
++		    buf.append(":\t").append(rv.getDescription()).append(PMD.EOL);
+diff --git a/pmd/src/test/java/net/sourceforge/pmd/renderers/TextRendererTest.java b/pmd/src/test/java/net/sourceforge/pmd/renderers/TextRendererTest.java
+index 21940e5..cbff54e 100644
+--- a/pmd/src/test/java/net/sourceforge/pmd/renderers/TextRendererTest.java
++++ b/pmd/src/test/java/net/sourceforge/pmd/renderers/TextRendererTest.java
+@@ -15 +15 @@
+-        return "n/a:1\tmsg" + PMD.EOL;
++        return "n/a:1:\tmsg" + PMD.EOL;
+@@ -25 +25 @@
+-        return "n/a:1\tmsg" + PMD.EOL + "n/a:1\tmsg" + PMD.EOL;
++        return "n/a:1:\tmsg" + PMD.EOL + "n/a:1:\tmsg" + PMD.EOL;
+

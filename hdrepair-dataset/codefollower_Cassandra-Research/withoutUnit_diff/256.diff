@@ -1,0 +1,14 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index a2ffc37..53cb3f6 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -25,0 +26 @@
++ * avoid NPE when bypassing commitlog during memtable flush (CASSANDRA-2781)
+diff --git a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
+index 9113bff..e175995 100644
+--- a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
++++ b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
+@@ -649 +649 @@
+-            final ReplayPosition ctx = writeCommitLog ? CommitLog.instance.getContext() : null;
++            final ReplayPosition ctx = writeCommitLog ? CommitLog.instance.getContext() : ReplayPosition.NONE;
+

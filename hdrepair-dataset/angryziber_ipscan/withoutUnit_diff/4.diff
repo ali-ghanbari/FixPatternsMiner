@@ -1,0 +1,8 @@
+diff --git a/src/net/azib/ipscan/config/Version.java b/src/net/azib/ipscan/config/Version.java
+index 5039881..0be7b60 100755
+--- a/src/net/azib/ipscan/config/Version.java
++++ b/src/net/azib/ipscan/config/Version.java
+@@ -61 +61 @@
+-		String path = Version.class.getClassLoader().getResource(Version.class.getName().replace('.', '/') + ".class").toString();
++		String path = Version.class.getProtectionDomain().getCodeSource().getLocation().toString();
+

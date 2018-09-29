@@ -1,0 +1,15 @@
+diff --git a/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java b/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java
+index c56f3c6..70b2dbc 100644
+--- a/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java
++++ b/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java
+@@ -240 +240 @@
+-            broadcast.withId("c4:" + id);
++            broadcast.withId(id);
+diff --git a/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgUpdaterTest.java b/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgUpdaterTest.java
+index 75c6f49..0975d59 100644
+--- a/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgUpdaterTest.java
++++ b/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgUpdaterTest.java
+@@ -66 +66 @@
+-            one(queryExecutor).schedule(with(any(ContentQuery.class))); will(returnValue(Schedule.fromItems(new Interval(new DateTime(),new DateTime()), ImmutableList.<Item>of())));
++            allowing(queryExecutor).schedule(with(any(ContentQuery.class))); will(returnValue(Schedule.fromItems(new Interval(new DateTime(),new DateTime()), ImmutableList.<Item>of())));
+

@@ -1,0 +1,30 @@
+diff --git a/src/main/java/org/boon/core/reflection/MapObjectConversion.java b/src/main/java/org/boon/core/reflection/MapObjectConversion.java
+index 353b008..39a47cf 100644
+--- a/src/main/java/org/boon/core/reflection/MapObjectConversion.java
++++ b/src/main/java/org/boon/core/reflection/MapObjectConversion.java
+@@ -522 +522 @@
+-
++                            objValue = newMap;
+diff --git a/src/test/java/org/boon/MapsTest.java b/src/test/java/org/boon/MapsTest.java
+index 30336ff..5bc49ef 100644
+--- a/src/test/java/org/boon/MapsTest.java
++++ b/src/test/java/org/boon/MapsTest.java
+@@ -41,0 +42 @@
++
+@@ -1284,0 +1286,15 @@
++
++
++    @Test
++    public void testMapEquals() {
++
++
++        final Map<String, Dog> dogMap = Maps.toMap( "name", dogs );
++
++        HashMap<String, Dog> hashMap = new HashMap<>( dogMap );
++
++        boolean ok = dogMap.equals( hashMap ) || die();
++
++    }
++
++
+

@@ -1,0 +1,161 @@
+diff --git a/modules/http/src/main/java/org/glassfish/grizzly/http/util/CookieParserUtils.java b/modules/http/src/main/java/org/glassfish/grizzly/http/util/CookieParserUtils.java
+index d3bcbb2..24d55a0 100644
+--- a/modules/http/src/main/java/org/glassfish/grizzly/http/util/CookieParserUtils.java
++++ b/modules/http/src/main/java/org/glassfish/grizzly/http/util/CookieParserUtils.java
+@@ -494 +494 @@
+-                if (CookieUtils.equals("Version", bytes, nameStart - arrayOffset, nameEnd - arrayOffset)
++                if (CookieUtils.equals("Version", bytes, nameStart, nameEnd)
+diff --git a/modules/http/src/test/java/org/glassfish/grizzly/http/core/CookiesTest.java b/modules/http/src/test/java/org/glassfish/grizzly/http/core/CookiesTest.java
+index d316200..7c959d9 100644
+--- a/modules/http/src/test/java/org/glassfish/grizzly/http/core/CookiesTest.java
++++ b/modules/http/src/test/java/org/glassfish/grizzly/http/core/CookiesTest.java
+@@ -46,0 +47,3 @@
++import org.glassfish.grizzly.memory.Buffers;
++import org.glassfish.grizzly.memory.MemoryManager;
++import org.glassfish.grizzly.utils.Charsets;
+@@ -47,0 +51,2 @@
++
++import java.nio.ByteBuffer;
+@@ -137,5 +142 @@
+-            String cookieString = testCase.getFirst();
+-            
+-            final Cookie[] cookies =
+-                    CookiesBuilder.client().parse(cookieString).build().get();
+-
++            final String cookieString = testCase.getFirst();
+@@ -144,7 +145,3 @@
+-            for (Checker checker : checkers) {
+-                final Cookie cookie = cookies[checker.getCookieIdx()];
+-                assertTrue("Mismatch. Checker=" + checker.getCheckValue() +
+-                        " expected=" + checker.getExpected() +
+-                        " value=" + checker.getCheckValue().get(cookie),
+-                        checker.check(cookie));
+-            }
++            Cookie[] cookies =
++                    CookiesBuilder.client().parse(cookieString).build().get();
++            validateClientCookies(testCase, cookies, checkers);
+@@ -152,6 +149,6 @@
+-            for (Cookie cookie : cookies) {
+-                final String serializedString = cookie.asClientCookieString();
+-                Cookie[] parsedCookies = CookiesBuilder.client().parse(serializedString).build().get();
+-                assertEquals(testCase.toString(), 1, parsedCookies.length);
+-                
+-                Cookie parsedCookie = parsedCookies[0];
++            ByteBuffer b = ByteBuffer.allocateDirect(cookieString.length());
++            b.put(cookieString.getBytes(Charsets.ASCII_CHARSET));
++            b.flip();
++            Buffer nonArrayBackedBuffer = Buffers.wrap(MemoryManager.DEFAULT_MEMORY_MANAGER, b);
++            cookies = CookiesBuilder.client().parse(nonArrayBackedBuffer).build().get();
++            validateClientCookies(testCase, cookies, checkers);
+@@ -159,10 +156,3 @@
+-                assertTrue(testCase.toString(), equalsCookies(cookie, parsedCookie));
+-
+-                Buffer serializedBuffer = cookie.asClientCookieBuffer();
+-                parsedCookies = CookiesBuilder.client().parse(serializedBuffer).build().get();
+-                assertEquals(1, parsedCookies.length);
+-
+-                parsedCookie = parsedCookies[0];
+-
+-                assertTrue(testCase.toString(), equalsCookies(cookie, parsedCookie));
+-            }
++            Buffer byteBasedBuffer = Buffers.wrap(MemoryManager.DEFAULT_MEMORY_MANAGER, cookieString.getBytes(Charsets.ASCII_CHARSET));
++            cookies = CookiesBuilder.client().parse(byteBasedBuffer).build().get();
++            validateClientCookies(testCase, cookies, checkers);
+@@ -175,5 +165 @@
+-            String cookieString = testCase.getFirst();
+-
+-            final Cookie[] cookies =
+-                    CookiesBuilder.server().parse(cookieString).build().get();
+-
++            final String cookieString = testCase.getFirst();
+@@ -182,7 +168,3 @@
+-            for (Checker checker : checkers) {
+-                final Cookie cookie = cookies[checker.getCookieIdx()];
+-                assertTrue("Mismatch. Checker=" + checker.getCheckValue() +
+-                        " expected=" + checker.getExpected() +
+-                        " value=" + checker.getCheckValue().get(cookie),
+-                        checker.check(cookie));
+-            }
++            Cookie[] cookies =
++                    CookiesBuilder.server().parse(cookieString).build().get();
++            validateServerCookies(testCase, cookies, checkers);
+@@ -190,4 +172,6 @@
+-            for (Cookie cookie : cookies) {
+-                final String serializedString = cookie.asServerCookieString();
+-                Cookie[] parsedCookies = CookiesBuilder.server().parse(serializedString).build().get();
+-                assertEquals(testCase.toString(), 1, parsedCookies.length);
++            ByteBuffer b = ByteBuffer.allocateDirect(cookieString.length());
++            b.put(cookieString.getBytes(Charsets.ASCII_CHARSET));
++            b.flip();
++            Buffer nonArrayBackedBuffer = Buffers.wrap(MemoryManager.DEFAULT_MEMORY_MANAGER, b);
++            cookies = CookiesBuilder.server().parse(nonArrayBackedBuffer).build().get();
++            validateServerCookies(testCase, cookies, checkers);
+@@ -195 +179,5 @@
+-                Cookie parsedCookie = parsedCookies[0];
++            Buffer byteBasedBuffer = Buffers.wrap(MemoryManager.DEFAULT_MEMORY_MANAGER, cookieString.getBytes(Charsets.ASCII_CHARSET));
++            cookies = CookiesBuilder.server().parse(byteBasedBuffer).build().get();
++            validateServerCookies(testCase, cookies, checkers);
++        }
++    }
+@@ -197 +185,8 @@
+-                assertTrue(equalsCookies(cookie, parsedCookie));
++    private void validateServerCookies(Pair<String, Checker[]> testCase, Cookie[] cookies, Checker[] checkers) {
++        for (Checker checker : checkers) {
++            final Cookie cookie = cookies[checker.getCookieIdx()];
++            assertTrue("Mismatch. Checker=" + checker.getCheckValue() +
++                    " expected=" + checker.getExpected() +
++                    " value=" + checker.getCheckValue().get(cookie),
++                    checker.check(cookie));
++        }
+@@ -199,3 +194,4 @@
+-                Buffer serializedBuffer = cookie.asServerCookieBuffer();
+-                parsedCookies = CookiesBuilder.server().parse(serializedBuffer).build().get();
+-                assertEquals(testCase.toString(), 1, parsedCookies.length);
++        for (Cookie cookie : cookies) {
++            final String serializedString = cookie.asServerCookieString();
++            Cookie[] parsedCookies = CookiesBuilder.server().parse(serializedString).build().get();
++            assertEquals(testCase.toString(), 1, parsedCookies.length);
+@@ -203 +199 @@
+-                parsedCookie = parsedCookies[0];
++            Cookie parsedCookie = parsedCookies[0];
+@@ -205,2 +201,37 @@
+-                assertTrue(testCase.toString(), equalsCookies(cookie, parsedCookie));
+-            }
++            assertTrue(equalsCookies(cookie, parsedCookie));
++
++            Buffer serializedBuffer = cookie.asServerCookieBuffer();
++            parsedCookies = CookiesBuilder.server().parse(serializedBuffer).build().get();
++            assertEquals(testCase.toString(), 1, parsedCookies.length);
++
++            parsedCookie = parsedCookies[0];
++
++            assertTrue(testCase.toString(), equalsCookies(cookie, parsedCookie));
++        }
++    }
++
++    private void validateClientCookies(Pair<String, Checker[]> testCase, Cookie[] cookies, Checker[] checkers) {
++        for (Checker checker : checkers) {
++            final Cookie cookie = cookies[checker.getCookieIdx()];
++            assertTrue("Mismatch. Checker=" + checker.getCheckValue() +
++                    " expected=" + checker.getExpected() +
++                    " value=" + checker.getCheckValue().get(cookie),
++                    checker.check(cookie));
++        }
++
++        for (Cookie cookie : cookies) {
++            final String serializedString = cookie.asClientCookieString();
++            Cookie[] parsedCookies = CookiesBuilder.client().parse(serializedString).build().get();
++            assertEquals(testCase.toString(), 1, parsedCookies.length);
++
++            Cookie parsedCookie = parsedCookies[0];
++
++            assertTrue(testCase.toString(), equalsCookies(cookie, parsedCookie));
++
++            Buffer serializedBuffer = cookie.asClientCookieBuffer();
++            parsedCookies = CookiesBuilder.client().parse(serializedBuffer).build().get();
++            assertEquals(1, parsedCookies.length);
++
++            parsedCookie = parsedCookies[0];
++
++            assertTrue(testCase.toString(), equalsCookies(cookie, parsedCookie));
+

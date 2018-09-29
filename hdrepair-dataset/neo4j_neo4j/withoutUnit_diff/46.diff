@@ -1,0 +1,49 @@
+diff --git a/community/cypher/src/docs/dev/ql/delete/index.asciidoc b/community/cypher/src/docs/dev/ql/delete/index.asciidoc
+index 080d653..95bb7ef 100644
+--- a/community/cypher/src/docs/dev/ql/delete/index.asciidoc
++++ b/community/cypher/src/docs/dev/ql/delete/index.asciidoc
+@@ -4 +4 @@
+-Removing graph elements -- nodes and relationships, is done with +DELETE+.
++Deleting graph elements -- nodes and relationships, is done with +DELETE+.
+@@ -14 +14 @@
+-include::remove-a-node-and-connected-relationships.asciidoc[]
++include::delete-a-node-and-connected-relationships.asciidoc[]
+diff --git a/community/cypher/src/docs/dev/ql/schema-index/index.asciidoc b/community/cypher/src/docs/dev/ql/schema-index/index.asciidoc
+index 9d7294b..ae26e48 100644
+--- a/community/cypher/src/docs/dev/ql/schema-index/index.asciidoc
++++ b/community/cypher/src/docs/dev/ql/schema-index/index.asciidoc
+@@ -12 +12 @@
+-include::remove-index-on-a-label.asciidoc[]
++include::drop-index-on-a-label.asciidoc[]
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/DeleteTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/DeleteTest.scala
+index b8eaec6..6a51243 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/DeleteTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/DeleteTest.scala
+@@ -46 +46 @@
+-      text = "To remove a node from the graph, you can delete it with the +DELETE+ clause.",
++      text = "To delete a node, use the +DELETE+ clause.",
+@@ -54,2 +54,2 @@
+-      title = "Remove a node and connected relationships",
+-      text = "If you are trying to remove a node with relationships on it, you have to remove these as well.",
++      title = "Delete a node and connected relationships",
++      text = "If you are trying to delete a node with relationships on it, you have to delete these as well.",
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/SchemaIndexTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/SchemaIndexTest.scala
+index 38dab2d..9cc9181 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/SchemaIndexTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/SchemaIndexTest.scala
+@@ -50 +50 @@
+-  @Test def remove_index_on_a_label() {
++  @Test def drop_index_on_a_label() {
+@@ -52,2 +52,2 @@
+-      title = "Remove index on a label",
+-      text = "To remove an index, use the +DROP+ +INDEX+ clause",
++      title = "Drop index on a label",
++      text = "To drop an index on all nodes that have a label, use the +DROP+ +INDEX+ clause",
+diff --git a/community/graphviz/src/main/java/org/neo4j/visualization/asciidoc/AsciidocHelper.java b/community/graphviz/src/main/java/org/neo4j/visualization/asciidoc/AsciidocHelper.java
+index 4dd318a..3e1c680 100644
+--- a/community/graphviz/src/main/java/org/neo4j/visualization/asciidoc/AsciidocHelper.java
++++ b/community/graphviz/src/main/java/org/neo4j/visualization/asciidoc/AsciidocHelper.java
+@@ -175 +175 @@
+-        "desc", "descending", "create", "add", "remove"};
++        "desc", "descending", "create", "remove", "drop"};
+

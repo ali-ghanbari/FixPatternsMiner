@@ -1,0 +1,22 @@
+diff --git a/proton-j/src/main/java/org/apache/qpid/proton/codec/StringType.java b/proton-j/src/main/java/org/apache/qpid/proton/codec/StringType.java
+index 092894d..a035e94 100644
+--- a/proton-j/src/main/java/org/apache/qpid/proton/codec/StringType.java
++++ b/proton-j/src/main/java/org/apache/qpid/proton/codec/StringType.java
+@@ -100 +100 @@
+-                    if ((c & 0xD800) == 0xD800)
++                    if ((c & 0xD800) == 0xD800 && c < 0xDC00)
+diff --git a/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java b/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java
+index 7d78f65..7a44063 100644
+--- a/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java
++++ b/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java
+@@ -142,0 +143 @@
++                                                         UnicodeBlock.BOX_DRAWING,
+@@ -145,0 +147,7 @@
++                    // some additional combinations of characters that could cause problems to the encoder
++                    String[] boxDrawing = getAllStringsFromUnicodeBlocks(UnicodeBlock.BOX_DRAWING).toArray(new String[0]);
++                    String[] halfFullWidthForms = getAllStringsFromUnicodeBlocks(UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS).toArray(new String[0]);
++                    for (int i = 0; i < halfFullWidthForms.length; i++)
++                    {
++                        add(halfFullWidthForms[i] + boxDrawing[i % boxDrawing.length]);
++                    }
+

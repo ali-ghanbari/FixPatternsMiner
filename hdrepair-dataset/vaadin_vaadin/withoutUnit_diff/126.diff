@@ -1,0 +1,11 @@
+diff --git a/src/com/vaadin/terminal/gwt/client/ApplicationConnection.java b/src/com/vaadin/terminal/gwt/client/ApplicationConnection.java
+index 449971a..d2c8f6e 100755
+--- a/src/com/vaadin/terminal/gwt/client/ApplicationConnection.java
++++ b/src/com/vaadin/terminal/gwt/client/ApplicationConnection.java
+@@ -486,0 +487,5 @@
++            /*
++             * Although we are in theory leaving the page, the page may still
++             * stay open. End request properly here too. See #3289
++             */
++            endRequest();
+

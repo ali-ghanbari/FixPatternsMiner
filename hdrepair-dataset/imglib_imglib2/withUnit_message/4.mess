@@ -1,0 +1,10 @@
+AbstractCalibratedSpace: fix recursion bug
+
+The default CalibratedSpace#averageScale(int) implementation was
+*supposed* to call axis(int).averageScale(0, 1), since in the case of
+CalibratedSpaces which may not be Intervals, we do not know of any
+better bounds to use.
+
+Somehow, I mangled it and the problem was not caught until now. So this
+change also adds a unit test to ensure the problem does not recur.
+

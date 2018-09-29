@@ -1,0 +1,30 @@
+	Summary: Fix TED[46739]Unable to preview reports using local IO
+queries from iportal
+	Description of Issue:
+While a report design that use local IO is uploaded into iserver and run
+on server environment, it is expected the corresponding IO location in
+report design to be resolved as relative to the server resource folder.
+However this is not the case in current code so that execute the report
+design in server environment always result in resource not found
+exception.
+	Description of Resolution:
+The following is done to fix the problem:
+1.	While executed in server mode, we acquire the ODA resource identifier
+and change the query text passed in to AIS oda driver so that the
+relative path in the query text is changed to encyclopedia absolute
+path.
+2.	During query validation for push down, we also pass in application
+context so that query validation can be run correctly. 
+	TED(s) Resolved:
+[46739]Unable to preview reports using local IO queries from iportal
+	Regression ( Yes/No ): NO
+	Code Owner Team: DtE/Server
+	Code Reviewers: Lin ZHU
+	Project ID: 1349
+	Manual Test Description: Manually test based on both client and server
+side execution
+	Tests Automated Cases Executed: No. This feature cannot be automated 
+due to current test framework limitation.
+	Special Notes: Need refactor the code after [46734] is done in next
+release
+

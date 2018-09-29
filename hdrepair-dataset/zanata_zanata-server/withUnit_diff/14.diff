@@ -1,0 +1,372 @@
+diff --git a/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupBasicTest.java b/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupBasicTest.java
+new file mode 100644
+index 0000000..ad64cb8
+--- /dev/null
++++ b/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupBasicTest.java
+@@ -0,0 +1,110 @@
++package org.zanata.feature.versionGroup;
++
++import java.util.List;
++
++import org.concordion.api.extension.Extensions;
++import org.concordion.ext.ScreenshotExtension;
++import org.concordion.ext.TimestampFormatterExtension;
++import org.concordion.integration.junit4.ConcordionRunner;
++import org.hamcrest.Matchers;
++import org.junit.Before;
++import org.junit.Test;
++import org.junit.runner.RunWith;
++import org.zanata.concordion.CustomResourceExtension;
++import org.zanata.page.HomePage;
++import org.zanata.page.groups.VersionGroupPage;
++import org.zanata.page.groups.VersionGroupsPage;
++import org.zanata.page.projects.ProjectPage;
++import org.zanata.util.TableRow;
++import org.zanata.util.WebElementUtil;
++import org.zanata.workflow.LoginWorkFlow;
++import org.zanata.workflow.ProjectWorkFlow;
++
++import com.google.common.collect.ImmutableList;
++
++import lombok.extern.slf4j.Slf4j;
++import static org.hamcrest.MatcherAssert.assertThat;
++
++/**
++ * @author Patrick Huang <a href="mailto:pahuang@redhat.com">pahuang@redhat.com</a>
++ */
++@Slf4j
++@RunWith(ConcordionRunner.class)
++@Extensions({ScreenshotExtension.class, TimestampFormatterExtension.class, CustomResourceExtension.class})
++public class VersionGroupBasicTest
++{
++
++   private final ProjectWorkFlow projectWorkFlow = new ProjectWorkFlow();
++   private HomePage homePage;
++   private VersionGroupPage versionGroupPage;
++
++   @Before
++   public void before()
++   {
++      homePage = new LoginWorkFlow().signIn("admin", "admin");
++   }
++
++   public VersionGroupsPage createNewVersionGroup(String groupId, String groupName)
++   {
++      VersionGroupsPage versionGroupsPage = homePage.goToGroups();
++      List<String> groupNames = versionGroupsPage.getGroupNames();
++
++      if (groupNames.contains(groupName))
++      {
++         return versionGroupsPage;
++      }
++
++      return versionGroupsPage.createNewGroup().inputGroupId(groupId).inputGroupName(groupName).saveGroup();
++   }
++
++   public void createProjectAndVersion(String projectId, String projectName, String version)
++   {
++      ProjectPage projectPage = projectWorkFlow.createNewProject(projectId, projectName);
++      if (!projectPage.getVersions().contains(version))
++      {
++         projectPage.clickCreateVersionLink().inputVersionId(version).selectStatus("READONLY").selectStatus("ACTIVE").saveVersion();
++      }
++   }
++
++   public List<TableRow> searchProjectToAddToVersionGroup(String groupName, String searchTerm)
++   {
++      versionGroupPage = projectWorkFlow.goToHome().goToGroups().goToGroup(groupName);
++      versionGroupPage = versionGroupPage.addProjectVersion();
++      return versionGroupPage.searchProject(searchTerm);
++   }
++
++   public VersionGroupPage addProjectToVersionGroup(List<TableRow> table, int row)
++   {
++
++      TableRow versionToBeAdd = table.get(row - 1);
++      return versionGroupPage.addToGroup(versionToBeAdd).closeSearchResult();
++   }
++
++//   @Test
++   public void canAddProjectVersionsToGroup() {
++      // given two projects and versions are created
++      new LoginWorkFlow().signIn("admin", "admin");
++      ProjectWorkFlow projectWorkFlow = new ProjectWorkFlow();
++      ProjectPage projectA = projectWorkFlow.createNewProject("group-project-a", "project a to be grouped");
++      projectWorkFlow.createNewProjectVersion("project a to be grouped", "master");
++
++      ProjectPage projectB = projectWorkFlow.createNewProject("group-project-b", "project b to be grouped");
++      projectWorkFlow.createNewProjectVersion("project b to be grouped", "master");
++
++      VersionGroupPage versionGroupPage = projectWorkFlow.goToHome().goToGroups().goToGroup("group one");
++      List<TableRow> searchResult = versionGroupPage.addProjectVersion().searchProject("group");
++      VersionGroupBasicTest.log.info("come back {} rows in search result", searchResult.size());
++
++      //add first row from search result into group
++      TableRow versionToBeAdd = searchResult.get(0);
++      List<String> projectAndVersion = versionToBeAdd.getCellContents();
++      assertThat(projectAndVersion.get(0), Matchers.equalTo("project a to be grouped"));
++
++      VersionGroupPage groupPage = versionGroupPage.addToGroup(versionToBeAdd).closeSearchResult();
++
++      List<List<String>> projectVersions = groupPage.getNotEmptyProjectVersionsInGroup();
++      assertThat(projectVersions, Matchers.hasSize(1));
++      assertThat(projectVersions.get(0), Matchers.equalTo(projectAndVersion));
++   }
++
++}
+diff --git a/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTest.java b/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTest.java
+index 5ea5feb..a3c9065 100644
+--- a/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTest.java
++++ b/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTest.java
+@@ -3,2 +2,0 @@
+-import java.util.List;
+-
+@@ -6,2 +3,0 @@
+-import org.concordion.ext.ScreenshotExtension;
+-import org.concordion.ext.TimestampFormatterExtension;
+@@ -9,3 +4,0 @@
+-import org.hamcrest.Matchers;
+-import org.junit.Before;
+-import org.junit.Test;
+@@ -13,14 +6 @@
+-import org.zanata.concordion.CustomResourceExtension;
+-import org.zanata.page.HomePage;
+-import org.zanata.page.groups.VersionGroupPage;
+-import org.zanata.page.groups.VersionGroupsPage;
+-import org.zanata.page.projects.ProjectPage;
+-import org.zanata.util.TableRow;
+-import org.zanata.util.WebElementUtil;
+-import org.zanata.workflow.LoginWorkFlow;
+-import org.zanata.workflow.ProjectWorkFlow;
+-
+-import com.google.common.collect.ImmutableList;
+-
+-import lombok.extern.slf4j.Slf4j;
+-import static org.hamcrest.MatcherAssert.assertThat;
++import org.zanata.concordion.IndexPageBuilderExtension;
+@@ -31 +10,0 @@
+-@Slf4j
+@@ -33 +12 @@
+-@Extensions({ScreenshotExtension.class, TimestampFormatterExtension.class, CustomResourceExtension.class})
++@Extensions({IndexPageBuilderExtension.class})
+@@ -36,74 +14,0 @@
+-
+-   private final ProjectWorkFlow projectWorkFlow = new ProjectWorkFlow();
+-   private HomePage homePage;
+-   private VersionGroupPage versionGroupPage;
+-
+-   @Before
+-   public void before()
+-   {
+-      homePage = new LoginWorkFlow().signIn("admin", "admin");
+-   }
+-
+-   public VersionGroupsPage createNewVersionGroup(String groupId, String groupName)
+-   {
+-      VersionGroupsPage versionGroupsPage = homePage.goToGroups();
+-      List<String> groupNames = versionGroupsPage.getGroupNames();
+-
+-      if (groupNames.contains(groupName))
+-      {
+-         return versionGroupsPage;
+-      }
+-
+-      return versionGroupsPage.createNewGroup().inputGroupId(groupId).inputGroupName(groupName).saveGroup();
+-   }
+-
+-   public void createProjectAndVersion(String projectId, String projectName, String version)
+-   {
+-      ProjectPage projectPage = projectWorkFlow.createNewProject(projectId, projectName);
+-      if (!projectPage.getVersions().contains(version))
+-      {
+-         projectPage.clickCreateVersionLink().inputVersionId(version).selectStatus("READONLY").selectStatus("ACTIVE").saveVersion();
+-      }
+-   }
+-
+-   public List<TableRow> searchProjectToAddToVersionGroup(String groupName, String searchTerm)
+-   {
+-      versionGroupPage = projectWorkFlow.goToHome().goToGroups().goToGroup(groupName);
+-      versionGroupPage = versionGroupPage.addProjectVersion();
+-      return versionGroupPage.searchProject(searchTerm);
+-   }
+-
+-   public VersionGroupPage addProjectToVersionGroup(List<TableRow> table, int row)
+-   {
+-
+-      TableRow versionToBeAdd = table.get(row - 1);
+-      return versionGroupPage.addToGroup(versionToBeAdd).closeSearchResult();
+-   }
+-
+-//   @Test
+-   public void canAddProjectVersionsToGroup() {
+-      // given two projects and versions are created
+-      new LoginWorkFlow().signIn("admin", "admin");
+-      ProjectWorkFlow projectWorkFlow = new ProjectWorkFlow();
+-      ProjectPage projectA = projectWorkFlow.createNewProject("group-project-a", "project a to be grouped");
+-      projectWorkFlow.createNewProjectVersion("project a to be grouped", "master");
+-
+-      ProjectPage projectB = projectWorkFlow.createNewProject("group-project-b", "project b to be grouped");
+-      projectWorkFlow.createNewProjectVersion("project b to be grouped", "master");
+-
+-      VersionGroupPage versionGroupPage = projectWorkFlow.goToHome().goToGroups().goToGroup("group one");
+-      List<TableRow> searchResult = versionGroupPage.addProjectVersion().searchProject("group");
+-      log.info("come back {} rows in search result", searchResult.size());
+-
+-      //add first row from search result into group
+-      TableRow versionToBeAdd = searchResult.get(0);
+-      List<String> projectAndVersion = versionToBeAdd.getCellContents();
+-      assertThat(projectAndVersion.get(0), Matchers.equalTo("project a to be grouped"));
+-
+-      VersionGroupPage groupPage = versionGroupPage.addToGroup(versionToBeAdd).closeSearchResult();
+-
+-      List<List<String>> projectVersions = groupPage.getNotEmptyProjectVersionsInGroup();
+-      assertThat(projectVersions, Matchers.hasSize(1));
+-      assertThat(projectVersions.get(0), Matchers.equalTo(projectAndVersion));
+-   }
+-
+diff --git a/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTestSuite.java b/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTestSuite.java
+index b7eeccb..90f8d64 100644
+--- a/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTestSuite.java
++++ b/functional-test/src/test/java/org/zanata/feature/versionGroup/VersionGroupTestSuite.java
+@@ -10 +10 @@
+-@Suite.SuiteClasses(VersionGroupTest.class)
++@Suite.SuiteClasses({VersionGroupTest.class, VersionGroupBasicTest.class})
+diff --git a/functional-test/src/test/resources/concordion/org/zanata/feature/versionGroup/VersionGroup.html b/functional-test/src/test/resources/concordion/org/zanata/feature/versionGroup/VersionGroup.html
+deleted file mode 100644
+index 213bea9..0000000
+--- a/functional-test/src/test/resources/concordion/org/zanata/feature/versionGroup/VersionGroup.html
++++ /dev/null
+@@ -1,62 +0,0 @@
+-<html xmlns:c="http://www.concordion.org/2007/concordion" xmlns:ext="urn:concordion-extensions:2010">
+-<head>
+-    <title>Version Group Basic</title>
+-</head>
+-<body>
+-    <p>
+-        As an admin,
+-        I want to create a version group with group id <span c:set="#groupId">group1</span> and name <span c:set="#groupName">group one</span>.
+-        When I go to Groups menu item, click on <span c:execute="#versionGroupsPage = createNewVersionGroup(#groupId, #groupName)">Create New Group</span>,
+-        put in the above data and save,
+-        then I should have the group created.
+-    </p>
+-    <table c:verifyRows="#groupName : #versionGroupsPage.groupNames">
+-        <tr><th c:assertEquals="#groupName">version group name</th></tr>
+-        <tr><td>group one</td></tr>
+-    </table>
+-    <span ext:screenshot="" />
+-
+-    <p>
+-        Given two projects and versions are created:
+-    </p>
+-    <table>
+-        <tr>
+-            <th>Project Id</th>
+-            <th>Project Name</th>
+-            <th>Version Id</th>
+-        </tr>
+-        <tr c:execute="createProjectAndVersion(#projectId, #projectName, #versionId)">
+-            <td c:set="#projectId">group-project-a</td>
+-            <td c:set="#projectName">project a to be grouped</td>
+-            <td c:set="#versionId">master</td>
+-        </tr>
+-        <tr c:execute="createProjectAndVersion(#projectId, #projectName, #versionId)">
+-            <td c:set="#projectId">group-project-b</td>
+-            <td c:set="#projectName">project b to be grouped</td>
+-            <td c:set="#versionId">master</td>
+-        </tr>
+-    </table>
+-
+-    <p>
+-        When I click <span c:execute="#searchResult = searchProjectToAddToVersionGroup(#groupName, #searchTerm)">Add Project Versions link and search <span c:set="#searchTerm">group</span></span>,
+-        I should get
+-    <table c:verifyRows="#row : #searchResult">
+-        <tr><th c:assertEquals="#row.cellContents">row content (List.toString)</th></tr>
+-        <tr><td>[project a to be grouped, master, ]</td></tr>
+-        <tr><td>[project b to be grouped, master, ]</td></tr>
+-    </table>
+-    <span ext:screenshot="" />
+-    </p>
+-
+-    <p>
+-        When I check row <span c:set="#row">1</span> from search result and <span c:execute="#versionGroupPage = addProjectToVersionGroup(#searchResult, #row)">add to version group</span>,
+-        I should have
+-    <table c:verifyRows="#projectVersion : #versionGroupPage.projectVersionsInGroup">
+-        <tr><th c:assertEquals="#projectVersion">project name, version</th></tr>
+-        <tr><td>[project a to be grouped, master, ]</td></tr>
+-    </table>
+-    <span ext:screenshot="" />
+-    </p>
+-
+-</body>
+-</html>
+\ No newline at end of file
+diff --git a/functional-test/src/test/resources/concordion/org/zanata/feature/versionGroup/VersionGroupBasic.html b/functional-test/src/test/resources/concordion/org/zanata/feature/versionGroup/VersionGroupBasic.html
+new file mode 100644
+index 0000000..213bea9
+--- /dev/null
++++ b/functional-test/src/test/resources/concordion/org/zanata/feature/versionGroup/VersionGroupBasic.html
+@@ -0,0 +1,62 @@
++<html xmlns:c="http://www.concordion.org/2007/concordion" xmlns:ext="urn:concordion-extensions:2010">
++<head>
++    <title>Version Group Basic</title>
++</head>
++<body>
++    <p>
++        As an admin,
++        I want to create a version group with group id <span c:set="#groupId">group1</span> and name <span c:set="#groupName">group one</span>.
++        When I go to Groups menu item, click on <span c:execute="#versionGroupsPage = createNewVersionGroup(#groupId, #groupName)">Create New Group</span>,
++        put in the above data and save,
++        then I should have the group created.
++    </p>
++    <table c:verifyRows="#groupName : #versionGroupsPage.groupNames">
++        <tr><th c:assertEquals="#groupName">version group name</th></tr>
++        <tr><td>group one</td></tr>
++    </table>
++    <span ext:screenshot="" />
++
++    <p>
++        Given two projects and versions are created:
++    </p>
++    <table>
++        <tr>
++            <th>Project Id</th>
++            <th>Project Name</th>
++            <th>Version Id</th>
++        </tr>
++        <tr c:execute="createProjectAndVersion(#projectId, #projectName, #versionId)">
++            <td c:set="#projectId">group-project-a</td>
++            <td c:set="#projectName">project a to be grouped</td>
++            <td c:set="#versionId">master</td>
++        </tr>
++        <tr c:execute="createProjectAndVersion(#projectId, #projectName, #versionId)">
++            <td c:set="#projectId">group-project-b</td>
++            <td c:set="#projectName">project b to be grouped</td>
++            <td c:set="#versionId">master</td>
++        </tr>
++    </table>
++
++    <p>
++        When I click <span c:execute="#searchResult = searchProjectToAddToVersionGroup(#groupName, #searchTerm)">Add Project Versions link and search <span c:set="#searchTerm">group</span></span>,
++        I should get
++    <table c:verifyRows="#row : #searchResult">
++        <tr><th c:assertEquals="#row.cellContents">row content (List.toString)</th></tr>
++        <tr><td>[project a to be grouped, master, ]</td></tr>
++        <tr><td>[project b to be grouped, master, ]</td></tr>
++    </table>
++    <span ext:screenshot="" />
++    </p>
++
++    <p>
++        When I check row <span c:set="#row">1</span> from search result and <span c:execute="#versionGroupPage = addProjectToVersionGroup(#searchResult, #row)">add to version group</span>,
++        I should have
++    <table c:verifyRows="#projectVersion : #versionGroupPage.projectVersionsInGroup">
++        <tr><th c:assertEquals="#projectVersion">project name, version</th></tr>
++        <tr><td>[project a to be grouped, master, ]</td></tr>
++    </table>
++    <span ext:screenshot="" />
++    </p>
++
++</body>
++</html>
+\ No newline at end of file
+

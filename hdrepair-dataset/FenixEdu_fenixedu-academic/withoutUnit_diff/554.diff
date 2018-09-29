@@ -1,0 +1,8 @@
+diff --git a/src/net/sourceforge/fenixedu/domain/GratuitySituation.java b/src/net/sourceforge/fenixedu/domain/GratuitySituation.java
+index 5a81572..a19c0c2 100755
+--- a/src/net/sourceforge/fenixedu/domain/GratuitySituation.java
++++ b/src/net/sourceforge/fenixedu/domain/GratuitySituation.java
+@@ -260 +260 @@
+-	return getRemainingValue().compareTo(Double.valueOf(0)) <= 0;
++	return new Money(getRemainingValue()).lessOrEqualThan(Money.ZERO);
+

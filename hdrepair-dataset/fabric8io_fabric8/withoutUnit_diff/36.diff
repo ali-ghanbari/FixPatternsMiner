@@ -1,0 +1,8 @@
+diff --git a/fabric/fabric-utils/src/main/java/io/fabric8/utils/PasswordEncoder.java b/fabric/fabric-utils/src/main/java/io/fabric8/utils/PasswordEncoder.java
+index 9aa309a..8046f45 100644
+--- a/fabric/fabric-utils/src/main/java/io/fabric8/utils/PasswordEncoder.java
++++ b/fabric/fabric-utils/src/main/java/io/fabric8/utils/PasswordEncoder.java
+@@ -36 +36 @@
+-        return shouldEncodePassword(s) ? Base64Encoder.encode(s) : s;
++        return shouldEncodePassword(s) ? PREFIX + Base64Encoder.encode(s) : s;
+

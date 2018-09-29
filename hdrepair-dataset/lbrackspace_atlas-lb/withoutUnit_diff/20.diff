@@ -1,0 +1,637 @@
+diff --git a/api/common-api/src/main/java/org/openstack/atlas/api/mapper/UsageMapper.java b/api/common-api/src/main/java/org/openstack/atlas/api/mapper/UsageMapper.java
+index c7d2382..5397073 100644
+--- a/api/common-api/src/main/java/org/openstack/atlas/api/mapper/UsageMapper.java
++++ b/api/common-api/src/main/java/org/openstack/atlas/api/mapper/UsageMapper.java
+@@ -3 +2,0 @@
+-import org.openstack.atlas.docs.loadbalancers.api.v1.LinkType;
+diff --git a/data-model/pom.xml b/data-model/pom.xml
+index 7471985..917ff14 100644
+--- a/data-model/pom.xml
++++ b/data-model/pom.xml
+@@ -48,0 +49,18 @@
++                        <id>generate-atom-sources</id>
++                        <configuration>
++                            <staleFile>target/atom.staleFile</staleFile>
++                            <extension>true</extension>
++                            <schemaDirectory>
++                                ${basedir}/src/main/resources/META-INF/xsd
++                            </schemaDirectory>
++                            <clearOutputDir>false</clearOutputDir>
++                            <schemaFiles>Atom.xsd</schemaFiles>
++                            <packageName>org.w3.atom</packageName>
++                            <!--<arguments>-Xcollection-setter-injector</arguments>-->
++                            <arguments>-Xxew -setters</arguments>
++                        </configuration>
++                        <goals>
++                            <goal>xjc</goal>
++                        </goals>
++                    </execution>
++                    <execution>
+@@ -60,0 +79,2 @@
++                            <bindingDirectory>${basedir}/src/main/resources/META-INF/xsd</bindingDirectory>
++                            <bindingFiles>atomBindings.xjb</bindingFiles>
+@@ -97 +117 @@
+-                            <bindingFiles>bindings.xjb</bindingFiles>
++                            <bindingFiles>atomBindings.xjb,bindings.xjb</bindingFiles>
+diff --git a/data-model/src/main/resources/META-INF/xsd/LbManagementApi.xsd b/data-model/src/main/resources/META-INF/xsd/LbManagementApi.xsd
+index 0e6fc97..097caa1 100644
+--- a/data-model/src/main/resources/META-INF/xsd/LbManagementApi.xsd
++++ b/data-model/src/main/resources/META-INF/xsd/LbManagementApi.xsd
+@@ -450 +450 @@
+-            <xsd:element name="accountBilling" type="papi:accountBilling" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element ref="papi:accountBilling" minOccurs="0" maxOccurs="unbounded"/>
+@@ -767 +767 @@
+-            <xsd:element name="limit" type="papi:limit" minOccurs="1" maxOccurs="unbounded"/>
++            <xsd:element ref="papi:limit" minOccurs="1" maxOccurs="unbounded"/>
+@@ -820 +820 @@
+-            <xsd:element name="limit" type="papi:limit" minOccurs="1" maxOccurs="unbounded"/>
++            <xsd:element ref="papi:limit" minOccurs="1" maxOccurs="unbounded"/>
+diff --git a/data-model/src/main/resources/META-INF/xsd/LoadBalancerApi.xsd b/data-model/src/main/resources/META-INF/xsd/LoadBalancerApi.xsd
+index 2af3978..e63d8b1 100644
+--- a/data-model/src/main/resources/META-INF/xsd/LoadBalancerApi.xsd
++++ b/data-model/src/main/resources/META-INF/xsd/LoadBalancerApi.xsd
+@@ -5 +5 @@
+-            xmlns:axsd="http://www.w3.org/2005/Atom"
++            xmlns:atom="http://www.w3.org/2005/Atom"
+@@ -12 +11,0 @@
+-    <xsd:import schemaLocation="global.xsd" namespace="http://docs.openstack.org/loadbalancers/api/global/v1.0"/>
+@@ -249 +248 @@
+-            <xsd:element name="link" type="axsd:linkType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element ref="atom:link" minOccurs="0" maxOccurs="unbounded"/>
+@@ -265 +264 @@
+-            <xsd:element name="link" type="axsd:linkType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element ref="atom:link" minOccurs="0" maxOccurs="unbounded"/>
+diff --git a/data-model/src/main/resources/META-INF/xsd/atom.xsd b/data-model/src/main/resources/META-INF/xsd/atom.xsd
+index dcec7b4..2741454 100644
+--- a/data-model/src/main/resources/META-INF/xsd/atom.xsd
++++ b/data-model/src/main/resources/META-INF/xsd/atom.xsd
+@@ -2,12 +2,8 @@
+-<xs:schema targetNamespace="http://www.w3.org/2005/Atom" elementFormDefault="qualified"
+-	attributeFormDefault="unqualified"
+-	xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+-	<xs:annotation>
+-		<xs:documentation>
+-				This version of the Atom schema is based on version 1.0 of the format specifications,
+-				found here http://www.atomenabled.org/developers/syndication/atom-format-spec.php.
+-			</xs:documentation>
+-	</xs:annotation>
+-	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
+-	<xs:annotation>
+-		<xs:documentation>
++<xsd:schema targetNamespace="http://www.w3.org/2005/Atom" elementFormDefault="qualified"
++           attributeFormDefault="unqualified"
++           xmlns:atom="http://www.w3.org/2005/Atom"
++           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
++           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
++           jaxb:version="2.1"
++           xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
++           jaxb:extensionBindingPrefixes="xjc">
+@@ -15,10 +11 @@
+-			An Atom document may have two root elements, feed and entry, as defined in section 2.
+-		</xs:documentation>
+-	</xs:annotation>
+-	<xs:element name="feed" type="atom:feedType"/>
+-	<xs:element name="entry" type="atom:entryType"/>
+-	<xs:complexType name="textType" mixed="true">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom text construct is defined in section 3.1 of the format spec.
+-			</xs:documentation>
++    <xsd:import schemaLocation="global.xsd" namespace="http://docs.openstack.org/loadbalancers/api/global/v1.0"/>
+@@ -26,9 +13,9 @@
+-		</xs:annotation>
+-		<xs:sequence>
+-			<xs:any namespace="http://www.w3.org/1999/xhtml" minOccurs="0"/>
+-		</xs:sequence>
+-		<xs:attribute name="type" >
+-			<xs:simpleType>
+-				<xs:restriction base="xs:token">
+-					<xs:enumeration value="text"/>
+-					<xs:enumeration value="html"/>
++    <xsd:annotation>
++        <xsd:documentation>
++            This version of the Atom schema is based on version 1.0 of the format specifications,
++            found here http://www.atomenabled.org/developers/syndication/atom-format-spec.php.
++        </xsd:documentation>
++    </xsd:annotation>
++    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
++    <xsd:annotation>
++        <xsd:documentation>
+@@ -36,9 +23,10 @@
+-					<xs:enumeration value="xhtml"/>
+-				</xs:restriction>
+-			</xs:simpleType>
+-		</xs:attribute>
+-		<xs:attributeGroup ref="atom:commonAttributes"/>
+-	</xs:complexType>
+-	<xs:complexType name="personType">
+-		<xs:annotation>
+-			<xs:documentation>
++            An Atom document may have two root elements, feed and entry, as defined in section 2.
++        </xsd:documentation>
++    </xsd:annotation>
++    <xsd:element name="feed" type="atom:feedType"/>
++    <xsd:element name="entry" type="atom:entryType"/>
++    <xsd:complexType name="textType" mixed="true">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom text construct is defined in section 3.1 of the format spec.
++            </xsd:documentation>
+@@ -46,9 +34,9 @@
+-				The Atom person construct is defined in section 3.2 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:choice minOccurs="1" maxOccurs="unbounded">
+-			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" />
+-			<xs:element name="uri" type="atom:uriType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="email" type="atom:emailType" minOccurs="0" maxOccurs="1" />
+-			<xs:any namespace="##other"/>
+-		</xs:choice>
++        </xsd:annotation>
++        <xsd:sequence>
++            <xsd:any namespace="http://www.w3.org/1999/xhtml" minOccurs="0"/>
++        </xsd:sequence>
++        <xsd:attribute name="type">
++            <xsd:simpleType>
++                <xsd:restriction base="xsd:token">
++                    <xsd:enumeration value="text"/>
++                    <xsd:enumeration value="html"/>
+@@ -56,9 +44,9 @@
+-		<xs:attributeGroup ref="atom:commonAttributes"/>
+-	</xs:complexType>
+-	<xs:simpleType name="emailType">
+-		<xs:annotation>
+-			<xs:documentation>
+-				Schema definition for an email address.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:restriction base="xs:normalizedString">
++                    <xsd:enumeration value="xhtml"/>
++                </xsd:restriction>
++            </xsd:simpleType>
++        </xsd:attribute>
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
++    </xsd:complexType>
++    <xsd:complexType name="personType">
++        <xsd:annotation>
++            <xsd:documentation>
+@@ -66,9 +54,9 @@
+-			<xs:pattern value="\w+@(\w+\.)+\w+" />
+-		</xs:restriction>
+-	</xs:simpleType>
+-	<xs:complexType name="feedType">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom feed construct is defined in section 4.1.1 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
++                The Atom person construct is defined in section 3.2 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:choice minOccurs="1" maxOccurs="unbounded">
++            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
++            <xsd:element name="uri" type="atom:uriType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="email" type="atom:emailType" minOccurs="0" maxOccurs="1"/>
++            <xsd:any namespace="##other"/>
++        </xsd:choice>
+@@ -76,9 +64,9 @@
+-		<xs:choice minOccurs="3" maxOccurs="unbounded">
+-			<xs:element name="author" type="atom:personType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:element name="category" type="atom:categoryType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:element name="contributor" type="atom:personType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:element name="generator" type="atom:generatorType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="icon" type="atom:iconType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="id" type="atom:idType" minOccurs="1" maxOccurs="1" />
+-			<xs:element name="link" type="atom:linkType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:element name="logo" type="atom:logoType" minOccurs="0" maxOccurs="1" />
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
++    </xsd:complexType>
++    <xsd:simpleType name="emailType">
++        <xsd:annotation>
++            <xsd:documentation>
++                Schema definition for an email address.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:restriction base="xsd:normalizedString">
+@@ -86,9 +74,9 @@
+-			<xs:element name="rights" type="atom:textType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="subtitle" type="atom:textType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="title" type="atom:textType" minOccurs="1" maxOccurs="1" />
+-			<xs:element name="updated" type="atom:dateTimeType" minOccurs="1" maxOccurs="1" />
+-			<xs:element name="entry" type="atom:entryType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+-		</xs:choice>
+-		<xs:attributeGroup ref="atom:commonAttributes"/>
+-	</xs:complexType>
++            <xsd:pattern value="\w+@(\w+\.)+\w+"/>
++        </xsd:restriction>
++    </xsd:simpleType>
++    <xsd:complexType name="feedType">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom feed construct is defined in section 4.1.1 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
+@@ -96,9 +84,9 @@
+-	<xs:complexType name="entryType">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom entry construct is defined in section 4.1.2 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:choice maxOccurs="unbounded">
+-			<xs:element name="author" type="atom:personType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:element name="category" type="atom:categoryType" minOccurs="0" maxOccurs="unbounded" />
++        <xsd:choice minOccurs="3" maxOccurs="unbounded">
++            <xsd:element name="author" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="category" type="atom:categoryType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="contributor" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="generator" type="atom:generatorType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="icon" type="atom:iconType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="id" type="atom:idType" minOccurs="1" maxOccurs="1"/>
++            <xsd:element name="link" type="atom:linkType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="logo" type="atom:logoType" minOccurs="0" maxOccurs="1"/>
+@@ -106,9 +94,9 @@
+-			<xs:element name="content" type="atom:contentType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="contributor" type="atom:personType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:element name="id" type="atom:idType" minOccurs="1" maxOccurs="1" />
+-			<xs:element name="link" type="atom:linkType" minOccurs="0" maxOccurs="unbounded" />
+-			<xs:element name="published" type="atom:dateTimeType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="rights" type="atom:textType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="source" type="atom:textType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="summary" type="atom:textType" minOccurs="0" maxOccurs="1" />
+-			<xs:element name="title" type="atom:textType" minOccurs="1" maxOccurs="1" />
++            <xsd:element name="rights" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="subtitle" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="title" type="atom:textType" minOccurs="1" maxOccurs="1"/>
++            <xsd:element name="updated" type="atom:dateTimeType" minOccurs="1" maxOccurs="1"/>
++            <xsd:element name="entry" type="atom:entryType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
++        </xsd:choice>
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
++    </xsd:complexType>
+@@ -116,10 +104,9 @@
+-			<xs:element name="updated" type="atom:dateTimeType" minOccurs="1" maxOccurs="1" />
+-			<xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+-		</xs:choice>
+-		<xs:attributeGroup ref="atom:commonAttributes"/>
+-	</xs:complexType>
+-	<xs:complexType name="contentType" mixed="true">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom content construct is defined in section 4.1.3 of the format spec.
+-			</xs:documentation>
++    <xsd:complexType name="entryType">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom entry construct is defined in section 4.1.2 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:choice maxOccurs="unbounded">
++            <xsd:element name="author" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="category" type="atom:categoryType" minOccurs="0" maxOccurs="unbounded"/>
+@@ -127,9 +114,9 @@
+-		</xs:annotation>
+-		<xs:sequence>
+-			<xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded" />
+-		</xs:sequence>
+-		<xs:attribute name="type" type="xs:string"/>
+-		<xs:attribute name="src" type="xs:anyURI"/>
+-		<xs:attributeGroup ref="atom:commonAttributes"/>
+-	</xs:complexType>
+-	<xs:complexType name="categoryType">
++            <xsd:element name="content" type="atom:contentType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="contributor" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="id" type="atom:idType" minOccurs="1" maxOccurs="1"/>
++            <xsd:element name="link" type="atom:linkType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="published" type="atom:dateTimeType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="rights" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="source" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="summary" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="title" type="atom:textType" minOccurs="1" maxOccurs="1"/>
+@@ -137,9 +124,10 @@
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom cagegory construct is defined in section 4.2.2 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:attribute name="term" type="xs:string" use="required"/>
+-		<xs:attribute name="scheme" type="xs:anyURI" use="optional"/>
+-		<xs:attribute name="label" type="xs:string" use="optional"/>
+-		<xs:attributeGroup ref="atom:commonAttributes" />
++            <xsd:element name="updated" type="atom:dateTimeType" minOccurs="1" maxOccurs="1"/>
++            <xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
++        </xsd:choice>
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
++    </xsd:complexType>
++    <xsd:complexType name="contentType" mixed="true">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom content construct is defined in section 4.1.3 of the format spec.
++            </xsd:documentation>
+@@ -147,9 +135,9 @@
+-	</xs:complexType>
+-	<xs:complexType name="generatorType">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom generator element is defined in section 4.2.4 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:simpleContent>
+-			<xs:extension base="xs:string">
++        </xsd:annotation>
++        <xsd:sequence>
++            <xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
++        </xsd:sequence>
++        <xsd:attribute name="type" type="xsd:string"/>
++        <xsd:attribute name="src" type="xsd:anyURI"/>
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
++    </xsd:complexType>
++    <xsd:complexType name="categoryType">
+@@ -157,9 +145,9 @@
+-				<xs:attribute name="uri" use="optional" type="xs:anyURI" />
+-				<xs:attribute name="version" use="optional" type="xs:string" />
+-				<xs:attributeGroup ref="atom:commonAttributes"/>
+-			</xs:extension>
+-		</xs:simpleContent>
+-	</xs:complexType>
+-	<xs:complexType name="iconType">
+-		<xs:annotation>
+-			<xs:documentation>
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom cagegory construct is defined in section 4.2.2 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:attribute name="term" type="xsd:string" use="required"/>
++        <xsd:attribute name="scheme" type="xsd:anyURI" use="optional"/>
++        <xsd:attribute name="label" type="xsd:string" use="optional"/>
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
+@@ -167,9 +155,9 @@
+-				The Atom icon construct is defined in section 4.2.5 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:simpleContent>
+-			<xs:extension base="xs:anyURI">
+-				<xs:attributeGroup ref="atom:commonAttributes"/>
+-			</xs:extension>
+-		</xs:simpleContent>
+-	</xs:complexType>
++    </xsd:complexType>
++    <xsd:complexType name="generatorType">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom generator element is defined in section 4.2.4 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:simpleContent>
++            <xsd:extension base="xsd:string">
+@@ -177,9 +165,9 @@
+-	<xs:complexType name="idType">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom id construct is defined in section 4.2.6 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:simpleContent>
+-			<xs:extension base="xs:anyURI">
+-				<xs:attributeGroup ref="atom:commonAttributes"/>
++                <xsd:attribute name="uri" use="optional" type="xsd:anyURI"/>
++                <xsd:attribute name="version" use="optional" type="xsd:string"/>
++                <xsd:attributeGroup ref="atom:commonAttributes"/>
++            </xsd:extension>
++        </xsd:simpleContent>
++    </xsd:complexType>
++    <xsd:complexType name="iconType">
++        <xsd:annotation>
++            <xsd:documentation>
+@@ -187,9 +175,9 @@
+-			</xs:extension>
+-		</xs:simpleContent>
+-	</xs:complexType>
+-	<xs:complexType name="linkType" mixed="true">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom link construct is defined in section 3.4 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
++                The Atom icon construct is defined in section 4.2.5 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:simpleContent>
++            <xsd:extension base="xsd:anyURI">
++                <xsd:attributeGroup ref="atom:commonAttributes"/>
++            </xsd:extension>
++        </xsd:simpleContent>
++    </xsd:complexType>
+@@ -197,9 +185,9 @@
+-		<xs:attribute name="href" use="required" type="xs:anyURI" />
+-		<xs:attribute name="rel" type="xs:string" use="optional"/>
+-		<xs:attribute name="type" use="optional" type="xs:string" />
+-		<xs:attribute name="hreflang" use="optional" type="xs:NMTOKEN" />
+-		<xs:attribute name="title" use="optional" type="xs:string" />
+-		<xs:attribute name="length" use="optional" type="xs:positiveInteger" />
+-		<xs:attributeGroup ref="atom:commonAttributes"/>
+-	</xs:complexType>
+-	<xs:complexType name="logoType">
++    <xsd:complexType name="idType">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom id construct is defined in section 4.2.6 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:simpleContent>
++            <xsd:extension base="xsd:anyURI">
++                <xsd:attributeGroup ref="atom:commonAttributes"/>
+@@ -207,9 +195,3 @@
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom logo construct is defined in section 4.2.8 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:simpleContent>
+-			<xs:extension base="xs:anyURI">
+-				<xs:attributeGroup ref="atom:commonAttributes"/>
+-			</xs:extension>
++            </xsd:extension>
++        </xsd:simpleContent>
++    </xsd:complexType>
+@@ -217,9 +199,8 @@
+-		</xs:simpleContent>
+-	</xs:complexType>
+-	<xs:complexType name="sourceType">
+-		<xs:annotation>
+-			<xs:documentation>
+-				The Atom source construct is defined in section 4.2.11 of the format spec.
+-			</xs:documentation>
+-		</xs:annotation>
+-		<xs:choice maxOccurs="unbounded">
++    <!--Added so xml output has correct 'atom' prefix-->
++    <xsd:element name="link" type="atom:linkType"/>
++    <xsd:complexType name="linkType" mixed="true">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom link construct is defined in section 3.4 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
+@@ -227,9 +208,9 @@
+-			<xs:element name="author" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
+-			<xs:element name="category" type="atom:categoryType" minOccurs="0" maxOccurs="unbounded"/>
+-			<xs:element name="contributor" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
+-			<xs:element name="generator" type="atom:generatorType" minOccurs="0" maxOccurs="1"/>
+-			<xs:element name="icon" type="atom:iconType" minOccurs="0" maxOccurs="1"/>
+-			<xs:element name="id" type="atom:idType" minOccurs="0" maxOccurs="1"/>
+-			<xs:element name="link" type="atom:linkType" minOccurs="0" maxOccurs="unbounded"/>
+-			<xs:element name="logo" type="atom:logoType" minOccurs="0" maxOccurs="1"/>
+-			<xs:element name="rights" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++        <xsd:attribute name="href" use="required" type="xsd:anyURI"/>
++        <xsd:attribute name="rel" type="xsd:string" use="optional"/>
++        <xsd:attribute name="type" use="optional" type="xsd:string"/>
++        <xsd:attribute name="hreflang" use="optional" type="xsd:NMTOKEN"/>
++        <xsd:attribute name="title" use="optional" type="xsd:string"/>
++        <xsd:attribute name="length" use="optional" type="xsd:positiveInteger"/>
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
++    </xsd:complexType>
++    <xsd:complexType name="logoType">
+@@ -237,9 +218,9 @@
+-			<xs:element name="subtitle" type="atom:textType" minOccurs="0" maxOccurs="1"/>
+-			<xs:element name="title" type="atom:textType" minOccurs="0" maxOccurs="1"/>
+-			<xs:element name="updated" type="atom:dateTimeType" minOccurs="0" maxOccurs="1"/>
+-			<xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+-		</xs:choice>
+-		<xs:attributeGroup ref="atom:commonAttributes"/>
+-	</xs:complexType>
+-	<xs:complexType name="uriType">
+-		<xs:simpleContent>
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom logo construct is defined in section 4.2.8 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:simpleContent>
++            <xsd:extension base="xsd:anyURI">
++                <xsd:attributeGroup ref="atom:commonAttributes"/>
++            </xsd:extension>
+@@ -247,9 +228,9 @@
+-			<xs:extension base="xs:anyURI">
+-				<xs:attributeGroup ref="atom:commonAttributes"/>
+-			</xs:extension>
+-		</xs:simpleContent>
+-	</xs:complexType>
+-	<xs:complexType name="dateTimeType">
+-		<xs:simpleContent>
+-			<xs:extension base="xs:dateTime">
+-				<xs:attributeGroup ref="atom:commonAttributes"/>
++        </xsd:simpleContent>
++    </xsd:complexType>
++    <xsd:complexType name="sourceType">
++        <xsd:annotation>
++            <xsd:documentation>
++                The Atom source construct is defined in section 4.2.11 of the format spec.
++            </xsd:documentation>
++        </xsd:annotation>
++        <xsd:choice maxOccurs="unbounded">
+@@ -257,9 +238,39 @@
+-			</xs:extension>
+-		</xs:simpleContent>
+-	</xs:complexType>
+-	<xs:attributeGroup name="commonAttributes">
+-		<xs:attribute ref="xml:base" />
+-		<xs:attribute ref="xml:lang" />
+-		<xs:anyAttribute namespace="##other"/>
+-	</xs:attributeGroup>
+-</xs:schema>
+\ No newline at end of file
++            <xsd:element name="author" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="category" type="atom:categoryType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="contributor" type="atom:personType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="generator" type="atom:generatorType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="icon" type="atom:iconType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="id" type="atom:idType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="link" type="atom:linkType" minOccurs="0" maxOccurs="unbounded"/>
++            <xsd:element name="logo" type="atom:logoType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="rights" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++
++            <xsd:element name="subtitle" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="title" type="atom:textType" minOccurs="0" maxOccurs="1"/>
++            <xsd:element name="updated" type="atom:dateTimeType" minOccurs="0" maxOccurs="1"/>
++            <xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
++        </xsd:choice>
++        <xsd:attributeGroup ref="atom:commonAttributes"/>
++    </xsd:complexType>
++    <xsd:complexType name="uriType">
++        <xsd:simpleContent>
++
++            <xsd:extension base="xsd:anyURI">
++                <xsd:attributeGroup ref="atom:commonAttributes"/>
++            </xsd:extension>
++        </xsd:simpleContent>
++    </xsd:complexType>
++    <xsd:complexType name="dateTimeType">
++        <xsd:simpleContent>
++            <xsd:extension base="xsd:dateTime">
++                <xsd:attributeGroup ref="atom:commonAttributes"/>
++
++            </xsd:extension>
++        </xsd:simpleContent>
++    </xsd:complexType>
++    <xsd:attributeGroup name="commonAttributes">
++        <xsd:attribute ref="xml:base"/>
++        <xsd:attribute ref="xml:lang"/>
++        <xsd:anyAttribute namespace="##other"/>
++    </xsd:attributeGroup>
++</xsd:schema>
+\ No newline at end of file
+diff --git a/data-model/src/main/resources/META-INF/xsd/atomBindings.xjb b/data-model/src/main/resources/META-INF/xsd/atomBindings.xjb
+new file mode 100644
+index 0000000..0123169
+--- /dev/null
++++ b/data-model/src/main/resources/META-INF/xsd/atomBindings.xjb
+@@ -0,0 +1,46 @@
++<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
++<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
++
++    <bindings scd="x-schema::tns" xmlns:tns="http://www.w3.org/2005/Atom">
++        <schemaBindings map="true"/>
++
++        <!--Bindings for classes-->
++        <bindings scd="~tns:categoryType">
++            <class ref="org.w3.atom.CategoryType"/>
++        </bindings>
++        <bindings scd="~tns:contentType">
++            <class ref="org.w3.atom.ContentType"/>
++        </bindings>
++        <bindings scd="~tns:dateTimeType">
++            <class ref="org.w3.atom.DateTimeType"/>
++        </bindings>
++        <bindings scd="~tns:entryType">
++            <class ref="org.w3.atom.Entry"/>
++        </bindings>
++        <bindings scd="~tns:feedType">
++            <class ref="org.w3.atom.Feed"/>
++        </bindings>
++        <bindings scd="~tns:generatorType">
++            <class ref="org.w3.atom.GeneratorType"/>
++        </bindings>
++        <bindings scd="~tns:iconType">
++            <class ref="org.w3.atom.IconType"/>
++        </bindings>
++        <bindings scd="~tns:idType">
++            <class ref="org.w3.atom.IdType"/>
++        </bindings>
++        <bindings scd="~tns:linkType">
++            <class ref="org.w3.atom.Link"/>
++        </bindings>
++        <bindings scd="~tns:logoType">
++            <class ref="org.w3.atom.LogoType"/>
++        </bindings>
++        <bindings scd="~tns:textType">
++            <class ref="org.w3.atom.TextType"/>
++        </bindings>
++        <bindings scd="~tns:uriType">
++            <class ref="org.w3.atom.UriType"/>
++        </bindings>
++    </bindings>
++</bindings>
++
+

@@ -1,0 +1,8 @@
+diff --git a/activemq-jdbc-store/src/main/java/org/apache/activemq/store/jdbc/adapter/DefaultJDBCAdapter.java b/activemq-jdbc-store/src/main/java/org/apache/activemq/store/jdbc/adapter/DefaultJDBCAdapter.java
+index 58e047d..af230a8 100755
+--- a/activemq-jdbc-store/src/main/java/org/apache/activemq/store/jdbc/adapter/DefaultJDBCAdapter.java
++++ b/activemq-jdbc-store/src/main/java/org/apache/activemq/store/jdbc/adapter/DefaultJDBCAdapter.java
+@@ -1038 +1038 @@
+-            s.setMaxRows(Math.max(maxReturned * 2, maxRows));
++            s.setMaxRows(Math.min(maxReturned * 2, maxRows));
+

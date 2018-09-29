@@ -1,0 +1,26 @@
+diff --git a/intermine/model/xmlschematest/xmlschematest.xsd b/intermine/model/xmlschematest/xmlschematest.xsd
+index 6f7cd8d..d9b1539 100644
+--- a/intermine/model/xmlschematest/xmlschematest.xsd
++++ b/intermine/model/xmlschematest/xmlschematest.xsd
+@@ -2 +2 @@
+-<xs:schema targetNamespace="http://www.intermine.org/model/xmlschematest#" xmlns="org:flymine:model:test" xmlns:xs="http://www.w3.org/2001/XMLSchema">
++<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+diff --git a/intermine/src/java/org/intermine/modelproduction/xmlschema/XmlSchemaParser.java b/intermine/src/java/org/intermine/modelproduction/xmlschema/XmlSchemaParser.java
+index 502df1d..c48eedc 100644
+--- a/intermine/src/java/org/intermine/modelproduction/xmlschema/XmlSchemaParser.java
++++ b/intermine/src/java/org/intermine/modelproduction/xmlschema/XmlSchemaParser.java
+@@ -123,0 +124 @@
++     * @param nameSpace namespace of the target model
+diff --git a/intermine/src/test/org/intermine/modelproduction/xmlschema/XmlSchemaParserFunctionalTest.java b/intermine/src/test/org/intermine/modelproduction/xmlschema/XmlSchemaParserFunctionalTest.java
+index ff49e69..0221e26 100644
+--- a/intermine/src/test/org/intermine/modelproduction/xmlschema/XmlSchemaParserFunctionalTest.java
++++ b/intermine/src/test/org/intermine/modelproduction/xmlschema/XmlSchemaParserFunctionalTest.java
+@@ -30,0 +31 @@
++    private static final String TGT_NS = "http://www.intermine.org/model/xmlschematest#";
+@@ -41 +42 @@
+-        ModelParser parser2 = new XmlSchemaParser(MODEL, PKG);
++        ModelParser parser2 = new XmlSchemaParser(MODEL, PKG, TGT_NS);
+@@ -49 +50 @@
+-        ModelParser parser = new XmlSchemaParser(MODEL, PKG);
++        ModelParser parser = new XmlSchemaParser(MODEL, PKG, TGT_NS);
+

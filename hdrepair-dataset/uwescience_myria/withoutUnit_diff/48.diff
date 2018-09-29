@@ -1,0 +1,431 @@
+diff --git a/jsonQueries/broadcastJoin_shumo/plan_fragment.py b/jsonQueries/broadcastJoin_shumo/plan_fragment.py
+index fd0e04b..884b629 100755
+--- a/jsonQueries/broadcastJoin_shumo/plan_fragment.py
++++ b/jsonQueries/broadcastJoin_shumo/plan_fragment.py
+@@ -31 +31 @@
+-        "arg_child": "ScanR",
++        "argChild": "ScanR",
+@@ -64,2 +64,2 @@
+-        "arg_child1": "receive",
+-        "arg_child2": "ScanU",
++        "argChild1": "receive",
++        "argChild2": "ScanU",
+@@ -74 +74 @@
+-        "arg_child": "Join",
++        "argChild": "Join",
+@@ -118 +118 @@
+-        "arg_child": "Scan("+relation_name+")",
++        "argChild": "Scan("+relation_name+")",
+@@ -163,2 +163,2 @@
+-        "arg_child1": "Gather(R)",
+-            "arg_child2": "Gather(S)",
++        "argChild1": "Gather(R)",
++            "argChild2": "Gather(S)",
+@@ -181 +181 @@
+-        "arg_child": "Join",
++        "argChild": "Join",
+@@ -232 +232 @@
+-        "arg_child": "ScanR",
++        "argChild": "ScanR",
+@@ -250 +250 @@
+-        "arg_child": "Gather",
++        "argChild": "Gather",
+diff --git a/jsonQueries/multiwayJoin_shumo/plan_fragment.py b/jsonQueries/multiwayJoin_shumo/plan_fragment.py
+index 95827f2..7dc0a10 100755
+--- a/jsonQueries/multiwayJoin_shumo/plan_fragment.py
++++ b/jsonQueries/multiwayJoin_shumo/plan_fragment.py
+@@ -27 +27 @@
+-        "arg_child" : "Scan(R)",
++        "argChild" : "Scan(R)",
+@@ -50 +50 @@
+-        "arg_child" : "Scan(S)",
++        "argChild" : "Scan(S)",
+@@ -83,2 +83,2 @@
+-        "arg_child1" : "GatherR",
+-        "arg_child2" : "GatherS",
++        "argChild1" : "GatherR",
++        "argChild2" : "GatherS",
+@@ -91 +91 @@
+-        "arg_child": "Join",
++        "argChild": "Join",
+@@ -118 +118 @@
+-        "arg_child": "CollectResult",
++        "argChild": "CollectResult",
+@@ -152 +152 @@
+-        "arg_child" : "Scan(R)",
++        "argChild" : "Scan(R)",
+@@ -176 +176 @@
+-        "arg_child" : "Scan(S)",
++        "argChild" : "Scan(S)",
+@@ -211,2 +211,2 @@
+-        "arg_child1" : "GatherR",
+-        "arg_child2" : "GatherS",
++        "argChild1" : "GatherR",
++        "argChild2" : "GatherS",
+@@ -219 +219 @@
+-        "arg_child": "Join",
++        "argChild": "Join",
+@@ -246 +246 @@
+-        "arg_child": "CollectResult",
++        "argChild": "CollectResult",
+diff --git a/jsonQueries/multiwayJoin_shumo/twitterTriangleJoinSystemTest.json b/jsonQueries/multiwayJoin_shumo/twitterTriangleJoinSystemTest.json
+index dbef793..3181a6d 100644
+--- a/jsonQueries/multiwayJoin_shumo/twitterTriangleJoinSystemTest.json
++++ b/jsonQueries/multiwayJoin_shumo/twitterTriangleJoinSystemTest.json
+@@ -6,6 +6,6 @@
+-                    "op_name":"Scan(R)",
+-                    "op_type":"TableScan",
+-                    "relation_key":{
+-                        "program_name":"triangleJoin",
+-                        "relation_name":"twitterR",
+-                        "user_name":"test"
++                    "opName":"Scan(R)",
++                    "opType":"TableScan",
++                    "relationKey":{
++                        "programName":"triangleJoin",
++                        "relationName":"twitterR",
++                        "userName":"test"
+@@ -15,6 +15,6 @@
+-                    "op_name":"Scan(S)",
+-                    "op_type":"TableScan",
+-                    "relation_key":{
+-                        "program_name":"triangleJoin",
+-                        "relation_name":"twitterS",
+-                        "user_name":"test"
++                    "opName":"Scan(S)",
++                    "opType":"TableScan",
++                    "relationKey":{
++                        "programName":"triangleJoin",
++                        "relationName":"twitterS",
++                        "userName":"test"
+@@ -24,6 +24,6 @@
+-                    "op_name":"Scan(T)",
+-                    "op_type":"TableScan",
+-                    "relation_key":{
+-                        "program_name":"triangleJoin",
+-                        "relation_name":"twitterT",
+-                        "user_name":"test"
++                    "opName":"Scan(T)",
++                    "opType":"TableScan",
++                    "relationKey":{
++                        "programName":"triangleJoin",
++                        "relationName":"twitterT",
++                        "userName":"test"
+@@ -33,5 +33,5 @@
+-                    "op_name":"Order(R)",
+-                    "op_type":"InMemoryOrderBy",
+-                    "arg_child": "Scan(R)",
+-                    "arg_sort_columns": [0,1],
+-                    "arg_ascending": [true, true]
++                    "opName":"Order(R)",
++                    "opType":"InMemoryOrderBy",
++                    "argChild": "Scan(R)",
++                    "argSortColumns": [0,1],
++                    "argAscending": [true, true]
+@@ -40,5 +40,5 @@
+-                    "op_name":"Order(S)",
+-                    "op_type":"InMemoryOrderBy",
+-                    "arg_child": "Scan(S)",
+-                    "arg_sort_columns": [0,1],
+-                    "arg_ascending": [true, true]
++                    "opName":"Order(S)",
++                    "opType":"InMemoryOrderBy",
++                    "argChild": "Scan(S)",
++                    "argSortColumns": [0,1],
++                    "argAscending": [true, true]
+@@ -47,5 +47,5 @@
+-                    "op_name":"Order(T)",
+-                    "op_type":"InMemoryOrderBy",
+-                    "arg_child": "Scan(T)",
+-                    "arg_sort_columns": [0,1],
+-                    "arg_ascending": [true, true]
++                    "opName":"Order(T)",
++                    "opType":"InMemoryOrderBy",
++                    "argChild": "Scan(T)",
++                    "argSortColumns": [0,1],
++                    "argAscending": [true, true]
+@@ -54,6 +54,6 @@
+-                    "op_name":"Join",
+-                    "op_type":"LeapFrogJoin",
+-                    "arg_children": ["Order(R)", "Order(S)", "Order(T)"],
+-                    "arg_column_names": ["x","y","z"],
+-                    "join_field_mapping": [[[0,0],[2,0]],[[0,1],[1,0]],[[1,1],[2,1]]],
+-                    "output_field_mapping": [[0,0],[1,0],[1,1]]
++                    "opName":"Join",
++                    "opType":"LeapFrogJoin",
++                    "argChildren": ["Order(R)", "Order(S)", "Order(T)"],
++                    "argColumnNames": ["x","y","z"],
++                    "joinFieldMapping": [[[0,0],[2,0]],[[0,1],[1,0]],[[1,1],[2,1]]],
++                    "outputFieldMapping": [[0,0],[1,0],[1,1]]
+@@ -62,8 +62,8 @@
+-                    "arg_child":"Join",
+-                    "arg_overwrite_table":true,
+-                    "op_name":"insert_result",
+-                    "op_type":"DbInsert",
+-                    "relation_key":{
+-                        "program_name":"triangleJoin",
+-                        "relation_name":"result",
+-                        "user_name":"test"
++                    "argChild":"Join",
++                    "argOverwriteTable":true,
++                    "opName":"insert_result",
++                    "opType":"DbInsert",
++                    "relationKey":{
++                        "programName":"triangleJoin",
++                        "relationName":"result",
++                        "userName":"test"
+@@ -75,4 +75,4 @@
+-    "logical_ra":"local triangle ",
+-    "profiling_mode":true,
+-    "raw_datalog":"T(x,y,z) =: S(x,y), R(y,z), T(z,x)"
+-} 
+\ No newline at end of file
++    "logicalRa":"local triangle ",
++    "profilingMode":true,
++    "rawDatalog":"T(x,y,z) =: S(x,y), R(y,z), T(z,x)"
++} 
+diff --git a/jsonQueries/multiwayJoin_shumo/twoWayJoinSystemTest.json b/jsonQueries/multiwayJoin_shumo/twoWayJoinSystemTest.json
+index 720ea46..89af499 100644
+--- a/jsonQueries/multiwayJoin_shumo/twoWayJoinSystemTest.json
++++ b/jsonQueries/multiwayJoin_shumo/twoWayJoinSystemTest.json
+@@ -6,6 +6,6 @@
+-                    "op_name":"scan_r",
+-                    "op_type":"TableScan",
+-                    "relation_key":{
+-                        "program_name":"test",
+-                        "relation_name":"testtable1",
+-                        "user_name":"test"
++                    "opName":"scan_r",
++                    "opType":"TableScan",
++                    "relationKey":{
++                        "programName":"test",
++                        "relationName":"testtable1",
++                        "userName":"test"
+@@ -15,2 +15,2 @@
+-                    "arg_child":"scan_r",
+-                    "arg_pf":{
++                    "argChild":"scan_r",
++                    "argPf":{
+@@ -20,2 +20,2 @@
+-                    "op_name":"shuffle_r",
+-                    "op_type":"ShuffleProducer"
++                    "opName":"shuffle_r",
++                    "opType":"ShuffleProducer"
+@@ -28,6 +28,6 @@
+-                    "op_name":"scan_s",
+-                    "op_type":"TableScan",
+-                    "relation_key":{
+-                        "program_name":"test",
+-                        "relation_name":"testtable2",
+-                        "user_name":"test"
++                    "opName":"scan_s",
++                    "opType":"TableScan",
++                    "relationKey":{
++                        "programName":"test",
++                        "relationName":"testtable2",
++                        "userName":"test"
+@@ -37,2 +37,2 @@
+-                    "arg_child":"scan_s",
+-                    "arg_pf":{
++                    "argChild":"scan_s",
++                    "argPf":{
+@@ -42,2 +42,2 @@
+-                    "op_name":"shuffle_s",
+-                    "op_type":"ShuffleProducer"
++                    "opName":"shuffle_s",
++                    "opType":"ShuffleProducer"
+@@ -50,3 +50,3 @@
+-                    "arg_operator_id":"shuffle_r",
+-                    "op_name":"gather_r",
+-                    "op_type":"ShuffleConsumer"
++                    "argOperatorId":"shuffle_r",
++                    "opName":"gather_r",
++                    "opType":"ShuffleConsumer"
+@@ -55,5 +55,5 @@
+-                    "op_name":"order_r",
+-                    "op_type":"InMemoryOrderBy",
+-                    "arg_child": "gather_r",
+-                    "arg_sort_columns": [0,1],
+-                    "arg_ascending": [true,true]
++                    "opName":"order_r",
++                    "opType":"InMemoryOrderBy",
++                    "argChild": "gather_r",
++                    "argSortColumns": [0,1],
++                    "argAscending": [true,true]
+@@ -62,3 +62,3 @@
+-                    "arg_operator_id":"shuffle_s",
+-                    "op_name":"gather_s",
+-                    "op_type":"ShuffleConsumer"
++                    "argOperatorId":"shuffle_s",
++                    "opName":"gather_s",
++                    "opType":"ShuffleConsumer"
+@@ -67,5 +67,5 @@
+-                    "op_name":"order_s",
+-                    "op_type":"InMemoryOrderBy",
+-                    "arg_child": "gather_s",
+-                    "arg_sort_columns": [0,1],
+-                    "arg_ascending": [true,true]
++                    "opName":"order_s",
++                    "opType":"InMemoryOrderBy",
++                    "argChild": "gather_s",
++                    "argSortColumns": [0,1],
++                    "argAscending": [true,true]
+@@ -74,6 +74,6 @@
+-                    "op_name":"join",
+-                    "op_type":"LeapFrogJoin",
+-                    "arg_children": ["order_r","order_s"],
+-                    "arg_column_names": ["id1", "name1", "id2", "name2"],
+-                    "join_field_mapping": [[[0,0],[1,0]]],
+-                    "output_field_mapping": [[0,0],[0,1],[1,0],[1,1]]
++                    "opName":"join",
++                    "opType":"LeapFrogJoin",
++                    "argChildren": ["order_r","order_s"],
++                    "argColumnNames": ["id1", "name1", "id2", "name2"],
++                    "joinFieldMapping": [[[0,0],[1,0]]],
++                    "outputFieldMapping": [[0,0],[0,1],[1,0],[1,1]]
+@@ -82,8 +82,8 @@
+-                    "arg_child":"join",
+-                    "arg_overwrite_table":true,
+-                    "op_name":"insert_result",
+-                    "op_type":"DbInsert",
+-                    "relation_key":{
+-                        "program_name":"test",
+-                        "relation_name":"two_way_join_test",
+-                        "user_name":"test"
++                    "argChild":"join",
++                    "argOverwriteTable":true,
++                    "opName":"insert_result",
++                    "opType":"DbInsert",
++                    "relationKey":{
++                        "programName":"test",
++                        "relationName":"two_way_join_test",
++                        "userName":"test"
+@@ -95,4 +95,4 @@
+-    "logical_ra":"T(x,y,x,z) := S(x, y), R(y, z)",
+-    "profiling_mode":true,
+-    "raw_datalog":"T(x,y,x,z) := S(x, y), R(y, z)"
+-} 
+\ No newline at end of file
++    "logicalRa":"T(x,y,x,z) := S(x, y), R(y, z)",
++    "profilingMode":true,
++    "rawDatalog":"T(x,y,x,z) := S(x, y), R(y, z)"
++} 
+diff --git a/jsonQueries/sample_queries/plan_fragment.py b/jsonQueries/sample_queries/plan_fragment.py
+index 96f4cd3..407b410 100755
+--- a/jsonQueries/sample_queries/plan_fragment.py
++++ b/jsonQueries/sample_queries/plan_fragment.py
+@@ -22 +22 @@
+-        'arg_child' : 'Scan',
++        'argChild' : 'Scan',
+@@ -54 +54 @@
+-        'arg_child' : 'Scan',
++        'argChild' : 'Scan',
+@@ -73 +73 @@
+-        'arg_child' : 'Gather',
++        'argChild' : 'Gather',
+@@ -108 +108 @@
+-        'arg_child' : 'Scan0',
++        'argChild' : 'Scan0',
+@@ -137 +137 @@
+-        'arg_child' : 'Scan1',
++        'argChild' : 'Scan1',
+@@ -157,2 +157,2 @@
+-        'arg_child1' : 'Gather1',
+-        'arg_child2' : 'Gather0',
++        'argChild1' : 'Gather1',
++        'argChild2' : 'Gather0',
+@@ -167 +167 @@
+-        'arg_child' : 'Join',
++        'argChild' : 'Join',
+@@ -219 +219 @@
+-        'arg_child' : 'Scan',
++        'argChild' : 'Scan',
+@@ -238 +238 @@
+-        'arg_child' : 'Gather',
++        'argChild' : 'Gather',
+@@ -269 +269 @@
+-        'arg_child' : 'Scan',
++        'argChild' : 'Scan',
+@@ -289 +289 @@
+-        'arg_child' : 'Gather',
++        'argChild' : 'Gather',
+diff --git a/jsonQueries/scalability_valmeida/create_deployment.py b/jsonQueries/scalability_valmeida/create_deployment.py
+index f4bcc5b..fb0213c 100644
+--- a/jsonQueries/scalability_valmeida/create_deployment.py
++++ b/jsonQueries/scalability_valmeida/create_deployment.py
+@@ -229 +229 @@
+-      "arg_child": "SCAN1",
++      "argChild": "SCAN1",
+@@ -252 +252 @@
+-      "arg_child": "SCAN2",
++      "argChild": "SCAN2",
+@@ -288,2 +288,2 @@
+-      "arg_child1": "SC1",
+-      "arg_child2": "SC2",
++      "argChild1": "SC1",
++      "argChild2": "SC2",
+@@ -307 +307 @@
+-      "arg_child": "JOIN",
++      "argChild": "JOIN",
+diff --git a/src/edu/washington/escience/myria/MyriaConstants.java b/src/edu/washington/escience/myria/MyriaConstants.java
+index 3c3b697..887c0be 100644
+--- a/src/edu/washington/escience/myria/MyriaConstants.java
++++ b/src/edu/washington/escience/myria/MyriaConstants.java
+@@ -63 +63 @@
+-  public static final String EXEC_ENV_VAR_QUERY_ID = "query_id";
++  public static final String EXEC_ENV_VAR_QUERY_ID = "queryId";
+diff --git a/visualization/json_query_plan/convert_json_to_gv.py b/visualization/json_query_plan/convert_json_to_gv.py
+index 1165143..4a31bf4 100755
+--- a/visualization/json_query_plan/convert_json_to_gv.py
++++ b/visualization/json_query_plan/convert_json_to_gv.py
+@@ -11,2 +11,2 @@
+-children['CollectProducer'] = ['arg_child']
+-children['EOSController'] = ['arg_child']
++children['CollectProducer'] = ['argChild']
++children['EOSController'] = ['argChild']
+@@ -14,22 +14,22 @@
+-children['RightHashJoin'] = ['arg_child1', 'arg_child2']
+-children['RightHashCountingJoin'] = ['arg_child1', 'arg_child2']
+-children['SymmetricHashJoin'] = ['arg_child1', 'arg_child2']
+-children['LocalMultiwayProducer'] = ['arg_child']
+-children['MultiGroupByAggregate'] = ['arg_child']
+-children['SingleGroupByAggregate'] = ['arg_child']
+-children['ShuffleProducer'] = ['arg_child']
+-children['DbInsert'] = ['arg_child']
+-children['Aggregate'] = ['arg_child']
+-children['Apply'] = ['arg_child']
+-children['Filter'] = ['arg_child']
+-children['UnionAll'] = ['arg_children']
+-children['Merge'] = ['arg_children']
+-children['LeapFrogJoin'] = ['arg_children']
+-children['ColumnSelect'] = ['arg_child']
+-children['SymmetricHashCountingJoin'] = ['arg_child1', 'arg_child2']
+-children['BroadcastProducer'] = ['arg_child']
+-children['HyperShuffleProducer'] = ['arg_child']
+-children['InMemoryOrderBy'] = ['arg_child']
+-children['SinkRoot'] = ['arg_child']
+-children['DupElim'] = ['arg_child']
+-children['Rename'] = ['arg_child']
++children['RightHashJoin'] = ['argChild1', 'argChild2']
++children['RightHashCountingJoin'] = ['argChild1', 'argChild2']
++children['SymmetricHashJoin'] = ['argChild1', 'argChild2']
++children['LocalMultiwayProducer'] = ['argChild']
++children['MultiGroupByAggregate'] = ['argChild']
++children['SingleGroupByAggregate'] = ['argChild']
++children['ShuffleProducer'] = ['argChild']
++children['DbInsert'] = ['argChild']
++children['Aggregate'] = ['argChild']
++children['Apply'] = ['argChild']
++children['Filter'] = ['argChild']
++children['UnionAll'] = ['argChildren']
++children['Merge'] = ['argChildren']
++children['LeapFrogJoin'] = ['argChildren']
++children['ColumnSelect'] = ['argChild']
++children['SymmetricHashCountingJoin'] = ['argChild1', 'argChild2']
++children['BroadcastProducer'] = ['argChild']
++children['HyperShuffleProducer'] = ['argChild']
++children['InMemoryOrderBy'] = ['argChild']
++children['SinkRoot'] = ['argChild']
++children['DupElim'] = ['argChild']
++children['Rename'] = ['argChild']
+

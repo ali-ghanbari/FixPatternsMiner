@@ -1,0 +1,31 @@
+diff --git a/cougar-framework/jetty-transport/src/main/java/com/betfair/cougar/transport/impl/protocol/http/jsonrpc/JsonRpcTransportCommandProcessor.java b/cougar-framework/jetty-transport/src/main/java/com/betfair/cougar/transport/impl/protocol/http/jsonrpc/JsonRpcTransportCommandProcessor.java
+index c590bc3..d400941 100644
+--- a/cougar-framework/jetty-transport/src/main/java/com/betfair/cougar/transport/impl/protocol/http/jsonrpc/JsonRpcTransportCommandProcessor.java
++++ b/cougar-framework/jetty-transport/src/main/java/com/betfair/cougar/transport/impl/protocol/http/jsonrpc/JsonRpcTransportCommandProcessor.java
+@@ -216 +216 @@
+-                                if (e instanceof IllegalArgumentException && e.getCause()!=null && e.getCause().getCause()!=null && e.getCause().getCause() instanceof EnumDerialisationException) {
++                                if (e instanceof IllegalArgumentException && e.getCause() != null && (e.getCause().getCause()==null || e.getCause().getCause() instanceof EnumDerialisationException)) {
+diff --git a/cougar-test/cougar-normal-code-tests/src/test/java/com/betfair/cougar/tests/updatedcomponenttests/standardvalidation/rpc/RPCENUMParamIncorrectDataTypeTest.java b/cougar-test/cougar-normal-code-tests/src/test/java/com/betfair/cougar/tests/updatedcomponenttests/standardvalidation/rpc/RPCENUMParamIncorrectDataTypeTest.java
+index b86a49a..37eb45c 100644
+--- a/cougar-test/cougar-normal-code-tests/src/test/java/com/betfair/cougar/tests/updatedcomponenttests/standardvalidation/rpc/RPCENUMParamIncorrectDataTypeTest.java
++++ b/cougar-test/cougar-normal-code-tests/src/test/java/com/betfair/cougar/tests/updatedcomponenttests/standardvalidation/rpc/RPCENUMParamIncorrectDataTypeTest.java
+@@ -47 +47 @@
+-        
++
+@@ -53 +53 @@
+-        
++
+@@ -87,3 +87,3 @@
+-        AssertionUtils.multiAssertEquals("{\"id\":\"Incorrect Header param\",\"error\":{\"message\":\"DSC-0018\",\"code\":-32602},\"jsonrpc\":\"2.0\"}", map6.get("responseIncorrect Header param"));
+-        AssertionUtils.multiAssertEquals("{\"id\":\"Incorrect Query param\",\"error\":{\"message\":\"DSC-0018\",\"code\":-32602},\"jsonrpc\":\"2.0\"}", map6.get("responseIncorrect Query param"));
+-        AssertionUtils.multiAssertEquals("{\"id\":\"Incorrect Body param\",\"error\":{\"message\":\"DSC-0018\",\"code\":-32602},\"jsonrpc\":\"2.0\"}", map6.get("responseIncorrect Body param"));
++        AssertionUtils.multiAssertEquals("{\"id\":\"Incorrect Header param\",\"error\":{\"message\":\"DSC-0044\",\"code\":-32602},\"jsonrpc\":\"2.0\"}", map6.get("responseIncorrect Header param"));
++        AssertionUtils.multiAssertEquals("{\"id\":\"Incorrect Query param\",\"error\":{\"message\":\"DSC-0044\",\"code\":-32602},\"jsonrpc\":\"2.0\"}", map6.get("responseIncorrect Query param"));
++        AssertionUtils.multiAssertEquals("{\"id\":\"Incorrect Body param\",\"error\":{\"message\":\"DSC-0044\",\"code\":-32602},\"jsonrpc\":\"2.0\"}", map6.get("responseIncorrect Body param"));
+@@ -95 +95 @@
+-        
++
+@@ -97 +97 @@
+-        
++
+

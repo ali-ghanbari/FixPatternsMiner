@@ -1,0 +1,9 @@
+diff --git a/src/soot/jimple/spark/ondemand/pautil/ContextSensitiveInfo.java b/src/soot/jimple/spark/ondemand/pautil/ContextSensitiveInfo.java
+index b6eccb6..fad5e48 100644
+--- a/src/soot/jimple/spark/ondemand/pautil/ContextSensitiveInfo.java
++++ b/src/soot/jimple/spark/ondemand/pautil/ContextSensitiveInfo.java
+@@ -202,0 +203,3 @@
++                //for reflective calls, the "O1" value can actually be a FieldRefNode
++                //we simply ignore such cases here (appears to be sound)
++                if(!(callAssign.getO1() instanceof VarNode)) continue;
+

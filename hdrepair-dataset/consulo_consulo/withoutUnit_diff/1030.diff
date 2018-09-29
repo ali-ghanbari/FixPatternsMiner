@@ -1,0 +1,8 @@
+diff --git a/plugins/junit/src/com/intellij/execution/junit/JUnitConfiguration.java b/plugins/junit/src/com/intellij/execution/junit/JUnitConfiguration.java
+index b731de0..8d9f534 100644
+--- a/plugins/junit/src/com/intellij/execution/junit/JUnitConfiguration.java
++++ b/plugins/junit/src/com/intellij/execution/junit/JUnitConfiguration.java
+@@ -203 +203 @@
+-    return data.TEST_OBJECT != TEST_PACKAGE ? null : data.getPackageName();
++    return !Comparing.strEqual(data.TEST_OBJECT, TEST_PACKAGE) ? null : data.getPackageName();
+

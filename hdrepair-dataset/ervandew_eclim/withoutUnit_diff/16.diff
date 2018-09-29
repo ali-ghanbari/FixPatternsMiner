@@ -1,0 +1,68 @@
+diff --git a/org.eclim.jdt/java/org/eclim/plugin/jdt/command/delegate/DelegateCommand.java b/org.eclim.jdt/java/org/eclim/plugin/jdt/command/delegate/DelegateCommand.java
+index de8763b..23d354b 100644
+--- a/org.eclim.jdt/java/org/eclim/plugin/jdt/command/delegate/DelegateCommand.java
++++ b/org.eclim.jdt/java/org/eclim/plugin/jdt/command/delegate/DelegateCommand.java
+@@ -217,0 +218 @@
++    values.put("constructor", Boolean.FALSE);
+diff --git a/org.eclim.jdt/resources/templates/getter.gst b/org.eclim.jdt/resources/templates/getter.gst
+index 0a6aa82..8665890 100644
+--- a/org.eclim.jdt/resources/templates/getter.gst
++++ b/org.eclim.jdt/resources/templates/getter.gst
+@@ -0,0 +1 @@
++<% if (!overrides && !implementof) { %>
+@@ -2,4 +2,0 @@
+-<% if (overrides || implementof) { %>
+- * {@inheritDoc}
+- * @see ${superType}#${methodSignature}
+-<% } else { %>
+@@ -16 +12,0 @@
+-<% } %>
+@@ -18 +14,7 @@
+-<% if (org_eclipse_jdt_core_compiler_source == "1.5" && overrides) { %>
++<% } else if (org_eclipse_jdt_core_compiler_source < "1.5") { %>
++/**
++ * {@inheritDoc}
++ * @see ${superType}#${methodSignature}
++ */
++<% } %>
++<% if (org_eclipse_jdt_core_compiler_source >= "1.5" && (overrides || implementof)) { %>
+diff --git a/org.eclim.jdt/resources/templates/method.gst b/org.eclim.jdt/resources/templates/method.gst
+index 3284442..4f4a7c5 100644
+--- a/org.eclim.jdt/resources/templates/method.gst
++++ b/org.eclim.jdt/resources/templates/method.gst
+@@ -1 +1,11 @@
+-<% if (((org_eclipse_jdt_core_compiler_source > "1.5" && implementof) || overrides) && !constructor) { %>
++<% if (delegate){ %>
++/**
++ * @see ${superType}#${methodSignature}
++ */
++<% } else if (org_eclipse_jdt_core_compiler_source < "1.5" && (overrides || implementof)) { %>
++/**
++ * {@inheritDoc}
++ * @see ${superType}#${methodSignature}
++ */
++<% } %>
++<% if (org_eclipse_jdt_core_compiler_source >= "1.5" && (overrides || implementof) && !constructor && !delegate) { %>
+diff --git a/org.eclim.jdt/resources/templates/setter.gst b/org.eclim.jdt/resources/templates/setter.gst
+index 65f1ff9..99df4a0 100644
+--- a/org.eclim.jdt/resources/templates/setter.gst
++++ b/org.eclim.jdt/resources/templates/setter.gst
+@@ -0,0 +1 @@
++<% if (!overrides && !implementof) { %>
+@@ -2,4 +2,0 @@
+-<% if (overrides || implementof) { %>
+- * {@inheritDoc}
+- * @see ${superType}#${methodSignature}
+-<% } else { %>
+@@ -16 +12,0 @@
+-<% } %>
+@@ -18 +14,7 @@
+-<% if (org_eclipse_jdt_core_compiler_source == "1.5" && overrides) { %>
++<% } else if (org_eclipse_jdt_core_compiler_source < "1.5") { %>
++/**
++ * {@inheritDoc}
++ * @see ${superType}#${methodSignature}
++ */
++<% } %>
++<% if (org_eclipse_jdt_core_compiler_source >= "1.5" && (overrides || implementof)) { %>
+

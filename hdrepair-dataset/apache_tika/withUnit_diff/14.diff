@@ -1,0 +1,28 @@
+diff --git a/tika-parsers/pom.xml b/tika-parsers/pom.xml
+index 8950c49..8d9e6f2 100644
+--- a/tika-parsers/pom.xml
++++ b/tika-parsers/pom.xml
+@@ -44,3 +44,3 @@
+-      <id>maven2-repository.dev.java.net</id>
+-      <name>Java.net Repository for Maven</name>
+-      <url>http://download.java.net/maven/2/</url>
++      <id>maven2-repository.googlecode.com</id>
++      <name>GoogleCode Repository for Maven</name>
++      <url>http://boilerpipe.googlecode.com/svn/repo/</url>
+@@ -138 +138 @@
+-      <version>1.0.4</version>
++      <version>1.1.0</version>
+diff --git a/tika-parsers/src/main/java/org/apache/tika/parser/html/BoilerpipeContentHandler.java b/tika-parsers/src/main/java/org/apache/tika/parser/html/BoilerpipeContentHandler.java
+index 8d57e6c..2166883 100644
+--- a/tika-parsers/src/main/java/org/apache/tika/parser/html/BoilerpipeContentHandler.java
++++ b/tika-parsers/src/main/java/org/apache/tika/parser/html/BoilerpipeContentHandler.java
+@@ -112,0 +113 @@
++            delegate.ignorableWhitespace(NL, 0, NL.length);
+diff --git a/tika-parsers/src/test/java/org/apache/tika/parser/html/HtmlParserTest.java b/tika-parsers/src/test/java/org/apache/tika/parser/html/HtmlParserTest.java
+index c34601b..2ec3cec 100644
+--- a/tika-parsers/src/test/java/org/apache/tika/parser/html/HtmlParserTest.java
++++ b/tika-parsers/src/test/java/org/apache/tika/parser/html/HtmlParserTest.java
+@@ -403 +403 @@
+-        assertTrue(content.startsWith("This is the real meat"));
++        assertTrue(content.startsWith("Title\nThis is the real meat"));
+

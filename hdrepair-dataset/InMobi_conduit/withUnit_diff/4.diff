@@ -1,0 +1,21 @@
+diff --git a/conduit-worker/src/main/java/com/inmobi/conduit/Conduit.java b/conduit-worker/src/main/java/com/inmobi/conduit/Conduit.java
+index 8f3e6ed..d286006 100644
+--- a/conduit-worker/src/main/java/com/inmobi/conduit/Conduit.java
++++ b/conduit-worker/src/main/java/com/inmobi/conduit/Conduit.java
+@@ -268 +268 @@
+-        service.prepareLastAddedPartitionMap();
++        ((AbstractService) service).prepareLastAddedPartitionMap();
+diff --git a/conduit-worker/src/test/java/com/inmobi/conduit/ConduitTest.java b/conduit-worker/src/test/java/com/inmobi/conduit/ConduitTest.java
+index 293d907..6ed0ce4 100644
+--- a/conduit-worker/src/test/java/com/inmobi/conduit/ConduitTest.java
++++ b/conduit-worker/src/test/java/com/inmobi/conduit/ConduitTest.java
+@@ -53 +53 @@
+-          streamsToProcess);
++          streamsToProcess, null);
+@@ -63 +63 @@
+-          currentCluster, streamsToProcess);
++          currentCluster, streamsToProcess, null);
+@@ -72 +72 @@
+-          currentCluster, streamsToProcess);
++          currentCluster, streamsToProcess, null);
+

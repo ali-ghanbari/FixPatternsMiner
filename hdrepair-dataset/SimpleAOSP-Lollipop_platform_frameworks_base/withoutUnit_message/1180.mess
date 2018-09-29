@@ -1,0 +1,10 @@
+possibly fix [2265804] OpenGL GLSurfaceView apps don't draw status bar drop shadow correctly
+
+request a layout when asking the transparent region to be recomputed, without this
+it may never happen, since the transparent region is only calculated during layout.
+
+this also fixes an issue where some fullscreen apps will run slower than expected
+because their transparent region is never processed.
+
+Change-Id: Iba187ef7b23f08ad3454aaa6707a3d262551e30c
+

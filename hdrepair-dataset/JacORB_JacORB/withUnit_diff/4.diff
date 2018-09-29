@@ -1,0 +1,60 @@
+diff --git a/doc/REL_NOTES b/doc/REL_NOTES
+index f4fd5e5..46b20b0 100644
+--- a/doc/REL_NOTES
++++ b/doc/REL_NOTES
+@@ -146,0 +147 @@
++        - Fix typecode for typedef'd array (Bugzilla #703).
+diff --git a/src/org/jacorb/idl/AliasTypeSpec.java b/src/org/jacorb/idl/AliasTypeSpec.java
+index 2e48a19..f866fe3 100644
+--- a/src/org/jacorb/idl/AliasTypeSpec.java
++++ b/src/org/jacorb/idl/AliasTypeSpec.java
+@@ -250,0 +251 @@
++                    !(originalType.typeSpec() instanceof ArrayTypeSpec) &&
+diff --git a/test/regression/idl/bug703.idl b/test/regression/idl/bug703.idl
+new file mode 100644
+index 0000000..b9cca8a
+--- /dev/null
++++ b/test/regression/idl/bug703.idl
+@@ -0,0 +1,21 @@
++module org
++{
++    module jacorb
++    {
++        module test
++        {
++            module bugs
++            {
++                module bug703
++                {
++                    typedef octet ID[16];
++
++                    struct Node
++                    {
++                        ID uuid;
++                    };
++                };
++            };
++        };
++    };
++};
+diff --git a/test/regression/src/org/jacorb/test/bugs/bug703/Bug703Test.java b/test/regression/src/org/jacorb/test/bugs/bug703/Bug703Test.java
+new file mode 100644
+index 0000000..6c124cc
+--- /dev/null
++++ b/test/regression/src/org/jacorb/test/bugs/bug703/Bug703Test.java
+@@ -0,0 +1,14 @@
++package org.jacorb.test.bugs.bug703;
++
++import org.omg.CORBA.TCKind;
++
++import junit.framework.Assert;
++import junit.framework.TestCase;
++
++public class Bug703Test extends TestCase
++{
++    public void testOctetTypeCode()
++    {
++        Assert.assertEquals(TCKind._tk_alias, IDHelper.type().kind().value());
++    }
++}
+

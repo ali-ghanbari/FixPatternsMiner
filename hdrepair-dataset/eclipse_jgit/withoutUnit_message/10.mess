@@ -1,0 +1,13 @@
+Fix DirCache.isModified()
+
+Change I61a1b45db2d60fdcc0f87373ac6fd75ac4c4a202 fixed a possible NPE
+occurring for newly created repositories - but in that case a wrong
+value (false = not modified) was returned.
+
+If a current version of the index file exists (liveFile), but there is
+no snapshot, this means that there have been modifications (i.e. true
+has to be returned).
+
+Change-Id: I698f78112249f9924860fc58eb7eab7afdf87eb7
+Signed-off-by: Philipp Thun <philipp.thun@sap.com>
+

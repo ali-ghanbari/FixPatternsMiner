@@ -1,0 +1,56 @@
+diff --git a/java/code/src/com/redhat/rhn/frontend/action/channel/manage/repo/RepoDetailsAction.java b/java/code/src/com/redhat/rhn/frontend/action/channel/manage/repo/RepoDetailsAction.java
+index cecd40d..4366217 100644
+--- a/java/code/src/com/redhat/rhn/frontend/action/channel/manage/repo/RepoDetailsAction.java
++++ b/java/code/src/com/redhat/rhn/frontend/action/channel/manage/repo/RepoDetailsAction.java
+@@ -132 +131,0 @@
+-        request.setAttribute(ORG, repo.getOrg());
+diff --git a/java/code/src/com/redhat/rhn/frontend/strings/jsp/StringResource_en_US.xml b/java/code/src/com/redhat/rhn/frontend/strings/jsp/StringResource_en_US.xml
+index 1a998c5..e1f4fa3 100644
+--- a/java/code/src/com/redhat/rhn/frontend/strings/jsp/StringResource_en_US.xml
++++ b/java/code/src/com/redhat/rhn/frontend/strings/jsp/StringResource_en_US.xml
+@@ -9398,0 +9399,6 @@
++        <trans-unit id="toolbar.delete.repos">
++          <source>delete repository</source>
++          <context-group name="ctx">
++            <context context-type="sourcefile">/rhn/channel/manage/repo/RepoDetails.do</context>
++          </context-group>
++        </trans-unit>
+@@ -9415 +9421 @@
+-          <source>Create Repository</source>
++          <source>Update Repository</source>
+@@ -9420 +9426,3 @@
+-
++        <trans-unit id="repos.jsp.details.header2">
++          <source>Repository Details</source>
++        </trans-unit>
+diff --git a/java/code/webapp/WEB-INF/pages/channel/manage/repo/repodetails.jsp b/java/code/webapp/WEB-INF/pages/channel/manage/repo/repodetails.jsp
+index 1f81305..518b903 100644
+--- a/java/code/webapp/WEB-INF/pages/channel/manage/repo/repodetails.jsp
++++ b/java/code/webapp/WEB-INF/pages/channel/manage/repo/repodetails.jsp
+@@ -10,4 +10,4 @@
+-<rhn:toolbar base="h1" img="/img/rhn-icon-info.gif" imgAlt="info.alt.img">
+-  <bean:message key="repos.jsp.toolbar"/>
+-</rhn:toolbar>
+-<h2><bean:message key="repos.jsp.header2"/></h2>
++      <rhn:toolbar base="h1" img="/img/rhn-icon-info.gif" imgAlt="info.alt.img">
++        <bean:message key="repos.jsp.toolbar"/>
++      </rhn:toolbar>
++      <h2><bean:message key="repos.jsp.header2"/></h2>
+@@ -16,6 +16,6 @@
+-<rhn:toolbar base="h1" img="/img/rhn-icon-info.gif" imgAlt="info.alt.img"
+-		               deletionUrl="RepoDelete.do?label=${contentSourceForm.map.label}"
+-               deletionType="snippets">
+-	<c:out value="${requestScope.snippet.displayName}"/>
+-</rhn:toolbar>
+-<h2><bean:message key="snippetdetails.jsp.header2"/></h2>
++      <rhn:toolbar base="h1" img="/img/rhn-icon-info.gif" imgAlt="info.alt.img"
++		           deletionUrl="RepoDelete.do?id=${requestScope.repo.id}"
++                   deletionType="repos">
++	    <c:out value="${requestScope.repo.label}"/>
++      </rhn:toolbar>
++      <h2><bean:message key="repos.jsp.details.header2"/></h2>
+@@ -24 +23,0 @@
+-
+@@ -34 +32,0 @@
+-
+

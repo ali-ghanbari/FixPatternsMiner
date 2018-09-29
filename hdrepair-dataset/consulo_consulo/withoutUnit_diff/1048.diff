@@ -1,0 +1,8 @@
+diff --git a/java/java-impl/src/com/intellij/psi/impl/source/resolve/JavaResolveUtil.java b/java/java-impl/src/com/intellij/psi/impl/source/resolve/JavaResolveUtil.java
+index b3860c3..9e0948a 100644
+--- a/java/java-impl/src/com/intellij/psi/impl/source/resolve/JavaResolveUtil.java
++++ b/java/java-impl/src/com/intellij/psi/impl/source/resolve/JavaResolveUtil.java
+@@ -86 +86 @@
+-    PsiFile file = FileContextUtil.getContextFile(placeFile); //TODO: implementation method!!!!
++    PsiFile file = placeFile == null ? null : FileContextUtil.getContextFile(placeFile); //TODO: implementation method!!!!
+

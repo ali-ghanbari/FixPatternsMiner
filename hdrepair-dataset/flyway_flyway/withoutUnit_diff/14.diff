@@ -1,0 +1,8 @@
+diff --git a/flyway-core/src/main/java/com/googlecode/flyway/core/dbsupport/hsql/HsqlDbSupport.java b/flyway-core/src/main/java/com/googlecode/flyway/core/dbsupport/hsql/HsqlDbSupport.java
+index 470d32b..7dbdb6d 100644
+--- a/flyway-core/src/main/java/com/googlecode/flyway/core/dbsupport/hsql/HsqlDbSupport.java
++++ b/flyway-core/src/main/java/com/googlecode/flyway/core/dbsupport/hsql/HsqlDbSupport.java
+@@ -127 +127 @@
+-            jdbcTemplate.execute("select * from " + quote(schema) + "." + quote(table) + " for update");
++            jdbcTemplate.execute("select * from " + quote(schema, table) + " for update");
+

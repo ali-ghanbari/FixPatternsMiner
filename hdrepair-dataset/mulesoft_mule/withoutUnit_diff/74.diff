@@ -1,0 +1,246 @@
+diff --git a/tests/archetypes/RunArchetype.groovy b/tests/archetypes/RunArchetype.groovy
+index 3f4c748..e259b1d 100644
+--- a/tests/archetypes/RunArchetype.groovy
++++ b/tests/archetypes/RunArchetype.groovy
+@@ -35,5 +35 @@
+-//
+-// run Maven archetype
+-//
+-def cmdline = "-o ${localRepoArgument} "
+-
++// get Maven archetype name
+@@ -49 +44,0 @@
+-cmdline += archetype + project.version + ":create "
+@@ -51,6 +46,2 @@
+-if (project.properties.archetypeParams != null)
+-{
+-    cmdline += project.properties.archetypeParams
+-}
+-cmdline += " -DmuleVersion=" + project.version
+-cmdline += " -Dinteractive=false"
++// run archetype on build dir
++def cmdline = buildArchetypeCommand(archetype, 'create', project.properties.archetypeParams)
+@@ -58,0 +50,8 @@
++// if a pre-compilation archetype call has been configured, run it in the generated project
++def preCompileArchetypeGoal = project.properties.preCompileArchetypeGoal
++if (preCompileArchetypeGoal != null)
++{
++  cmdline = buildArchetypeCommand(archetype, preCompileArchetypeGoal, project.properties.preCompileArchetypeParams)
++  runMaven(cmdline, existingProjectDir)
++}
++
+@@ -60 +59 @@
+-// Do not run "mvn test" here since the generated source is not testable as is
++// do not run "mvn test" here since the generated source is not testable as is
+@@ -63,0 +63,13 @@
++def buildArchetypeCommand(String archetype, String goal, String archetypeParams)
++{
++  def cmdline = "-o ${localRepoArgument} "
++  cmdline += archetype + project.version + ":${goal} "
++  
++  if (archetypeParams != null)
++  {
++      cmdline += archetypeParams
++  }
++  cmdline += ' -DmuleVersion=' + project.version
++  cmdline += ' -Dinteractive=false'
++}
++
+@@ -66,5 +78,2 @@
+-    def maven = "mvn"
+-    if (SystemUtils.IS_OS_WINDOWS)
+-    {
+-        maven = "mvn.bat"
+-    }
++    def maven = SystemUtils.IS_OS_WINDOWS ? "mvn.bat" : "mvn"
++    
+@@ -73 +82,2 @@
+-    log.info("***** commandline: '" + commandline + "'")
++    log.info("***** directory: '${directory}'")
++    log.info("***** commandline: '${commandline}'")
+diff --git a/tests/archetypes/catalog-archetype/.gitignore b/tests/archetypes/catalog-archetype/.gitignore
+new file mode 100644
+index 0000000..11a805e
+--- /dev/null
++++ b/tests/archetypes/catalog-archetype/.gitignore
+@@ -0,0 +1,5 @@
++/target
++/*.iml
++/.classpath
++/.project
++/.settings
+diff --git a/tests/archetypes/catalog-archetype/pom.xml b/tests/archetypes/catalog-archetype/pom.xml
+new file mode 100644
+index 0000000..12022b8
+--- /dev/null
++++ b/tests/archetypes/catalog-archetype/pom.xml
+@@ -0,0 +1,43 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.mule.tests.archetypes</groupId>
++        <artifactId>mule-tests-archetypes</artifactId>
++        <version>3.1.0-SNAPSHOT</version>
++    </parent>
++    <groupId>org.mule.tests.archetypes</groupId>
++    <artifactId>configuration-pattern-archetype</artifactId>
++    <packaging>jar</packaging>
++    <name>Test for Mule Catalog Archetype</name>
++
++    <!-- the following properties are needed by the groovy script that we inherit from our parent pom -->
++    <properties>
++        <!-- this is the name of the directory that's created by the archetype -->
++        <outputDir>foo</outputDir>
++        <!-- this is the groupId:artifactId of the archetype that we want to invoke -->
++        <archetype>org.mule.tools:mule-catalog-archetype</archetype>
++        <!-- this string will be appended to the archetype's commandline when testing archetypeGoal -->
++        <archetypeParams>-DartifactId=foo -DhasCustomSchema=y</archetypeParams>
++        <!-- the following defines an optional goal and related params to run in the generated project dir before calling compile -->
++        <preCompileArchetypeGoal>new-pattern</preCompileArchetypeGoal>
++        <preCompileArchetypeParams>-DpatternTagName=foo-pattern -DpatternFQCN=org.mule.test.FooPattern -DpatternType=siso</preCompileArchetypeParams>
++    </properties>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.mule.tools</groupId>
++            <artifactId>mule-catalog-archetype</artifactId>
++            <version>${version}</version>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.codehaus.gmaven</groupId>
++                <artifactId>gmaven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++</project>
+diff --git a/tests/archetypes/configuration-pattern-archetype/pom.xml b/tests/archetypes/configuration-pattern-archetype/pom.xml
+deleted file mode 100644
+index 5f93e40..0000000
+--- a/tests/archetypes/configuration-pattern-archetype/pom.xml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-    <parent>
+-        <groupId>org.mule.tests.archetypes</groupId>
+-        <artifactId>mule-tests-archetypes</artifactId>
+-        <version>3.1.0-SNAPSHOT</version>
+-    </parent>
+-    <groupId>org.mule.tests.archetypes</groupId>
+-    <artifactId>example-archetype</artifactId>
+-    <packaging>jar</packaging>
+-    <name>Test for Mule Example Archetype</name>
+-
+-    <!-- the following properties are needed by the groovy script that we inherit from our parent pom -->
+-    <properties>
+-        <!-- this is the name of the directory that's crated by the archetype -->
+-        <outputDir>foo</outputDir>
+-        <!-- this is the groupId:artifactId of the archetype that we want to invoke -->
+-        <archetype>org.mule.tools:mule-configuration-pattern-archetype</archetype>
+-        <!-- this string will be appended to the archetype's commandline -->
+-        <archetypeParams>-DartifactId=foo -DpatternTagName=foo-pattern -DpatternFQCN=org.mule.test.FooPattern -DpatternType=mp</archetypeParams>
+-    </properties>
+-
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.mule.tools</groupId>
+-            <artifactId>mule-configuration-pattern-archetype</artifactId>
+-            <version>${version}</version>
+-        </dependency>
+-    </dependencies>
+-
+-    <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>org.codehaus.gmaven</groupId>
+-                <artifactId>gmaven-plugin</artifactId>
+-            </plugin>
+-        </plugins>
+-    </build>
+-</project>
+diff --git a/tests/archetypes/pom.xml b/tests/archetypes/pom.xml
+index 2f5f47c..56b4c93 100644
+--- a/tests/archetypes/pom.xml
++++ b/tests/archetypes/pom.xml
+@@ -15,2 +14,0 @@
+-        <!-- enable when MULE-5141 is resolved
+-        <module>configuration-pattern-archetype</module> -->
+@@ -20,0 +19 @@
++        <module>catalog-archetype</module>
+diff --git a/tools/mule-catalog-archetype/src/main/java/org/mule/tools/maven/archetype/ConfigurationPatternArchetypeMojo.java b/tools/mule-catalog-archetype/src/main/java/org/mule/tools/maven/archetype/ConfigurationPatternArchetypeMojo.java
+index 3386023..3a0b33f 100644
+--- a/tools/mule-catalog-archetype/src/main/java/org/mule/tools/maven/archetype/ConfigurationPatternArchetypeMojo.java
++++ b/tools/mule-catalog-archetype/src/main/java/org/mule/tools/maven/archetype/ConfigurationPatternArchetypeMojo.java
+@@ -56 +56 @@
+-     * @parameter expression="${archetypeArtifactId}" default-value="mule-configuration-pattern-archetype"
++     * @parameter expression="${archetypeArtifactId}" default-value="mule-catalog-archetype"
+diff --git a/tools/mule-catalog-archetype/src/main/resources/META-INF/archetype.xml b/tools/mule-catalog-archetype/src/main/resources/META-INF/archetype.xml
+index 50ffca6..5ac3979 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/META-INF/archetype.xml
++++ b/tools/mule-catalog-archetype/src/main/resources/META-INF/archetype.xml
+@@ -2 +2 @@
+-  <id>mule-configuration-pattern-archetype</id>
++  <id>mule-catalog-archetype</id>
+diff --git a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/Pattern.vm b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/Pattern.vm
+index 3a6f608..11139d3 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/Pattern.vm
++++ b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/Pattern.vm
+@@ -2 +2 @@
+- * Generated by the Mule Configuration Pattern Archetype. http://mule.mulesoft.org
++ * Generated by the Mule Catalog Archetype. http://mule.mulesoft.org
+@@ -16,0 +17 @@
++import org.mule.api.processor.MessageProcessorChainBuilder;
+@@ -20 +20,0 @@
+-import org.mule.processor.builder.InterceptingChainMessageProcessorBuilder;
+@@ -74 +74 @@
+-    protected void configureMessageProcessors(InterceptingChainMessageProcessorBuilder builder)
++    protected void configureMessageProcessors(MessageProcessorChainBuilder builder)
+diff --git a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/builder/PatternBuilder.vm b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/builder/PatternBuilder.vm
+index d07f7b8..b080ce2 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/builder/PatternBuilder.vm
++++ b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/builder/PatternBuilder.vm
+@@ -2 +2 @@
+- * Generated by the Mule Configuration Pattern Archetype. http://mule.mulesoft.org
++ * Generated by the Mule Catalog Archetype. http://mule.mulesoft.org
+diff --git a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternDefinitionParser.vm b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternDefinitionParser.vm
+index aaeb90f..452afd1 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternDefinitionParser.vm
++++ b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternDefinitionParser.vm
+@@ -2 +2 @@
+- * Generated by the Mule Configuration Pattern Archetype. http://mule.mulesoft.org
++ * Generated by the Mule Catalog Archetype. http://mule.mulesoft.org
+diff --git a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternFactoryBean.vm b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternFactoryBean.vm
+index a70ab93..0d563c8 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternFactoryBean.vm
++++ b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/main/java/config/PatternFactoryBean.vm
+@@ -2 +2 @@
+- * Generated by the Mule Configuration Pattern Archetype. http://mule.mulesoft.org
++ * Generated by the Mule Catalog Archetype. http://mule.mulesoft.org
+diff --git a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/PatternTestCase.vm b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/PatternTestCase.vm
+index 62d31f4..d90fcec 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/PatternTestCase.vm
++++ b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/PatternTestCase.vm
+@@ -2 +2 @@
+- * Generated by the Mule Configuration Pattern Archetype. http://mule.mulesoft.org
++ * Generated by the Mule Catalog Archetype. http://mule.mulesoft.org
+diff --git a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/builder/PatternBuilderTestCase.vm b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/builder/PatternBuilderTestCase.vm
+index 10ef1a2..db96a77 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/builder/PatternBuilderTestCase.vm
++++ b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/builder/PatternBuilderTestCase.vm
+@@ -2 +2 @@
+- * Generated by the Mule Configuration Pattern Archetype. http://mule.mulesoft.org
++ * Generated by the Mule Catalog Archetype. http://mule.mulesoft.org
+diff --git a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/config/PatternFunctionalTestCase.vm b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/config/PatternFunctionalTestCase.vm
+index ae51547..a033938 100644
+--- a/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/config/PatternFunctionalTestCase.vm
++++ b/tools/mule-catalog-archetype/src/main/resources/archetype-resources/src/test/java/config/PatternFunctionalTestCase.vm
+@@ -2 +2 @@
+- * Generated by the Mule Configuration Pattern Archetype. http://mule.mulesoft.org
++ * Generated by the Mule Catalog Archetype. http://mule.mulesoft.org
+

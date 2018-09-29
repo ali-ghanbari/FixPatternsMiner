@@ -1,0 +1,79 @@
+diff --git a/repose-aggregator/external/service-clients/auth/src/main/java/com/rackspace/auth/openstack/AuthenticationServiceClient.java b/repose-aggregator/external/service-clients/auth/src/main/java/com/rackspace/auth/openstack/AuthenticationServiceClient.java
+index 856ec4c..1b15830 100644
+--- a/repose-aggregator/external/service-clients/auth/src/main/java/com/rackspace/auth/openstack/AuthenticationServiceClient.java
++++ b/repose-aggregator/external/service-clients/auth/src/main/java/com/rackspace/auth/openstack/AuthenticationServiceClient.java
+@@ -154 +154 @@
+-                if (endpointListResponse.getStatusCode() == HttpStatusCode.ACCEPTED.intValue()) {
++                if (endpointListResponse.getStatusCode() == HttpStatusCode.OK.intValue()) {
+diff --git a/repose-aggregator/external/service-clients/auth/src/test/groovy/com/rackspace/auth/openstack/AuthenticationServiceClientGroovyTest.groovy b/repose-aggregator/external/service-clients/auth/src/test/groovy/com/rackspace/auth/openstack/AuthenticationServiceClientGroovyTest.groovy
+index 3162068..cb3a5a7 100644
+--- a/repose-aggregator/external/service-clients/auth/src/test/groovy/com/rackspace/auth/openstack/AuthenticationServiceClientGroovyTest.groovy
++++ b/repose-aggregator/external/service-clients/auth/src/test/groovy/com/rackspace/auth/openstack/AuthenticationServiceClientGroovyTest.groovy
+@@ -2 +1,0 @@
+-
+@@ -180,0 +180,45 @@
++    def "can get endpoints for a given user token"() {
++        given:
++        def admin = [user: "adminUser", password: "adminPass", tenant: "adminTenant", token: "adminToken"]
++        def userToValidate = [user: "normalUser", tenant: "normalTenant", token: "normalToken"]
++
++        def akkaServiceClient = Mock(AkkaServiceClient)
++        mockAdminTokenRequest(akkaServiceClient, admin)
++        mockUserEndpointRequest(akkaServiceClient, admin.token, userToValidate)
++
++        def client = createAuthenticationServiceClient(admin.user, admin.password, admin.tenant, akkaServiceClient)
++
++        when:
++        def response = client.getEndpointsForToken(userToValidate.token)
++
++        then:
++        response[0].id == 12345
++        response[0].publicURL == "http://foo.com"
++    }
++
++    def 'gets a new admin token if the current one is expired and gets the endpoint for the user'() {
++        given:
++        def admin = [user: "adminUser", password: "adminPass", tenant: "adminTenant", token: "adminToken"]
++        def userToValidate = [user: "normalUser", tenant: "normalTenant", token: "normalToken"]
++
++        def akkaServiceClient = Mock(AkkaServiceClient)
++        def adminAuthRequest = createAuthenticationRequest(admin.user, admin.password, admin.tenant)
++        akkaServiceClient.post("ADMIN_TOKEN", "http://some/uri/tokens", _, adminAuthRequest, MediaType.APPLICATION_XML_TYPE) >>>
++                [new ServiceClientResponse(200, new ByteArrayInputStream(createAuthenticateResponse(admin.user, admin.token).getBytes())),
++                 new ServiceClientResponse(200, new ByteArrayInputStream(createAuthenticateResponse(admin.user, "newAdminToken").getBytes())),]
++        mockUserEndpointRequest(akkaServiceClient, admin.token, userToValidate, 401)
++        mockUserEndpointRequest(akkaServiceClient, "newAdminToken", userToValidate, 200)
++
++        def client = createAuthenticationServiceClient(admin.user, admin.password, admin.tenant, akkaServiceClient)
++
++        when:
++        def response = client.getEndpointsForToken(userToValidate.token)
++
++        then:
++        AppenderForTesting.getMessages().find {
++            it =~ "Unable to get endpoints for user: 401 :admin token expired. Retrieving new admin token and retrying endpoints retrieval..."
++        }
++        response[0].id == 12345
++        response[0].publicURL == "http://foo.com"
++    }
++
+@@ -190,0 +235,7 @@
++    }
++
++    private void mockUserEndpointRequest(AkkaServiceClient akkaServiceClient, String adminToken, LinkedHashMap<String, String> userToValidate, int responseCode = 200, int timesCalled = 1) {
++        def authHeaders = ["Accept": MediaType.APPLICATION_XML, "X-Auth-Token": adminToken]
++        timesCalled * akkaServiceClient.get("ENDPOINTS${userToValidate.token}", "http://some/uri/tokens/${userToValidate.token}/endpoints", authHeaders) >>> (1..timesCalled).collect {
++            new ServiceClientResponse(responseCode, new ByteArrayInputStream(createEndpointResponse().getBytes()))
++        }
+@@ -212,0 +264,10 @@
++    private String createEndpointResponse() {
++        def endpointList = objectFactory.createEndpointList()
++        endpointList.getEndpoint().add(objectFactory.createEndpoint().with {
++            id = 12345
++            publicURL = new URL("http://foo.com")
++            it
++        })
++        jaxbEntityToXml.transform(objectFactory.createEndpoints(endpointList))
++    }
++
+

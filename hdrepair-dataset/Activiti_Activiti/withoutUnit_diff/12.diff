@@ -1,0 +1,62 @@
+diff --git a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/db/DbSqlSessionFactory.java b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/db/DbSqlSessionFactory.java
+index 0c5b664..f9889e8 100755
+--- a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/db/DbSqlSessionFactory.java
++++ b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/db/DbSqlSessionFactory.java
+@@ -103,0 +104 @@
++    addDatabaseSpecificStatement("oracle", "insertEventLogEntry", "insertEventLogEntry_oracle");
+diff --git a/modules/activiti-engine/src/main/resources/org/activiti/db/create/activiti.oracle.create.history.sql b/modules/activiti-engine/src/main/resources/org/activiti/db/create/activiti.oracle.create.history.sql
+index 79bc997..62a255d 100644
+--- a/modules/activiti-engine/src/main/resources/org/activiti/db/create/activiti.oracle.create.history.sql
++++ b/modules/activiti-engine/src/main/resources/org/activiti/db/create/activiti.oracle.create.history.sql
+@@ -154,9 +153,0 @@
+-CREATE OR REPLACE TRIGGER act_hi_evt_log_nr 
+-    BEFORE INSERT ON ACT_HI_EVT_LOG 
+-    FOR EACH ROW
+-BEGIN
+-  SELECT act_hi_evt_log_seq.NEXTVAL
+-  INTO   :new.LOG_NR_
+-  FROM   dual;
+-END;
+-
+diff --git a/modules/activiti-engine/src/main/resources/org/activiti/db/mapping/entity/EventLogEntry.xml b/modules/activiti-engine/src/main/resources/org/activiti/db/mapping/entity/EventLogEntry.xml
+index 4623a76..54f7aac 100644
+--- a/modules/activiti-engine/src/main/resources/org/activiti/db/mapping/entity/EventLogEntry.xml
++++ b/modules/activiti-engine/src/main/resources/org/activiti/db/mapping/entity/EventLogEntry.xml
+@@ -42,0 +43,18 @@
++  <insert id="insertEventLogEntry_oracle" parameterType="org.activiti.engine.impl.persistence.entity.EventLogEntryEntity">
++    insert into ${prefix}ACT_HI_EVT_LOG(LOG_NR_, TYPE_, PROC_DEF_ID_, PROC_INST_ID_, EXECUTION_ID_, TASK_ID_, TIME_STAMP_, USER_ID_, DATA_, LOCK_OWNER_, LOCK_TIME_, IS_PROCESSED_)
++    values (
++      act_hi_evt_log_seq.nextVal,
++      #{type, jdbcType=VARCHAR}, 
++      #{processDefinitionId, jdbcType=VARCHAR}, 
++      #{processInstanceId, jdbcType=VARCHAR},
++      #{executionId, jdbcType=VARCHAR},
++      #{taskId, jdbcType=VARCHAR},   
++      #{timeStamp, jdbcType=TIMESTAMP}, 
++      #{userId, jdbcType=VARCHAR},
++      #{data, jdbcType=CLOB},
++      #{lockOwner, jdbcType=VARCHAR},
++      #{lockTime, jdbcType=TIMESTAMP},
++      #{isProcessed, jdbcType=INTEGER} 
++    )  
++  </insert>
++  
+diff --git a/modules/activiti-engine/src/main/resources/org/activiti/db/upgrade/activiti.oracle.upgradestep.5151.to.516.history.sql b/modules/activiti-engine/src/main/resources/org/activiti/db/upgrade/activiti.oracle.upgradestep.5151.to.516.history.sql
+index 9402a47..992bcb2 100644
+--- a/modules/activiti-engine/src/main/resources/org/activiti/db/upgrade/activiti.oracle.upgradestep.5151.to.516.history.sql
++++ b/modules/activiti-engine/src/main/resources/org/activiti/db/upgrade/activiti.oracle.upgradestep.5151.to.516.history.sql
+@@ -20,10 +20 @@
+-create sequence act_hi_evt_log_seq;
+-
+-CREATE OR REPLACE TRIGGER act_hi_evt_log_nr 
+-    BEFORE INSERT ON ACT_HI_EVT_LOG 
+-    FOR EACH ROW
+-BEGIN
+-  SELECT act_hi_evt_log_seq.NEXTVAL
+-  INTO   :new.LOG_NR_
+-  FROM   dual;
+-END;
+\ No newline at end of file
++create sequence act_hi_evt_log_seq;
+\ No newline at end of file
+

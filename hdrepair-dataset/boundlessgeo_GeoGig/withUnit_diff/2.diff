@@ -1,0 +1,21 @@
+diff --git a/src/core/src/main/java/org/geogit/api/hooks/Scripting.java b/src/core/src/main/java/org/geogit/api/hooks/Scripting.java
+index 0410569..a63c335 100644
+--- a/src/core/src/main/java/org/geogit/api/hooks/Scripting.java
++++ b/src/core/src/main/java/org/geogit/api/hooks/Scripting.java
+@@ -79 +79 @@
+-            if (cause instanceof CannotRunGeogitOperationException) {
++            if (cause != e) {
+diff --git a/src/core/src/test/java/org/geogit/test/integration/HooksTest.java b/src/core/src/test/java/org/geogit/test/integration/HooksTest.java
+index 9ba0ea3..ce2a1a3 100644
+--- a/src/core/src/test/java/org/geogit/test/integration/HooksTest.java
++++ b/src/core/src/test/java/org/geogit/test/integration/HooksTest.java
+@@ -42,2 +42,6 @@
+-        geogit.command(CommitOp.class).setMessage("A message").call();
+-
++        try {
++            geogit.command(CommitOp.class).setMessage("A message").call();
++            fail();
++        } catch (Exception e) {
++            assertTrue(true);
++        }
+

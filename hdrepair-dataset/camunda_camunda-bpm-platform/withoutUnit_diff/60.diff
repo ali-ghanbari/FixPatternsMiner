@@ -1,0 +1,46 @@
+diff --git a/engine/src/main/java/org/camunda/bpm/engine/impl/db/DbSqlSession.java b/engine/src/main/java/org/camunda/bpm/engine/impl/db/DbSqlSession.java
+index dfe204c..4e495d8 100644
+--- a/engine/src/main/java/org/camunda/bpm/engine/impl/db/DbSqlSession.java
++++ b/engine/src/main/java/org/camunda/bpm/engine/impl/db/DbSqlSession.java
+@@ -1091 +1091 @@
+-//    checkHistoryLevel();
++    checkHistoryLevel();
+diff --git a/qa/integration-tests-engine/src/test/resources-tomcat/singleEngine.xml b/qa/integration-tests-engine/src/test/resources-tomcat/singleEngine.xml
+index fbaae3c..4ee4b19 100644
+--- a/qa/integration-tests-engine/src/test/resources-tomcat/singleEngine.xml
++++ b/qa/integration-tests-engine/src/test/resources-tomcat/singleEngine.xml
+@@ -2,3 +2 @@
+-<process-application
+-  xmlns="http://www.camunda.org/schema/1.0/ProcessApplication"
+-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++<process-application xmlns="http://www.camunda.org/schema/1.0/ProcessApplication" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+@@ -10 +7,0 @@
+-    <datasource>java:comp/env/jdbc/ProcessEngine</datasource>
+@@ -12,3 +9,4 @@
+-        <property name="history">full</property>
+-        <property name="databaseType">h2</property>
+-        <property name="databaseSchemaUpdate">off</property>
++      <property name="history">full</property>
++      <property name="databaseType">h2</property>
++      <property name="databaseSchemaUpdate">create-drop</property>
++      <property name="jdbcUrl">jdbc:h2:mem:engine1</property>
+@@ -16 +14 @@
+-  </process-engine>  
++  </process-engine>
+diff --git a/qa/integration-tests-engine/src/test/resources-tomcat/twoEngines.xml b/qa/integration-tests-engine/src/test/resources-tomcat/twoEngines.xml
+index a287bed..c26c759 100644
+--- a/qa/integration-tests-engine/src/test/resources-tomcat/twoEngines.xml
++++ b/qa/integration-tests-engine/src/test/resources-tomcat/twoEngines.xml
+@@ -10 +9,0 @@
+-    <datasource>java:comp/env/jdbc/ProcessEngine</datasource>
+@@ -14 +13,2 @@
+-      <property name="databaseSchemaUpdate">off</property>
++      <property name="databaseSchemaUpdate">create-drop</property>
++      <property name="jdbcUrl">jdbc:h2:mem:engine2</property>
+@@ -21 +20,0 @@
+-    <datasource>java:comp/env/jdbc/ProcessEngine</datasource>
+@@ -25 +24,2 @@
+-      <property name="databaseSchemaUpdate">off</property>
++      <property name="databaseSchemaUpdate">create-drop</property>
++      <property name="jdbcUrl">jdbc:h2:mem:engine3</property>
+

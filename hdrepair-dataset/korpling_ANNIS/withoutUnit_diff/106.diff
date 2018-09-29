@@ -1,0 +1,8 @@
+diff --git a/Annis-Service/src/main/java/annis/sqlgen/CorpusSelectionByViewOnlyToplevelTableAccessStrategy.java b/Annis-Service/src/main/java/annis/sqlgen/CorpusSelectionByViewOnlyToplevelTableAccessStrategy.java
+index ab70100..73d1dd1 100644
+--- a/Annis-Service/src/main/java/annis/sqlgen/CorpusSelectionByViewOnlyToplevelTableAccessStrategy.java
++++ b/Annis-Service/src/main/java/annis/sqlgen/CorpusSelectionByViewOnlyToplevelTableAccessStrategy.java
+@@ -51 +51 @@
+-					.replaceAll(":documentList", StringUtils.join(documents, ", "));
++					.replaceAll(":documentList", documents.isEmpty() ? "NULL" : StringUtils.join(documents, ", "));
+

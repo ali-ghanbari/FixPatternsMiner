@@ -1,0 +1,16 @@
+diff --git a/src/org/traccar/protocol/TeltonikaProtocolDecoder.java b/src/org/traccar/protocol/TeltonikaProtocolDecoder.java
+index 723f6f9..99e9236 100644
+--- a/src/org/traccar/protocol/TeltonikaProtocolDecoder.java
++++ b/src/org/traccar/protocol/TeltonikaProtocolDecoder.java
+@@ -86 +86 @@
+-                time += 1199145600; // 2008-01-01 00:00:00
++                time += 1167609600; // 2007-01-01 00:00:00
+diff --git a/test/org/traccar/protocol/TeltonikaProtocolDecoderTest.java b/test/org/traccar/protocol/TeltonikaProtocolDecoderTest.java
+index 789844f..8dc0af6 100644
+--- a/test/org/traccar/protocol/TeltonikaProtocolDecoderTest.java
++++ b/test/org/traccar/protocol/TeltonikaProtocolDecoderTest.java
+@@ -29,0 +30,3 @@
++
++        byte[] buf6 = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x31,0x07,0x02,0x4c,0x61,0x41,0x0b,0x01,0x3f,0x42,0x31,(byte)0xc2,(byte)0xc1,0x41,(byte)0xd0,(byte)0xbe,(byte)0xb9,0x00,0x3d,0x00,0x00,0x05,0x00,0x64,(byte)0x83,(byte)0xff,0x4c,0x61,0x40,(byte)0xeb,0x01,0x3f,0x42,0x31,(byte)0xc2,(byte)0xc1,0x41,(byte)0xd0,(byte)0xbe,(byte)0xb9,0x00,0x3d,0x00,0x00,0x05,0x00,0x64,(byte)0x83,(byte)0xff,0x02,0x00,0x00,0x41,(byte)0xdf};
++        assertNotNull(decoder.decode(null, null, ChannelBuffers.wrappedBuffer(buf6)));
+

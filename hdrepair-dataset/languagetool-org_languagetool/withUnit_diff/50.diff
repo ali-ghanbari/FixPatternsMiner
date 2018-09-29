@@ -1,0 +1,15 @@
+diff --git a/trunk/JLanguageTool/src/java/org/languagetool/tools/StringTools.java b/trunk/JLanguageTool/src/java/org/languagetool/tools/StringTools.java
+index dcf227f..4ed8204 100644
+--- a/trunk/JLanguageTool/src/java/org/languagetool/tools/StringTools.java
++++ b/trunk/JLanguageTool/src/java/org/languagetool/tools/StringTools.java
+@@ -460 +460 @@
+-      if (c != '\n' && c != ' ' && c != '\t') {
++      if (c != '\n' && c != ' ' && c != '\t' && c != '\r') {
+diff --git a/trunk/JLanguageTool/src/test/org/languagetool/tools/StringToolsTest.java b/trunk/JLanguageTool/src/test/org/languagetool/tools/StringToolsTest.java
+index 1a25658..da60169 100644
+--- a/trunk/JLanguageTool/src/test/org/languagetool/tools/StringToolsTest.java
++++ b/trunk/JLanguageTool/src/test/org/languagetool/tools/StringToolsTest.java
+@@ -268 +268 @@
+-    // TODO: make this work assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
++    assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
+

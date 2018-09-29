@@ -1,0 +1,12 @@
+Summary: Updated Ethernet regex for vlan-tagged "p1p1.2" style interfaces
+
+Detail: Checks for other Ethernet interface names uses startsWith(),
+whereas the p1p1 style interface uses a regex that doesn't allow for
+tailing characters, and so blocks vlan IDs. Fixed.
+
+BUG-ID: CLOUDSTACK-4884
+Bugfix-for: 4.2.1
+Reviewed-by:
+Reported-by:
+Signed-off-by: John Kinsella <jlk@stratosec.co> 1381965250 -0700
+

@@ -1,0 +1,111 @@
+diff --git a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/pom.xml b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/pom.xml
+index 5616e8b..ad89b96 100644
+--- a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/pom.xml
++++ b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/pom.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  ~ Licensed to the Apache Software Foundation (ASF) under one
++  ~ or more contributor license agreements.  See the NOTICE file
++  ~ distributed with this work for additional information
++  ~ regarding copyright ownership.  The ASF licenses this file
++  ~ to you under the Apache License, Version 2.0 (the
++  ~ "License"); you may not use this file except in compliance
++  ~ with the License.  You may obtain a copy of the License at
++  ~
++  ~   http://www.apache.org/licenses/LICENSE-2.0
++  ~
++  ~ Unless required by applicable law or agreed to in writing,
++  ~ software distributed under the License is distributed on an
++  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++  ~ KIND, either express or implied.  See the License for the
++  ~ specific language governing permissions and limitations
++  ~ under the License.
++  -->
++
+@@ -166,0 +187,5 @@
++    <dependency>
++      <groupId>xerces</groupId>
++      <artifactId>xercesImpl</artifactId>
++      <version>2.8.1</version>
++    </dependency>
+diff --git a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/src/main/java/SimpleArtifactConsumer.java b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/src/main/java/SimpleArtifactConsumer.java
+index 3fc2750..0e206ac 100644
+--- a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/src/main/java/SimpleArtifactConsumer.java
++++ b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/main/resources/archetype-resources/src/main/java/SimpleArtifactConsumer.java
+@@ -2,0 +3,19 @@
++/*
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ *  http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing,
++ * software distributed under the License is distributed on an
++ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ * KIND, either express or implied.  See the License for the
++ * specific language governing permissions and limitations
++ * under the License.
++ */
++
+diff --git a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/resources/projects/compile/archetype.properties b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/resources/projects/compile/archetype.properties
+index 47890f0..6b0544b 100644
+--- a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/resources/projects/compile/archetype.properties
++++ b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/resources/projects/compile/archetype.properties
+@@ -0,0 +1,19 @@
++#
++# Licensed to the Apache Software Foundation (ASF) under one
++# or more contributor license agreements.  See the NOTICE file
++# distributed with this work for additional information
++# regarding copyright ownership.  The ASF licenses this file
++# to you under the Apache License, Version 2.0 (the
++# "License"); you may not use this file except in compliance
++# with the License.  You may obtain a copy of the License at
++#
++#   http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing,
++# software distributed under the License is distributed on an
++# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++# KIND, either express or implied.  See the License for the
++# specific language governing permissions and limitations
++# under the License.
++#
++
+diff --git a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/test-settings.xml b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/test-settings.xml
+index c8dc6ec..eb87854 100644
+--- a/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/test-settings.xml
++++ b/archiva-modules/archiva-base/archiva-consumers/archiva-consumer-archetype/src/test/test-settings.xml
+@@ -49,0 +50,20 @@
++        <repository>
++          <id>apache.snapshots</id>
++          <url>@localRepositoryUrl@</url>
++          <releases>
++            <enabled>true</enabled>
++          </releases>
++          <snapshots>
++            <enabled>true</enabled>
++          </snapshots>
++        </repository>
++        <repository>
++          <id>archiva.snapshots</id>
++          <url>@localRepositoryUrl@</url>
++          <releases>
++            <enabled>true</enabled>
++          </releases>
++          <snapshots>
++            <enabled>true</enabled>
++          </snapshots>
++        </repository>
+diff --git a/pom.xml b/pom.xml
+index c247be1..bbe5ba7 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1765,0 +1766 @@
++              <exclude>src/test/resources/projects/compile/goal.txt</exclude>
+

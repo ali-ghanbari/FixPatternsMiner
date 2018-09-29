@@ -1,0 +1,112 @@
+diff --git a/planning-core/src/main/java/eu/scape_project/planning/efficiency/PlanStatisticsGenerator.java b/planning-core/src/main/java/eu/scape_project/planning/efficiency/PlanStatisticsGenerator.java
+index f0f21cb..3984eae 100644
+--- a/planning-core/src/main/java/eu/scape_project/planning/efficiency/PlanStatisticsGenerator.java
++++ b/planning-core/src/main/java/eu/scape_project/planning/efficiency/PlanStatisticsGenerator.java
+@@ -646 +646 @@
+-        addColumn("lengthColändere das noch mit lectionProfileDescription", new LUndef());
++        addColumn("lengthCollectionProfileDescription", new LUndef());
+diff --git a/planning-core/src/test/java/eu/scape_project/planning/efficiency/PlanStatisticTest.java b/planning-core/src/test/java/eu/scape_project/planning/efficiency/PlanStatisticTest.java
+index 6ba7676..a6ce81e 100644
+--- a/planning-core/src/test/java/eu/scape_project/planning/efficiency/PlanStatisticTest.java
++++ b/planning-core/src/test/java/eu/scape_project/planning/efficiency/PlanStatisticTest.java
+@@ -17,0 +18 @@
++import org.junit.Ignore;
+@@ -25 +26 @@
+-    
++
+@@ -37 +38 @@
+-        
++
+@@ -39,2 +40,2 @@
+-        for (Iterator<Plan> iter = plans.iterator(); iter.hasNext(); ) {
+-        	statistics.writeStatistics(iter.next());
++        for (Iterator<Plan> iter = plans.iterator(); iter.hasNext();) {
++            statistics.writeStatistics(iter.next());
+@@ -45 +46 @@
+-    
++
+@@ -57 +58 @@
+-        
++
+@@ -59,2 +60,2 @@
+-        for (Iterator<Plan> iter = plans.iterator(); iter.hasNext(); ) {
+-        	statistics.writeStatistics(iter.next());
++        for (Iterator<Plan> iter = plans.iterator(); iter.hasNext();) {
++            statistics.writeStatistics(iter.next());
+@@ -64,2 +65,2 @@
+-    }    
+-	
++    }
++
+@@ -67,13 +68,17 @@
+-    	
+-//		<property name="hibernate.archive.autodetection" value="class, hbm" />
+-//		<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+-//		<property name="hibernate.connection.url"
+-//			value="jdbc:mysql://localhost:3306/platodbtest?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8" />
+-//		<property name="hibernate.connection.username" value="platotest" />
+-//		<property name="hibernate.connection.password" value="platotest" />
+-//
+-//		<property name="hibernate.hbm2ddl.auto" value="create" />
+-//		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+-//		<property name="hibernate.show_sql" value="false" />
+-//		<property name="hibernate.format_sql" value="true" />
+-    	
++
++        // <property name="hibernate.archive.autodetection" value="class, hbm"
++        // />
++        // <property name="hibernate.connection.driver_class"
++        // value="com.mysql.jdbc.Driver" />
++        // <property name="hibernate.connection.url"
++        // value="jdbc:mysql://localhost:3306/platodbtest?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8"
++        // />
++        // <property name="hibernate.connection.username" value="platotest" />
++        // <property name="hibernate.connection.password" value="platotest" />
++        //
++        // <property name="hibernate.hbm2ddl.auto" value="create" />
++        // <property name="hibernate.dialect"
++        // value="org.hibernate.dialect.MySQL5InnoDBDialect" />
++        // <property name="hibernate.show_sql" value="false" />
++        // <property name="hibernate.format_sql" value="true" />
++
+@@ -83 +88,4 @@
+-        properties.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/platodbtest?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8");
++        properties
++            .put(
++                "hibernate.connection.url",
++                "jdbc:mysql://localhost:3306/platodbtest?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8");
+@@ -90,4 +98,4 @@
+-    
+-    
+-	@Test
+-	public void testGenerateStatisticFromDB() throws IOException {
++
++    @Ignore
++    @Test
++    public void testGenerateStatisticFromDB() throws IOException {
+@@ -97 +105 @@
+-        
++
+@@ -101 +109 @@
+-        
++
+@@ -103,2 +111,2 @@
+-        
+-	}
++
++    }
+diff --git a/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileSamplesPAP.xml b/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileSamplesPAP.xml
+index 82f3b15..bdc6d7f 100644
+--- a/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileSamplesPAP.xml
++++ b/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileSamplesPAP.xml
+@@ -4 +4 @@
+-<properties author="Test1 Test1" organization="TUW" name="PlanParser Test - ProfileSamplesPAP" privateProject="true" reportPublic="false">
++<properties author="Test1 Test1" organization="TUW" name="PlanParser Test - ProfileSamplesPAP" privateProject="true" reportPublic="false" playground="false">
+diff --git a/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-minimal.xml b/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-minimal.xml
+index 86484c5..333c7c2 100644
+--- a/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-minimal.xml
++++ b/planning-core/src/test/resources/plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-minimal.xml
+@@ -4 +4 @@
+-<properties author="Test1 Test1" organization="TUW" name="PlanParser Test - minimal" privateProject="true" reportPublic="false">
++<properties author="Test1 Test1" organization="TUW" name="PlanParser Test - minimal" privateProject="true" reportPublic="false" playground="false">
+

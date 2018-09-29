@@ -1,0 +1,23 @@
+diff --git a/src/main/java/com/tdunning/math/stats/GroupTree.java b/src/main/java/com/tdunning/math/stats/GroupTree.java
+index fe107ff..27af5f7 100644
+--- a/src/main/java/com/tdunning/math/stats/GroupTree.java
++++ b/src/main/java/com/tdunning/math/stats/GroupTree.java
+@@ -228 +228 @@
+-                return next != end;
++                return next != null && next != end;
+diff --git a/src/test/java/com/tdunning/math/stats/TreeDigestTest.java b/src/test/java/com/tdunning/math/stats/TreeDigestTest.java
+index 0a84e94..6d62879 100644
+--- a/src/test/java/com/tdunning/math/stats/TreeDigestTest.java
++++ b/src/test/java/com/tdunning/math/stats/TreeDigestTest.java
+@@ -449,0 +450,10 @@
++    public void testMergeEmpty() {
++        final Random gen0 = RandomUtils.getRandom();
++        List<TDigest> subData = new ArrayList();
++        subData.add(new TreeDigest(10));
++        TreeDigest foo = new TreeDigest(10);
++        AbstractTDigest.merge(subData, gen0, foo);
++        empty(foo);
++    }
++
++    @Test
+

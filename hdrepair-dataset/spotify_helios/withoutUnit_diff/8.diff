@@ -1,0 +1,8 @@
+diff --git a/helios-services/src/main/java/com/spotify/helios/agent/SyslogRedirectingContainerDecorator.java b/helios-services/src/main/java/com/spotify/helios/agent/SyslogRedirectingContainerDecorator.java
+index 80a3cf3..a921130 100644
+--- a/helios-services/src/main/java/com/spotify/helios/agent/SyslogRedirectingContainerDecorator.java
++++ b/helios-services/src/main/java/com/spotify/helios/agent/SyslogRedirectingContainerDecorator.java
+@@ -78 +78 @@
+-    if (containerConfig.cmd().isEmpty()) {
++    if (containerConfig.cmd().isEmpty() && imageConfig.cmd() != null) {
+

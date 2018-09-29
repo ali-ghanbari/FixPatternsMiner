@@ -1,0 +1,8 @@
+diff --git a/loci/formats/in/FlexReader.java b/loci/formats/in/FlexReader.java
+index 78b27e2..31316d2 100644
+--- a/loci/formats/in/FlexReader.java
++++ b/loci/formats/in/FlexReader.java
+@@ -157 +157 @@
+-      if (c[i] < ' ' || c[i] > '~') c[i] = '?';
++      if (c[i] > '~' || (c[i] != '\t' && c[i] < ' ')) c[i] = ' ';
+

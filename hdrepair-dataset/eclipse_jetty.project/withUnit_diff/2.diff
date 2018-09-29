@@ -1,0 +1,30 @@
+diff --git a/jetty-util/src/main/java/org/eclipse/jetty/util/resource/PathResource.java b/jetty-util/src/main/java/org/eclipse/jetty/util/resource/PathResource.java
+index d7371b2..19c2f3c 100644
+--- a/jetty-util/src/main/java/org/eclipse/jetty/util/resource/PathResource.java
++++ b/jetty-util/src/main/java/org/eclipse/jetty/util/resource/PathResource.java
+@@ -110 +110 @@
+-        return new PathResource(this.path.resolve(apath));
++        return new PathResource(this.path.getFileSystem().getPath(path.toString(), apath));
+diff --git a/jetty-util/src/test/java/org/eclipse/jetty/util/resource/AbstractFSResourceTest.java b/jetty-util/src/test/java/org/eclipse/jetty/util/resource/AbstractFSResourceTest.java
+index 08849e9..67cafac 100644
+--- a/jetty-util/src/test/java/org/eclipse/jetty/util/resource/AbstractFSResourceTest.java
++++ b/jetty-util/src/test/java/org/eclipse/jetty/util/resource/AbstractFSResourceTest.java
+@@ -113,0 +114,17 @@
++    public void testAddPath() throws Exception
++    {
++        File dir = testdir.getDir();
++        File subdir = new File(dir,"sub");
++        FS.ensureDirExists(subdir);
++
++        try (Resource base = newResource(testdir.getDir()))
++        {
++            Resource sub = base.addPath("sub");
++            assertThat("sub/.isDirectory",sub.isDirectory(),is(true));
++            
++            Resource tmp = sub.addPath("/tmp");
++            assertThat("No root",tmp.exists(),is(false));
++        }
++    }
++    
++    @Test
+

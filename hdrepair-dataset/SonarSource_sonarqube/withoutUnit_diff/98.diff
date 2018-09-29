@@ -1,0 +1,14 @@
+diff --git a/sonar-core/src/main/java/org/sonar/core/user/AuthorDao.java b/sonar-core/src/main/java/org/sonar/core/user/AuthorDao.java
+index 0b709f8..610ba32 100644
+--- a/sonar-core/src/main/java/org/sonar/core/user/AuthorDao.java
++++ b/sonar-core/src/main/java/org/sonar/core/user/AuthorDao.java
+@@ -65,0 +66 @@
++      session.rollback();
+diff --git a/sonar-core/src/main/resources/org/sonar/core/user/AuthorMapper.xml b/sonar-core/src/main/resources/org/sonar/core/user/AuthorMapper.xml
+index 684bdd2..4071f72 100644
+--- a/sonar-core/src/main/resources/org/sonar/core/user/AuthorMapper.xml
++++ b/sonar-core/src/main/resources/org/sonar/core/user/AuthorMapper.xml
+@@ -7 +7 @@
+-    SELECT id, person_id AS "personId", login, created_at AS "createdAt", updated_at AS "updatedAt"
++    SELECT id, person_id AS personId, login, created_at AS createdAt, updated_at AS updatedAt
+

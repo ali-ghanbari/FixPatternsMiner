@@ -1,0 +1,49 @@
+1020 changelog:
+- Request coalescing no longer causes one of the requests to fail, hang, leak a RequestHandler or otherwise break (hopefully, not fully tested)
+- LOTS of improvements to the datastore code
+-- Write store transactions to disk before returning from commit() (better data integrity, the D in ACID)
+-- Don't use the Big Fat Lock while doing store operations and rely on BDB record locking.
+-- Set the lock timeout to 1 minute. 500ms is not enough: we have lots of threads, disk I/O, all on commodity hardware.
+-- Completely new logic for detecting pre-existing key and dealing with it in *put*()
+-- Prevent timeout on startup while reconstructing or shrinking large stores
+-- Online shrink the store if the shrink is less than 10%. New option node.storeForceBigShrinks option allows online shrinking the store for any shrink size. Online shrinking is not usually a good idea because it doesn't necessarily keep the most recently used data; only turn this on if you need to shrink quickly.
+-- Refactoring: delete some dead code, simplify existing code, split stuff out etc, clearer code, more comments, minor optimisations/simplifications, better variable names, minor fixes etc
+-- Handle corrupt pubkeys better
+-- Do hole checking at the same time as offline shrink on startup
+-- Prevent two simultaneous shrinks happening
+-- Always chop off surplus store space which is only used by duplicate keys
+-- Do online shrink on a thread, rather than waiting for it to complete when setting the config option. Continue until the store is within its current size limit, not until we don't delete any blocks.
+-- Use Database.count() when we want the number of blocks in the store, countCHKBlocksFromDatabase() (now highestBlockNumberInDatabase()) when we want the highest block number.
+- New revocation key (we lost the privkey for the old one
+- Up freenet-ext requirement to 11
+- Fix a bug causing Freenet to think there are far more nodes on the network than there actually are. Also only remember the last week's worth of swap locations.
+- FCP: AllowUnreadableFiles in ClientPutDiskDir wasn't working.
+- Tooltip showing default value for each config option in /config/
+- Explain that Freenet cannot detect port forwards in the warning message.
+- Hopefully fix ArrayIndexOutOfBoundsException when fetching splitfiles
+- Give option to queue the request on all non-fatal fproxy errors
+- POST support for plugins (necessary for freekiwiki), and an NPE fix in the plugin loading code
+- Distinguish full-cone from directly-connected in warnings.
+- Option.getDefault() returns a String like the other methods
+- Exclude JSTUN plugin from build path as it is the only thing that requires java 1.5 support
+- Trying to track down an impossible NPE
+- Fail more gracefully (and log info on OOMs to wrapper.log) on an OOM or other unreasonable error in various places: compressing data to insert, sending an insert/request, running IP detection plugins, TMCI main loop, handling an FCP connection, serving FCP connections, loading plugins
+- Various minor refactorings
+- Minor bugfix constructing the error message for the user but not returning it in *Filter
+- Logging, comments etc
+- Note that we now have assertions in various places; it is recommended to run with assertions enabled for freenet classes (wrapper.java.additional.3=-enableassertions:freenet) at least if you are a dev.
+
+Related:
+- Updates to JSTUN plugin (try more times, some outcomes are inherently unlikely to be true so confirm it)
+- Updates to MDNSDiscovery plugin
+- Updates to Librarian plugin (cosmetic and url update)
+
+Credits:
+Nextgens
+Zothar
+Volodya
+Toad
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@12154 67a373e5-eb02-0410-a15c-ee090a768436
+

@@ -1,0 +1,43 @@
+diff --git a/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/view/WebAdminInterface.java b/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/view/WebAdminInterface.java
+index 4053ed3..92f3a50 100644
+--- a/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/view/WebAdminInterface.java
++++ b/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/view/WebAdminInterface.java
+@@ -342,0 +343 @@
++            _billingService.initialize();
+diff --git a/modules/dcache-webadmin/src/main/webapp/WEB-INF/WebAdminInterface.xml b/modules/dcache-webadmin/src/main/webapp/WEB-INF/WebAdminInterface.xml
+index 1e10746..c80f7b1 100644
+--- a/modules/dcache-webadmin/src/main/webapp/WEB-INF/WebAdminInterface.xml
++++ b/modules/dcache-webadmin/src/main/webapp/WEB-INF/WebAdminInterface.xml
+@@ -182 +182 @@
+-        init-method="initialize" destroy-method="shutDown">
++        destroy-method="shutDown">
+diff --git a/skel/share/services/httpd.batch b/skel/share/services/httpd.batch
+index 5373a2c..f593b07 100644
+--- a/skel/share/services/httpd.batch
++++ b/skel/share/services/httpd.batch
+@@ -29,0 +30,14 @@
++#  This checks to see if billingToDb is enabled
++onerror continue
++
++define env usePlottingFlag end
++  set env -c plotBillingData ${generatePlots}
++end
++
++eval ${billingToDb} yes ==
++exec env usePlottingFlag -ifok
++
++# Otherwise turn them off
++set env -c plotBillingData false
++
++#
+@@ -39,0 +54 @@
++
+@@ -42,0 +58 @@
++
+@@ -60,2 +76 @@
+-     -generatePlots=${generatePlots} \
+-     -profiles=plotting-${billingToDb} \
++     -generatePlots=${plotBillingData} \
+@@ -230,0 +246 @@
++
+

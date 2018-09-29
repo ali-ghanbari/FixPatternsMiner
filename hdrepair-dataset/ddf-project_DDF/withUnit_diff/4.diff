@@ -1,0 +1,15 @@
+diff --git a/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java b/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java
+index 1eff23d..703364e 100644
+--- a/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java
++++ b/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java
+@@ -164 +164 @@
+-          bin.setX(Double.parseDouble(arrayString[i*2 + 1]));
++          bin.setY(Double.parseDouble(arrayString[i*2 + 1]));
+diff --git a/spark/src/test/java/io/spark/ddf/analytics/StatisticsSupporterTest.java b/spark/src/test/java/io/spark/ddf/analytics/StatisticsSupporterTest.java
+index d2e904b..243b9b1 100644
+--- a/spark/src/test/java/io/spark/ddf/analytics/StatisticsSupporterTest.java
++++ b/spark/src/test/java/io/spark/ddf/analytics/StatisticsSupporterTest.java
+@@ -95,0 +96,2 @@
++    Assert.assertEquals(-12.45, bins.get(0).getX(), 0.01);
++    Assert.assertEquals(11, bins.get(0).getY(), 0.01);
+

@@ -1,0 +1,8 @@
+diff --git a/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/queue/OraQueueDao.java b/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/queue/OraQueueDao.java
+index e992fe8..72aa8e1 100644
+--- a/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/queue/OraQueueDao.java
++++ b/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/queue/OraQueueDao.java
+@@ -35 +35 @@
+-            ps = connection.prepareStatement("delete from " + queueName + " task_id=? ");
++            ps = connection.prepareStatement("delete from " + queueName + " where task_id=? ");
+

@@ -1,0 +1,18 @@
+diff --git a/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/client/event/NodeMarkerClusterCallback.java b/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/client/event/NodeMarkerClusterCallback.java
+index c0b0d8d..d809144 100644
+--- a/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/client/event/NodeMarkerClusterCallback.java
++++ b/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/client/event/NodeMarkerClusterCallback.java
+@@ -161 +161 @@
+-        sb.append("IP Address: ").append(marker.getIpAddress()).append("<br/>");
++        if(marker.getIpAddress() != null || !marker.getIpAddress().equals("null")) {sb.append("IP Address: ").append(marker.getIpAddress()).append("<br/>");}
+diff --git a/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/public/markercluster/MarkerCluster.Default.css b/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/public/markercluster/MarkerCluster.Default.css
+index 248d1be..1635987 100644
+--- a/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/public/markercluster/MarkerCluster.Default.css
++++ b/features/vaadin-node-maps/src/main/java/org/opennms/features/vaadin/nodemaps/internal/gwt/public/markercluster/MarkerCluster.Default.css
+@@ -32,2 +32,3 @@
+-	margin-top: -37px;
+-
++	/*margin-top: -37px;*/
++    position: absolute;
++    top: 8px;
+

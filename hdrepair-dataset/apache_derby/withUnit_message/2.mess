@@ -1,0 +1,16 @@
+DERBY-6737: CLOB retrieve exceptions after moving cursor around
+
+Always fetch the row again from the server when moving the position of
+a scrollable result set that contains LOB columns.
+
+Without this fix, if one of the absolute positioning methods is used
+(first(), last() or absolute(int)), and the old position is the same
+as the new position, the result set will use the values it already has
+for the row on that position. Any locators will have been released,
+though, so accessing LOBs in the row will fail with 'invalid locator'.
+
+By fetching the row again from the server, we get a fresh and valid
+locator for the LOB columns in that row.
+
+git-svn-id: https://svn.apache.org/repos/asf/db/derby/code/trunk@1625904 13f79535-47bb-0310-9956-ffa450edef68
+

@@ -1,0 +1,9 @@
+diff --git a/src/java/org/hibernate/search/backend/impl/lucene/PerDPQueueProcessor.java b/src/java/org/hibernate/search/backend/impl/lucene/PerDPQueueProcessor.java
+index f04ea35..d00061e 100644
+--- a/src/java/org/hibernate/search/backend/impl/lucene/PerDPQueueProcessor.java
++++ b/src/java/org/hibernate/search/backend/impl/lucene/PerDPQueueProcessor.java
+@@ -155 +155,2 @@
+-		workOnWriter.addAll( workOnReader );
++		//position 0 needed to maintain correct ordering of Work: delete operations first.
++		workOnWriter.addAll( 0, workOnReader );
+

@@ -1,0 +1,29 @@
+diff --git a/extensions/bundles/openflowswitch/src/main/java/org/opennaas/extensions/openflowswitch/capability/monitoring/MonitoringCapability.java b/extensions/bundles/openflowswitch/src/main/java/org/opennaas/extensions/openflowswitch/capability/monitoring/MonitoringCapability.java
+index c1b0b56..16cbf24 100644
+--- a/extensions/bundles/openflowswitch/src/main/java/org/opennaas/extensions/openflowswitch/capability/monitoring/MonitoringCapability.java
++++ b/extensions/bundles/openflowswitch/src/main/java/org/opennaas/extensions/openflowswitch/capability/monitoring/MonitoringCapability.java
+@@ -49 +49 @@
+-	public static String	CAPABILITY_TYPE	= "monitoring";
++	public static String	CAPABILITY_TYPE	= "ofmonitoring";
+diff --git a/extensions/bundles/openflowswitch/src/main/resources/OSGI-INF/blueprint/core.xml b/extensions/bundles/openflowswitch/src/main/resources/OSGI-INF/blueprint/core.xml
+index 9446190..177a5a9 100644
+--- a/extensions/bundles/openflowswitch/src/main/resources/OSGI-INF/blueprint/core.xml
++++ b/extensions/bundles/openflowswitch/src/main/resources/OSGI-INF/blueprint/core.xml
+@@ -49 +49 @@
+-		<property name="type" value="monitoring"/>
++		<property name="type" value="ofmonitoring"/>
+@@ -55 +55 @@
+-			<entry key="capability" value="monitoring"/>
++			<entry key="capability" value="ofmonitoring"/>
+diff --git a/utils/examples/descriptors/ofswitch.descriptor b/utils/examples/descriptors/ofswitch.descriptor
+index 36d1efd..72a97c3 100644
+--- a/utils/examples/descriptors/ofswitch.descriptor
++++ b/utils/examples/descriptors/ofswitch.descriptor
+@@ -7,0 +8,6 @@
++    
++    <capabilityDescriptors>
++        <capabilityProperty name="actionset.name" value="floodlight" />
++        <capabilityProperty name="actionset.version" value="0.90" />
++        <information><type>ofmonitoring</type></information>
++    </capabilityDescriptors>
+

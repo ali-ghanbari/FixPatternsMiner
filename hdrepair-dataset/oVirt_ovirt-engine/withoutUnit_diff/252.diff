@@ -1,0 +1,22 @@
+diff --git a/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/AsyncTaskDAODbFacadeImpl.java b/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/AsyncTaskDAODbFacadeImpl.java
+index 384e28f..6a29680 100644
+--- a/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/AsyncTaskDAODbFacadeImpl.java
++++ b/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/AsyncTaskDAODbFacadeImpl.java
+@@ -177,0 +178 @@
++        parameterSource.addValue("storage_pool_id", task.getStoragePoolId());
+diff --git a/packaging/dbscripts/async_tasks_sp.sql b/packaging/dbscripts/async_tasks_sp.sql
+index 8dd4a2a..a479bd5 100644
+--- a/packaging/dbscripts/async_tasks_sp.sql
++++ b/packaging/dbscripts/async_tasks_sp.sql
+@@ -39 +39,2 @@
+-	v_root_command_id UUID)
++	v_root_command_id UUID,
++        v_storage_pool_id UUID)
+@@ -56 +57,2 @@
+-          vdsm_task_id = v_vdsm_task_id
++          vdsm_task_id = v_vdsm_task_id,
++          storage_pool_id = v_storage_pool_id
+@@ -83 +85 @@
+-            PERFORM Updateasync_tasks(v_action_type, v_result, v_status, v_vdsm_task_id, v_task_id, v_action_parameters,  v_action_params_class, v_task_parameters, v_task_params_class, v_step_id, v_command_id, v_root_command_id);
++            PERFORM Updateasync_tasks(v_action_type, v_result, v_status, v_vdsm_task_id, v_task_id, v_action_parameters,  v_action_params_class, v_task_parameters, v_task_params_class, v_step_id, v_command_id, v_root_command_id,v_storage_pool_id);
+

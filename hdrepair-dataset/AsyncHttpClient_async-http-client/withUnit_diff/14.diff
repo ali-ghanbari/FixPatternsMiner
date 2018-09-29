@@ -1,0 +1,38 @@
+diff --git a/src/main/java/com/ning/http/client/providers/netty/NettyAsyncHttpProvider.java b/src/main/java/com/ning/http/client/providers/netty/NettyAsyncHttpProvider.java
+index bb83fd8..9eab4fe 100644
+--- a/src/main/java/com/ning/http/client/providers/netty/NettyAsyncHttpProvider.java
++++ b/src/main/java/com/ning/http/client/providers/netty/NettyAsyncHttpProvider.java
+@@ -584 +584 @@
+-                if (f != null && f.getRequest().getStreamData() != null) {
++                if (f != null && f.getRequest().getFile() == null) {
+diff --git a/src/test/java/com/ning/http/client/async/BasicAuthTest.java b/src/test/java/com/ning/http/client/async/BasicAuthTest.java
+index ac2193b..527558f 100644
+--- a/src/test/java/com/ning/http/client/async/BasicAuthTest.java
++++ b/src/test/java/com/ning/http/client/async/BasicAuthTest.java
+@@ -42,0 +43 @@
++import java.io.File;
+@@ -43,0 +45 @@
++import java.net.URL;
+@@ -156 +157,0 @@
+-    
+@@ -171,0 +173,19 @@
++    @Test(groups = "standalone")
++    public void basicAuthFileTest() throws Throwable {
++        AsyncHttpClient client = new AsyncHttpClient();
++        ClassLoader cl = getClass().getClassLoader();
++        // override system properties
++        URL url = cl.getResource("SimpleTextFile.txt");
++        File file = new File(url.toURI());
++
++        AsyncHttpClient.BoundRequestBuilder r = client.preparePost("http://127.0.0.1:" + port1 + "/")
++                .setBody(file).setRealm((new Realm.RealmBuilder()).setPrincipal(user).setPassword(admin).build());
++
++        Future<Response> f = r.execute();
++        Response resp = f.get(3, TimeUnit.SECONDS);
++        assertNotNull(resp);
++        assertNotNull(resp.getHeader("X-Auth"));
++        assertEquals(resp.getStatusCode(), HttpServletResponse.SC_OK);
++        assertEquals(resp.getHeader("X-Content-Lenght"), "26");
++    }
++    
+

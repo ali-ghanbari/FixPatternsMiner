@@ -1,0 +1,15 @@
+diff --git a/languagetool-commandline/src/test/java/org/languagetool/commandline/MainTest.java b/languagetool-commandline/src/test/java/org/languagetool/commandline/MainTest.java
+index b09412e..0d79fb7 100644
+--- a/languagetool-commandline/src/test/java/org/languagetool/commandline/MainTest.java
++++ b/languagetool-commandline/src/test/java/org/languagetool/commandline/MainTest.java
+@@ -373 +373 @@
+-    assertTrue(output.contains("Line 3, column 4, Rule ID: TRANSLATION_LENGTH"));
++    assertTrue(output.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
+diff --git a/languagetool-core/src/main/java/org/languagetool/rules/bitext/DifferentLengthRule.java b/languagetool-core/src/main/java/org/languagetool/rules/bitext/DifferentLengthRule.java
+index ed6ffcd..d9de4f6 100644
+--- a/languagetool-core/src/main/java/org/languagetool/rules/bitext/DifferentLengthRule.java
++++ b/languagetool-core/src/main/java/org/languagetool/rules/bitext/DifferentLengthRule.java
+@@ -61 +61 @@
+-      return new RuleMatch[] { new RuleMatch(this, 1, len, getMessage()) };
++      return new RuleMatch[] { new RuleMatch(this, 0, len, getMessage()) };
+

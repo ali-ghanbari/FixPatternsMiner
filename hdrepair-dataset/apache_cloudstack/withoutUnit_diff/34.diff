@@ -1,0 +1,171 @@
+diff --git a/services/console-proxy/server/src/com/cloud/consoleproxy/ConsoleProxyClientBase.java b/services/console-proxy/server/src/com/cloud/consoleproxy/ConsoleProxyClientBase.java
+index eb38007..fc3bf4b 100644
+--- a/services/console-proxy/server/src/com/cloud/consoleproxy/ConsoleProxyClientBase.java
++++ b/services/console-proxy/server/src/com/cloud/consoleproxy/ConsoleProxyClientBase.java
+@@ -326 +326 @@
+-                "var ajaxViewer = new AjaxViewer('main_panel', '" + imgUrl + "', '" + updateUrl + "', '" + locale + "', tileMap, ",
++                "var ajaxViewer = new AjaxViewer('main_panel', '" + imgUrl + "', '" + updateUrl + "', '" + locale + "', '" + guest + "', tileMap, ",
+diff --git a/systemvm/js/ajaxkeys.js b/systemvm/js/ajaxkeys.js
+index 8f78cc8..f186c1d 100644
+--- a/systemvm/js/ajaxkeys.js
++++ b/systemvm/js/ajaxkeys.js
+@@ -233 +233 @@
+-                  {keycode: 64,		entry : 0x5b, 	browser: "Firefox"},
++                  {keycode: 64,		entry : 0x5b, 	guestos: "windows",	browser: "Firefox"},
+@@ -237 +237 @@
+-                  {keycode: 59,		entry : 0x3b, 	browser: "Firefox"},
++                  {keycode: 59,		entry : 0x3b,	guestos: "windows",	browser: "Firefox"},
+@@ -240,2 +240,2 @@
+-                  {keycode: 219,	entry : 0x5d,	browser: "IE"},
+-                  {keycode: 219,	entry : 0x5d, 	browser: "Firefox"},
++                  {keycode: 219,	entry : 0x5d,	guestos: "windows",	browser: "IE"},
++                  {keycode: 219,	entry : 0x5d,	guestos: "windows",	browser: "Firefox"},
+@@ -244,3 +244,3 @@
+-                  {keycode: 221,	entry : 0x5c,	browser: "IE"},
+-                  {keycode: 221,	entry : 0x5c,	browser: "Firefox"},
+-                  {keycode: JS_KEY_BACK_SLASH,			entry : X11_KEY_BACK_SLASH},
++                  {keycode: 221,	entry : 0x5c,	guestos: "windows",	browser: "IE"},
++                  {keycode: 221,	entry : 0x5c,	guestos: "windows",	browser: "Firefox"},
++                  {keycode: JS_KEY_BACK_SLASH,		entry : X11_KEY_BACK_SLASH,	guestos: "windows"},
+@@ -249,2 +249,2 @@
+-                  {keycode: 222,		entry : 0x3d,	browser: "IE"},
+-                  {keycode: 160,		entry : 0x3d,	browser: "Firefox"},
++                  {keycode: 222,	entry : 0x3d,	browser: "IE"},
++                  {keycode: 160,	entry : 0x3d,	guestos: "windows",	browser: "Firefox"},
+@@ -252,4 +252,4 @@
+-                  {keycode: 173,		entry : 0x2d,	browser: "Firefox"},
+-                  {keycode: JS_KEY_COMMA,				entry : X11_KEY_COMMA},
+-                  {keycode: JS_KEY_PERIOD, 				entry : X11_KEY_PERIOD},
+-                  {keycode: JS_KEY_FORWARD_SLASH,		entry : X11_KEY_FORWARD_SLASH},
++                  {keycode: 173,	entry : 0x2d,	guestos: "windows",	browser: "Firefox"},
++                  {keycode: JS_KEY_COMMA,				entry : X11_KEY_COMMA, guestos: "windows"},
++                  {keycode: JS_KEY_PERIOD, 				entry : X11_KEY_PERIOD, guestos: "windows"},
++                  {keycode: JS_KEY_FORWARD_SLASH,		entry : X11_KEY_FORWARD_SLASH, guestos: "windows"},
+@@ -258,15 +258,15 @@
+-                  {keycode: JS_KEY_NUMPAD0,				entry : X11_KEY_KP_0},
+-                  {keycode: JS_KEY_NUMPAD1,				entry : X11_KEY_KP_1},
+-                  {keycode: JS_KEY_NUMPAD2,				entry : X11_KEY_KP_2},
+-                  {keycode: JS_KEY_NUMPAD3,				entry : X11_KEY_KP_3},
+-                  {keycode: JS_KEY_NUMPAD4,				entry : X11_KEY_KP_4},
+-                  {keycode: JS_KEY_NUMPAD5,				entry : X11_KEY_KP_5},
+-                  {keycode: JS_KEY_NUMPAD6,				entry : X11_KEY_KP_6},
+-                  {keycode: JS_KEY_NUMPAD7,				entry : X11_KEY_KP_7},
+-                  {keycode: JS_KEY_NUMPAD8,				entry : X11_KEY_KP_8},
+-                  {keycode: JS_KEY_NUMPAD9,				entry : X11_KEY_KP_9},
+-                  {keycode: JS_KEY_DECIMAL_POINT,		entry : X11_KEY_KP_Decimal},
+-                  {keycode: JS_KEY_DIVIDE,				entry : 0xffaf},
+-                  {keycode: JS_KEY_MULTIPLY,			entry : 0xffaa},
+-                  {keycode: JS_KEY_ADD,					entry : 0xffab},
+-                  {keycode: JS_KEY_SUBSTRACT,			entry : 0xffad},
++                  {keycode: JS_KEY_NUMPAD0,				entry : X11_KEY_NUMPAD0, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD1,				entry : X11_KEY_NUMPAD1, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD2,				entry : X11_KEY_NUMPAD2, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD3,				entry : X11_KEY_NUMPAD3, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD4,				entry : X11_KEY_NUMPAD4, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD5,				entry : X11_KEY_NUMPAD5, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD6,				entry : X11_KEY_NUMPAD6, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD7,				entry : X11_KEY_NUMPAD7, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD8,				entry : X11_KEY_NUMPAD8, guestos: "windows"},
++                  {keycode: JS_KEY_NUMPAD9,				entry : X11_KEY_NUMPAD9, guestos: "windows"},
++                  {keycode: JS_KEY_DECIMAL_POINT,		entry : X11_KEY_PERIOD, guestos: "windows"},
++                  {keycode: JS_KEY_DIVIDE,				entry : 0xffaf, guestos: "windows"},
++                  {keycode: JS_KEY_MULTIPLY,			entry : 0xffaa, guestos: "windows"},
++                  {keycode: JS_KEY_ADD,					entry : 0xffab, guestos: "windows"},
++                  {keycode: JS_KEY_SUBSTRACT,			entry : 0xffad, guestos: "windows"},
+@@ -289 +289 @@
+-                  {keycode: 58,		entry : 0x22, browser: "Firefox"},
++                  {keycode: 58,		entry : 0x22, guestos: "windows",	browser: "Firefox"},
+@@ -292,5 +292,57 @@
+-                             {keycode: 61,      entry:  [
+-                                                         {type: KEY_DOWN, code: X11_KEY_ADD, modifiers: 0, shift: false },
+-                                                         {type: KEY_UP, code: X11_KEY_ADD, modifiers: 0, shift: false }
+-                                                         ]},
+-                                                         ]
++ 							// 34 : " " "
++ 							{keycode: 34,      entry:  [{type: KEY_DOWN, code: 0x22, modifiers: 64, shift: true }]},
++ 							{keycode: 42,      entry:  0xffaa },
++ 							// 39 : " ' " (shift+7)
++                             {keycode: 39, 		entry: [
++ 														 {type: KEY_DOWN, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x22, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: 0x22, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x22, modifiers: 0, shift: true },
++ 														 {type: KEY_UP, code: 0x22, modifiers: 0, shift: true },
++ 														 ]},							//58 : " : "
++ 							 {keycode: 58, 		entry: [
++ 														 {type: KEY_DOWN, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x3a, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: 0x3a, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x3a, modifiers: 0, shift: true },
++ 														 {type: KEY_UP, code: 0x3a, modifiers: 0, shift: true },
++ 														 ]},							 
++ 							// 94 : "^"	
++                              {keycode: 94, 		entry: [
++ 														 {type: KEY_DOWN, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x36, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: 0x36, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x36, modifiers: 0, shift: true },
++ 														 {type: KEY_UP, code: 0x36, modifiers: 0, shift: true },
++ 														 ]},														 														 
++ 							// 64 : "@"	
++                              {keycode: 64, 		entry: [
++ 														 {type: KEY_DOWN, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x32, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: 0x32, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x32, modifiers: 0, shift: true },
++ 														 {type: KEY_UP, code: 0x32, modifiers: 0, shift: true },
++ 														 ]},							 
++ 							 // 96 : "'"	
++                              {keycode: 96, 		entry: [
++ 														 {type: KEY_DOWN, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x7e, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: 0x7e, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x7e, modifiers: 0, shift: true },
++ 														 {type: KEY_UP, code: 0x7e, modifiers: 0, shift: true },
++ 														 ]},
++                             // 61 : "="	
++ 							 {keycode: 61, 		entry: [
++ 														 {type: KEY_DOWN, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x3d, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: 0x3d, modifiers: 0, shift: false },
++ 														 {type: KEY_UP, code: X11_KEY_SHIFT, modifiers: 0, shift: false },
++ 														 {type: KEY_DOWN, code: 0x3d, modifiers: 0, shift: true },
++ 														 {type: KEY_UP, code: 0x3d, modifiers: 0, shift: true },
++ 														 ]},
++                            ]
+diff --git a/systemvm/js/ajaxviewer.js b/systemvm/js/ajaxviewer.js
+index ff899b1..5394077 100644
+--- a/systemvm/js/ajaxviewer.js
++++ b/systemvm/js/ajaxviewer.js
+@@ -164 +164 @@
+-			if(this.jsX11KeysymMap[code] != undefined) {
++			if(this.jsX11KeysymMap[code] != undefined && (guestos == 'windows' || modifiers != AjaxViewer.SHIFT_KEY_MASK)) {
+@@ -178 +178 @@
+-			} else {
++			} else if(guestos == 'windows' || ((modifiers & (AjaxViewer.CTRL_KEY_MASK | AjaxViewer.ALT_KEY_MASK)) != 0)){
+@@ -183 +183 @@
+-			if(eventType == AjaxViewer.KEY_UP && (code == AjaxViewer.JS_KEY_ALT || code == code == AjaxViewer.JS_KEY_CTRL))
++			if(eventType == AjaxViewer.KEY_UP && (code == AjaxViewer.JS_KEY_ALT || code == AjaxViewer.JS_KEY_CTRL))
+@@ -186 +186 @@
+-		} else if(eventType == AjaxViewer.KEY_PRESS) {
++		} else if(eventType == AjaxViewer.KEY_PRESS && guestos == 'null') {
+@@ -198,0 +199,3 @@
++			} else {
++				this.mappedInput.push({type : AjaxViewer.KEY_DOWN, code: code, modifiers: modifiers});
++				this.mappedInput.push({type : AjaxViewer.KEY_UP, code: code, modifiers: modifiers});
+@@ -335 +338 @@
+-function AjaxViewer(panelId, imageUrl, updateUrl, locale, tileMap, width, height, tileWidth, tileHeight) {
++function AjaxViewer(panelId, imageUrl, updateUrl, locale, guestos, tileMap, width, height, tileWidth, tileHeight) {
+@@ -354,0 +358 @@
++	this.guestos = guestos;
+@@ -748 +752,3 @@
+-				this.keyboardMappers[keyboardType].jsX11KeysymMap[code] = mappedEntry;
++				if(x11Maps[j].guestos == undefined || x11Maps[j].guestos == this.guestos) {
++					this.keyboardMappers[keyboardType].jsX11KeysymMap[code] = mappedEntry;
++				}
+

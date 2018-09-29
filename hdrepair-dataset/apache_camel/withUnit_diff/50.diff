@@ -1,0 +1,48 @@
+diff --git a/components/camel-xmpp/src/main/java/org/apache/camel/component/xmpp/XmppMessage.java b/components/camel-xmpp/src/main/java/org/apache/camel/component/xmpp/XmppMessage.java
+index 9e1e457..b6aa8f8 100644
+--- a/components/camel-xmpp/src/main/java/org/apache/camel/component/xmpp/XmppMessage.java
++++ b/components/camel-xmpp/src/main/java/org/apache/camel/component/xmpp/XmppMessage.java
+@@ -71 +71 @@
+-                binding.extractBodyFromXmpp(getExchange(), xmppMessage);
++                return binding.extractBodyFromXmpp(getExchange(), xmppMessage);
+diff --git a/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteChatTest.java b/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteChatTest.java
+index b7b127a..e8b8bb9 100644
+--- a/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteChatTest.java
++++ b/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteChatTest.java
+@@ -65,10 +64,0 @@
+-                Processor stringConverter = new Processor() {
+-                    public void process(Exchange exchange) throws Exception {
+-                        XmppMessage xmppMessage = (XmppMessage)exchange.getIn();
+-                        Message message = xmppMessage.getXmppMessage();
+-                        String body = message.getBody();
+-                        LOG.debug("Converting message - " + body);
+-                        exchange.getIn().setBody(body);
+-                    }
+-                };
+-
+@@ -82 +71,0 @@
+-                    .process(stringConverter)
+@@ -86 +74,0 @@
+-                    .process(stringConverter)
+diff --git a/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteMultipleProducersSingleConsumerTest.java b/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteMultipleProducersSingleConsumerTest.java
+index 3913ca2..bdfff48 100644
+--- a/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteMultipleProducersSingleConsumerTest.java
++++ b/components/camel-xmpp/src/test/java/org/apache/camel/component/xmpp/XmppRouteMultipleProducersSingleConsumerTest.java
+@@ -63,10 +62,0 @@
+-                Processor stringConverter = new Processor() {
+-                    public void process(Exchange exchange) throws Exception {
+-                        XmppMessage xmppMessage = (XmppMessage)exchange.getIn();
+-                        Message message = xmppMessage.getXmppMessage();
+-                        String body = message.getBody();
+-                        LOG.debug("Converting message - " + body);
+-                        exchange.getIn().setBody(body);
+-                    }
+-                };
+-
+@@ -80 +69,0 @@
+-                    .process(stringConverter)
+@@ -84 +72,0 @@
+-                    .process(stringConverter)
+@@ -88 +75,0 @@
+-                    .process(stringConverter)
+

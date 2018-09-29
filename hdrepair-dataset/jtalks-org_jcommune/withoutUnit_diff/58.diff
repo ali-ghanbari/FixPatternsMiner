@@ -1,0 +1,8 @@
+diff --git a/jcommune/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalUserService.java b/jcommune/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalUserService.java
+index 065c954..8f5639f 100644
+--- a/jcommune/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalUserService.java
++++ b/jcommune/jcommune-service/src/main/java/org/jtalks/jcommune/service/transactional/TransactionalUserService.java
+@@ -86 +86 @@
+-                dao.isUserWithEmailExist(user.getEmail());
++                dao.isUserWithEmailExist(user.getEmail()) || user.getUsername().equals("anonymousUser");
+

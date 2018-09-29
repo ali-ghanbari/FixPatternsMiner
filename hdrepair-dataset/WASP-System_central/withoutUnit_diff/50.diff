@@ -1,0 +1,26 @@
+diff --git a/plugins/gatk/src/main/java/edu/yu/einstein/wasp/gatk/plugin/GatkPlugin.java b/plugins/gatk/src/main/java/edu/yu/einstein/wasp/gatk/plugin/GatkPlugin.java
+index 6097033..11f65f6 100644
+--- a/plugins/gatk/src/main/java/edu/yu/einstein/wasp/gatk/plugin/GatkPlugin.java
++++ b/plugins/gatk/src/main/java/edu/yu/einstein/wasp/gatk/plugin/GatkPlugin.java
+@@ -165 +164,0 @@
+-			jobParameters.put("gatk-L", "WGS"); // TODO:: gatk-L is not captured anymore. Get this from strategy instead
+diff --git a/plugins/gatk/src/main/resources/i18n/en_US/messages_en_US.properties b/plugins/gatk/src/main/resources/i18n/en_US/messages_en_US.properties
+index 66b1f0a..b803ef6 100644
+--- a/plugins/gatk/src/main/resources/i18n/en_US/messages_en_US.properties
++++ b/plugins/gatk/src/main/resources/i18n/en_US/messages_en_US.properties
+@@ -18 +18 @@
+-gatk.pipeline.max_alternate_alleles.tt=For default, the number is 6; user can increase the number if they have large sample size, especially for INDEL calling
++gatk.pipeline.max_alternate_alleles.tt=Maximum number of alternate alleles to genotype. If there are more than this number of alternate alleles presented to the genotyper, then only this many alleles will be used. Note that genotyping sites with many alternate alleles is both CPU and memory intensive and it scales exponentially based on the number of alternate alleles. Unless there is a good reason to change the default value, it is highly recommend that you not play around with this parameter. The default maximum is 6. 
+diff --git a/plugins/variantCalling/src/main/resources/wasp/variantCallngWorkFlowLoad.xml b/plugins/variantCalling/src/main/resources/wasp/variantCallngWorkFlowLoad.xml
+index 0828a62..fc50895 100644
+--- a/plugins/variantCalling/src/main/resources/wasp/variantCallngWorkFlowLoad.xml
++++ b/plugins/variantCalling/src/main/resources/wasp/variantCallngWorkFlowLoad.xml
+@@ -30 +29,0 @@
+-		<value>/jobsubmit/gatk/target/{n}</value>
+@@ -84 +83 @@
+-          <property name="baseName" value="jobsubmit/software/referenceBasedAligner" />
++          <property name="baseName" value="jobsubmit/software/#{referenceBasedAlignerResourceType.getIName()}" />
+@@ -88 +87 @@
+-          <property name="baseName" value="jobsubmit/software/variantCallingResourceType" />
++          <property name="baseName" value="jobsubmit/software/#{variantCallingResourceType.getIName()}" />
+

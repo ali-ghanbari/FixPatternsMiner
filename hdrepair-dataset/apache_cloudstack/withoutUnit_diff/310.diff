@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/server/ConfigurationServerImpl.java b/server/src/com/cloud/server/ConfigurationServerImpl.java
+index 3642a50..0d571c4 100755
+--- a/server/src/com/cloud/server/ConfigurationServerImpl.java
++++ b/server/src/com/cloud/server/ConfigurationServerImpl.java
+@@ -574 +574 @@
+-            Script.runSimpleBashScript("if [ -f ~/.ssh/id_rsa ] ; then true ; else yes '' | ssh-keygen -t rsa -q ; fi");
++            Script.runSimpleBashScript("if [ -f ~/.ssh/id_rsa ] ; then rm -f ~/.ssh/id_rsa ; fi; ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q");
+

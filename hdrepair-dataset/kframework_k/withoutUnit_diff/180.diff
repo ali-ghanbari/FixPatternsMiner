@@ -1,0 +1,35 @@
+diff --git a/samples/java_rewrite_engine/tutorial/2_languages/1_simple/1_untyped/tests/config_verification.xml b/samples/java_rewrite_engine/tutorial/2_languages/1_simple/1_untyped/tests/config_verification.xml
+index 5fc531a..949132a 100644
+--- a/samples/java_rewrite_engine/tutorial/2_languages/1_simple/1_untyped/tests/config_verification.xml
++++ b/samples/java_rewrite_engine/tutorial/2_languages/1_simple/1_untyped/tests/config_verification.xml
+@@ -19,0 +20 @@
++<!-- TODO(AndreiS): uncomment this test when we support AC unification
+@@ -21 +22 @@
+-      <krun-option name="--prove" value="verification/head_spec.k" />
++      <krun-option name="\-\-prove" value="verification/head_spec.k" />
+@@ -22,0 +24 @@
++-->
+diff --git a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-2.logik.out b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-2.logik.out
+index 4706d8a..153f8b0 100644
+--- a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-2.logik.out
++++ b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-2.logik.out
+@@ -1 +1 @@
+-A:Term \|-> A:Term\s+B:Term \|-> B:Term\s+C:Term \|-> A
++A:Term \|-> C:Term\s+B:Term \|-> B:Term\s+C:Term \|-> C
+diff --git a/samples/kernelc/patterns/list_pattern.k b/samples/kernelc/patterns/list_pattern.k
+index d8ca054..280e0f6 100644
+--- a/samples/kernelc/patterns/list_pattern.k
++++ b/samples/kernelc/patterns/list_pattern.k
+@@ -29 +29 @@
+-  // TODO(AndreiS): this lemma is put directly in z3 because of ite issue 
++  // TODO(AndreiS): this lemma is put directly in z3 because of ite issue
+@@ -47,0 +48 @@
++  // TODO(AndreiS): add support for specifying Z3 triggers
+diff --git a/src/main/java/org/kframework/backend/java/symbolic/SymbolicRewriter.java b/src/main/java/org/kframework/backend/java/symbolic/SymbolicRewriter.java
+index 622f87e..d32b4c7 100644
+--- a/src/main/java/org/kframework/backend/java/symbolic/SymbolicRewriter.java
++++ b/src/main/java/org/kframework/backend/java/symbolic/SymbolicRewriter.java
+@@ -679 +679 @@
+-                if (leftFrame != null && rightFrame != null) {
++                if (leftFrame != null && rightFrame != null && leftFrame.equals(rightFrame)) {
+

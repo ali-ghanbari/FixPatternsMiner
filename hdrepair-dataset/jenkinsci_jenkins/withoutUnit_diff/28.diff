@@ -1,0 +1,16 @@
+diff --git a/changelog.html b/changelog.html
+index 1da3264..3bd3b2a 100644
+--- a/changelog.html
++++ b/changelog.html
+@@ -58,0 +59,3 @@
++    Removing the "keep this build forever" lock on a build should require the DELETE permission.
++    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-16417">issue 16417</a>)
++  <li class=bug>
+diff --git a/core/src/main/java/hudson/model/Run.java b/core/src/main/java/hudson/model/Run.java
+index baffced..d81c6be 100644
+--- a/core/src/main/java/hudson/model/Run.java
++++ b/core/src/main/java/hudson/model/Run.java
+@@ -2089 +2089 @@
+-        checkPermission(UPDATE);
++        checkPermission(newValue ? UPDATE : DELETE);
+

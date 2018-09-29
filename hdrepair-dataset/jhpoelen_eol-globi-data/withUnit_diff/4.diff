@@ -1,0 +1,15 @@
+diff --git a/eol-globi-enrich/src/main/java/org/eol/globi/service/EOLService.java b/eol-globi-enrich/src/main/java/org/eol/globi/service/EOLService.java
+index e52d4ab..eb786be 100644
+--- a/eol-globi-enrich/src/main/java/org/eol/globi/service/EOLService.java
++++ b/eol-globi-enrich/src/main/java/org/eol/globi/service/EOLService.java
+@@ -112 +112 @@
+-            URI uri = new URI("http", null, "eol.org", 80, "/api/pages/1.0/" + pageId + ".json", "images=1&videos=0&sounds=0&maps=0&text=0&iucn=false&subjects=overview&licenses=all&details=false&common_names=true&synonyms=false&references=false&format=json", null);
++            URI uri = new URI("http", null, "eol.org", 80, "/api/pages/1.0/" + pageId + ".json", "images=0&videos=0&sounds=0&maps=0&text=0&iucn=false&subjects=overview&licenses=all&details=false&common_names=true&synonyms=false&references=false&format=json", null);
+diff --git a/eol-globi-enrich/src/test/java/org/eol/globi/service/EOLServiceIntegrationTest.java b/eol-globi-enrich/src/test/java/org/eol/globi/service/EOLServiceIntegrationTest.java
+index f71035b..2b7a0d3 100644
+--- a/eol-globi-enrich/src/test/java/org/eol/globi/service/EOLServiceIntegrationTest.java
++++ b/eol-globi-enrich/src/test/java/org/eol/globi/service/EOLServiceIntegrationTest.java
+@@ -516 +516 @@
+-        assertThat(properties.get(PATH), containsString("Hominoidea"));
++        assertThat(properties.get(PATH), containsString("Hominidae"));
+

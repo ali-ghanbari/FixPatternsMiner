@@ -1,0 +1,65 @@
+diff --git a/processing/src/main/java/io/druid/query/groupby/GroupByQueryQueryToolChest.java b/processing/src/main/java/io/druid/query/groupby/GroupByQueryQueryToolChest.java
+index e15f109..123bd23 100644
+--- a/processing/src/main/java/io/druid/query/groupby/GroupByQueryQueryToolChest.java
++++ b/processing/src/main/java/io/druid/query/groupby/GroupByQueryQueryToolChest.java
+@@ -130 +130 @@
+-        subquery = (GroupByQuery) ((QueryDataSource) dataSource).getQuery();
++        subquery = (GroupByQuery) ((QueryDataSource) dataSource).getQuery().withOverriddenContext(query.getContext());
+diff --git a/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java b/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java
+index afe13f3..9eb2588 100644
+--- a/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java
++++ b/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java
+@@ -50,0 +51 @@
++import io.druid.query.aggregation.hyperloglog.HyperUniquesAggregatorFactory;
+@@ -1445,0 +1447,50 @@
++  @Test
++  public void testSubqueryWithHyperUniques()
++  {
++    GroupByQuery subquery = GroupByQuery
++        .builder()
++        .setDataSource(QueryRunnerTestHelper.dataSource)
++        .setQuerySegmentSpec(QueryRunnerTestHelper.firstToThird)
++        .setDimensions(Lists.<DimensionSpec>newArrayList(new DefaultDimensionSpec("quality", "alias")))
++        .setAggregatorSpecs(
++            Arrays.<AggregatorFactory>asList(
++                QueryRunnerTestHelper.rowsCount,
++                new LongSumAggregatorFactory("idx", "index"),
++                new HyperUniquesAggregatorFactory("quality_uniques", "quality_uniques")
++            )
++        )
++        .setGranularity(QueryRunnerTestHelper.dayGran)
++        .build();
++
++    GroupByQuery query = GroupByQuery
++        .builder()
++        .setDataSource(subquery)
++        .setQuerySegmentSpec(QueryRunnerTestHelper.firstToThird)
++        .setDimensions(Lists.<DimensionSpec>newArrayList(new DefaultDimensionSpec("alias", "alias")))
++        .setAggregatorSpecs(
++            Arrays.<AggregatorFactory>asList(
++                new LongSumAggregatorFactory("rows", "rows"),
++                new LongSumAggregatorFactory("idx", "idx"),
++                new HyperUniquesAggregatorFactory("uniq", "quality_uniques")
++            )
++        )
++        .setGranularity(QueryRunnerTestHelper.allGran)
++        .build();
++
++    List<Row> expectedResults = Arrays.asList(
++        createExpectedRow("2011-04-01", "alias", "automotive", "rows", 2L, "idx", 282L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "business", "rows", 2L, "idx", 230L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "entertainment", "rows", 2L, "idx", 324L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "health", "rows", 2L, "idx", 233L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "mezzanine", "rows", 6L, "idx", 5317L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "news", "rows", 2L, "idx", 235L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "premium", "rows", 6L, "idx", 5405L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "technology", "rows", 2L, "idx", 175L, "uniq", 1.0002442201269182),
++        createExpectedRow("2011-04-01", "alias", "travel", "rows", 2L, "idx", 245L, "uniq", 1.0002442201269182)
++    );
++
++    // Subqueries are handled by the ToolChest
++    Iterable<Row> results = runQuery(query);
++    TestHelper.assertExpectedObjects(expectedResults, results, "");
++  }
++
+

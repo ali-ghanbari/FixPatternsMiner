@@ -1,0 +1,52 @@
+diff --git a/server/src/com/thoughtworks/go/server/controller/ArtifactsController.java b/server/src/com/thoughtworks/go/server/controller/ArtifactsController.java
+index 2822d6c..a219245 100644
+--- a/server/src/com/thoughtworks/go/server/controller/ArtifactsController.java
++++ b/server/src/com/thoughtworks/go/server/controller/ArtifactsController.java
+@@ -251,0 +252,2 @@
++        } catch (Exception e) {
++            return buildNotFound(pipelineName, counterOrLabel, stageName, stageCounter, buildName);
+diff --git a/server/test/integration/com/thoughtworks/go/server/controller/ArtifactsControllerIntegrationTest.java b/server/test/integration/com/thoughtworks/go/server/controller/ArtifactsControllerIntegrationTest.java
+index 27786e3..5c41fb2 100644
+--- a/server/test/integration/com/thoughtworks/go/server/controller/ArtifactsControllerIntegrationTest.java
++++ b/server/test/integration/com/thoughtworks/go/server/controller/ArtifactsControllerIntegrationTest.java
+@@ -194 +194 @@
+-    //2779 
++    //2779
+@@ -449,0 +450,12 @@
++    public void testConsoleOutShouldReturn404WhenJobIsNotFound() throws Exception {
++        prepareConsoleOut("");
++        Stage firstStage = pipeline.getFirstStage();
++        int startLineNumber = 0;
++        ModelAndView view = artifactsController.consoleout("snafu", "snafu", "snafu", "build", String.valueOf(firstStage.getCounter()), startLineNumber);
++
++        assertThat(view.getView().getContentType(), is(RESPONSE_CHARSET));
++        assertThat(view.getView(), is(instanceOf((ResponseCodeView.class))));
++        assertThat(((ResponseCodeView) view.getView()).getContent(), containsString("Job snafu/snafu/snafu/1/build not found."));
++    }
++
++    @Test
+@@ -459 +471 @@
+-        
++
+@@ -475 +487 @@
+-        
++
+diff --git a/server/webapp/WEB-INF/rails.new/app/assets/javascripts/build_output_observer.js b/server/webapp/WEB-INF/rails.new/app/assets/javascripts/build_output_observer.js
+index fb76d00..a088158 100644
+--- a/server/webapp/WEB-INF/rails.new/app/assets/javascripts/build_output_observer.js
++++ b/server/webapp/WEB-INF/rails.new/app/assets/javascripts/build_output_observer.js
+@@ -63,2 +63 @@
+-                        var build_output = transport.responseText;
+-                        _this.is_output_empty = _this.chosen_update_of_live_output.call(_this, build_output);
++                        _this.is_output_empty = _this.chosen_update_of_live_output.call(_this, transport.responseText);
+@@ -67,0 +67,7 @@
++                },
++              onFailure: function(response){
++                if (404 === response.status){
++                  _this.is_output_empty = _this.chosen_update_of_live_output.call(_this, response.responseText);
++                } else {
++                  var message = "There was an error contacting the server. The HTTP status was " + response.status + ".";
++                  _this.is_output_empty = _this.chosen_update_of_live_output.call(_this, message);
+@@ -68,0 +75 @@
++              }
+

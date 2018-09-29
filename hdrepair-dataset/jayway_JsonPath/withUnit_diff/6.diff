@@ -1,0 +1,24 @@
+diff --git a/json-assert/src/main/java/com/jayway/jsonpath/JsonPath.java b/json-assert/src/main/java/com/jayway/jsonpath/JsonPath.java
+index 3f89e11..26188ea 100644
+--- a/json-assert/src/main/java/com/jayway/jsonpath/JsonPath.java
++++ b/json-assert/src/main/java/com/jayway/jsonpath/JsonPath.java
+@@ -47 +46,0 @@
+-
+diff --git a/json-assert/src/test/java/com/jayway/jsonpath/JsonPathTest.java b/json-assert/src/test/java/com/jayway/jsonpath/JsonPathTest.java
+index c61e626..c1e7bd3 100644
+--- a/json-assert/src/test/java/com/jayway/jsonpath/JsonPathTest.java
++++ b/json-assert/src/test/java/com/jayway/jsonpath/JsonPathTest.java
+@@ -6,0 +7 @@
++import java.util.Map;
+@@ -8,0 +10 @@
++import static org.hamcrest.Matchers.hasEntry;
+@@ -55,0 +58 @@
++        List<Object> list = JsonPath.read(DOCUMENT, "$.store");
+@@ -57 +60 @@
+-        JsonPath path = JsonPath.compile("$.store");
++        assertEquals(2, ((Map)list.get(0)).values().size());
+@@ -59,3 +61,0 @@
+-        List<Object> list = path.read(DOCUMENT);
+-
+-        System.out.println(list.toString());
+

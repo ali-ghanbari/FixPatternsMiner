@@ -1,0 +1,26 @@
+core: fix AddVmParameters for null diskInfoList
+
+In change I06f2de3db1b0559af4df04d0d158b10b8460c684:
+
+ b7804ad core: cleanup AddVmParameters constructors
+
+the logic in charge to ensure that diskInfoList is never null was
+removed.
+
+When a new VM is added from rest-api addVmFromScratch(...) sets
+diskInfoList to a null value:
+
+  AddVmParameters params = new AddVmParameters(staticVm);
+  params.setDiskInfoList(mapDisks(vm.getDisks()));
+
+resulting in a NPE:
+
+ ERROR [AddVmFromScratchCommand] Error during CanDoActionFailure:
+         java.lang.NullPointerException
+   at checkImagesConfiguration(ImagesHandler.java:455) [bll.jar:]
+   at canDoAction(AddVmFromScratchCommand.java:150) [bll.jar:]
+   at internalCanDoAction(CommandBase.java:746) [bll.jar:]
+
+Change-Id: I979bd6373e4a1440f88d27e416bd2e116b010891
+Signed-off-by: Federico Simoncelli <fsimonce@redhat.com>
+

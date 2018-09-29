@@ -1,0 +1,8 @@
+diff --git a/jcabi-aspects/src/main/java/com/jcabi/aspects/aj/MethodLogger.java b/jcabi-aspects/src/main/java/com/jcabi/aspects/aj/MethodLogger.java
+index 83ae3ea..83371d5 100644
+--- a/jcabi-aspects/src/main/java/com/jcabi/aspects/aj/MethodLogger.java
++++ b/jcabi-aspects/src/main/java/com/jcabi/aspects/aj/MethodLogger.java
+@@ -61 +61 @@
+-    @Around("(execution(* *(..)) || initialization(*.new(..))) && @this(com.jcabi.aspects.Loggable)")
++    @Around("(execution(* (@com.jcabi.aspects.Loggable *).*(..)) || initialization((@com.jcabi.aspects.Loggable *).new(..)))")
+

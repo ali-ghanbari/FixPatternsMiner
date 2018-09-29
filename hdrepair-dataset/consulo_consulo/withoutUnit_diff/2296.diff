@@ -1,0 +1,8 @@
+diff --git a/codeInsight/openapi/com/intellij/codeInsight/intention/AddAnnotationFix.java b/codeInsight/openapi/com/intellij/codeInsight/intention/AddAnnotationFix.java
+index 8a4794b..1408212 100644
+--- a/codeInsight/openapi/com/intellij/codeInsight/intention/AddAnnotationFix.java
++++ b/codeInsight/openapi/com/intellij/codeInsight/intention/AddAnnotationFix.java
+@@ -123 +123 @@
+-        if (ReadonlyStatusHandler.getInstance(project).ensureFilesWritable(file.getVirtualFile()).hasReadonlyFiles()) return;
++        if (!file.isWritable() && ReadonlyStatusHandler.getInstance(project).ensureFilesWritable(file.getVirtualFile()).hasReadonlyFiles()) return;
+

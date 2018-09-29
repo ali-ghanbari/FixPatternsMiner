@@ -1,0 +1,116 @@
+diff --git a/public/java/src/org/broadinstitute/sting/gatk/GenomeAnalysisEngine.java b/public/java/src/org/broadinstitute/sting/gatk/GenomeAnalysisEngine.java
+index b9d1a55..0e97f30 100755
+--- a/public/java/src/org/broadinstitute/sting/gatk/GenomeAnalysisEngine.java
++++ b/public/java/src/org/broadinstitute/sting/gatk/GenomeAnalysisEngine.java
+@@ -388 +388 @@
+-        if ( intervals != null && intervals.isEmpty() ) {
++        if ( intervals != null && intervals.isEmpty() && argCollection.excludeIntervals != null ) {
+diff --git a/public/java/test/org/broadinstitute/sting/gatk/GenomeAnalysisEngineUnitTest.java b/public/java/test/org/broadinstitute/sting/gatk/GenomeAnalysisEngineUnitTest.java
+index 3a6d882..383535b 100644
+--- a/public/java/test/org/broadinstitute/sting/gatk/GenomeAnalysisEngineUnitTest.java
++++ b/public/java/test/org/broadinstitute/sting/gatk/GenomeAnalysisEngineUnitTest.java
+@@ -113,14 +112,0 @@
+-    public void testInvalidBedIntervalHandling(GenomeAnalysisEngine testEngine, GenomeLocParser genomeLocParser,
+-                                               String contig, int intervalStart, int intervalEnd ) throws Exception {
+-        // We need to adjust intervalStart, since BED intervals are 0-based. We don't need to adjust intervalEnd,
+-        // since the ending point is an open interval.
+-        File bedFile = createTempFile("testInvalidBedIntervalHandling", ".bed",
+-                                      String.format("%s %d %d", contig, intervalStart -1, intervalEnd));
+-
+-        List<IntervalBinding<Feature>> intervalArgs = new ArrayList<IntervalBinding<Feature>>(1);
+-        intervalArgs.add(new IntervalBinding<Feature>(bedFile.getAbsolutePath()));
+-
+-        testEngine.loadIntervals(intervalArgs, IntervalSetRule.UNION);
+-    }
+-
+-    @Test(expectedExceptions=UserException.class, dataProvider="invalidIntervalTestData")
+@@ -156,0 +143,5 @@
++
++
++
++
++
+diff --git a/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java b/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java
+index 1431a80..729b6fa 100644
+--- a/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java
++++ b/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java
+@@ -27,0 +28,2 @@
++import org.broadinstitute.sting.commandline.ArgumentException;
++import org.broadinstitute.sting.utils.exceptions.UserException;
+@@ -163,0 +166,75 @@
++
++    @Test(enabled = true)
++    public void testComplexVCF() {
++        String md5 = "166d77ac1b46a1ec38aa35ab7e628ab5";
++        WalkerTest.WalkerTestSpec spec = new WalkerTest.WalkerTestSpec(
++                "-T CountLoci" +
++                        " -I " + validationDataLocation + "OV-0930.normal.chunk.bam" +
++                        " -R " + hg18Reference +
++                        " -o %s" +
++                        " -L " + validationDataLocation + "intervalTest.3.vcf",
++                        1, // just one output file
++                        Arrays.asList(md5));
++        executeTest("testComplexVCF", spec);
++    }
++
++    @Test(enabled = true)
++    public void testMergingWithComplexVCF() {
++        String md5 = "6d7fce9fee471194aa8b5b6e47267f03";
++        WalkerTest.WalkerTestSpec spec = new WalkerTest.WalkerTestSpec(
++                "-T CountLoci" +
++                        " -I " + validationDataLocation + "OV-0930.normal.chunk.bam" +
++                        " -R " + hg18Reference +
++                        " -o %s" +
++                        " -L " + validationDataLocation + "intervalTest.1.vcf" +
++                        " -XL " + validationDataLocation + "intervalTest.3.vcf",
++                        1, // just one output file
++                        Arrays.asList(md5));
++        executeTest("testMergingWithComplexVCF", spec);
++    }
++
++    @Test(enabled = true, expectedExceptions = RuntimeException.class)
++    public void testEmptyVCFError() {
++        String md5 = "";
++        WalkerTest.WalkerTestSpec spec = new WalkerTest.WalkerTestSpec(
++                "-T CountLoci" +
++                        " -I " + validationDataLocation + "OV-0930.normal.chunk.bam" +
++                        " -R " + hg18Reference +
++                        " -o %s" +
++                        " -L " + validationDataLocation + "intervalTest.empty.vcf",
++                        1, // just one output file
++                        Arrays.asList(md5));
++        executeTest("testEmptyVCFError", spec);
++    }
++
++    @Test(enabled = true)
++    public void testEmptyVCFNoError() {
++        String md5 = "";
++        WalkerTest.WalkerTestSpec spec = new WalkerTest.WalkerTestSpec(
++                "-T CountLoci" +
++                        " -I " + validationDataLocation + "OV-0930.normal.chunk.bam" +
++                        " -R " + hg18Reference +
++                        " -o %s" +
++                        " -U ALLOW_EMPTY_INTERVAL_LIST" +
++                        " -L " + validationDataLocation + "intervalTest.empty.vcf",
++                        1, // just one output file
++                        Arrays.asList(md5));
++        executeTest("testEmptyVCFNoError", spec);
++    }
++
++    @Test(enabled = true, expectedExceptions = RuntimeException.class)
++    public void testIncludeExcludeIsTheSame() {
++        String md5 = "";
++        WalkerTest.WalkerTestSpec spec = new WalkerTest.WalkerTestSpec(
++                "-T CountLoci" +
++                        " -I " + validationDataLocation + "OV-0930.normal.chunk.bam" +
++                        " -R " + hg18Reference +
++                        " -o %s" +
++                        " -L " + validationDataLocation + "intervalTest.1.vcf" +
++                        " -XL " + validationDataLocation + "intervalTest.1.vcf",
++                        1, // just one output file
++                        Arrays.asList(md5));
++        executeTest("testIncludeExcludeIsTheSame", spec);
++    }
++
++
+

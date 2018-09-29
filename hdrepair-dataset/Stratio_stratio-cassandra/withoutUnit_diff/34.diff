@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/locator/SnitchProperties.java b/src/java/org/apache/cassandra/locator/SnitchProperties.java
+index 36fec7f..cb0946a 100644
+--- a/src/java/org/apache/cassandra/locator/SnitchProperties.java
++++ b/src/java/org/apache/cassandra/locator/SnitchProperties.java
+@@ -53 +53 @@
+-            logger.warn("Unable to read " + RACKDC_PROPERTY_FILENAME);
++            logger.warn("Unable to read {}", ((configURL != null) ? configURL : RACKDC_PROPERTY_FILENAME));
+

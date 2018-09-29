@@ -1,0 +1,14 @@
+core: removed final from VM._diskList
+
+As the GWT serializer considers final fields as transient, no fields,
+which will be sent to client should be marked with the final keyword.
+
+In this case the _diskList of the VM entity has been marked as final,
+and the consequence was that the ResourcesView's setStorageGridData()
+method faild on NPE because of the getDiskList on the VM retuned null
+(the UserPortal project)
+
+The fix was only to remove the final modifier.
+
+Change-Id: I7e09999fabf947db4ce2f3c0fb49431b820fcaad
+

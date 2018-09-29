@@ -1,0 +1,12 @@
+diff --git a/storemate-backend-bdb-je/src/main/java/com/fasterxml/storemate/backend/bdbje/BDBJEBuilder.java b/storemate-backend-bdb-je/src/main/java/com/fasterxml/storemate/backend/bdbje/BDBJEBuilder.java
+index 7a44ae1..0acb38c 100644
+--- a/storemate-backend-bdb-je/src/main/java/com/fasterxml/storemate/backend/bdbje/BDBJEBuilder.java
++++ b/storemate-backend-bdb-je/src/main/java/com/fasterxml/storemate/backend/bdbje/BDBJEBuilder.java
+@@ -129,4 +129,2 @@
+-        /* Default of 500 msec way too low, let's see if 5 seconds works
+-         * better.
+-         */
+-        config.setLockTimeout(5000L, TimeUnit.MILLISECONDS);
++        // Default of 500 msec way too low; usually set to higher value:
++        config.setLockTimeout(_bdbConfig.lockTimeoutMsecs, TimeUnit.MILLISECONDS);
+

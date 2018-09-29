@@ -1,0 +1,138 @@
+diff --git a/demos/www/multiselect.template.html b/demos/www/multiselect.template.html
+index 0be2c3e..ea07bae 100644
+--- a/demos/www/multiselect.template.html
++++ b/demos/www/multiselect.template.html
+@@ -32 +32 @@
+-var parameters = {application_class_name:"org.apache.pivot.tutorials.lists.MultiSelect",
++var parameters = {application_class_name:"org.apache.pivot.demos.lists.MultiSelect",
+diff --git a/tutorials/src/org/apache/pivot/tutorials/boundedrange/sliders.wtkx b/tutorials/src/org/apache/pivot/tutorials/boundedrange/sliders.wtkx
+index a3d6442..ac1c518 100644
+--- a/tutorials/src/org/apache/pivot/tutorials/boundedrange/sliders.wtkx
++++ b/tutorials/src/org/apache/pivot/tutorials/boundedrange/sliders.wtkx
+@@ -23,8 +23,4 @@
+-        <Border>
+-            <content>
+-                <BoxPane styles="{verticalAlignment:'center'}">
+-                    <Slider wtkx:id="slider" range="{start:0, end:255}" value="0"/>
+-                    <Label wtkx:id="label"/>
+-                </BoxPane>
+-            </content>
+-        </Border>
++        <BoxPane styles="{verticalAlignment:'center'}">
++            <Slider wtkx:id="slider" range="{start:0, end:255}" value="0"/>
++            <Label wtkx:id="label"/>
++        </BoxPane>
+diff --git a/tutorials/src/org/apache/pivot/tutorials/boundedrange/spinners.wtkx b/tutorials/src/org/apache/pivot/tutorials/boundedrange/spinners.wtkx
+index 9b58f65..18219de 100644
+--- a/tutorials/src/org/apache/pivot/tutorials/boundedrange/spinners.wtkx
++++ b/tutorials/src/org/apache/pivot/tutorials/boundedrange/spinners.wtkx
+@@ -24,13 +24,9 @@
+-        <Border>
+-            <content>
+-                <BoxPane styles="{verticalAlignment:'center'}">
+-                    <Spinner spinnerData="['One', 'Two', 'Three', 'Four', 'Five']"
+-                        circular="true" preferredWidth="80" selectedIndex="0"/>
+-                    <Spinner preferredWidth="40" selectedIndex="0">
+-                        <spinnerData>
+-                            <content:NumericSpinnerData lowerBound="0" upperBound="9" increment="1"/>
+-                        </spinnerData>
+-                    </Spinner>
+-                </BoxPane>
+-            </content>
+-        </Border>
++        <BoxPane styles="{verticalAlignment:'center'}">
++            <Spinner spinnerData="['One', 'Two', 'Three', 'Four', 'Five']"
++                circular="true" preferredWidth="80" selectedIndex="0"/>
++            <Spinner preferredWidth="40" selectedIndex="0">
++                <spinnerData>
++                    <content:NumericSpinnerData lowerBound="0" upperBound="9" increment="1"/>
++                </spinnerData>
++            </Spinner>
++        </BoxPane>
+diff --git a/tutorials/src/org/apache/pivot/tutorials/filebrowser/FileBrowser.java b/tutorials/src/org/apache/pivot/tutorials/filebrowser/FileBrowser.java
+index 73edfc4..e9effa2 100644
+--- a/tutorials/src/org/apache/pivot/tutorials/filebrowser/FileBrowser.java
++++ b/tutorials/src/org/apache/pivot/tutorials/filebrowser/FileBrowser.java
+@@ -56 +56,2 @@
+-                return file.isDirectory();
++                // return file.isDirectory();
++                return true;
+diff --git a/tutorials/www/flow_panes.template.html b/tutorials/www/flow_panes.template.html
+index 3c0897a..6f88a4a 100644
+--- a/tutorials/www/flow_panes.template.html
++++ b/tutorials/www/flow_panes.template.html
+@@ -44 +44 @@
+-var parameters = {application_class_name:"org.apache.pivot.tutorials.layout.BoxPanes",
++var parameters = {application_class_name:"org.apache.pivot.tutorials.layout.FlowPanes",
+diff --git a/tutorials/www/hello_world.template.html b/tutorials/www/hello_world.template.html
+index a986dd2..e3fbf28 100644
+--- a/tutorials/www/hello_world.template.html
++++ b/tutorials/www/hello_world.template.html
+@@ -45 +45 @@
+-var parameters = {application_class_name:"org.apache.pivot.tutorials.HelloWorld",
++var parameters = {application_class_name:"org.apache.pivot.tutorials.HelloJava",
+diff --git a/tutorials/www/navigation_containers.template.html b/tutorials/www/navigation_containers.template.html
+index 5ed90cd..bda3211 100644
+--- a/tutorials/www/navigation_containers.template.html
++++ b/tutorials/www/navigation_containers.template.html
+@@ -27,0 +28 @@
++<ul>
+diff --git a/tutorials/www/sliders.template.html b/tutorials/www/sliders.template.html
+index aaad2b8..e41c0eb 100644
+--- a/tutorials/www/sliders.template.html
++++ b/tutorials/www/sliders.template.html
+@@ -58,8 +58,4 @@
+-        &lt;Border&gt;
+-            &lt;content&gt;
+-                &lt;BoxPane styles="{verticalAlignment:'center'}"&gt;
+-                    &lt;Slider wtkx:id="slider" bounds="{minimum:0, maximum:255}" value="0"/&gt;
+-                    &lt;Label wtkx:id="label"/&gt;
+-                &lt;/BoxPane&gt;
+-            &lt;/content&gt;
+-        &lt;/Border&gt;
++        &lt;BoxPane styles="{verticalAlignment:'center'}"&gt;
++            &lt;Slider wtkx:id="slider" bounds="{minimum:0, maximum:255}" value="0"/&gt;
++            &lt;Label wtkx:id="label"/&gt;
++        &lt;/BoxPane&gt;
+diff --git a/tutorials/www/spinners.template.html b/tutorials/www/spinners.template.html
+index be50cfe..3dff662 100644
+--- a/tutorials/www/spinners.template.html
++++ b/tutorials/www/spinners.template.html
+@@ -63,13 +63,9 @@
+-        &lt;Border&gt;
+-            &lt;content&gt;
+-                &lt;BoxPane styles="{verticalAlignment:'center'}"&gt;
+-                    &lt;Spinner spinnerData="['One', 'Two', 'Three', 'Four', 'Five']"
+-                        circular="true" preferredWidth="80" selectedIndex="0"/&gt;
+-                    &lt;Spinner preferredWidth="40" selectedIndex="0"&gt;
+-                        &lt;spinnerData&gt;
+-                            &lt;content:NumericSpinnerData lowerBound="0" upperBound="9" increment="1"/&gt;
+-                        &lt;/spinnerData&gt;
+-                    &lt;/Spinner&gt;
+-                &lt;/BoxPane&gt;
+-            &lt;/content&gt;
+-        &lt;/Border&gt;
++        &lt;BoxPane styles="{verticalAlignment:'center'}"&gt;
++            &lt;Spinner spinnerData="['One', 'Two', 'Three', 'Four', 'Five']"
++                circular="true" preferredWidth="80" selectedIndex="0"/&gt;
++            &lt;Spinner preferredWidth="40" selectedIndex="0"&gt;
++                &lt;spinnerData&gt;
++                    &lt;content:NumericSpinnerData lowerBound="0" upperBound="9" increment="1"/&gt;
++                &lt;/spinnerData&gt;
++            &lt;/Spinner&gt;
++        &lt;/BoxPane&gt;
+diff --git a/tutorials/www/toggle_buttons.template.html b/tutorials/www/toggle_buttons.template.html
+index 2bce512..ce0d6c3 100644
+--- a/tutorials/www/toggle_buttons.template.html
++++ b/tutorials/www/toggle_buttons.template.html
+@@ -45 +45 @@
+-var parameters = {application_class_name:"org.apache.pivot.tutorials.buttons.PushButtons",
++var parameters = {application_class_name:"org.apache.pivot.tutorials.buttons.ToggleButtons",
+diff --git a/tutorials/www/viewports.template.html b/tutorials/www/viewports.template.html
+index f49953f..f70cc9b 100644
+--- a/tutorials/www/viewports.template.html
++++ b/tutorials/www/viewports.template.html
+@@ -26 +26 @@
+-<p><tt>Viewport<tt> is abstract base class for "viewport" components. Viewports provide a windowed view on a component (called the "view") that is too large to fit within a given area. They are generally scrollable, though their means for scrolling the view may differ. Pivot includes two viewport components: <a href="scroll_panes.html">ScrollPane</a> and <a href="panoramas.html">Panorama</a>. Scroll panes facilitate scrolling by presenting a vertical or horizontal scroll bar that the user can drag to access the obscured parts of the view. Panoramas scroll via four directional scroll arrows shown at the top, left, bottom, or right as needed.</p>
++<p><tt>Viewport</tt> is abstract base class for "viewport" components. Viewports provide a windowed view on a component (called the "view") that is too large to fit within a given area. They are generally scrollable, though their means for scrolling the view may differ. Pivot includes two viewport components: <a href="scroll_panes.html">ScrollPane</a> and <a href="panoramas.html">Panorama</a>. Scroll panes facilitate scrolling by presenting a vertical or horizontal scroll bar that the user can drag to access the obscured parts of the view. Panoramas scroll via four directional scroll arrows shown at the top, left, bottom, or right as needed.</p>
+

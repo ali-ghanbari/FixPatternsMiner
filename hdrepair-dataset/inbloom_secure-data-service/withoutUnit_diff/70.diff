@@ -1,0 +1,8 @@
+diff --git a/sli/sif/sif-agent/src/main/java/org/slc/sli/sif/slcinterface/ZoneMapProvider.java b/sli/sif/sif-agent/src/main/java/org/slc/sli/sif/slcinterface/ZoneMapProvider.java
+index 58c20db..6d4890b 100644
+--- a/sli/sif/sif-agent/src/main/java/org/slc/sli/sif/slcinterface/ZoneMapProvider.java
++++ b/sli/sif/sif-agent/src/main/java/org/slc/sli/sif/slcinterface/ZoneMapProvider.java
+@@ -65 +65 @@
+-            InputStream in = getClass().getClassLoader().getResourceAsStream(filename);
++            InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
+

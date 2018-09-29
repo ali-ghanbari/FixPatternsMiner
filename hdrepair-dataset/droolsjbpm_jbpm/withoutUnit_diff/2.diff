@@ -1,0 +1,8 @@
+diff --git a/jbpm-services/jbpm-kie-services/src/main/java/org/jbpm/kie/services/impl/RuntimeDataServiceImpl.java b/jbpm-services/jbpm-kie-services/src/main/java/org/jbpm/kie/services/impl/RuntimeDataServiceImpl.java
+index ff6d84e..8ac4fb7 100644
+--- a/jbpm-services/jbpm-kie-services/src/main/java/org/jbpm/kie/services/impl/RuntimeDataServiceImpl.java
++++ b/jbpm-services/jbpm-kie-services/src/main/java/org/jbpm/kie/services/impl/RuntimeDataServiceImpl.java
+@@ -186 +186 @@
+-        CollectionUtils.select(availableProcesses, new RegExPredicate("^.*"+filter+".*$", identityProvider.getRoles()), outputCollection);
++        CollectionUtils.select(availableProcesses, new RegExPredicate("(?i)^.*"+filter+".*$", identityProvider.getRoles()), outputCollection);
+

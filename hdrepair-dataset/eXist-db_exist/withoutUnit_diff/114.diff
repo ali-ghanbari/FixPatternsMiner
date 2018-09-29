@@ -1,0 +1,8 @@
+diff --git a/src/org/exist/Indexer.java b/src/org/exist/Indexer.java
+index 1801115..9c566aa 100644
+--- a/src/org/exist/Indexer.java
++++ b/src/org/exist/Indexer.java
+@@ -554 +554 @@
+-                        if (charBuf.length() > 0 && last.getChildCount() > 0) {
++                        if (charBuf.length() > 0 && !(last.getChildCount() == 0 && (normalize & XMLString.SUPPRESS_LEADING_WS) != 0)) {
+

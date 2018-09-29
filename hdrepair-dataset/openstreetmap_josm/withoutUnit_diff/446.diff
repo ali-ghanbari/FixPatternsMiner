@@ -1,0 +1,8 @@
+diff --git a/src/org/openstreetmap/josm/io/auth/JosmPreferencesCredentialManager.java b/src/org/openstreetmap/josm/io/auth/JosmPreferencesCredentialManager.java
+index 53fc20b..40a783a 100644
+--- a/src/org/openstreetmap/josm/io/auth/JosmPreferencesCredentialManager.java
++++ b/src/org/openstreetmap/josm/io/auth/JosmPreferencesCredentialManager.java
+@@ -42 +42 @@
+-            return new PasswordAuthentication(user, password == null ? null : password.toCharArray());
++            return new PasswordAuthentication(user, password == null ? new char[0] : password.toCharArray());
+

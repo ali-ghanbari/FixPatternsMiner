@@ -1,0 +1,79 @@
+diff --git a/components/insight/SRC/org/openmicroscopy/shoola/agents/dataBrowser/view/DataBrowserComponent.java b/components/insight/SRC/org/openmicroscopy/shoola/agents/dataBrowser/view/DataBrowserComponent.java
+index c6d03fb..458f575 100644
+--- a/components/insight/SRC/org/openmicroscopy/shoola/agents/dataBrowser/view/DataBrowserComponent.java
++++ b/components/insight/SRC/org/openmicroscopy/shoola/agents/dataBrowser/view/DataBrowserComponent.java
+@@ -1612 +1612 @@
+-		if (data == null) return;
++		if (data == null || data.size() == 0) return;
+diff --git a/components/tools/OmeroPy/src/omero/util/populate_metadata.py b/components/tools/OmeroPy/src/omero/util/populate_metadata.py
+index 94bf3d9..abad7f8 100644
+--- a/components/tools/OmeroPy/src/omero/util/populate_metadata.py
++++ b/components/tools/OmeroPy/src/omero/util/populate_metadata.py
+@@ -167,0 +168,7 @@
++        for column in columns:
++            if column.__class__ is PlateColumn:
++                columns.append(StringColumn(PLATE_NAME_COLUMN, '',
++                               self.DEFAULT_COLUMN_SIZE, list()))
++            if column.__class__ is WellColumn:
++                columns.append(StringColumn(WELL_NAME_COLUMN, '',
++                               self.DEFAULT_COLUMN_SIZE, list()))
+@@ -203 +210 @@
+-                'where s.id = :id', parameters)
++                'where s.id = :id', parameters, {'omero.group': '-1'})
+@@ -205 +212 @@
+-            raise MetadataException('Could not find target object!')
++            raise MetadataError('Could not find target object!')
+@@ -206,0 +214 @@
++        self.wells_by_id = dict()
+@@ -216 +224 @@
+-                    'where p.id = :id', parameters)
++                    'where p.id = :id', parameters, {'omero.group': '-1'})
+@@ -219,0 +228 @@
++            wells_by_id = dict()
+@@ -221 +230,2 @@
+-            self.parse_plate(plate, wells_by_location)
++            self.wells_by_id[plate.id.val] = wells_by_id
++            self.parse_plate(plate, wells_by_location, wells_by_id)
+@@ -232 +242 @@
+-                'where p.id = :id', parameters)
++                'where p.id = :id', parameters, {'omero.group': '-1'})
+@@ -234 +244 @@
+-            raise MetadataException('Could not find target object!')
++            raise MetadataError('Could not find target object!')
+@@ -235,0 +246 @@
++        self.wells_by_id = dict()
+@@ -236,0 +248 @@
++        wells_by_id = dict()
+@@ -238 +250,2 @@
+-        self.parse_plate(self.target_object, wells_by_location)
++        self.wells_by_id[self.target_object.id.val] = wells_by_id
++        self.parse_plate(self.target_object, wells_by_location, wells_by_id)
+@@ -240 +253 @@
+-    def parse_plate(self, plate, wells_by_location):
++    def parse_plate(self, plate, wells_by_location, wells_by_id):
+@@ -243,0 +257 @@
++            wells_by_id[well.id.val] = well
+@@ -269 +283 @@
+-            plate_column = m.group(2)
++            plate_column = str(long(m.group(2)))
+@@ -403,0 +418,4 @@
++                if PlateI is self.value_resolver.target_class:
++                    plate = self.value_resolver.target_object.id.val
++                elif ScreenI is self.value_resolver.target_class:
++                    plate = columns_by_name['Plate'].values[i]
+@@ -405,2 +423,4 @@
+-                    row = columns_by_name['Row'].values[i]
+-                    col = columns_by_name['Column'].values[i]
++                    well = self.value_resolver.wells_by_id[plate]
++                    well = well[well_column.values[i]]
++                    row = well.row.val
++                    col = well.column.val
+@@ -431 +450,0 @@
+-        original_file = table.getOriginalFile()
+@@ -434,0 +454 @@
++        original_file = table.getOriginalFile()
+@@ -448 +468,2 @@
+-        update_service.saveObject(link)
++        group = str(self.value_resolver.target_object.details.group.id.val)
++        update_service.saveObject(link, {'omero.group': group})
+

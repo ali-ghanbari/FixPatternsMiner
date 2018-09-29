@@ -1,0 +1,14 @@
+diff --git a/src/main/java/com/zoltran/memorymonitor/AllocationMonitorAspect.java b/src/main/java/com/zoltran/memorymonitor/AllocationMonitorAspect.java
+index 824388f..ec99356 100644
+--- a/src/main/java/com/zoltran/memorymonitor/AllocationMonitorAspect.java
++++ b/src/main/java/com/zoltran/memorymonitor/AllocationMonitorAspect.java
+@@ -37 +37 @@
+-            Integer.valueOf(System.getProperty("perf.allocations.sampleTime", "1000")) );
++            Integer.valueOf(System.getProperty("perf.allocations.sampleTime", "300000")) );
+diff --git a/src/test/java/com/zoltran/memorymonitor/AllocationMonitorAspectTest.java b/src/test/java/com/zoltran/memorymonitor/AllocationMonitorAspectTest.java
+index 8aabde1..89dcdae 100644
+--- a/src/test/java/com/zoltran/memorymonitor/AllocationMonitorAspectTest.java
++++ b/src/test/java/com/zoltran/memorymonitor/AllocationMonitorAspectTest.java
+@@ -50,0 +51 @@
++        System.setProperty("perf.allocations.sampleTime", "1000");
+

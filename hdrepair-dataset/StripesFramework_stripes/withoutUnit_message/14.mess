@@ -1,0 +1,2 @@
+Revert a change made in r998 as a "fix" for STS-618. The reference to the body content should be nulled after each request in the hope that its (possibly large) buffer will be released for garbage collection. The JSP 2.0 specification is quite clear that setBodyContent is to be called after each call to doStartTag() that returns EVAL_BODY_BUFFERED. If Resin is not doing that then that is a Resin problem.
+

@@ -1,0 +1,16 @@
+diff --git a/src/org/traccar/protocol/MeitrackProtocolDecoder.java b/src/org/traccar/protocol/MeitrackProtocolDecoder.java
+index ab12d51..7f63b4b 100644
+--- a/src/org/traccar/protocol/MeitrackProtocolDecoder.java
++++ b/src/org/traccar/protocol/MeitrackProtocolDecoder.java
+@@ -68 +68 @@
+-            ".*"); // TODO: parse other stuff
++            ".*(\r\n)?");
+diff --git a/test/org/traccar/protocol/MeitrackProtocolDecoderTest.java b/test/org/traccar/protocol/MeitrackProtocolDecoderTest.java
+index 43a2fbe..f02c18a 100644
+--- a/test/org/traccar/protocol/MeitrackProtocolDecoderTest.java
++++ b/test/org/traccar/protocol/MeitrackProtocolDecoderTest.java
+@@ -48,0 +49,3 @@
++        verify(decoder.decode(null, null, ChannelBuffers.copiedBuffer(
++                "$$B140,013777001293701,AAA,35,-7.266760,112.743550,140521095314,A,3,22,0,275,2.7,45,1984,8059,510|1|3504|EBFE,0000,0000|0000|0000|0914|0002,,*F9\r\n", Charset.defaultCharset())));
++
+

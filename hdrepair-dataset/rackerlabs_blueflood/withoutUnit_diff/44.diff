@@ -1,0 +1,38 @@
+diff --git a/.travis.yml b/.travis.yml
+index 952aaa6..b102751 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -5,0 +6,3 @@
++install:
++  - mvn install -Dmaven.test.skip
++
+@@ -7 +10 @@
+-  - mvn verify
++  - mvn verify # runs integration tests against cassandra 1.0.8
+@@ -11,0 +15 @@
++  irc: "irc.freenode.net#blueflood"
+@@ -13 +17,2 @@
+-    - blueflood-build-notifications@lists.rackspace.com
++    recepients:
++      - blueflood-discuss@googlegroups.com
+diff --git a/blueflood-core/src/main/java/com/rackspacecloud/blueflood/io/AstyanaxIO.java b/blueflood-core/src/main/java/com/rackspacecloud/blueflood/io/AstyanaxIO.java
+index 76f8c61..bca5e67 100644
+--- a/blueflood-core/src/main/java/com/rackspacecloud/blueflood/io/AstyanaxIO.java
++++ b/blueflood-core/src/main/java/com/rackspacecloud/blueflood/io/AstyanaxIO.java
+@@ -131,0 +132 @@
++                .setInitConnsPerHost(connsPerHost / 2)
+diff --git a/demo/ingest.py b/demo/ingest.py
+index 9a72b77..ce137bb 100755
+--- a/demo/ingest.py
++++ b/demo/ingest.py
+@@ -87 +87,6 @@
+-        print(r)
++        print('Response from server %s' % (r))
++        print('To retrive the generated data with retrieve.py script, use the following command (assuming port number 20000):')
++        print('')
++        print('./retrieve.py --host %s --port 20000 --metric %s --tenant %s --from %s --to %s --points 100' \
++            % (options.host, metricName, tenantId, start - 100000000, end + 100000000))
++        print('')
+@@ -92,0 +98 @@
++
+

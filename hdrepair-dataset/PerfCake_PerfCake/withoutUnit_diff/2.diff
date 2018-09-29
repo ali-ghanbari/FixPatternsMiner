@@ -1,0 +1,8 @@
+diff --git a/perfcake/src/main/java/org/perfcake/validation/RegExpValidator.java b/perfcake/src/main/java/org/perfcake/validation/RegExpValidator.java
+index 426669f..9c88905 100644
+--- a/perfcake/src/main/java/org/perfcake/validation/RegExpValidator.java
++++ b/perfcake/src/main/java/org/perfcake/validation/RegExpValidator.java
+@@ -66 +66 @@
+-      final String trimmedLinesOfPayload = StringUtil.trimLines(response == null ? "" : response.getPayload().toString());
++      final String trimmedLinesOfPayload = StringUtil.trimLines((response == null || response.getPayload() == null) ? "" : response.getPayload().toString());
+

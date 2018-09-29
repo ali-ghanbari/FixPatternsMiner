@@ -1,0 +1,92 @@
+diff --git a/extensions/indexes/lucene/src/org/exist/indexing/lucene/LuceneMatchListener.java b/extensions/indexes/lucene/src/org/exist/indexing/lucene/LuceneMatchListener.java
+index b5ab42e..fb92cd9 100644
+--- a/extensions/indexes/lucene/src/org/exist/indexing/lucene/LuceneMatchListener.java
++++ b/extensions/indexes/lucene/src/org/exist/indexing/lucene/LuceneMatchListener.java
+@@ -313,0 +314,3 @@
++            if (startOffset == offset)
++                // duplicate match starts at same offset. ignore.
++                return;
+diff --git a/webapp/kwic.xql b/webapp/kwic.xql
+index 7342c47..a867e60 100644
+--- a/webapp/kwic.xql
++++ b/webapp/kwic.xql
+@@ -13 +13 @@
+-	let $sibs := 
++	let $sibs :=
+@@ -40,0 +41,7 @@
++declare function kwic:display-text($text as text()?) as node()? {
++    if ($text/parent::exist:match) then
++    	<span class="hi">{$text}</span>
++    else
++        $text
++};
++
+@@ -48 +55 @@
+-declare function kwic:truncate-previous($nodes as node()*, $truncated as item()*, 
++declare function kwic:truncate-previous($root as node(), $node as node()?, $truncated as item()*, 
+@@ -50,2 +57,2 @@
+-	if ($nodes) then
+-		let $next := $nodes[last()]
++	if ($node) then
++		let $next := kwic:display-text($node/preceding::text()[1])
+@@ -53 +60,3 @@
+-			if ($chars + string-length($next) gt $max) then
++			if (empty($root//$next)) then
++				$truncated
++			else if ($chars + string-length($next) gt $max) then
+@@ -58 +67 @@
+-				kwic:truncate-previous(subsequence($nodes, 1, count($nodes) - 1), ($next, $truncated),
++				kwic:truncate-previous($root, $next, ($next, $truncated),
+@@ -71 +80 @@
+-declare function kwic:truncate-following($nodes as node()*, $truncated as item()*, 
++declare function kwic:truncate-following($root as node(), $node as node()?, $truncated as item()*, 
+@@ -73,2 +82,2 @@
+-	if ($nodes) then
+-		let $next := $nodes[1]
++	if ($node) then
++		let $next := kwic:display-text($node/text()/following::text()[1])
+@@ -76 +85,3 @@
+-			if ($chars + string-length($next) gt $max) then
++			if (empty($root//$next)) then
++				$truncated
++			else if ($chars + string-length($next) gt $max) then
+@@ -81 +92 @@
+-				kwic:truncate-following(subsequence($nodes, 2), ($truncated, $next),
++				kwic:truncate-following($root, $next, ($truncated, $next),
+@@ -110,2 +121 @@
+-	let $prev := kwic:get-context($root, $node, 'previous')
+-	let $prevTrunc := kwic:truncate-previous($prev, (), $chars, 0)
++	let $prevTrunc := kwic:truncate-previous($root, $node, (), $chars, 0)
+@@ -117,2 +127 @@
+-	let $following := kwic:get-context($root, $node, 'following')
+-	let $followingTrunc := kwic:truncate-following($following, (), $remain, 0)
++	let $followingTrunc := kwic:truncate-following($root, $node, (), $remain, 0)
+@@ -185 +194,2 @@
+-	for $match in kwic:get-matches($hit)
++    let $expanded := util:expand($hit)
++	for $match in $expanded//exist:match
+diff --git a/webapp/search.xql b/webapp/search.xql
+index cf32fcb..1e94c66 100644
+--- a/webapp/search.xql
++++ b/webapp/search.xql
+@@ -20,2 +20,2 @@
+-		<field name="title">section[ft:query(.//title, "$q")]</field>
+-		<field>section[ft:query(., "$q")]</field>
++		<field name="title">section[ft:query(.//title, '$q')]</field>
++		<field>section[ft:query(., '$q')]</field>
+@@ -103,9 +102,0 @@
+-(:~
+-	Create and return XPath expressions corresponding to the fields to
+-	be queried.
+-:)
+-declare function dq:create-query($fields as element(field)*, $query as xs:string) {
+-	for $field in $fields
+-	return
+-		concat($field/string(), "[ft:contains(., '",	$query, "')]")
+-};
+@@ -128 +119 @@
+-					concat("collection('/db/", $dq:COLLECTION, "')/book//", $p),
++					concat("collection('/db/", $dq:COLLECTION, "')//", $p),
+@@ -130,0 +122 @@
++			let $log := util:log("DEBUG", ("Query: ", $xpath))
+

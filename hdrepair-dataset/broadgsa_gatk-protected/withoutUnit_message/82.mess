@@ -1,0 +1,4 @@
+Queue now understands -nct and requests the appropriate number of cores from LSF, SGE, etc
+
+-- NCT wasn't previously recognized by Queue as needing more processors per machine.  This commit fixes this.  Also a potential cause of poor GATKPerformanceOverTime, in that runs with -nct could flood a node and cause it to have hundreds of cores in contention.
+

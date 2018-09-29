@@ -1,0 +1,15 @@
+diff --git a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/DistributionPage.java b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/DistributionPage.java
+index a606601..5bd35f7 100644
+--- a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/DistributionPage.java
++++ b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/DistributionPage.java
+@@ -114 +114 @@
+-    testWebDriver.waitForElementToAppear(initiateDistributionButton);
++    testWebDriver.waitForElementToBeEnabled(initiateDistributionButton);
+diff --git a/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionCoverageSyncTest.java b/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionCoverageSyncTest.java
+index 4b4da97..3e2984e 100644
+--- a/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionCoverageSyncTest.java
++++ b/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionCoverageSyncTest.java
+@@ -45 +45 @@
+-  public Map<String, String> coverageData = new HashMap<String, String>() {{
++  public final Map<String, String> coverageData = new HashMap<String, String>() {{
+

@@ -1,0 +1,14 @@
+diff --git a/ui/plugins/eu.esdihumboldt.hale.ui.util/src/eu/esdihumboldt/hale/ui/util/selector/AbstractSelector.java b/ui/plugins/eu.esdihumboldt.hale.ui.util/src/eu/esdihumboldt/hale/ui/util/selector/AbstractSelector.java
+index 335db9e..e9d2271 100644
+--- a/ui/plugins/eu.esdihumboldt.hale.ui.util/src/eu/esdihumboldt/hale/ui/util/selector/AbstractSelector.java
++++ b/ui/plugins/eu.esdihumboldt.hale.ui.util/src/eu/esdihumboldt/hale/ui/util/selector/AbstractSelector.java
+@@ -85 +85,7 @@
+-		viewer = new TableViewer(main, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION | SWT.NO_SCROLL);
++		/*
++		 * Use MULTI selection so having an empty selection is possible on
++		 * Linux/GTK. Otherwise when the control gets the focus it will
++		 * automatically select the entry and launch the selection dialog. This
++		 * especially is a problem when a selector gets the focus automatically.
++		 */
++		viewer = new TableViewer(main, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.NO_SCROLL);
+

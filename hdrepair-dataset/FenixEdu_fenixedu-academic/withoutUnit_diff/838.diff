@@ -1,0 +1,23 @@
+diff --git a/config/OJB/repository_sop.xml b/config/OJB/repository_sop.xml
+index 1ecb22f..c419edd 100755
+--- a/config/OJB/repository_sop.xml
++++ b/config/OJB/repository_sop.xml
+@@ -509 +509,2 @@
+-         jdbc-type="DATETIME"
++         jdbc-type="DATE"
++         conversion="ServidorPersistente.Conversores.Calendar2DateFieldConversion"
+@@ -514 +515,2 @@
+-         jdbc-type="DATETIME"
++         jdbc-type="DATE"
++         conversion="ServidorPersistente.Conversores.Calendar2DateFieldConversion"
+@@ -520 +522 @@
+-         proxy="true"
++        
+diff --git a/src/Dominio/ExamEnrollment.java b/src/Dominio/ExamEnrollment.java
+index b465318..b7da8d4 100755
+--- a/src/Dominio/ExamEnrollment.java
++++ b/src/Dominio/ExamEnrollment.java
+@@ -22 +22 @@
+-				return this.getIdInternal().equals(examEnrollmentObj.getIdInternal());
++				return getExam().equals(examEnrollmentObj.getExam());
+

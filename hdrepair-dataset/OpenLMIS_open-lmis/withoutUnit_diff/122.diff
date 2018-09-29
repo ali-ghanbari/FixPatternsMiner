@@ -1,0 +1,74 @@
+diff --git a/modules/openlmis-web/src/main/webapp/public/js/rnr/model/regular-rnr-line-item.js b/modules/openlmis-web/src/main/webapp/public/js/rnr/model/regular-rnr-line-item.js
+index 46edcaa..818afcb 100644
+--- a/modules/openlmis-web/src/main/webapp/public/js/rnr/model/regular-rnr-line-item.js
++++ b/modules/openlmis-web/src/main/webapp/public/js/rnr/model/regular-rnr-line-item.js
+@@ -202 +202 @@
+-    var numberOfMonthsInPeriod = 3; // will be picked up from the database in future
++    this.reportingDays = utils.getValueFor(this.reportingDays);
+@@ -214 +214,2 @@
+-    var consumptionAdjustedWithStockOutDays = ((numberOfMonthsInPeriod * 30) - this.stockOutDays) === 0 ?
++    g = Math.max(g, 1);
++    var consumptionAdjustedWithStockOutDays = ((this.reportingDays) - this.stockOutDays) === 0 ?
+@@ -216,2 +217,2 @@
+-      (this.quantityDispensed * ((numberOfMonthsInPeriod * 30) / ((numberOfMonthsInPeriod * 30) - this.stockOutDays)));
+-    var adjustmentForNewPatients = (this.newPatientCount * Math.ceil(this.dosesPerMonth / g) ) * numberOfMonthsInPeriod;
++      ((this.quantityDispensed * 30) / ((this.reportingDays) - this.stockOutDays));
++    var adjustmentForNewPatients = (this.newPatientCount * Math.round(this.dosesPerMonth / g) );
+@@ -226,2 +227 @@
+-    var numberOfMonthsInPeriod = this.numberOfMonths;
+-    var divider = numberOfMonthsInPeriod * (1 + this.previousNormalizedConsumptions.length);
++    var divider = (1 + this.previousNormalizedConsumptions.length);
+diff --git a/modules/openlmis-web/src/test/javascript/specs/rnr/model/regular-rnr-line-item-test.js b/modules/openlmis-web/src/test/javascript/specs/rnr/model/regular-rnr-line-item-test.js
+index 984bf6b..94b1c95 100644
+--- a/modules/openlmis-web/src/test/javascript/specs/rnr/model/regular-rnr-line-item-test.js
++++ b/modules/openlmis-web/src/test/javascript/specs/rnr/model/regular-rnr-line-item-test.js
+@@ -145 +145 @@
+-        "stockOutDays": 5, "newPatientCount": 10, "dosesPerMonth": 30, "dosesPerDispensingUnit": 28};
++        "stockOutDays": 5, "newPatientCount": 10, "dosesPerMonth": 30, "dosesPerDispensingUnit": 28, "reportingDays": 30};
+@@ -152 +152 @@
+-      expect(regularRnrLineItem.normalizedConsumption).toEqual(65);
++      expect(regularRnrLineItem.normalizedConsumption).toEqual(16);
+@@ -186 +186,3 @@
+-        var lineItem = {"beginningBalance": 1, "quantityReceived": 10, "quantityDispensed": 13, "totalLossesAndAdjustments": 4, "stockOutDays": 90, "newPatientCount": 10, "dosesPerMonth": 30, "dosesPerDispensingUnit": 28};
++        var lineItem = {"beginningBalance": 1, "quantityReceived": 10, "quantityDispensed": 13,
++          "totalLossesAndAdjustments": 4, "stockOutDays": 90, "newPatientCount": 10, "dosesPerMonth": 30, "dosesPerDispensingUnit": 28,
++          "reportingDays": 90};
+@@ -192 +194 @@
+-        expect(regularRnrLineItem.normalizedConsumption).toEqual(73);
++        expect(regularRnrLineItem.normalizedConsumption).toEqual(23);
+@@ -204 +206,3 @@
+-      var lineItem = {"beginningBalance": 1, "quantityReceived": 10, "quantityDispensed": 5, "totalLossesAndAdjustments": -4, "stockOutDays": 5, "newPatientCount": null, "dosesPerMonth": 30, "dosesPerDispensingUnit": 28};
++      var lineItem = {"beginningBalance": 1, "quantityReceived": 10, "quantityDispensed": 5,
++        "totalLossesAndAdjustments": -4, "stockOutDays": 5, "newPatientCount": null, "dosesPerMonth": 30, "dosesPerDispensingUnit": 28,
++        "reportingDays": 30};
+@@ -210 +214 @@
+-      expect(regularRnrLineItem.normalizedConsumption).toEqual(5);
++      expect(regularRnrLineItem.normalizedConsumption).toEqual(6);
+@@ -215 +219 @@
+-    it('should calculate AMC when number of months in a period is 3 or more', function () {
++    it('should calculate AMC when previous normalized consumption is not available', function () {
+@@ -222 +226 @@
+-      expect(regularRnrLineItem.amc).toEqual(3);
++      expect(regularRnrLineItem.amc).toEqual(10);
+@@ -225 +229 @@
+-    it('should calculate AMC when number of months in a period is 2', function () {
++    it('should calculate AMC when previous one normalized consumption is available', function () {
+@@ -232 +236 @@
+-      expect(regularRnrLineItem.amc).toEqual(6);
++      expect(regularRnrLineItem.amc).toEqual(12);
+@@ -235 +239 @@
+-    it('should calculate AMC when number of months in a period is 2 but previous normalized consumption is not available',
++    it('should calculate AMC when 2 previous normalized consumption are available',
+@@ -239 +243 @@
+-        regularRnrLineItem.previousNormalizedConsumptions = [];
++        regularRnrLineItem.previousNormalizedConsumptions = [12, 7];
+@@ -243 +247 @@
+-        expect(regularRnrLineItem.amc).toEqual(5);
++        expect(regularRnrLineItem.amc).toEqual(10);
+diff --git a/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java b/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java
+index 2fd6ce2..ec7626f 100644
+--- a/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java
++++ b/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java
+@@ -42 +41,0 @@
+-  public static final BigDecimal MULTIPLIER = new BigDecimal(3);
+

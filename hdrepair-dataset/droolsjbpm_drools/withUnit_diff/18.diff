@@ -1,0 +1,50 @@
+diff --git a/drools-compiler/src/test/java/org/drools/integrationtests/StreamsTest.java b/drools-compiler/src/test/java/org/drools/integrationtests/StreamsTest.java
+index dbb140f..6dd4d25 100644
+--- a/drools-compiler/src/test/java/org/drools/integrationtests/StreamsTest.java
++++ b/drools-compiler/src/test/java/org/drools/integrationtests/StreamsTest.java
+@@ -380,0 +381,37 @@
++    public void testEntryPointWithAccumulateAndMVEL() throws Exception {
++        String str = "package org.drools\n" +
++                "rule R1 dialect 'mvel'\n" +
++                "    when\n" +
++                "        $n : Number() from accumulate( \n" +
++                "                 StockTick() from entry-point ep1,\n" +
++                "                 count(1))" +
++                "    then\n" +
++                "end\n";
++
++        // read in the source
++        KnowledgeBase kbase = loadKnowledgeBaseFromString( (KnowledgeBaseConfiguration)null, str );
++        StatefulKnowledgeSession ksession = createKnowledgeSession(kbase);
++
++        org.drools.event.rule.AgendaEventListener ael = mock(org.drools.event.rule.AgendaEventListener.class);
++        ksession.addEventListener(ael);
++
++        WorkingMemoryEntryPoint ep1 = ksession.getWorkingMemoryEntryPoint("ep1");
++
++        ep1.insert(new StockTick(1,
++                "RHT",
++                10,
++                1000));
++        int rulesFired = ksession.fireAllRules();
++        assertEquals(1,
++                rulesFired);
++
++        ArgumentCaptor<org.drools.event.rule.AfterActivationFiredEvent> captor = ArgumentCaptor.forClass(org.drools.event.rule.AfterActivationFiredEvent.class);
++        verify(ael,
++                times(1)).afterActivationFired(captor.capture());
++        List<org.drools.event.rule.AfterActivationFiredEvent> aafe = captor.getAllValues();
++
++        Assert.assertThat(aafe.get(0).getActivation().getRule().getName(),
++                is("R1"));
++    }
++    
++    @Test
+diff --git a/drools-core/src/main/java/org/drools/base/mvel/MVELCompilationUnit.java b/drools-core/src/main/java/org/drools/base/mvel/MVELCompilationUnit.java
+index 6cfe79a..9e80179 100644
+--- a/drools-core/src/main/java/org/drools/base/mvel/MVELCompilationUnit.java
++++ b/drools-core/src/main/java/org/drools/base/mvel/MVELCompilationUnit.java
+@@ -304 +304 @@
+-        if ( rightObject != null ) {
++        if ( "this".equals( inputIdentifiers[0] ) ) {
+

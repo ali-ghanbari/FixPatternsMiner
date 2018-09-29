@@ -1,0 +1,72 @@
+diff --git a/build/src/test/java/bo/gotthardt/deploy/TarGzArchiveTest.java b/build/src/test/java/bo/gotthardt/deploy/TarGzArchiveTest.java
+index 891f755..47b744a 100644
+--- a/build/src/test/java/bo/gotthardt/deploy/TarGzArchiveTest.java
++++ b/build/src/test/java/bo/gotthardt/deploy/TarGzArchiveTest.java
+@@ -42 +42 @@
+-        assertThat(output.getName()).endsWith(".tar.gz");
++        assertThat(output.getName()).endsWith(".tgz");
+diff --git a/common/common-client/src/main/javascript/auth/OAuth2AccessToken.js b/common/common-client/src/main/javascript/auth/OAuth2AccessToken.js
+index 5571ced..708fb62 100644
+--- a/common/common-client/src/main/javascript/auth/OAuth2AccessToken.js
++++ b/common/common-client/src/main/javascript/auth/OAuth2AccessToken.js
+@@ -33 +33 @@
+-                url: "http://localhost:8080/token",
++                url: "http://localhost:8080/api/token",
+diff --git a/common/common-client/src/main/javascript/auth/User.js b/common/common-client/src/main/javascript/auth/User.js
+index c53cd22..0737ce4 100644
+--- a/common/common-client/src/main/javascript/auth/User.js
++++ b/common/common-client/src/main/javascript/auth/User.js
+@@ -18 +18 @@
+-        urlRoot: "http://localhost:8080/users/",
++        urlRoot: "http://localhost:8080/api/users/",
+diff --git a/integration-tests/src/test/java/bo/gotthardt/test/UiIntegrationTest.java b/integration-tests/src/test/java/bo/gotthardt/test/UiIntegrationTest.java
+index 6a23775..f23667b 100644
+--- a/integration-tests/src/test/java/bo/gotthardt/test/UiIntegrationTest.java
++++ b/integration-tests/src/test/java/bo/gotthardt/test/UiIntegrationTest.java
+@@ -6 +5,0 @@
+-import com.google.common.io.Resources;
+@@ -10,0 +10 @@
++import org.openqa.selenium.Proxy;
+@@ -12,0 +13 @@
++import org.openqa.selenium.remote.CapabilityType;
+@@ -28 +29 @@
+-        //caps.setCapability(CapabilityType.PROXY, new Proxy().setHttpProxy("localhost:8888"));
++        caps.setCapability(CapabilityType.PROXY, new Proxy().setHttpProxy("localhost:8888"));
+diff --git a/integration-tests/src/test/java/bo/gotthardt/ui/BlahUiTest.java b/integration-tests/src/test/java/bo/gotthardt/ui/BlahUiTest.java
+index 33b66c5..fdf8668 100644
+--- a/integration-tests/src/test/java/bo/gotthardt/ui/BlahUiTest.java
++++ b/integration-tests/src/test/java/bo/gotthardt/ui/BlahUiTest.java
+@@ -18 +18 @@
+-        driver.get("http://localhost:8080/static/");
++        driver.get("http://localhost:8080/");
+@@ -26 +26 @@
+-        driver.get("http://localhost:8080/static/");
++        driver.get("http://localhost:8080/");
+diff --git a/pom.xml b/pom.xml
+index 5f852e5..dcf0841 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -165,0 +166,5 @@
++                    <configuration>
++                        <includes>
++                            <include>bo.gotthardt.*</include>
++                        </includes>
++                    </configuration>
+diff --git a/todo/todo-client/todo-client.iml b/todo/todo-client/todo-client.iml
+index df72f10..833ff4c 100644
+--- a/todo/todo-client/todo-client.iml
++++ b/todo/todo-client/todo-client.iml
+@@ -9 +8,0 @@
+-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+@@ -10,0 +10 @@
++      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+@@ -15,0 +16 @@
++      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
+diff --git a/todo/todo-server/src/main/java/bo/gotthardt/todolist/application/TodoListApplication.java b/todo/todo-server/src/main/java/bo/gotthardt/todolist/application/TodoListApplication.java
+index 9dd91a8..3825f2d 100644
+--- a/todo/todo-server/src/main/java/bo/gotthardt/todolist/application/TodoListApplication.java
++++ b/todo/todo-server/src/main/java/bo/gotthardt/todolist/application/TodoListApplication.java
+@@ -52 +52 @@
+-        environment.jersey().setUrlPattern("/api");
++        environment.jersey().setUrlPattern("/api/*");
+

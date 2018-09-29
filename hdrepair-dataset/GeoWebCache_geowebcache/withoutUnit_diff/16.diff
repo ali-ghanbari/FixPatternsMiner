@@ -1,0 +1,18 @@
+diff --git a/geowebcache/src/main/java/org/geowebcache/service/kml/KMZHelper.java b/geowebcache/src/main/java/org/geowebcache/service/kml/KMZHelper.java
+index 42de5a1..f5c4192 100644
+--- a/geowebcache/src/main/java/org/geowebcache/service/kml/KMZHelper.java
++++ b/geowebcache/src/main/java/org/geowebcache/service/kml/KMZHelper.java
+@@ -151 +151 @@
+-        ZipEntry zeOl = new ZipEntry(namePfx + ".kml");
++        ZipEntry zeOl = new ZipEntry("netlinks_"+namePfx + ".kml");
+diff --git a/geowebcache/src/main/webapp/WEB-INF/geowebcache-servlet.xml b/geowebcache/src/main/webapp/WEB-INF/geowebcache-servlet.xml
+index cea8e0a..47f1f04 100644
+--- a/geowebcache/src/main/webapp/WEB-INF/geowebcache-servlet.xml
++++ b/geowebcache/src/main/webapp/WEB-INF/geowebcache-servlet.xml
+@@ -25 +25 @@
+-       <constructor-arg value="image/png,image/jpeg,kml"/>
++       <constructor-arg value="image/png,image/jpeg,application/vnd.google-earth.kml+xml"/>
+@@ -35 +35 @@
+-       <constructor-arg value="image/png,image/jpeg,kml"/>
++       <constructor-arg value="image/png,image/jpeg,application/vnd.google-earth.kml+xml"/>
+

@@ -1,0 +1,35 @@
+diff --git a/build.xml b/build.xml
+index 5dadff8..b71835e 100644
+--- a/build.xml
++++ b/build.xml
+@@ -125,16 +125 @@
+-    <!--
+-    Some of the SQL-related tests in UberTestCase3 require access to the source code of the test.  Copy
+-    the sources into the target tree so that the needed source files can be found.
+-    -->
+-    <target name="copySelectedGroovyFiles">
+-        <mkdir dir="${testClassesDirectory}"/>
+-        <copy todir="${testClassesDirectory}">
+-            <fileset dir="${testSourceDirectory}">
+-                <include name="groovy/sql/PersonTest.groovy"/>
+-                <include name="groovy/sql/SqlCompleteTest.groovy"/>
+-                <include name="groovy/sql/SqlTest.groovy"/>
+-            </fileset>
+-        </copy>
+-    </target>
+-
+-    <target name="test" depends="compileTest,copySelectedGroovyFiles" description="Compile and test all the classes.">
++    <target name="test" depends="compileTest" description="Compile and test all the classes.">
+@@ -142 +127 @@
+-        <junit printsummary="true" fork="true" forkmode="once" includeantruntime="false" failureproperty="testFailed">
++        <junit printsummary="true" fork="true" includeantruntime="false" failureproperty="testFailed">
+@@ -151,0 +137 @@
++                <pathelement path="src/test"/>
+diff --git a/src/test/groovy/security/SecurityTestSupport.java b/src/test/groovy/security/SecurityTestSupport.java
+index ade5900..03ee4c9 100644
+--- a/src/test/groovy/security/SecurityTestSupport.java
++++ b/src/test/groovy/security/SecurityTestSupport.java
+@@ -230 +230 @@
+-        			fail("Security test expected an AccessControlException on " + missingPermission + ", but  failed for other reasons (results on System.out)");
++        			fail("Security test expected an AccessControlException on " + missingPermission + ", but failed for other reasons (results on System.out)");
+

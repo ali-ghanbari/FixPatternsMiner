@@ -1,0 +1,22 @@
+PoolManager: Fix PoolUp handling to take lost message into account
+
+PoolManager periodically receives PoolUp messages from each pool. In
+case of state changes, it updates internal data structures and
+broadcasts a PoolStatusChanged message.
+
+The old logic failed to take communication failures into account: If a
+pool for some time lost the cell connection, then when it would go back
+online, the logic would see that the state is the same as last time it
+got a message from the pool. Thus suspended files would not be retried.
+
+Enabling the watchdog helps, but this patch fixes the core issue of
+detecting the change in the PoolUp processing.
+
+Target: trunk 
+Target: 1.9.5 
+Target: 1.9.4         
+Acked-by: Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+Patch: http://rb.dcache.org/r/877/
+
+
+

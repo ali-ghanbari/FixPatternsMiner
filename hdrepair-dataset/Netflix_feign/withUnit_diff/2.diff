@@ -1,0 +1,39 @@
+diff --git a/core/src/main/java/feign/RequestTemplate.java b/core/src/main/java/feign/RequestTemplate.java
+index 2574f0c..607a90b 100644
+--- a/core/src/main/java/feign/RequestTemplate.java
++++ b/core/src/main/java/feign/RequestTemplate.java
+@@ -208 +208 @@
+-          resolved = String.valueOf(unencoded.get(field));
++          resolved = expand(value, unencoded);
+diff --git a/core/src/test/java/feign/DefaultContractTest.java b/core/src/test/java/feign/DefaultContractTest.java
+index 607244e..99b1b7a 100644
+--- a/core/src/test/java/feign/DefaultContractTest.java
++++ b/core/src/test/java/feign/DefaultContractTest.java
+@@ -248 +248 @@
+-        .hasHeaders(entry("Auth-Token", asList("{Auth-Token}", "Foo")));
++        .hasHeaders(entry("Auth-Token", asList("{authToken}", "Foo")));
+@@ -251 +251 @@
+-        .containsExactly(entry(0, asList("Auth-Token")));
++        .containsExactly(entry(0, asList("authToken")));
+@@ -346,2 +346,2 @@
+-    @Headers({"Auth-Token: {Auth-Token}", "Auth-Token: Foo"})
+-    void logout(@Param("Auth-Token") String token);
++    @Headers({"Auth-Token: {authToken}", "Auth-Token: Foo"})
++    void logout(@Param("authToken") String token);
+diff --git a/core/src/test/java/feign/RequestTemplateTest.java b/core/src/test/java/feign/RequestTemplateTest.java
+index a4893f7..5e7481c 100644
+--- a/core/src/test/java/feign/RequestTemplateTest.java
++++ b/core/src/test/java/feign/RequestTemplateTest.java
+@@ -129,0 +130,11 @@
++  public void resolveTemplateWithHeaderSubstitutions() {
++    RequestTemplate template = new RequestTemplate().method("GET")
++        .header("Auth-Token", "{authToken}");
++
++    template.resolve(mapOf("authToken", "1234"));
++
++    assertThat(template)
++        .hasHeaders(entry("Auth-Token", asList("1234")));
++  }
++
++  @Test
+

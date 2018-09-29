@@ -1,0 +1,25 @@
+diff --git a/languagetool-wikipedia/src/main/java/org/languagetool/dev/wikipedia/TextConverter.java b/languagetool-wikipedia/src/main/java/org/languagetool/dev/wikipedia/TextConverter.java
+index 81489c4..e0240a1 100644
+--- a/languagetool-wikipedia/src/main/java/org/languagetool/dev/wikipedia/TextConverter.java
++++ b/languagetool-wikipedia/src/main/java/org/languagetool/dev/wikipedia/TextConverter.java
+@@ -212 +212 @@
+-      write(' ');
++      write('\u00A0');  // non-breaking space
+diff --git a/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaQuickCheckTest.java b/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaQuickCheckTest.java
+index a371e81..8c17516 100644
+--- a/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaQuickCheckTest.java
++++ b/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaQuickCheckTest.java
+@@ -85 +85 @@
+-    assertEquals("Test Link Foo bar.", filteredContent);
++    assertEquals("Test Link Foo\u00A0bar.", filteredContent);
+@@ -97 +97 @@
+-    assertEquals("Test Link und noch einer und external link Foo bar.", filteredContent.getPlainText());
++    assertEquals("Test Link und noch einer und external link Foo\u00A0bar.", filteredContent.getPlainText());
+diff --git a/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaTextFilterTest.java b/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaTextFilterTest.java
+index d68efd2..f577f2d 100644
+--- a/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaTextFilterTest.java
++++ b/languagetool-wikipedia/src/test/java/org/languagetool/dev/wikipedia/WikipediaTextFilterTest.java
+@@ -46 +46 @@
+-    assertExtract("rund 20&nbsp;Kilometer südlich", "rund 20 Kilometer südlich");
++    assertExtract("rund 20&nbsp;Kilometer südlich", "rund 20\u00A0Kilometer südlich");
+

@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java b/platform/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java
+index 60cdc3f..68fbd45 100644
+--- a/platform/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java
++++ b/platform/platform-impl/src/com/intellij/ide/actions/OpenProjectFileChooserDescriptor.java
+@@ -63 +63 @@
+-      return virtualFile.isDirectory() ? ourProjectIcon : provider.getIcon();
++      return virtualFile.isDirectory() && provider.lookForProjectsInDirectory() ? ourProjectIcon : provider.getIcon();
+

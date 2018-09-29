@@ -1,0 +1,57 @@
+diff --git a/jnalib/native/dispatch.c b/jnalib/native/dispatch.c
+index afb4b8d..46e4c5f 100644
+--- a/jnalib/native/dispatch.c
++++ b/jnalib/native/dispatch.c
+@@ -2661 +2661,5 @@
+-  if (data->rflag == CVT_STRUCTURE_BYVAL) {
++  else if (data->rflag == CVT_TYPE_MAPPER) {
++    // Ensure enough space for the inner call result
++    resp = alloca(data->cif.rtype->size);
++  }
++  else if (data->rflag == CVT_STRUCTURE_BYVAL) {
+diff --git a/jnalib/src/com/sun/jna/Native.java b/jnalib/src/com/sun/jna/Native.java
+index 07cd381..c76f592 100644
+--- a/jnalib/src/com/sun/jna/Native.java
++++ b/jnalib/src/com/sun/jna/Native.java
+@@ -1192 +1192 @@
+-                closure_rtype = FFIType.get(Pointer.class).peer;
++                closure_rtype = FFIType.get(rclass).peer;
+diff --git a/jnalib/test/com/sun/jna/CallbacksTest.java b/jnalib/test/com/sun/jna/CallbacksTest.java
+index b9148c2..428bd9e 100644
+--- a/jnalib/test/com/sun/jna/CallbacksTest.java
++++ b/jnalib/test/com/sun/jna/CallbacksTest.java
+@@ -780 +780 @@
+-                // Convert java floats into native integers and back
++                // Convert java doubles into native integers and back
+@@ -783 +783 @@
+-                        return new Float(((Integer)value).intValue());
++                        return new Double(((Integer)value).intValue());
+@@ -789 +789 @@
+-                        return new Integer(Math.round(((Float)value).floatValue()));
++                        return new Integer(((Double)value).intValue());
+@@ -792 +792 @@
+-                addTypeConverter(float.class, converter);
++                addTypeConverter(double.class, converter);
+@@ -801 +801 @@
+-            float callback(float arg, float arg2);
++            double callback(double arg, double arg2);
+@@ -803 +803 @@
+-        float callInt32Callback(Int32Callback c, float arg, float arg2);
++        double callInt32Callback(Int32Callback c, double arg, double arg2);
+@@ -819 +819 @@
+-        final float[] ARGS = new float[2];
++        final double[] ARGS = new double[2];
+@@ -822 +822 @@
+-            public float callback(float arg, float arg2) {
++            public double callback(double arg, double arg2) {
+@@ -833 +833 @@
+-        float result = lib.callInt32Callback(cb, -1, -1);
++        double result = lib.callInt32Callback(cb, -1, -1);
+diff --git a/jnalib/test/com/sun/jna/RawCallbacksTest.java b/jnalib/test/com/sun/jna/RawCallbacksTest.java
+index 97d3515..35c7c87 100644
+--- a/jnalib/test/com/sun/jna/RawCallbacksTest.java
++++ b/jnalib/test/com/sun/jna/RawCallbacksTest.java
+@@ -59 +59 @@
+-        public native float callInt32Callback(Int32Callback c, float arg, float arg2);
++        public native double callInt32Callback(Int32Callback c, double arg, double arg2);
+

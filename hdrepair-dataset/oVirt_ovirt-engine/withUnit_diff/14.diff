@@ -1,0 +1,15 @@
+diff --git a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/ValidationResult.java b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/ValidationResult.java
+index 227ba0c..4dafd93 100644
+--- a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/ValidationResult.java
++++ b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/ValidationResult.java
+@@ -26 +26 @@
+-    public ValidationResult() {
++    private ValidationResult() {
+diff --git a/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/AddDiskToVmCommandTest.java b/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/AddDiskToVmCommandTest.java
+index 9b4f6ac..9023210 100644
+--- a/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/AddDiskToVmCommandTest.java
++++ b/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/AddDiskToVmCommandTest.java
+@@ -412 +412 @@
+-        when(snapshotsValidator.vmNotDuringSnapshot(any(Guid.class))).thenReturn(new ValidationResult());
++        when(snapshotsValidator.vmNotDuringSnapshot(any(Guid.class))).thenReturn(ValidationResult.VALID);
+

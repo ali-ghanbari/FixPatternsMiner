@@ -1,0 +1,266 @@
+diff --git a/components/blitz/src/omero/client.java b/components/blitz/src/omero/client.java
+index 740ea46..4689132 100644
+--- a/components/blitz/src/omero/client.java
++++ b/components/blitz/src/omero/client.java
+@@ -495,0 +496,3 @@
++    /**
++     * Returns all properties which are prefixed with "omero." or "Ice."
++     */
+diff --git a/components/tools/OmeroCpp/src/omero/client.cpp b/components/tools/OmeroCpp/src/omero/client.cpp
+index 685026b..e6fc793 100644
+--- a/components/tools/OmeroCpp/src/omero/client.cpp
++++ b/components/tools/OmeroCpp/src/omero/client.cpp
+@@ -15,0 +16 @@
++#include <omero/api/IConfig.h>
+@@ -114,4 +115,4 @@
+-	    Ice::PropertyDict omeroProperties = id.properties->getPropertiesForPrefix("omero");
+-	    Ice::PropertyDict::const_iterator beg = omeroProperties.begin();
+-	    Ice::PropertyDict::const_iterator end = omeroProperties.end();
+-	    while (beg != end) {
++            std::map<string, string> pm = getPropertyMap();
++            std::map<string, string>::const_iterator beg = pm.begin();
++            std::map<string, string>::const_iterator end = pm.end();
++            while (beg != end) {
+@@ -119,9 +120,2 @@
+-		beg++;
+-	    }
+-	    Ice::PropertyDict iceProperties = id.properties->getPropertiesForPrefix("Ice");
+-	    beg = iceProperties.begin();
+-	    end = iceProperties.end();
+-	    while (beg != end) {
+-		std::cout << (*beg).first << "=" << (*beg).second << std::endl;
+-		beg++;
+-	    }
++                beg++;
++            }
+@@ -166 +160 @@
+-	   const Ice::InitializationData& data) : __agent("OMERO.cpp") {
++	   const Ice::InitializationData& data) : __insecure(false), __agent("OMERO.cpp") {
+@@ -184 +178 @@
+-    client::client(const Ice::InitializationData& id) : __agent("OMERO.cpp") {
++    client::client(const Ice::InitializationData& id) : __insecure(false), __agent("OMERO.cpp") {
+@@ -191 +185 @@
+-    client::client(const std::string& host, int port) : __agent("OMERO.cpp") {
++    client::client(const std::string& host, int port) : __insecure(false), __agent("OMERO.cpp") {
+@@ -202,0 +197,19 @@
++    // --------------------------------------------------------------------
++
++    client::client(const std::map<std::string, std::string>& props, bool secure) : __agent("OMERO.cpp") {
++
++        __insecure = !secure;
++
++	int argc = 0;
++	char* argv[] = {0};
++	Ice::InitializationData id;
++	id.properties = Ice::createProperties(argc, argv);
++
++        std::map<string, string>::const_iterator beg = props.begin();
++        std::map<string, string>::const_iterator end = props.end();
++        while (beg != end) {
++            id.properties->setProperty((*beg).first, (*beg).second);
++            beg++;
++        }
++	init(id);
++    }
+@@ -211,0 +225,29 @@
++    bool client::isSecure() {
++        return !__insecure;
++    }
++
++    // --------------------------------------------------------------------
++
++    client_ptr client::createClient(bool secure) {
++
++        std::map<string, string> props = getPropertyMap();
++        if (!secure) {
++            string insecure = getSession()->getConfigService()->getConfigValue(
++                    "omero.router.insecure");
++            if (insecure.length() != 0) {
++                props["Ice.Default.Router"] = insecure;
++            } else {
++                getCommunicator()->getLogger()->warning("Could not retrieve \"omero.router.insecure\"");
++            }
++        }
++
++        std::string agent(__agent);
++        agent.append(";secure=");
++        agent.append(secure ? "true" : "false");
++        client_ptr nClient = new omero::client(props, secure);
++        nClient->setAgent(agent);
++        nClient->joinSession(getSessionId());
++        return nClient;
++    }
++
++    // --------------------------------------------------------------------
+@@ -237,0 +280,6 @@
++    std::string client::getSessionId() const {
++	return getSession()->ice_getIdentity().name;
++    }
++
++
++    // --------------------------------------------------------------------
+@@ -261,0 +310,21 @@
++    // --------------------------------------------------------------------
++
++    std::map<string, string> client::getPropertyMap() const {
++        std::map<string, string> pm;
++        Ice::PropertyDict omeroProperties = getProperties()->getPropertiesForPrefix("omero");
++        Ice::PropertyDict::const_iterator beg = omeroProperties.begin();
++        Ice::PropertyDict::const_iterator end = omeroProperties.end();
++        while (beg != end) {
++            pm[(*beg).first] = (*beg).second;
++            beg++;
++        }
++        Ice::PropertyDict iceProperties = getProperties()->getPropertiesForPrefix("Ice");
++        beg = iceProperties.begin();
++        end = iceProperties.end();
++        while (beg != end) {
++            pm[(*beg).first] = (*beg).second;
++            beg++;
++        }
++        return pm;
++    }
++
+diff --git a/components/tools/OmeroCpp/src/omero/client.h b/components/tools/OmeroCpp/src/omero/client.h
+index ffcd7a8..5ea959f 100644
+--- a/components/tools/OmeroCpp/src/omero/client.h
++++ b/components/tools/OmeroCpp/src/omero/client.h
+@@ -48 +48 @@
+-     * Forward definition for callbacks below.
++     * Forward definitions and handles
+@@ -49,0 +50 @@
++    class client;
+@@ -51,0 +53,9 @@
++
++    /*
++     * Typedef for using Ice's smart pointer reference counting
++     * infrastructure.
++     *
++     *  omero::client_ptr client1 = new omero::client("localhost");
++     *  omero::client_ptr client2 = new omero::client("localhost", port);
++     */
++    typedef IceUtil::Handle<client> client_ptr;
+@@ -77,0 +88,5 @@
++
++        /*
++         * See isSecure
++         */
++        bool __insecure;
+@@ -129,0 +145,5 @@
++        /*
++         * Protected constructor for use with createClient
++         */
++	client(const std::map<std::string, std::string>& props, bool secure);
++
+@@ -159,0 +180,17 @@
++        /*
++        * Specifies whether or not this client was created via a call to
++        * createClient(bool) with a boolean of false. If insecure, then
++        * all remote calls will use the insecure connection defined by the server.
++        */
++        bool isSecure();
++
++       /*
++        * Creates a possibly insecure omero::client instance and calls
++        * joinSession(string) using the current getSessionId()
++        * session id}. If secure is false, then first the "omero.router.insecure"
++        * configuration property is retrieved from the server and used as the value
++        * of "Ice.Default.Router" for the new client. Any exception thrown during
++        * creation is passed on to the caller.
++        */
++        client_ptr createClient(bool secure);
++
+@@ -181,0 +219,7 @@
++        /*
++         * Returns the UUID for the current session without making a remote call.
++         * Uses getSession() internally and will throw an exception if
++         * no session is active.
++         */
++         std::string getSessionId() const;
++
+@@ -197,0 +242,5 @@
++
++        /*
++         * Returns all properties which are prefixed with "omero." or "Ice."
++         */
++        std::map<std::string, std::string> getPropertyMap() const;
+@@ -305,9 +353,0 @@
+-
+-    /*
+-     * Typedef for using Ice's smart pointer reference counting
+-     * infrastructure.
+-     *
+-     *  omero::client_ptr client1 = new omero::client("localhost");
+-     *  omero::client_ptr client2 = new omero::client("localhost", port);
+-     */
+-    typedef IceUtil::Handle<client> client_ptr;
+diff --git a/components/tools/OmeroCpp/test/integration/ClientUsageTest.cpp b/components/tools/OmeroCpp/test/integration/ClientUsageTest.cpp
+new file mode 100644
+index 0000000..0ec0c38
+--- /dev/null
++++ b/components/tools/OmeroCpp/test/integration/ClientUsageTest.cpp
+@@ -0,0 +1,54 @@
++/*
++ *   $Id$
++ *
++ *   Copyright 2010 Glencoe Software, Inc. All rights reserved.
++ *   Use is subject to license terms supplied in LICENSE.txt
++ */
++
++#include <Ice/Initialize.h>
++#include <omero/client.h>
++#include <boost_fixture.h>
++#include <algorithm>
++
++using namespace omero::rtypes;
++
++BOOST_AUTO_TEST_CASE( testClientClosedAutomatically)
++{
++    omero::client_ptr client = new omero::client();
++    client->createSession();
++    client->getSession()->closeOnDestroy();
++}
++
++BOOST_AUTO_TEST_CASE( testClientClosedManually )
++{
++    omero::client_ptr client = new omero::client();
++    client->createSession();
++    client->getSession()->closeOnDestroy();
++    client->closeSession();
++}
++
++BOOST_AUTO_TEST_CASE( testUseSharedMemory )
++{
++    omero::client_ptr client = new omero::client();
++    client->createSession();
++
++    BOOST_CHECK_EQUAL(0, (int)client->getInputKeys().size());
++    client->setInput("a", rstring("b"));
++    BOOST_CHECK_EQUAL(1, (int)client->getInputKeys().size());
++    std::vector<std::string> keys = client->getInputKeys();
++    std::vector<std::string>::iterator it = find(keys.begin(), keys.end(), "a");
++    BOOST_CHECK( it != keys.end() );
++    BOOST_CHECK_EQUAL("b", omero::RStringPtr::dynamicCast(client->getInput("a"))->getValue());
++
++    client->closeSession();
++}
++
++BOOST_AUTO_TEST_CASE( testCreateInsecureClientTicket2099 )
++{
++    omero::client_ptr secure = new omero::client();
++    BOOST_CHECK(secure->isSecure());
++    secure->createSession()->getAdminService()->getEventContext();
++    omero::client_ptr insecure = secure->createClient(false);
++    insecure->getSession()->getAdminService()->getEventContext();
++    BOOST_CHECK( ! insecure->isSecure());
++}
+diff --git a/components/tools/OmeroPy/src/omero/clients.py b/components/tools/OmeroPy/src/omero/clients.py
+index 7a64d8c..023c66f 100644
+--- a/components/tools/OmeroPy/src/omero/clients.py
++++ b/components/tools/OmeroPy/src/omero/clients.py
+@@ -368 +368,3 @@
+-
++        """
++        Returns all properties which are prefixed with "omero." or "Ice."
++        """
+

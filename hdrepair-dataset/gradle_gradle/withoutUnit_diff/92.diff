@@ -1,0 +1,47 @@
+diff --git a/build.gradle b/build.gradle
+index 5e1acf7..3f7e19f 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -143 +143 @@
+-    plugins {
++    gradlePlugins {
+@@ -148 +148 @@
+-        extendsFrom plugins
++        extendsFrom gradlePlugins
+@@ -155,2 +155,2 @@
+-    plugins pluginProjects
+-    plugins project(':coreImpl')
++    gradlePlugins pluginProjects
++    gradlePlugins project(':coreImpl')
+diff --git a/buildSrc/src/main/groovy/org/gradle/build/docs/DocGenerationException.java b/buildSrc/src/main/groovy/org/gradle/build/docs/DocGenerationException.java
+index 07beede..874c572 100644
+--- a/buildSrc/src/main/groovy/org/gradle/build/docs/DocGenerationException.java
++++ b/buildSrc/src/main/groovy/org/gradle/build/docs/DocGenerationException.java
+@@ -18 +18 @@
+-import org.gradle.api.internal.Contextual;
++import org.gradle.internal.exceptions.Contextual;
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+index 67ba458..3a2dab3 100644
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1 +1 @@
+-#Tue Nov 19 08:51:25 GMT 2013
++#Fri Dec 06 16:25:50 CET 2013
+@@ -6 +6 @@
+-distributionUrl=http\://services.gradle.org/distributions/gradle-1.9-bin.zip
++distributionUrl=http\://services.gradle.org/distributions/gradle-1.10-rc-1-bin.zip
+diff --git a/subprojects/build-init/build-init.gradle b/subprojects/build-init/build-init.gradle
+index 85ff855..bfbf155 100644
+--- a/subprojects/build-init/build-init.gradle
++++ b/subprojects/build-init/build-init.gradle
+@@ -73 +73 @@
+-        resolutionResult.root.dependencies.each { dep -> versionProperties.put(dep.requested.name, dep.selected.id.version) }
++        resolutionResult.root.dependencies.findAll { it.requested instanceof ModuleComponentSelector }. each { dep -> versionProperties.put(dep.requested.module, dep.selected.moduleVersion.version) }
+diff --git a/subprojects/distributions/distributions.gradle b/subprojects/distributions/distributions.gradle
+index 5c43d60..18c38d3 100644
+--- a/subprojects/distributions/distributions.gradle
++++ b/subprojects/distributions/distributions.gradle
+@@ -63 +63 @@
+-                from rootProject.configurations.plugins - rootProject.configurations.runtime
++                from rootProject.configurations.gradlePlugins - rootProject.configurations.runtime
+

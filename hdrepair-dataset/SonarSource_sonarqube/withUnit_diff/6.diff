@@ -1,0 +1,44 @@
+diff --git a/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java b/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java
+index 2335b32..d57e25d 100644
+--- a/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java
++++ b/server/sonar-server/src/main/java/org/sonar/server/computation/step/QualityGateEventsStep.java
+@@ -80 +80 @@
+-      LOGGER.warn("Previous alterStatus for project %s is not a supported value. Can not compute Quality Gate event");
++      LOGGER.warn(String.format("Previous alterStatus for project %s is not a supported value. Can not compute Quality Gate event", project.getKey()));
+diff --git a/server/sonar-server/src/test/java/org/sonar/server/measure/persistence/MeasureDaoTest.java b/server/sonar-server/src/test/java/org/sonar/server/measure/persistence/MeasureDaoTest.java
+index d1efaeb..23a3cc4 100644
+--- a/server/sonar-server/src/test/java/org/sonar/server/measure/persistence/MeasureDaoTest.java
++++ b/server/sonar-server/src/test/java/org/sonar/server/measure/persistence/MeasureDaoTest.java
+@@ -66,0 +67,8 @@
++    assertThat(result.getData()).isNull();
++    assertThat(result.getVariation(1)).isEqualTo(1d);
++    assertThat(result.getVariation(2)).isEqualTo(2d);
++    assertThat(result.getVariation(3)).isEqualTo(3d);
++    assertThat(result.getVariation(4)).isEqualTo(4d);
++    assertThat(result.getVariation(5)).isEqualTo(-5d);
++    assertThat(result.getAlertStatus()).isEqualTo("OK");
++    assertThat(result.getAlertText()).isEqualTo("Green");
+diff --git a/server/sonar-server/src/test/resources/org/sonar/server/measure/persistence/MeasureDaoTest/shared.xml b/server/sonar-server/src/test/resources/org/sonar/server/measure/persistence/MeasureDaoTest/shared.xml
+index a82f76d..c27311c 100644
+--- a/server/sonar-server/src/test/resources/org/sonar/server/measure/persistence/MeasureDaoTest/shared.xml
++++ b/server/sonar-server/src/test/resources/org/sonar/server/measure/persistence/MeasureDaoTest/shared.xml
+@@ -12 +12,2 @@
+-                    variation_value_1="[null]" variation_value_2="[null]" variation_value_3="[null]" variation_value_4="[null]" variation_value_5="[null]" />
++                    variation_value_1="[null]" variation_value_2="[null]" variation_value_3="[null]" variation_value_4="[null]" variation_value_5="[null]"
++                    alert_status="[null]" alert_text="[null]" />
+@@ -14 +15,2 @@
+-                    variation_value_1="[null]" variation_value_2="[null]" variation_value_3="[null]" variation_value_4="[null]" variation_value_5="[null]" />
++                    variation_value_1="[null]" variation_value_2="[null]" variation_value_3="[null]" variation_value_4="[null]" variation_value_5="[null]"
++                    alert_status="[null]" alert_text="[null]" />
+@@ -16 +18,2 @@
+-                    variation_value_1="1" variation_value_2="2" variation_value_3="3" variation_value_4="4" variation_value_5="-5"/>
++                    variation_value_1="1" variation_value_2="2" variation_value_3="3" variation_value_4="4" variation_value_5="-5"
++                    alert_status="OK" alert_text="Green"/>
+diff --git a/sonar-core/src/main/resources/org/sonar/core/measure/db/MeasureMapper.xml b/sonar-core/src/main/resources/org/sonar/core/measure/db/MeasureMapper.xml
+index d366300..9e6df38 100644
+--- a/sonar-core/src/main/resources/org/sonar/core/measure/db/MeasureMapper.xml
++++ b/sonar-core/src/main/resources/org/sonar/core/measure/db/MeasureMapper.xml
+@@ -10,0 +11,2 @@
++    pm.alert_status as alertStatus,
++    pm.alert_text as alertText,
+

@@ -1,0 +1,25 @@
+diff --git a/src/java/com/twitter/common/stats/ApproximateHistogram.java b/src/java/com/twitter/common/stats/ApproximateHistogram.java
+index 15e2fe8..5478d4d 100644
+--- a/src/java/com/twitter/common/stats/ApproximateHistogram.java
++++ b/src/java/com/twitter/common/stats/ApproximateHistogram.java
+@@ -185,0 +186 @@
++    leavesSorted = (leafCount == 1);
+diff --git a/tests/java/com/twitter/common/stats/ApproximateHistogramTest.java b/tests/java/com/twitter/common/stats/ApproximateHistogramTest.java
+index d661ae4..dbefa0c 100644
+--- a/tests/java/com/twitter/common/stats/ApproximateHistogramTest.java
++++ b/tests/java/com/twitter/common/stats/ApproximateHistogramTest.java
+@@ -284,0 +285,13 @@
++  @Test
++  public void testYetAnotherGetQuantiles() {
++    // this test originates from issue CSL-586
++    ApproximateHistogram hist = new ApproximateHistogram();
++    hist.add(0);
++    hist.add(4);
++    hist.add(9);
++    hist.add(8);
++    double[] quantiles = new double[]{0.5, 0.9, 0.99};
++    long[] expected = new long[]{8,9,9};
++    assertArrayEquals(hist.getQuantiles(quantiles), expected);
++  }
++
+

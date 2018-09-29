@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/sonatype/plexus/rest/resource/RestletResource.java b/src/main/java/org/sonatype/plexus/rest/resource/RestletResource.java
+index c5aebf0..4632ab6 100644
+--- a/src/main/java/org/sonatype/plexus/rest/resource/RestletResource.java
++++ b/src/main/java/org/sonatype/plexus/rest/resource/RestletResource.java
+@@ -358 +358 @@
+-        if ( !getResponse().isEntityAvailable() )
++        if ( getResponse().getStatus() == Status.SUCCESS_OK && !getResponse().isEntityAvailable() )
+

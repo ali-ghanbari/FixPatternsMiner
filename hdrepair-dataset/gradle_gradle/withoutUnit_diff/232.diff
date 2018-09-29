@@ -1,0 +1,47 @@
+diff --git a/subprojects/core/src/test/groovy/org/gradle/util/TestFile.java b/subprojects/core/src/test/groovy/org/gradle/util/TestFile.java
+index 80949c2..80997b2 100644
+--- a/subprojects/core/src/test/groovy/org/gradle/util/TestFile.java
++++ b/subprojects/core/src/test/groovy/org/gradle/util/TestFile.java
+@@ -324 +324 @@
+-    private String getPermissions() {
++    public String getPermissions() {
+diff --git a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/CopyErrorIntegrationTest.groovy b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/CopyErrorIntegrationTest.groovy
+index 28287fd..f73a361 100644
+--- a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/CopyErrorIntegrationTest.groovy
++++ b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/CopyErrorIntegrationTest.groovy
+@@ -56,0 +57 @@
++        def oldPermissions = dir.permissions
+@@ -59,4 +60,5 @@
+-        Assert.assertTrue(dir.isDirectory())
+-        Assert.assertTrue(dir.exists())
+-        Assert.assertFalse(dir.canRead())
+-        Assert.assertTrue(dir.canWrite())
++        try {
++            Assert.assertTrue(dir.isDirectory())
++            Assert.assertTrue(dir.exists())
++            Assert.assertFalse(dir.canRead())
++            Assert.assertTrue(dir.canWrite())
+@@ -64,6 +66,6 @@
+-        testFile('build.gradle') << '''
+-            task copy(type: Copy) {
+-                from 'src'
+-                into 'dest'
+-            }
+-'''
++            testFile('build.gradle') << '''
++                task copy(type: Copy) {
++                    from 'src'
++                    into 'dest'
++                }
++    '''
+@@ -71,4 +73,5 @@
+-        ExecutionFailure failure = inTestDirectory().withTasks('copy').runWithFailure()
+-        failure.assertHasDescription("Could not list contents of directory '${dir}' as it is not readable.")
+-
+-        dir.permissions = 'rwxr--r--'
++            ExecutionFailure failure = inTestDirectory().withTasks('copy').runWithFailure()
++            failure.assertHasDescription("Could not list contents of directory '${dir}' as it is not readable.")
++        } finally {
++            dir.permissions = oldPermissions
++        }
+

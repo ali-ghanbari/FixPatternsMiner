@@ -1,0 +1,30 @@
+diff --git a/web/src/main/java/uk/ac/ebi/atlas/model/Species.java b/web/src/main/java/uk/ac/ebi/atlas/model/Species.java
+index d5eaf7e..7b46469 100644
+--- a/web/src/main/java/uk/ac/ebi/atlas/model/Species.java
++++ b/web/src/main/java/uk/ac/ebi/atlas/model/Species.java
+@@ -13 +13 @@
+-       return firstTwoWords(species).toLowerCase();
++       return species == null ? null : firstTwoWords(species).toLowerCase();
+diff --git a/web/src/test/java/uk/ac/ebi/atlas/model/SpeciesTest.java b/web/src/test/java/uk/ac/ebi/atlas/model/SpeciesTest.java
+new file mode 100644
+index 0000000..50478bb
+--- /dev/null
++++ b/web/src/test/java/uk/ac/ebi/atlas/model/SpeciesTest.java
+@@ -0,0 +1,15 @@
++package uk.ac.ebi.atlas.model;
++
++import org.junit.Test;
++
++import static org.hamcrest.Matchers.nullValue;
++import static org.hamcrest.core.Is.is;
++import static org.junit.Assert.assertThat;
++
++public class SpeciesTest {
++
++    @Test
++    public void handleNullSpecies() {
++        assertThat(Species.convertToEnsemblSpecies(null), is(nullValue()));
++    }
++}
+\ No newline at end of file
+

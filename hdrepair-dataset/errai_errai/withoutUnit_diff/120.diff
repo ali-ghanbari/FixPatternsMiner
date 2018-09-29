@@ -1,0 +1,67 @@
+diff --git a/errai-bus/src/main/java/org/jboss/errai/bus/server/security/auth/rules/RolesRequiredRule.java b/errai-bus/src/main/java/org/jboss/errai/bus/server/security/auth/rules/RolesRequiredRule.java
+index 39e0151..81793f8 100644
+--- a/errai-bus/src/main/java/org/jboss/errai/bus/server/security/auth/rules/RolesRequiredRule.java
++++ b/errai-bus/src/main/java/org/jboss/errai/bus/server/security/auth/rules/RolesRequiredRule.java
+@@ -65 +65 @@
+-                        .set(SecurityParts.ReplyTo, ErraiService.AUTHORIZATION_SVC_SUBJECT)
++                        .set(MessageParts.ReplyTo, ErraiService.AUTHORIZATION_SVC_SUBJECT)
+diff --git a/errai-workspaces/src/main/java/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml b/errai-workspaces/src/main/java/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml
+index 48c8ab3..0117625 100644
+--- a/errai-workspaces/src/main/java/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml
++++ b/errai-workspaces/src/main/java/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml
+@@ -19 +19 @@
+-<module>
++<module>    
+@@ -23 +23 @@
+-    <inherits name='com.allen_sauer.gwt.dnd.gwt-dnd'/>
++    <inherits name="com.allen_sauer.gwt.dnd.gwt-dnd"/>
+@@ -36,0 +37,41 @@
++    <replace-with class="org.jboss.errai.widgets.client.effects.effectimpl.KHTMLEffectImpl">
++        <when-type-is class="org.jboss.errai.widgets.client.effects.Effect"/>
++        <when-property-is name="user.agent" value="opera"/>
++    </replace-with>
++
++    <replace-with class="org.jboss.errai.widgets.client.effects.effectimpl.KHTMLEffectImpl">
++        <when-type-is class="org.jboss.errai.widgets.client.effects.Effect"/>
++        <when-property-is name="user.agent" value="safari"/>
++    </replace-with>
++
++    <replace-with class="org.jboss.errai.widgets.client.effects.effectimpl.KHTMLEffectImpl">
++        <when-type-is class="org.jboss.errai.widgets.client.effects.Effect"/>
++        <when-property-is name="user.agent" value="webkit"/>
++    </replace-with>
++
++    <replace-with class="org.jboss.errai.widgets.client.effects.effectimpl.MozillaEffectImpl">
++        <when-type-is class="org.jboss.errai.widgets.client.effects.Effect"/>
++        <when-property-is name="user.agent" value="gecko"/>
++    </replace-with>
++
++    <replace-with class="org.jboss.errai.widgets.client.effects.effectimpl.MozillaEffectImpl">
++        <when-type-is class="org.jboss.errai.widgets.client.effects.Effect"/>
++        <when-property-is name="user.agent" value="gecko1_8"/>
++    </replace-with>
++
++    <replace-with class="org.jboss.errai.widgets.client.effects.effectimpl.IEEffectImpl">
++        <when-type-is class="org.jboss.errai.widgets.client.effects.Effect"/>
++        <when-property-is name="user.agent" value="ie6"/>
++    </replace-with>
++
++    <replace-with class="org.jboss.errai.widgets.client.effects.effectimpl.IEEffectImpl">
++        <when-type-is class="org.jboss.errai.widgets.client.effects.Effect"/>
++        <when-property-is name="user.agent" value="ie8"/>
++    </replace-with>
++
++    <replace-with class="com.allen_sauer.gwt.dnd.client.util.impl.DOMUtilImplIE6">
++        <when-type-is class="com.allen_sauer.gwt.dnd.client.util.impl.DOMUtilImpl"/>
++        <when-property-is name="user.agent" value="ie8"/>
++    </replace-with>
++    
++
+diff --git a/errai-workspaces/src/main/resources/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml b/errai-workspaces/src/main/resources/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml
+index e3e5467..6ad6357 100644
+--- a/errai-workspaces/src/main/resources/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml
++++ b/errai-workspaces/src/main/resources/org/jboss/errai/workspaces/ErraiWorkspaces.gwt.xml
+@@ -19 +19 @@
+-<module>
++<module>    
+

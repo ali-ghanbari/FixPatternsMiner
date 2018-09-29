@@ -1,0 +1,14 @@
+diff --git a/src/main/java/com/jordanwilliams/heftydb/table/file/IndexBlock.java b/src/main/java/com/jordanwilliams/heftydb/table/file/IndexBlock.java
+index 8ac91b1..9443e05 100644
+--- a/src/main/java/com/jordanwilliams/heftydb/table/file/IndexBlock.java
++++ b/src/main/java/com/jordanwilliams/heftydb/table/file/IndexBlock.java
+@@ -95 +95 @@
+-                if (endKeyCompare >= 0) {
++                if (endKeyCompare > 0) {
+diff --git a/src/test/java/com/jordanwilliams/heftydb/test/unit/table/file/IndexBlockTest.java b/src/test/java/com/jordanwilliams/heftydb/test/unit/table/file/IndexBlockTest.java
+index 5a6171f..974bb2c 100644
+--- a/src/test/java/com/jordanwilliams/heftydb/test/unit/table/file/IndexBlockTest.java
++++ b/src/test/java/com/jordanwilliams/heftydb/test/unit/table/file/IndexBlockTest.java
+@@ -61,0 +62 @@
++        Assert.assertEquals("Offsets match", 3, blockOffsets.get(1).longValue());
+

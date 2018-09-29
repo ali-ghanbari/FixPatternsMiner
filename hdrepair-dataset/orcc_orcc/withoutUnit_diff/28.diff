@@ -1,0 +1,13 @@
+diff --git a/eclipse/plugins/net.sf.orcc.core/src/net/sf/orcc/ir/transform/SSATransformation.java b/eclipse/plugins/net.sf.orcc.core/src/net/sf/orcc/ir/transform/SSATransformation.java
+index 8285d07..d8e8e8b 100644
+--- a/eclipse/plugins/net.sf.orcc.core/src/net/sf/orcc/ir/transform/SSATransformation.java
++++ b/eclipse/plugins/net.sf.orcc.core/src/net/sf/orcc/ir/transform/SSATransformation.java
+@@ -67,0 +68,7 @@
++	/*
++	 * FIXME : if this transformation is applied more than one time on an actor,
++	 * it may causes a NullPointerException. Check commitPhi method, the
++	 * oldVar.getName() call and the value of oldVar, set to null by
++	 * phi.setOldVariable(null) call.
++	 */
++
+

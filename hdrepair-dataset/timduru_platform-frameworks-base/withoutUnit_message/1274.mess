@@ -1,0 +1,23 @@
+Fix layout test failure with fast/events/touch/touch-stale-node-crash.html
+
+This layout test is currently failing due to timing out in DRT.
+
+The issue is that the test sends a down, up, down sequence quickly. For
+each down event, we post a PREVENT_DEFAULT_TIMEOUT message to the
+WebView's message handler. WebCore responds to the first touch event and
+we update the mPreventDefault state variable correctly. The second touch down
+resets mPreventDefault as it's the start of a new touch sequence and a second touch down is posted
+to the WebCore thread.
+
+At this point we still have the first TIMEOUT message in the WebView queue. The problem occurs
+when the WebView processes this timeout message before the WebCore thread processes the second
+touch down message. In this case the WebView clears the WebCore thread's message queue and instead posts
+touch cancel events, erroneously removing the second touch event. This timeout message should not have been
+processed as it was associated with the first touch down that had already been completed. Without the
+second touch the test never completes.
+
+The fix is to remove PREVENT_DEFAULT_TIMEOUT messages from the queue before starting
+a new touch sequence.
+
+Change-Id: Ief054239529d710a79a0e58a589bd7a92434dbf2
+

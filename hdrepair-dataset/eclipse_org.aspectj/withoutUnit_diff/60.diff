@@ -1,0 +1,17 @@
+diff --git a/tests/src/org/aspectj/systemtest/ajc161/Ajc161Tests.java b/tests/src/org/aspectj/systemtest/ajc161/Ajc161Tests.java
+index 65c14c8..fb2b75f 100644
+--- a/tests/src/org/aspectj/systemtest/ajc161/Ajc161Tests.java
++++ b/tests/src/org/aspectj/systemtest/ajc161/Ajc161Tests.java
+@@ -25,0 +26 @@
++	public void testProtectedMethodsAroundAdvice_pr230075() { runTest("protected methods and around advice");}
+diff --git a/tests/src/org/aspectj/systemtest/ajc161/ajc161.xml b/tests/src/org/aspectj/systemtest/ajc161/ajc161.xml
+index 9f5c8fb..c15f0a4 100644
+--- a/tests/src/org/aspectj/systemtest/ajc161/ajc161.xml
++++ b/tests/src/org/aspectj/systemtest/ajc161/ajc161.xml
+@@ -5,0 +6,5 @@
++	<ajc-test dir="bugs161/pr230075" title="protected methods and around advice">
++    	<compile files="A.java B.java C.java X.java" options="-1.5"/>
++    	<run class="a.C"/>
++    </ajc-test>
++    
+

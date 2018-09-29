@@ -1,0 +1,36 @@
+diff --git a/src/org/exist/xquery/LocationStep.java b/src/org/exist/xquery/LocationStep.java
+index 4e8d9f1..cb05024 100644
+--- a/src/org/exist/xquery/LocationStep.java
++++ b/src/org/exist/xquery/LocationStep.java
+@@ -126,5 +126,2 @@
+-		// TODO : I guess every other axis too... so we might consider using
+-		// Constants.UNKNOWN_AXIS here
+-		// BUT
+-		// in a predicate, the expression can't depend on... itself
+-		if (!this.inPredicate && this.axis == Constants.SELF_AXIS)
++		// likewise we depend on the context item if this is a single path step (outside a predicate)
++		if (!this.inPredicate && (this.axis == Constants.SELF_AXIS || (parent != null && parent.getSubExpression(0) == this)))
+diff --git a/test/src/xquery/selfAxis.xml b/test/src/xquery/selfAxis.xml
+index 04228a2..6ba230f 100644
+--- a/test/src/xquery/selfAxis.xml
++++ b/test/src/xquery/selfAxis.xml
+@@ -17,0 +18,3 @@
++        <store collection="/db/coll" name="test2.xml">
++            <p>Hello <q>world!</q></p>
++        </store>
+@@ -205,0 +209,14 @@
++    <test output="text">
++        <task>If expression with boolean "or" used with bang operator</task>
++        <code>
++        let $doc := collection('/db/coll')/p
++        return
++            $doc/node() ! (
++                if (ancestor::p or ancestor::x) then
++                    "P"
++                else
++                    .
++            )
++        </code>
++        <expected>P P</expected>
++    </test>
+

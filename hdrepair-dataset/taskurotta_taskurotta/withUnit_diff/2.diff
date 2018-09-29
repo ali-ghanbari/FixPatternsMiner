@@ -1,0 +1,43 @@
+diff --git a/hazelcast/src/main/java/ru/taskurotta/hazelcast/queue/store/mongodb/MongoCachedQueueStore.java b/hazelcast/src/main/java/ru/taskurotta/hazelcast/queue/store/mongodb/MongoCachedQueueStore.java
+index 57f4d47..820e12c 100644
+--- a/hazelcast/src/main/java/ru/taskurotta/hazelcast/queue/store/mongodb/MongoCachedQueueStore.java
++++ b/hazelcast/src/main/java/ru/taskurotta/hazelcast/queue/store/mongodb/MongoCachedQueueStore.java
+@@ -216 +216 @@
+-        long result = -1l;
++        long result = (asc) ? 0 : -1;
+diff --git a/hazelcast/src/test/java/ru/taskurotta/hazelcast/queue/impl/QueueContainerTest.java b/hazelcast/src/test/java/ru/taskurotta/hazelcast/queue/impl/QueueContainerTest.java
+index f944858..2c0c1e0 100644
+--- a/hazelcast/src/test/java/ru/taskurotta/hazelcast/queue/impl/QueueContainerTest.java
++++ b/hazelcast/src/test/java/ru/taskurotta/hazelcast/queue/impl/QueueContainerTest.java
+@@ -21,0 +22 @@
++import static org.junit.Assert.assertNull;
+@@ -224,0 +226,13 @@
++    @Test
++    public void testQueueEmpty() throws Exception {
++        HazelcastInstance hazelcastInstance;
++        QueueService queueService;
++        store.clear();
++        hazelcastInstance = Hazelcast.newHazelcastInstance(cfg);
++        queue = hazelcastInstance.getDistributedObject(CachedQueue.class.getName(), QUEUE_NAME);
++        queueService = ((NodeEngineImpl) ((QueueProxyImpl) queue).getNodeEngine()).getService(CachedQueue.class.getName());
++        container = queueService.getOrCreateContainer(QUEUE_NAME);
++        assertNull(container.poll());
++    }
++
++
+diff --git a/hazelcast/src/test/java/ru/taskurotta/hz/test/mongo/LoadInfoFromMongoTest.java b/hazelcast/src/test/java/ru/taskurotta/hz/test/mongo/LoadInfoFromMongoTest.java
+index a27087f..c4e3130 100644
+--- a/hazelcast/src/test/java/ru/taskurotta/hz/test/mongo/LoadInfoFromMongoTest.java
++++ b/hazelcast/src/test/java/ru/taskurotta/hz/test/mongo/LoadInfoFromMongoTest.java
+@@ -50,0 +51,10 @@
++    public void testQueueEmpty() throws InterruptedException {
++        dataDrop();
++        HazelcastInstance hazelcastInstance = getHazelcastInstance();
++        CachedQueue queue = hazelcastInstance.getDistributedObject(CachedQueue.class.getName(), QUEUE_NAME);
++        Assert.assertNull(queue.poll());
++        Hazelcast.shutdownAll();
++
++    }
++
++    @Test
+

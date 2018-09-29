@@ -1,0 +1,26 @@
+diff --git a/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java b/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
+index b7cfd88..596017f 100644
+--- a/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
++++ b/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
+@@ -85,0 +86 @@
++    exceptions.add("Abseits");
+diff --git a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+index fb3c2f2..e3e6645 100644
+--- a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
++++ b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+@@ -11707,0 +11708,11 @@
++            <antipattern>
++                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
++                <token postag="ADJ:.*" postag_regexp="yes"></token>
++                <token regexp="yes">[A-ZÖÄÜ]+</token>
++            </antipattern>
++            <antipattern>
++                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
++                <token/>
++                <token regexp="yes">[0-9]+</token>
++                <token>.</token>
++            </antipattern>
+@@ -11719,0 +11731,2 @@
++            <example type="correct">Sie konnten ungehindert ins <marker>reiche</marker> Babylon einziehen.</example>
++            <example type="correct">Man kann die Nutzung des Geländes bis ins <marker>spätere</marker> 4. Jahrhundert belegen</example>
+

@@ -1,0 +1,18 @@
+diff --git a/ah-war/pom.xml b/ah-war/pom.xml
+index 9d2f7ae..386978f 100644
+--- a/ah-war/pom.xml
++++ b/ah-war/pom.xml
+@@ -111 +111 @@
+-                                    <filemode>755</filemode>
++                                    <filemode>644</filemode>
+@@ -123 +123 @@
+-                                    <filemode>755</filemode>
++                                    <filemode>644</filemode>
+diff --git a/hopper/src/main/java/org/atomhopper/adapter/request/feed/AbstractFeedRequest.java b/hopper/src/main/java/org/atomhopper/adapter/request/feed/AbstractFeedRequest.java
+index e219f7d..ed5b832 100644
+--- a/hopper/src/main/java/org/atomhopper/adapter/request/feed/AbstractFeedRequest.java
++++ b/hopper/src/main/java/org/atomhopper/adapter/request/feed/AbstractFeedRequest.java
+@@ -15 +15 @@
+-        return getTargetParameter(TargetResolverField.FEED.name());
++        return getTargetParameter(TargetResolverField.WORKSPACE.name()) + "/" + getTargetParameter(TargetResolverField.FEED.name());
+

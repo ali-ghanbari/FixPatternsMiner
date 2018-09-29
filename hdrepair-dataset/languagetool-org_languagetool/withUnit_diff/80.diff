@@ -1,0 +1,41 @@
+diff --git a/trunk/JLanguageTool/rules/en/det_an.txt b/trunk/JLanguageTool/rules/en/det_an.txt
+index ee23359..5c9eff0 100644
+--- a/trunk/JLanguageTool/rules/en/det_an.txt
++++ b/trunk/JLanguageTool/rules/en/det_an.txt
+@@ -3,0 +4,13 @@
++8
++18
++80
++81
++82
++83
++84
++85
++86
++87
++88
++89
++800
+diff --git a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java
+index 09a0bdf..2cb6201 100644
+--- a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java
++++ b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java
+@@ -82 +82 @@
+-        token = token.replaceAll("[^a-zA-Z]", "");         // e.g. >>an "industry party"<<
++        token = token.replaceAll("[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
+diff --git a/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java b/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java
+index acfabff..dd70952 100644
+--- a/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java
++++ b/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java
+@@ -49,0 +50,5 @@
++    matches = rule.match(langTool.getAnalyzedSentence("An 8-year old boy ..."));
++    assertEquals(0, matches.length);
++    matches = rule.match(langTool.getAnalyzedSentence("An 18-year old boy ..."));
++    assertEquals(0, matches.length);
++
+@@ -73,0 +79,4 @@
++    matches = rule.match(langTool.getAnalyzedSentence("A 8-year old boy ..."));
++    assertEquals(1, matches.length);
++    matches = rule.match(langTool.getAnalyzedSentence("A 18-year old boy ..."));
++    assertEquals(1, matches.length);
+

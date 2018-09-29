@@ -1,0 +1,56 @@
+diff --git a/src/com/redhat/ceylon/compiler/tools/JarOutputRepositoryManager.java b/src/com/redhat/ceylon/compiler/tools/JarOutputRepositoryManager.java
+index 282385e..949172c 100644
+--- a/src/com/redhat/ceylon/compiler/tools/JarOutputRepositoryManager.java
++++ b/src/com/redhat/ceylon/compiler/tools/JarOutputRepositoryManager.java
+@@ -91 +91 @@
+-                    JarEntry entry = entries.nextElement();                    
++                    JarEntry entry = entries.nextElement();
+diff --git a/test-src/com/redhat/ceylon/compiler/test/CompilerTest.java b/test-src/com/redhat/ceylon/compiler/test/CompilerTest.java
+index 4610814..190151f 100755
+--- a/test-src/com/redhat/ceylon/compiler/test/CompilerTest.java
++++ b/test-src/com/redhat/ceylon/compiler/test/CompilerTest.java
+@@ -18,2 +17,0 @@
+-import org.junit.Before;
+-
+@@ -33 +31 @@
+-	private final static String destCar = destDir+"/unversioned/default_module-unversioned.car";
++	private final static String destCar = destDir + "/unversioned/default_module-unversioned.car";
+@@ -35 +33,4 @@
+-	private final static String languageCar = System.getProperty("user.home")+"/.ceylon/repo/ceylon/language/"+languageVersion +"/ceylon.language-"+languageVersion+".car";
++    
++	private final String languageCar;
++	
++	protected final String path;
+@@ -37,10 +38,8 @@
+-	protected String path;
+-
+-	private String pkg;
+-
+-	@Before
+-	public void setup(){
+-		// for comparing with java source
+-	    Package pakage = getClass().getPackage();
+-		pkg = pakage == null ? "" : pakage.getName().replaceAll("\\.", Matcher.quoteReplacement(File.separator));
+-		path = dir + File.separator + pkg + File.separator;
++	public CompilerTest() {
++        File langCarFile = new File(System.getProperty("user.home"), ".ceylon/repo/ceylon/language/" + languageVersion + "/ceylon.language-" + languageVersion + ".car");
++        languageCar = langCarFile.getPath();
++        
++        // for comparing with java source
++        Package pakage = getClass().getPackage();
++        String pkg = pakage == null ? "" : pakage.getName().replaceAll("\\.", Matcher.quoteReplacement(File.separator));
++        path = dir + File.separator + pkg + File.separator;
+@@ -48 +47 @@
+-
++	
+@@ -101 +100 @@
+-		String expectedSrc = normalizeLineEndings(readFile(new File(path+java))).trim();
++		String expectedSrc = normalizeLineEndings(readFile(new File(path, java))).trim();
+@@ -157,2 +156 @@
+-	    	file = file.replace('/', File.separatorChar);
+-	        sourceFiles.add(new File(path+file));
++	        sourceFiles.add(new File(path, file));
+@@ -168 +166 @@
+-                        "-cp", languageCar+File.pathSeparator+destCar+File.pathSeparator+destDir), 
++                        "-cp", languageCar + File.pathSeparator + destCar + File.pathSeparator + destDir), 
+

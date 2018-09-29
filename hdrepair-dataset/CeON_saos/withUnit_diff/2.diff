@@ -1,0 +1,32 @@
+diff --git a/saos-search/src/main/java/pl/edu/icm/saos/search/SearchConfiguration.java b/saos-search/src/main/java/pl/edu/icm/saos/search/SearchConfiguration.java
+index cca7dcb..8686727 100644
+--- a/saos-search/src/main/java/pl/edu/icm/saos/search/SearchConfiguration.java
++++ b/saos-search/src/main/java/pl/edu/icm/saos/search/SearchConfiguration.java
+@@ -116,0 +117 @@
++        params.addParam(HighlightParams.FIELD_MATCH, "true");
+diff --git a/saos-search/src/test/java/pl/edu/icm/saos/search/search/service/JudgmentSearchServiceTest.java b/saos-search/src/test/java/pl/edu/icm/saos/search/search/service/JudgmentSearchServiceTest.java
+index e7eda26..9f6ee8e 100644
+--- a/saos-search/src/test/java/pl/edu/icm/saos/search/search/service/JudgmentSearchServiceTest.java
++++ b/saos-search/src/test/java/pl/edu/icm/saos/search/search/service/JudgmentSearchServiceTest.java
+@@ -251,0 +252,17 @@
++    @Test
++    public void search_CHECK_HIGHLIGHTING_REQUIRED_FIELD_MATCH() {
++        JudgmentCriteria criteria = new JudgmentCriteria("content");
++        criteria.setCourtChamberId(11);
++        
++        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
++        
++        assertEquals(1, results.getTotalResults());
++        assertEquals(1, results.getResults().size());
++        
++        JudgmentSearchResult result = results.getResults().get(0);
++        assertEquals("21", result.getId());
++        
++        assertTrue(result.getContent().contains("11"));
++        assertFalse(result.getContent().contains("<em>11</em>"));
++    }
++    
+@@ -381,0 +399,2 @@
++        doc.addField("content", "someContent 11 content 12 111");
++        
+

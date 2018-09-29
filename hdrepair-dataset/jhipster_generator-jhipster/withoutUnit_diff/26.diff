@@ -1,0 +1,21 @@
+diff --git a/app/templates/src/main/java/package/config/_OAuth2ServerConfiguration.java b/app/templates/src/main/java/package/config/_OAuth2ServerConfiguration.java
+index cf53e72..6c3e624 100644
+--- a/app/templates/src/main/java/package/config/_OAuth2ServerConfiguration.java
++++ b/app/templates/src/main/java/package/config/_OAuth2ServerConfiguration.java
+@@ -64 +63,0 @@
+-                .antMatchers("/views/**").permitAll()
+diff --git a/app/templates/src/main/webapp/scripts/_services.js b/app/templates/src/main/webapp/scripts/_services.js
+index 607c5db..490865f 100644
+--- a/app/templates/src/main/webapp/scripts/_services.js
++++ b/app/templates/src/main/webapp/scripts/_services.js
+@@ -162 +162 @@
+-                    $rootScope.authenticationError = true;
++                    $rootScope.authenticated = false;
+@@ -163,0 +164,6 @@
++                    AccessToken.remove();
++                    delete httpHeaders.common['Authorization'];
++
++                    if (!$rootScope.isAuthorized(authorizedRoles)) {
++                        $rootScope.$broadcast('event:auth-loginRequired', data);
++                    }
+

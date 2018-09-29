@@ -1,0 +1,33 @@
+diff --git a/modules/core/dbutils/pom.xml b/modules/core/dbutils/pom.xml
+index 703950a..3a9ffca 100644
+--- a/modules/core/dbutils/pom.xml
++++ b/modules/core/dbutils/pom.xml
+@@ -196,7 +195,0 @@
+-            <dependencies>
+-                <dependency>
+-                    <groupId>${project.groupId}</groupId>
+-                    <artifactId>rhq-cassandra-schema</artifactId>
+-                    <version>${project.version}</version>
+-                </dependency>
+-            </dependencies>
+@@ -206,0 +200,7 @@
++                        <dependencies>
++                          <dependency>
++                            <groupId>${project.groupId}</groupId>
++                            <artifactId>rhq-cassandra-schema</artifactId>
++                            <version>${project.version}</version>
++                          </dependency>
++                        </dependencies>
+@@ -271,2 +271,2 @@
+-                                        <java classname="org.rhq.cassandra.schema.SchemaManager">
+-                                            <classpath refid="maven.compile.classpath" />
++                                        <java classname="org.rhq.cassandra.schema.SchemaManager" failonerror="true">
++                                            <classpath refid="maven.plugin.classpath"/>
+diff --git a/modules/enterprise/server/installer/src/main/java/org/rhq/enterprise/server/installer/InstallerServiceImpl.java b/modules/enterprise/server/installer/src/main/java/org/rhq/enterprise/server/installer/InstallerServiceImpl.java
+index a48bd05..bbb31f3 100644
+--- a/modules/enterprise/server/installer/src/main/java/org/rhq/enterprise/server/installer/InstallerServiceImpl.java
++++ b/modules/enterprise/server/installer/src/main/java/org/rhq/enterprise/server/installer/InstallerServiceImpl.java
+@@ -1236 +1236 @@
+-        return new SchemaManager(username, password, hosts);
++        return new SchemaManager("cassandra", "cassandra", hosts);
+

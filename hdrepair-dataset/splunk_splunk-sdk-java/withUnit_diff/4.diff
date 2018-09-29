@@ -1,0 +1,27 @@
+diff --git a/splunk/com/splunk/ServiceInfo.java b/splunk/com/splunk/ServiceInfo.java
+index 10a1002..1a835b5 100644
+--- a/splunk/com/splunk/ServiceInfo.java
++++ b/splunk/com/splunk/ServiceInfo.java
+@@ -25 +25 @@
+-        super(service, "server/info");
++        super(service, "/services/server/info");
+diff --git a/tests/com/splunk/ServiceTest.java b/tests/com/splunk/ServiceTest.java
+index 30ca3ac..e3a0a42 100644
+--- a/tests/com/splunk/ServiceTest.java
++++ b/tests/com/splunk/ServiceTest.java
+@@ -671,0 +672,14 @@
++
++    @Test
++    public void testLoginWithNamespace() {
++        Args loginArgs = new Args();
++        loginArgs.add("username", command.opts.get("username"));
++        loginArgs.add("password", command.opts.get("password"));
++        loginArgs.add("sharing", "user");
++        loginArgs.add("owner", "admin");
++        loginArgs.add("app", "search");
++        loginArgs.add("host", command.opts.get("host"));
++        loginArgs.add("port", command.opts.get("port"));
++
++        Service.connect(loginArgs);
++    }
+

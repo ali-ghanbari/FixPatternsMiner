@@ -1,0 +1,12 @@
+diff --git a/software/base/src/test/java/brooklyn/entity/software/mysql/DynamicToyMySqlEntityBuilder.java b/software/base/src/test/java/brooklyn/entity/software/mysql/DynamicToyMySqlEntityBuilder.java
+index c84b308..f20916a 100644
+--- a/software/base/src/test/java/brooklyn/entity/software/mysql/DynamicToyMySqlEntityBuilder.java
++++ b/software/base/src/test/java/brooklyn/entity/software/mysql/DynamicToyMySqlEntityBuilder.java
+@@ -114,2 +114,4 @@
+-                // if it's still up after 5s assume we are good
+-                Time.sleep(Duration.FIVE_SECONDS);
++                // if it's still up after 30s assume we are good
++                // remember that the run script *backgrounded* the server start command, so this is the time taken
++                // to start the MySQL process, let it initialise, and give it a bit of time to make sure it stays up.
++                Time.sleep(Duration.THIRTY_SECONDS);
+

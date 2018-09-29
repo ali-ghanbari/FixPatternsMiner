@@ -1,0 +1,8 @@
+diff --git a/lang-api/src/com/intellij/psi/stubs/SerializationManagerImpl.java b/lang-api/src/com/intellij/psi/stubs/SerializationManagerImpl.java
+index c999c2c..e9d9afe 100644
+--- a/lang-api/src/com/intellij/psi/stubs/SerializationManagerImpl.java
++++ b/lang-api/src/com/intellij/psi/stubs/SerializationManagerImpl.java
+@@ -149 +149 @@
+-    assert serializer != null : "No serializer registered for stub: ID=" + id + "; parent stub class=" + parentStub.getClass().getName();
++    assert serializer != null : "No serializer registered for stub: ID=" + id + "; parent stub class=" + (parentStub != null? parentStub.getClass().getName() : "null");
+

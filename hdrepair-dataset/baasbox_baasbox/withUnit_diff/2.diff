@@ -1,0 +1,98 @@
+diff --git a/app/com/baasbox/commands/UsersResource.java b/app/com/baasbox/commands/UsersResource.java
+index c11ecf6..a4bc356 100644
+--- a/app/com/baasbox/commands/UsersResource.java
++++ b/app/com/baasbox/commands/UsersResource.java
+@@ -290 +290 @@
+-            JsonNode userVisible = params.get(UserDao.ATTRIBUTES_VISIBLE_BY_ANONYMOUS_USER);
++            JsonNode userVisible = params.get(UserDao.ATTRIBUTES_VISIBLE_ONLY_BY_THE_USER);
+diff --git a/test/ScriptUsersCommandTest.java b/test/ScriptUsersCommandTest.java
+index 539edfa..c11249f 100644
+--- a/test/ScriptUsersCommandTest.java
++++ b/test/ScriptUsersCommandTest.java
+@@ -1,10 +1,10 @@
+-import com.baasbox.commands.CommandRegistry;
+-import com.baasbox.commands.ScriptCommand;
+-import com.baasbox.dao.exception.EmailAlreadyUsedException;
+-import com.baasbox.dao.exception.UserAlreadyExistsException;
+-import com.baasbox.db.DbHelper;
+-import com.baasbox.exception.InvalidJsonException;
+-import com.baasbox.service.scripting.js.Json;
+-import com.baasbox.service.user.UserService;
+-import com.fasterxml.jackson.databind.JsonNode;
+-import com.fasterxml.jackson.databind.node.ObjectNode;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertNotNull;
++import static org.junit.Assert.assertTrue;
++import static org.junit.Assert.fail;
++import static play.test.Helpers.DELETE;
++import static play.test.Helpers.PUT;
++import static play.test.Helpers.contentAsString;
++import static play.test.Helpers.fakeApplication;
++import static play.test.Helpers.routeAndCall;
++import static play.test.Helpers.running;
+@@ -12,2 +12,6 @@
+-import core.AbstractTest;
+-import core.TestConfig;
++import java.util.TreeSet;
++import java.util.UUID;
++import java.util.stream.Collectors;
++import java.util.stream.IntStream;
++
++import javax.ws.rs.core.MediaType;
+@@ -20 +24 @@
+-import play.api.mvc.SimpleResult;
++import play.Logger;
+@@ -24 +28,8 @@
+-import javax.ws.rs.core.MediaType;
++import com.baasbox.commands.CommandRegistry;
++import com.baasbox.commands.ScriptCommand;
++import com.baasbox.commands.exceptions.CommandException;
++import com.baasbox.dao.UserDao;
++import com.baasbox.db.DbHelper;
++import com.baasbox.service.scripting.js.Json;
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.node.ObjectNode;
+@@ -26,6 +37 @@
+-import java.util.*;
+-import java.util.stream.Collectors;
+-import java.util.stream.IntStream;
+-
+-import static play.test.Helpers.*;
+-import static org.junit.Assert.*;
++import core.TestConfig;
+@@ -47,0 +54 @@
++            
+@@ -60,0 +68,14 @@
++            ObjectNode param = mapper.createObjectNode();
++            param.put("username",user);
++            param.put("password", user);
++            
++            param.put(UserDao.ATTRIBUTES_VISIBLE_ONLY_BY_THE_USER,visToUser);
++            param.put(UserDao.ATTRIBUTES_VISIBLE_BY_FRIENDS_USER,visToFriends);
++            param.put(UserDao.ATTRIBUTES_VISIBLE_BY_REGISTERED_USER,vistToReg);
++            param.put(UserDao.ATTRIBUTES_VISIBLE_BY_ANONYMOUS_USER,visToAnon);
++            
++            ObjectNode cmd = mapper.createObjectNode();
++            cmd.put(ScriptCommand.RESOURCE,"users");
++            cmd.put(ScriptCommand.NAME,"post");
++            cmd.put(ScriptCommand.PARAMS, param);
++            
+@@ -62,2 +83,15 @@
+-                UserService.signUp(user,user,new Date(),visToAnon,visToUser,visToFriends,vistToReg,false);
+-            } catch (InvalidJsonException|UserAlreadyExistsException|EmailAlreadyUsedException e) {
++            	JsonNode exec  = CommandRegistry.execute(cmd,null);
++            	Logger.debug(exec.toString());
++            	assertTrue(exec.isObject());
++                assertNotNull(exec.get("visibleByTheUser"));
++                assertNotNull(exec.get("visibleByAnonymousUsers"));
++                assertNotNull(exec.get("visibleByRegisteredUsers"));
++                assertNotNull(exec.get("visibleByFriends"));
++                
++                assertNotNull(exec.get("visibleByTheUser").get("val"));
++                assertNotNull(exec.get("visibleByAnonymousUsers").get("anon"));
++                assertNotNull(exec.get("visibleByRegisteredUsers").get("uuid"));
++                assertNotNull(exec.get("visibleByFriends").get("friends"));
++                
++            	//UserService.signUp(user,user,new Date(),visToAnon,visToUser,visToFriends,vistToReg,false);
++            } catch (CommandException e) {
+

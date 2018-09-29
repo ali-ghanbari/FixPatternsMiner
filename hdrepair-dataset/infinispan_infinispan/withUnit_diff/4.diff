@@ -1,0 +1,19 @@
+diff --git a/core/src/main/java/org/infinispan/config/Configuration.java b/core/src/main/java/org/infinispan/config/Configuration.java
+index a61952c..458100a 100644
+--- a/core/src/main/java/org/infinispan/config/Configuration.java
++++ b/core/src/main/java/org/infinispan/config/Configuration.java
+@@ -3184 +3184 @@
+-         testImmutability("initialWaitTime");
++         testImmutability("initialRetryWaitTime");
+diff --git a/core/src/test/java/org/infinispan/configuration/ConfigurationUnitTest.java b/core/src/test/java/org/infinispan/configuration/ConfigurationUnitTest.java
+index 5a497dc..4cfc66b 100644
+--- a/core/src/test/java/org/infinispan/configuration/ConfigurationUnitTest.java
++++ b/core/src/test/java/org/infinispan/configuration/ConfigurationUnitTest.java
+@@ -91,0 +92,6 @@
++   @Test
++   public void testDefineNamedCache() {
++      DefaultCacheManager cacheManager = new DefaultCacheManager(new ConfigurationBuilder().build());
++      cacheManager.defineConfiguration("foo", new ConfigurationBuilder().build());
++   }
++   
+

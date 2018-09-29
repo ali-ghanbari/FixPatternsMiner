@@ -1,0 +1,42 @@
+diff --git a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/ErrorEndEventActivityBehavior.java b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/ErrorEndEventActivityBehavior.java
+index bb603ee..9a74173 100644
+--- a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/ErrorEndEventActivityBehavior.java
++++ b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/ErrorEndEventActivityBehavior.java
+@@ -53 +53 @@
+-        // TODO Shouldn't this be an exception as in executeCatchInSuperProcess()?
++        // TODO Shouldn't this be an exception as in executeCatchInSuperProcess() or is this dead code?
+diff --git a/modules/activiti-engine/src/test/java/org/activiti/engine/test/bpmn/event/error/BoundaryErrorEventTest.java b/modules/activiti-engine/src/test/java/org/activiti/engine/test/bpmn/event/error/BoundaryErrorEventTest.java
+index 122e305..b656d75 100644
+--- a/modules/activiti-engine/src/test/java/org/activiti/engine/test/bpmn/event/error/BoundaryErrorEventTest.java
++++ b/modules/activiti-engine/src/test/java/org/activiti/engine/test/bpmn/event/error/BoundaryErrorEventTest.java
+@@ -166,0 +167,17 @@
++          "org/activiti/engine/test/bpmn/event/error/BoundaryErrorEventTest.subprocess.bpmn20.xml"
++  })
++  public void testUncaughtError() {
++    runtimeService.startProcessInstanceByKey("simpleSubProcess");
++    Task task = taskService.createTaskQuery().singleResult();
++    assertEquals("Task in subprocess", task.getName());
++    
++    try {
++      // Completing the task will reach the end error event,
++      // which is never caught in the process
++      taskService.complete(task.getId());
++    } catch (ActivitiException e) {
++      assertTextPresent("No catching boundary event found for error with errorCode 'myError', neither in same process nor in parent process", e.getMessage());
++    }
++  }
++  
++  @Deployment(resources = {
+@@ -275,0 +293,11 @@
++          "org/activiti/engine/test/bpmn/event/error/BoundaryErrorEventTest.testCatchErrorThrownByJavaDelegateOnCallActivity-child.bpmn20.xml"
++  })
++  public void testUncaughtErrorThrownByJavaDelegateOnServiceTask() {
++    try {
++      runtimeService.startProcessInstanceByKey("catchErrorThrownByJavaDelegateOnCallActivity-child");
++    } catch (ActivitiException e) {
++      assertTextPresent("No catching boundary event found for error with errorCode '23', neither in same process nor in parent process", e.getMessage());
++    }
++  }
++  
++  @Deployment(resources = {
+

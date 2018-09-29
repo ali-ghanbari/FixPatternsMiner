@@ -1,0 +1,63 @@
+diff --git a/molgenis-omx-biobankconnect/src/main/java/org/molgenis/omx/biobankconnect/ontologyservice/OntologyServiceController.java b/molgenis-omx-biobankconnect/src/main/java/org/molgenis/omx/biobankconnect/ontologyservice/OntologyServiceController.java
+index 0b2632d..112f5e3 100644
+--- a/molgenis-omx-biobankconnect/src/main/java/org/molgenis/omx/biobankconnect/ontologyservice/OntologyServiceController.java
++++ b/molgenis-omx-biobankconnect/src/main/java/org/molgenis/omx/biobankconnect/ontologyservice/OntologyServiceController.java
+@@ -65,3 +64,0 @@
+-	// private String ontologyUrl = null;
+-	// private List<String> inputLines = new ArrayList<String>();
+-
+diff --git a/molgenis-omx-biobankconnect/src/main/resources/js/ontology-indexer.js b/molgenis-omx-biobankconnect/src/main/resources/js/ontology-indexer.js
+index 1145f85..044ac2c 100644
+--- a/molgenis-omx-biobankconnect/src/main/resources/js/ontology-indexer.js
++++ b/molgenis-omx-biobankconnect/src/main/resources/js/ontology-indexer.js
+@@ -26 +26 @@
+-						var removeIcon = $('<i class="icon-remove"></i>').click(function(){
++						var removeIcon = $('<span class="glyphicon glyphicon-remove"></span>').click(function(){
+diff --git a/molgenis-omx-biobankconnect/src/main/resources/js/ontology-service-result.js b/molgenis-omx-biobankconnect/src/main/resources/js/ontology-service-result.js
+index a8bba76..769ff47 100644
+--- a/molgenis-omx-biobankconnect/src/main/resources/js/ontology-service-result.js
++++ b/molgenis-omx-biobankconnect/src/main/resources/js/ontology-service-result.js
+@@ -49,4 +49,7 @@
+-				var ontologyTermNameDiv = $('<div />').addClass('span5 matchterm show-popover').css('margin-bottom', '-6px').append(hit.columnValueMap.ontologyTerm);
+-				var ontologyTermUrlDiv = $('<div />').addClass('span5 termurl').css('margin-bottom', '-6px').append('<a href="' + hit.columnValueMap.ontologyTermIRI + '" target="_blank">' + hit.columnValueMap.ontologyTermIRI + '</a>');
+-				var matchScoreDiv = $('<div />').addClass('span2').css('margin-bottom', '-6px').append('<center>' + (hit.columnValueMap.combinedScore ? hit.columnValueMap.combinedScore.toFixed(2) :  hit.columnValueMap.score.toFixed(2)) + '%</center>');
+-				var newLineDiv = $('<div />').addClass('row-fluid').append(ontologyTermNameDiv).append(ontologyTermUrlDiv).append(matchScoreDiv);
++				var ontologyTermNameDiv = $('<div />').addClass('col-md-5 matchterm show-popover').css('margin-bottom', '-6px').append(hit.columnValueMap.ontologyTerm);
++				var ontologyTermUrlDiv = $('<div />').addClass('col-md-5 termurl').css('margin-bottom', '-6px').append('<a href="' + hit.columnValueMap.ontologyTermIRI + '" target="_blank">' + hit.columnValueMap.ontologyTermIRI + '</a>');
++				var matchScoreDiv = $('<div />').addClass('col-md-2').css('margin-bottom', '-6px').append('<center>' + (hit.columnValueMap.combinedScore ? hit.columnValueMap.combinedScore.toFixed(2) :  hit.columnValueMap.score.toFixed(2)) + '%</center>');
++				var newLineDiv = $('<div />').addClass('row').css({
++					'padding-top':'3px',
++					'padding-bottom':'3px'
++				}).append(ontologyTermNameDiv).append(ontologyTermUrlDiv).append(matchScoreDiv);
+@@ -71,2 +74 @@
+-								'padding-top':'15px',
+-								'padding-bottom':'5px',
++								'padding-top':'20px',
+@@ -75 +77 @@
+-							$('<div />').addClass('row-fluid').append(separatLine).appendTo(ontologyTermMatchDiv);
++							$('<div />').addClass('row').append(separatLine).appendTo(ontologyTermMatchDiv);
+@@ -80,3 +82 @@
+-			
+-			var divWithColor = $('<div />').addClass('col-md-12 well div-hover').append(layoutDiv);
+-			$('<div />').addClass('row').append(divWithColor).appendTo(container);
++			$('<div />').addClass('col-md-12 well div-hover').append(layoutDiv).appendTo(container);
+@@ -95 +95 @@
+-				var toggle = $('<i class="icon-plus"></icon>').css({
++				var toggle = $('<span class="glyphicon glyphicon-plus"></span>').css({
+@@ -96,0 +97 @@
++					'float' :'right',
+@@ -99,2 +100,2 @@
+-				var buttonDiv = $('<div />').css('float','right').append(toggle);
+-				$(element).before(buttonDiv);
++//				var buttonDiv = $('<div />').css('float','right').append(toggle);
++				$(element).before(toggle);
+@@ -102 +103 @@
+-					if($(this).hasClass('icon-plus')){
++					if($(this).hasClass('glyphicon-plus')){
+@@ -104 +105 @@
+-						$(this).removeClass('icon-plus').addClass('icon-minus');
++						$(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');
+@@ -107 +108 @@
+-						$(this).removeClass('icon-minus').addClass('icon-plus');
++						$(this).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+

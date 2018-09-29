@@ -1,0 +1,8 @@
+diff --git a/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java b/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java
+index f384b6b..684061f 100644
+--- a/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java
++++ b/platform/platform-api/src/com/intellij/openapi/ui/DialogWrapper.java
+@@ -346 +346 @@
+-    if (SystemInfo.isMacOSLeopard && Arrays.asList(actions).contains(getHelpAction())) {
++    if (UIUtil.isUnderAquaLookAndFeel() && Arrays.asList(actions).contains(getHelpAction())) {
+

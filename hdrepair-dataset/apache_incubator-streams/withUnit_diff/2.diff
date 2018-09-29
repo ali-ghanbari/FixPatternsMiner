@@ -1,0 +1,428 @@
+diff --git a/streams-contrib/streams-provider-datasift/src/main/java/org/apache/streams/datasift/serializer/DatasiftDefaultActivitySerializer.java b/streams-contrib/streams-provider-datasift/src/main/java/org/apache/streams/datasift/serializer/DatasiftDefaultActivitySerializer.java
+index 615ca34..678f67b 100644
+--- a/streams-contrib/streams-provider-datasift/src/main/java/org/apache/streams/datasift/serializer/DatasiftDefaultActivitySerializer.java
++++ b/streams-contrib/streams-provider-datasift/src/main/java/org/apache/streams/datasift/serializer/DatasiftDefaultActivitySerializer.java
+@@ -9 +9 @@
+-import org.apache.streams.datasift.interaction.Links;
++import org.apache.streams.datasift.links.Links;
+diff --git a/streams-contrib/streams-provider-datasift/src/main/jsonschema/org/apache/streams/datasift/twitter/DatasiftTwitter.json b/streams-contrib/streams-provider-datasift/src/main/jsonschema/org/apache/streams/datasift/twitter/DatasiftTwitter.json
+index c671b2e..b11f81a 100644
+--- a/streams-contrib/streams-provider-datasift/src/main/jsonschema/org/apache/streams/datasift/twitter/DatasiftTwitter.json
++++ b/streams-contrib/streams-provider-datasift/src/main/jsonschema/org/apache/streams/datasift/twitter/DatasiftTwitter.json
+@@ -98 +97,0 @@
+-                        "javaType" : "org.apache.streams.datasift.twitter.Media",
+@@ -100,127 +99 @@
+-                        "dynamic" : "true",
+-                        "properties" :
+-                        {
+-                            "display_url" :
+-                            {
+-                                "type" : "string"
+-                            },
+-                            "expanded_url" :
+-                            {
+-                                "type" : "string"
+-                            },
+-                            "id" :
+-                            {
+-                                "type" : "integer"
+-                            },
+-                            "id_str" :
+-                            {
+-                                "type" : "string"
+-                            },
+-                            "media_url" :
+-                            {
+-                                "type" : "string"
+-                            },
+-                            "media_url_https" :
+-                            {
+-                                "type" : "string"
+-                            },
+-                            "sizes" :
+-                            {
+-                                "dynamic" : "true",
+-                                "properties" :
+-                                {
+-                                    "large" :
+-                                    {
+-                                        "dynamic" : "true",
+-                                        "properties" :
+-                                        {
+-                                            "h" :
+-                                            {
+-                                                "type" : "integer"
+-                                            },
+-                                            "resize" :
+-                                            {
+-                                                "type" : "string"
+-                                            },
+-                                            "w" :
+-                                            {
+-                                                "type" : "integer"
+-                                            }
+-                                        }
+-                                    },
+-                                    "medium" :
+-                                    {
+-                                        "dynamic" : "true",
+-                                        "properties" :
+-                                        {
+-                                            "h" :
+-                                            {
+-                                                "type" : "integer"
+-                                            },
+-                                            "resize" :
+-                                            {
+-                                                "type" : "string"
+-                                            },
+-                                            "w" :
+-                                            {
+-                                                "type" : "integer"
+-                                            }
+-                                        }
+-                                    },
+-                                    "small" :
+-                                    {
+-                                        "dynamic" : "true",
+-                                        "properties" :
+-                                        {
+-                                            "h" :
+-                                            {
+-                                                "type" : "integer"
+-                                            },
+-                                            "resize" :
+-                                            {
+-                                                "type" : "string"
+-                                            },
+-                                            "w" :
+-                                            {
+-                                                "type" : "integer"
+-                                            }
+-                                        }
+-                                    },
+-                                    "thumb" :
+-                                    {
+-                                        "dynamic" : "true",
+-                                        "properties" :
+-                                        {
+-                                            "h" :
+-                                            {
+-                                                "type" : "integer"
+-                                            },
+-                                            "resize" :
+-                                            {
+-                                                "type" : "string"
+-                                            },
+-                                            "w" :
+-                                            {
+-                                                "type" : "integer"
+-                                            }
+-                                        }
+-                                    }
+-                                }
+-                            },
+-                            "source_status_id" :
+-                            {
+-                                "type" : "integer"
+-                            },
+-                            "source_status_id_str" :
+-                            {
+-                                "type" : "string"
+-                            },
+-                            "type" :
+-                            {
+-                                "type" : "string"
+-                            },
+-                            "url" :
+-                            {
+-                                "type" : "string"
+-                            }
+-                        }
++                        "$ref" : "DatasiftTwitterMedia.json"
+@@ -353,31 +226,3 @@
+-                    "dynamic" : "true",
+-                    "properties" :
+-                    {
+-                        "display_url" :
+-                        {
+-                            "type" : "string"
+-                        },
+-                        "expanded_url" :
+-                        {
+-                            "type" : "string"
+-                        },
+-                        "id" :
+-                        {
+-                            "type" : "integer"
+-                        },
+-                        "id_str" :
+-                        {
+-                            "type" : "string"
+-                        },
+-                        "media_url" :
+-                        {
+-                            "type" : "string"
+-                        },
+-                        "media_url_https" :
+-                        {
+-                            "type" : "string"
+-                        },
+-                        "sizes" :
+-                        {
+-                            "dynamic" : "true",
+-                            "properties" :
++                    "type" : "array",
++                    "items" :
++                        [
+@@ -385,76 +230,2 @@
+-                                "large" :
+-                                {
+-                                    "dynamic" : "true",
+-                                    "properties" :
+-                                    {
+-                                        "h" :
+-                                        {
+-                                            "type" : "integer"
+-                                        },
+-                                        "resize" :
+-                                        {
+-                                            "type" : "string"
+-                                        },
+-                                        "w" :
+-                                        {
+-                                            "type" : "integer"
+-                                        }
+-                                    }
+-                                },
+-                                "medium" :
+-                                {
+-                                    "dynamic" : "true",
+-                                    "properties" :
+-                                    {
+-                                        "h" :
+-                                        {
+-                                            "type" : "integer"
+-                                        },
+-                                        "resize" :
+-                                        {
+-                                            "type" : "string"
+-                                        },
+-                                        "w" :
+-                                        {
+-                                            "type" : "integer"
+-                                        }
+-                                    }
+-                                },
+-                                "small" :
+-                                {
+-                                    "dynamic" : "true",
+-                                    "properties" :
+-                                    {
+-                                        "h" :
+-                                        {
+-                                            "type" : "integer"
+-                                        },
+-                                        "resize" :
+-                                        {
+-                                            "type" : "string"
+-                                        },
+-                                        "w" :
+-                                        {
+-                                            "type" : "integer"
+-                                        }
+-                                    }
+-                                },
+-                                "thumb" :
+-                                {
+-                                    "dynamic" : "true",
+-                                    "properties" :
+-                                    {
+-                                        "h" :
+-                                        {
+-                                            "type" : "integer"
+-                                        },
+-                                        "resize" :
+-                                        {
+-                                            "type" : "string"
+-                                        },
+-                                        "w" :
+-                                        {
+-                                            "type" : "integer"
+-                                        }
+-                                    }
+-                                }
++                            "type" : "object",
++                            "$ref" : "DatasiftTwitterMedia.json"
+@@ -462,18 +233 @@
+-                        },
+-                        "source_status_id" :
+-                        {
+-                            "type" : "integer"
+-                        },
+-                        "source_status_id_str" :
+-                        {
+-                            "type" : "string"
+-                        },
+-                        "type" :
+-                        {
+-                            "type" : "string"
+-                        },
+-                        "url" :
+-                        {
+-                            "type" : "string"
+-                        }
+-                    }
++                        ]
+diff --git a/streams-contrib/streams-provider-datasift/src/main/jsonschema/org/apache/streams/datasift/twitter/DatasiftTwitterMedia.json b/streams-contrib/streams-provider-datasift/src/main/jsonschema/org/apache/streams/datasift/twitter/DatasiftTwitterMedia.json
+new file mode 100644
+index 0000000..2084932
+--- /dev/null
++++ b/streams-contrib/streams-provider-datasift/src/main/jsonschema/org/apache/streams/datasift/twitter/DatasiftTwitterMedia.json
+@@ -0,0 +1,126 @@
++{
++    "type" : "object",
++    "javaType" : "org.apache.streams.datasift.twitter.Media",
++    "properties" :
++    {
++        "display_url" :
++        {
++            "type" : "string"
++        },
++        "expanded_url" :
++        {
++            "type" : "string"
++        },
++        "id" :
++        {
++            "type" : "integer"
++        },
++        "id_str" :
++        {
++            "type" : "string"
++        },
++        "media_url" :
++        {
++            "type" : "string"
++        },
++        "media_url_https" :
++        {
++            "type" : "string"
++        },
++        "sizes" :
++        {
++            "properties" :
++            {
++                "large" :
++                {
++                    "properties" :
++                    {
++                        "h" :
++                        {
++                            "type" : "integer"
++                        },
++                        "resize" :
++                        {
++                            "type" : "string"
++                        },
++                        "w" :
++                        {
++                            "type" : "integer"
++                        }
++                    }
++                },
++                "medium" :
++                {
++                    "properties" :
++                    {
++                        "h" :
++                        {
++                            "type" : "integer"
++                        },
++                        "resize" :
++                        {
++                            "type" : "string"
++                        },
++                        "w" :
++                        {
++                            "type" : "integer"
++                        }
++                    }
++                },
++                "small" :
++                {
++                    "dynamic" : "true",
++                    "properties" :
++                    {
++                        "h" :
++                        {
++                            "type" : "integer"
++                        },
++                        "resize" :
++                        {
++                            "type" : "string"
++                        },
++                        "w" :
++                        {
++                            "type" : "integer"
++                        }
++                    }
++                },
++                "thumb" :
++                {
++                    "properties" :
++                    {
++                        "h" :
++                        {
++                            "type" : "integer"
++                        },
++                        "resize" :
++                        {
++                            "type" : "string"
++                        },
++                        "w" :
++                        {
++                            "type" : "integer"
++                        }
++                    }
++                }
++            }
++        },
++        "source_status_id" :
++        {
++            "type" : "integer"
++        },
++        "source_status_id_str" :
++        {
++            "type" : "string"
++        },
++        "type" :
++        {
++            "type" : "string"
++        },
++        "url" :
++        {
++            "type" : "string"
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/provider/DatasiftTypeConverterProcessorTest.java b/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/provider/DatasiftTypeConverterProcessorTest.java
+index fac0f02..015f4e9 100644
+--- a/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/provider/DatasiftTypeConverterProcessorTest.java
++++ b/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/provider/DatasiftTypeConverterProcessorTest.java
+@@ -29,3 +29 @@
+-import static junit.framework.Assert.assertEquals;
+-import static junit.framework.Assert.assertNotNull;
+-import static junit.framework.Assert.assertTrue;
++import static junit.framework.Assert.*;
+diff --git a/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/serializer/DatasiftActivitySerializerTest.java b/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/serializer/DatasiftActivitySerializerTest.java
+index baff556..5f9feed 100644
+--- a/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/serializer/DatasiftActivitySerializerTest.java
++++ b/streams-contrib/streams-provider-datasift/src/test/java17/org/apache/streams/datasift/serializer/DatasiftActivitySerializerTest.java
+@@ -13,2 +12,0 @@
+-import static org.junit.Assert.assertNotNull;
+-import static org.junit.Assert.assertTrue;
+@@ -15,0 +14 @@
++import static org.junit.Assert.assertNotNull;
+

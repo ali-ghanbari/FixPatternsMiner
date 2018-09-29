@@ -1,0 +1,11 @@
+diff --git a/branches/v2.3/src/java/org/apache/james/fetchmail/FetchMail.java b/branches/v2.3/src/java/org/apache/james/fetchmail/FetchMail.java
+index a2f4395..fe438c1 100644
+--- a/branches/v2.3/src/java/org/apache/james/fetchmail/FetchMail.java
++++ b/branches/v2.3/src/java/org/apache/james/fetchmail/FetchMail.java
+@@ -929 +929,4 @@
+-        return Session.getInstance(System.getProperties());
++        // Make separate properties instance so the
++        // fetchmail.xml <javaMailProperties> can override the
++         // property values without interfering with other fetchmail instances
++        return Session.getInstance( new Properties( System.getProperties()) );    
+

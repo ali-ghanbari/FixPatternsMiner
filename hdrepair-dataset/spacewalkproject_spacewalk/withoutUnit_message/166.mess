@@ -1,0 +1,15 @@
+suite_id is number not string
+
+fixing
+ERROR:  operator does not exist: character varying = smallint at character 122
+HINT:  No operator matches the given name and argument type(s). You might need to add explicit type casts.
+STATEMENT:  SELECT count(*) noaccess
+        FROM RHN_CHECK_SUITE_PROBE csp,
+             RHN_SERVICE_PROBE_ORIGINS spo, RHN_CHECK_PROBE cp
+        WHERE $1 = csp.check_suite_id
+          AND csp.probe_id = spo.origin_probe_id
+          AND spo.service_probe_id = cp.probe_id
+          AND NOT EXISTS (SELECT 1 FROM rhnUserServerPerms usp
+                                  WHERE usp.server_id = cp.host_id
+                                    AND usp.user_id = $2)
+

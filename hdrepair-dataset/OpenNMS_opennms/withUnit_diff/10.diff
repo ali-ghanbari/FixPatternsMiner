@@ -1,0 +1,36 @@
+diff --git a/opennms-model/src/test/java/org/opennms/netmgt/model/InetAddressUserTypeTest.java b/opennms-model/src/test/java/org/opennms/netmgt/model/InetAddressUserTypeTest.java
+new file mode 100644
+index 0000000..3554a04
+--- /dev/null
++++ b/opennms-model/src/test/java/org/opennms/netmgt/model/InetAddressUserTypeTest.java
+@@ -0,0 +1,22 @@
++package org.opennms.netmgt.model;
++
++import static org.junit.Assert.assertNull;
++
++import java.sql.ResultSet;
++
++import org.easymock.EasyMock;
++import org.junit.Test;
++
++public class InetAddressUserTypeTest {
++
++    @Test
++    public void testInetAddressType() throws Exception {
++        ResultSet rs = EasyMock.createMock(ResultSet.class);
++        EasyMock.expect(rs.getString("ipAddr")).andReturn(null);
++        EasyMock.replay(rs);
++        final InetAddressUserType userType = new InetAddressUserType();
++        final Object result = userType.nullSafeGet(rs, new String[]{"ipAddr"}, null);
++        EasyMock.verify(rs);
++        assertNull(result);
++    }
++}
+diff --git a/opennms-util/src/main/java/org/opennms/core/utils/InetAddressUtils.java b/opennms-util/src/main/java/org/opennms/core/utils/InetAddressUtils.java
+index 1649d7d..4b452c3 100644
+--- a/opennms-util/src/main/java/org/opennms/core/utils/InetAddressUtils.java
++++ b/opennms-util/src/main/java/org/opennms/core/utils/InetAddressUtils.java
+@@ -166 +166 @@
+-            return InetAddress.getByName(dottedNotation);
++            return dottedNotation == null? null : InetAddress.getByName(dottedNotation);
+

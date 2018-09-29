@@ -1,0 +1,8 @@
+diff --git a/opennms-wmi/src/main/java/org/opennms/netmgt/collectd/wmi/WmiMultiInstanceCollectionResource.java b/opennms-wmi/src/main/java/org/opennms/netmgt/collectd/wmi/WmiMultiInstanceCollectionResource.java
+index 556b914..5de461d 100644
+--- a/opennms-wmi/src/main/java/org/opennms/netmgt/collectd/wmi/WmiMultiInstanceCollectionResource.java
++++ b/opennms-wmi/src/main/java/org/opennms/netmgt/collectd/wmi/WmiMultiInstanceCollectionResource.java
+@@ -73,0 +74,2 @@
++        //WMI instances can have special characters in them. See NMS-6924.
++        resourcePath = resourcePath.replaceAll("\\s+", "_").replaceAll(":", "_").replaceAll("\\\\", "_").replaceAll("[\\[\\]]", "_");
+

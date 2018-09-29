@@ -1,0 +1,12 @@
+Chimera: fix out-by-one error
+
+The limit on a filename is 255 characters.  Due to an out-by-one error, for
+exactly 255 character-length filenames the JdbFs layer fails to catch the
+problem and the database catches it instead.
+
+Target: master
+Requires-book: no
+Requires-notes: no
+Patch: http://rb.dcache.org/r/6183/
+Acked-by: Tigran Mkrtchyan
+

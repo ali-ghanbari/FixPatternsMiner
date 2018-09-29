@@ -1,0 +1,15 @@
+diff --git a/nuxeo-core-storage-sql/nuxeo-core-storage-sql-test/src/test/java/org/nuxeo/ecm/core/storage/sql/TestSQLBackend.java b/nuxeo-core-storage-sql/nuxeo-core-storage-sql-test/src/test/java/org/nuxeo/ecm/core/storage/sql/TestSQLBackend.java
+index be9deaa..d169ae5 100644
+--- a/nuxeo-core-storage-sql/nuxeo-core-storage-sql-test/src/test/java/org/nuxeo/ecm/core/storage/sql/TestSQLBackend.java
++++ b/nuxeo-core-storage-sql/nuxeo-core-storage-sql-test/src/test/java/org/nuxeo/ecm/core/storage/sql/TestSQLBackend.java
+@@ -621 +621 @@
+-            testBigACLs("foo1000", 1000);
++            testBigACLs("foo1400", 1400); // len 35000-1
+diff --git a/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/resources/nuxeovcs/oracle.sql.txt b/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/resources/nuxeovcs/oracle.sql.txt
+index f750e26..d63a666 100644
+--- a/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/resources/nuxeovcs/oracle.sql.txt
++++ b/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/resources/nuxeovcs/oracle.sql.txt
+@@ -672 +672 @@
+-  acl VARCHAR2(32767) := NULL;
++  acl NCLOB := NULL;
+

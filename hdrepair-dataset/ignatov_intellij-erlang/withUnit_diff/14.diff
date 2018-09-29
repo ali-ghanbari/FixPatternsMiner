@@ -1,0 +1,32 @@
+diff --git a/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java b/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java
+index cb15a30..d5ea295 100644
+--- a/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java
++++ b/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java
+@@ -88 +88 @@
+-
++      .around(ERL_ANDALSO).spaceIf(settings.SPACE_AROUND_LOGICAL_OPERATORS)
+diff --git a/testData/formatter/137-after.erl b/testData/formatter/137-after.erl
+new file mode 100644
+index 0000000..bb18b03
+--- /dev/null
++++ b/testData/formatter/137-after.erl
+@@ -0,0 +1,2 @@
++f() ->
++  true andalso false.
+\ No newline at end of file
+diff --git a/testData/formatter/137.erl b/testData/formatter/137.erl
+new file mode 100644
+index 0000000..f2c4c08
+--- /dev/null
++++ b/testData/formatter/137.erl
+@@ -0,0 +1,2 @@
++f() ->
++    true    andalso        false.
+\ No newline at end of file
+diff --git a/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java b/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java
+index 99f78e0..1dd006b 100644
+--- a/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java
++++ b/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java
+@@ -58,0 +59 @@
++  public void test137()    throws Exception { doTest(); }
+

@@ -1,0 +1,48 @@
+diff --git a/source/ca/odell/glazedlists/SortedList.java b/source/ca/odell/glazedlists/SortedList.java
+index 718a66e..03c02d1 100644
+--- a/source/ca/odell/glazedlists/SortedList.java
++++ b/source/ca/odell/glazedlists/SortedList.java
+@@ -516 +516 @@
+-        if(mode != STRICT_SORT_ORDER || comparator == null) return source.lastIndexOf(object);
++        if(mode != STRICT_SORT_ORDER || comparator == null) return super.lastIndexOf(object);
+diff --git a/test/ca/odell/glazedlists/SortedListTest.java b/test/ca/odell/glazedlists/SortedListTest.java
+index 9ed8745..d6b24ba 100644
+--- a/test/ca/odell/glazedlists/SortedListTest.java
++++ b/test/ca/odell/glazedlists/SortedListTest.java
+@@ -74,0 +75,2 @@
++        assertEquals(12, unsortedList.lastIndexOf("F"));
++        assertEquals(5, sortedList.lastIndexOf("F"));
+@@ -80,0 +83,2 @@
++        assertEquals(8, unsortedList.lastIndexOf("F"));
++        assertEquals(3, sortedList.lastIndexOf("F"));
+@@ -102,0 +107,2 @@
++        assertEquals(12, unsortedList.lastIndexOf("F"));
++        assertEquals(5, sortedList.lastIndexOf("F"));
+@@ -106,0 +113,4 @@
++        assertEquals(2, unsortedList.indexOf("F"));
++        assertEquals(6, sortedList.indexOf("F"));
++        assertEquals(16, unsortedList.lastIndexOf("F"));
++        assertEquals(9, sortedList.lastIndexOf("F"));
+@@ -1240,0 +1251,4 @@
++        assertEquals(0, names.lastIndexOf("abba"));
++        assertEquals(1, names.lastIndexOf("foo fighters"));
++        assertEquals(2, names.lastIndexOf("nirvana"));
++        assertEquals(3, names.lastIndexOf("cardigans"));
+@@ -1251,0 +1266,4 @@
++        assertEquals(0, names.lastIndexOf("abba"));
++        assertEquals(1, names.lastIndexOf("cardigans"));
++        assertEquals(2, names.lastIndexOf("foo fighters"));
++        assertEquals(3, names.lastIndexOf("nirvana"));
+@@ -1265,0 +1284,5 @@
++        assertEquals(0, names.lastIndexOf("abba"));
++        assertEquals(1, names.lastIndexOf("bob marley"));
++        assertEquals(2, names.lastIndexOf("cardigans"));
++        assertEquals(3, names.lastIndexOf("foo fighters"));
++        assertEquals(4, names.lastIndexOf("nirvana"));
+@@ -1277,0 +1301,5 @@
++        assertEquals(0, names.lastIndexOf("abba"));
++        assertEquals(1, names.lastIndexOf("zamfir"));
++        assertEquals(2, names.lastIndexOf("cardigans"));
++        assertEquals(3, names.lastIndexOf("foo fighters"));
++        assertEquals(4, names.lastIndexOf("nirvana"));
+

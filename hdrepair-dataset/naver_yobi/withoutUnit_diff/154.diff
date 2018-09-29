@@ -1,0 +1,31 @@
+diff --git a/app/controllers/AbstractPostingApp.java b/app/controllers/AbstractPostingApp.java
+index 95ff3e0..3f8c652 100644
+--- a/app/controllers/AbstractPostingApp.java
++++ b/app/controllers/AbstractPostingApp.java
+@@ -140 +140 @@
+-        return redirect(toView);
++        return redirect(toView + "#comment-" + comment.id);
+diff --git a/app/views/commentForm.scala.html b/app/views/commentForm.scala.html
+index 65e92af..9a71e70 100644
+--- a/app/views/commentForm.scala.html
++++ b/app/views/commentForm.scala.html
+@@ -6,15 +5,0 @@
+-<script src="/assets/javascripts/lib/jquery/jquery.cookie.js"></script>
+-<script src="/assets/javascripts/lib/jquery/jquery.scrollTo.js"></script>
+-<script type="text/javascript">
+-	$(window).load(function(){
+-	    if($.cookie("scrollToComment") !== null){
+-	        $("#comment-editor").focus();
+-	        $.scrollTo("#comment-editor", 0);
+-	        $.cookie("scrollToComment", null);
+-	    }
+-	});
+-
+-	function scrollToComment() {
+-	    $.cookie("scrollToComment", true);
+-	}
+-</script>
+@@ -23 +8 @@
+-    <form id="comment-form" action="@action" method="post" enctype="multipart/form-data" onsubmit="scrollToComment();">
++    <form id="comment-form" action="@action" method="post" enctype="multipart/form-data">
+

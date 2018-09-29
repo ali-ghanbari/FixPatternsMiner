@@ -1,0 +1,362 @@
+diff --git a/maven-core/pom.xml b/maven-core/pom.xml
+index 2cee15d..2a5cdd1 100644
+--- a/maven-core/pom.xml
++++ b/maven-core/pom.xml
+@@ -89 +89 @@
+-      <version>1.0-beta-2</version>
++      <version>1.0</version>
+diff --git a/maven-model/maven.mdo b/maven-model/maven.mdo
+index 563f9f6..88398a7 100644
+--- a/maven-model/maven.mdo
++++ b/maven-model/maven.mdo
+@@ -0,0 +1,2 @@
++<?xml version="1.0"?>
++
+@@ -745 +747 @@
+-    Map pluginMap;
++    java.util.Map pluginMap;
+@@ -752 +754 @@
+-    public Map getPluginsAsMap()
++    public java.util.Map getPluginsAsMap()
+@@ -756 +758 @@
+-            pluginMap = new HashMap();
++            pluginMap = new java.util.HashMap();
+@@ -759 +761 @@
+-                for ( Iterator it = plugins.iterator(); it.hasNext(); )
++                for ( java.util.Iterator it = plugins.iterator(); it.hasNext(); )
+@@ -1337 +1339 @@
+-				String artifact;
++                String artifact;
+@@ -1340 +1342 @@
+-                	artifact = getArtifactId() + "-" + getVersion() + "-client." + getExtension();
++                  artifact = getArtifactId() + "-" + getVersion() + "-client." + getExtension();
+@@ -1342 +1344 @@
+-                	artifact = getArtifactId() + "-" + getVersion() + "." + getExtension();
++                  artifact = getArtifactId() + "-" + getVersion() + "." + getExtension();
+@@ -1761,0 +1764,22 @@
++      <codeSegments>
++        <codeSegment>
++          <version>4.0.0</version>
++          <code><![CDATA[
++            public String getId()
++            {
++                StringBuffer id = new StringBuffer();
++
++                id.append( getGroupId() );
++                id.append( ":" );
++                id.append( getArtifactId() );
++                id.append( ":" );
++              //  id.append( getPackaging() );
++                id.append( ":" );
++                id.append( getVersion() );
++
++                return id.toString();
++            }
++          ]]></code>
++        </codeSegment>
++      </codeSegments>
++
+@@ -2346 +2370 @@
+-    private Map executionMap = null;
++    private java.util.Map executionMap = null;
+@@ -2353 +2377 @@
+-    public Map getExecutionsAsMap()
++    public java.util.Map getExecutionsAsMap()
+@@ -2357 +2381 @@
+-            executionMap = new HashMap();
++            executionMap = new java.util.HashMap();
+@@ -2360 +2384 @@
+-                for ( Iterator i = getExecutions().iterator(); i.hasNext(); )
++                for ( java.util.Iterator i = getExecutions().iterator(); i.hasNext(); )
+@@ -2388 +2412 @@
+-    private Map goalMap = null;
++    private java.util.Map goalMap = null;
+@@ -2396 +2420 @@
+-    public Map getGoalsAsMap()
++    public java.util.Map getGoalsAsMap()
+@@ -2400 +2424 @@
+-            goalMap = new HashMap();
++            goalMap = new java.util.HashMap();
+@@ -2403 +2427 @@
+-                for ( Iterator i = goals.iterator(); i.hasNext(); )
++                for ( java.util.Iterator i = goals.iterator(); i.hasNext(); )
+@@ -2515 +2539 @@
+-    Map reportPluginMap;
++    java.util.Map reportPluginMap;
+@@ -2522 +2546 @@
+-    public Map getReportPluginsAsMap()
++    public java.util.Map getReportPluginsAsMap()
+@@ -2526 +2550 @@
+-            reportPluginMap = new HashMap();
++            reportPluginMap = new java.util.HashMap();
+@@ -2529 +2553 @@
+-                for ( Iterator it = getPlugins().iterator(); it.hasNext(); )
++                for ( java.util.Iterator it = getPlugins().iterator(); it.hasNext(); )
+@@ -2745 +2769 @@
+-    private Map reportSetMap = null;
++    private java.util.Map reportSetMap = null;
+@@ -2752 +2776 @@
+-    public Map getReportSetsAsMap()
++    public java.util.Map getReportSetsAsMap()
+@@ -2756 +2780 @@
+-            reportSetMap = new HashMap();
++            reportSetMap = new java.util.HashMap();
+@@ -2759 +2783 @@
+-                for ( Iterator i = getReportSets().iterator(); i.hasNext(); )
++                for ( java.util.Iterator i = getReportSets().iterator(); i.hasNext(); )
+diff --git a/maven-model/pom.xml b/maven-model/pom.xml
+index 4b6df2d..9b2c968 100644
+--- a/maven-model/pom.xml
++++ b/maven-model/pom.xml
+@@ -25 +24,0 @@
+-        <version>1.0-alpha-4-SNAPSHOT</version>
+diff --git a/maven-plugin-descriptor/pom.xml b/maven-plugin-descriptor/pom.xml
+index 976af6a..3ed3778 100755
+--- a/maven-plugin-descriptor/pom.xml
++++ b/maven-plugin-descriptor/pom.xml
+@@ -34 +33,0 @@
+-        <version>1.0-alpha-3</version>
+diff --git a/maven-plugin-registry/plugin-registry.mdo b/maven-plugin-registry/plugin-registry.mdo
+index 5babb80..730e67b 100644
+--- a/maven-plugin-registry/plugin-registry.mdo
++++ b/maven-plugin-registry/plugin-registry.mdo
+@@ -0,0 +1,2 @@
++<?xml version="1.0"?>
++
+@@ -100 +102 @@
+-    private Map pluginsByKey;
++    private java.util.Map pluginsByKey;
+@@ -102 +104 @@
+-    public Map getPluginsByKey()
++    public java.util.Map getPluginsByKey()
+@@ -106 +108 @@
+-            pluginsByKey = new HashMap();
++            pluginsByKey = new java.util.HashMap();
+@@ -108 +110 @@
+-            for ( Iterator it = getPlugins().iterator(); it.hasNext(); )
++            for ( java.util.Iterator it = getPlugins().iterator(); it.hasNext(); )
+@@ -194 +196 @@
+-</model>
+\ No newline at end of file
++</model>
+diff --git a/maven-plugin-registry/pom.xml b/maven-plugin-registry/pom.xml
+index f1086e4..ea4f6be 100644
+--- a/maven-plugin-registry/pom.xml
++++ b/maven-plugin-registry/pom.xml
+@@ -28,16 +28,14 @@
+-        <version>1.0-alpha-3</version>
+-        <goals>
+-          <goal>
+-            <id>xpp3-writer</id>
+-          </goal>
+-          <goal>
+-            <id>java</id>
+-          </goal>
+-          <goal>
+-            <id>xpp3-reader</id>
+-          </goal>
+-        </goals>
+-        <configuration>
+-          <version>1.0.0</version>
+-          <model>plugin-registry.mdo</model>
+-        </configuration>
++        <version>1.0-alpha-5-SNAPSHOT</version>
++        <executions>
++          <execution>
++            <goals>
++              <goal>xpp3-writer</goal>
++              <goal>java</goal>
++              <goal>xpp3-reader</goal>
++            </goals>
++            <configuration>
++              <version>1.0.0</version>
++              <model>plugin-registry.mdo</model>
++            </configuration>
++          </execution>
++        </executions>
+diff --git a/maven-plugin-tools/maven-plugin-tools-api/pom.xml b/maven-plugin-tools/maven-plugin-tools-api/pom.xml
+index d353744..24695b9 100644
+--- a/maven-plugin-tools/maven-plugin-tools-api/pom.xml
++++ b/maven-plugin-tools/maven-plugin-tools-api/pom.xml
+@@ -23,5 +22,0 @@
+-      <groupId>org.codehaus.modello</groupId>
+-      <artifactId>modello-core</artifactId>
+-      <version>1.0-alpha-1</version>
+-    </dependency>
+-    <dependency>
+diff --git a/maven-plugin-tools/maven-plugin-tools-java/src/main/java/org/apache/maven/tools/plugin/extractor/java/JavaMojoDescriptorExtractor.java b/maven-plugin-tools/maven-plugin-tools-java/src/main/java/org/apache/maven/tools/plugin/extractor/java/JavaMojoDescriptorExtractor.java
+index 658e7e3..b940dba 100644
+--- a/maven-plugin-tools/maven-plugin-tools-java/src/main/java/org/apache/maven/tools/plugin/extractor/java/JavaMojoDescriptorExtractor.java
++++ b/maven-plugin-tools/maven-plugin-tools-java/src/main/java/org/apache/maven/tools/plugin/extractor/java/JavaMojoDescriptorExtractor.java
+@@ -32 +32 @@
+-import org.codehaus.modello.StringUtils;
++import org.codehaus.plexus.util.StringUtils;
+diff --git a/maven-plugins/maven-assembly-plugin/pom.xml b/maven-plugins/maven-assembly-plugin/pom.xml
+index 55b372c..bef4eef 100755
+--- a/maven-plugins/maven-assembly-plugin/pom.xml
++++ b/maven-plugins/maven-assembly-plugin/pom.xml
+@@ -66 +65,0 @@
+-        <version>1.0-alpha-3</version>
+@@ -71,11 +70,9 @@
+-        <goals>
+-          <goal>
+-            <id>xpp3-reader</id>
+-          </goal>
+-          <goal>
+-            <id>xpp3-writer</id>
+-          </goal>
+-          <goal>
+-            <id>java</id>
+-          </goal>
+-        </goals>
++        <executions>
++          <execution>
++            <goals>
++              <goal>xpp3-reader</goal>
++              <goal>xpp3-writer</goal>
++              <goal>java</goal>
++            </goals>
++          </execution>
++        </executions>
+diff --git a/maven-plugins/maven-verifier-plugin/pom.xml b/maven-plugins/maven-verifier-plugin/pom.xml
+index 2163a92..7c402c3 100644
+--- a/maven-plugins/maven-verifier-plugin/pom.xml
++++ b/maven-plugins/maven-verifier-plugin/pom.xml
+@@ -42 +41,0 @@
+-        <version>1.0-alpha-3</version>
+diff --git a/maven-plugins/pom.xml b/maven-plugins/pom.xml
+index 610d0ed..81ebbf9 100644
+--- a/maven-plugins/pom.xml
++++ b/maven-plugins/pom.xml
+@@ -146,0 +147,5 @@
++      <dependency>
++        <groupId>org.codehaus.modello</groupId>
++        <artifactId>modello-maven-plugin</artifactId>
++        <version>1.0-alpha-5-SNAPSHOT</version>
++      </dependency>
+diff --git a/maven-profile/pom.xml b/maven-profile/pom.xml
+index d04a0f0..3e9b153 100644
+--- a/maven-profile/pom.xml
++++ b/maven-profile/pom.xml
+@@ -36,16 +36,13 @@
+-        <version>1.0-alpha-3</version>
+-        <goals>
+-          <goal>
+-            <id>xpp3-writer</id>
+-          </goal>
+-          <goal>
+-            <id>java</id>
+-          </goal>
+-          <goal>
+-            <id>xpp3-reader</id>
+-          </goal>
+-        </goals>
+-        <configuration>
+-          <version>1.0.0</version>
+-          <model>profiles.mdo</model>
+-        </configuration>
++        <executions>
++          <execution>
++            <goals>
++              <goal>xpp3-writer</goal>
++              <goal>java</goal>
++              <goal>xpp3-reader</goal>
++            </goals>
++            <configuration>
++              <version>1.0.0</version>
++              <model>profiles.mdo</model>
++            </configuration>
++          </execution>
++        </executions>
+diff --git a/maven-repository-metadata/pom.xml b/maven-repository-metadata/pom.xml
+index a49d26a..06def09 100644
+--- a/maven-repository-metadata/pom.xml
++++ b/maven-repository-metadata/pom.xml
+@@ -25 +24,0 @@
+-        <version>1.0-alpha-3</version>
+diff --git a/maven-settings/pom.xml b/maven-settings/pom.xml
+index 939eed5..33eeee0 100644
+--- a/maven-settings/pom.xml
++++ b/maven-settings/pom.xml
+@@ -31,16 +31,13 @@
+-        <version>1.0-alpha-3</version>
+-        <goals>
+-          <goal>
+-            <id>xpp3-writer</id>
+-          </goal>
+-          <goal>
+-            <id>java</id>
+-          </goal>
+-          <goal>
+-            <id>xpp3-reader</id>
+-          </goal>
+-        </goals>
+-        <configuration>
+-          <version>1.0.0</version>
+-          <model>settings.mdo</model>
+-        </configuration>
++        <executions>
++          <execution>
++            <goals>
++              <goal>xpp3-writer</goal>
++              <goal>java</goal>
++              <goal>xpp3-reader</goal>
++            </goals>
++            <configuration>
++              <version>1.0.0</version>
++              <model>settings.mdo</model>
++            </configuration>
++          </execution>
++        </executions>
+diff --git a/maven-settings/settings.mdo b/maven-settings/settings.mdo
+index 8c49817..5bd623b 100644
+--- a/maven-settings/settings.mdo
++++ b/maven-settings/settings.mdo
+@@ -0,0 +1,2 @@
++<?xml version="1.0"?>
++
+@@ -215 +217 @@
+-            List proxies = getProxies();
++            java.util.List proxies = getProxies();
+@@ -220 +222 @@
+-                    for ( Iterator it = proxies.iterator(); it.hasNext(); )
++                    for ( java.util.Iterator it = proxies.iterator(); it.hasNext(); )
+@@ -245 +247 @@
+-        List servers = getServers();
++        java.util.List servers = getServers();
+@@ -248 +250 @@
+-            for ( Iterator it = servers.iterator(); it.hasNext(); )
++            for ( java.util.Iterator it = servers.iterator(); it.hasNext(); )
+@@ -266 +268 @@
+-        List mirrors = getMirrors();
++        java.util.List mirrors = getMirrors();
+@@ -269 +271 @@
+-            for ( Iterator it = mirrors.iterator(); it.hasNext(); )
++            for ( java.util.Iterator it = mirrors.iterator(); it.hasNext(); )
+@@ -283 +285 @@
+-    private Map profileMap;
++    private java.util.Map profileMap;
+@@ -290 +292 @@
+-    public Map getProfilesAsMap()
++    public java.util.Map getProfilesAsMap()
+@@ -294 +296 @@
+-            profileMap = new HashMap();
++            profileMap = new java.util.HashMap();
+@@ -298 +300 @@
+-                for ( Iterator it = getProfiles().iterator(); it.hasNext(); )
++                for ( java.util.Iterator it = getProfiles().iterator(); it.hasNext(); )
+@@ -767 +769 @@
+-</model>
+\ No newline at end of file
++</model>
+diff --git a/pom.xml b/pom.xml
+index 21814ad..5fc3625 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -174,0 +175,5 @@
++      <dependency>
++        <groupId>org.codehaus.modello</groupId>
++        <artifactId>modello-maven-plugin</artifactId>
++        <version>1.0-alpha-5-SNAPSHOT</version>
++      </dependency>
+

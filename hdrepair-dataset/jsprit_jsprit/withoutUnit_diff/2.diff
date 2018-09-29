@@ -1,0 +1,97 @@
+diff --git a/jsprit-core/src/main/java/jsprit/core/algorithm/box/Jsprit.java b/jsprit-core/src/main/java/jsprit/core/algorithm/box/Jsprit.java
+index af75626..add86df 100644
+--- a/jsprit-core/src/main/java/jsprit/core/algorithm/box/Jsprit.java
++++ b/jsprit-core/src/main/java/jsprit/core/algorithm/box/Jsprit.java
+@@ -501 +501 @@
+-        scorer.setDepotDistanceParam(Double.valueOf(properties.getProperty(Parameter.REGRET_TIME_WINDOW_SCORER.toString())));
++        scorer.setDepotDistanceParam(Double.valueOf(properties.getProperty(Parameter.REGRET_DISTANCE_SCORER.toString())));
+diff --git a/jsprit-core/src/test/resources/infiniteWriterV2Test.xml b/jsprit-core/src/test/resources/infiniteWriterV2Test.xml
+index 07c5406..2d9058a 100644
+--- a/jsprit-core/src/test/resources/infiniteWriterV2Test.xml
++++ b/jsprit-core/src/test/resources/infiniteWriterV2Test.xml
+@@ -5 +5 @@
+-          <fleetSize>FINITE</fleetSize>
++          <fleetSize>INFINITE</fleetSize>
+@@ -8,15 +7,0 @@
+-          <vehicle>
+-               <id>v2</id>
+-               <typeId>vehType2</typeId>
+-               <startLocation>
+-                    <id>loc</id>
+-               </startLocation>
+-               <endLocation>
+-                    <id>loc</id>
+-               </endLocation>
+-               <timeSchedule>
+-                    <start>0.0</start>
+-                    <end>1.7976931348623157E308</end>
+-               </timeSchedule>
+-               <returnToDepot>true</returnToDepot>
+-          </vehicle>
+@@ -51,11 +35,0 @@
+-          <type>
+-               <id>vehType2</id>
+-               <capacity-dimensions>
+-                    <dimension index="0">200</dimension>
+-               </capacity-dimensions>
+-               <costs>
+-                    <fixed>0.0</fixed>
+-                    <distance>1.0</distance>
+-                    <time>0.0</time>
+-               </costs>
+-          </type>
+@@ -62,0 +37,53 @@
++     <services>
++          <service id="1" type="service">
++               <location>
++                    <id>loc</id>
++               </location>
++               <capacity-dimensions>
++                    <dimension index="0">1</dimension>
++               </capacity-dimensions>
++               <duration>2.0</duration>
++               <timeWindows>
++                    <timeWindow>
++                         <start>0.0</start>
++                         <end>1.7976931348623157E308</end>
++                    </timeWindow>
++               </timeWindows>
++          </service>
++          <service id="2" type="service">
++               <location>
++                    <id>loc2</id>
++               </location>
++               <capacity-dimensions>
++                    <dimension index="0">1</dimension>
++               </capacity-dimensions>
++               <duration>4.0</duration>
++               <timeWindows>
++                    <timeWindow>
++                         <start>0.0</start>
++                         <end>1.7976931348623157E308</end>
++                    </timeWindow>
++               </timeWindows>
++          </service>
++     </services>
++     <solutions>
++          <solution>
++               <cost>10.0</cost>
++               <routes>
++                    <route>
++                         <driverId>noDriver</driverId>
++                         <vehicleId>v1</vehicleId>
++                         <start>0.0</start>
++                         <act type="service">
++                              <serviceId>1</serviceId>
++                              <arrTime>0.0</arrTime>
++                              <endTime>0.0</endTime>
++                         </act>
++                         <end>0.0</end>
++                    </route>
++               </routes>
++               <unassignedJobs>
++                    <job id="2"/>
++               </unassignedJobs>
++          </solution>
++     </solutions>
+

@@ -1,0 +1,106 @@
+diff --git a/src/main/java/teammates/ui/controller/StudentFeedbackQuestionSubmissionEditSaveAction.java b/src/main/java/teammates/ui/controller/StudentFeedbackQuestionSubmissionEditSaveAction.java
+index f1d2dda..a348a50 100644
+--- a/src/main/java/teammates/ui/controller/StudentFeedbackQuestionSubmissionEditSaveAction.java
++++ b/src/main/java/teammates/ui/controller/StudentFeedbackQuestionSubmissionEditSaveAction.java
+@@ -70,0 +71 @@
++            // Not covered in tests as it is not easily producible but acts as a safety net
+diff --git a/src/test/java/teammates/test/cases/ui/StudentFeedbackQuestionSubmissionEditSaveActionTest.java b/src/test/java/teammates/test/cases/ui/StudentFeedbackQuestionSubmissionEditSaveActionTest.java
+index 03a84b2..6a786ef 100644
+--- a/src/test/java/teammates/test/cases/ui/StudentFeedbackQuestionSubmissionEditSaveActionTest.java
++++ b/src/test/java/teammates/test/cases/ui/StudentFeedbackQuestionSubmissionEditSaveActionTest.java
+@@ -17,0 +18 @@
++import teammates.common.util.TimeHelper;
+@@ -19,0 +21 @@
++import teammates.storage.api.FeedbackSessionsDb;
+@@ -34,0 +37,2 @@
++        FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
++
+@@ -142 +146 @@
+-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
++        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
+@@ -168 +172 @@
+-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
++        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
+@@ -195 +199 @@
+-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
++        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
+@@ -215 +218,0 @@
+-
+@@ -233 +236 @@
+-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
++        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
+@@ -239,0 +243,66 @@
++
++        ______TS("Closed Session");
++        
++        session1InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
++        feedbackSessionDb.updateFeedbackSession(session1InCourse1);
++
++        submissionParams = new String[]{
++                Const.ParamsNames.COURSE_ID, feedbackResponse.courseId,
++                Const.ParamsNames.FEEDBACK_SESSION_NAME,
++                session1InCourse1.feedbackSessionName,
++                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
++                feedbackQuestion.getId(),
++                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
++                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
++                feedbackResponse.recipientEmail,
++                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
++                feedbackQuestion.questionType.toString(),
++                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
++                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0",
++                feedbackResponse.getId()
++        };
++
++        saveAction = getAction(submissionParams);
++        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
++
++        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
++        assertTrue(pageResult.isError);
++        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, pageResult.getStatusMessage());
++
++        ______TS("Grace Period");
++
++        StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
++        FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
++        
++        gracePeriodSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
++        feedbackSessionDb.updateFeedbackSession(gracePeriodSession);
++
++        feedbackQuestion = feedbackQuestionsDb
++                .getFeedbackQuestion(gracePeriodSession.feedbackSessionName, gracePeriodSession.courseId, 1);
++
++        feedbackResponse = feedbackResponsesDb
++                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email, 
++                                     "Team 1.2");
++
++        submissionParams = new String[]{
++                Const.ParamsNames.COURSE_ID, feedbackResponse.courseId,
++                Const.ParamsNames.FEEDBACK_SESSION_NAME,
++                gracePeriodSession.feedbackSessionName,
++                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
++                feedbackQuestion.getId(),
++                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
++                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
++                feedbackResponse.recipientEmail,
++                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
++                feedbackQuestion.questionType.toString(),
++                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
++                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0",
++                feedbackResponse.getId()
++        };
++
++        saveAction = getAction(submissionParams);
++        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
++
++        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
++        assertFalse(pageResult.isError);
++        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, pageResult.getStatusMessage());
+diff --git a/src/test/resources/data/typicalDataBundle.json b/src/test/resources/data/typicalDataBundle.json
+index 13858ea..f31c625 100644
+--- a/src/test/resources/data/typicalDataBundle.json
++++ b/src/test/resources/data/typicalDataBundle.json
+@@ -979 +979 @@
+-            "feedbackQuestionId":"2",
++            "feedbackQuestionId":"1",
+

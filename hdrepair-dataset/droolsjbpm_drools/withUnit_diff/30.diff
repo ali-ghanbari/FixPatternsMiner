@@ -1,0 +1,42 @@
+diff --git a/drools-compiler/src/main/java/org/drools/lang/api/PatternDescrBuilder.java b/drools-compiler/src/main/java/org/drools/lang/api/PatternDescrBuilder.java
+index 2ed5f3a..ad09ab7 100644
+--- a/drools-compiler/src/main/java/org/drools/lang/api/PatternDescrBuilder.java
++++ b/drools-compiler/src/main/java/org/drools/lang/api/PatternDescrBuilder.java
+@@ -46 +46 @@
+-    public SourceDescrBuilder<?> from();
++    public SourceDescrBuilder<PatternDescrBuilder<P>> from();
+diff --git a/drools-compiler/src/test/java/org/drools/lang/api/DescrBuilderTest.java b/drools-compiler/src/test/java/org/drools/lang/api/DescrBuilderTest.java
+index b8d8eb4..aa3e2d1 100644
+--- a/drools-compiler/src/test/java/org/drools/lang/api/DescrBuilderTest.java
++++ b/drools-compiler/src/test/java/org/drools/lang/api/DescrBuilderTest.java
+@@ -34,0 +35 @@
++import org.drools.runtime.rule.WorkingMemoryEntryPoint;
+@@ -283,0 +285,27 @@
++    @Test
++    public void testFromEntryPoint() throws InstantiationException,
++                                            IllegalAccessException {
++        PackageDescr pkg = DescrFactory
++                .newPackage().name("org.drools")
++                .newRule().name("from rule")
++                    .lhs()
++                        .pattern("String").id("s", false).from().entryPoint("EventStream").end()
++                    .end()
++                .rhs("//System.out.println(s);")
++                .end().getDescr();
++
++        KnowledgePackage kpkg = compilePkgDescr( pkg );
++        assertEquals( "org.drools",
++                      kpkg.getName() );
++        
++        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
++        kbase.addKnowledgePackages( Collections.singletonList( kpkg ) );
++        
++        StatefulKnowledgeSession ksession = createKnowledgeSession(kbase);
++        WorkingMemoryEntryPoint ep = ksession.getWorkingMemoryEntryPoint( "EventStream" );
++        ep.insert( "Hello World!" );
++        int rules = ksession.fireAllRules();
++        assertEquals( 1, rules );
++
++    }
++    
+

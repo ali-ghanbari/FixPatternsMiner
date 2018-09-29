@@ -1,0 +1,11 @@
+diff --git a/modules/adb-codegen/src/org/apache/axis2/schema/SchemaCompiler.java b/modules/adb-codegen/src/org/apache/axis2/schema/SchemaCompiler.java
+index 3850456..e7c753f 100644
+--- a/modules/adb-codegen/src/org/apache/axis2/schema/SchemaCompiler.java
++++ b/modules/adb-codegen/src/org/apache/axis2/schema/SchemaCompiler.java
+@@ -578 +578,4 @@
+-                    processedAnonymousComplexTypesMap.remove(referencedElement);
++                    // DEEPAL :- We can not remove the entry from the hashtable ,
++                    // this will fail if there are two reference for the same type
++
++                    //processedAnonymousComplexTypesMap.remove(referencedElement);
+

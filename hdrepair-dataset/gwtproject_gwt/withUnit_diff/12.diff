@@ -1,0 +1,47 @@
+diff --git a/user/src/com/google/gwt/xml/client/Node.java b/user/src/com/google/gwt/xml/client/Node.java
+index 8f4491c..9ab2cde 100644
+--- a/user/src/com/google/gwt/xml/client/Node.java
++++ b/user/src/com/google/gwt/xml/client/Node.java
+@@ -218 +218,2 @@
+-   * on the implementation.
++   * on the implementation. Safari 4.0 and Chrome will also merge CDATA nodes
++   * into text nodes, even though they support CDATA nodes as distinct nodes.
+diff --git a/user/test/com/google/gwt/xml/client/XMLTest.java b/user/test/com/google/gwt/xml/client/XMLTest.java
+index d0d865e..3730173 100644
+--- a/user/test/com/google/gwt/xml/client/XMLTest.java
++++ b/user/test/com/google/gwt/xml/client/XMLTest.java
+@@ -127 +127,3 @@
+-    top.appendChild(d.createCDATASection("abcdefghij"));
++    top.appendChild(d.createTextNode("abcdefghij"));
++    top.appendChild(d.createElement("e4"));
++    top.appendChild(d.createCDATASection("klmnopqrst"));
+@@ -133,0 +136 @@
++  @Override
+@@ -172 +175 @@
+-      Node parent = (Node) canHaveChildren.get(i);
++      Node parent = canHaveChildren.get(i);
+@@ -178 +181 @@
+-        Node child = (Node) canBeChildren.get(j);
++        Node child = canBeChildren.get(j);
+@@ -183 +186 @@
+-        Node hopefullySameChild = (Node) canBeChildren.get(j);
++        Node hopefullySameChild = canBeChildren.get(j);
+@@ -444 +447 @@
+-        5);
++        7);
+@@ -451,2 +454,2 @@
+-    assertEquals("cd data", cd.getData(), "abcde");
+-    assertEquals("leftCD data", rightCD.getData(), "fghij");
++    assertEquals("cd data", cd.getData(), "klmno");
++    assertEquals("leftCD data", rightCD.getData(), "pqrst");
+@@ -454,7 +457,2 @@
+-    if (XMLParser.supportsCDATASection()) {
+-      assertEquals("normalized t", d.getDocumentElement().getChildNodes().item(
+-          3).toString(), "0123456789");
+-    } else {
+-      assertEquals("normalized t", d.getDocumentElement().getChildNodes().item(
+-          3).toString(), "0123456789abcdefghij");
+-    }
++    assertEquals("normalized t", d.getDocumentElement().getChildNodes().item(
++        3).toString(), "0123456789abcdefghij");
+

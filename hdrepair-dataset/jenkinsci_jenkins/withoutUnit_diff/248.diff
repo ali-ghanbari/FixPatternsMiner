@@ -1,0 +1,29 @@
+diff --git a/core/src/main/java/hudson/model/ParametersAction.java b/core/src/main/java/hudson/model/ParametersAction.java
+index 2ca2253..da787e4 100644
+--- a/core/src/main/java/hudson/model/ParametersAction.java
++++ b/core/src/main/java/hudson/model/ParametersAction.java
+@@ -55,0 +56,5 @@
++    /**
++     * @deprecated since 1.283; kept to avoid warnings loading old build data, but now transient.
++     */
++    private transient AbstractBuild<?, ?> build;
++
+diff --git a/core/src/main/resources/hudson/model/ParametersAction/index.jelly b/core/src/main/resources/hudson/model/ParametersAction/index.jelly
+index d11c628..4726a74 100644
+--- a/core/src/main/resources/hudson/model/ParametersAction/index.jelly
++++ b/core/src/main/resources/hudson/model/ParametersAction/index.jelly
+@@ -29 +29,5 @@
+-		<st:include page="sidepanel.jelly" it="${it.build}" />
++		<j:invokeStatic var="buildClass" className="java.lang.Class" method="forName">
++			<j:arg value="hudson.model.AbstractBuild" />
++		</j:invokeStatic>
++		<j:set var="build" value="${request.findAncestorObject(buildClass)}" />
++		<st:include page="sidepanel.jelly" it="${build}" />
+@@ -31 +35 @@
+-			<h1>${%Build} #${it.build.number}</h1>
++			<h1>${%Build} #${build.number}</h1>
+@@ -40 +44 @@
+-</j:jelly>
+\ No newline at end of file
++</j:jelly>
+

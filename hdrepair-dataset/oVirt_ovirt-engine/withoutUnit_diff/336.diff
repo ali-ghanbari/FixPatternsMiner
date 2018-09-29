@@ -1,0 +1,53 @@
+diff --git a/backend/manager/dbscripts/common_sp.sql b/backend/manager/dbscripts/common_sp.sql
+index 8aa83c2..454d887 100644
+--- a/backend/manager/dbscripts/common_sp.sql
++++ b/backend/manager/dbscripts/common_sp.sql
+@@ -284,2 +284,2 @@
+--- with the old value, for each version, except the newest version, which gets the input value
+-CREATE OR REPLACE FUNCTION fn_db_split_config_value(v_option_name character varying, v_old_option_value character varying, v_new_option_value character varying)
++-- with the old value, for each version, except the v_update_from_version version and beyond, which gets the input value
++CREATE OR REPLACE FUNCTION fn_db_split_config_value(v_option_name character varying, v_old_option_value character varying, v_new_option_value character varying, v_update_from_version character varying)
+@@ -294,0 +295 @@
++v_version_count integer;
+@@ -298 +299,2 @@
+-    if (v_total_count <= 1) then
++    v_version_count := count(distinct version) from vdc_options where version <> 'general';
++    if (v_total_count <= v_version_count) then
+@@ -309,4 +311,8 @@
+-            if (v_index = v_count) then
+-                insert into vdc_options (option_name, option_value, version) values (v_option_name, v_new_option_value, v_version);
+-            else
+-                insert into vdc_options (option_name, option_value, version) values (v_option_name, v_old_value, v_version);
++            -- We shouldn't update if already exists
++            if (not exists (select 1 from vdc_options where option_name = v_option_name and version = v_version)) then
++                -- Might not work well for versions such as 3.10, but we currently don't have any
++                if (v_version >= v_update_from_version) then
++                    insert into vdc_options (option_name, option_value, version) values (v_option_name, v_new_option_value, v_version);
++                else
++                    insert into vdc_options (option_name, option_value, version) values (v_option_name, v_old_value, v_version);
++                end if;
+diff --git a/backend/manager/dbscripts/upgrade/pre_upgrade/0000_config.sql b/backend/manager/dbscripts/upgrade/pre_upgrade/0000_config.sql
+index 73a167e..a986760 100644
+--- a/backend/manager/dbscripts/upgrade/pre_upgrade/0000_config.sql
++++ b/backend/manager/dbscripts/upgrade/pre_upgrade/0000_config.sql
+@@ -652 +652 @@
+--- and one row for the newest one, with the input value.
++-- and from the update version and beyond, the input value.
+@@ -654 +654 @@
+-select fn_db_split_config_value('SpiceSecureChannels','smain,sinputs','smain,sinputs,scursor,splayback,srecord,sdisplay');
++select fn_db_split_config_value('SpiceSecureChannels','smain,sinputs','smain,sinputs,scursor,splayback,srecord,sdisplay,susbredir,ssmartcard', '3.1');
+diff --git a/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/config/ConfigValues.java b/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/config/ConfigValues.java
+index d2c1a66..75a09e9 100644
+--- a/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/config/ConfigValues.java
++++ b/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/config/ConfigValues.java
+@@ -408 +408 @@
+-    @DefaultValueAttribute("smain,sinputs,scursor,splayback,srecord,sdisplay")
++    @DefaultValueAttribute("smain,sinputs,scursor,splayback,srecord,sdisplay,ssmartcard,susbredir")
+diff --git a/backend/manager/tools/engine-config/src/main/resources/engine-config.properties b/backend/manager/tools/engine-config/src/main/resources/engine-config.properties
+index ab9994b..59deac9 100644
+--- a/backend/manager/tools/engine-config/src/main/resources/engine-config.properties
++++ b/backend/manager/tools/engine-config/src/main/resources/engine-config.properties
+@@ -118 +118 @@
+-SpiceSecureChannels.validValues=smain,sinputs,scursor,splayback,srecord,sdisplay
++SpiceSecureChannels.validValues=smain,sinputs,scursor,splayback,srecord,sdisplay,ssmartcard,susbredir
+

@@ -1,0 +1,9 @@
+diff --git a/org.aspectj.ajdt.core/src/org/aspectj/ajdt/internal/compiler/lookup/EclipseFactory.java b/org.aspectj.ajdt.core/src/org/aspectj/ajdt/internal/compiler/lookup/EclipseFactory.java
+index 69f13ce..0d1bb1b 100644
+--- a/org.aspectj.ajdt.core/src/org/aspectj/ajdt/internal/compiler/lookup/EclipseFactory.java
++++ b/org.aspectj.ajdt.core/src/org/aspectj/ajdt/internal/compiler/lookup/EclipseFactory.java
+@@ -263 +263,2 @@
+-				if (!baseType.isGenericType() && arguments!=null) baseType = baseType.getGenericType();
++				// pr168044 - sometimes (whilst resolving types) we are working with 'half finished' types and so (for example) the underlying generic type for a raw type hasnt been set yet				
++				//if (!baseType.isGenericType() && arguments!=null) baseType = baseType.getGenericType(); 
+

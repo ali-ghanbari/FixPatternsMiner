@@ -1,0 +1,9 @@
+diff --git a/core/src/main/java/org/apache/hama/bsp/sync/ZooKeeperSyncClientImpl.java b/core/src/main/java/org/apache/hama/bsp/sync/ZooKeeperSyncClientImpl.java
+index 2058a9c..bd1c28e 100644
+--- a/core/src/main/java/org/apache/hama/bsp/sync/ZooKeeperSyncClientImpl.java
++++ b/core/src/main/java/org/apache/hama/bsp/sync/ZooKeeperSyncClientImpl.java
+@@ -103 +103,2 @@
+-
++        // this is really needed to register the barrier watcher, don't remove this line!
++        zk.exists(pathToSuperstepZnode + "/ready", barrierWatcher);
+

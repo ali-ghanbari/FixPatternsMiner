@@ -1,0 +1,57 @@
+diff --git a/mms/src/main/java/org/esa/cci/sst/tools/samplepoint/TimeRange.java b/mms/src/main/java/org/esa/cci/sst/tools/samplepoint/TimeRange.java
+index 4b900bb..1204cac 100644
+--- a/mms/src/main/java/org/esa/cci/sst/tools/samplepoint/TimeRange.java
++++ b/mms/src/main/java/org/esa/cci/sst/tools/samplepoint/TimeRange.java
+@@ -37 +37 @@
+-        return includes(other.getStartDate()) || includes(other.getStopDate());
++        return includes(other.getStartDate()) || includes(other.getStopDate()) || other.includes(startDate) || other.includes(stopDate);
+diff --git a/mms/src/test/java/org/esa/cci/sst/tools/samplepoint/TimeRangeTest.java b/mms/src/test/java/org/esa/cci/sst/tools/samplepoint/TimeRangeTest.java
+index 8faa7dd..d067338 100644
+--- a/mms/src/test/java/org/esa/cci/sst/tools/samplepoint/TimeRangeTest.java
++++ b/mms/src/test/java/org/esa/cci/sst/tools/samplepoint/TimeRangeTest.java
+@@ -65 +65 @@
+-    public void testIntersectsWith_intersectingRange() {
++    public void testIntersectsWith_intersectingRange_beginning() {
+@@ -77,0 +78,26 @@
++    public void testIntersectsWith_intersectingRange_end() {
++        final Date startDate = createDate(2010, 0, 1, 0, 0, 0);
++        final Date endDate = createDate(2010, 11, 31, 23, 59, 59);
++        final TimeRange timeRange = new TimeRange(startDate, endDate);
++
++        Date compareStart = createDate(2010, 11, 12, 0, 0, 0);
++        Date compareStop = createDate(2011, 1, 1, 23, 59, 59);
++        TimeRange contained = new TimeRange(compareStart, compareStop);
++
++        assertTrue(timeRange.intersectsWith(contained));
++    }
++
++    @Test
++    public void testIntersectsWith_containedInIntersectingRange() {
++        final Date startDate = createDate(2010, 5, 1, 0, 0, 0);
++        final Date endDate = createDate(2010, 5, 31, 23, 59, 59);
++        final TimeRange timeRange = new TimeRange(startDate, endDate);
++
++        Date compareStart = createDate(2010, 2, 1, 0, 0, 0);
++        Date compareStop = createDate(2010, 7, 31, 23, 59, 59);
++        TimeRange containing = new TimeRange(compareStart, compareStop);
++
++        assertTrue(timeRange.intersectsWith(containing));
++    }
++
++    @Test
+diff --git a/mms/src/test/java/org/esa/cci/sst/util/TimeUtilTest.java b/mms/src/test/java/org/esa/cci/sst/util/TimeUtilTest.java
+index 160ca3b..fd785a6 100644
+--- a/mms/src/test/java/org/esa/cci/sst/util/TimeUtilTest.java
++++ b/mms/src/test/java/org/esa/cci/sst/util/TimeUtilTest.java
+@@ -258,10 +257,0 @@
+-    @Test
+-    public void testDeleteMe() {
+-        final GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+-        calendar.setTime(new Date(1041379488000L));
+-        System.out.println(calendar.getTime());
+-
+-        calendar.setTime(new Date(1041372339380L));
+-        System.out.println(calendar.getTime());
+-    }
+-
+

@@ -1,0 +1,8 @@
+diff --git a/hale/eu.esdihumboldt.hale.io.gml/src/eu/esdihumboldt/hale/io/gml/writer/internal/geometry/AbstractTypeMatcher.java b/hale/eu.esdihumboldt.hale.io.gml/src/eu/esdihumboldt/hale/io/gml/writer/internal/geometry/AbstractTypeMatcher.java
+index d32d47c..8ce6fcb 100644
+--- a/hale/eu.esdihumboldt.hale.io.gml/src/eu/esdihumboldt/hale/io/gml/writer/internal/geometry/AbstractTypeMatcher.java
++++ b/hale/eu.esdihumboldt.hale.io.gml/src/eu/esdihumboldt/hale/io/gml/writer/internal/geometry/AbstractTypeMatcher.java
+@@ -125 +125 @@
+-					if (att.isElement()) { // only descend into elements
++					if (att.isElement() && att.getAttributeType() != null) { // only descend into elements, only descend if there actually is a type definition available
+

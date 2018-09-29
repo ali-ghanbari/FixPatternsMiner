@@ -1,0 +1,18 @@
+diff --git a/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/ConnectivityManagerTestBase.java b/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/ConnectivityManagerTestBase.java
+index a35a8ee..0f9d8e9 100644
+--- a/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/ConnectivityManagerTestBase.java
++++ b/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/ConnectivityManagerTestBase.java
+@@ -523 +523 @@
+-    protected boolean isHex(String input, int length) {
++    protected static boolean isHex(String input, int length) {
+diff --git a/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/functional/WifiAssociationTest.java b/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/functional/WifiAssociationTest.java
+index afaf801..eb75b0d 100644
+--- a/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/functional/WifiAssociationTest.java
++++ b/core/tests/ConnectivityManagerTest/src/com/android/connectivitymanagertest/functional/WifiAssociationTest.java
+@@ -139 +139 @@
+-                if (mPassword.matches("[0-9A-Fa-f]{64}")) {
++                if (isHex(mPassword, 64)) {
+@@ -153 +153 @@
+-                if (mPassword.matches("[0-9A-Fa-f]{64}")) {
++                if (isHex(mPassword, 64)) {
+

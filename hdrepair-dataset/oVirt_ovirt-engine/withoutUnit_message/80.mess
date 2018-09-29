@@ -1,0 +1,12 @@
+webadmin: Fix balloon while creating VMs from snapshots
+
+During the creation of VMs from snapshots, the memory ballooning device
+was always created even when the original VM had it disabled.
+
+This patch fixes this by passing to the AddVmFromSnapshot command the
+state of the ballooning device from the original VM.
+
+Change-Id: I263abb8f3b170e6668e2e93b79700848bf056b57
+Bug-Url: https://bugzilla.redhat.com/show_bug.cgi?id=1152659
+Signed-off-by: Vitor de Lima <vdelima@redhat.com>
+

@@ -1,0 +1,48 @@
+diff --git a/jboss-seam/src/main/java/org/jboss/seam/framework/Query.java b/jboss-seam/src/main/java/org/jboss/seam/framework/Query.java
+index 52c576d..6d3c880 100644
+--- a/jboss-seam/src/main/java/org/jboss/seam/framework/Query.java
++++ b/jboss-seam/src/main/java/org/jboss/seam/framework/Query.java
+@@ -31 +31 @@
+-   private static final Pattern SUBJECT_PATTERN = Pattern.compile("^select\\s+(\\w+(?:\\s*\\.\\s*\\w+)*?)(?:\\s*,\\s*(\\w+(?:\\s*\\.\\s*\\w+)*?))*?\\s+from", Pattern.CASE_INSENSITIVE); 
++   private static final Pattern SUBJECT_PATTERN = Pattern.compile("^select\\s+((distinct)?\\s?\\w+(?:\\s*\\.\\s*\\w+)?)(?:\\s,\\s*(\\w+(?:\\s*\\.\\s*\\w+)?))?\\s+from", Pattern.CASE_INSENSITIVE); 
+diff --git a/jboss-seam/src/test/java/org/jboss/seam/test/unit/QueryTest.java b/jboss-seam/src/test/java/org/jboss/seam/test/unit/QueryTest.java
+index e6ac714..2daeef0 100644
+--- a/jboss-seam/src/test/java/org/jboss/seam/test/unit/QueryTest.java
++++ b/jboss-seam/src/test/java/org/jboss/seam/test/unit/QueryTest.java
+@@ -33 +33,10 @@
+-      
++
++      // trying to reproduce bug JBSEAM-4694
++      query.setUseWildcardAsCountQuerySubject(false);
++      query.setEjbql("select distinct p from Person p");
++      query.setOrderColumn("username");
++      query.parseEjbql();
++      // TODO this should eventually become count(p)
++      assertEquals(query.getCountEjbql(), "select count(distinct p) from Person p");
++      query.setUseWildcardAsCountQuerySubject(true);
++     
+@@ -49 +58,2 @@
+-      query = new CompliantUnitQuery();
++//      query = new CompliantUnitQuery();
++      query.setUseWildcardAsCountQuerySubject(false);
+@@ -74,2 +83,0 @@
+-      
+-   }
+@@ -77,4 +85,3 @@
+-   class CompliantUnitQuery extends UnitQuery {
+-
+-      public CompliantUnitQuery() {
+-         setUseWildcardAsCountQuerySubject(false);
++      /** Making setter method accessible for reproducing JBSEAM-4694. */
++      public void setUseWildcardAsCountQuerySubject(boolean useCompliantCountQuerySubject) {
++         super.setUseWildcardAsCountQuerySubject(useCompliantCountQuerySubject);
+@@ -83,0 +91,8 @@
++
++//   class CompliantUnitQuery extends UnitQuery {
++//
++//      public CompliantUnitQuery() {
++//         setUseWildcardAsCountQuerySubject(false);
++//      }
++//      
++//   }
+

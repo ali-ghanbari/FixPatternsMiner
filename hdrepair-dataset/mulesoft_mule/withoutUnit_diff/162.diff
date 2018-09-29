@@ -1,0 +1,43 @@
+diff --git a/transports/cxf/src/main/java/org/mule/transport/cxf/CxfConnector.java b/transports/cxf/src/main/java/org/mule/transport/cxf/CxfConnector.java
+index f4c41c8..2f7d5b0 100755
+--- a/transports/cxf/src/main/java/org/mule/transport/cxf/CxfConnector.java
++++ b/transports/cxf/src/main/java/org/mule/transport/cxf/CxfConnector.java
+@@ -73 +73 @@
+-    private boolean initializeStaticBusInstance = false;
++    private boolean initializeStaticBusInstance = true;
+diff --git a/transports/cxf/src/main/resources/META-INF/mule-cxf.xsd b/transports/cxf/src/main/resources/META-INF/mule-cxf.xsd
+index e78e543..7c2ffbe 100755
+--- a/transports/cxf/src/main/resources/META-INF/mule-cxf.xsd
++++ b/transports/cxf/src/main/resources/META-INF/mule-cxf.xsd
+@@ -66 +66 @@
+-                <xsd:attribute name="initializeStaticBusInstance" type="mule:substitutableBoolean">
++                <xsd:attribute name="initializeStaticBusInstance" type="mule:substitutableBoolean" default="true">
+@@ -71 +71 @@
+-                             that you run standalone. Defaults to false.
++                             that you run standalone. Defaults to true.
+diff --git a/transports/cxf/src/test/resources/mtom-conf.xml b/transports/cxf/src/test/resources/mtom-conf.xml
+index c5e12e8..8f403f8 100755
+--- a/transports/cxf/src/test/resources/mtom-conf.xml
++++ b/transports/cxf/src/test/resources/mtom-conf.xml
+@@ -9,0 +10,3 @@
++    <!-- Initialize a static instance so we can use it with our client -->
++    <cxf:connector name="connector.cxf.0" initializeStaticBusInstance="false"/>
++    
+diff --git a/transports/cxf/src/test/resources/multiple-wsdl-cxf-calls-config.xml b/transports/cxf/src/test/resources/multiple-wsdl-cxf-calls-config.xml
+index 7dd2a46..e7a0ccd 100644
+--- a/transports/cxf/src/test/resources/multiple-wsdl-cxf-calls-config.xml
++++ b/transports/cxf/src/test/resources/multiple-wsdl-cxf-calls-config.xml
+@@ -14,4 +14 @@
+-    
+-    <!-- Initialize a static instance so we can use it with our client -->
+-    <cxf:connector name="connector.cxf.0" initializeStaticBusInstance="true"/>
+-    
++
+diff --git a/transports/cxf/src/test/resources/org/mule/transport/cxf/wssec/username-token-conf.xml b/transports/cxf/src/test/resources/org/mule/transport/cxf/wssec/username-token-conf.xml
+index 6387c25..73f2fde 100755
+--- a/transports/cxf/src/test/resources/org/mule/transport/cxf/wssec/username-token-conf.xml
++++ b/transports/cxf/src/test/resources/org/mule/transport/cxf/wssec/username-token-conf.xml
+@@ -16,2 +15,0 @@
+-    <cxf:connector name="connector.cxf.0" initializeStaticBusInstance="true"/>
+-
+

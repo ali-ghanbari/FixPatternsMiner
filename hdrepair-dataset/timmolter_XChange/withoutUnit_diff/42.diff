@@ -1,0 +1,19 @@
+diff --git a/xchange-cexio/src/main/java/com/xeiam/xchange/cexio/CexIOAdapters.java b/xchange-cexio/src/main/java/com/xeiam/xchange/cexio/CexIOAdapters.java
+index d09529a..0ccfec5 100644
+--- a/xchange-cexio/src/main/java/com/xeiam/xchange/cexio/CexIOAdapters.java
++++ b/xchange-cexio/src/main/java/com/xeiam/xchange/cexio/CexIOAdapters.java
+@@ -48 +48 @@
+-    return new Trade(null, amount, tradableIdentifier, currency, price, date, trade.getTid());
++    return new Trade(null, amount, tradableIdentifier, currency, price, date, String.valueOf(trade.getTid()), null);
+diff --git a/xchange-examples/pom.xml b/xchange-examples/pom.xml
+index cc8582c..081374c 100644
+--- a/xchange-examples/pom.xml
++++ b/xchange-examples/pom.xml
+@@ -123,0 +124,6 @@
++        <!-- XChange Cex.io exchange support -->
++        <dependency>
++            <groupId>com.xeiam.xchange</groupId>
++            <artifactId>xchange-cexio</artifactId>
++            <version>2.0.0-SNAPSHOT</version>
++        </dependency>
+

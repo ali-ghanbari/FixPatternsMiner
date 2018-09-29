@@ -1,0 +1,8 @@
+diff --git a/src/org/intellij/erlang/rebar/runner/RebarEunitRunningState.java b/src/org/intellij/erlang/rebar/runner/RebarEunitRunningState.java
+index eb2b0d7..701ca3f 100644
+--- a/src/org/intellij/erlang/rebar/runner/RebarEunitRunningState.java
++++ b/src/org/intellij/erlang/rebar/runner/RebarEunitRunningState.java
+@@ -146 +146 @@
+-    String oldConfigText = new String(FileUtil.loadFileText(oldConfig));
++    String oldConfigText = oldConfig.exists() ? new String(FileUtil.loadFileText(oldConfig)) : "";
+

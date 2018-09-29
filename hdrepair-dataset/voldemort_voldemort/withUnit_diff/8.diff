@@ -1,0 +1,29 @@
+diff --git a/src/java/voldemort/versioning/InconsistentDataException.java b/src/java/voldemort/versioning/InconsistentDataException.java
+index b46a7f0..4c8edfd 100644
+--- a/src/java/voldemort/versioning/InconsistentDataException.java
++++ b/src/java/voldemort/versioning/InconsistentDataException.java
+@@ -37,0 +38 @@
++        this.versions = versions;
+diff --git a/test/unit/voldemort/versioning/InconsistentDataExceptionTest.java b/test/unit/voldemort/versioning/InconsistentDataExceptionTest.java
+new file mode 100644
+index 0000000..d4947ac
+--- /dev/null
++++ b/test/unit/voldemort/versioning/InconsistentDataExceptionTest.java
+@@ -0,0 +1,16 @@
++package voldemort.versioning;
++
++import java.util.List;
++
++import junit.framework.TestCase;
++
++import com.google.common.collect.ImmutableList;
++
++public class InconsistentDataExceptionTest extends TestCase {
++
++    public void testGetVersions() {
++        List<?> versions = ImmutableList.of("version1", "version2");
++        InconsistentDataException exception = new InconsistentDataException("foo", versions);
++        assertEquals(versions, exception.getVersions());
++    }
++}
+

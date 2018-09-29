@@ -1,0 +1,9 @@
+[ TOAD REVIEW ] : Fix rare crypto corruption/infinite recursion bug: If r == 0, infinite loop; if s == 0, creating a new k but keeping old r -> invalid signature.
+
+I don't know how often this bug is fired, if ever, but when it happens
+the wrong sign() function is called. That leads either to a wrong DSA
+signature or to infinite recursion.
+
+Compile-only tested patch. Does it make sense to post such minor bug
+fixes at all? (I had found a couple more when I was reading sources)
+

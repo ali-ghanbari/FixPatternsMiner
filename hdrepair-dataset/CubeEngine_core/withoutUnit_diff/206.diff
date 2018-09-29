@@ -1,0 +1,15 @@
+diff --git a/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/storage/database/mysql/MySQLDatabase.java b/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/storage/database/mysql/MySQLDatabase.java
+index b80eb57..322f498 100644
+--- a/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/storage/database/mysql/MySQLDatabase.java
++++ b/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/storage/database/mysql/MySQLDatabase.java
+@@ -44 +44 @@
+-        DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + String.valueOf(this.port) + "/" + this.database, this.user, this.pass);
++        this.connection = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + String.valueOf(this.port) + "/" + this.database, this.user, this.pass);
+diff --git a/CubeEngine/src/main/resources/plugin.yml b/CubeEngine/src/main/resources/plugin.yml
+index 07d0c83..61166fd 100644
+--- a/CubeEngine/src/main/resources/plugin.yml
++++ b/CubeEngine/src/main/resources/plugin.yml
+@@ -3 +3 @@
+-main: "${project.groupId}.${project.artifactId}.core.BukkitCore"
++main: "${project.groupId}.${project.artifactId}.core.bukkit.BukkitCore"
+

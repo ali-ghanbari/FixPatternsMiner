@@ -1,0 +1,25 @@
+diff --git a/modules/cms-core/src/main/java/com/enonic/cms/core/service/DataSourceServiceImpl.java b/modules/cms-core/src/main/java/com/enonic/cms/core/service/DataSourceServiceImpl.java
+index 15f1acf..0d1fed7 100644
+--- a/modules/cms-core/src/main/java/com/enonic/cms/core/service/DataSourceServiceImpl.java
++++ b/modules/cms-core/src/main/java/com/enonic/cms/core/service/DataSourceServiceImpl.java
+@@ -458 +458 @@
+-        return doGetContent( context, contentKeys, "", "", 0, contentKeys.length, parentLevel, childrenLevel, parentChildrenLevel,
++        return doGetContent( context, contentKeys, "", "@key asc", 0, contentKeys.length, parentLevel, childrenLevel, parentChildrenLevel,
+diff --git a/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_getRelatedContentTest.java b/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_getRelatedContentTest.java
+index 34fe821..f960dcd 100644
+--- a/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_getRelatedContentTest.java
++++ b/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_getRelatedContentTest.java
+@@ -158 +158 @@
+-        String orderBy = "";
++        String orderBy = "@title asc";
+diff --git a/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_relatedContentTest.java b/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_relatedContentTest.java
+index 20ea0bd..caa3576 100644
+--- a/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_relatedContentTest.java
++++ b/modules/cms-itest/src/test/java/com/enonic/cms/itest/datasources/DataSourceServiceImpl_relatedContentTest.java
+@@ -157 +157 @@
+-        String orderyBy = "";
++        String orderBy = "@title asc";
+@@ -165 +165 @@
+-            dataSourceService.getContentByQuery( context, query, orderyBy, index, count, includeData, childrenLevel, parentLevel );
++            dataSourceService.getContentByQuery( context, query, orderBy, index, count, includeData, childrenLevel, parentLevel );
+

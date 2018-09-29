@@ -1,0 +1,12 @@
+diff --git a/jnlp-agent/src/main/java/hudson/jnlp/Main.java b/jnlp-agent/src/main/java/hudson/jnlp/Main.java
+index 8b1a015..aaa1804 100644
+--- a/jnlp-agent/src/main/java/hudson/jnlp/Main.java
++++ b/jnlp-agent/src/main/java/hudson/jnlp/Main.java
+@@ -13,0 +14,6 @@
++        // see http://forum.java.sun.com/thread.jspa?threadID=706976&tstart=0
++        // not sure if this is the cause, but attempting to fix
++        // https://hudson.dev.java.net/issues/show_bug.cgi?id=310
++        // by overwriting the security manager.
++        System.setSecurityManager(null);
++
+

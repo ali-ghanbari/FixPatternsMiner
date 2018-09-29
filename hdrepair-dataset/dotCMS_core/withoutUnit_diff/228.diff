@@ -1,0 +1,8 @@
+diff --git a/src/com/dotmarketing/portlets/workflows/util/WorkflowEmailUtil.java b/src/com/dotmarketing/portlets/workflows/util/WorkflowEmailUtil.java
+index c9d2f61..dfe9943 100644
+--- a/src/com/dotmarketing/portlets/workflows/util/WorkflowEmailUtil.java
++++ b/src/com/dotmarketing/portlets/workflows/util/WorkflowEmailUtil.java
+@@ -94 +94 @@
+-			ctx.put("workflowTaskTitle", processor.getTask().getTitle());
++			ctx.put("workflowTaskTitle", UtilMethods.isSet(processor.getTask().getTitle())?processor.getTask().getTitle() : processor.getContentlet().getTitle());
+

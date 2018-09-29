@@ -1,0 +1,10 @@
+telephony: SignalStrengh: Don't calculate a LTE snr if the srq is invalid
+
+If the previous values are invalid and signal quality is -1, chances are there's
+no LTE signal at all, so don't calculate the SNR and mark it invalid as well.
+
+This fixes the strength indicator in GSM devices where it was being skewed
+by the ghost LTE value
+
+Change-Id: I070573401c141aa99941a332ee256246697abb90
+

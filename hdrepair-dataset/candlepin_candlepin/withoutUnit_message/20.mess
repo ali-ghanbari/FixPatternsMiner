@@ -1,0 +1,9 @@
+950462: do not expect numa cpu list to be an int
+
+lscpu.numa_node0_cpu(s) is a range, expressing the
+list of cpu's in a numa node. It should not be
+in the list of facts expected to be ints.
+
+This doesn't fix 950462, but it was discovered
+in debugging it.
+

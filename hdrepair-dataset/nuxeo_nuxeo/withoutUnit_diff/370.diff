@@ -1,0 +1,18 @@
+diff --git a/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/navigation/BreadcrumbActionsBean.java b/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/navigation/BreadcrumbActionsBean.java
+index 9a70dc0..744abdd 100644
+--- a/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/navigation/BreadcrumbActionsBean.java
++++ b/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/navigation/BreadcrumbActionsBean.java
+@@ -99,2 +99,2 @@
+-        // if there is the case, remove the starting ....
+-        if (nbDocInList >= 0
++        // if there is the case, remove the starting
++        if (nbDocInList > 0
+diff --git a/nuxeo-platform-webapp/src/main/resources/nuxeo.war/incl/breadcrumb.xhtml b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/incl/breadcrumb.xhtml
+index c75d93c..36eb63f 100644
+--- a/nuxeo-platform-webapp/src/main/resources/nuxeo.war/incl/breadcrumb.xhtml
++++ b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/incl/breadcrumb.xhtml
+@@ -23 +23,2 @@
+-      <h:commandLink action="#{breadcrumbActions.navigateToParent}">
++      <h:commandLink action="#{breadcrumbActions.navigateToParent}"
++        rendered="#{facesContext.viewRoot.viewId != '/view_servers.xhtml'}">
+

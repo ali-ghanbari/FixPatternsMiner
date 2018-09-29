@@ -1,0 +1,229 @@
+diff --git a/build.gradle b/build.gradle
+index 1d4a7af..75464b8 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -13,0 +14 @@
++        
+@@ -17 +18 @@
+-        roboVMVersion = '1.0.0-alpha-04'
++        roboVMVersion = '1.0.0- alpha-04'
+@@ -33,0 +35 @@
++    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+diff --git a/core/assets/test/explosion2.json b/core/assets/test/explosion2.json
+new file mode 100644
+index 0000000..2396cbc
+--- /dev/null
++++ b/core/assets/test/explosion2.json
+@@ -0,0 +1,74 @@
++{
++name: "Stage Teste",
++mapRepresentation: 
++"
++####################
++##  @@@@@@@@@@@@@@## 
++## #@#@#@#@#@#@#@###
++##  @@@@@@@@@@@@@@## 
++##@# #@# #@# #@# ###
++##  @@@@@@@@@@@@@@## 
++## #@# #@# # # # ###
++##  @@@@@@@@@@@@@@## 
++## #@#@#@#@#@#@#@###
++##  @@@@@@@@@@@@@@## 
++##@# #@# #@# #@# ###
++##  @@@@@@@@@@@@@@## 
++####################
++",
++entities: [
++	{
++		components: [
++			{
++				class: br.unb.unbomber.component.CellPlacement,
++				cellX: 2,
++				cellY: 2
++			},{
++				class: br.unb.unbomber.component.Draw,
++				type: character
++			},{
++				class: br.unb.unbomber.component.BombDropper,
++				explosionRange:5,
++				permittedSimultaneousBombs:2
++			},{
++				class: br.unb.unbomber.component.Movable,
++				speed:3
++			}
++		]
++	},
++	{
++		components: [
++			{
++				class: br.unb.unbomber.component.CellPlacement,
++				cellX: 2,
++				cellY: 3
++			},{
++				class: br.unb.unbomber.component.Draw,
++				type: bomb
++			},
++		]
++	},
++	{
++		components: [
++			{
++				class: br.unb.unbomber.component.CellPlacement,
++				cellX: 2,
++				cellY: 4
++			},{
++				class: br.unb.unbomber.component.Explosion,
++				explosionRange: 2,
++				countdown:270
++			},{
++				class: br.unb.unbomber.component.Draw,
++				type: explosion
++			},{
++				class: br.unb.unbomber.component.ExplosionBarrier,
++				type: PASS_THROUGH
++			}
++		]
++	}
++],
++events: [
++]
++
++}
+diff --git a/core/src/br/un/unbomber/components/Transform.java b/core/src/br/un/unbomber/components/Transform.java
+index 035c3fd..9a42a46 100644
+--- a/core/src/br/un/unbomber/components/Transform.java
++++ b/core/src/br/un/unbomber/components/Transform.java
+@@ -18 +18 @@
+-	 * centro l�gico do objeto
++	 * centro logico do objeto
+diff --git a/core/src/br/unb/unbomber/JsonEncodeTest.java b/core/src/br/unb/unbomber/JsonEncodeTest.java
+deleted file mode 100644
+index 0b488c0..0000000
+--- a/core/src/br/unb/unbomber/JsonEncodeTest.java
++++ /dev/null
+@@ -1,59 +0,0 @@
+-package br.unb.unbomber;
+-
+-import static org.junit.Assert.*;
+-
+-import org.junit.Before;
+-import org.junit.Test;
+-
+-import br.unb.unbomber.component.CellPlacement;
+-import br.unb.unbomber.core.Entity;
+-import br.unb.unbomber.core.StageSpec;
+-
+-import com.badlogic.gdx.Gdx;
+-import com.badlogic.gdx.files.FileHandle;
+-import com.badlogic.gdx.utils.Json;
+-
+-public class JsonEncodeTest {
+-
+-	public static final String STAGE_NAME = "Stage Teste";
+-	Entity character;
+-	StageSpec stage;
+-
+-	@Before
+-	public void setUp() throws Exception {
+-
+-		stage = new StageSpec();
+-
+-		stage.setName(STAGE_NAME);
+-
+-		stage.setMapRepresentation("##########" + "##@@    ##");
+-
+-		character = new Entity();
+-		stage.getEntities().add(character);
+-
+-		CellPlacement placement = new CellPlacement();
+-		placement.setCellX(4);
+-		placement.setCellY(3);
+-
+-		character.addComponent(placement);
+-	}
+-
+-	@Test
+-	public void encodeCharAsJsonTest() {
+-		Json json = new Json();
+-		System.out.println(json.prettyPrint(stage));
+-
+-	}
+-
+-	@Test
+-	public void decodeCharAsJson() {
+-		Json json = new Json();
+-
+-		FileHandle stageFile = Gdx.files.local("stage.json");
+-
+-		StageSpec stage2 = json.fromJson(StageSpec.class, stageFile.reader());
+-
+-		assertEquals(STAGE_NAME, stage2.getName());
+-	}
+-
+-}
+diff --git a/core/test/JsonEncodeTest.java b/core/test/JsonEncodeTest.java
+new file mode 100644
+index 0000000..0b488c0
+--- /dev/null
++++ b/core/test/JsonEncodeTest.java
+@@ -0,0 +1,59 @@
++package br.unb.unbomber;
++
++import static org.junit.Assert.*;
++
++import org.junit.Before;
++import org.junit.Test;
++
++import br.unb.unbomber.component.CellPlacement;
++import br.unb.unbomber.core.Entity;
++import br.unb.unbomber.core.StageSpec;
++
++import com.badlogic.gdx.Gdx;
++import com.badlogic.gdx.files.FileHandle;
++import com.badlogic.gdx.utils.Json;
++
++public class JsonEncodeTest {
++
++	public static final String STAGE_NAME = "Stage Teste";
++	Entity character;
++	StageSpec stage;
++
++	@Before
++	public void setUp() throws Exception {
++
++		stage = new StageSpec();
++
++		stage.setName(STAGE_NAME);
++
++		stage.setMapRepresentation("##########" + "##@@    ##");
++
++		character = new Entity();
++		stage.getEntities().add(character);
++
++		CellPlacement placement = new CellPlacement();
++		placement.setCellX(4);
++		placement.setCellY(3);
++
++		character.addComponent(placement);
++	}
++
++	@Test
++	public void encodeCharAsJsonTest() {
++		Json json = new Json();
++		System.out.println(json.prettyPrint(stage));
++
++	}
++
++	@Test
++	public void decodeCharAsJson() {
++		Json json = new Json();
++
++		FileHandle stageFile = Gdx.files.local("stage.json");
++
++		StageSpec stage2 = json.fromJson(StageSpec.class, stageFile.reader());
++
++		assertEquals(STAGE_NAME, stage2.getName());
++	}
++
++}
+

@@ -1,0 +1,5 @@
+Added explicit @ClassType annotations to @Argument for Option[Int] or Option[Double] since scala seems to change the reflected type to Option[Object] on some systems.
+Changed ReflectionUtils.getGenericTypes' order of looking for @ClassType since the primitive generic wasn't completely erased, only changed to Object which is incorrect.
+More fixes to @Arguments labeled as java.io.File via incorrect @Input annotation.
+Put in a default undocumented implementation of @Argument doc() to match the one added to @Input.
+

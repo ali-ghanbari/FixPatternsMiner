@@ -1,0 +1,28 @@
+Fix for bug 8578258.
+
+The fix in:
+
+https://googleplex-android-review.googlesource.com/#/c/300346/
+
+worked but the constant used had an extra trailing zero - which was confusing
+and put a 1 in the 'flag' space of the measurement spec.
+
+The intended number was:
+
+0x00800000
+
+Unfortunately, this intended constant doesn't fix this bug.
+
+The constant submitted in this fix is:
+
+0x00010000
+
+which is outside the 'flag' space of measurement specs and appears to steer clear of overflow
+problems in the scenario of this bug.
+
+As suggested in the submission above, it would be preferable to rework of the RTL code to avoid
+the use of such a constant as it seems very unlikely indeed that any choice of integer can
+avoid problems in all cases.
+
+Change-Id: I0c6744257ef2aebe8dbc8c041a447f9b90ee4b84
+

@@ -1,0 +1,17 @@
+diff --git a/RELEASENOTES.txt b/RELEASENOTES.txt
+index 320ea4d..94704d1 100644
+--- a/RELEASENOTES.txt
++++ b/RELEASENOTES.txt
+@@ -127,0 +128,4 @@
++MKS
++----------------------
++* fix problem with spaces in project path (CC-558).
++
+diff --git a/main/src/net/sourceforge/cruisecontrol/sourcecontrols/MKS.java b/main/src/net/sourceforge/cruisecontrol/sourcecontrols/MKS.java
+index 4bb8ecc..e3f6014 100644
+--- a/main/src/net/sourceforge/cruisecontrol/sourcecontrols/MKS.java
++++ b/main/src/net/sourceforge/cruisecontrol/sourcecontrols/MKS.java
+@@ -155 +155 @@
+-        cmd = "si resync -f -R -S " + projectFilePath;
++        cmd = "si resync -f -R -S \"" + projectFilePath + "\"";
+

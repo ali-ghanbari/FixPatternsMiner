@@ -1,0 +1,30 @@
+diff --git a/plugins/net.bioclipse.cdk.business.test/src/net/bioclipse/cdk/business/test/CDKManagerPluginTest.java b/plugins/net.bioclipse.cdk.business.test/src/net/bioclipse/cdk/business/test/CDKManagerPluginTest.java
+index e5b024e..1a13588 100644
+--- a/plugins/net.bioclipse.cdk.business.test/src/net/bioclipse/cdk/business/test/CDKManagerPluginTest.java
++++ b/plugins/net.bioclipse.cdk.business.test/src/net/bioclipse/cdk/business/test/CDKManagerPluginTest.java
+@@ -107,0 +108,18 @@
++    public void testLoadMolecules() throws IOException,
++                                          BioclipseException,
++                                          CoreException, URISyntaxException {
++
++        URI uri = getClass().getResource("/testFiles/dbsmallconf").toURI();
++        URL url=FileLocator.toFileURL(uri.toURL());
++        String path=url.getFile();
++        List<ICDKMolecule> mols = cdk.loadMolecules(path);
++
++        assertNotNull(mols);
++        Assert.assertNotSame(0, mols.size());
++        for (ICDKMolecule mol : mols) {
++            Assert.assertNotNull(mol);
++            Assert.assertNotSame(0, mol.getAtomContainer().getAtomCount());
++        }
++    }
++
++    @Test
+diff --git a/plugins/net.bioclipse.cdk.business/src/net/bioclipse/cdk/business/ICDKManager.java b/plugins/net.bioclipse.cdk.business/src/net/bioclipse/cdk/business/ICDKManager.java
+index cf103a0..d9957d5 100644
+--- a/plugins/net.bioclipse.cdk.business/src/net/bioclipse/cdk/business/ICDKManager.java
++++ b/plugins/net.bioclipse.cdk.business/src/net/bioclipse/cdk/business/ICDKManager.java
+@@ -141,0 +142 @@
++    @TestMethods("testLoadMolecules")
+

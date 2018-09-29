@@ -1,0 +1,18 @@
+diff --git a/src/main/java/tachyon/Constants.java b/src/main/java/tachyon/Constants.java
+index 934ad54..9536bb8 100644
+--- a/src/main/java/tachyon/Constants.java
++++ b/src/main/java/tachyon/Constants.java
+@@ -56 +56 @@
+-  public static final long MAX_TABLE_METADATA_BYTE = Long.parseLong(System.getProperty(
++  public static final int MAX_TABLE_METADATA_BYTE = Integer.parseInt(System.getProperty(
+diff --git a/src/test/java/tachyon/master/InodeRawTableTest.java b/src/test/java/tachyon/master/InodeRawTableTest.java
+index 39dd19e..cc7d2eb 100644
+--- a/src/test/java/tachyon/master/InodeRawTableTest.java
++++ b/src/test/java/tachyon/master/InodeRawTableTest.java
+@@ -139 +139 @@
+-    ByteBuffer metadata = ByteBuffer.allocate(101);
++    ByteBuffer metadata = ByteBuffer.allocate(Constants.MAX_TABLE_METADATA_BYTE);
+@@ -142 +142 @@
+-    assertThat(Constants.MAX_TABLE_METADATA_BYTE, equalTo(Long.parseLong(maxMetadataSizeProp)));
++    assertThat(Constants.MAX_TABLE_METADATA_BYTE, equalTo(Integer.parseInt(maxMetadataSizeProp)));
+

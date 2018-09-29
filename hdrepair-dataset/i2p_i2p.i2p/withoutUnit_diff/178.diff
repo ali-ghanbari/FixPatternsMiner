@@ -1,0 +1,85 @@
+diff --git a/Slackware/i2p/doinst.sh b/Slackware/i2p/doinst.sh
+index 91dd097..0f5c9f3 100644
+--- a/Slackware/i2p/doinst.sh
++++ b/Slackware/i2p/doinst.sh
+@@ -52,6 +51,0 @@
+-sh postinstall.sh || (
+-  echo "ERROR: failed execution of postinstall.sh. Please"
+-  echo "cd into i2p installation directory and run "
+-  echo "postinstall.sh manually with ./postinstall.sh"
+-  exit 1
+-)
+@@ -59 +52,0 @@
+-sleep 10
+@@ -61 +54,13 @@
+-sh i2prouter stop || exit 1
++
++OS_ARCH=`uname -m`
++X86_64=`echo "$OS_ARCH" | grep x86_64`
++if [ "X$X86_64" = "X" ]; then
++        wrapperpath="./lib/wrapper/linux"
++else
++        wrapperpath="./lib/wrapper/linux64"
++fi
++cp $wrapperpath/libwrapper.so ./lib/
++cp $wrapperpath/wrapper.jar ./lib/
++cp $wrapperpath/i2psvc .
++rm -rf ./lib/wrapper
++chmod 744 ./i2psvc
+diff --git a/Slackware/i2p/i2p.SlackBuild b/Slackware/i2p/i2p.SlackBuild
+index 3bb2c95..f7ced54 100755
+--- a/Slackware/i2p/i2p.SlackBuild
++++ b/Slackware/i2p/i2p.SlackBuild
+@@ -21 +21 @@
+-# es: usr/local
++# eg: usr/local
+@@ -67 +67 @@
+-ant dist
++#ant dist
+@@ -78,0 +79,28 @@
++
++#############################################################################
++# Preconfigureation to make package smaller
++#############################################################################
++cd $PKG/$INSTALL_DIR/i2p
++
++# wrapper.config $INSTALL_PATH and $SYSTEM_java_io_tmpdir
++sed "s|\$INSTALL_PATH|$INSTALL_DIR/i2p|g" wrapper.config > a
++sed "s|\$SYSTEM_java_io_tmpdir|/var/tmp|g" a > wrapper.config
++# eepget %INSTALL_PATH
++sed "s|\$INSTALL_PATH|$INSTALL_DIR/i2p|g" eepget > a
++rm eepget
++mv a eepget
++# runplain.sh %INSTALL_PATH and %SYSTEM_java_io_tmpdir
++sed "s|%INSTALL_PATH|$INSTALL_DIR/i2p|g" runplain.sh > a
++sed "s|%SYSTEM_java_io_tmpdir|/var/tmp|g" a > runplain.sh
++# i2prouter %INSTALL_PATH and %SYSTEM_java_io_tmpdir
++sed "s|%INSTALL_PATH|$INSTALL_DIR/i2p|g" i2prouter > a
++sed "s|%SYSTEM_java_io_tmpdir|/var/tmp|g" a > i2prouter
++
++chmod 744 ./i2prouter
++chmod 744 ./osid
++chmod 744 ./runplain.sh
++chmod 744 ./eepget
++chmod 744 ./scripts/i2pbench.sh
++chmod 744 ./scripts/i2ptest.sh
++rm -Rf ./lib/*.dll ./*.bat ./*.exe ./installer ./icons ./a postinstall.sh
++
+@@ -85,0 +114 @@
++
+diff --git a/history.txt b/history.txt
+index 25f62c6..96015b6 100644
+--- a/history.txt
++++ b/history.txt
+@@ -0,0 +1,3 @@
++2009-07-15 sponge
++    * Slackware SlackBuild fixes.
++
+diff --git a/router/java/src/net/i2p/router/RouterVersion.java b/router/java/src/net/i2p/router/RouterVersion.java
+index 1440f81..217d41d 100644
+--- a/router/java/src/net/i2p/router/RouterVersion.java
++++ b/router/java/src/net/i2p/router/RouterVersion.java
+@@ -21 +21 @@
+-    public final static long BUILD = 10;
++    public final static long BUILD = 11;
+

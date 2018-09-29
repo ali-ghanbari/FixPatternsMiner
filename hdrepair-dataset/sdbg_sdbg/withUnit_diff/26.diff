@@ -1,0 +1,24 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/source/PackageUriResolver.java b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/source/PackageUriResolver.java
+index 8d3f492..54dfd62 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/source/PackageUriResolver.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/source/PackageUriResolver.java
+@@ -81 +81 @@
+-    int index = path.indexOf(File.separatorChar);
++    int index = path.indexOf('/');
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/source/PackageUriResolverTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/source/PackageUriResolverTest.java
+index aa761d7..307c0a1 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/source/PackageUriResolverTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/source/PackageUriResolverTest.java
+@@ -16,0 +17 @@
++import com.google.dart.engine.utilities.os.OSUtilities;
+@@ -27,0 +29,5 @@
++  public void test_absolute_vs_canonical() throws Exception {
++    File directory = createFile("/does/not/exist/packages");
++    assertEquals(directory.getAbsolutePath(), directory.getCanonicalPath());
++  }
++
+@@ -35 +41,2 @@
+-    if (!FileUtilities2.isSymLinkSupported()) {
++    // TODO (danrubel): Fix test for Windows and Linux
++    if (!OSUtilities.isMac()) { // !FileUtilities2.isSymLinkSupported()) {
+

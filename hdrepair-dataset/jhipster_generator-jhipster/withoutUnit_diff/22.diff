@@ -1,0 +1,19 @@
+diff --git a/app/templates/src/main/java/package/config/_SecurityConfiguration.java b/app/templates/src/main/java/package/config/_SecurityConfiguration.java
+index cf7e864..c4b31ce 100644
+--- a/app/templates/src/main/java/package/config/_SecurityConfiguration.java
++++ b/app/templates/src/main/java/package/config/_SecurityConfiguration.java
+@@ -104,0 +105 @@
++            .deleteCookies("CSRF-TOKEN")
+diff --git a/app/templates/src/main/webapp/components/auth/provider/_auth.session.service.js b/app/templates/src/main/webapp/components/auth/provider/_auth.session.service.js
+index c40dda5..c235af2 100644
+--- a/app/templates/src/main/webapp/components/auth/provider/_auth.session.service.js
++++ b/app/templates/src/main/webapp/components/auth/provider/_auth.session.service.js
+@@ -4 +4 @@
+-    .factory('AuthServerProvider', function loginService($http, $cookieStore, localStorageService) {
++    .factory('AuthServerProvider', function loginService($http, localStorageService) {
+@@ -22,2 +22,2 @@
+-                // logout from the server and remove the CSRF cookie
+-                $http.post('app/logout').then( function(){ $cookieStore.remove('CSRF-TOKEN'); } );;
++                // logout from the server
++                $http.post('app/logout');
+

@@ -1,0 +1,35 @@
+diff --git a/weaver/src/org/aspectj/weaver/reflect/ReflectionWorld.java b/weaver/src/org/aspectj/weaver/reflect/ReflectionWorld.java
+index a37b465..96266c2 100644
+--- a/weaver/src/org/aspectj/weaver/reflect/ReflectionWorld.java
++++ b/weaver/src/org/aspectj/weaver/reflect/ReflectionWorld.java
+@@ -99 +99 @@
+-			return world.resolve(UnresolvedType.forSignature(className));
++			return world.resolve(UnresolvedType.forSignature(className.replace('.','/')));
+diff --git a/weaver/testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java b/weaver/testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java
+index 0450aed..0a844ec 100644
+--- a/weaver/testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java
++++ b/weaver/testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java
+@@ -14,0 +15 @@
++import java.lang.reflect.Method;
+@@ -101,0 +103,6 @@
++    public void testArrayArgsSig() throws Exception {
++    	Method invokeMethod = Method.class.getMethod("invoke", new Class[] { Object.class, Object[].class});
++    	ResolvedMember reflectionMethod = ReflectionBasedReferenceTypeDelegateFactory.createResolvedMethod(invokeMethod, world);
++    	String exp = "(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;";
++    	assertTrue("Expected: \n"+exp+"\n but got:\n"+reflectionMethod.getSignature(), reflectionMethod.getSignature().equals(exp));
++    }
+diff --git a/weaver5/java5-testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java b/weaver5/java5-testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java
+index f9bef9c..4d92b1d 100644
+--- a/weaver5/java5-testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java
++++ b/weaver5/java5-testsrc/org/aspectj/weaver/reflect/ReflectionBasedReferenceTypeDelegateTest.java
+@@ -14,0 +15 @@
++import java.lang.reflect.Method;
+@@ -298,0 +300,7 @@
++
++    public void testArrayArgsSig() throws Exception {
++    	Method invokeMethod = Method.class.getMethod("invoke", new Class[] { Object.class, Object[].class});
++    	ResolvedMember reflectionMethod = ReflectionBasedReferenceTypeDelegateFactory.createResolvedMethod(invokeMethod, world);
++    	String exp = "(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;";
++    	assertTrue("Expected: \n"+exp+"\n but got:\n"+reflectionMethod.getSignature(), reflectionMethod.getSignature().equals(exp));
++    }
+

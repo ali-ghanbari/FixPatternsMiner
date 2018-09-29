@@ -1,0 +1,31 @@
+diff --git a/src/com/dotmarketing/cache/FieldsCache.java b/src/com/dotmarketing/cache/FieldsCache.java
+index 51d3764..6b781f4 100644
+--- a/src/com/dotmarketing/cache/FieldsCache.java
++++ b/src/com/dotmarketing/cache/FieldsCache.java
+@@ -199 +199 @@
+-        String key = getPrimaryGroup() + field.getInode();
++        String key = getFieldsVarGroup() + field.getInode();
+diff --git a/test/com/dotmarketing/portlets/structure/business/FieldAPITest.java b/test/com/dotmarketing/portlets/structure/business/FieldAPITest.java
+index dbc61f3..461b8e2 100644
+--- a/test/com/dotmarketing/portlets/structure/business/FieldAPITest.java
++++ b/test/com/dotmarketing/portlets/structure/business/FieldAPITest.java
+@@ -59,0 +60,18 @@
++        // problems with second save ?
++        // https://github.com/dotCMS/dotCMS/issues/2649
++        
++        FieldVariable fg=new FieldVariable();
++        fg.setFieldId(ff.getInode());
++        fg.setName("variable");
++        fg.setKey("variable");
++        fg.setValue("value");
++        APILocator.getFieldAPI().saveFieldVariable(fg, user, false);
++        
++        list=APILocator.getFieldAPI().getFieldVariablesForField(ff.getInode(), user, false);
++        assertEquals(2,list.size());
++        assertEquals(list.get(0).getKey(),fv.getKey());
++        assertEquals(list.get(0).getValue(),fv.getValue());
++        assertEquals(list.get(1).getKey(),fg.getKey());
++        assertEquals(list.get(1).getValue(),fg.getValue());
++        
++        
+

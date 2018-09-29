@@ -1,0 +1,104 @@
+diff --git a/compiler/frontend/src/org/jetbrains/jet/lang/types/expressions/BasicExpressionTypingVisitor.java b/compiler/frontend/src/org/jetbrains/jet/lang/types/expressions/BasicExpressionTypingVisitor.java
+index fa1d0cf..eac9132 100644
+--- a/compiler/frontend/src/org/jetbrains/jet/lang/types/expressions/BasicExpressionTypingVisitor.java
++++ b/compiler/frontend/src/org/jetbrains/jet/lang/types/expressions/BasicExpressionTypingVisitor.java
+@@ -108 +108,2 @@
+-            context.trace.report(NO_CLASS_OBJECT.on(expression, classifier));
++            // TODO is this really required? seems to break "Node.ELEMENT_NODE" expressions
++            // context.trace.report(NO_CLASS_OBJECT.on(expression, classifier));
+diff --git a/js/js.libraries/src/core/dom.kt b/js/js.libraries/src/core/dom.kt
+index 0e6b77e..fcb5df8 100644
+--- a/js/js.libraries/src/core/dom.kt
++++ b/js/js.libraries/src/core/dom.kt
+@@ -101,3 +101,3 @@
+-    public val SEVERITY_WARNING: Short = 1
+-    public val SEVERITY_ERROR: Short = 2
+-    public val SEVERITY_FATAL_ERROR: Short = 3
++    public val SEVERITY_WARNING: Short
++    public val SEVERITY_ERROR: Short
++    public val SEVERITY_FATAL_ERROR: Short
+@@ -224,18 +224,18 @@
+-    public val ELEMENT_NODE: Short = 1
+-    public val ATTRIBUTE_NODE: Short = 2
+-    public val TEXT_NODE: Short = 3
+-    public val CDATA_SECTION_NODE: Short = 4
+-    public val ENTITY_REFERENCE_NODE: Short = 5
+-    public val ENTITY_NODE: Short = 6
+-    public val PROCESSING_INSTRUCTION_NODE: Short = 7
+-    public val COMMENT_NODE: Short = 8
+-    public val DOCUMENT_NODE: Short = 9
+-    public val DOCUMENT_TYPE_NODE: Short = 10
+-    public val DOCUMENT_FRAGMENT_NODE: Short = 11
+-    public val NOTATION_NODE: Short = 12
+-    public val DOCUMENT_POSITION_DISCONNECTED: Short = 1
+-    public val DOCUMENT_POSITION_PRECEDING: Short = 2
+-    public val DOCUMENT_POSITION_FOLLOWING: Short = 4
+-    public val DOCUMENT_POSITION_CONTAINS: Short = 8
+-    public val DOCUMENT_POSITION_CONTAINED_BY: Short = 16
+-    public val DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC: Short = 32
++    public val ELEMENT_NODE: Short
++    public val ATTRIBUTE_NODE: Short
++    public val TEXT_NODE: Short
++    public val CDATA_SECTION_NODE: Short
++    public val ENTITY_REFERENCE_NODE: Short
++    public val ENTITY_NODE: Short
++    public val PROCESSING_INSTRUCTION_NODE: Short
++    public val COMMENT_NODE: Short
++    public val DOCUMENT_NODE: Short
++    public val DOCUMENT_TYPE_NODE: Short
++    public val DOCUMENT_FRAGMENT_NODE: Short
++    public val NOTATION_NODE: Short
++    public val DOCUMENT_POSITION_DISCONNECTED: Short
++    public val DOCUMENT_POSITION_PRECEDING: Short
++    public val DOCUMENT_POSITION_FOLLOWING: Short
++    public val DOCUMENT_POSITION_CONTAINS: Short
++    public val DOCUMENT_POSITION_CONTAINED_BY: Short
++    public val DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC: Short
+@@ -271,4 +271,4 @@
+-    public val DERIVATION_RESTRICTION: Int = 1
+-    public val DERIVATION_EXTENSION: Int = 2
+-    public val DERIVATION_UNION: Int = 4
+-    public val DERIVATION_LIST: Int = 8
++    public val DERIVATION_RESTRICTION: Int
++    public val DERIVATION_EXTENSION: Int
++    public val DERIVATION_UNION: Int
++    public val DERIVATION_LIST: Int
+@@ -279,5 +279,5 @@
+-    public val NODE_CLONED: Short = 1
+-    public val NODE_IMPORTED: Short = 2
+-    public val NODE_DELETED: Short = 3
+-    public val NODE_RENAMED: Short = 4
+-    public val NODE_ADOPTED: Short = 5
++    public val NODE_CLONED: Short
++    public val NODE_IMPORTED: Short
++    public val NODE_DELETED: Short
++    public val NODE_RENAMED: Short
++    public val NODE_ADOPTED: Short
+diff --git a/libraries/pom.xml b/libraries/pom.xml
+index d8ff914..5690447 100644
+--- a/libraries/pom.xml
++++ b/libraries/pom.xml
+@@ -68,3 +67,0 @@
+-<!--
+-        TODO - disabled until the JS compiler can handle "Node.ELEMENT_NODE" expressions in DOM
+-
+@@ -73 +69,0 @@
+--->
+diff --git a/libraries/stdlib/test/org/jetbrains/kotlin/tools/GenerateJavaScriptStubs.kt b/libraries/stdlib/test/org/jetbrains/kotlin/tools/GenerateJavaScriptStubs.kt
+index e69d56f..3fc854e 100644
+--- a/libraries/stdlib/test/org/jetbrains/kotlin/tools/GenerateJavaScriptStubs.kt
++++ b/libraries/stdlib/test/org/jetbrains/kotlin/tools/GenerateJavaScriptStubs.kt
+@@ -77,10 +77,2 @@
+-                            try {
+-                                val value = field.get(null)
+-                                if (value != null) {
+-                                    val fieldType = simpleTypeName(field.getType())
+-                                    println("    public val ${field.getName()}: $fieldType = $value")
+-                                }
+-                            } catch (e: Exception) {
+-                                println("Caught: $e")
+-                                e.printStackTrace()
+-                            }
++                            val fieldType = simpleTypeName(field.getType())
++                            println("    public val ${field.getName()}: $fieldType")
+

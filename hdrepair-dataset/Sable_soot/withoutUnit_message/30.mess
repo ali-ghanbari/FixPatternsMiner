@@ -1,0 +1,22 @@
+Fixes a bug regarding commit 2a6ddca3adb80fc1b026ae116e584b2b5fa7a9f1.
+Now, dalvik constants get initializers in clinit. However, soot could
+generate code like
+
+public void <clinit>() {
+  <a.a: int a> = 2;
+  return;
+  <a.a: int b> = 2;  //This line is created by
+ConstantValueToInitializerTransformer
+  return;  //This line is created by
+ConstantValueToInitializerTransformer
+}
+
+After this fix:
+
+public void <clinit>() {
+  <a.a: int b> = 2;  //This line is created by
+ConstantValueToInitializerTransformer
+  <a.a: int a> = 2;
+  return;
+}
+

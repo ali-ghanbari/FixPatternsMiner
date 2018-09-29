@@ -1,0 +1,512 @@
+diff --git a/sli/acceptance-tests/Rakefile b/sli/acceptance-tests/Rakefile
+index 051e503..5e17e6c 100644
+--- a/sli/acceptance-tests/Rakefile
++++ b/sli/acceptance-tests/Rakefile
+@@ -679,2 +679 @@
+-                     :apiV1YearlyTranscriptTests,
+-                     :apiV1SearchLimitTests] do                     
++                     :apiV1YearlyTranscriptTests] do
+@@ -691 +690 @@
+-task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests] do
++task :apiOdinTests => [:apiOdinFederatedAppsTests, :apiOdinPrep, :apiOdinFederatedAppsTests, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests, :apiV1SearchLimitTests] do
+diff --git a/sli/acceptance-tests/suites/apiV1.rake b/sli/acceptance-tests/suites/apiV1.rake
+index 29dd334..6cd4ee5 100644
+--- a/sli/acceptance-tests/suites/apiV1.rake
++++ b/sli/acceptance-tests/suites/apiV1.rake
+@@ -452,0 +453,6 @@
++  displayFailureReport()
++  if $SUCCESS
++    puts "Completed All Tests"
++  else
++    raise "Tests have failed"
++  end
+diff --git a/sli/acceptance-tests/test/features/apiV1/entities/crud/bell_schedule_crud.feature b/sli/acceptance-tests/test/features/apiV1/entities/crud/bell_schedule_crud.feature
+index d66bbe5..b696eaa 100644
+--- a/sli/acceptance-tests/test/features/apiV1/entities/crud/bell_schedule_crud.feature
++++ b/sli/acceptance-tests/test/features/apiV1/entities/crud/bell_schedule_crud.feature
+@@ -3,0 +4,3 @@
++  Background: Nothing yet
++    Given nothing has been posted
++
+@@ -10,0 +14 @@
++Then I GET the bell schedule
+@@ -28,0 +33,15 @@
++
++Scenario: Verify only bellSchedules directly related to the user are returned by the list GET endpoint
++  # Setup the data
++  Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
++  When I POST a bell schedule referencing IL
++  And I POST a bell schedule referencing South Daybreak Elementary
++  # Test endpoint
++  When I am logged in using "rbraverman" "rbraverman1234" to realm "IL"
++  Then I GET the bell schedules
++  And the result contains the only bell schedule in the context of the user
++  Then I GET the bell schedules using education organization
++  And the result contains the only bell schedule in the context of the user
++  # Clear data
++  When I am logged in using "rrogers" "rrogers1234" to realm "IL"
++  Then I DELETE the POSTED data
+diff --git a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/bell_schedule_crud.rb b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/bell_schedule_crud.rb
+index ec78f4e..73a611a 100644
+--- a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/bell_schedule_crud.rb
++++ b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/bell_schedule_crud.rb
+@@ -31,0 +32,58 @@
++                                     "href" => "schools/" + @expected_entity['educationOrganizationId']
++                                   },
++                                   {
++                                     "rel" => "getEducationOrganization",
++                                     "href" => "educationOrganizations/" + @expected_entity['educationOrganizationId']
++                                   },
++                                   {
++                                     "rel" => "getCalendar",
++                                     "href" =>  "calendarDates/" + @expected_entity['calendarDateReference']
++                                   },
++                                   {
++                                     "rel" => "getClassPeriod",
++                                     "href" =>  "classPeriods/" + @expected_entity['meetingTime']['classPeriodId']
++                                   }
++                                 ]
++                     }
++  puts "expected links: " + @expected_links["links"].to_json
++  @expected_type = 'bellSchedule'
++  puts "expected type: " + @expected_type
++end
++
++Given /^nothing has been posted$/ do
++  clear_posted_ids
++end
++
++When /^I POST a bell schedule referencing South Daybreak Elementary$/ do
++  step "I POST a bell schedule"
++end
++
++When /^I POST a bell schedule referencing IL$/ do
++  @expected_entity = {
++                       "bellScheduleName" => "IL Schedule 1",
++                       "educationOrganizationId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
++                       "meetingTime"  =>  {
++                                            "classPeriodId" => "1fcf42b0e4e74b9be645edccf7bc1e01f0d15b46_id",
++                                             "alternateDayName" => "Teal",
++                                             "startTime" => "08:00:00.000",
++                                             "endTime" => "08:35:00.000",
++                                             "officialAttendancePeriod" => true
++                                          },
++                       "gradeLevels" => [
++                                         "First grade",
++                                         "Second grade"
++                                       ],
++                       "calendarDateReference" => "2012ac-7957aaee-ceb0-11e1-8af5-0a0027000000"
++                     }
++  post_entity("bellSchedules")
++  @expected_links = { "links" => [
++                                   {
++                                     "rel" => "self",
++                                     "href" =>  "bellSchedules/#{@id}"
++                                   },
++                                   {
++                                     "rel" => "custom",
++                                     "href" =>  "bellSchedules/#{@id}/custom"
++                                   },
++                                   {
++                                     "rel" => "getSchool",
+@@ -54,0 +113,17 @@
++When /^I GET the bell schedules$/ do
++  puts "token: " + @sessionId
++  restHttpGet("/v1/bellSchedules", 'application/vnd.slc+json')
++  assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
++end
++
++When /^I GET the bell schedules using education organization/ do
++  restHttpGet("/v1/educationOrganizations/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/bellSchedules", 'application/vnd.slc+json')
++  assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
++end
++
++Then /^the result contains the only bell schedule in the context of the user$/ do
++  field = "educationOrganizationId"
++  value = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
++  assert(resultsContain?(field, value),"GET contents do not contain \"#{field}\" => \"#{value}\".")
++end
++
+@@ -62,0 +138,4 @@
++Then /^I DELETE the POSTED data$/ do
++  delete_posted_ids
++end
++
+diff --git a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/class_period_crud.rb b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/class_period_crud.rb
+index 3c6fa37..792f289 100644
+--- a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/class_period_crud.rb
++++ b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/class_period_crud.rb
+@@ -30,0 +31,2 @@
++  @expected_type = 'classPeriod'
++  puts "expected type: " + @expected_type
+@@ -48,25 +49,0 @@
+-# Returns whether the expected number of results are returned
+-# and ALL the results contain the specified field and value
+-def resultsContain?(field, value, expected_count = 1)
+-  matches_all = true
+-  results = JSON.parse @res
+-
+-  # handle non-array single result - not tested
+-  if ! results.is_a? Array
+-    results = [results]
+-  end
+-
+-  if results.count != expected_count
+-    return false
+-  end
+-
+-  results.each { |result|
+-    if result[field] != value
+-      matches_all = false
+-      break
+-    end
+-  }
+-
+-  return matches_all
+-end
+-
+@@ -74,2 +50,0 @@
+-  restHttpGet("/v1/classPeriods", 'application/vnd.slc+json')
+-  assert(@res.code == 200, "#{@res.code} - Could not fetch entity #{@expected_entity.to_json}.")
+diff --git a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/common_crud.rb b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/common_crud.rb
+index 91c65d2..3eda8d5 100644
+--- a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/common_crud.rb
++++ b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/common_crud.rb
+@@ -0,0 +1,8 @@
++# structure to hold posted ids for cleanup
++# Hash of <endpoint> => [<id0>,...]
++$posted_ids = {}
++
++def clear_posted_ids
++  $posted_ids = {}
++end
++
+@@ -9,0 +18,9 @@
++
++  # save the posted id in a stack in cased needed for cleanup
++  if $posted_ids[endpoint].nil?
++    $posted_ids[endpoint] = [@id]
++  else
++    # pre-pend so we can just use 'each' to cleanup in reverse order
++    $posted_ids[endpoint].unshift(@id)
++  end
++
+@@ -20,0 +38 @@
++  compare_type(actual) if !@expected_type.nil?
+@@ -30,0 +49,4 @@
++end
++
++def compare_type(actual)
++  assert(actual['entityType'].eql?(@expected_type),"Entity Type contents different to that expected #{actual["entityType"].to_json}.")
+@@ -47,0 +70,9 @@
++def delete_posted_ids()
++  $posted_ids.each_pair do |endpoint, ids|
++    ids.each { |id|
++      restHttpDelete("/v1/#{endpoint}/#{id}", 'application/vnd.slc+json')
++      assert(@res.code == 204, "Unexpected HTTP code returned: #{@res.code}.")
++    }
++  end
++end
++
+diff --git a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/section_crud.rb b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/section_crud.rb
+index be995d4..a16aba4 100644
+--- a/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/section_crud.rb
++++ b/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/section_crud.rb
+@@ -97,0 +98,2 @@
++  @expected_type = 'section'
++  puts "expected type: " + @expected_type
+diff --git a/sli/acceptance-tests/test/features/apiV1/entities/crud_auto/auto_crud.feature b/sli/acceptance-tests/test/features/apiV1/entities/crud_auto/auto_crud.feature
+index a82a359..06af29c 100644
+--- a/sli/acceptance-tests/test/features/apiV1/entities/crud_auto/auto_crud.feature
++++ b/sli/acceptance-tests/test/features/apiV1/entities/crud_auto/auto_crud.feature
+@@ -75 +75 @@
+-    | bellSchedules                           | bellSchedules                            | 0     |/bellSchedules|
++    | bellSchedules                           | bellSchedules                            | 0     |/educationOrganizations/@ids/bellSchedules|
+diff --git a/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature b/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature
+index ea4fec6..350d67d 100644
+--- a/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature
++++ b/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature
+@@ -7 +7 @@
+-  Scenario: Class Period Create
++  Scenario: Class Period Creation
+@@ -26,0 +27,35 @@
++
++  Scenario: Bell Schedule Creates
++    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
++     And format "application/json"
++     And I am using api version "v1"
++    When I POST and validate the following entities:
++       | entityName       | entityType   | returnCode |
++       | newBellSchedule  | bellSchedule | 201        |
++       | newBellSchedule2 | bellSchedule | 201        |
++    Then I verify the following response body fields in "/bellSchedules/ab9e672f9bc3e9cc988763041a4435743d8a8e34_id":
++       | field                                | value                                       |
++       | id                                   | ab9e672f9bc3e9cc988763041a4435743d8a8e34_id |
++       | entityType                           | bellSchedule                                |
++       | bellScheduleName                     | English 42                                  |
++       | educationOrganizationId              | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
++       | meetingTime.classPeriodId            | 42921d6ca01bcee753d5bc81e2f3e1592ed05492_id |
++       | meetingTime.alternateDayName         | Beige                                       |
++       | meetingTime.startTime                | 09:00:00.000                                |
++       | meetingTime.endTime                  | 09:55:00.000                                |
++       | meetingTime.officialAttendancePeriod | true                                        |
++       | gradeLevels.0                        | First grade                                 |
++       | gradeLevels.1                        | Second grade                                |
++       | calendarDateReference                | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
++    Then I verify the following response body fields in "/bellSchedules/6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id":
++       | field                                | value                                       |
++       | id                                   | 6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id |
++       | entityType                           | bellSchedule                                |
++       | bellScheduleName                     | Maths 17                                    |
++       | educationOrganizationId              | 352e8570bd1116d11a72755b987902440045d346_id |
++       | meetingTime.classPeriodId            | a78690d5d75f709066534ab6dbf4a69a0f69989f_id |
++       | meetingTime.startTime                | 13:00:00.000                                |
++       | meetingTime.endTime                  | 13:55:00.000                                |
++       | gradeLevels.0                        | Third grade                                 |
++       | gradeLevels.1                        | Fourth grade                                |
++       | calendarDateReference                | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+@@ -57,0 +93,6 @@
++      | bellSchedules                                                                    |                                             |                                                                           |
++      | bellSchedules                                                                    | ab9e672f9bc3e9cc988763041a4435743d8a8e34_id |                                                                           |
++      | bellSchedules                                                                    | 6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id |                                                                           |
++      | educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/bellSchedules |                                             |                                                                           |
++      | educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/bellSchedules |                                             |                                                                           |
++
+@@ -62,0 +104 @@
++       | /v1/bellSchedules/1        | 404 | Non-existent bell schedule |
+@@ -91,0 +134,26 @@
++    Then I verify the following response body fields in "/bellSchedules/ab9e672f9bc3e9cc988763041a4435743d8a8e34_id":
++       | field                                | value                                       |
++       | id                                   | ab9e672f9bc3e9cc988763041a4435743d8a8e34_id |
++       | entityType                           | bellSchedule                                |
++       | bellScheduleName                     | English 42                                  |
++       | educationOrganizationId              | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
++       | meetingTime.classPeriodId            | 42921d6ca01bcee753d5bc81e2f3e1592ed05492_id |
++       | meetingTime.alternateDayName         | Beige                                       |
++       | meetingTime.startTime                | 09:00:00.000                                |
++       | meetingTime.endTime                  | 09:55:00.000                                |
++       | meetingTime.officialAttendancePeriod | true                                        |
++       | gradeLevels.0                        | First grade                                 |
++       | gradeLevels.1                        | Second grade                                |
++       | calendarDateReference                | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
++    Then I verify the following response body fields in "/bellSchedules/6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id":
++       | field                                | value                                       |
++       | id                                   | 6e9a1c5a88fc1e007d4bd5e1640f721a3cdc7022_id |
++       | entityType                           | bellSchedule                                |
++       | bellScheduleName                     | Maths 17                                    |
++       | educationOrganizationId              | 352e8570bd1116d11a72755b987902440045d346_id |
++       | meetingTime.classPeriodId            | a78690d5d75f709066534ab6dbf4a69a0f69989f_id |
++       | meetingTime.startTime                | 13:00:00.000                                |
++       | meetingTime.endTime                  | 13:55:00.000                                |
++       | gradeLevels.0                        | Third grade                                 |
++       | gradeLevels.1                        | Fourth grade                                |
++       | calendarDateReference                | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+@@ -102,0 +171,5 @@
++     #Verify base endpoint only contains bellSchedules for the directly associated edOrgs
++     When I navigate to GET "/v1/bellSchedules"
++     Then I should receive a return code of 200
++     And I should receive a collection with <COUNT> elements
++
+@@ -107,0 +181,3 @@
++       | /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
++       | /bellSchedules               | /educationOrganizations/<EDORG>/bellSchedules |
++
+diff --git a/sli/acceptance-tests/test/features/bulk_extract/features/step_definitions/bulk_extract.rb b/sli/acceptance-tests/test/features/bulk_extract/features/step_definitions/bulk_extract.rb
+index 6ad72e4..f093803 100644
+--- a/sli/acceptance-tests/test/features/bulk_extract/features/step_definitions/bulk_extract.rb
++++ b/sli/acceptance-tests/test/features/bulk_extract/features/step_definitions/bulk_extract.rb
+@@ -3335,0 +3336,30 @@
++    "newBellSchedule" => {
++                           "bellScheduleName" => "English 42",
++                           "educationOrganizationId"  =>  "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
++                           "meetingTime"  =>  {
++                                                "classPeriodId" => "42921d6ca01bcee753d5bc81e2f3e1592ed05492_id",
++                                                "alternateDayName" => "Beige",
++                                                "startTime" => "09:00:00.000",
++                                                "endTime" => "09:55:00.000",
++                                                "officialAttendancePeriod" => true
++                                              },
++                           "gradeLevels" => [
++                                              "First grade",
++                                              "Second grade"
++                                            ],
++                           "calendarDateReference" => "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id"
++                         },
++    "newBellSchedule2" => {
++                            "bellScheduleName" => "Maths 17",
++                            "educationOrganizationId"  =>  "352e8570bd1116d11a72755b987902440045d346_id",
++                            "meetingTime"  =>  {
++                                                 "classPeriodId" => "a78690d5d75f709066534ab6dbf4a69a0f69989f_id",
++                                                 "startTime" => "13:00:00.000",
++                                                 "endTime" => "13:55:00.000"
++                                               },
++                            "gradeLevels" => [
++                                               "Third grade",
++                                               "Fourth grade"
++                                             ],
++                            "calendarDateReference" => "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id"
++                          },
+diff --git a/sli/acceptance-tests/test/features/utils/sli_utils.rb b/sli/acceptance-tests/test/features/utils/sli_utils.rb
+index 9701f4b..b67f752 100644
+--- a/sli/acceptance-tests/test/features/utils/sli_utils.rb
++++ b/sli/acceptance-tests/test/features/utils/sli_utils.rb
+@@ -927,0 +928,29 @@
++
++# Returns whether the expected number of results are returned
++# and ALL the results contain the specified field and value
++def resultsContain?(field, value, expected_count = 1)
++  matches_all = true
++  results = JSON.parse @res
++
++puts "The results:"
++puts results.to_s
++
++  # handle non-array single result - not tested
++  if ! results.is_a? Array
++    results = [results]
++  end
++
++  if results.count != expected_count
++    return false
++  end
++
++  results.each { |result|
++    if result[field] != value
++      matches_all = false
++      break
++    end
++  }
++
++  return matches_all
++end
++
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java b/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java
+index 7846360..ea70732 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/pdp/UriMutator.java
+@@ -406,0 +407,2 @@
++            } else if (baseEntity.equals(PathConstants.BELL_SCHEDULES)) {
++                mutated = generateMutatedUrl(queryParameters, "/educationOrganizations/%s/bellSchedules", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
+diff --git a/sli/api/src/main/resources/wadl/resources.json b/sli/api/src/main/resources/wadl/resources.json
+index 4400b98..89bd728 100644
+--- a/sli/api/src/main/resources/wadl/resources.json
++++ b/sli/api/src/main/resources/wadl/resources.json
+@@ -715,0 +716,5 @@
++        { "path": "/{id}/bellSchedules",
++          "dateSearchDisallowed": true,
++          "availableSince" : "v1.4",
++          "doc": "This URI, /educationOrganizations/{id}/bellSchedules, provides the bellSchedules associated with the EducationOrganization."
++        },
+diff --git a/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Ed-Fi-Core.xsd b/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Ed-Fi-Core.xsd
+index 86cdec6..505486c 100644
+--- a/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Ed-Fi-Core.xsd
++++ b/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Ed-Fi-Core.xsd
+@@ -2408,33 +2407,0 @@
+-    <xs:complexType name="SLC-MeetingTimeIdentityType">
+-        <xs:annotation>
+-            <xs:documentation>New SLC identity type for MeetingTime. Contains keyfields: embedded ClassPeriodReference and WeekNumber.</xs:documentation>
+-        </xs:annotation>
+-        <xs:sequence>
+-            <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+-                <xs:annotation>
+-                    <xs:appinfo>
+-                        <sli:keyFieldName>classPeriodId</sli:keyFieldName>
+-                    </xs:appinfo>
+-                </xs:annotation>
+-            </xs:element>
+-            <xs:element name="WeekNumber" type="xs:int">
+-                <xs:annotation>
+-                    <xs:appinfo>
+-                        <sli:keyFieldName>weekNumber</sli:keyFieldName>
+-                    </xs:appinfo>
+-                </xs:annotation>
+-            </xs:element>
+-        </xs:sequence>
+-    </xs:complexType>
+-    <xs:complexType name="SLC-MeetingTimeReferenceType">
+-        <xs:annotation>
+-            <xs:documentation>New SLC natural reference type for MeetingTime.</xs:documentation>
+-            <xs:appinfo>
+-                <sli:applyKeyFields>true</sli:applyKeyFields>
+-                <sli:refType>meetingTime</sli:refType>
+-            </xs:appinfo>
+-        </xs:annotation>
+-        <xs:sequence>
+-            <xs:element name="MeetingTimeIdentity" type="SLC-MeetingTimeIdentityType"/>
+-        </xs:sequence>
+-    </xs:complexType>
+@@ -3568,0 +3536,36 @@
++    <xs:complexType name="SLC-MeetingTime">
++        <xs:annotation>
++            <xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
++        </xs:annotation>
++        <xs:complexContent>
++            <xs:extension base="ComplexObjectType">
++                <xs:sequence>
++                    <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
++                        <xs:annotation>
++                            <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
++                        </xs:annotation>
++                    </xs:element>
++                    <xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
++                        <xs:annotation>
++                            <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
++                        </xs:annotation>
++                    </xs:element>
++                    <xs:element name="StartTime" type="xs:time">
++                        <xs:annotation>
++                            <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
++                        </xs:annotation>
++                    </xs:element>
++                    <xs:element name="EndTime" type="xs:time">
++                        <xs:annotation>
++                            <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
++                        </xs:annotation>
++                    </xs:element>
++                    <xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
++                        <xs:annotation>
++                            <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
++                        </xs:annotation>
++                    </xs:element>
++                </xs:sequence>
++            </xs:extension>
++        </xs:complexContent>
++    </xs:complexType>
+@@ -4502,36 +4504,0 @@
+-    <xs:complexType name="SLC-MeetingTime">
+-        <xs:annotation>
+-            <xs:documentation>This entity represents the set of elements defining the meeting time for a class period.</xs:documentation>
+-        </xs:annotation>
+-        <xs:complexContent>
+-            <xs:extension base="ComplexObjectType">
+-                <xs:sequence>
+-                    <xs:element name="ClassPeriodReference" type="SLC-ClassPeriodReferenceType">
+-                        <xs:annotation>
+-                            <xs:documentation>The class period associated with the meeting time for a bell schedule.</xs:documentation>
+-                        </xs:annotation>
+-                    </xs:element>
+-                    <xs:element name="AlternateDayName" type="AlternateDayName" minOccurs="0">
+-                        <xs:annotation>
+-                            <xs:documentation>An alternate name for the day (e.g., Red, Blue)</xs:documentation>
+-                        </xs:annotation>
+-                    </xs:element>
+-                    <xs:element name="StartTime" type="xs:time">
+-                        <xs:annotation>
+-                            <xs:documentation>An indication of the time of day the class begins.</xs:documentation>
+-                        </xs:annotation>
+-                    </xs:element>
+-                    <xs:element name="EndTime" type="xs:time">
+-                        <xs:annotation>
+-                            <xs:documentation>An indication of the time of day the class ends.</xs:documentation>
+-                        </xs:annotation>
+-                    </xs:element>
+-                    <xs:element name="OfficialAttendancePeriod" type="xs:boolean" minOccurs="0">
+-                        <xs:annotation>
+-                            <xs:documentation>Indicator of whether this meeting time is used for official daily attendance.</xs:documentation>
+-                        </xs:annotation>
+-                    </xs:element>
+-                </xs:sequence>
+-            </xs:extension>
+-        </xs:complexContent>
+-    </xs:complexType>
+

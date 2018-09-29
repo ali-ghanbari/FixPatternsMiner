@@ -1,0 +1,16 @@
+diff --git a/ninja-core/src/site/markdown/developer/changelog.md b/ninja-core/src/site/markdown/developer/changelog.md
+index c904a4c..d615b0e 100644
+--- a/ninja-core/src/site/markdown/developer/changelog.md
++++ b/ninja-core/src/site/markdown/developer/changelog.md
+@@ -3,2 +3 @@
+-
+-* ...
++* 2013-11-14 Tiny fix for sometimes flaky testcase. Added a flush to setup step. (ra)
+diff --git a/ninja-servlet-jpa-blog-integration-test/src/main/java/dao/SetupDao.java b/ninja-servlet-jpa-blog-integration-test/src/main/java/dao/SetupDao.java
+index f1e96be..876f7f7 100644
+--- a/ninja-servlet-jpa-blog-integration-test/src/main/java/dao/SetupDao.java
++++ b/ninja-servlet-jpa-blog-integration-test/src/main/java/dao/SetupDao.java
+@@ -45,0 +46,2 @@
++            
++            entityManager.flush();
+

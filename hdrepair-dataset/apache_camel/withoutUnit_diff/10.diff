@@ -1,0 +1,8 @@
+diff --git a/components/camel-smpp/src/main/java/org/apache/camel/component/smpp/SmppSmCommand.java b/components/camel-smpp/src/main/java/org/apache/camel/component/smpp/SmppSmCommand.java
+index 83b82c5..e5e53ff 100644
+--- a/components/camel-smpp/src/main/java/org/apache/camel/component/smpp/SmppSmCommand.java
++++ b/components/camel-smpp/src/main/java/org/apache/camel/component/smpp/SmppSmCommand.java
+@@ -51 +51 @@
+-                return new byte[][] {segments[0]};
++                return new byte[][] {java.util.Arrays.copyOfRange(shortMessage, 0, segments[0].length)};
+

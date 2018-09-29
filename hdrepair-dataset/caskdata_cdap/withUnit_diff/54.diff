@@ -1,0 +1,75 @@
+diff --git a/app-fabric/src/test/java/com/continuuity/runtime/FlowTest.java b/app-fabric/src/test/java/com/continuuity/runtime/FlowTest.java
+index 7253f4b..afeef18 100644
+--- a/app-fabric/src/test/java/com/continuuity/runtime/FlowTest.java
++++ b/app-fabric/src/test/java/com/continuuity/runtime/FlowTest.java
+@@ -13,0 +14,2 @@
++import com.continuuity.common.stream.DefaultStreamEvent;
++import com.continuuity.common.stream.StreamEventCodec;
+@@ -29,2 +30,0 @@
+-import com.continuuity.common.stream.DefaultStreamEvent;
+-import com.continuuity.common.stream.StreamEventCodec;
+@@ -40,5 +39,0 @@
+-import org.apache.http.HttpResponse;
+-import org.apache.http.client.HttpClient;
+-import org.apache.http.client.methods.HttpPost;
+-import org.apache.http.entity.StringEntity;
+-import org.apache.http.impl.client.DefaultHttpClient;
+@@ -52,0 +48,2 @@
++import java.net.HttpURLConnection;
++import java.net.URL;
+@@ -87,10 +84,10 @@
+-    HttpClient client = new DefaultHttpClient();
+-    HttpPost post = new HttpPost(String.format("http://%s:%d/apps/%s/procedures/%s/%s",
+-                                               discoverable.getSocketAddress().getHostName(),
+-                                               discoverable.getSocketAddress().getPort(),
+-                                               "ArgumentCheckApp",
+-                                               "SimpleProcedure",
+-                                               "argtest"));
+-    post.setEntity(new StringEntity(gson.toJson(ImmutableMap.of("word", "text:Testing"))));
+-    HttpResponse response = client.execute(post);
+-    Assert.assertTrue(response.getStatusLine().getStatusCode() == 200);
++    URL url = new URL(String.format("http://%s:%d/apps/%s/procedures/%s/methods/%s",
++                                    discoverable.getSocketAddress().getHostName(),
++                                    discoverable.getSocketAddress().getPort(),
++                                    "ArgumentCheckApp",
++                                    "SimpleProcedure",
++                                    "argtest"));
++    HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
++    urlConn.setDoOutput(true);
++    urlConn.getOutputStream().write(gson.toJson(ImmutableMap.of("word", "text:Testing")).getBytes(Charsets.UTF_8));
++    Assert.assertTrue(urlConn.getResponseCode() == 200);
+@@ -152,12 +149,11 @@
+-    HttpClient client = new DefaultHttpClient();
+-    HttpPost post = new HttpPost(String.format("http://%s:%d/apps/%s/procedures/%s/%s",
+-                                               discoverable.getSocketAddress().getHostName(),
+-                                               discoverable.getSocketAddress().getPort(),
+-                                               "WordCountApp",
+-                                               "WordFrequency",
+-                                               "wordfreq"));
+-    post.setEntity(new StringEntity(gson.toJson(ImmutableMap.of("word", "text:Testing"))));
+-    HttpResponse response = client.execute(post);
+-    Map<String, Long> responseContent = gson.fromJson(
+-      new InputStreamReader(response.getEntity().getContent(), Charsets.UTF_8),
+-      new TypeToken<Map<String, Long>>() { }.getType());
++    URL url = new URL(String.format("http://%s:%d/apps/%s/procedures/%s/methods/%s",
++                                    discoverable.getSocketAddress().getHostName(),
++                                    discoverable.getSocketAddress().getPort(),
++                                    "WordCountApp",
++                                    "WordFrequency",
++                                    "wordfreq"));
++    HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
++    urlConn.setDoOutput(true);
++    urlConn.getOutputStream().write(gson.toJson(ImmutableMap.of("word", "text:Testing")).getBytes(Charsets.UTF_8));
++    Map<String, Long> responseContent = gson.fromJson(new InputStreamReader(urlConn.getInputStream(), Charsets.UTF_8),
++                                                      new TypeToken<Map<String, Long>>() { }.getType());
+@@ -167,2 +162,0 @@
+-
+-    client.getConnectionManager().shutdown();
+diff --git a/unit-test/src/main/java/com/continuuity/test/internal/DefaultProcedureClient.java b/unit-test/src/main/java/com/continuuity/test/internal/DefaultProcedureClient.java
+index 8f600ab..884fee3 100644
+--- a/unit-test/src/main/java/com/continuuity/test/internal/DefaultProcedureClient.java
++++ b/unit-test/src/main/java/com/continuuity/test/internal/DefaultProcedureClient.java
+@@ -48 +48 @@
+-    URL url = new URL(String.format("http://%s:%d/apps/%s/procedures/%s/%s",
++    URL url = new URL(String.format("http://%s:%d/apps/%s/procedures/%s/methods/%s",
+

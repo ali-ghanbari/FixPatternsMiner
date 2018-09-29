@@ -1,0 +1,19 @@
+diff --git a/applications/carrot2-webapp/src-test/org/carrot2/webapp/filter/QueryWordHighlighterTest.java b/applications/carrot2-webapp/src-test/org/carrot2/webapp/filter/QueryWordHighlighterTest.java
+index 7925a5e..2172333 100644
+--- a/applications/carrot2-webapp/src-test/org/carrot2/webapp/filter/QueryWordHighlighterTest.java
++++ b/applications/carrot2-webapp/src-test/org/carrot2/webapp/filter/QueryWordHighlighterTest.java
+@@ -82,0 +83,6 @@
++    @Test
++    public void testDoubleQuotes()
++    {
++        check("\"the query\"", "the snippet with the query", "<b>the</b> snippet with <b>the</b> <b>query</b>");
++    }
++    
+diff --git a/applications/carrot2-webapp/src/org/carrot2/webapp/filter/QueryWordHighlighter.java b/applications/carrot2-webapp/src/org/carrot2/webapp/filter/QueryWordHighlighter.java
+index e0525f9..a2f80be 100644
+--- a/applications/carrot2-webapp/src/org/carrot2/webapp/filter/QueryWordHighlighter.java
++++ b/applications/carrot2-webapp/src/org/carrot2/webapp/filter/QueryWordHighlighter.java
+@@ -78 +78 @@
+-        final String [] queryWords = query.split("\\s+");
++        final String [] queryWords = query.replace("\"", "").split("\\s+");
+

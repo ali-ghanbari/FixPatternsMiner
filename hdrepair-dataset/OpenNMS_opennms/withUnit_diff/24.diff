@@ -1,0 +1,179 @@
+diff --git a/features/springframework-security/pom.xml b/features/springframework-security/pom.xml
+index 2b0cc09..148e638 100644
+--- a/features/springframework-security/pom.xml
++++ b/features/springframework-security/pom.xml
+@@ -52,0 +53,10 @@
++      <groupId>org.opennms</groupId>
++      <artifactId>opennms-dao</artifactId>
++      <type>test-jar</type>
++    </dependency>
++    <dependency>
++      <groupId>org.opennms</groupId>
++      <artifactId>opennms-services</artifactId>
++      <type>test-jar</type>
++    </dependency>
++    <dependency>
+@@ -57,0 +68,5 @@
++      <groupId>org.opennms</groupId>
++      <artifactId>opennms-rrd-jrobin</artifactId>
++      <scope>test</scope>
++    </dependency>
++    <dependency>
+diff --git a/features/springframework-security/src/test/java/org/opennms/web/springframework/security/AuthenticationIntegrationTest.java b/features/springframework-security/src/test/java/org/opennms/web/springframework/security/AuthenticationIntegrationTest.java
+index 42cbe02..4e906a0 100644
+--- a/features/springframework-security/src/test/java/org/opennms/web/springframework/security/AuthenticationIntegrationTest.java
++++ b/features/springframework-security/src/test/java/org/opennms/web/springframework/security/AuthenticationIntegrationTest.java
+@@ -33,0 +34,3 @@
++import java.util.Arrays;
++
++import org.junit.Before;
+@@ -35,0 +39,5 @@
++import org.opennms.core.test.OpenNMSJUnit4ClassRunner;
++import org.opennms.netmgt.config.UserFactory;
++import org.opennms.netmgt.dao.db.JUnitConfigurationEnvironment;
++import org.opennms.netmgt.dao.db.JUnitTemporaryDatabase;
++import org.opennms.netmgt.model.OnmsUser;
+@@ -36,0 +45,2 @@
++import org.opennms.test.mock.MockLogAppender;
++import org.springframework.beans.factory.InitializingBean;
+@@ -44 +54 @@
+-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
++import org.springframework.util.Assert;
+@@ -46,3 +56,13 @@
+-@RunWith(SpringJUnit4ClassRunner.class)
+-@ContextConfiguration
+-public class AuthenticationIntegrationTest {
++@RunWith(OpenNMSJUnit4ClassRunner.class)
++@ContextConfiguration(locations={
++        "classpath:/META-INF/opennms/applicationContext-dao.xml",
++        "classpath*:/META-INF/opennms/component-dao.xml",
++        "classpath:/META-INF/opennms/applicationContext-daemon.xml",
++        "classpath:/META-INF/opennms/mockEventIpcManager.xml",
++        "classpath:/META-INF/opennms/applicationContext-mock-usergroup.xml",
++        "classpath:/META-INF/opennms/applicationContext-minimal-conf.xml",
++        "classpath:/org/opennms/web/springframework/security/AuthenticationIntegrationTest-context.xml"
++})
++@JUnitConfigurationEnvironment
++@JUnitTemporaryDatabase
++public class AuthenticationIntegrationTest implements InitializingBean {
+@@ -52,0 +73,5 @@
++	@Before
++	public void setUp() {
++	    MockLogAppender.setupLogging(true, "DEBUG");
++	}
++	
+@@ -77 +102,7 @@
+-	public void testAuthenticateTempUser() {
++	public void testAuthenticateTempUser() throws Exception {
++        OnmsUser user = new OnmsUser("tempuser");
++	    user.setFullName("Temporary User");
++	    user.setPassword("18126E7BD3F84B3F3E4DF094DEF5B7DE");
++	    user.setDutySchedule(Arrays.asList("MoTuWeThFrSaSu800-2300"));
++	    UserFactory.getInstance().save(user);
++
+@@ -113,0 +145,5 @@
++
++    @Override
++    public void afterPropertiesSet() throws Exception {
++        Assert.notNull(m_provider);
++    }
+diff --git a/features/springframework-security/src/test/resources/monitoring-locations.xml b/features/springframework-security/src/test/resources/monitoring-locations.xml
+new file mode 100644
+index 0000000..6dbf94f
+--- /dev/null
++++ b/features/springframework-security/src/test/resources/monitoring-locations.xml
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<monitoring-locations-configuration 
++  xmlns="http://www.opennms.org/xsd/config/monitoring-locations" 
++  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
++  xsi:schemaLocation="http://xmlns.opennms.org/xsd/config/monitoring-locations 
++                      http://www.opennms.org/xsd/config/monitoring-locations.xsd ">
++  <locations>
++  </locations>
++</monitoring-locations-configuration>
+diff --git a/features/springframework-security/src/test/resources/org/opennms/web/springframework/security/AuthenticationIntegrationTest-context.xml b/features/springframework-security/src/test/resources/org/opennms/web/springframework/security/AuthenticationIntegrationTest-context.xml
+index cb6f1cd..84d4414 100644
+--- a/features/springframework-security/src/test/resources/org/opennms/web/springframework/security/AuthenticationIntegrationTest-context.xml
++++ b/features/springframework-security/src/test/resources/org/opennms/web/springframework/security/AuthenticationIntegrationTest-context.xml
+@@ -20,0 +21,11 @@
++ 
++ <!--
++ <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
++  <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
++ </bean>
++ 
++ <bean id="locationMonitorConfigResourceLocation" class="java.lang.String">
++  <constructor-arg value="file:src/test/resources/monitoring-locations.xml" />
++ </bean>
++ -->
++ 
+diff --git a/opennms-services/src/test/resources/META-INF/opennms/applicationContext-mock-usergroup.xml b/opennms-services/src/test/resources/META-INF/opennms/applicationContext-mock-usergroup.xml
+new file mode 100644
+index 0000000..5587698
+--- /dev/null
++++ b/opennms-services/src/test/resources/META-INF/opennms/applicationContext-mock-usergroup.xml
+@@ -0,0 +1,31 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<beans
++	xmlns="http://www.springframework.org/schema/beans"
++	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xmlns:context="http://www.springframework.org/schema/context"
++	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
++		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
++	">
++
++	<context:annotation-config />
++
++	<bean id="groupManager" class="org.opennms.netmgt.notifd.mock.MockGroupManager">
++		<constructor-arg value="&lt;groupinfo&gt;&lt;groups&gt;&lt;group&gt;&lt;name&gt;Admin&lt;/name&gt;&lt;user&gt;admin&lt;/user&gt;&lt;/group&gt;&lt;/groups&gt;&lt;/groupinfo&gt;" />
++	</bean>
++
++	<bean id="groupManager-init" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" depends-on="groupManager">
++		<property name="staticMethod"><value>org.opennms.netmgt.config.GroupFactory.setInstance</value></property>
++		<property name="arguments"><array><ref bean="groupManager" /></array></property>
++	</bean>
++
++	<bean id="userManager" class="org.opennms.netmgt.notifd.mock.MockUserManager">
++		<constructor-arg ref="groupManager" />
++		<constructor-arg value="&lt;userinfo&gt;&lt;users&gt;&lt;user&gt;&lt;user-id&gt;admin&lt;/user-id&gt;&lt;full-name&gt;Administrator&lt;/full-name&gt;&lt;password&gt;21232F297A57A5A743894A0E4A801FC3&lt;/password&gt;&lt;/user&gt;&lt;/users&gt;&lt;/userinfo&gt;" />
++	</bean>
++
++	<bean id="userManager-init" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" depends-on="userManager">
++		<property name="staticMethod"><value>org.opennms.netmgt.config.UserFactory.setInstance</value></property>
++		<property name="arguments"><array><ref bean="userManager" /></array></property>
++	</bean>
++
++</beans>
+\ No newline at end of file
+diff --git a/opennms-webapp/src/test/java/org/opennms/web/rest/AbstractSpringJerseyRestTestCase.java b/opennms-webapp/src/test/java/org/opennms/web/rest/AbstractSpringJerseyRestTestCase.java
+index 8212024..3efe15b 100644
+--- a/opennms-webapp/src/test/java/org/opennms/web/rest/AbstractSpringJerseyRestTestCase.java
++++ b/opennms-webapp/src/test/java/org/opennms/web/rest/AbstractSpringJerseyRestTestCase.java
+@@ -117,0 +118 @@
++                "classpath:/META-INF/opennms/applicationContext-mock-usergroup.xml " +
+diff --git a/opennms-webapp/src/test/resources/applicationContext-jersey-test.xml b/opennms-webapp/src/test/resources/applicationContext-jersey-test.xml
+index 99792bc..3bcf744 100644
+--- a/opennms-webapp/src/test/resources/applicationContext-jersey-test.xml
++++ b/opennms-webapp/src/test/resources/applicationContext-jersey-test.xml
+@@ -12,19 +11,0 @@
+-	<bean id="groupManager" class="org.opennms.netmgt.notifd.mock.MockGroupManager">
+-		<constructor-arg value="&lt;groupinfo&gt;&lt;groups&gt;&lt;group&gt;&lt;name&gt;Admin&lt;/name&gt;&lt;user&gt;admin&lt;/user&gt;&lt;/group&gt;&lt;/groups&gt;&lt;/groupinfo&gt;" />
+-	</bean>
+-
+-	<bean id="groupManager-init" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" depends-on="groupManager">
+-		<property name="staticMethod"><value>org.opennms.netmgt.config.GroupFactory.setInstance</value></property>
+-		<property name="arguments"><array><ref bean="groupManager" /></array></property>
+-	</bean>
+-
+-	<bean id="userManager" class="org.opennms.netmgt.notifd.mock.MockUserManager">
+-		<constructor-arg ref="groupManager" />
+-		<constructor-arg value="&lt;userinfo&gt;&lt;users&gt;&lt;user&gt;&lt;user-id&gt;admin&lt;/user-id&gt;&lt;full-name&gt;Administrator&lt;/full-name&gt;&lt;password&gt;21232F297A57A5A743894A0E4A801FC3&lt;/password&gt;&lt;/user&gt;&lt;/users&gt;&lt;/userinfo&gt;" />
+-	</bean>
+-
+-	<bean id="userManager-init" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" depends-on="userManager">
+-		<property name="staticMethod"><value>org.opennms.netmgt.config.UserFactory.setInstance</value></property>
+-		<property name="arguments"><array><ref bean="userManager" /></array></property>
+-	</bean>
+-
+

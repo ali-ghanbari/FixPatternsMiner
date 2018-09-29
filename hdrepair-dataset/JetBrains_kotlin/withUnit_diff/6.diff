@@ -1,0 +1,59 @@
+diff --git a/js/js.inliner/src/org/jetbrains/k2js/inline/FunctionInlineMutator.java b/js/js.inliner/src/org/jetbrains/k2js/inline/FunctionInlineMutator.java
+index 387df91..215a33f 100644
+--- a/js/js.inliner/src/org/jetbrains/k2js/inline/FunctionInlineMutator.java
++++ b/js/js.inliner/src/org/jetbrains/k2js/inline/FunctionInlineMutator.java
+@@ -93 +93 @@
+-        if (canBeExpression(body)) {
++        if (isResultNeeded && canBeExpression(body)) {
+diff --git a/js/js.tests/test/org/jetbrains/k2js/test/semantics/InlineTest.java b/js/js.tests/test/org/jetbrains/k2js/test/semantics/InlineTest.java
+index dd29180..d2f9f14 100644
+--- a/js/js.tests/test/org/jetbrains/k2js/test/semantics/InlineTest.java
++++ b/js/js.tests/test/org/jetbrains/k2js/test/semantics/InlineTest.java
+@@ -250,0 +251,4 @@
++
++    public void testSimpleReturnFunctionWithResultUnused() throws Exception {
++        checkFooBoxIsOkWithInlineDirectives();
++    }
+diff --git a/js/js.translator/testData/inline/cases/simpleReturnFunctionWithResultUnused.kt b/js/js.translator/testData/inline/cases/simpleReturnFunctionWithResultUnused.kt
+new file mode 100644
+index 0000000..0724b54
+--- /dev/null
++++ b/js/js.translator/testData/inline/cases/simpleReturnFunctionWithResultUnused.kt
+@@ -0,0 +1,35 @@
++/*
++ * Copyright 2010-2014 JetBrains s.r.o.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package foo
++
++var flag = false
++fun toggle(): Boolean {
++    flag = !flag
++
++    return flag
++}
++
++inline fun run(noinline f: () -> Int): Int {
++    return f()
++}
++
++fun box(): String {
++    run({ toggle(); 4 })
++    assertEquals(true, flag)
++
++    return "OK"
++}
+\ No newline at end of file
+

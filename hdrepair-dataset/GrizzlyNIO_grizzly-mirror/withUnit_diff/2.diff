@@ -1,0 +1,15 @@
+diff --git a/modules/grizzly/src/main/java/org/glassfish/grizzly/asyncqueue/RecordWriteResult.java b/modules/grizzly/src/main/java/org/glassfish/grizzly/asyncqueue/RecordWriteResult.java
+index 826e452..b3ebb85 100644
+--- a/modules/grizzly/src/main/java/org/glassfish/grizzly/asyncqueue/RecordWriteResult.java
++++ b/modules/grizzly/src/main/java/org/glassfish/grizzly/asyncqueue/RecordWriteResult.java
+@@ -80 +80 @@
+-        public SettableHolder set(final L obj) {
++        public SettableHolder<L> set(final L obj) {
+diff --git a/modules/spdy/src/test/java/org/glassfish/grizzly/spdy/NetworkListenerTest.java b/modules/spdy/src/test/java/org/glassfish/grizzly/spdy/NetworkListenerTest.java
+index 299eb81..a3a2051 100644
+--- a/modules/spdy/src/test/java/org/glassfish/grizzly/spdy/NetworkListenerTest.java
++++ b/modules/spdy/src/test/java/org/glassfish/grizzly/spdy/NetworkListenerTest.java
+@@ -160 +160 @@
+-            clientTransport.stop();
++            clientTransport.shutdownNow();
+

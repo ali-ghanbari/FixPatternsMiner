@@ -1,0 +1,28 @@
+diff --git a/bonita-integration-tests/bonita-integration-tests-client/pom.xml b/bonita-integration-tests/bonita-integration-tests-client/pom.xml
+index a8244b4..3efe2c3 100644
+--- a/bonita-integration-tests/bonita-integration-tests-client/pom.xml
++++ b/bonita-integration-tests/bonita-integration-tests-client/pom.xml
+@@ -147 +147 @@
+-								<touch file="${bonita.home}/engine-client/conf/bonita-client-community-custom.properties" mkdirs="true"/>
++								<touch file="${bonita.home}/engine-client/conf/bonita-client-custom.properties" mkdirs="true"/>
+@@ -150 +150 @@
+-								<touch file="${bonita.home.ejb3}/engine-client/conf/bonita-client-community-custom.properties" mkdirs="true"/>
++								<touch file="${bonita.home.ejb3}/engine-client/conf/bonita-client-custom.properties" mkdirs="true"/>
+@@ -153 +153 @@
+-								<touch file="${bonita.home.invalid.api.type}/engine-client/conf/bonita-client-community-custom.properties" mkdirs="true"/>
++								<touch file="${bonita.home.invalid.api.type}/engine-client/conf/bonita-client-custom.properties" mkdirs="true"/>
+diff --git a/bpm/bonita-home/build-home.xml b/bpm/bonita-home/build-home.xml
+index 7911753..093aeaa 100644
+--- a/bpm/bonita-home/build-home.xml
++++ b/bpm/bonita-home/build-home.xml
+@@ -19 +19 @@
+-		<copy file="${resources.dir}/bonita-client-community.properties" tofile="${bh.dir}/engine-client/conf/bonita-client-community-custom.properties">
++		<copy file="${resources.dir}/bonita-client-community.properties" tofile="${bh.dir}/engine-client/conf/bonita-client-custom.properties">
+diff --git a/bpm/bonita-util/bonita-client-util/src/main/java/org/bonitasoft/engine/home/BonitaHomeClient.java b/bpm/bonita-util/bonita-client-util/src/main/java/org/bonitasoft/engine/home/BonitaHomeClient.java
+index 0b53584..a2d37ab 100644
+--- a/bpm/bonita-util/bonita-client-util/src/main/java/org/bonitasoft/engine/home/BonitaHomeClient.java
++++ b/bpm/bonita-util/bonita-client-util/src/main/java/org/bonitasoft/engine/home/BonitaHomeClient.java
+@@ -81 +81 @@
+-        final Properties customProperties = PropertiesManager.getProperties(FileUtils.getFile(clientFolder, "conf", "bonita-client-community-custom.properties"));
++        final Properties customProperties = PropertiesManager.getProperties(FileUtils.getFile(clientFolder, "conf", "bonita-client-custom.properties"));
+

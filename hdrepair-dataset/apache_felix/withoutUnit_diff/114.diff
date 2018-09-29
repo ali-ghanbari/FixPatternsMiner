@@ -1,0 +1,11 @@
+diff --git a/http.jetty/src/main/java/org/mortbay/jetty/servlet/OsgiResourceHolder.java b/http.jetty/src/main/java/org/mortbay/jetty/servlet/OsgiResourceHolder.java
+index acc6235..4addc28 100644
+--- a/http.jetty/src/main/java/org/mortbay/jetty/servlet/OsgiResourceHolder.java
++++ b/http.jetty/src/main/java/org/mortbay/jetty/servlet/OsgiResourceHolder.java
+@@ -309,2 +309,3 @@
+-        // Timestamp check to see if modified
+-        if (modSince == -1 || resTimestamp > modSince)
++        // Timestamp check to see if modified - resTimestamp 0 check is for 
++        // safety in case we didn't manage to get a timestamp for the resource
++        if (resTimestamp == 0 || modSince == -1 || resTimestamp > modSince)
+

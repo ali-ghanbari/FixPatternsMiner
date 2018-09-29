@@ -1,0 +1,8 @@
+diff --git a/sql/src/main/java/io/crate/operator/operations/collect/ModuloBucketingIterator.java b/sql/src/main/java/io/crate/operator/operations/collect/ModuloBucketingIterator.java
+index cab62ce..3da4c04 100644
+--- a/sql/src/main/java/io/crate/operator/operations/collect/ModuloBucketingIterator.java
++++ b/sql/src/main/java/io/crate/operator/operations/collect/ModuloBucketingIterator.java
+@@ -40 +40 @@
+-            return row[0].hashCode() % this.numBuckets;
++            return Math.abs(row[0].hashCode()) % this.numBuckets;
+

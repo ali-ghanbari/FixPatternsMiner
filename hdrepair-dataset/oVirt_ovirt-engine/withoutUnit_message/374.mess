@@ -1,0 +1,9 @@
+core: fix IndexOutOfBounds in remove quotaStorage
+
+In case CreateAllSnapshotsFromVmCommand doesn't contains disks, ignore
+remove removeStorageDeltaQuotaCommand.
+unless ignored caused IndexOutOfBounds exception.
+
+Change-Id: I15cd6dc43fdfe2ff8111566f1f20a0d83301793d
+Signed-off-by: Gilad Chaplik <gchaplik@redhat.com>
+

@@ -1,0 +1,38 @@
+diff --git a/modules/dCacheJUnit/org/dcache/tests/cells/GenericMockCellHelper.java b/modules/dCacheJUnit/org/dcache/tests/cells/GenericMockCellHelper.java
+index 9614f32..dc54eca 100644
+--- a/modules/dCacheJUnit/org/dcache/tests/cells/GenericMockCellHelper.java
++++ b/modules/dCacheJUnit/org/dcache/tests/cells/GenericMockCellHelper.java
+@@ -77,0 +78,2 @@
++            sendMessage(msg);
++
+diff --git a/modules/dCacheJUnit/org/dcache/tests/repository/RepositoryEntryHealerTest.java b/modules/dCacheJUnit/org/dcache/tests/repository/RepositoryEntryHealerTest.java
+index 22b119e..d721e80 100644
+--- a/modules/dCacheJUnit/org/dcache/tests/repository/RepositoryEntryHealerTest.java
++++ b/modules/dCacheJUnit/org/dcache/tests/repository/RepositoryEntryHealerTest.java
+@@ -2,0 +3 @@
++import dmg.cells.nucleus.CellMessage;
+@@ -24,0 +26 @@
++import diskCacheV111.vehicles.PnfsSetLengthMessage;
+@@ -25,0 +28 @@
++import java.util.concurrent.atomic.AtomicBoolean;
+@@ -105,0 +109 @@
++       PnfsSetLengthMessage setSize = new PnfsSetLengthMessage(pnfsId, inode.stat().getSize());
+@@ -108,0 +113 @@
++       GenericMockCellHelper.prepareMessage(new CellPath("PnfsManager"), setSize);
+@@ -110,3 +115,10 @@
+-       /*
+-        * CacheException(TIMEOUT) will indicate that we tried to modify file size in Pnfs
+-        */
++       final AtomicBoolean messageSent = new AtomicBoolean(false);
++       GenericMockCellHelper.MessageAction action = new GenericMockCellHelper.MessageAction() {
++
++            @Override
++            public void messageArraved(CellMessage message) {
++                messageSent.set(true);
++            }
++        };
++
++       GenericMockCellHelper.registerAction("PnfsManager", PnfsSetLengthMessage.class,action );
+@@ -115,0 +128 @@
++       assertTrue("Size not set", messageSent.get() );
+

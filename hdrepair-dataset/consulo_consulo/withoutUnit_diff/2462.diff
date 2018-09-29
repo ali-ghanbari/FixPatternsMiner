@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/psi/impl/source/resolve/reference/impl/manipulators/StringLiteralManipulator.java b/source/com/intellij/psi/impl/source/resolve/reference/impl/manipulators/StringLiteralManipulator.java
+index 5416373..5cba2b9 100644
+--- a/source/com/intellij/psi/impl/source/resolve/reference/impl/manipulators/StringLiteralManipulator.java
++++ b/source/com/intellij/psi/impl/source/resolve/reference/impl/manipulators/StringLiteralManipulator.java
+@@ -24 +24 @@
+-    return new TextRange(1, element.getTextLength() - 1);
++    return new TextRange(1, Math.max(1, element.getTextLength() - 1));
+

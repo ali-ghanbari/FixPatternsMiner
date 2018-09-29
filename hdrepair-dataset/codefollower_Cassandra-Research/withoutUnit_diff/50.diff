@@ -1,0 +1,14 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 484f4bd..1c6171e 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -20,0 +21 @@
++ * fix time conversion to milliseconds in SimpleCondition.await (CASSANDRA-7149)
+diff --git a/src/java/org/apache/cassandra/utils/SimpleCondition.java b/src/java/org/apache/cassandra/utils/SimpleCondition.java
+index 4f00998..8899a19 100644
+--- a/src/java/org/apache/cassandra/utils/SimpleCondition.java
++++ b/src/java/org/apache/cassandra/utils/SimpleCondition.java
+@@ -47 +47 @@
+-        long end = System.currentTimeMillis() + unit.convert(time, TimeUnit.MILLISECONDS);
++        long end = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(time, unit);
+

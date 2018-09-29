@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/util/xml/impl/GetInvocation.java b/source/com/intellij/util/xml/impl/GetInvocation.java
+index f0fccd1..6eabaf3 100644
+--- a/source/com/intellij/util/xml/impl/GetInvocation.java
++++ b/source/com/intellij/util/xml/impl/GetInvocation.java
+@@ -35 +35 @@
+-    return myConverter.fromString(tagValue, new ConvertContextImpl(handler));
++    return tagValue == null? null: myConverter.fromString(tagValue, new ConvertContextImpl(handler));
+

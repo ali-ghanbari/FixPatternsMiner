@@ -1,0 +1,19 @@
+diff --git a/ethereumj-core/src/main/java/org/ethereum/core/Genesis.java b/ethereumj-core/src/main/java/org/ethereum/core/Genesis.java
+index 3b23166..9eee646 100644
+--- a/ethereumj-core/src/main/java/org/ethereum/core/Genesis.java
++++ b/ethereumj-core/src/main/java/org/ethereum/core/Genesis.java
+@@ -4 +3,0 @@
+-import org.ethereum.manager.WorldManager;
+diff --git a/ethereumj-core/src/test/java/org/ethereum/core/BlockTest.java b/ethereumj-core/src/test/java/org/ethereum/core/BlockTest.java
+index 2115825..2c7a355 100644
+--- a/ethereumj-core/src/test/java/org/ethereum/core/BlockTest.java
++++ b/ethereumj-core/src/test/java/org/ethereum/core/BlockTest.java
+@@ -93,0 +94 @@
++<<<<<<< HEAD
+@@ -96,0 +98,5 @@
++=======
++    	Block genesis = Genesis.getInstance();
++    	byte[] diffBytes = genesis.calcDifficulty();
++    	BigInteger difficulty = new BigInteger(1, diffBytes);
++>>>>>>> Remove call to Blockchain DB from Genesis and fix default calc values
+

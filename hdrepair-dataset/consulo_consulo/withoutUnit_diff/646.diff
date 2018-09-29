@@ -1,0 +1,9 @@
+diff --git a/platform/util/src/com/intellij/openapi/util/io/FileUtil.java b/platform/util/src/com/intellij/openapi/util/io/FileUtil.java
+index 8fc2349..a47df50 100644
+--- a/platform/util/src/com/intellij/openapi/util/io/FileUtil.java
++++ b/platform/util/src/com/intellij/openapi/util/io/FileUtil.java
+@@ -134 +134,2 @@
+-      if (parent.equals(ancestor)) {
++      // Do not user file.equals as it incorrectly works on MacOS
++      if (pathsEqual(parent.getPath(), ancestor.getPath())) {
+

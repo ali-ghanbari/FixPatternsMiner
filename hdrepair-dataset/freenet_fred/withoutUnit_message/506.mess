@@ -1,0 +1,28 @@
+1182:
+Download corruptions bug (bug #2694):
+- Fix a FEC bug introduced in 1181. We were only partly blanking out the last data block in decoding. Fortunately this didn't manifest until the below changes in 1182...
+- Only ignore the last block on the last segment.
+- Complete splitfile if either we have enough blocks to do a FEC decode (not including the last data block, since it can't be safely involved in the decode), OR we have *all* the data blocks. Important optimisation for small splitfiles, especially small old ones (2 data 1 check for example - in 1181 could only succeed with the first data block plus the only check block; in 1182 can also succeed with the first and second data blocks).
+- Count the last data block as a fatal failure, avoid a splitfile hang.
+- Check in FEC for all-data-blocks (need to do this separately because last block isn't counted in numberToDecode).
+Optimisations:
+- Use Encoder directly in LZMA encoding, rather than using the streams. We already use Decoder directly.
+- Don't write/read one byte at a time in CountedOutputStream and CountedInputStream.
+- Buffer streams where appropriate in compression/decompression.
+PNG filter:
+- fdAT not fDAT in APNG.
+Dev stuff:
+- Comments.
+- Paranoia (throw NPE earlier to show why etc).
+- Logging.
+- Imports.
+Unit tests:
+- Fix Yarrow unit tests. Don't seed from properties etc on startup if asked not to by a unit test. Comment out because broke build.
+
+Contrib:
+- Better fix for MersenneTwister bytes to ints bug: use bytesToInts, not bytesToInt in a loop.
+- Update unit tests.
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@23821 67a373e5-eb02-0410-a15c-ee090a768436
+

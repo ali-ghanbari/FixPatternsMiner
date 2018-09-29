@@ -1,0 +1,117 @@
+diff --git a/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ValidationMessages.java b/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ValidationMessages.java
+index 0f9614d..f3fbe55 100644
+--- a/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ValidationMessages.java
++++ b/whois-client/src/main/java/net/ripe/db/whois/common/rpsl/ValidationMessages.java
+@@ -55 +55 @@
+-        return new Message(Messages.Type.INFO, "The attribute '%s' can only be remove by RIPE NCC", attributeType.getName());
++        return new Message(Messages.Type.INFO, "The attribute '%s' can only be removed by RIPE NCC", attributeType.getName());
+diff --git a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
+index 18f1b56..cd143d2 100644
+--- a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
++++ b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/AutNumIntegrationSpec.groovy
+@@ -1016 +1016 @@
+-        update =~ /Info:    The attribute 'sponsoring-org' can only be remove by RIPE NCC/
++        update =~ /Info:    The attribute 'sponsoring-org' can only be removed by RIPE NCC/
+diff --git a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy
+index a0fe44a..d1a8a6d 100644
+--- a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy
++++ b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/InetnumIntegrationSpec.groovy
+@@ -1672,2 +1672,2 @@
+-            response =~ /Modify FAILED: \[inetnum\] 193.0.0.0 - 193.0.0.255/
+-            response =~ /Error:   The sponsoring-org can only be removed by the RIPE NCC/
++            response =~ /Modify SUCCEEDED: \[inetnum\] 193.0.0.0 - 193.0.0.255/
++            response =~ /Info:    The attribute 'sponsoring-org' can only be removed by RIPE NCC/
+diff --git a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/RouteIntegrationSpec.groovy b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/RouteIntegrationSpec.groovy
+index 619f85f..d44fa64 100644
+--- a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/RouteIntegrationSpec.groovy
++++ b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/integration/RouteIntegrationSpec.groovy
+@@ -1523,0 +1524,12 @@
++      given:
++        databaseHelper.addObject("" +
++                "inetnum: 197.0.0.0 - 197.0.255.255\n" +
++                "netname: RIPE-NCC\n" +
++                "descr: description\n" +
++                "country: NL\n" +
++                "admin-c: TEST-PN\n" +
++                "tech-c: TEST-PN\n" +
++                "status: SUB-ALLOCATED PA\n" +
++                "mnt-by: TEST-MNT3\n" +
++                "changed: ripe@test.net 20120601\n" +
++                "source: TEST")
+diff --git a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/update/InetrtrSpec.groovy b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/update/InetrtrSpec.groovy
+index c38347b..76ccd84 100644
+--- a/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/update/InetrtrSpec.groovy
++++ b/whois-endtoend/src/test/groovy/net/ripe/db/whois/spec/update/InetrtrSpec.groovy
+@@ -41 +41 @@
+-                mnt-by:         RIPE-NCC-END-MNT
++                mnt-by:         RIPE-NCC-HM-MNT
+@@ -123 +123 @@
+-            def response2 = syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            def response2 = syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -165 +165 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -225 +225 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -273 +273 @@
+-            def response2 = syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            def response2 = syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -316 +316 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -363 +363 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -406 +406 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -448 +448 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -490 +490 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -580 +580 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -627 +627 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -675 +675 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -723 +723 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -813 +813 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -861 +861 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -903 +903 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -948 +948 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -993 +993 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -1038 +1038 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -1087 +1087 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -1135 +1135 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -1178 +1178 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+@@ -1220 +1220 @@
+-            syncUpdate(getTransient("AS250") + "password:nccend\npassword:locked\npassword:owner3")
++            syncUpdate(getTransient("AS250") + "password:hm\npassword:locked\npassword:owner3")
+

@@ -1,0 +1,8 @@
+diff --git a/lang-impl/src/com/intellij/codeInsight/completion/impl/CompletionServiceImpl.java b/lang-impl/src/com/intellij/codeInsight/completion/impl/CompletionServiceImpl.java
+index c20466e..543f4a0 100644
+--- a/lang-impl/src/com/intellij/codeInsight/completion/impl/CompletionServiceImpl.java
++++ b/lang-impl/src/com/intellij/codeInsight/completion/impl/CompletionServiceImpl.java
+@@ -45 +45 @@
+-    final String textBeforePosition = parameters.getOriginalFile().getText().substring(0, parameters.getOffset());
++    final String textBeforePosition = parameters.getPosition().getContainingFile().getText().substring(0, parameters.getOffset());
+

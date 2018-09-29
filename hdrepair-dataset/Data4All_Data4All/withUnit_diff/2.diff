@@ -1,0 +1,26 @@
+diff --git a/src/main/java/io/github/data4all/service/GPSservice.java b/src/main/java/io/github/data4all/service/GPSservice.java
+index 232917b..a896439 100644
+--- a/src/main/java/io/github/data4all/service/GPSservice.java
++++ b/src/main/java/io/github/data4all/service/GPSservice.java
+@@ -96 +95,0 @@
+-        track = trackUtil.getLastTrack();
+diff --git a/src/test/java/io/github/data4all/model/data/TrackTest.java b/src/test/java/io/github/data4all/model/data/TrackTest.java
+index f283a35..17b6f4c 100644
+--- a/src/test/java/io/github/data4all/model/data/TrackTest.java
++++ b/src/test/java/io/github/data4all/model/data/TrackTest.java
+@@ -225 +225 @@
+-        String expected = track.getTrackName() + "\n";
++        String expected = "ID: -1" + '\n' + track.getTrackName() + "\n" + "finished: false" + '\n';
+@@ -229 +228,0 @@
+-
+diff --git a/src/test/java/io/github/data4all/service/GPSserviceTest.java b/src/test/java/io/github/data4all/service/GPSserviceTest.java
+index 7789456..c0f3792 100644
+--- a/src/test/java/io/github/data4all/service/GPSserviceTest.java
++++ b/src/test/java/io/github/data4all/service/GPSserviceTest.java
+@@ -20,0 +21 @@
++import io.github.data4all.util.TrackUtil;
+@@ -73,0 +75,3 @@
++        Field trackUtilField = GPSservice.class.getDeclaredField("trackUtil");
++        trackUtilField.setAccessible(true);
++        trackUtilField.set(service, new TrackUtil(Robolectric.application));
+

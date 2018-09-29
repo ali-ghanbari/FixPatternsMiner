@@ -1,0 +1,38 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/queue/impl/QueueStoreWrapper.java b/hazelcast/src/main/java/com/hazelcast/queue/impl/QueueStoreWrapper.java
+index 1b379e1..2dddc52 100644
+--- a/hazelcast/src/main/java/com/hazelcast/queue/impl/QueueStoreWrapper.java
++++ b/hazelcast/src/main/java/com/hazelcast/queue/impl/QueueStoreWrapper.java
+@@ -87 +87 @@
+-        if (storeConfig == null) {
++        if (storeConfig == null || !storeConfig.isEnabled()) {
+diff --git a/hazelcast/src/test/java/com/hazelcast/queue/QueueStoreTest.java b/hazelcast/src/test/java/com/hazelcast/queue/QueueStoreTest.java
+index c29268f..4103c6e 100644
+--- a/hazelcast/src/test/java/com/hazelcast/queue/QueueStoreTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/queue/QueueStoreTest.java
+@@ -245,0 +246,25 @@
++    @Test
++    public void testQueueStoreFactoryIsNotInitialized_whenQueueStoreConfigDisabled() {
++        final String queueName = randomString();
++        final Config config = new Config();
++        final QueueConfig queueConfig = config.getQueueConfig(queueName);
++        final QueueStoreConfig queueStoreConfig = new QueueStoreConfig();
++        queueStoreConfig.setEnabled(false);
++        final QueueStoreFactory queueStoreFactory = new SimpleQueueStoreFactory();
++        queueStoreConfig.setFactoryImplementation(queueStoreFactory);
++        queueConfig.setQueueStoreConfig(queueStoreConfig);
++
++        HazelcastInstance instance = createHazelcastInstance(config);
++
++        final IQueue<Integer> queue = instance.getQueue(queueName);
++        queue.add(1);
++
++        final QueueStore queueStore = queueStoreFactory.newQueueStore(queueName, null);
++        final TestQueueStore testQueueStore = (TestQueueStore) queueStore;
++        final int size = testQueueStore.store.size();
++
++        assertEquals("Expected no queue store operation" +
++                " since we disabled it in queue store", 0, size);
++    }
++
++
+

@@ -1,0 +1,9 @@
+OutputRegistry did not return the default output in the set of available outputs
+
+this lead to the BatchedESOutputFlusher to not flush any buffers at all
+the buffer was only being flushed whenever it reached the maximum configured size, seemingly losing messages (even though they were still there)
+
+in low traffic environments this could lead to confusion
+
+fixes #635
+

@@ -1,0 +1,22 @@
+diff --git a/modules/weblounge-common/src/main/java/ch/entwine/weblounge/common/impl/url/WebUrlImpl.java b/modules/weblounge-common/src/main/java/ch/entwine/weblounge/common/impl/url/WebUrlImpl.java
+index bfe34e8..f8c25e5 100644
+--- a/modules/weblounge-common/src/main/java/ch/entwine/weblounge/common/impl/url/WebUrlImpl.java
++++ b/modules/weblounge-common/src/main/java/ch/entwine/weblounge/common/impl/url/WebUrlImpl.java
+@@ -57 +57 @@
+-  private static final Pattern segmentInspector = Pattern.compile("^(/([a-zA-Z0-9\\-\\,\\.\\;/_%^#^\\?])*+)+$");
++  private static final Pattern segmentInspector = Pattern.compile("^(/([a-zA-Z0-9\\-\\,\\.\\:\\;\\(\\)/_~!\\$&\\*'\\+=@%^#^\\?])*+)+$");
+diff --git a/modules/weblounge-common/src/test/java/ch/entwine/weblounge/common/impl/url/WebUrlImplTest.java b/modules/weblounge-common/src/test/java/ch/entwine/weblounge/common/impl/url/WebUrlImplTest.java
+index d67ab65..281fef2 100644
+--- a/modules/weblounge-common/src/test/java/ch/entwine/weblounge/common/impl/url/WebUrlImplTest.java
++++ b/modules/weblounge-common/src/test/java/ch/entwine/weblounge/common/impl/url/WebUrlImplTest.java
+@@ -95,0 +96,3 @@
++  
++  /** Path with all chars allowed in a URL according to RFC2396 - see also http://stackoverflow.com/questions/4669692 */
++  protected String allAllowedCharsPath = "/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/0123456789/-_.~!$&*'()+,;=:@%20";
+@@ -187,0 +191,5 @@
++  
++  @Test
++  public void testAllAllowedChars() {
++    new WebUrlImpl(siteMock, allAllowedCharsPath);
++  }
+

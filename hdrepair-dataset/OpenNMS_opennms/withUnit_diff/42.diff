@@ -1,0 +1,44 @@
+diff --git a/opennms-provision/opennms-provision-persistence/src/main/java/org/opennms/netmgt/provision/persist/requisition/Requisition.java b/opennms-provision/opennms-provision-persistence/src/main/java/org/opennms/netmgt/provision/persist/requisition/Requisition.java
+index f3b2000..e5a7dae 100644
+--- a/opennms-provision/opennms-provision-persistence/src/main/java/org/opennms/netmgt/provision/persist/requisition/Requisition.java
++++ b/opennms-provision/opennms-provision-persistence/src/main/java/org/opennms/netmgt/provision/persist/requisition/Requisition.java
+@@ -54 +54 @@
+-    protected String m_foreignSource;
++    protected String m_foreignSource = "imported:";
+diff --git a/opennms-provision/opennms-provision-persistence/src/main/resources/META-INF/opennms/component-dao.xml b/opennms-provision/opennms-provision-persistence/src/main/resources/META-INF/opennms/component-dao.xml
+index 4a3d8f4..7c8de78 100644
+--- a/opennms-provision/opennms-provision-persistence/src/main/resources/META-INF/opennms/component-dao.xml
++++ b/opennms-provision/opennms-provision-persistence/src/main/resources/META-INF/opennms/component-dao.xml
+@@ -8,2 +7,0 @@
+-  <bean id="modelImport" class="org.opennms.netmgt.config.modelimport.ModelImport" />
+-  
+diff --git a/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/FilesystemForeignSourceRepositoryTest.java b/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/FilesystemForeignSourceRepositoryTest.java
+index a45c9c2..50fae4c 100644
+--- a/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/FilesystemForeignSourceRepositoryTest.java
++++ b/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/FilesystemForeignSourceRepositoryTest.java
+@@ -42,3 +41,0 @@
+-    @Autowired
+-    private ModelImport m_modelImport;
+-    
+@@ -47 +44 @@
+-        m_defaultForeignSourceName = m_modelImport.getForeignSource();
++        m_defaultForeignSourceName = new ModelImport().getForeignSource();
+diff --git a/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/MockForeignSourceRepositoryTest.java b/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/MockForeignSourceRepositoryTest.java
+index d970c22..8c70dff 100644
+--- a/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/MockForeignSourceRepositoryTest.java
++++ b/opennms-provision/opennms-provision-persistence/src/test/java/org/opennms/netmgt/provision/persist/MockForeignSourceRepositoryTest.java
+@@ -33,2 +33 @@
+-        ModelImport mi = new ModelImport();
+-        m_defaultForeignSourceName = mi.getForeignSource();
++        m_defaultForeignSourceName = new ModelImport().getForeignSource();
+diff --git a/opennms-provision/opennms-provision-persistence/src/test/resources/testForeignSourceContext.xml b/opennms-provision/opennms-provision-persistence/src/test/resources/testForeignSourceContext.xml
+index 63fcbb6..b87aa51 100644
+--- a/opennms-provision/opennms-provision-persistence/src/test/resources/testForeignSourceContext.xml
++++ b/opennms-provision/opennms-provision-persistence/src/test/resources/testForeignSourceContext.xml
+@@ -7 +7 @@
+-  <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
++  <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+@@ -11,2 +10,0 @@
+-  <bean id="modelImport" class="org.opennms.netmgt.config.modelimport.ModelImport" />
+-  
+

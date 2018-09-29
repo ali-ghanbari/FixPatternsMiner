@@ -1,0 +1,39 @@
+diff --git a/components/component-registry/src/main/java/org/phenotips/components/ComponentManagerRegistry.java b/components/component-registry/src/main/java/org/phenotips/components/ComponentManagerRegistry.java
+index 2aa0d7e..53e95ff 100644
+--- a/components/component-registry/src/main/java/org/phenotips/components/ComponentManagerRegistry.java
++++ b/components/component-registry/src/main/java/org/phenotips/components/ComponentManagerRegistry.java
+@@ -41,0 +42 @@
++ * @since 1.0M8
+diff --git a/components/component-registry/src/test/java/org/phenotips/components/ComponentManagerRegistryTest.java b/components/component-registry/src/test/java/org/phenotips/components/ComponentManagerRegistryTest.java
+index 61ab518..e9fa5fa 100644
+--- a/components/component-registry/src/test/java/org/phenotips/components/ComponentManagerRegistryTest.java
++++ b/components/component-registry/src/test/java/org/phenotips/components/ComponentManagerRegistryTest.java
+@@ -22,2 +21,0 @@
+-import static org.mockito.Mockito.when;
+-
+@@ -29,4 +26,0 @@
+-import org.junit.Assert;
+-import org.junit.Rule;
+-import org.junit.Test;
+-import org.mockito.Mockito;
+@@ -39,0 +34,7 @@
++import org.junit.Assert;
++import org.junit.Rule;
++import org.junit.Test;
++import org.mockito.Mockito;
++
++import static org.mockito.Mockito.when;
++
+@@ -41 +42 @@
+- * Tests for the {@link MeasurementsScriptService} component.
++ * Tests for the {@link ComponentManagerRegistry} component.
+@@ -44 +44,0 @@
+- * @since 1.0M1
+@@ -48,2 +47,0 @@
+-    ParameterizedType cmType = new DefaultParameterizedType(null, Provider.class, ComponentManager.class);
+-
+@@ -58 +56,2 @@
+-        Provider<ComponentManager> provider = this.mocker.getInstance(this.cmType, "context");
++        ParameterizedType cmType = new DefaultParameterizedType(null, Provider.class, ComponentManager.class);
++        Provider<ComponentManager> provider = this.mocker.getInstance(cmType, "context");
+

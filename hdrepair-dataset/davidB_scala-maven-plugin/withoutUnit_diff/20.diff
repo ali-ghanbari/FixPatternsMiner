@@ -1,0 +1,14 @@
+diff --git a/.gitignore b/.gitignore
+index 4d3318e..cf916b1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -23,0 +24 @@
++build.log
+diff --git a/src/main/java/org/scala_tools/maven/ScalaRunMojo.java b/src/main/java/org/scala_tools/maven/ScalaRunMojo.java
+index 7538e6a..f9a3099 100644
+--- a/src/main/java/org/scala_tools/maven/ScalaRunMojo.java
++++ b/src/main/java/org/scala_tools/maven/ScalaRunMojo.java
+@@ -98 +98 @@
+-                jcmd.addArgs(addArgs.split("|"));
++                jcmd.addArgs(StringUtils.split(addArgs, "|"));
+

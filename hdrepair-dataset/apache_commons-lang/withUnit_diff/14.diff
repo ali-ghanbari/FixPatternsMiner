@@ -1,0 +1,20 @@
+diff --git a/src/java/org/apache/commons/lang/LocaleUtils.java b/src/java/org/apache/commons/lang/LocaleUtils.java
+index ceb886e..139d9a7 100644
+--- a/src/java/org/apache/commons/lang/LocaleUtils.java
++++ b/src/java/org/apache/commons/lang/LocaleUtils.java
+@@ -223 +223 @@
+-        return cAvailableLocaleSet.contains(locale);
++        return availableLocaleList().contains(locale);
+diff --git a/src/test/org/apache/commons/lang/LocaleUtilsTest.java b/src/test/org/apache/commons/lang/LocaleUtilsTest.java
+index d1dd7f5..76cba2f 100644
+--- a/src/test/org/apache/commons/lang/LocaleUtilsTest.java
++++ b/src/test/org/apache/commons/lang/LocaleUtilsTest.java
+@@ -77,0 +78,7 @@
++    public void setUp() throws Exception {
++        super.setUp();
++
++        // Testing #LANG-304. Must be called before availableLocaleSet is called.
++        LocaleUtils.isAvailableLocale(Locale.getDefault());
++    }
++
+

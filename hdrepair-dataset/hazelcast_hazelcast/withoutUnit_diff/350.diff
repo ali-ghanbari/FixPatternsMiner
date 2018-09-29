@@ -1,0 +1,36 @@
+diff --git a/hazelcast-documentation/src/main/docbook/manual/content/Introduction.xml b/hazelcast-documentation/src/main/docbook/manual/content/Introduction.xml
+index f95a3f2..4c14132 100755
+--- a/hazelcast-documentation/src/main/docbook/manual/content/Introduction.xml
++++ b/hazelcast-documentation/src/main/docbook/manual/content/Introduction.xml
+@@ -110 +110 @@
+-            <para>Add hazelcast.jar file into your classpath
++            <para>Add hazelcast-_version_.jar file into your classpath
+diff --git a/hazelcast-documentation/src/main/docbook/manual/content/MigratingTo3.xml b/hazelcast-documentation/src/main/docbook/manual/content/MigratingTo3.xml
+index 1fbeda1..8afaf90 100755
+--- a/hazelcast-documentation/src/main/docbook/manual/content/MigratingTo3.xml
++++ b/hazelcast-documentation/src/main/docbook/manual/content/MigratingTo3.xml
+@@ -25 +25 @@
+-        In this section, we list the changes what users should take into account before upgrading to Hazelcast 3.0 from
++        In this section, we list the changes what users should take into account before upgrading to Hazelcast 3.1 from
+diff --git a/hazelcast-documentation/src/main/docbook/manual/content/misc/ClusterTestHowTo.xml b/hazelcast-documentation/src/main/docbook/manual/content/misc/ClusterTestHowTo.xml
+index f6fe779..49ec0f7 100755
+--- a/hazelcast-documentation/src/main/docbook/manual/content/misc/ClusterTestHowTo.xml
++++ b/hazelcast-documentation/src/main/docbook/manual/content/misc/ClusterTestHowTo.xml
+@@ -109 +109 @@
+-        <link xlink:href="https://github.com/hazelcast/hazelcast/blob/master/hazelcast/src/test/java/com/hazelcast/impl/ClusterTest.java">
++        <link xlink:href="https://github.com/hazelcast/hazelcast/tree/master/hazelcast/src/test/java/com/hazelcast/cluster">
+diff --git a/hazelcast-documentation/src/main/docbook/manual/content/misc/Todo.xml b/hazelcast-documentation/src/main/docbook/manual/content/misc/Todo.xml
+index 5d87050..ed07902 100755
+--- a/hazelcast-documentation/src/main/docbook/manual/content/misc/Todo.xml
++++ b/hazelcast-documentation/src/main/docbook/manual/content/misc/Todo.xml
+@@ -34 +34 @@
+-                <para>Symmetric Encryption and SSL support for Java Client</para>
++                <para>Symmetric Encryption for Java Client</para>
+diff --git a/hazelcast/src/main/java/com/hazelcast/map/MapService.java b/hazelcast/src/main/java/com/hazelcast/map/MapService.java
+index fc4d10f..9d9c4e6 100644
+--- a/hazelcast/src/main/java/com/hazelcast/map/MapService.java
++++ b/hazelcast/src/main/java/com/hazelcast/map/MapService.java
+@@ -695 +695 @@
+-        EntryEvent event = new DataAwareEntryEvent(member, eventData.getEventType(), eventData.getSource(),
++        EntryEvent event = new DataAwareEntryEvent(member, eventData.getEventType(), eventData.getMapName(),
+

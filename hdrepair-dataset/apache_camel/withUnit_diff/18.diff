@@ -1,0 +1,36 @@
+diff --git a/camel-core/pom.xml b/camel-core/pom.xml
+index 143d1e8..1f6fbcc 100755
+--- a/camel-core/pom.xml
++++ b/camel-core/pom.xml
+@@ -141 +141,8 @@
+-    
++
++    <!-- for json tests -->
++    <dependency>
++      <groupId>com.fasterxml.jackson.core</groupId>
++      <artifactId>jackson-databind</artifactId>
++      <version>${jackson2-version}</version>
++    </dependency>
++
+@@ -148,0 +156 @@
++
+diff --git a/camel-core/src/main/java/org/apache/camel/impl/ComponentConfigurationSupport.java b/camel-core/src/main/java/org/apache/camel/impl/ComponentConfigurationSupport.java
+index 4dae1b7..40f190c 100644
+--- a/camel-core/src/main/java/org/apache/camel/impl/ComponentConfigurationSupport.java
++++ b/camel-core/src/main/java/org/apache/camel/impl/ComponentConfigurationSupport.java
+@@ -177 +176,0 @@
+-            buffer.append(entry.getKey());
+diff --git a/camel-core/src/test/java/org/apache/camel/management/EndpointCompletionTest.java b/camel-core/src/test/java/org/apache/camel/management/EndpointCompletionTest.java
+index b081380..1512914 100644
+--- a/camel-core/src/test/java/org/apache/camel/management/EndpointCompletionTest.java
++++ b/camel-core/src/test/java/org/apache/camel/management/EndpointCompletionTest.java
+@@ -25,0 +26,2 @@
++import com.fasterxml.jackson.databind.ObjectMapper;
++
+@@ -81,0 +84,5 @@
++
++        // now lets validate that the generated JSON parses correctly
++        ObjectMapper mapper = new ObjectMapper();
++        HashMap data = mapper.readValue(answer, HashMap.class);
++        LOG.info("Read JSON: " + data);
+

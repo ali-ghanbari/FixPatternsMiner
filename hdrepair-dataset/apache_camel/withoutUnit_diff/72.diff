@@ -1,0 +1,17 @@
+diff --git a/components/camel-web/src/main/java/org/apache/camel/web/resources/RoutesResource.java b/components/camel-web/src/main/java/org/apache/camel/web/resources/RoutesResource.java
+index 6077b3a..2ea2746 100644
+--- a/components/camel-web/src/main/java/org/apache/camel/web/resources/RoutesResource.java
++++ b/components/camel-web/src/main/java/org/apache/camel/web/resources/RoutesResource.java
+@@ -114 +114 @@
+-    @Path("{id}/{language}")
++    @Path("{id}/lang/{language}")
+diff --git a/components/camel-web/src/main/webapp/org/apache/camel/web/resources/RouteResource/index.jsp b/components/camel-web/src/main/webapp/org/apache/camel/web/resources/RouteResource/index.jsp
+index 128fcfd..42068d3 100644
+--- a/components/camel-web/src/main/webapp/org/apache/camel/web/resources/RouteResource/index.jsp
++++ b/components/camel-web/src/main/webapp/org/apache/camel/web/resources/RouteResource/index.jsp
+@@ -21,2 +21,2 @@
+-<li><a href='<c:url value="/routes/${it.route.id}/xml/edit"/>'>Edit Route in Xml</a>
+-<li><a href='<c:url value="/routes/${it.route.id}/groovy/edit"/>'>Edit Route in Groovy</a>
++<li><a href='<c:url value="/routes/${it.route.id}/lang/xml/edit"/>'>Edit Route in Xml</a>
++<li><a href='<c:url value="/routes/${it.route.id}/lang/groovy/edit"/>'>Edit Route in Groovy</a>
+

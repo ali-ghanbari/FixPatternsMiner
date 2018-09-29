@@ -1,0 +1,7 @@
+PluginInfo: fix possible issue with getClassName()
+
+If PluginInfo#setPluginClass(Class) were called later, then
+getClassName() might return the wrong name afterward. Instead, we now
+return the actual loaded class's name if available, or the initial
+string name otherwise.
+

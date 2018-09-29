@@ -1,0 +1,32 @@
+diff --git a/james/james-core/src/test/java/org/jamesframework/core/search/NeighbourhoodSearchTest.java b/james/james-core/src/test/java/org/jamesframework/core/search/NeighbourhoodSearchTest.java
+index c56d6d2..eeae11d 100644
+--- a/james/james-core/src/test/java/org/jamesframework/core/search/NeighbourhoodSearchTest.java
++++ b/james/james-core/src/test/java/org/jamesframework/core/search/NeighbourhoodSearchTest.java
+@@ -18,0 +19 @@
++import org.jamesframework.core.problems.SubsetProblemWithData;
+@@ -44 +45 @@
+-    private NeighbourhoodSearch<SubsetSolution> neighSearch;
++    private NeighbourhoodSearch<SubsetSolution> neighSearch;    
+@@ -69,0 +71,2 @@
++        // for this test, a variable size subset problem is used (+/- 1 allowed)
++        problem = new SubsetProblemWithData<>(obj, data, SUBSET_SIZE-1, SUBSET_SIZE+1);
+@@ -213,2 +216,4 @@
+-        // set empty initial solution
+-        neighSearch.setCurrentSolution(problem.createEmptySubsetSolution());
++        // set random initial solution of size SUBSET_SIZE
++        SubsetSolution initial = new SubsetSolution(data.getIDs());
++        initial.selectAll(SetUtilities.getRandomSubset(initial.getUnselectedIDs(), SUBSET_SIZE, RG));
++        neighSearch.setCurrentSolution(initial);
+@@ -229 +234,3 @@
+-        neighSearch.setCurrentSolution(problem.createEmptySubsetSolution());
++        initial = new SubsetSolution(data.getIDs());
++        initial.selectAll(SetUtilities.getRandomSubset(initial.getUnselectedIDs(), SUBSET_SIZE, RG));
++        neighSearch.setCurrentSolution(initial);
+diff --git a/james/james-core/src/test/java/org/jamesframework/core/search/SearchTestTemplate.java b/james/james-core/src/test/java/org/jamesframework/core/search/SearchTestTemplate.java
+index 2e2287f..52c7d98 100644
+--- a/james/james-core/src/test/java/org/jamesframework/core/search/SearchTestTemplate.java
++++ b/james/james-core/src/test/java/org/jamesframework/core/search/SearchTestTemplate.java
+@@ -100 +100 @@
+-        problem = new SubsetProblemWithData(obj, data, SUBSET_SIZE);
++        problem = new SubsetProblemWithData<>(obj, data, SUBSET_SIZE);
+

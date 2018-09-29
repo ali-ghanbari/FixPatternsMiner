@@ -1,0 +1,16 @@
+WindowManager shouldn't layout non-visible windows
+
+A recent change in WindowManager made background windows perform layout
+(when they should really be left alone). This resulted in artifacts
+where rotating the device and then going to a backgrojnd activity (launcher,
+Recents) would briefly show that activity in the wrong size/orientation, then
+flash to the correct one after a proper layout.
+
+This fix is a simple workaround, leaving in the original fix that the code
+change addressed (for keyguard orientation changes), while going back to the
+previous (don't layout gone windows) for all other cases.
+
+Issue #7428221 sometimes recents is drawn off-center and then fixes itself
+
+Change-Id: I41b47933c2bd86f29133853d3387bb7294be8f48
+

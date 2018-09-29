@@ -1,0 +1,15 @@
+diff --git a/src/main/java/org/zeromq/jzmq/ManagedSocket.java b/src/main/java/org/zeromq/jzmq/ManagedSocket.java
+index ecb5f75..0d3837f 100644
+--- a/src/main/java/org/zeromq/jzmq/ManagedSocket.java
++++ b/src/main/java/org/zeromq/jzmq/ManagedSocket.java
+@@ -64 +64 @@
+-        return send(buf, 0, flag);
++        return socket.send(buf, flag.getFlag());
+diff --git a/src/test/java/org/zeromq/api/DealerRepTest.java b/src/test/java/org/zeromq/api/DealerRepTest.java
+index 5178aa1..e8450b0 100644
+--- a/src/test/java/org/zeromq/api/DealerRepTest.java
++++ b/src/test/java/org/zeromq/api/DealerRepTest.java
+@@ -34 +34 @@
+-        dealerSocket.send(new byte[0], MessageFlag.SEND_MORE);
++        dealerSocket.send("".getBytes(), MessageFlag.SEND_MORE);
+

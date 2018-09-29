@@ -1,0 +1,8 @@
+diff --git a/logback-access/src/main/java/ch/qos/logback/access/servlet/Util.java b/logback-access/src/main/java/ch/qos/logback/access/servlet/Util.java
+index d03ad05..0d28ed5 100644
+--- a/logback-access/src/main/java/ch/qos/logback/access/servlet/Util.java
++++ b/logback-access/src/main/java/ch/qos/logback/access/servlet/Util.java
+@@ -25 +25 @@
+-        && AccessConstants.X_WWW_FORM_URLECODED.equals(request.getContentType())) {
++        && request.getContentType().startsWith(AccessConstants.X_WWW_FORM_URLECODED)) {
+

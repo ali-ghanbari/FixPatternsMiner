@@ -1,0 +1,267 @@
+diff --git a/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/facade/UserFacadeImpl.java b/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/facade/UserFacadeImpl.java
+index 9b37f1a..7d16d31 100644
+--- a/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/facade/UserFacadeImpl.java
++++ b/commons-app/src/main/java/cz/cuni/mff/xrg/odcs/commons/app/facade/UserFacadeImpl.java
+@@ -56,0 +57 @@
++        user.setExternalIdentifier(username);
+diff --git a/db/mysql/data.sql b/db/mysql/data.sql
+index ceda34e..b08bc65 100644
+--- a/db/mysql/data.sql
++++ b/db/mysql/data.sql
+@@ -8,0 +9,2 @@
++delete from `role`;
++delete from `permission`;
+@@ -11,0 +14 @@
++
+@@ -14,2 +17,2 @@
+-INSERT INTO `role` VALUES (NULL,'Povinna osoba');
+-INSERT INTO `role` VALUES (NULL,'Spravca transformacii'); 
++INSERT INTO `role` VALUES (NULL,'MOD-R-PO');
++INSERT INTO `role` VALUES (NULL,'MOD-R-TRANSA'); 
+@@ -17 +20 @@
+---INSERT INTO `permission` VALUES (NULL, 'pipeline.definePipelineDependencies');
++--INSERT INTO `permission` VALUES (nextval('seq_permission'), 'pipeline.definePipelineDependencies');
+@@ -18,0 +22 @@
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -20 +24 @@
+-INSERT INTO `permission` VALUES (NULL, 'pipeline.delete', false);
++INSERT INTO `permission` VALUES (NULL, 'pipeline.delete', true);
+@@ -21,0 +26,3 @@
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -25,3 +32,7 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'pipeline.edit', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'pipeline.edit', true);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -31,4 +42,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'pipeline.exportDpuData', false);
+-INSERT INTO `permission` VALUES (NULL, 'pipeline.exportDpuJars', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -39,2 +48,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -42,0 +52,5 @@
++INSERT INTO `permission` VALUES (NULL, 'pipeline.schedule', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -46,3 +60,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'pipeline.run', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -52,2 +65,12 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'pipeline.exportDpuData', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'pipeline.exportDpuJars', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -55 +78 @@
+-INSERT INTO `permission` VALUES (NULL, 'pipelineExecution.delete', false);
++INSERT INTO `permission` VALUES (NULL, 'pipelineExecution.delete', true);
+@@ -58,3 +81,3 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'pipelineExecution.create', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'pipelineExecution.stop', true);
+@@ -63,2 +86,7 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'pipeline.run', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -69,2 +97,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -73,0 +102,4 @@
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -78,3 +110,3 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'scheduleRule.delete', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'scheduleRule.delete', true);
+@@ -83,3 +115,17 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'scheduleRule.edit', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'scheduleRule.edit', true);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'scheduleRule.disable', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'scheduleRule.enable', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -89,2 +135,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -94,4 +140,3 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'scheduleRule.setPriority', false);
+-INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.create', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'scheduleRule.setPriority', true);
+@@ -100,4 +145,3 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.setVisibilityAtCreate', false);
+-INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.delete', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.create', false);
+@@ -105 +149,13 @@
+-INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.edit', false);
++--INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++--INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.save', true);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++--INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++--INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.setVisibilityAtCreate', false);
++INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.delete', true);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.edit', true);
+@@ -109,2 +165,7 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'dpuTemplate.copy', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -114,2 +175,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -119,2 +180,4 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'user.management', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
+@@ -124,2 +187,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -131,3 +194,3 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'user.delete', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'user.delete', true);
+@@ -136,5 +199 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'role.edit', false);
++INSERT INTO `permission` VALUES (NULL, 'role.edit', true);
+@@ -142,6 +201 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `permission` VALUES (NULL, 'role.delete', false);
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'role.delete', true);
+@@ -151,2 +205,2 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
+@@ -156,2 +210,28 @@
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Povinna osoba'), (SELECT max(id) FROM  `permission`));
+-INSERT INTO `user_role_permission` values((select id from `role` where name='Spravca transformacii'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'deleteDebugResources', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'runtimeProperties.edit', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'userNotificationSettings.editEmailGlobal', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'userNotificationSettings.editNotificationFrequency', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `permission` VALUES (NULL, 'userNotificationSettings.createPipelineExecutionSettings', false);
++INSERT INTO `user_role_permission` values((select id from `role` where name='Administrator'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='User'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-PO'), (SELECT max(id) FROM  `permission`));
++INSERT INTO `user_role_permission` values((select id from `role` where name='MOD-R-TRANSA'), (SELECT max(id) FROM  `permission`));
++
++-- INSERT INTO `usr_user` VALUES (nextval('seq_usr_user'),'admin',1,'100000:3069f2086098a66ec0a859ec7872b09af7866bc7ecafe2bed3ec394454056db2:b5ab4961ae8ad7775b3b568145060fabb76d7bca41c7b535887201f79ee9788a','John Admin',20);
++-- INSERT INTO `usr_extuser` VALUES (currval('seq_usr_user'), 'admin');
++-- INSERT INTO `usr_user` VALUES (nextval('seq_usr_user'),'user',2,'100000:3069f2086098a66ec0a859ec7872b09af7866bc7ecafe2bed3ec394454056db2:b5ab4961ae8ad7775b3b568145060fabb76d7bca41c7b535887201f79ee9788a','John User',20);
++-- INSERT INTO `usr_extuser` VALUES (currval('seq_usr_user'), 'user');
++
++
+@@ -161,0 +242 @@
++
+@@ -164 +245 @@
+-INSERT INTO `usr_user_role` VALUES (1,1),(1,2),(2,1);
++INSERT INTO `usr_user_role` VALUES (1,1),(1,2),(2,2);
+

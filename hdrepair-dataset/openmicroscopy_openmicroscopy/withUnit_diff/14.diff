@@ -1,0 +1,55 @@
+diff --git a/components/server/src/ome/services/scripts/ScriptRepoHelper.java b/components/server/src/ome/services/scripts/ScriptRepoHelper.java
+index dff9109..9883ea2 100644
+--- a/components/server/src/ome/services/scripts/ScriptRepoHelper.java
++++ b/components/server/src/ome/services/scripts/ScriptRepoHelper.java
+@@ -283 +283 @@
+-                SqlAction sql = (SqlAction) sf.getContext().getBean("sqlAction");
++                SqlAction sql = (SqlAction) sf.getContext().getBean("simpleSqlAction");
+diff --git a/components/server/test/ome/server/utests/SelfCorrectingDatabaseUnitTest.java b/components/server/test/ome/server/utests/SelfCorrectingDatabaseUnitTest.java
+index b755db4..80a5788 100644
+--- a/components/server/test/ome/server/utests/SelfCorrectingDatabaseUnitTest.java
++++ b/components/server/test/ome/server/utests/SelfCorrectingDatabaseUnitTest.java
+@@ -18,2 +18 @@
+-import org.postgresql.util.PSQLException;
+-import org.postgresql.util.PSQLState;
++
+@@ -29,0 +29,4 @@
++    class MySQLException extends SQLException {
++
++    }
++
+@@ -36,2 +39 @@
+-                throwException(new PSQLException("",
+-                        PSQLState.ACTIVE_SQL_TRANSACTION)));
++                throwException(new MySQLException()));
+@@ -55 +57 @@
+-    
++
+@@ -80 +82 @@
+-    
++
+diff --git a/components/server/test/ome/services/delete/DeleteUnitTest.java b/components/server/test/ome/services/delete/DeleteUnitTest.java
+index 262fc8e..6ae0ece 100644
+--- a/components/server/test/ome/services/delete/DeleteUnitTest.java
++++ b/components/server/test/ome/services/delete/DeleteUnitTest.java
+@@ -78 +78 @@
+-        bean = new DeleteBean(a, new SessionFactory(null){
++        bean = new DeleteBean(a, new SessionFactory(null, null){
+diff --git a/components/server/test/ome/services/graphs/GraphSpecUnitTest.java b/components/server/test/ome/services/graphs/GraphSpecUnitTest.java
+index 209f72a..f496031 100644
+--- a/components/server/test/ome/services/graphs/GraphSpecUnitTest.java
++++ b/components/server/test/ome/services/graphs/GraphSpecUnitTest.java
+@@ -116 +116 @@
+-        GraphState ids = new GraphState(null, session, roi);
++        GraphState ids = new GraphState(null, null, session, roi);
+@@ -311 +311 @@
+-        final GraphState ids = new GraphState(null, session, spec);
++        final GraphState ids = new GraphState(null, null, session, spec);
+diff --git a/components/server/test/ome/services/ldap/LdapIntegrationTest.java b/components/server/test/ome/services/ldap/LdapIntegrationTest.java
+index 4e774fd..418a6d1 100644
+--- a/components/server/test/ome/services/ldap/LdapIntegrationTest.java
++++ b/components/server/test/ome/services/ldap/LdapIntegrationTest.java
+@@ -175 +175 @@
+-                (SqlAction) mCtx.getBean("sqlAction"));
++                (SqlAction) mCtx.getBean("simpleSqlAction"));
+

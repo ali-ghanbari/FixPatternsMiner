@@ -1,0 +1,37 @@
+diff --git a/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/java/org/apache/archiva/rest/services/RepositoriesServiceTest.java b/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/java/org/apache/archiva/rest/services/RepositoriesServiceTest.java
+index e5c71db..5989c22 100644
+--- a/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/java/org/apache/archiva/rest/services/RepositoriesServiceTest.java
++++ b/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/java/org/apache/archiva/rest/services/RepositoriesServiceTest.java
+@@ -26,0 +27 @@
++import org.codehaus.plexus.taskqueue.TaskQueue;
+@@ -28,0 +30,2 @@
++import javax.inject.Inject;
++import javax.inject.Named;
+@@ -36,0 +40,3 @@
++    @Inject @Named("taskQueue#repository-scanning")
++    private TaskQueue repositoryScanningQueue;
++
+@@ -97,0 +104,6 @@
++        /*
++        while ( service.alreadyScanning( repoId ) )
++        {
++            Thread.sleep( 1 );
++        }
++        */
+diff --git a/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/resources/log4j.xml b/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/resources/log4j.xml
+index 88cce74..43d8a8b 100644
+--- a/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/resources/log4j.xml
++++ b/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/test/resources/log4j.xml
+@@ -34 +33,0 @@
+-  -->
+@@ -37,0 +37,2 @@
++  -->
++
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/AbstractManagedRepositoriesAction.java b/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/AbstractManagedRepositoriesAction.java
+index 0f588d1..63bbb3a 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/AbstractManagedRepositoriesAction.java
++++ b/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/AbstractManagedRepositoriesAction.java
+@@ -46 +46 @@
+-public abstract class AbstractManagedReposigettoriesAction
++public abstract class AbstractManagedRepositoriesAction
+

@@ -1,0 +1,17 @@
+diff --git a/bundle/src/main/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImpl.java b/bundle/src/main/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImpl.java
+index 7d6b0b2..36a140d 100644
+--- a/bundle/src/main/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImpl.java
++++ b/bundle/src/main/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImpl.java
+@@ -268 +268 @@
+-            rules.put(pattern, entry.getValue().split(","));
++            rules.put(pattern, entry.getValue().split("&"));
+diff --git a/bundle/src/test/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImplTest.java b/bundle/src/test/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImplTest.java
+index 8754345..ebf085a 100644
+--- a/bundle/src/test/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImplTest.java
++++ b/bundle/src/test/java/com/adobe/acs/commons/replication/dispatcher/impl/DispatcherFlushRulesImplTest.java
+@@ -119 +119 @@
+-        validFlushRules.put("/c/a/.*", "/e/f,/g/h");
++        validFlushRules.put("/c/a/.*", "/e/f&/g/h");
+@@ -434 +433,0 @@
+-
+

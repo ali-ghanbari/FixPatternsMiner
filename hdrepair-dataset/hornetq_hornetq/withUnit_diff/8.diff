@@ -1,0 +1,75 @@
+diff --git a/hornetq-server/src/main/java/org/hornetq/core/postoffice/impl/PostOfficeImpl.java b/hornetq-server/src/main/java/org/hornetq/core/postoffice/impl/PostOfficeImpl.java
+index 5a44acd..1e7531c 100644
+--- a/hornetq-server/src/main/java/org/hornetq/core/postoffice/impl/PostOfficeImpl.java
++++ b/hornetq-server/src/main/java/org/hornetq/core/postoffice/impl/PostOfficeImpl.java
+@@ -716 +716 @@
+-            message.setExpiration(expirationOverride);
++            message.setExpiration(System.currentTimeMillis() + expirationOverride);
+diff --git a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/client/MessageExpirationTest.java b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/client/MessageExpirationTest.java
+index 14f00aa..72d582c 100644
+--- a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/client/MessageExpirationTest.java
++++ b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/client/MessageExpirationTest.java
+@@ -85,0 +86,3 @@
++      session.close();
++
++      session =  addClientSession(sf.createSession(false, false, false));
+@@ -90,4 +92,0 @@
+-      AddressSettings addressSettings = server.getAddressSettingsRepository().getMatch(queue.toString());
+-      addressSettings.setExpiryDelay((long) MessageExpirationTest.EXPIRATION * 5);
+-      message.setExpiration(System.currentTimeMillis() + MessageExpirationTest.EXPIRATION);
+-      producer.send(message);
+@@ -95 +94,6 @@
+-      Thread.sleep(MessageExpirationTest.EXPIRATION * 2);
++      AddressSettings addressSettings = new AddressSettings();
++      addressSettings.setExpiryDelay((long) MessageExpirationTest.EXPIRATION);
++      server.getAddressSettingsRepository().addMatch(address.toString(), addressSettings);
++
++      producer.send(message);
++      session.commit();
+@@ -98 +101,0 @@
+-
+@@ -99,0 +103,6 @@
++      assertNotNull(consumer.receiveImmediate());
++      // we recieve the message and then rollback...   then we wait some time > expiration, the message must be gone
++      session.rollback();
++
++
++      Thread.sleep(MessageExpirationTest.EXPIRATION * 2);
+@@ -112,0 +122,4 @@
++      session.close();
++
++      session =  addClientSession(sf.createSession(false, false, false));
++
+@@ -117,3 +129,0 @@
+-      AddressSettings addressSettings = server.getAddressSettingsRepository().getMatch(queue.toString());
+-      addressSettings.setExpiryDelay((long) MessageExpirationTest.EXPIRATION);
+-      producer.send(message);
+@@ -121 +131,12 @@
+-      Thread.sleep(MessageExpirationTest.EXPIRATION * 2);
++
++
++      AddressSettings addressSettings = new AddressSettings();
++      addressSettings.setExpiryDelay((long) MessageExpirationTest.EXPIRATION);
++      server.getAddressSettingsRepository().addMatch(address.toString(), addressSettings);
++
++
++      // The server must ignore the expiry on the server
++      message.setExpiration(System.currentTimeMillis() + EXPIRATION * 3);
++
++      producer.send(message);
++      session.commit();
+@@ -125,0 +147,13 @@
++
++      assertNotNull(consumer.receiveImmediate());
++
++      session.rollback();
++
++      Thread.sleep(MessageExpirationTest.EXPIRATION * 2);
++
++      assertNotNull(consumer.receiveImmediate());
++      session.rollback();
++
++
++      Thread.sleep(EXPIRATION * 4);
++
+

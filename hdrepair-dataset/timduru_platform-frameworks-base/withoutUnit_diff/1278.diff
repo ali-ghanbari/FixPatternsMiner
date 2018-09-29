@@ -1,0 +1,9 @@
+diff --git a/services/java/com/android/server/location/GpsLocationProvider.java b/services/java/com/android/server/location/GpsLocationProvider.java
+index 6fe02c2..0cf67a3 100755
+--- a/services/java/com/android/server/location/GpsLocationProvider.java
++++ b/services/java/com/android/server/location/GpsLocationProvider.java
+@@ -1176 +1176,2 @@
+-        updateStatus(mStatus, svCount);
++        // return number of sets used in fix instead of total
++        updateStatus(mStatus, Integer.bitCount(mSvMasks[USED_FOR_FIX_MASK]));
+

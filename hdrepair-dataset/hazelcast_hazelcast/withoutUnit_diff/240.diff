@@ -1,0 +1,8 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicInvocationFuture.java b/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicInvocationFuture.java
+index c393704..c6b218d 100644
+--- a/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicInvocationFuture.java
++++ b/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicInvocationFuture.java
+@@ -178 +178 @@
+-        final long maxCallTimeout = basicInvocation.callTimeout * 2 > 0 ? basicInvocation.callTimeout * 2 : Long.MAX_VALUE;
++        final long maxCallTimeout = basicInvocation.callTimeout  > 0 ? basicInvocation.callTimeout * 2 : Long.MAX_VALUE;
+

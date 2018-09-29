@@ -1,0 +1,25 @@
+diff --git a/jsp/researcher/result/publications/editJournal.jsp b/jsp/researcher/result/publications/editJournal.jsp
+index 6e42f46..95249fd 100644
+--- a/jsp/researcher/result/publications/editJournal.jsp
++++ b/jsp/researcher/result/publications/editJournal.jsp
+@@ -29 +29,2 @@
+-				<fr:edit id="publicationBean" name="publicationBean" schema="result.publication.create.Article.selectMagazine">
++				<fr:edit id="publicationBean" name="publicationBean" visible="false"/>
++				<fr:edit id="selectPublication" name="publicationBean" schema="result.publication.create.Article.selectMagazine">
+@@ -43 +44 @@
+-				<fr:edit id="publicationData" name="publicationBean" visible="false"/>
++				<fr:edit id="publicationBean" name="publicationBean" visible="false"/>
+@@ -54 +55,2 @@
+-					<fr:edit id="publicationData" name="publicationBean" schema="result.publication.create.Article.selectIssue">
++					<fr:edit id="publicationBean" name="publicationBean" visible="false"/>
++					<fr:edit id="selectPublication" name="publicationBean" schema="result.publication.create.Article.selectIssue">
+@@ -68 +70 @@
+-					<fr:edit id="publicationData" name="publicationBean" visible="false"/>
++					<fr:edit id="publicationBean" name="publicationBean" visible="false"/>
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/Action/research/result/publication/ResultPublicationsManagementDispatchAction.java b/src/net/sourceforge/fenixedu/presentationTier/Action/research/result/publication/ResultPublicationsManagementDispatchAction.java
+index d3e1ab1..797ab61 100755
+--- a/src/net/sourceforge/fenixedu/presentationTier/Action/research/result/publication/ResultPublicationsManagementDispatchAction.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/Action/research/result/publication/ResultPublicationsManagementDispatchAction.java
+@@ -77,0 +78 @@
++	RenderUtils.invalidateViewState();
+

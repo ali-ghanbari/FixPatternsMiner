@@ -1,0 +1,47 @@
+diff --git a/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventTest.java b/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventTest.java
+index 6d6886c..5925796 100644
+--- a/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventTest.java
++++ b/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventTest.java
+@@ -25,2 +25,2 @@
+-import org.hibernate.collection.PersistentBag;
+-import org.hibernate.collection.PersistentSet;
++import org.hibernate.collection.internal.PersistentBag;
++import org.hibernate.collection.internal.PersistentSet;
+diff --git a/hibernate-search/src/test/java/org/hibernate/search/test/jgroups/common/MultipleSessionsSearchTestCase.java b/hibernate-search/src/test/java/org/hibernate/search/test/jgroups/common/MultipleSessionsSearchTestCase.java
+index fe554f9..c5bb275 100644
+--- a/hibernate-search/src/test/java/org/hibernate/search/test/jgroups/common/MultipleSessionsSearchTestCase.java
++++ b/hibernate-search/src/test/java/org/hibernate/search/test/jgroups/common/MultipleSessionsSearchTestCase.java
+@@ -30 +30 @@
+-import org.hibernate.classic.Session;
++import org.hibernate.Session;
+diff --git a/hibernate-search/src/test/java/org/hibernate/search/test/session/SessionTest.java b/hibernate-search/src/test/java/org/hibernate/search/test/session/SessionTest.java
+index c733713..f29f635 100644
+--- a/hibernate-search/src/test/java/org/hibernate/search/test/session/SessionTest.java
++++ b/hibernate-search/src/test/java/org/hibernate/search/test/session/SessionTest.java
+@@ -30 +30 @@
+-import org.hibernate.context.ThreadLocalSessionContext;
++import org.hibernate.SharedSessionContract;
+@@ -31,0 +32 @@
++import org.hibernate.context.internal.ThreadLocalSessionContext;
+@@ -32,0 +34,4 @@
++import org.hibernate.engine.jdbc.LobCreationContext;
++import org.hibernate.engine.spi.SessionImplementor;
++import org.hibernate.engine.transaction.spi.TransactionContext;
++import org.hibernate.event.spi.EventSource;
+@@ -41,0 +47 @@
++	//EventSource, org.hibernate.Session, TransactionContext, LobCreationContext
+@@ -43,4 +49,6 @@
+-			org.hibernate.classic.Session.class,
+-			org.hibernate.engine.SessionImplementor.class,
+-			org.hibernate.jdbc.JDBCContext.Context.class,
+-			org.hibernate.event.EventSource.class
++			org.hibernate.Session.class,
++			TransactionContext.class,
++			LobCreationContext.class,
++			EventSource.class,
++			SessionImplementor.class,
++			SharedSessionContract.class
+@@ -53 +61 @@
+-				org.hibernate.classic.Session.class.getClassLoader(),
++				org.hibernate.Session.class.getClassLoader(),
+

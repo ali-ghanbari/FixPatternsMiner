@@ -1,0 +1,16 @@
+diff --git a/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/main/java/org/xwiki/search/solr/internal/metadata/AbstractSolrMetadataExtractor.java b/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/main/java/org/xwiki/search/solr/internal/metadata/AbstractSolrMetadataExtractor.java
+index 28cf4ee..d185f23 100644
+--- a/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/main/java/org/xwiki/search/solr/internal/metadata/AbstractSolrMetadataExtractor.java
++++ b/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/main/java/org/xwiki/search/solr/internal/metadata/AbstractSolrMetadataExtractor.java
+@@ -276 +276 @@
+-        documentLocales.add(getLocale(xdocument.getDocumentReference()));
++        locales.add(getLocale(xdocument.getDocumentReference()));
+diff --git a/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/test/java/org/xwiki/search/solr/internal/metadata/DocumentSolrMetadataExtractorTest.java b/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/test/java/org/xwiki/search/solr/internal/metadata/DocumentSolrMetadataExtractorTest.java
+index 7db1d0a..8c683f1 100644
+--- a/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/test/java/org/xwiki/search/solr/internal/metadata/DocumentSolrMetadataExtractorTest.java
++++ b/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr/xwiki-platform-search-solr-api/src/test/java/org/xwiki/search/solr/internal/metadata/DocumentSolrMetadataExtractorTest.java
+@@ -272 +272,2 @@
+-        Assert.assertEquals(Arrays.asList(this.localeENUS.toString()), solrDocument.getFieldValues(FieldUtils.LOCALES));
++        Assert.assertEquals(Arrays.asList("", this.localeENUS.toString()),
++            solrDocument.getFieldValues(FieldUtils.LOCALES));
+

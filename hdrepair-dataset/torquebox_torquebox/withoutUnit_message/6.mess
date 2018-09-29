@@ -1,0 +1,9 @@
+Fix regression in static resource handling (TORQUE-812)
+
+The fix for TORQUE-792 broke static resource handling for requests
+where the StaticResourceServlet would have returned a 304
+response. This modifies the previous fix to be very specific in only
+passing HTTP OPTIONS requests through to the Rack layer in the case
+when the response is not in error after passing through all other
+filters in the chain.
+

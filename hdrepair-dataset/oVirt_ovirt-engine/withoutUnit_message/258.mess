@@ -1,0 +1,14 @@
+core: Fix VDS.hashCode()
+
+VDS.hashCode() includes the hashCode() of vdsDynamic and vdsStatistics,
+which are not present in VDS.eqauls(Object).
+
+This behavior violates Java's contract that clearly states that if
+a.equals(b) then it is required that a.hashCode() == b.hashCode().
+
+This patch fixes the aforementioned bug by removing these two members
+for the hashCode() calculation.
+
+Change-Id: Ie006b12f59762bc92663007a37bf46325f8f9378
+Signed-off-by: Allon Mureinik <amureini@redhat.com>
+

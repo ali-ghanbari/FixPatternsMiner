@@ -1,0 +1,16 @@
+diff --git a/src/org/traccar/protocol/XexunProtocolDecoder.java b/src/org/traccar/protocol/XexunProtocolDecoder.java
+index 2da1c68..6610730 100644
+--- a/src/org/traccar/protocol/XexunProtocolDecoder.java
++++ b/src/org/traccar/protocol/XexunProtocolDecoder.java
+@@ -51 +51 @@
+-            "([\\d]{3})([\\d]{2}.[\\d]{4})," +  // Longitude (DDDMM.MMMM)
++            "([\\d]{2,3})([\\d]{2}.[\\d]{4})," + // Longitude (DDDMM.MMMM)
+diff --git a/test/org/traccar/protocol/XexunProtocolDecoderTest.java b/test/org/traccar/protocol/XexunProtocolDecoderTest.java
+index 2d12110..832f4ee 100644
+--- a/test/org/traccar/protocol/XexunProtocolDecoderTest.java
++++ b/test/org/traccar/protocol/XexunProtocolDecoderTest.java
+@@ -23,0 +24,3 @@
++        
++        assertNotNull(decoder.decode(null, null,
++                "GPRMC,014623.000,A,4710.8260,N,1948.1220,E,0.11,105.40,111212,00,0000.0,A*49,F,,imei:357713002048962,"));
+

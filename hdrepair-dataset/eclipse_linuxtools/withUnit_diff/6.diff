@@ -1,0 +1,27 @@
+diff --git a/rpm/org.eclipse.linuxtools.rpm.ui.editor.tests/src/org/eclipse/linuxtools/rpm/ui/editor/tests/parser/SpecfileDefineTest.java b/rpm/org.eclipse.linuxtools.rpm.ui.editor.tests/src/org/eclipse/linuxtools/rpm/ui/editor/tests/parser/SpecfileDefineTest.java
+index dcc8aec..8b46ef6 100644
+--- a/rpm/org.eclipse.linuxtools.rpm.ui.editor.tests/src/org/eclipse/linuxtools/rpm/ui/editor/tests/parser/SpecfileDefineTest.java
++++ b/rpm/org.eclipse.linuxtools.rpm.ui.editor.tests/src/org/eclipse/linuxtools/rpm/ui/editor/tests/parser/SpecfileDefineTest.java
+@@ -17,0 +18 @@
++import org.eclipse.linuxtools.internal.rpm.ui.editor.UiUtils;
+@@ -44 +45,5 @@
+-			"%define __find_requires %{SOURCE3}";
++			"%define __find_requires %{SOURCE3}" + "\n" +
++			// Characters 145 through 180
++			"%global version_suffix 201302130906" + "\n" +
++			// Characters 181 through 195
++			"Version: 2.3.0" + "\n";
+@@ -136,0 +142,5 @@
++	@Test
++	public void testWholeWordResolveDefine() {
++		String testResolve = UiUtils.resolveDefines(specfile, "%{version}.%{version_suffix}");
++		assertEquals(testResolve, "2.3.0.201302130906");
++	}
+diff --git a/rpm/org.eclipse.linuxtools.rpm.ui.editor/src/org/eclipse/linuxtools/internal/rpm/ui/editor/UiUtils.java b/rpm/org.eclipse.linuxtools.rpm.ui.editor/src/org/eclipse/linuxtools/internal/rpm/ui/editor/UiUtils.java
+index 12ff0af..f45e27f 100644
+--- a/rpm/org.eclipse.linuxtools.rpm.ui.editor/src/org/eclipse/linuxtools/internal/rpm/ui/editor/UiUtils.java
++++ b/rpm/org.eclipse.linuxtools.rpm.ui.editor/src/org/eclipse/linuxtools/internal/rpm/ui/editor/UiUtils.java
+@@ -71 +71 @@
+-					stringToResolve = stringToResolve.replaceAll(variableMatcher.group(1), define.getStringValue());
++					stringToResolve = stringToResolve.replaceAll("\\b"+variableMatcher.group(1)+"\\b", define.getStringValue());
+

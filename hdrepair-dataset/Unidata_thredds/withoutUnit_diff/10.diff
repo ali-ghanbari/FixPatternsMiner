@@ -1,0 +1,26 @@
+diff --git a/tds/src/main/java/thredds/servlet/DatasetHandler.java b/tds/src/main/java/thredds/servlet/DatasetHandler.java
+index 73d4d35..78005f0 100644
+--- a/tds/src/main/java/thredds/servlet/DatasetHandler.java
++++ b/tds/src/main/java/thredds/servlet/DatasetHandler.java
+@@ -274 +274 @@
+-    throw new FileNotFoundException("Cant find "+reqPath);
++    return null; // new FileNotFoundException("Cant find "+reqPath);
+diff --git a/tds/src/test/content/thredds/catalog.xml b/tds/src/test/content/thredds/catalog.xml
+index 625a88d..44bb915 100644
+--- a/tds/src/test/content/thredds/catalog.xml
++++ b/tds/src/test/content/thredds/catalog.xml
+@@ -23 +23 @@
+-  <datasetRoot path="cdmUnitTest2" location="${cdmUnitTest}"/>
++  <datasetRoot path="cdmUnitTest" location="${cdmUnitTest}"/>
+@@ -34 +34 @@
+-  <dataset name="Test climatology" ID="testClimatology" serviceName="all" urlPath="cdmUnitTest2/ncss/climatology/PF5_SST_Climatology_Monthly_1985_2001.nc"
++  <dataset name="Test climatology" ID="testClimatology" serviceName="all" urlPath="cdmUnitTest/ncss/climatology/PF5_SST_Climatology_Monthly_1985_2001.nc"
+@@ -37 +37 @@
+-  <dataset name="Test Single Grid Dataset" ID="testSingleGridDataset" serviceName="all" urlPath="cdmUnitTest2/ncss/CONUS_80km_nc/GFS_CONUS_80km_20120419_0000.nc"
++  <dataset name="Test Single Grid Dataset" ID="testSingleGridDataset" serviceName="all" urlPath="cdmUnitTest/ncss/CONUS_80km_nc/GFS_CONUS_80km_20120419_0000.nc"
+@@ -40,2 +40,2 @@
+-           urlPath="cdmUnitTest2/ncss/point_features/metar/Surface_METAR_20130826_0000.nc" dataType="Station"/>
+-  <dataset name="Test sst" ID="TESTsst" serviceName="all" urlPath="cdmUnitTest2/conventions/coards/sst.mnmean.nc" dataType="Grid"/>
++           urlPath="cdmUnitTest/ncss/point_features/metar/Surface_METAR_20130826_0000.nc" dataType="Station"/>
++  <dataset name="Test sst" ID="TESTsst" serviceName="all" urlPath="cdmUnitTest/conventions/coards/sst.mnmean.nc" dataType="Grid"/>
+

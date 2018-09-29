@@ -1,0 +1,66 @@
+diff --git a/doxia-core/src/test/java/org/apache/maven/doxia/parser/XhtmlBaseParserTest.java b/doxia-core/src/test/java/org/apache/maven/doxia/parser/XhtmlBaseParserTest.java
+index e9ed141..78039d7 100644
+--- a/doxia-core/src/test/java/org/apache/maven/doxia/parser/XhtmlBaseParserTest.java
++++ b/doxia-core/src/test/java/org/apache/maven/doxia/parser/XhtmlBaseParserTest.java
+@@ -291,0 +292,22 @@
++    /** @throws Exception  */
++    public void testPreEOL()
++        throws Exception
++    {
++        // test EOLs within <pre>: the sink MUST receive a text event for the EOL
++        String text = "<pre><a href=\"what.html\">what</a>" + XhtmlBaseParser.EOL
++                + "<a href=\"what.html\">what</a></pre>";
++        sink.reset();
++        parser.parse( text, sink );
++
++        Iterator it = sink.getEventList().iterator();
++
++        assertEquals( "verbatim", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "text", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link_", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "text", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "text", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link_", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "verbatim_", ( (SinkEventElement) it.next() ).getName() );
++    }
+diff --git a/doxia-modules/doxia-module-xdoc/src/main/java/org/apache/maven/doxia/module/xdoc/XdocParser.java b/doxia-modules/doxia-module-xdoc/src/main/java/org/apache/maven/doxia/module/xdoc/XdocParser.java
+index 1aefeca..96d7e39 100644
+--- a/doxia-modules/doxia-module-xdoc/src/main/java/org/apache/maven/doxia/module/xdoc/XdocParser.java
++++ b/doxia-modules/doxia-module-xdoc/src/main/java/org/apache/maven/doxia/module/xdoc/XdocParser.java
+@@ -94 +94,2 @@
+-        setIgnorableWhitespace( true );
++        // leave this at default (false) until everything is properly implemented, see DOXIA-226
++        //setIgnorableWhitespace( true );
+diff --git a/doxia-modules/doxia-module-xdoc/src/test/java/org/apache/maven/doxia/module/xdoc/XdocParserTest.java b/doxia-modules/doxia-module-xdoc/src/test/java/org/apache/maven/doxia/module/xdoc/XdocParserTest.java
+index 362bd4e..bd76d46 100644
+--- a/doxia-modules/doxia-module-xdoc/src/test/java/org/apache/maven/doxia/module/xdoc/XdocParserTest.java
++++ b/doxia-modules/doxia-module-xdoc/src/test/java/org/apache/maven/doxia/module/xdoc/XdocParserTest.java
+@@ -291,0 +292,25 @@
++    /** @throws Exception  */
++    public void testPreEOL()
++        throws Exception
++    {
++        // test EOLs within <source>: the sink MUST receive a text event for the EOL
++        String text = "<source><a href=\"what.html\">what</a>" + EOL
++                + "<a href=\"what.html\">what</a></source>";
++
++        SinkEventTestingSink sink = new SinkEventTestingSink();
++
++        parser.parse( text, sink );
++
++        Iterator it = sink.getEventList().iterator();
++
++        assertEquals( "verbatim", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "text", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link_", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "text", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "text", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "link_", ( (SinkEventElement) it.next() ).getName() );
++        assertEquals( "verbatim_", ( (SinkEventElement) it.next() ).getName() );
++    }
++
+

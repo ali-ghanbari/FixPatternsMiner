@@ -1,0 +1,22 @@
+diff --git a/server/src/com/cloud/upgrade/dao/VersionDaoImpl.java b/server/src/com/cloud/upgrade/dao/VersionDaoImpl.java
+index 0e3d2e8..5cb37da 100644
+--- a/server/src/com/cloud/upgrade/dao/VersionDaoImpl.java
++++ b/server/src/com/cloud/upgrade/dao/VersionDaoImpl.java
+@@ -155 +155 @@
+-        if (Version.compare(currentVersion, upgrades[upgrades.length - 1].getUpgradedVersion()) == 0) {
++        if (Version.compare(currentVersion, upgrades[upgrades.length - 1].getUpgradedVersion()) != 0) {
+diff --git a/server/test/com/cloud/upgrade/dao/AdvanceZone217To221UpgradeTest.java b/server/test/com/cloud/upgrade/dao/AdvanceZone217To221UpgradeTest.java
+index 7763b3e..c11f929 100644
+--- a/server/test/com/cloud/upgrade/dao/AdvanceZone217To221UpgradeTest.java
++++ b/server/test/com/cloud/upgrade/dao/AdvanceZone217To221UpgradeTest.java
+@@ -82 +82 @@
+-            dao.upgrade("2.1.7", "2.2.1");
++            dao.upgrade("2.1.7", "2.2.3");
+diff --git a/server/test/com/cloud/upgrade/dao/BasicZone217To221UpgradeTest.java b/server/test/com/cloud/upgrade/dao/BasicZone217To221UpgradeTest.java
+index 9d94fca..1662969 100644
+--- a/server/test/com/cloud/upgrade/dao/BasicZone217To221UpgradeTest.java
++++ b/server/test/com/cloud/upgrade/dao/BasicZone217To221UpgradeTest.java
+@@ -74 +74 @@
+-            dao.upgrade("2.1.7", "2.2.1");
++            dao.upgrade("2.1.7", "2.2.3");
+

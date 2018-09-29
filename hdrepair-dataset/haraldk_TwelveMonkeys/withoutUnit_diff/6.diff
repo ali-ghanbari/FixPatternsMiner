@@ -1,0 +1,10 @@
+diff --git a/imageio/imageio-jpeg/src/main/java/com/twelvemonkeys/imageio/plugins/jpeg/JPEGSegmentImageInputStream.java b/imageio/imageio-jpeg/src/main/java/com/twelvemonkeys/imageio/plugins/jpeg/JPEGSegmentImageInputStream.java
+index 3c692df..116fd3f 100644
+--- a/imageio/imageio-jpeg/src/main/java/com/twelvemonkeys/imageio/plugins/jpeg/JPEGSegmentImageInputStream.java
++++ b/imageio/imageio-jpeg/src/main/java/com/twelvemonkeys/imageio/plugins/jpeg/JPEGSegmentImageInputStream.java
+@@ -92,2 +92,2 @@
+-                // TODO: Refactor to make various segments optional, we probably only want the "Adobe" APP14 segment
+-                if (isAppSegmentMarker(marker) && marker != JPEG.APP0 && marker != JPEG.APP14) {
++                // TODO: Refactor to make various segments optional, we probably only want the "Adobe" APP14 segment, 'Exif' APP1 and very few others
++                if (isAppSegmentMarker(marker) && marker != JPEG.APP0 && marker != JPEG.APP1 && marker != JPEG.APP14) {
+

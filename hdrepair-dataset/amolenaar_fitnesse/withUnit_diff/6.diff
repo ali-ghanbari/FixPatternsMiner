@@ -1,0 +1,46 @@
+diff --git a/FitNesseRoot/FitNesse/SuiteAcceptanceTests/SuiteSlimTests/TestScriptTable/content.txt b/FitNesseRoot/FitNesse/SuiteAcceptanceTests/SuiteSlimTests/TestScriptTable/content.txt
+new file mode 100644
+index 0000000..21d95b0
+--- /dev/null
++++ b/FitNesseRoot/FitNesse/SuiteAcceptanceTests/SuiteSlimTests/TestScriptTable/content.txt
+@@ -0,0 +1,6 @@
++| script | echo fixture |
++| check | echo | Hello | Hello |
++
++
++| script: echo fixture |
++| check | echo | Hello | Hello |
+diff --git a/FitNesseRoot/FitNesse/SuiteAcceptanceTests/SuiteSlimTests/TestScriptTable/properties.xml b/FitNesseRoot/FitNesse/SuiteAcceptanceTests/SuiteSlimTests/TestScriptTable/properties.xml
+new file mode 100644
+index 0000000..e13fdf4
+--- /dev/null
++++ b/FitNesseRoot/FitNesse/SuiteAcceptanceTests/SuiteSlimTests/TestScriptTable/properties.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0"?>
++<properties>
++	<Edit>true</Edit>
++	<Files>true</Files>
++	<Properties>true</Properties>
++	<RecentChanges>true</RecentChanges>
++	<Refactor>true</Refactor>
++	<Search>true</Search>
++	<Test>true</Test>
++	<Versions>true</Versions>
++	<WhereUsed>true</WhereUsed>
++</properties>
+diff --git a/src/fitnesse/testsystems/slim/tables/SlimTableFactory.java b/src/fitnesse/testsystems/slim/tables/SlimTableFactory.java
+index 1cf57fa..6e4ac15 100644
+--- a/src/fitnesse/testsystems/slim/tables/SlimTableFactory.java
++++ b/src/fitnesse/testsystems/slim/tables/SlimTableFactory.java
+@@ -28,0 +29 @@
++    addTableType("script:", ScriptTable.class);
+diff --git a/test/fitnesse/testsystems/slim/tables/SlimTableFactoryTest.java b/test/fitnesse/testsystems/slim/tables/SlimTableFactoryTest.java
+index 6671482..b812cca 100644
+--- a/test/fitnesse/testsystems/slim/tables/SlimTableFactoryTest.java
++++ b/test/fitnesse/testsystems/slim/tables/SlimTableFactoryTest.java
+@@ -35,0 +36 @@
++    map.put("script:", ScriptTable.class);
+@@ -83,0 +85,2 @@
++
++    assertThatTableTypeImportWorks("My script table", "Script", "My script Table", ScriptTable.class);
+

@@ -1,0 +1,23 @@
+diff --git a/shell/descriptors/org.jnode.shell.command.xml b/shell/descriptors/org.jnode.shell.command.xml
+index f9a48e8..acd9ae3 100644
+--- a/shell/descriptors/org.jnode.shell.command.xml
++++ b/shell/descriptors/org.jnode.shell.command.xml
+@@ -306,0 +307 @@
++    <permission class="java.lang.reflect.ReflectPermission" name="suppressAccessChecks"/>
+diff --git a/shell/descriptors/org.jnode.shell.xml b/shell/descriptors/org.jnode.shell.xml
+index 29fc362..048fdcc 100644
+--- a/shell/descriptors/org.jnode.shell.xml
++++ b/shell/descriptors/org.jnode.shell.xml
+@@ -51,0 +52 @@
++    <permission class="java.lang.reflect.ReflectPermission" name="suppressAccessChecks"/>
+diff --git a/shell/src/shell/org/jnode/shell/command/JavaCommand.java b/shell/src/shell/org/jnode/shell/command/JavaCommand.java
+index b6db8d3..a4610cb 100644
+--- a/shell/src/shell/org/jnode/shell/command/JavaCommand.java
++++ b/shell/src/shell/org/jnode/shell/command/JavaCommand.java
+@@ -87,0 +88,5 @@
++            // Disable access checking so that we can execute the method
++            // is the class is not 'public'.  (Strangely, Sun's 'java' command
++            // allows you to run a non-public class. So we should allow this too.)
++            mainMethod.setAccessible(true);
++            
+

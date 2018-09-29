@@ -1,0 +1,84 @@
+diff --git a/history.txt b/history.txt
+index dea82d9..ab41fb7 100644
+--- a/history.txt
++++ b/history.txt
+@@ -4,0 +5,2 @@
++  * Simplify default eepsite base and CGI contexts to use a Context
++    instead of a ContextHolder, ServletHandler, and ServletHolder
+diff --git a/installer/resources/eepsite/contexts/base-context.xml b/installer/resources/eepsite/contexts/base-context.xml
+index 78c7b72..327dc73 100644
+--- a/installer/resources/eepsite/contexts/base-context.xml
++++ b/installer/resources/eepsite/contexts/base-context.xml
+@@ -7 +7 @@
+-This context contains only a ServletHandler with a default servlet
++This context contains only a Context with a default servlet
+@@ -11 +11 @@
+-<Configure class="org.mortbay.jetty.handler.ContextHandler">
++<Configure class="org.mortbay.jetty.servlet.Context">
+@@ -14,14 +14,4 @@
+-  <Set name="handler">
+-    <New class="org.mortbay.jetty.servlet.ServletHandler" >
+-      <Call name="addServletWithMapping">
+-        <Arg>
+-          <New class="org.mortbay.jetty.servlet.ServletHolder">
+-            <Arg>
+-              <New class="org.mortbay.jetty.servlet.DefaultServlet" />
+-            </Arg>
+-          </New>
+-        </Arg>
+-        <Arg>/</Arg>
+-      </Call>
+-    </New>
+-  </Set>
++  <Call name="addServlet">
++    <Arg>org.mortbay.jetty.servlet.DefaultServlet</Arg>
++    <Arg>/</Arg>
++  </Call>
+diff --git a/installer/resources/eepsite/contexts/cgi-context.xml b/installer/resources/eepsite/contexts/cgi-context.xml
+index 77126f5..4a0b0b6 100644
+--- a/installer/resources/eepsite/contexts/cgi-context.xml
++++ b/installer/resources/eepsite/contexts/cgi-context.xml
+@@ -25 +25 @@
+-<Configure class="org.mortbay.jetty.handler.ContextHandler">
++<Configure class="org.mortbay.jetty.servlet.Context">
+@@ -28,18 +28,14 @@
+-  <Set name="handler">
+-    <New class="org.mortbay.jetty.servlet.ServletHandler" >
+-      <Call name="addServletWithMapping">
+-        <Arg>
+-          <New class="org.mortbay.jetty.servlet.ServletHolder">
+-            <Arg>
+-              <New class="org.mortbay.servlet.CGI" />
+-            </Arg>
+-            <Call name="setInitParameter">
+-              <Arg>Path</Arg>
+-              <Arg>/usr/local/bin:/bin:/usr/bin</Arg>
+-            </Call>
+-          </New>
+-        </Arg>
+-        <Arg>/</Arg>
+-      </Call>
+-    </New>
+-  </Set>
++  <Call name="setInitParams">
++    <Arg>
++      <Map>
++        <Entry>
++          <Item>Path</Item>
++          <Item>/usr/local/bin:/bin:/usr/bin</Item>
++        </Entry>
++      </Map>
++    </Arg>
++  </Call>
++  <Call name="addServlet">
++    <Arg>org.mortbay.servlet.CGI</Arg>
++    <Arg>/</Arg>
++  </Call>
+diff --git a/router/java/src/net/i2p/router/RouterVersion.java b/router/java/src/net/i2p/router/RouterVersion.java
+index a620481..f2522cd 100644
+--- a/router/java/src/net/i2p/router/RouterVersion.java
++++ b/router/java/src/net/i2p/router/RouterVersion.java
+@@ -21 +21 @@
+-    public final static long BUILD = 8;
++    public final static long BUILD = 9;
+

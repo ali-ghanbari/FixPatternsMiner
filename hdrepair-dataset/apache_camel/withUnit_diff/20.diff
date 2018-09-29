@@ -1,0 +1,56 @@
+diff --git a/components/camel-zipfile/src/main/java/org/apache/camel/dataformat/zipfile/ZipIterator.java b/components/camel-zipfile/src/main/java/org/apache/camel/dataformat/zipfile/ZipIterator.java
+index a7f1d65..d4ac227 100644
+--- a/components/camel-zipfile/src/main/java/org/apache/camel/dataformat/zipfile/ZipIterator.java
++++ b/components/camel-zipfile/src/main/java/org/apache/camel/dataformat/zipfile/ZipIterator.java
+@@ -100 +100 @@
+-                    answer.setHeaders(inputMessage.getHeaders());
++                    answer.getHeaders().putAll(inputMessage.getHeaders());
+diff --git a/components/camel-zipfile/src/test/java/org/apache/camel/dataformat/zipfile/ZipFileMultipleFilesSplitterTest.java b/components/camel-zipfile/src/test/java/org/apache/camel/dataformat/zipfile/ZipFileMultipleFilesSplitterTest.java
+index e60e6c1..54b5e54 100644
+--- a/components/camel-zipfile/src/test/java/org/apache/camel/dataformat/zipfile/ZipFileMultipleFilesSplitterTest.java
++++ b/components/camel-zipfile/src/test/java/org/apache/camel/dataformat/zipfile/ZipFileMultipleFilesSplitterTest.java
+@@ -20,0 +21 @@
++import org.apache.camel.Exchange;
+@@ -21,0 +23,3 @@
++import org.apache.camel.component.mock.MockEndpoint;
++import org.apache.camel.processor.aggregate.AggregationStrategy;
++import org.junit.Test;
+@@ -23,0 +28,10 @@
++    static final String PROCESSED_FILES_HEADER_NAME = "processedFiles";
++    
++    @Test
++    public void testSplitter() throws InterruptedException {
++        MockEndpoint processZipEntry = getMockEndpoint("mock:processZipEntry");
++        MockEndpoint splitResult = getMockEndpoint("mock:splitResult");
++        processZipEntry.expectedBodiesReceivedInAnyOrder("chau", "hi", "hola");
++        splitResult.expectedBodiesReceivedInAnyOrder("chiau.txt", "hi.txt", "hola.txt");
++        assertMockEndpointsSatisfied();
++    }
+@@ -36,0 +51 @@
++                        .aggregationStrategy(updateHeader())
+@@ -40 +55,4 @@
+-                        .log("Done processing big file: ${header.CamelFileName}");
++                        .log("Done processing big file: ${header.CamelFileName}")
++                        .setBody().header(PROCESSED_FILES_HEADER_NAME)
++                        .split().body()
++                        .to("mock:splitResult");
+@@ -44,0 +63,18 @@
++    
++    private AggregationStrategy updateHeader() {
++        return new AggregationStrategy() {
++            @Override
++            public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
++                if (oldExchange != null) {
++                    String processedFiles = oldExchange.getIn().getHeader(PROCESSED_FILES_HEADER_NAME, String.class);
++                    if (processedFiles == null) {
++                        processedFiles = oldExchange.getIn().getHeader("zipFileName", String.class);
++                    }
++                    processedFiles = processedFiles + "," + newExchange.getIn().getHeader("zipFileName", String.class);
++                    newExchange.getIn().setHeader(PROCESSED_FILES_HEADER_NAME, processedFiles);
++                }
++                return newExchange;
++            }
++            
++        };
++    }
+

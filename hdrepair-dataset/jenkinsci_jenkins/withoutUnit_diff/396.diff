@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/hudson/util/StreamTaskListener.java b/core/src/main/java/hudson/util/StreamTaskListener.java
+index 80321b8..d854d7e 100644
+--- a/core/src/main/java/hudson/util/StreamTaskListener.java
++++ b/core/src/main/java/hudson/util/StreamTaskListener.java
+@@ -58 +58 @@
+-        out = (PrintStream) in.readObject();
++        out = new PrintStream((OutputStream)in.readObject(),true);
+

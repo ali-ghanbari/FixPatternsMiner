@@ -1,0 +1,9 @@
+Peel tags during resolve of foo^
+
+Once we start talking about parents of tags, we are in the commit
+graph, so treat all objects from this point as commits. This fixes
+spurious IncorrectObjectTypeExceptions on resolving expressions like
+tag^^.
+
+Change-Id: I29ece1fdb49c9c5b9ca415efcd1876bc72e97120
+

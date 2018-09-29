@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/jenkinsci/plugins/ghprb/GhprbPullRequest.java b/src/main/java/org/jenkinsci/plugins/ghprb/GhprbPullRequest.java
+index 3f51c00..9f6e2a7 100644
+--- a/src/main/java/org/jenkinsci/plugins/ghprb/GhprbPullRequest.java
++++ b/src/main/java/org/jenkinsci/plugins/ghprb/GhprbPullRequest.java
+@@ -76 +76 @@
+-		ret = ret || pr.getHead().getSha().equals(head);
++		ret = ret || !pr.getHead().getSha().equals(head);
+

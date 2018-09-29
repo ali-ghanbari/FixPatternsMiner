@@ -1,0 +1,20 @@
+diff --git a/src/java/org/apache/commons/lang/text/StrBuilder.java b/src/java/org/apache/commons/lang/text/StrBuilder.java
+index 886d424..4c14509 100644
+--- a/src/java/org/apache/commons/lang/text/StrBuilder.java
++++ b/src/java/org/apache/commons/lang/text/StrBuilder.java
+@@ -884 +884 @@
+-                str.getChars(0, strLen, buffer, size);
++                str.getChars(0, width, buffer, size);
+diff --git a/src/test/org/apache/commons/lang/text/StrBuilderAppendInsertTest.java b/src/test/org/apache/commons/lang/text/StrBuilderAppendInsertTest.java
+index c154913..8feb53c 100644
+--- a/src/test/org/apache/commons/lang/text/StrBuilderAppendInsertTest.java
++++ b/src/test/org/apache/commons/lang/text/StrBuilderAppendInsertTest.java
+@@ -598,0 +599,7 @@
++    // See: http://issues.apache.org/jira/browse/LANG-299
++    public void testLang299() {
++        StrBuilder sb = new StrBuilder(1);
++        sb.appendFixedWidthPadRight("foo", 1, '-');
++        assertEquals("f", sb.toString());
++    }
++
+

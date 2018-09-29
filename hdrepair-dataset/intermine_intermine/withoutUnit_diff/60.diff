@@ -1,0 +1,47 @@
+diff --git a/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml b/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
+index 1dc8182..c46f3ed 100644
+--- a/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
++++ b/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
+@@ -173 +173,3 @@
+-      <titles mainTitles="identifier|name" subTitles="ontology.name" />
++      <titles>
++        <title mainTitles="identifier|name" subTitles="ontology.name" />
++      </titles>
+@@ -314 +316,3 @@
+-      <titles mainTitles="identifier|name" subTitles="ontology.name" />
++      <titles>
++        <title mainTitles="identifier|name" subTitles="ontology.name" />
++      </titles>
+@@ -332 +336,3 @@
+-      <titles mainTitles="name"/>
++      <titles>
++        <title mainTitles="name"/>
++      </titles>
+diff --git a/intermine/web/main/src/org/intermine/web/struts/InitialiserPlugin.java b/intermine/web/main/src/org/intermine/web/struts/InitialiserPlugin.java
+index dd08ab8..9242491 100644
+--- a/intermine/web/main/src/org/intermine/web/struts/InitialiserPlugin.java
++++ b/intermine/web/main/src/org/intermine/web/struts/InitialiserPlugin.java
+@@ -373,2 +373 @@
+-            if (true) {
+-            //if (validateXML(xml, xmlSchemaUrl, "errors.init.webconfig.validation")) {
++            if (validateXML(xml, xmlSchemaUrl, "errors.init.webconfig.validation")) {
+diff --git a/intermine/webapp/main/resources/webapp/WEB-INF/webconfig-model.xsd b/intermine/webapp/main/resources/webapp/WEB-INF/webconfig-model.xsd
+index 980b4d7..db356ee 100644
+--- a/intermine/webapp/main/resources/webapp/WEB-INF/webconfig-model.xsd
++++ b/intermine/webapp/main/resources/webapp/WEB-INF/webconfig-model.xsd
+@@ -111,0 +112 @@
++        <xsd:attribute name="startClass" type="xsd:string"></xsd:attribute>
+@@ -112,0 +114,2 @@
++        <xsd:attribute name="constraints" type="xsd:string"></xsd:attribute>
++        <xsd:attribute name="views" type="xsd:string"></xsd:attribute>
+@@ -121,0 +125,6 @@
++                <xsd:attribute name="bagPath" type="xsd:string"></xsd:attribute>
++                <xsd:attribute name="categoryPath" type="xsd:string"></xsd:attribute>
++                <xsd:attribute name="seriesPath" type="xsd:string"></xsd:attribute>
++                <xsd:attribute name="seriesValues" type="xsd:string"></xsd:attribute>
++                <xsd:attribute name="seriesLabels" type="xsd:string"></xsd:attribute>
++
+@@ -133,0 +143,2 @@
++                <xsd:attribute name="startClassDisplay" type="xsd:string"></xsd:attribute>
++                <xsd:attribute name="enrich" type="xsd:string"></xsd:attribute>
+

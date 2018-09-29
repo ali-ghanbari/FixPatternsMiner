@@ -1,0 +1,161 @@
+diff --git a/nuxeo-platform-search-api/src/test/java/org/nuxeo/ecm/core/search/api/querymodel/QueryModelTestCase.java b/nuxeo-platform-search-api/src/test/java/org/nuxeo/ecm/core/search/api/querymodel/QueryModelTestCase.java
+index 386cd9d..711a078 100644
+--- a/nuxeo-platform-search-api/src/test/java/org/nuxeo/ecm/core/search/api/querymodel/QueryModelTestCase.java
++++ b/nuxeo-platform-search-api/src/test/java/org/nuxeo/ecm/core/search/api/querymodel/QueryModelTestCase.java
+@@ -37 +37 @@
+- * 
++ *
+diff --git a/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/column_header.xhtml b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/column_header.xhtml
+new file mode 100644
+index 0000000..59b8fe4
+--- /dev/null
++++ b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/column_header.xhtml
+@@ -0,0 +1,31 @@
++<ui:composition
++  xmlns="http://www.w3.org/1999/xhtml"
++  xmlns:ui="http://java.sun.com/jsf/facelets"
++  xmlns:h="http://java.sun.com/jsf/html"
++  xmlns:c="http://java.sun.com/jstl/core"
++  xmlns:f="http://java.sun.com/jsf/core"
++  xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
++  xmlns:nxu="http://nuxeo.org/nxweb/util"
++  xmlns:nxh="http://nuxeo.org/nxweb/html"
++  xmlns:nxd="http://nuxeo.org/nxweb/document">
++
++  <f:facet name="header">
++    <h:panelGroup> 
++      <h:outputText rendered="#{!provider.sortable}"
++        value="#{messages[label]}"/>
++      <h:commandLink value="#{messages[label]}" immediate="true"
++        rendered="#{provider.sortable}"
++        action="#{sortActions.repeatSearch}">
++        <f:param name="providerName" value="#{providerName}" />
++        <f:param name="sortColumn" value="#{sortColumn}" />
++        <h:panelGroup rendered="#{provider.sortInfo.sortColumn == sortColumn}" >
++          <h:graphicImage value="/icons/arrow_up.gif"
++            rendered="#{provider.sortInfo.sortAscending}" />
++          <h:graphicImage value="/icons/arrow_down.gif"
++            rendered="#{!provider.sortInfo.sortAscending}" />
++        </h:panelGroup>
++      </h:commandLink>
++    </h:panelGroup>
++   </f:facet>
++</ui:composition>
++  
+diff --git a/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_custom_columns.xhtml b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_custom_columns.xhtml
+index 8803ac1..8f0617c 100644
+--- a/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_custom_columns.xhtml
++++ b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_custom_columns.xhtml
+@@ -15,19 +15,8 @@
+-    <t:column rendered="#{field.type != 'special'}">
+-      <f:facet name="header">
+-        <h:panelGroup>
+-          <h:commandLink immediate="true" action="#{sortActions.repeatSearch}"
+-              rendered="#{provider.sortable}" >
+-            <f:param name="sortColumn" value="#{field.prefixedName}" />
+-            <f:param name="providerName" value="#{providerName}" />
+-            <h:outputText value="#{messages[field.label]}" />
+-            <h:panelGroup rendered="#{provider.sortInfo.sortColumn == field.prefixedName}" >
+-              <h:graphicImage value="/icons/arrow_down.gif"
+-                rendered="#{provider.sortInfo.sortAscending}" />
+-              <h:graphicImage value="/icons/arrow_up.gif"
+-                rendered="#{!provider.sortInfo.sortAscending}" />
+-            </h:panelGroup>
+-          </h:commandLink>
+-          <h:outputText value="#{messages[field.label]}"
+-              rendered="#{!provider.sortable}" />
+-        </h:panelGroup>
+-      </f:facet>
++      <t:column rendered="#{field.type != 'special'}">
++
++      <ui:decorate template="/search/column_header.xhtml">
++        <ui:param name="sortColumn" value="#{field.prefixedName}"/>
++        <ui:param name="provider" value="#{provider}" />
++        <ui:param name="providerName" value="#{providerName}" />
++        <ui:param name="label" value="#{messages[field.label]}" />
++      </ui:decorate>      
+diff --git a/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_special_columns.xhtml b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_special_columns.xhtml
+index 83e3564..d108a6c 100644
+--- a/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_special_columns.xhtml
++++ b/nuxeo-platform-webapp/src/main/resources/nuxeo.war/search/search_results_special_columns.xhtml
+@@ -15,19 +15,7 @@
+-    <f:facet name="header">
+-      <h:panelGroup>
+-      <h:commandLink immediate="true" action="#{searchResults.repeatSearch}"
+-          rendered="#{provider.sortable}" >
+-        <h:outputText value="#{messages[field.label]}" />
+-        <f:param name="providerName" value="#{providerName}" />
+-        <f:param name="sortColumn" value="#{field.prefixedName}" />
+-        <h:panelGroup rendered="#{provider.sortInfo.sortColumn == field.prefixedName}" >
+-          <h:graphicImage value="/icons/arrow_down.gif"
+-            rendered="#{provider.sortInfo.sortAscending}" />
+-          <h:graphicImage value="/icons/arrow_up.gif"
+-            rendered="#{!provider.sortInfo.sortAscending}" />
+-        </h:panelGroup>
+-      </h:commandLink>
+-      <h:outputText value="#{messages[field.label]}"
+-        rendered="#{!provider.sortable}" />
+-    </h:panelGroup>
+-    </f:facet>
+-
++    <ui:decorate template="/search/column_header.xhtml">
++      <ui:param name="sortColumn" value="#{field.prefixedName}"/>
++      <ui:param name="provider" value="#{provider}" />
++      <ui:param name="providerName" value="#{providerName}" />
++      <ui:param name="label" value="#{messages[field.label]}" />
++    </ui:decorate>
++    
+@@ -41,19 +29,7 @@
+-    <f:facet name="header">
+-      <h:panelGroup>
+-      <h:commandLink immediate="true" action="#{searchResults.repeatSearch}"
+-          rendered="#{provider.sortable}" >
+-        <h:outputText value="#{messages[field.label]}" />
+-        <f:param name="providerName" value="#{providerName}" />
+-        <f:param name="sortColumn" value="#{field.prefixedName}" />
+-        <h:panelGroup rendered="#{provider.sortInfo.sortColumn == field.prefixedName}" >
+-          <h:graphicImage value="/icons/arrow_down.gif"
+-            rendered="#{provider.sortInfo.sortAscending}" />
+-          <h:graphicImage value="/icons/arrow_up.gif"
+-            rendered="#{!provider.sortInfo.sortAscending}" />
+-        </h:panelGroup>
+-      </h:commandLink>
+-      <h:outputText value="#{messages[field.label]}"
+-        rendered="#{!provider.sortable}" />
+-    </h:panelGroup>
+-    </f:facet>
+-
++    <ui:decorate template="/search/column_header.xhtml">
++      <ui:param name="sortColumn" value="#{field.prefixedName}"/>
++      <ui:param name="provider" value="#{provider}" />
++      <ui:param name="providerName" value="#{providerName}" />
++      <ui:param name="label" value="#{messages[field.label]}" />
++    </ui:decorate>
++    
+@@ -66,19 +42,6 @@
+-    <f:facet name="header">
+-      <h:panelGroup>
+-      <h:commandLink immediate="true" action="#{searchResults.repeatSearch}"
+-          rendered="#{provider.sortable}" >
+-        <h:outputText value="#{messages[field.label]}" />
+-        <f:param name="providerName" value="#{providerName}" />
+-        <f:param name="sortColumn" value="#{field.prefixedName}" />
+-        <h:panelGroup rendered="#{provider.sortInfo.sortColumn == field.prefixedName}" >
+-          <h:graphicImage value="/icons/arrow_down.gif"
+-            rendered="#{provider.sortInfo.sortAscending}" />
+-          <h:graphicImage value="/icons/arrow_up.gif"
+-            rendered="#{!provider.sortInfo.sortAscending}" />
+-        </h:panelGroup>
+-      </h:commandLink>
+-      <h:outputText value="#{messages[field.label]}"
+-        rendered="#{!provider.sortable}" />
+-    </h:panelGroup>
+-    </f:facet>
+-
++    <ui:decorate template="/search/column_header.xhtml">
++      <ui:param name="sortColumn" value="#{field.prefixedName}"/>
++      <ui:param name="provider" value="#{provider}" />
++      <ui:param name="providerName" value="#{providerName}" />
++      <ui:param name="label" value="#{messages[field.label]}" />
++    </ui:decorate>
+

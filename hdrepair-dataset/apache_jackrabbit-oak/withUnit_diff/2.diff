@@ -1,0 +1,40 @@
+diff --git a/oak-solr-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndex.java b/oak-solr-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndex.java
+index b20b165..74c6626 100644
+--- a/oak-solr-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndex.java
++++ b/oak-solr-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndex.java
+@@ -560 +560 @@
+-                        log.warn("could not perform count countQuery {}", countQuery);
++                        log.warn("could not perform count query {}", countQuery);
+diff --git a/oak-solr-core/src/test/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndexTest.java b/oak-solr-core/src/test/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndexTest.java
+index 6032fc9..93acaa1 100644
+--- a/oak-solr-core/src/test/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndexTest.java
++++ b/oak-solr-core/src/test/java/org/apache/jackrabbit/oak/plugins/index/solr/query/SolrQueryIndexTest.java
+@@ -24,0 +25 @@
++import org.apache.jackrabbit.oak.api.Result;
+@@ -404,0 +406 @@
++    }
+@@ -405,0 +408,23 @@
++    @Test
++    public void testSize() throws Exception {
++        NodeState root = mock(NodeState.class);
++        when(root.getNames(any(String.class))).thenReturn(Collections.<String>emptySet());
++        SelectorImpl selector = new SelectorImpl(root, "a");
++        String sqlQuery = "select [jcr:path], [jcr:score] from [nt:base] as a where" +
++                " contains([jcr:content/*], 'founded')";
++        SolrServer solrServer = TestUtils.createSolrServer();
++        OakSolrConfiguration configuration = new DefaultSolrConfiguration() {
++            @Override
++            public boolean useForPropertyRestrictions() {
++                return true;
++            }
++        };
++        SolrQueryIndex solrQueryIndex = new SolrQueryIndex("solr", solrServer, configuration);
++        FilterImpl filter = new FilterImpl(selector, sqlQuery, new QueryEngineSettings());
++        Cursor cursor = solrQueryIndex.query(filter, root);
++        assertNotNull(cursor);
++        long sizeExact = cursor.getSize(Result.SizePrecision.EXACT, 100000);
++        long sizeApprox = cursor.getSize(Result.SizePrecision.APPROXIMATION, 100000);
++        long sizeFastApprox = cursor.getSize(Result.SizePrecision.FAST_APPROXIMATION, 100000);
++        assertTrue(Math.abs(sizeExact - sizeApprox) < 10);
++        assertTrue(Math.abs(sizeExact - sizeFastApprox) > 10000);
+

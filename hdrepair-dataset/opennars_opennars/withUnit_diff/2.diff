@@ -1,0 +1,175 @@
+diff --git a/nars_java/src/main/java/nars/core/EventEmitter.java b/nars_java/src/main/java/nars/core/EventEmitter.java
+index 38bcdad..bbed18e 100644
+--- a/nars_java/src/main/java/nars/core/EventEmitter.java
++++ b/nars_java/src/main/java/nars/core/EventEmitter.java
+@@ -51 +50,0 @@
+-                    r.notify(Exception.class, Event.wrap(t));
+diff --git a/nars_java/src/test/java/nars/core/EventTest.java b/nars_java/src/test/java/nars/core/EventTest.java
+index 6a9669d..bd8788d 100644
+--- a/nars_java/src/test/java/nars/core/EventTest.java
++++ b/nars_java/src/test/java/nars/core/EventTest.java
+@@ -8 +8 @@
+-import org.junit.Ignore;
++import nars.io.Output;
+@@ -11 +10,0 @@
+-import reactor.event.registry.Registration;
+@@ -19 +17,0 @@
+- *
+@@ -24,3 +22,4 @@
+-    
+-    @Test public void testReactor() throws InterruptedException {
+-        
++
++    @Test
++    public void testReactor() throws InterruptedException {
++
+@@ -28 +27 @@
+-        
++
+@@ -30 +29 @@
+-        
++
+@@ -35 +34 @@
+-        
++
+@@ -37,2 +36,2 @@
+-        
+-        
++
++
+@@ -42 +41 @@
+-        
++
+@@ -46,5 +45,2 @@
+-    //not working yet:
+-    @Ignore
+-    @Test public void testReactorException() throws InterruptedException {
+-
+-        Parameters.DEBUG = true;
++    @Test
++    public void testReactorException() throws InterruptedException {
+@@ -54 +50 @@
+-        try {
++        EventEmitter e = new EventEmitter();
+@@ -56 +52,13 @@
+-            EventEmitter e = new EventEmitter();
++        e.on(Events.CycleEnd.class, new EventEmitter.EventObserver() {
++            @Override
++            public void event(Class event, Object[] args) {
++                throw new RuntimeException("12345");
++            }
++        });
++        e.on(Output.ERR.class, new EventEmitter.EventObserver() {
++            @Override
++            public void event(Class event, Object[] args) {
++                b.set(true);
++            }
++        });
++        e.notify(Events.CycleEnd.class);
+@@ -58,5 +66 @@
+-            Registration on = e.on(Events.CycleEnd.class, new EventEmitter.EventObserver() {
+-                @Override public void event(Class event, Object[] args) {
+-                    throw new RuntimeException("12345");
+-                }
+-            });
++        Thread.sleep(100);
+@@ -64,9 +67,0 @@
+-            e.notify(Events.CycleEnd.class, Event.wrap(true));
+-
+-            Thread.sleep(100);
+-
+-            //e.shutdown();
+-        }
+-        catch (Exception e) {
+-            b.set(true);
+-        }
+diff --git a/nars_java/src/test/java/nars/core/NALQueryTest.java b/nars_java/src/test/java/nars/core/NALQueryTest.java
+index 6139999..7300300 100644
+--- a/nars_java/src/test/java/nars/core/NALQueryTest.java
++++ b/nars_java/src/test/java/nars/core/NALQueryTest.java
+@@ -13 +12,0 @@
+-import org.junit.Ignore;
+@@ -22 +20,0 @@
+- *
+@@ -26,7 +24,2 @@
+-        
+-    
+-    @Ignore
+-    @Test
+-    public void testQuery1() throws Narsese.InvalidInputException {
+-        testQueryAnswered(0, 16);
+-    }
++
++
+@@ -37,0 +31,6 @@
++    @Test
++    public void testQuery1() throws Narsese.InvalidInputException {
++        testQueryAnswered(0, 32);
++    }
++
++
+@@ -39 +38 @@
+-        
++
+@@ -41 +40 @@
+-        
++
+@@ -43 +42 @@
+-                "<a --> b>" /* unknown solution to be derived */ : 
++                "<a --> b>" /* unknown solution to be derived */ :
+@@ -45 +44 @@
+-        
++
+@@ -48,8 +46,0 @@
+-                
+-                n.believe("<a <-> b>", Eternal, 1.0f, 0.5f);
+-                
+-                n.believe("<b --> a>", Eternal, 1.0f, 0.5f);
+-                
+-                n.run(cyclesBeforeQuestion);
+-                
+-                n.ask(question, new Answered() {
+@@ -57,6 +48 @@
+-                    @Override
+-                    public void onSolution(Sentence belief) {
+-                        //System.out.println("solution: " + belief);
+-                        b.set(true);
+-                        off();
+-                    }
++        n.believe("<a <-> b>", Eternal, 1.0f, 0.5f);
+@@ -64,9 +50,22 @@
+-                    @Override
+-                    public void onChildSolution(Task child, Sentence belief) {
+-                        //System.out.println("  child: " + 
+-                        //child + " solution: " + belief);
+-                    }            
+-                });
+-                
+-                n.run(cyclesAfterQuestion);
+-                
++        n.believe("<b --> a>", Eternal, 1.0f, 0.5f);
++
++        n.run(cyclesBeforeQuestion);
++
++        n.ask(question, new Answered() {
++
++            @Override
++            public void onSolution(Sentence belief) {
++                //System.out.println("solution: " + belief);
++                b.set(true);
++                off();
++            }
++
++            @Override
++            public void onChildSolution(Task child, Sentence belief) {
++                //System.out.println("  child: " +
++                //child + " solution: " + belief);
++            }
++        });
++
++        n.run(cyclesAfterQuestion);
++
+@@ -74 +73 @@
+-        
++
+

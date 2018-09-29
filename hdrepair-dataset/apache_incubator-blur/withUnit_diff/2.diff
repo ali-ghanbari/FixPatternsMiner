@@ -1,0 +1,18 @@
+diff --git a/blur-core/src/main/java/org/apache/blur/thrift/BlurShardServer.java b/blur-core/src/main/java/org/apache/blur/thrift/BlurShardServer.java
+index d0772b4..d0e8cfc 100644
+--- a/blur-core/src/main/java/org/apache/blur/thrift/BlurShardServer.java
++++ b/blur-core/src/main/java/org/apache/blur/thrift/BlurShardServer.java
+@@ -725 +725 @@
+-        if (_clusterStatus.isReadOnly(true, _cluster, table)) {
++        if (!_clusterStatus.isReadOnly(true, _cluster, table)) {
+diff --git a/blur-hive/src/test/java/org/apache/blur/hive/BlurSerDeTest.java b/blur-hive/src/test/java/org/apache/blur/hive/BlurSerDeTest.java
+index 8f37db3..aea485f 100644
+--- a/blur-hive/src/test/java/org/apache/blur/hive/BlurSerDeTest.java
++++ b/blur-hive/src/test/java/org/apache/blur/hive/BlurSerDeTest.java
+@@ -85 +85 @@
+-  private static boolean externalProcesses = true;
++  private static boolean externalProcesses = false;
+@@ -294 +294 @@
+-    run(connection, "set " + BlurSerDe.BLUR_BLOCKING_APPLY + " = true");
++    run(connection, "set " + BlurSerDe.BLUR_BLOCKING_APPLY + "=true");
+

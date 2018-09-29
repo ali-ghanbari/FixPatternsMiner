@@ -1,0 +1,5 @@
+Pushed performance optimization over to post-1.2 timeframe.  However, if we are going to stick with our IRequestTarget interface match() method as the way to search, there isn't going to be much possible to fix this.  The most efficient thing would be a tree lookup guided directly by the url.  This would limit searching to that method, however.  If there are other ways to match against a URL, we've done the right hting.  If we really only use a prefix for mounting, it's possible that we've done the wrong thing for performance.  In any case, I don't see us fixing this for 1.2, which means that the performance issue is likely to continue.
+
+
+git-svn-id: https://svn.apache.org/repos/asf/incubator/wicket/trunk@459324 13f79535-47bb-0310-9956-ffa450edef68
+

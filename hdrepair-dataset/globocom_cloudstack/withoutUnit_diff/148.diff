@@ -1,0 +1,25 @@
+diff --git a/server/src/com/cloud/upgrade/dao/Upgrade40to41.java b/server/src/com/cloud/upgrade/dao/Upgrade40to41.java
+index 2ebe980..e7fea23 100644
+--- a/server/src/com/cloud/upgrade/dao/Upgrade40to41.java
++++ b/server/src/com/cloud/upgrade/dao/Upgrade40to41.java
+@@ -73 +73 @@
+-            throw new CloudRuntimeException("Unable to find db/schema-302to40-cleanup.sql");
++            throw new CloudRuntimeException("Unable to find db/schema-40to410-cleanup.sql");
+diff --git a/setup/db/create-schema.sql b/setup/db/create-schema.sql
+index b4f992d..369a075 100755
+--- a/setup/db/create-schema.sql
++++ b/setup/db/create-schema.sql
+@@ -148,6 +148,6 @@
+-DROP TABLE IF EXISTS `cloud`,`external_nicira_nvp_devices`;
+-DROP TABLE IF EXISTS `cloud`,`nicira_nvp_nic_map`;
+-DROP TABLE IF EXISTS `cloud`,`s3`;
+-DROP TABLE IF EXISTS `cloud`,`template_s3_ref`;
+-DROP TABLE IF EXISTS `cloud`,`nicira_nvp_router_map`;
+-DROP TABLE IF EXISTS `cloud`,`external_bigswitch_vns_devices`;
++DROP TABLE IF EXISTS `cloud`.`external_nicira_nvp_devices`;
++DROP TABLE IF EXISTS `cloud`.`nicira_nvp_nic_map`;
++DROP TABLE IF EXISTS `cloud`.`s3`;
++DROP TABLE IF EXISTS `cloud`.`template_s3_ref`;
++DROP TABLE IF EXISTS `cloud`.`nicira_nvp_router_map`;
++DROP TABLE IF EXISTS `cloud`.`external_bigswitch_vns_devices`;
+

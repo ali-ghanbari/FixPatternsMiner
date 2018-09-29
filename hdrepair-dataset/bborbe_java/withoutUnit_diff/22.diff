@@ -1,0 +1,8 @@
+diff --git a/search_gui/src/main/java/de/benjaminborbe/search/gui/servlet/SearchGuiJsonServlet.java b/search_gui/src/main/java/de/benjaminborbe/search/gui/servlet/SearchGuiJsonServlet.java
+index 97e95ef..4d2adb6 100644
+--- a/search_gui/src/main/java/de/benjaminborbe/search/gui/servlet/SearchGuiJsonServlet.java
++++ b/search_gui/src/main/java/de/benjaminborbe/search/gui/servlet/SearchGuiJsonServlet.java
+@@ -101 +101 @@
+-		if (!searchGuiConfig.getAuthToken().equals(token)) {
++		if (searchGuiConfig.getAuthToken() == null || token == null || !searchGuiConfig.getAuthToken().equals(token)) {
+

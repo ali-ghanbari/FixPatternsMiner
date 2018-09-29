@@ -1,0 +1,22 @@
+diff --git a/src/conf/META-INF/services/org/mule/i18n/core-messages.properties b/src/conf/META-INF/services/org/mule/i18n/core-messages.properties
+index 04db34f..fdf9577 100644
+--- a/src/conf/META-INF/services/org/mule/i18n/core-messages.properties
++++ b/src/conf/META-INF/services/org/mule/i18n/core-messages.properties
+@@ -49 +49 @@
+-54=The transformer "{0}" does not support source type "{0}". Endpoint is "{1}"
++54=The transformer "{0}" does not support source type "{1}". Endpoint is "{2}"
+diff --git a/src/conf/log4j.properties b/src/conf/log4j.properties
+index e319b7f..f0a52e1 100644
+--- a/src/conf/log4j.properties
++++ b/src/conf/log4j.properties
+@@ -2 +2 @@
+-log4j.rootCategory=info, stdout
++log4j.rootCategory=debug, stdout
+diff --git a/src/java/org/mule/routing/outbound/AbstractRecipientList.java b/src/java/org/mule/routing/outbound/AbstractRecipientList.java
+index c9595bc..063d707 100644
+--- a/src/java/org/mule/routing/outbound/AbstractRecipientList.java
++++ b/src/java/org/mule/routing/outbound/AbstractRecipientList.java
+@@ -59 +59 @@
+-            boolean correlationSet = message.getCorrelationId()!=null;
++            boolean correlationSet = message.getCorrelationGroupSize()!=-1;
+

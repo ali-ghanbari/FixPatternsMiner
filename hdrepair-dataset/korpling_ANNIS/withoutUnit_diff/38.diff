@@ -1,0 +1,81 @@
+diff --git a/annis-service/src/main/distribution/sql/indexes_staging.sql b/annis-service/src/main/distribution/sql/indexes_staging.sql
+index 218e153..f641096 100644
+--- a/annis-service/src/main/distribution/sql/indexes_staging.sql
++++ b/annis-service/src/main/distribution/sql/indexes_staging.sql
+@@ -12,0 +13,2 @@
++CREATE INDEX tmpidx_left_token_helper ON _node ("left", corpus_ref, text_ref, token_index) WHERE token_index IS NOT NULL;
++CREATE INDEX tmpidx_right_token_helper ON _node ("right", corpus_ref, text_ref, token_index) WHERE token_index IS NOT NULL; 
+diff --git a/annis-service/src/main/distribution/sql/left_token_right_token.sql b/annis-service/src/main/distribution/sql/left_token_right_token.sql
+index 1d56ee5..a859762 100644
+--- a/annis-service/src/main/distribution/sql/left_token_right_token.sql
++++ b/annis-service/src/main/distribution/sql/left_token_right_token.sql
+@@ -1,2 +0,0 @@
+--- BEGIN;
+-
+@@ -5,39 +3,17 @@
+-CREATE TEMPORARY TABLE spannendtoken
+-AS
+-(
+-  WITH RECURSIVE leftright AS
+-  (
+-    SELECT n.id as id, r.parent as parent, r.pre AS pre, n.token_index AS left_token,
+-          n.token_index as right_token
+-    FROM _node as n, _rank as r
+-    WHERE
+-      n.token_index is not null
+-      AND r.node_ref = n.id
+-
+-    UNION ALL
+-
+-    SELECT r.node_ref AS id, r.parent AS parent, r.pre AS pre,
+-          l.left_token AS left_token, l.right_token AS right_token
+-    FROM _rank AS r, _component AS c, leftright AS l, _node AS n
+-    WHERE
+-      l.parent = r.pre AND c.type in ('c', 'd', 'p')
+-      AND r.node_ref = n.id
+-      AND n.token_index IS NULL
+-      AND r.component_ref = c.id
+-  )
+-  SELECT id, min(left_token) AS left_token, max(right_token) as right_token
+-  FROM leftright
+-  GROUP BY id
+-);
+-
+-CREATE INDEX _idx_spannendtoken_id on spannendtoken(id);
+-
+-ANALYZE spannendtoken;
+-
+-UPDATE _node SET
+-left_token = (SELECT left_token FROM spannendtoken AS s WHERE s.id = _node.id),
+-right_token = (SELECT right_token FROM spannendtoken AS s WHERE s.id = _node.id)
+-;
+-
+-DROP TABLE spannendtoken;
+--- COMMIT;
+\ No newline at end of file
++UPDATE _node AS parent SET 
++left_token = (
++  SELECT token_index FROM _node AS child 
++  WHERE 
++    parent.left = child.left 
++    AND parent.corpus_ref = child.corpus_ref 
++    AND parent.text_ref = child.text_ref 
++    AND child.token_index IS NOT NULL
++), 
++right_token = (
++  SELECT token_index FROM _node AS child 
++  WHERE 
++    parent.right = child.right 
++    AND parent.corpus_ref = child.corpus_ref 
++    AND parent.text_ref = child.text_ref 
++    AND child.token_index IS NOT NULL
++);
+\ No newline at end of file
+diff --git a/annis-service/src/main/java/annis/administration/DefaultAdministrationDao.java b/annis-service/src/main/java/annis/administration/DefaultAdministrationDao.java
+index a1ea4f3..1844418 100644
+--- a/annis-service/src/main/java/annis/administration/DefaultAdministrationDao.java
++++ b/annis-service/src/main/java/annis/administration/DefaultAdministrationDao.java
+@@ -414,2 +413,0 @@
+-//    if (true) return;
+-
+

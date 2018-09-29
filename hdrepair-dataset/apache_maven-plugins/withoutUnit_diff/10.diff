@@ -1,0 +1,8 @@
+diff --git a/maven-dependency-plugin/src/main/java/org/apache/maven/plugin/dependency/fromDependencies/BuildClasspathMojo.java b/maven-dependency-plugin/src/main/java/org/apache/maven/plugin/dependency/fromDependencies/BuildClasspathMojo.java
+index 1e30d6c..f575457 100644
+--- a/maven-dependency-plugin/src/main/java/org/apache/maven/plugin/dependency/fromDependencies/BuildClasspathMojo.java
++++ b/maven-dependency-plugin/src/main/java/org/apache/maven/plugin/dependency/fromDependencies/BuildClasspathMojo.java
+@@ -332 +332 @@
+-            return (cpString.equals(oldCp) || ( cpString != null && cpString.equals( oldCp ) ) );
++            return ( cpString == null ? oldCp == null : cpString.equals( oldCp ) );
+

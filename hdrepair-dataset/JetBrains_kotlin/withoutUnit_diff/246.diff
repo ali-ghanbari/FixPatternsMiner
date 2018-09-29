@@ -1,0 +1,17 @@
+diff --git a/idea/src/org/jetbrains/jet/lang/cfg/JetControlFlowProcessor.java b/idea/src/org/jetbrains/jet/lang/cfg/JetControlFlowProcessor.java
+index b710afa..a1f7407 100644
+--- a/idea/src/org/jetbrains/jet/lang/cfg/JetControlFlowProcessor.java
++++ b/idea/src/org/jetbrains/jet/lang/cfg/JetControlFlowProcessor.java
+@@ -402 +402 @@
+-        public void visitDotQualifiedExpression(JetDotQualifiedExpression expression) {
++        public void visitQualifiedExpression(JetQualifiedExpression expression) {
+diff --git a/idea/testData/codegen/systemOut.jet b/idea/testData/codegen/systemOut.jet
+index 2997498..d2e9f7c 100644
+--- a/idea/testData/codegen/systemOut.jet
++++ b/idea/testData/codegen/systemOut.jet
+@@ -1 +1 @@
+-fun f() : Any { return System.out; }
+\ No newline at end of file
++fun f() : Any? { return System.out; }
+\ No newline at end of file
+

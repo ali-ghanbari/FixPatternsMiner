@@ -1,0 +1,14 @@
+diff --git a/src/main/java/hudson/tasks/test/AbstractTestResultAction.java b/src/main/java/hudson/tasks/test/AbstractTestResultAction.java
+index 8b72dd1..b1c41cd 100644
+--- a/src/main/java/hudson/tasks/test/AbstractTestResultAction.java
++++ b/src/main/java/hudson/tasks/test/AbstractTestResultAction.java
+@@ -162 +162 @@
+-                : (int) (100.0 * Math.max(0.0, Math.min(0.0, 1.0 - (scaleFactor * failCount) / totalCount)));
++                : (int) (100.0 * Math.max(0.0, Math.min(1.0, 1.0 - (scaleFactor * failCount) / totalCount)));
+diff --git a/src/test/java/hudson/tasks/junit/JUnitResultArchiverTest.java b/src/test/java/hudson/tasks/junit/JUnitResultArchiverTest.java
+index a6c915e..3640e88 100644
+--- a/src/test/java/hudson/tasks/junit/JUnitResultArchiverTest.java
++++ b/src/test/java/hudson/tasks/junit/JUnitResultArchiverTest.java
+@@ -204,0 +205 @@
++        assertEquals(/* ⅞ = 87.5% */87, testResultAction.getBuildHealth().getScore());
+

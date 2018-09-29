@@ -1,0 +1,11 @@
+webadmin: NPE fix when adding a domain (#856583)
+
+When trying to add a storage domain with a not-supported format there
+was an NPE causing a bad error message instead of the correct one.
+This was caused since the StorageModel in StorageListModel
+wasn't set to the selected item. It is now.
+
+Change-Id: I07cb27ce4c50410840032cdda06deb3b20a5aa8b
+Bug-Url: https://bugzilla.redhat.com/856583
+Signed-off-by: Vered Volansky <vvolansk@redhat.com>
+

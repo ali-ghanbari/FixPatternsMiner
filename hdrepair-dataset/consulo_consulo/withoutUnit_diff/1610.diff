@@ -1,0 +1,8 @@
+diff --git a/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUpdater.java b/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUpdater.java
+index d1f06ad..3b35ae4 100644
+--- a/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUpdater.java
++++ b/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUpdater.java
+@@ -240 +240 @@
+-      invokeLater(runnable);
++      myTreeBuilder.getReady(this).doWhenDone(runnable);
+

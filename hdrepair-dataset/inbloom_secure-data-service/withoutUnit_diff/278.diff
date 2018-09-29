@@ -1,0 +1,50 @@
+diff --git a/sli/acceptance-tests/Rakefile b/sli/acceptance-tests/Rakefile
+index 9ec8e98..94df62d 100644
+--- a/sli/acceptance-tests/Rakefile
++++ b/sli/acceptance-tests/Rakefile
+@@ -297 +297 @@
+-    "aggregationdefinition" => "aggregationdefinition_fixture.json",
++    "aggregationDefinition" => "aggregationdefinition_fixture.json",
+diff --git a/sli/acceptance-tests/test/data/aggregationdefinition_fixture.json b/sli/acceptance-tests/test/data/aggregationdefinition_fixture.json
+index f050862..6d00b45 100644
+--- a/sli/acceptance-tests/test/data/aggregationdefinition_fixture.json
++++ b/sli/acceptance-tests/test/data/aggregationdefinition_fixture.json
+@@ -1,2 +1,2 @@
+-{ "_id" : { "$binary" : "GUmxa4Of29h3mPrn5hFTuw==", "$type" : "03" }, "type" : "aggregationdefinition", "body" : { "name" : "8th Grade EOG", "map" : "mapDistrictPerf1to4", "finalize" : "finalizePerf1to4", "parameters" : [ "67ce204b-9999-4a11-bfea-000000004682", "67ce204b-9999-4a11-bfea-000000004683", "67ce204b-9999-4a11-bfea-000000004684" ], "frequency" : "n/a", "collection" : "studentassessmentassociation", "reduce" : "reducePerf1to4" }, "metadata" : {} }
+-{ "_id" : { "$binary" : "T0X91joymr3hMS1w8u3ZmA==", "$type" : "03" }, "type" : "aggregationdefinition", "body" : { "name" : "8th Grade EOG", "map" : "mapSchoolPerf1to4", "finalize" : "finalizePerf1to4", "parameters" : [ "67ce204b-9999-4a11-bfea-000000004682", "67ce204b-9999-4a11-bfea-000000004683", "67ce204b-9999-4a11-bfea-000000004684" ], "frequency" : "n/a", "collection" : "studentassessmentassociation", "reduce" : "reducePerf1to4" }, "metadata" : {} }
+\ No newline at end of file
++{ "_id" : { "$binary" : "GUmxa4Of29h3mPrn5hFTuw==", "$type" : "03" }, "type" : "aggregationdefinition", "body" : { "name" : "8th Grade EOG", "map" : "mapDistrictPerf1to4", "finalize" : "finalizePerf1to4", "parameters" : [ "67ce204b-9999-4a11-aaaa-000000000002", "67ce204b-9999-4a11-aaaa-000000000001", "67ce204b-9999-4a11-aaaa-000000000000" ], "frequency" : "n/a", "collection" : "studentAssessmentAssociation", "reduce" : "reducePerf1to4" }, "metadata" : {} }
++{ "_id" : { "$binary" : "T0X91joymr3hMS1w8u3ZmA==", "$type" : "03" }, "type" : "aggregationdefinition", "body" : { "name" : "8th Grade EOG", "map" : "mapSchoolPerf1to4", "finalize" : "finalizePerf1to4", "parameters" : [ "67ce204b-9999-4a11-aaaa-000000000002", "67ce204b-9999-4a11-aaaa-000000000001", "67ce204b-9999-4a11-aaaa-000000000000" ], "frequency" : "n/a", "collection" : "studentAssessmentAssociation", "reduce" : "reducePerf1to4" }, "metadata" : {} }
+\ No newline at end of file
+diff --git a/sli/api/src/main/java/org/slc/sli/api/config/BasicDefinitionStore.java b/sli/api/src/main/java/org/slc/sli/api/config/BasicDefinitionStore.java
+index 9e2bd80..195b04b 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/config/BasicDefinitionStore.java
++++ b/sli/api/src/main/java/org/slc/sli/api/config/BasicDefinitionStore.java
+@@ -53 +53 @@
+-        EntityDefinition aggregationDefinition = this.makeExposeAndAddEntityDefinition("aggregationdefinition");
++        EntityDefinition aggregationDefinition = this.makeExposeAndAddEntityDefinition("aggregationDefinition");
+diff --git a/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapDistrictPerf1to4.js b/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapDistrictPerf1to4.js
+index 6566cc4..93881d3 100644
+--- a/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapDistrictPerf1to4.js
++++ b/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapDistrictPerf1to4.js
+@@ -22 +22 @@
+-    db.studentschoolassociation.find({"body.studentId":this.body.studentId}).forEach(
++    db.studentSchoolAssociation.find({"body.studentId":this.body.studentId}).forEach(
+@@ -25 +25 @@
+-            db.educationOrganizationschoolassociation.find({"body.schoolId":ssa.body.schoolId}).forEach(
++            db.educationOrganizationSchoolAssociation.find({"body.schoolId":ssa.body.schoolId}).forEach(
+diff --git a/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapSchoolPerf1to4.js b/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapSchoolPerf1to4.js
+index 7e10093..57fb018 100644
+--- a/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapSchoolPerf1to4.js
++++ b/sli/api/src/main/resources/aggregationDefinitions/mapFunctions/mapSchoolPerf1to4.js
+@@ -17 +17 @@
+-    db.studentschoolassociation.find({"body.studentId" : this.body.studentId}).forEach(
++    db.studentSchoolAssociation.find({"body.studentId" : this.body.studentId}).forEach(
+diff --git a/sli/api/src/test/resources/TestAggregate.js b/sli/api/src/test/resources/TestAggregate.js
+index 60902ce..0c17049 100644
+--- a/sli/api/src/test/resources/TestAggregate.js
++++ b/sli/api/src/test/resources/TestAggregate.js
+@@ -6 +6 @@
+-var inputCollectionName = "studentassessmentassociation";
++var inputCollectionName = "studentAssessmentAssociation";
+

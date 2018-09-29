@@ -1,0 +1,56 @@
+diff --git a/activemq-broker/src/main/java/org/apache/activemq/security/JaasDualAuthenticationBroker.java b/activemq-broker/src/main/java/org/apache/activemq/security/JaasDualAuthenticationBroker.java
+index 47ac693..7931c63 100644
+--- a/activemq-broker/src/main/java/org/apache/activemq/security/JaasDualAuthenticationBroker.java
++++ b/activemq-broker/src/main/java/org/apache/activemq/security/JaasDualAuthenticationBroker.java
+@@ -133,0 +134,2 @@
++
++        super.removeDestination(context, destination, timeout);
+diff --git a/activemq-unit-tests/src/test/java/org/apache/activemq/bugs/AMQ4126Test.java b/activemq-unit-tests/src/test/java/org/apache/activemq/bugs/AMQ4126Test.java
+index 7737f1c..4d6d39c 100644
+--- a/activemq-unit-tests/src/test/java/org/apache/activemq/bugs/AMQ4126Test.java
++++ b/activemq-unit-tests/src/test/java/org/apache/activemq/bugs/AMQ4126Test.java
+@@ -19 +18,0 @@
+-import java.io.File;
+@@ -22,0 +22 @@
++import javax.management.ObjectName;
+@@ -52 +52 @@
+-
++    private final static String destinationName = "TEST.QUEUE";
+@@ -62,0 +63,2 @@
++        broker.setDeleteAllMessagesOnStartup(true);
++        broker.setUseJmx(true);
+@@ -157,0 +160,20 @@
++
++    @Test
++    public void testJmx() throws Exception {
++        TestCase.assertFalse(findDestination(destinationName));
++        broker.getAdminView().addQueue(destinationName);
++        TestCase.assertTrue(findDestination(destinationName));
++        broker.getAdminView().removeQueue(destinationName);
++        TestCase.assertFalse(findDestination(destinationName));
++    }
++
++    private boolean findDestination(String name) throws Exception {
++        ObjectName[] destinations = broker.getAdminView().getQueues();
++        for (ObjectName destination : destinations) {
++            if (destination.toString().contains(name)) {
++                return true;
++            }
++        }
++        return false;
++    }
++
+diff --git a/activemq-unit-tests/src/test/resources/org/apache/activemq/bugs/amq4126/JaasStompSSLBroker.xml b/activemq-unit-tests/src/test/resources/org/apache/activemq/bugs/amq4126/JaasStompSSLBroker.xml
+index bcb9e26..a245028 100644
+--- a/activemq-unit-tests/src/test/resources/org/apache/activemq/bugs/amq4126/JaasStompSSLBroker.xml
++++ b/activemq-unit-tests/src/test/resources/org/apache/activemq/bugs/amq4126/JaasStompSSLBroker.xml
+@@ -19 +19 @@
+-<beans 
++<beans
+@@ -26 +26 @@
+-  <broker xmlns="http://activemq.apache.org/schema/core" brokerName="broker" id="broker" useJmx="false" persistent="false">
++  <broker xmlns="http://activemq.apache.org/schema/core" brokerName="broker" id="broker" useJmx="true" persistent="false">
+@@ -31 +31 @@
+-    
++
+

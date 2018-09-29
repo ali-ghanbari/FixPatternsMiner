@@ -1,0 +1,15 @@
+diff --git a/src/main/org/jboss/messaging/core/remoting/codec/ConsumerFlowTokenMessageCodec.java b/src/main/org/jboss/messaging/core/remoting/codec/ConsumerFlowTokenMessageCodec.java
+index 8b74d01..fc8755b 100644
+--- a/src/main/org/jboss/messaging/core/remoting/codec/ConsumerFlowTokenMessageCodec.java
++++ b/src/main/org/jboss/messaging/core/remoting/codec/ConsumerFlowTokenMessageCodec.java
+@@ -40 +40 @@
+-      out.putFloat(message.getTokens());
++      out.putInt(message.getTokens());
+diff --git a/tests/src/org/jboss/messaging/core/remoting/wireformat/test/unit/PacketTypeTest.java b/tests/src/org/jboss/messaging/core/remoting/wireformat/test/unit/PacketTypeTest.java
+index 2f8bdbd..116670d 100644
+--- a/tests/src/org/jboss/messaging/core/remoting/wireformat/test/unit/PacketTypeTest.java
++++ b/tests/src/org/jboss/messaging/core/remoting/wireformat/test/unit/PacketTypeTest.java
+@@ -658 +658 @@
+-   public void testChangeRateMessage() throws Exception
++   public void testConsumerFlowTokenMessage() throws Exception
+

@@ -1,0 +1,32 @@
+diff --git a/README.md b/README.md
+index 9b07a4f..2921107 100644
+--- a/README.md
++++ b/README.md
+@@ -150,3 +150,3 @@
+-When start yobi, You can specify the home directory that data and configuration
+-to read from and store into. If you want to use `/home/user/.yobi` as the home
+-directory, set 'yobi.home' property as follows:
++When start yobi, You can specify the home directory to contain data for Yobi.
++If you want to use `/home/user/.yobi` as the home directory, set 'yobi.home'
++property as follows:
+@@ -154,0 +155,5 @@
++
++Note: Yobi doesn't load the configuration files from the home directory. If you
++want to do that, specify the path to the config files as follows:
++
++    bin/yobi -Dyobi.home=/home/user/.yobi -Dconfig.file=/home/user/.yobi/conf/application.conf -Dlogger.file=/home/user/.yobi/conf/application-logger.xml
+@@ -323,0 +329,6 @@
++주의: 위와 같이 실행해도 설정 파일은 홈 디렉토리에서 불러오지 않습니다. 설정
++파일도 홈 디렉토리에서 불러오려면 다음과 같이 직접 설정 파일의 위치를
++지정합니다.
++
++    bin/yobi -Dyobi.home=/home/user/.yobi -Dconfig.file=/home/user/.yobi/conf/application.conf -Dlogger.file=/home/user/.yobi/conf/application-logger.xml
++
+diff --git a/app/Global.java b/app/Global.java
+index f91b8ad..a5d4b87 100644
+--- a/app/Global.java
++++ b/app/Global.java
+@@ -86 +86 @@
+-     * Creates application.xml by default if necessary
++     * Creates application.conf by default if necessary
+

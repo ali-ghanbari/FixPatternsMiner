@@ -1,0 +1,12 @@
+PDI-13082 - Regression: MapReduce Input is missing Serializable Data Type
+
+fix wrong reflection call.
+
+...this will copy from value to result (java reflection call - when really we do want to have a copy from result to value) - that will lead to empty values passed down from mapper transformation.
+
+see https://hbase.apache.org/apidocs/org/apache/hadoop/hbase/client/Result.html#copyFrom%28org.apache.hadoop.hbase.client.Result%29
+
+Based on if/else if Result will implement Writable interface this issue will not occurs. So this is specific to cloudera CDH5 for example.
+
+Java reflection can be very 'inversion of control' in some cases.
+

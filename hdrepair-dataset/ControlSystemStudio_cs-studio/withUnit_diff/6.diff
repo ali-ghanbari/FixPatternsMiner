@@ -1,0 +1,25 @@
+diff --git a/products/DESY/plugins/de.desy.language.snl/src-test/de/desy/language/snl/parser/parser/StateParser_Test.java b/products/DESY/plugins/de.desy.language.snl/src-test/de/desy/language/snl/parser/parser/StateParser_Test.java
+index a75f146..f77cd66 100644
+--- a/products/DESY/plugins/de.desy.language.snl/src-test/de/desy/language/snl/parser/parser/StateParser_Test.java
++++ b/products/DESY/plugins/de.desy.language.snl/src-test/de/desy/language/snl/parser/parser/StateParser_Test.java
+@@ -4 +3,0 @@
+-import junit.framework.TestCase;
+@@ -10 +9 @@
+-public class StateParser_Test extends TestCase {
++public class StateParser_Test {
+@@ -75,0 +75,7 @@
++	@Test(timeout=1000)
++	public void testBUG2136() {
++	    final StateParser parser = new StateParser();
++	
++	    parser.findNext("state init ");
++	    Assert.assertFalse(parser.hasFoundElement());
++	}
+diff --git a/products/DESY/plugins/de.desy.language.snl/src/de/desy/language/snl/parser/parser/StateParser.java b/products/DESY/plugins/de.desy.language.snl/src/de/desy/language/snl/parser/parser/StateParser.java
+index 7fda015..657354c 100644
+--- a/products/DESY/plugins/de.desy.language.snl/src/de/desy/language/snl/parser/parser/StateParser.java
++++ b/products/DESY/plugins/de.desy.language.snl/src/de/desy/language/snl/parser/parser/StateParser.java
+@@ -22 +22 @@
+-			localStart = preMatcher.start();
++			localStart = preMatcher.end();
+

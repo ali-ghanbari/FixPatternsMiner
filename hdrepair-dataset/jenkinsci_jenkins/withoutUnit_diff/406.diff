@@ -1,0 +1,26 @@
+diff --git a/core/src/main/java/hudson/model/AbstractProject.java b/core/src/main/java/hudson/model/AbstractProject.java
+index 92c2d62..abbb150 100644
+--- a/core/src/main/java/hudson/model/AbstractProject.java
++++ b/core/src/main/java/hudson/model/AbstractProject.java
+@@ -581 +581 @@
+-                    return '#'+item.getBuild().number+' '+item.e.getMsg()+" ("+item.e.getAuthor()+")";
++                    return "#"+item.getBuild().number+' '+item.e.getMsg()+" ("+item.e.getAuthor()+")";
+diff --git a/core/src/main/resources/hudson/atom.jelly b/core/src/main/resources/hudson/atom.jelly
+index 4da4374..0bfb9c7 100644
+--- a/core/src/main/resources/hudson/atom.jelly
++++ b/core/src/main/resources/hudson/atom.jelly
+@@ -26,2 +26,2 @@
+-        <title>${adapter.getEntryTitle(e)}</title>
+-        <link rel="alternate" type="text/html" href="${rootURL}/${adapter.getEntryUrl(e)}"/>
++        <title>${h.xmlEscape(adapter.getEntryTitle(e))}</title>
++        <link rel="alternate" type="text/html" href="${rootURL}/${h.encode(adapter.getEntryUrl(e))}"/>
+diff --git a/core/src/main/resources/hudson/rss20.jelly b/core/src/main/resources/hudson/rss20.jelly
+index 27d3067..6536c67 100644
+--- a/core/src/main/resources/hudson/rss20.jelly
++++ b/core/src/main/resources/hudson/rss20.jelly
+@@ -15,2 +15,2 @@
+-          <title>${adapter.getEntryTitle(e)}</title>
+-          <link>${rootURL}/${adapter.getEntryUrl(e)}</link>
++          <title>${h.xmlEscape(adapter.getEntryTitle(e))}</title>
++          <link>${rootURL}/${h.encode(adapter.getEntryUrl(e))}</link>
+

@@ -1,0 +1,16 @@
+diff --git a/mes-application/src/main/webapp/WEB-INF/log4j.xml b/mes-application/src/main/webapp/WEB-INF/log4j.xml
+index fa5b17f..cb9774a 100644
+--- a/mes-application/src/main/webapp/WEB-INF/log4j.xml
++++ b/mes-application/src/main/webapp/WEB-INF/log4j.xml
+@@ -19,0 +20,3 @@
++	<logger name="org.qcadoo.mes.utils">
++		<level value="info" />
++	</logger>
+diff --git a/mes-core/src/main/java/com/qcadoo/mes/view/components/GridComponent.java b/mes-core/src/main/java/com/qcadoo/mes/view/components/GridComponent.java
+index 2d43a83..d3e3549 100644
+--- a/mes-core/src/main/java/com/qcadoo/mes/view/components/GridComponent.java
++++ b/mes-core/src/main/java/com/qcadoo/mes/view/components/GridComponent.java
+@@ -301 +301 @@
+-                addRestriction(searchCriteriaBuilder, filter, columns.get(listData.getOrderColumn()),
++                addRestriction(searchCriteriaBuilder, filter, columns.get(filter.get("column")),
+

@@ -1,0 +1,8 @@
+fix(engine): serialize deployment
+
+ensure serial processing of multiple deployments on the same node.
+We experienced deadlock situations with highly concurrent deployment of multiple
+applications on Jboss & Wildfly in combination with H2.
+
+related to #CAM-3810
+

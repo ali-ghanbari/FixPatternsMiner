@@ -1,0 +1,21 @@
+diff --git a/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrNamespaceRegistry.java b/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrNamespaceRegistry.java
+index 4223139..24026b2 100644
+--- a/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrNamespaceRegistry.java
++++ b/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrNamespaceRegistry.java
+@@ -216 +216 @@
+-        if (!XmlCharacters.isValidName(prefix)) {
++        if (!XmlCharacters.isValidNcName(prefix)) {
+diff --git a/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrNamespaceRegistryTest.java b/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrNamespaceRegistryTest.java
+index a425cac..bd2b2d9 100644
+--- a/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrNamespaceRegistryTest.java
++++ b/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrNamespaceRegistryTest.java
+@@ -371,0 +372,8 @@
++
++    @FixFor("MODE-2278")
++    @Test(expected = NamespaceException.class)
++    public void shouldNotAllowColonInPrefix() throws Exception {
++        registry.registerNamespace("invalid", "http://invalid");
++        //as per http://www.w3.org/TR/REC-xml-names, the prefix has to be a valid NCName
++        registry.registerNamespace("invalid:prefix", "http://invalid/prefix");
++    }
+

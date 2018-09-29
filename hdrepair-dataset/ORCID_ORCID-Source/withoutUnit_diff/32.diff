@@ -1,0 +1,8 @@
+diff --git a/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jpa2JaxbAdapterImpl.java b/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jpa2JaxbAdapterImpl.java
+index 04e1054..d94b1fa 100755
+--- a/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jpa2JaxbAdapterImpl.java
++++ b/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jpa2JaxbAdapterImpl.java
+@@ -748 +748 @@
+-            SourceName sponsorName = StringUtils.isNotBlank(sponsorProfileEntity.getCreditName()) ? new SourceName(sponsorProfileEntity.getCreditName()) : null;
++            SourceName sponsorName = new SourceName(createName(sponsorProfileEntity));
+

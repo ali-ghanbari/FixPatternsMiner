@@ -1,0 +1,19 @@
+diff --git a/jsp/student/projectSubmissions/submitProject.jsp b/jsp/student/projectSubmissions/submitProject.jsp
+index 500273f..7d9ab06 100755
+--- a/jsp/student/projectSubmissions/submitProject.jsp
++++ b/jsp/student/projectSubmissions/submitProject.jsp
+@@ -27,2 +27,2 @@
+-<fr:create id="createProjectSubmission"
+-	type="net.sourceforge.fenixedu.dataTransferObject.projectSubmission.CreateProjectSubmissionBean"
++<fr:edit id="createProjectSubmission"
++	name="projectSubmission"
+@@ -42 +42 @@
+-</fr:create>
++</fr:edit>
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/Action/student/ProjectSubmissionDispatchAction.java b/src/net/sourceforge/fenixedu/presentationTier/Action/student/ProjectSubmissionDispatchAction.java
+index 653fb3c..271b265 100755
+--- a/src/net/sourceforge/fenixedu/presentationTier/Action/student/ProjectSubmissionDispatchAction.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/Action/student/ProjectSubmissionDispatchAction.java
+@@ -104,0 +105 @@
++        request.setAttribute("projectSubmission", new CreateProjectSubmissionBean());
+

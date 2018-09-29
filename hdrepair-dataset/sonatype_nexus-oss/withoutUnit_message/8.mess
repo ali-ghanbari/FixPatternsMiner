@@ -1,0 +1,10 @@
+Fix for DefaultSnapshotRemoverIT
+
+The IT depends on file timestamp of checked out sources. This is
+why it never fails on CI, as there is always freshly checked out.
+
+On dev machine on the other hand, if the git repo was checked out
+2+ ago, this IT will start failing.
+
+fix is to not preserve timestamps on fillInRepo().
+

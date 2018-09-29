@@ -1,0 +1,26 @@
+diff --git a/rxjava-core/src/main/java/rx/subscriptions/CompositeSubscription.java b/rxjava-core/src/main/java/rx/subscriptions/CompositeSubscription.java
+index 5aef851..f9f045d 100644
+--- a/rxjava-core/src/main/java/rx/subscriptions/CompositeSubscription.java
++++ b/rxjava-core/src/main/java/rx/subscriptions/CompositeSubscription.java
+@@ -75 +75 @@
+-                    if (idx == subscriptions.length) {
++                    if (idx == newSubscriptions.length) {
+diff --git a/rxjava-core/src/test/java/rx/subscriptions/CompositeSubscriptionTest.java b/rxjava-core/src/test/java/rx/subscriptions/CompositeSubscriptionTest.java
+index 2e44a69..4cff2a3 100644
+--- a/rxjava-core/src/test/java/rx/subscriptions/CompositeSubscriptionTest.java
++++ b/rxjava-core/src/test/java/rx/subscriptions/CompositeSubscriptionTest.java
+@@ -326,0 +327,13 @@
++    @Test
++    public void testTryRemoveIfNotIn() {
++        CompositeSubscription csub = new CompositeSubscription();
++        
++        CompositeSubscription csub1 = new CompositeSubscription();
++        CompositeSubscription csub2 = new CompositeSubscription();
++        
++        csub.add(csub1);
++        csub.remove(csub1);
++        csub.add(csub2);
++        
++        csub.remove(csub1); // try removing agian
++    }
+

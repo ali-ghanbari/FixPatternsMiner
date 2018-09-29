@@ -1,0 +1,6 @@
+[bugfix] This patch fixes the problem described in the bug tracker ID: 3002267 where comparisons using lt and le were failing on xs:date indexes. It turns out that when the serializer was rewritten, the person cut and pasted the Type.DATE_TIME type, eliminating saving the time portion, but not changing the type to Type.DATE.
+
+patch by Michael Westbay
+
+svn path=/trunk/eXist/; revision=11837
+

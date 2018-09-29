@@ -1,0 +1,25 @@
+diff --git a/src/main/java/net/floodlightcontroller/jython/Server.java b/src/main/java/net/floodlightcontroller/jython/Server.java
+index 2f909ab..47ec1a5 100644
+--- a/src/main/java/net/floodlightcontroller/jython/Server.java
++++ b/src/main/java/net/floodlightcontroller/jython/Server.java
+@@ -34,0 +35 @@
++		this.setName("debugserver");
+diff --git a/src/main/python/debugserver.py b/src/main/python/debugserver.py
+index 5eb3f60..d8c81f9 100644
+--- a/src/main/python/debugserver.py
++++ b/src/main/python/debugserver.py
+@@ -3,0 +4 @@
++from threading import currentThread
+@@ -40 +41,2 @@
+-        _log.debug('Open connection to DebugServer from: %s' % str(client_address))
++        currentThread()._thread.setName("debugserver-%s:%d" % client_address)
++        _log.debug('Open connection to DebugServer from %s:%d' % client_address)
+@@ -54 +56 @@
+-        _log.debug('Closing connection to DebugServer from: %s' % str(client_address))
++        _log.debug('Closing connection to DebugServer from %s:%d' % client_address)
+@@ -57,0 +60,2 @@
++    currentThread()._thread.setName("debugserver-main")
++
+@@ -60 +63,0 @@
+-
+

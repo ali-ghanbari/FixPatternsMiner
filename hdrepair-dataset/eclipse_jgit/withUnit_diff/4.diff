@@ -1,0 +1,45 @@
+diff --git a/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java b/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java
+index f7e6fa9..48debae 100644
+--- a/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java
++++ b/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java
+@@ -988,0 +989,32 @@
++	public void testOverwriteUntrackedIgnoredFile() throws IOException,
++			GitAPIException {
++		String fname="file.txt";
++		Git git = Git.wrap(db);
++
++		// Add a file
++		writeTrashFile(fname, "a");
++		git.add().addFilepattern(fname).call();
++		git.commit().setMessage("create file").call();
++
++		// Create branch
++		git.branchCreate().setName("side").call();
++
++		// Modify file
++		writeTrashFile(fname, "b");
++		git.add().addFilepattern(fname).call();
++		git.commit().setMessage("modify file").call();
++
++		// Switch branches
++		git.checkout().setName("side").call();
++		git.rm().addFilepattern(fname).call();
++		writeTrashFile(".gitignore", fname);
++		git.add().addFilepattern(".gitignore").call();
++		git.commit().setMessage("delete and ignore file").call();
++
++		writeTrashFile(fname, "Something different");
++		git.checkout().setName("master").call();
++		assertWorkDir(mkmap(fname, "b"));
++		assertTrue(git.status().call().isClean());
++	}
++
++	@Test
+diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java b/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java
+index 4b0d586..9f340c1 100644
+--- a/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java
++++ b/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java
+@@ -701 +701 @@
+-			if (f != null) {
++			if (f != null && !f.isEntryIgnored()) {
+

@@ -1,0 +1,36 @@
+diff --git a/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java b/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
+index 6704155..c3a68d4 100644
+--- a/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
++++ b/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
+@@ -153,0 +154,2 @@
++
++        factories.put(INACCESSIBLE_OUTER_CLASS_EXPRESSION, AddModifierFix.createFactory(INNER_KEYWORD, JetClass.class));
+diff --git a/idea/testData/quickfix/modifiers/afterAddInnerModifier.kt b/idea/testData/quickfix/modifiers/afterAddInnerModifier.kt
+new file mode 100644
+index 0000000..7803c8f
+--- /dev/null
++++ b/idea/testData/quickfix/modifiers/afterAddInnerModifier.kt
+@@ -0,0 +1,8 @@
++// "Add 'inner' modifier" "true"
++class A {
++    fun foo() = 42
++
++    inner class B {
++        fun bar() = <caret>foo()
++    }
++}
+diff --git a/idea/testData/quickfix/modifiers/beforeAddInnerModifier.kt b/idea/testData/quickfix/modifiers/beforeAddInnerModifier.kt
+new file mode 100644
+index 0000000..44bc3b6
+--- /dev/null
++++ b/idea/testData/quickfix/modifiers/beforeAddInnerModifier.kt
+@@ -0,0 +1,8 @@
++// "Add 'inner' modifier" "true"
++class A {
++    fun foo() = 42
++
++    class B {
++        fun bar() = <caret>foo()
++    }
++}
+

@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/vm/VirtualMachineManagerImpl.java b/server/src/com/cloud/vm/VirtualMachineManagerImpl.java
+index b54d1fe..15a9a82 100755
+--- a/server/src/com/cloud/vm/VirtualMachineManagerImpl.java
++++ b/server/src/com/cloud/vm/VirtualMachineManagerImpl.java
+@@ -875 +875 @@
+-                else if (((Float.parseFloat(cluster_detail_cpu.getValue()) > 1f || Float.parseFloat(cluster_detail_ram.getValue()) > 1f))) {
++                else if (_uservmDetailsDao.findDetail(vm.getId(),"cpuOvercommitRatio") != null) {
+

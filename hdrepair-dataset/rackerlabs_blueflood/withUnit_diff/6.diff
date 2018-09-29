@@ -1,0 +1,14 @@
+diff --git a/blueflood-elasticsearch/src/main/java/com/rackspacecloud/blueflood/io/ElasticIO.java b/blueflood-elasticsearch/src/main/java/com/rackspacecloud/blueflood/io/ElasticIO.java
+index 39a243e..ea5d1fb 100644
+--- a/blueflood-elasticsearch/src/main/java/com/rackspacecloud/blueflood/io/ElasticIO.java
++++ b/blueflood-elasticsearch/src/main/java/com/rackspacecloud/blueflood/io/ElasticIO.java
+@@ -106 +106 @@
+-        bulk.execute();
++        bulk.execute().actionGet();
+diff --git a/blueflood-elasticsearch/src/test/java/com/rackspacecloud/blueflood/service/ElasticIOTest.java b/blueflood-elasticsearch/src/test/java/com/rackspacecloud/blueflood/service/ElasticIOTest.java
+index d7fa0ec..cbf2280 100644
+--- a/blueflood-elasticsearch/src/test/java/com/rackspacecloud/blueflood/service/ElasticIOTest.java
++++ b/blueflood-elasticsearch/src/test/java/com/rackspacecloud/blueflood/service/ElasticIOTest.java
+@@ -132 +131,0 @@
+-        TimeUnit.SECONDS.sleep(1);
+

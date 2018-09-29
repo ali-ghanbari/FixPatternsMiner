@@ -1,0 +1,15 @@
+diff --git a/subprojects/platform-base/src/integTest/groovy/org/gradle/language/base/plugins/LifecycleBasePluginIntegrationTest.groovy b/subprojects/platform-base/src/integTest/groovy/org/gradle/language/base/plugins/LifecycleBasePluginIntegrationTest.groovy
+index 10133dc..3a45a09 100644
+--- a/subprojects/platform-base/src/integTest/groovy/org/gradle/language/base/plugins/LifecycleBasePluginIntegrationTest.groovy
++++ b/subprojects/platform-base/src/integTest/groovy/org/gradle/language/base/plugins/LifecycleBasePluginIntegrationTest.groovy
+@@ -42 +42 @@
+-        output.contains(String.format(LifecycleBasePlugin.CUSTOM_LIFECYCLE_TASK_DEPRECATION_MSG, taskName))
++        output.contains("Defining custom '$taskName' task when using the standard Gradle lifecycle plugins has been deprecated and is scheduled to be removed")
+diff --git a/subprojects/platform-base/src/main/java/org/gradle/language/base/plugins/LifecycleBasePlugin.java b/subprojects/platform-base/src/main/java/org/gradle/language/base/plugins/LifecycleBasePlugin.java
+index f1b3abd..9aba87a 100644
+--- a/subprojects/platform-base/src/main/java/org/gradle/language/base/plugins/LifecycleBasePlugin.java
++++ b/subprojects/platform-base/src/main/java/org/gradle/language/base/plugins/LifecycleBasePlugin.java
+@@ -41 +41 @@
+-    public static final String CUSTOM_LIFECYCLE_TASK_DEPRECATION_MSG = "Defining custom '%s' task is deprecated when using the standard Gradle lifecycle plugins";
++    public static final String CUSTOM_LIFECYCLE_TASK_DEPRECATION_MSG = "Defining custom '%s' task when using the standard Gradle lifecycle plugins";
+

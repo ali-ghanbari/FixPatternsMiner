@@ -1,0 +1,184 @@
+diff --git a/src/main/java/org/aeonbits/owner/PropertiesInvocationHandler.java b/src/main/java/org/aeonbits/owner/PropertiesInvocationHandler.java
+index 6059f55..db4c281 100644
+--- a/src/main/java/org/aeonbits/owner/PropertiesInvocationHandler.java
++++ b/src/main/java/org/aeonbits/owner/PropertiesInvocationHandler.java
+@@ -72 +72 @@
+-        return convert(method.getReturnType(), substitutor.replace(format(value, args)));
++        return convert(method.getReturnType(), format(substitutor.replace(value), args));
+diff --git a/src/test/java/org/aeonbits/owner/ConfigTest.java b/src/test/java/org/aeonbits/owner/ConfigTest.java
+index 3486d49..ab5db37 100644
+--- a/src/test/java/org/aeonbits/owner/ConfigTest.java
++++ b/src/test/java/org/aeonbits/owner/ConfigTest.java
+@@ -37,0 +38,24 @@
++    /**
++     * @author Luigi R. Viggiano
++     */
++    public static interface SampleConfig extends Config {
++        String testKey();
++
++        String hello(String param);
++
++        @DefaultValue("Bohemian Rapsody - Queen")
++        String favoriteSong();
++
++        String unspecifiedProperty();
++
++        @Key("server.http.port")
++        int httpPort();
++
++        @Key("salutation.text")
++        @DefaultValue("Good Morning")
++        String salutation();
++
++        void list(PrintStream out);
++        void list(PrintWriter out);
++    }
++
+@@ -74,0 +99,32 @@
++    /**
++     * @author Luigi R. Viggiano
++     */
++    @Sources({"classpath:foo/bar/baz.properties",
++            "file:~/.testfoobar.blahblah",
++            "file:/etc/testfoobar.blahblah",
++            "classpath:org/aeonbits/owner/FooBar.properties",
++            "file:~/blahblah.properties"})
++    public static interface SampleConfigWithSource extends Config {
++        //  @Key("hello.world");
++        //  @DefaultValue("Hello World");
++        String helloWorld();
++
++        @DefaultValue("Hello Mr. %s!")
++        String helloMr(String name);
++
++        @DefaultValue("42")
++        int answerToLifeUniverseAndEverything();
++
++        @DefaultValue("3.141592653589793")
++        double pi();
++
++        @DefaultValue("0.5")
++        float half();
++
++        @DefaultValue("false")
++        boolean worldIsFlat();
++
++        @DefaultValue("7")
++        Integer daysInWeek();
++    }
++
+@@ -98,0 +155,8 @@
++    /**
++     * @author Luigi R. Viggiano
++     */
++    @Sources("classpath:foo/bar/thisDoesntExists.properties")
++    public static interface InvalidSourceConfig extends Config {
++        public String someProperty();
++    }
++
+@@ -102,0 +167,7 @@
++    }
++
++    /**
++     * @author Luigi R. Viggiano
++     */
++    public static interface UnassociatedConfig extends Config {
++        String someProperty();
+@@ -170,0 +242,8 @@
++    /**
++     * @author Luigi R. Viggiano
++     */
++    @Sources({"file:${user.dir}/src/test/resources/test.properties"})
++    public static interface SampleConfigWithExpansion extends Config {
++        public String favoriteColor();
++    }
++
+@@ -201,5 +280,6 @@
+-    /**
+-     * @author Luigi R. Viggiano
+-     */
+-    public static interface UnassociatedConfig extends Config {
+-        String someProperty();
++    public static interface SubstituteAndFormat extends Config {
++        @DefaultValue("Hello ${mister}")
++        String salutation(String name);
++
++        @DefaultValue("Mr. %s")
++        String mister(String name);
+@@ -208,30 +288,5 @@
+-    /**
+-     * @author Luigi R. Viggiano
+-     */
+-    @Sources({"classpath:foo/bar/baz.properties",
+-              "file:~/.testfoobar.blahblah",
+-              "file:/etc/testfoobar.blahblah",
+-              "classpath:org/aeonbits/owner/FooBar.properties",
+-              "file:~/blahblah.properties"})
+-    public static interface SampleConfigWithSource extends Config {
+-        //  @Key("hello.world");
+-        //  @DefaultValue("Hello World");
+-        String helloWorld();
+-
+-        @DefaultValue("Hello Mr. %s!")
+-        String helloMr(String name);
+-
+-        @DefaultValue("42")
+-        int answerToLifeUniverseAndEverything();
+-
+-        @DefaultValue("3.141592653589793")
+-        double pi();
+-
+-        @DefaultValue("0.5")
+-        float half();
+-
+-        @DefaultValue("false")
+-        boolean worldIsFlat();
+-
+-        @DefaultValue("7")
+-        Integer daysInWeek();
++    @Test
++    public void testSubstitutionAndFormat() {
++        SubstituteAndFormat cfg = ConfigFactory.create(SubstituteAndFormat.class);
++        assertEquals("Hello Mr. Luigi", cfg.salutation("Luigi"));
++        assertEquals("Mr. Luigi", cfg.mister("Luigi"));
+@@ -240,7 +294,0 @@
+-    /**
+-     * @author Luigi R. Viggiano
+-     */
+-    @Sources({"file:${user.dir}/src/test/resources/test.properties"})
+-    public static interface SampleConfigWithExpansion extends Config {
+-        public String favoriteColor();
+-    }
+@@ -248,31 +295,0 @@
+-    /**
+-     * @author Luigi R. Viggiano
+-     */
+-    @Sources("classpath:foo/bar/thisDoesntExists.properties")
+-    public static interface InvalidSourceConfig extends Config {
+-        public String someProperty();
+-    }
+-
+-    /**
+-     * @author Luigi R. Viggiano
+-     */
+-    public static interface SampleConfig extends Config {
+-        String testKey();
+-
+-        String hello(String param);
+-
+-        @DefaultValue("Bohemian Rapsody - Queen")
+-        String favoriteSong();
+-
+-        String unspecifiedProperty();
+-
+-        @Key("server.http.port")
+-        int httpPort();
+-
+-        @Key("salutation.text")
+-        @DefaultValue("Good Morning")
+-        String salutation();
+-
+-        void list(PrintStream out);
+-        void list(PrintWriter out);
+-    }
+

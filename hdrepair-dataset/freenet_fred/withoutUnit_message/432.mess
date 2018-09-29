@@ -1,0 +1,134 @@
+1207:
+DB4O MERGE:
+- Merge the db4o branch! The diff is over 35kloc. The purpose of the branch is to put store the client layer in db4o for persistent requests, but there are also some other changes e.g. persistent blob temp buckets.
+- Various bugfixes post-merge, including some refactoring.
+Inserts:
+- Fix SSK inserts exiting without calling finish when they should just be trying another peer, and detect when they get lost and call finish.
+Fproxy:
+- Preserve ?max-size and others through links.
+- Don't append ?max-size if it is the default value.
+- Bug #2925: Add formPassword for restart-after-config-change form.
+- Allow adding more than one node at once on the darknet page.
+- Fix a stream leak.
+URIs:
+- Fix bug #1383: Decode docName's inside KSKs.
+Stats:
+- Fix division by 0 on stats page
+- TimeSortedHashtable: remove unused methods, make set operations exclude the bounds given.
+Random number generator (Yarrow):
+- Clear the entropy hashtable so we spend less time in synchronized in exchange for slightly more garbage collection. (To review patch 26603, have a look at where else entropySeen is used).
+- Minor optimisation (#26602, REQUEST REVIEW).
+- Don't check time taken unless in debug mode.
+- Use HashMap not Hashtable.
+- Use int[] instead of Integer to track entropy seen.
+Datastore (salted hash):
+- Bug #2923: Sync config file after write
+- Bug #2923: If the store config file is corrupted, create a new one.
+FCP:
+- Show whether a node is a seednode in exported field sets via FCP.
+Security levels:
+- Fix setting network level to null.
+Content filter:
+- Bug #2921: Unit test for the bug.
+FEC:
+- Fix calculation of max FEC decode threads on Windows, missing brackets led to us always limiting to 1 parallel decode.
+Thread priorities:
+- Allow dontCheckRenice on the with-ThreadGroup constructor.
+USK request spamming bug:
+- Don't re-run the USK fetch immediately if we have gone from 0 to what we expected; only re-run without a delay if we have actually advanced.
+- Write the opennet file when we find the URI for the opennet ARK. Not the node file! This bug was causing us to spend a lot of SSK requests at high priority searching for the opennet ARK on startup.
+- Actually use the polling priorities for USKs. This does actually increase priority for ARK fetches to 2 so might conceivably exacerbate problems...
+Unit tests:
+- Tests for FEC encoding/decoding.
+- TimeSortedHashtable tests.
+- Tests for PrioritisedSerialExecutor.
+Stats:
+- Fix SerialExecutor thread count: runningThreads/waitingThreads.
+Optimisations:
+- SerialExecutor: use a LinkedBlockingQueue, not a LinkedList.
+- Minor synchronization reductions.
+- Move StringBuilder.toString() out of synchronized blocks.
+- Move logging outside of synchronized.
+- Location.getLocation(string): return -1 rather than throwing, is faster.
+- Remove the UdpSocketHandler hang checker.
+- Don't set the socket timeout to 1 second on UdpSocketHandler, and close the socket earlier to interrupt the thread so it quits quickly anyway.
+- Remove PacketSender hang checker.
+- Remove disableHangCheckers config option.
+- PrioritizedSerialExecutor: keep job counts.
+Plugins:
+- Add FredPluginRealVersioned. This is a simple numerical version (a long), as opposed to the hard-to-compare string marketing version from FredPluginVersioned.
+- Show it in brackets after the marketing version on the plugins page.
+- Add some hardcoded metadata for official plugins, the OfficialPluginDescription. For now this is just whether it is essential (UPnP and JSTUN), and what the minimum version is.
+- If an official plugin is loaded, and the version is below the minimum version, unload it and fail the load.
+- KeyExplorer, ThawIndexBrowser and XMLSpider were affected by the db4o merge. They do not fail to load, but fail at run time. Therefore, set minimum versions.
+- If a plugin fails to load, we already tell the user about it in a useralert and offer to forget that plugin. If an official plugin fails to load, we now offer the option to fetch the latest version from the project servers.
+- Remove such alerts (official or not) as soon as the plugin has been loaded.
+- Check whether a plugin is already loaded after downloading the jar.
+- Allow 5 minutes for plugin download.
+Dev stuff:
+- Allow an extra 2 minutes on startup to try to identify a failing to start bug.
+- indent.
+- a couple of test commits by new devs
+- build.xml: remove legacy build stuff
+- bug #2512: make some supporting structures generics-capable: IndexableUpdatableSortedLinkedListItem, UpdatableSortedLinkedListItem
+- remove unnecessary casts
+- imports.
+- minor code simplifications.
+- rename some variables.
+- check for null earlier in some cases.
+- logging.
+- use the new logging infrastructure.
+- comments.
+- deprecate Frost stuff.
+- @Override's.
+- Exception handling talking to plugins.
+- Always close socket in UdpSocketHandler.close().
+- PrioritisedSerialExecutor: Rename runningJobs -> queuedJobs
+- benchmarks for FEC.
+
+Plugins:
+- Update several plugins for db4o changes.
+- Add FredPluginRealVersioned to lots of plugins:
+JSTUN
+KeyExplorer
+MDNSDiscovery
+ThawIndexBrowser
+UPnP
+XMLSpider
+XMLLibrarian
+
+CONTRIB:
+- There has been some work on FEC, including a new native C FEC codec which will work on 64-bit as well as 32-bit (and appears to be endian safe too). It is not ready to deploy yet, and there is some uncertainty over whether we need native FEC given recent JVMs are much faster with this sort of code.
+- Revert db4o updates, old version seems more stable. Weren't built so no impact on you unless you use 27-pre or built your own freenet-ext.jar.
+
+Website:
+- Update faq slightly.
+- Announce the db4o merge.
+- Fix donate link on the db4o merge announcement going to donate.php, which doesn't exist. Doh! Thanks to anonymous on uservoice.
+
+j16sdiz
+bombe
+sashee
+infinity0
+nextgens
+p0s
+
+XMLSpider: (Artefact2, sdiz)
+- Make working hours, and number of requests to run in working vs non-working hours, on a daily basis, configurable. Increase version to 34.
+- Increase max index file size to 4MB.
+- Increase version to 35 after adding versioning. (toad)
+
+Wininstaller:
+- Various translations: French, Danish, Finnish, Italian.
+- Add translation support for the start/stop exe's.
+- Better opera path detection.
+- Run Chrome in incognito mode.
+- Various fixes mostly to spacing to support translations.
+- Disable checkboxes while installing.
+- Update the bundled JRE online installer.
+- Update wrapper binaries.
+- Update seednodes.
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@26731 67a373e5-eb02-0410-a15c-ee090a768436
+

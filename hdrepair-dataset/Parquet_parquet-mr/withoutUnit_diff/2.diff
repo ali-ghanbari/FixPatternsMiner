@@ -1,0 +1,8 @@
+diff --git a/parquet-hadoop/src/test/java/parquet/format/converter/TestParquetMetadataConverter.java b/parquet-hadoop/src/test/java/parquet/format/converter/TestParquetMetadataConverter.java
+index 367f5d3..4eb7fb1 100644
+--- a/parquet-hadoop/src/test/java/parquet/format/converter/TestParquetMetadataConverter.java
++++ b/parquet-hadoop/src/test/java/parquet/format/converter/TestParquetMetadataConverter.java
+@@ -247 +247 @@
+-	  throw new AssertionError("fail verifyAllFilters(metadata(" + Arrays.toString(rgs) + "), " + splitSize + ")", e);
++	  throw (AssertionError) new AssertionError("fail verifyAllFilters(metadata(" + Arrays.toString(rgs) + "), " + splitSize + ")").initCause(e);
+

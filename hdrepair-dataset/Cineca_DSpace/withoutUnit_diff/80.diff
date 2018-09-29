@@ -1,0 +1,15 @@
+diff --git a/dspace-xmlui/dspace-xmlui-api/src/main/java/org/dspace/app/xmlui/utils/AuthenticationUtil.java b/dspace-xmlui/dspace-xmlui-api/src/main/java/org/dspace/app/xmlui/utils/AuthenticationUtil.java
+index 8f078cd..2c936f1 100644
+--- a/dspace-xmlui/dspace-xmlui-api/src/main/java/org/dspace/app/xmlui/utils/AuthenticationUtil.java
++++ b/dspace-xmlui/dspace-xmlui-api/src/main/java/org/dspace/app/xmlui/utils/AuthenticationUtil.java
+@@ -380 +380 @@
+-    	    if (effectiveID != authenticatedID)
++    	    if (effectiveID.intValue() != authenticatedID.intValue())
+diff --git a/dspace-xmlui/dspace-xmlui-api/src/main/resources/aspects/Administrative/administrative.js b/dspace-xmlui/dspace-xmlui-api/src/main/resources/aspects/Administrative/administrative.js
+index 5a50a0d..9312023 100644
+--- a/dspace-xmlui/dspace-xmlui-api/src/main/resources/aspects/Administrative/administrative.js
++++ b/dspace-xmlui/dspace-xmlui-api/src/main/resources/aspects/Administrative/administrative.js
+@@ -744 +744 @@
+-        		cocoon.redirectTo(cocoon.request.getContextPath(),true);
++        		cocoon.redirectTo("/",true);
+

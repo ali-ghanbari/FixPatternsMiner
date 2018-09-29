@@ -1,0 +1,44 @@
+diff --git a/tests/joram-tests/src/test/java/org/hornetq/jms/HornetQAdmin.java b/tests/joram-tests/src/test/java/org/hornetq/jms/HornetQAdmin.java
+index dc6854f..f5fbdb9 100644
+--- a/tests/joram-tests/src/test/java/org/hornetq/jms/HornetQAdmin.java
++++ b/tests/joram-tests/src/test/java/org/hornetq/jms/HornetQAdmin.java
+@@ -72 +72 @@
+-       serverLifeCycleActive = Boolean.getBoolean(System.getProperty(SERVER_LIVE_CYCLE_PROPERTY, "true"));
++      serverLifeCycleActive = Boolean.valueOf(System.getProperty(SERVER_LIVE_CYCLE_PROPERTY, "true"));
+diff --git a/tests/pom.xml b/tests/pom.xml
+index be8340d..1949169 100644
+--- a/tests/pom.xml
++++ b/tests/pom.xml
+@@ -41 +40,0 @@
+-      <module>integration-tests</module>
+@@ -48,0 +48 @@
++      <module>integration-tests</module>
+diff --git a/tests/unit-tests/src/test/java/org/hornetq/tests/unit/core/journal/impl/TimedBufferTest.java b/tests/unit-tests/src/test/java/org/hornetq/tests/unit/core/journal/impl/TimedBufferTest.java
+index 0417a75..dfe0c41 100644
+--- a/tests/unit-tests/src/test/java/org/hornetq/tests/unit/core/journal/impl/TimedBufferTest.java
++++ b/tests/unit-tests/src/test/java/org/hornetq/tests/unit/core/journal/impl/TimedBufferTest.java
+@@ -27 +26,0 @@
+-import org.hornetq.api.core.HornetQInterruptedException;
+@@ -266,0 +266 @@
++         @Override
+@@ -273 +273 @@
+-         public void setUseSleep(boolean param)
++         public synchronized void setUseSleep(boolean param)
+@@ -350,0 +351 @@
++         @Override
+@@ -358 +359 @@
+-         public void setUseSleep(boolean param)
++         public synchronized void setUseSleep(boolean param)
+@@ -398 +398,0 @@
+-
+@@ -400,9 +399,0 @@
+-
+-   // Package protected ---------------------------------------------
+-
+-   // Protected -----------------------------------------------------
+-
+-   // Private -------------------------------------------------------
+-
+-   // Inner classes -------------------------------------------------
+-
+

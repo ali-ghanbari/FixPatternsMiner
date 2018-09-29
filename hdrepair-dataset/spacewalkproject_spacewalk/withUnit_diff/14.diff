@@ -1,0 +1,30 @@
+diff --git a/java/code/src/com/redhat/rhn/manager/channel/test/ChannelManagerTest.java b/java/code/src/com/redhat/rhn/manager/channel/test/ChannelManagerTest.java
+index c0f55cd..4ceb38e 100644
+--- a/java/code/src/com/redhat/rhn/manager/channel/test/ChannelManagerTest.java
++++ b/java/code/src/com/redhat/rhn/manager/channel/test/ChannelManagerTest.java
+@@ -40 +39,0 @@
+-import com.redhat.rhn.domain.server.VirtualInstance;
+@@ -383 +382 @@
+-        String release = "5.0.0";
++        String release = "5.0.0.9";
+@@ -385,3 +384,2 @@
+-
+-        String release2 = "5.2.0";
+-        String release3 = "5.3.0";
++        String release2 = "5.2.0.4";
++        String release3 = "5.3.0.3";
+@@ -400,0 +399 @@
++        HibernateFactory.getSession().flush();
+@@ -404 +402,0 @@
+-
+@@ -544 +542 @@
+-        Server guest = ((VirtualInstance) s.getGuests().iterator().next()).getGuestSystem();
++        Server guest = (s.getGuests().iterator().next()).getGuestSystem();
+diff --git a/java/code/src/com/redhat/rhn/testing/ServerTestUtils.java b/java/code/src/com/redhat/rhn/testing/ServerTestUtils.java
+index 3acca26..48f3c71 100644
+--- a/java/code/src/com/redhat/rhn/testing/ServerTestUtils.java
++++ b/java/code/src/com/redhat/rhn/testing/ServerTestUtils.java
+@@ -99 +99 @@
+-        String epoch = "idontcare";
++        String epoch = "";
+

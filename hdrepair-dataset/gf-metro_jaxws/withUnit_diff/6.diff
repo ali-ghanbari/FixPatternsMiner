@@ -1,0 +1,24 @@
+diff --git a/jaxws-ri/tests/unit/testcases/mtom/issue_671/client/Issue671Test.java b/jaxws-ri/tests/unit/testcases/mtom/issue_671/client/Issue671Test.java
+index ee21b42..7820f46 100644
+--- a/jaxws-ri/tests/unit/testcases/mtom/issue_671/client/Issue671Test.java
++++ b/jaxws-ri/tests/unit/testcases/mtom/issue_671/client/Issue671Test.java
+@@ -70 +70 @@
+-    private Hello provider_proxy;
++    private mtom.issue_671.client2.Hello provider_proxy;
+@@ -79 +79 @@
+-        provider_proxy = new HelloService().getHelloProviderPort(new MTOMFeature());
++        provider_proxy = new mtom.issue_671.client2.HelloService().getHelloProviderPort(new MTOMFeature());
+@@ -105 +105 @@
+-        XDoc xdoc = new XDoc();
++        mtom.issue_671.client2.XDoc xdoc = new mtom.issue_671.client2.XDoc();
+@@ -107 +107 @@
+-        XDoc out = provider_proxy.xDoc(xdoc);
++        mtom.issue_671.client2.XDoc out = provider_proxy.xDoc(xdoc);
+diff --git a/jaxws-ri/tests/unit/testcases/mtom/issue_671/server/HelloProviderImpl.java b/jaxws-ri/tests/unit/testcases/mtom/issue_671/server/HelloProviderImpl.java
+index 3564223..eb370d7 100644
+--- a/jaxws-ri/tests/unit/testcases/mtom/issue_671/server/HelloProviderImpl.java
++++ b/jaxws-ri/tests/unit/testcases/mtom/issue_671/server/HelloProviderImpl.java
+@@ -60 +60 @@
+-@WebServiceProvider(targetNamespace="http://example.org/mtom", portName="HelloProviderPort", serviceName="HelloService")
++@WebServiceProvider(targetNamespace="http://example.org/mtom", portName="HelloProviderPort", serviceName="HelloProviderService")
+

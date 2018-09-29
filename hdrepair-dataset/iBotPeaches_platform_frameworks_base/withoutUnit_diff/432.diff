@@ -1,0 +1,353 @@
+diff --git a/core/java/android/view/View.java b/core/java/android/view/View.java
+index d67c49f..5e89435 100644
+--- a/core/java/android/view/View.java
++++ b/core/java/android/view/View.java
+@@ -15918 +15918 @@
+-     * <p>This mehod must be called by {@link #onMeasure(int, int)} to store the
++     * <p>This method must be called by {@link #onMeasure(int, int)} to store the
+diff --git a/docs/html/google/play-services/setup.jd b/docs/html/google/play-services/setup.jd
+index a960a18..4d38850 100644
+--- a/docs/html/google/play-services/setup.jd
++++ b/docs/html/google/play-services/setup.jd
+@@ -4,6 +3,0 @@
+-
+-<p>
+-    The Google Play services SDK is an extension to the Android SDK and is available to you as a
+-    downloadable package from the <a href="{@docRoot}tools/help/sdk-manager.html">SDK
+-    Manager</a>. The download includes the client library and code samples.
+-</p>
+@@ -11,9 +5,4 @@
+-<p>
+-    To develop using the <a href="{@docRoot}reference/gms-packages.html">Google
+-    Play services APIs</a>, you must download the Google Play services SDK.
+-    Additionally, you must provide a physical <strong>development device</strong> on
+-    which you can run and debug your app. You can develop on any compatible Android
+-    device that runs Android 2.2 or higher and includes the Google Play Store.
+-    Ideally, you would develop and test the app on a variety of devices, including
+-    both phones and tablets. 
+-</p>
++<p>To develop an app using the <a href="{@docRoot}reference/gms-packages.html">Google
++Play services APIs</a>, you must download the Google Play services SDK
++from the <a href="{@docRoot}tools/help/sdk-manager.html">SDK Manager</a>.
++The download includes the client library and code samples.</p>
+@@ -21,3 +10,13 @@
+-<p class="note"><strong>Note</strong>: Google Play services is not supported on the
+-Android emulator &mdash; to develop using the APIs, you need to provide a development
+-device such as an Android phone or tablet.</p>
++<p>To test your app when using the Google Play services SDK, you must use either:</p>
++<ul>
++  <li>A compatible Android
++    device that runs Android 2.2 or higher and includes Google Play Store.</li>
++  <li>The Android emulator with an <a href="{@docRoot}tools/devices/index.html">AVD</a>
++  that runs the Google APIs platform based on Android 4.2.2 or higher.</li>
++</ul>
++
++<p>Ideally, you should develop and test your app on a variety of devices, including
++both phones and tablets.</p>
++
++
++<h2 id="Install">Install the Google Play Services SDK</h2>
+@@ -38,3 +37,3 @@
+-  <li>
+-      Scroll to the bottom of the package list, select <b>Extras &gt; Google Play services</b>,
+-      and install it.
++  <li>Install the Google Play services SDK.
++    <p>Scroll to the bottom of the package list, expand <b>Extras</b>, select
++    <b>Google Play services</b>, and install it.</p>
+@@ -42 +41 @@
+-      <code>&lt;android-sdk-folder&gt;/extras/google/google_play_services/</code>.</p>
++      <code>&lt;android-sdk&gt;/extras/google/google_play_services/</code>.</p>
+@@ -44,3 +43,14 @@
+-  <li>Copy the <code>&lt;android-sdk-folder&gt;/extras/google/google_play_services/libproject/google-play-services_lib</code>        
+-      library project into the source tree where you maintain your Android app projects.
+-  <p>If you are using Eclipse, import the library project into your workspace. Click <b>File > Import</b>, select <b>Android > Existing
++  <li>Install a compatible version of the Google APIs platform.
++    <p>If you want to test your app on the emulator, expand the directory for <b>Android 4.2.2
++    (API 17)</b> or a higher version, select <b>Google APIs</b>, and install it. Then create a
++    new <a href="{@docRoot}tools/devices/index.html">AVD</a> with Google APIs as
++    the platform target.</p>
++    <p class="note"><strong>Note:</strong> Only Android 4.2.2 and higher versions of the
++    Google APIs platform include Google Play services.</p>
++  </li>
++  <li>Make a copy of the Google Play services library project.
++    <p>Copy the library project at
++  <code>&lt;android-sdk&gt;/extras/google/google_play_services/libproject/google-play-services_lib/</code>        
++  to the location where you maintain your Android app projects.
++  <p>If you are using Eclipse, import the library project into your workspace.
++  Click <b>File > Import</b>, select <b>Android > Existing
+@@ -50,0 +61,3 @@
++
++
++<h2 id="Setup">Set Up a Project with the Library</h2>
+@@ -61,2 +74,2 @@
+-      You should be referencing a copy of the library that you copied to your
+-      source tree&mdash;you should not reference the library from the Android SDK directory.</p>
++      You should be referencing a copy of the library that you copied to your development
++      workspace&mdash;you should not reference the library directly from the Android SDK directory.</p>
+@@ -74 +87,8 @@
+-<h2 id="ensure">Ensuring Devices Have the Google Play services APK</h2>
++<p>Once you have the Google Play services library project added to your app project,
++you can begin developing features with the
++<a href="{@docRoot}reference/gms-packages.html">Google Play services APIs</a>.</p>
++
++
++
++<h2 id="ensure">Ensure Devices Have the Google Play services APK</h2>
++
+@@ -83 +103 @@
+-    compatible Google Play services APK in your app before you access Google Play services
++    compatible Google Play services APK before you access Google Play services
+@@ -122 +141,0 @@
+-<span>
+@@ -126 +144,0 @@
+-</span>
+diff --git a/docs/html/sdk/index.jd b/docs/html/sdk/index.jd
+index 2ffc886..0d0f348 100644
+--- a/docs/html/sdk/index.jd
++++ b/docs/html/sdk/index.jd
+@@ -8,3 +8,3 @@
+-sdk.linux32_bundle_download=adt-bundle-linux-x86-20130514.zip
+-sdk.linux32_bundle_bytes=433992720
+-sdk.linux32_bundle_checksum=38b29a0721423e59c55c62c0356b1c18
++sdk.linux32_bundle_download=adt-bundle-linux-x86-20130522.zip
++sdk.linux32_bundle_bytes=439988972
++sdk.linux32_bundle_checksum=1fdd8d7537ab9217d61d32ab912f0243
+@@ -12,3 +12,3 @@
+-sdk.linux64_bundle_download=adt-bundle-linux-x86_64-20130514.zip
+-sdk.linux64_bundle_bytes=434278511
+-sdk.linux64_bundle_checksum=f5f7387d209a67fe1638acab7e0037a4
++sdk.linux64_bundle_download=adt-bundle-linux-x86_64-20130522.zip
++sdk.linux64_bundle_bytes=440275051
++sdk.linux64_bundle_checksum=e38751ff372a8d6208fcef5659133e98
+@@ -16,3 +16,3 @@
+-sdk.mac64_bundle_download=adt-bundle-mac-x86_64-20130514.zip
+-sdk.mac64_bundle_bytes=403067311
+-sdk.mac64_bundle_checksum=5391a1f0284c1fb87048010fbc2808ab
++sdk.mac64_bundle_download=adt-bundle-mac-x86_64-20130522.zip
++sdk.mac64_bundle_bytes=409047751
++sdk.mac64_bundle_checksum=3f4d05206d66e402e87b27a6b3dcf0f9
+@@ -20,3 +20,3 @@
+-sdk.win32_bundle_download=adt-bundle-windows-x86-20130514.zip
+-sdk.win32_bundle_bytes=440739521
+-sdk.win32_bundle_checksum=51fb90bc049f66730d7b8da5671a4b93
++sdk.win32_bundle_download=adt-bundle-windows-x86-20130522.zip
++sdk.win32_bundle_bytes=446736316
++sdk.win32_bundle_checksum=53345fa4121fa58cc048f66c3af3bae9
+@@ -24,3 +24,3 @@
+-sdk.win64_bundle_download=adt-bundle-windows-x86_64-20130514.zip
+-sdk.win64_bundle_bytes=440868113
+-sdk.win64_bundle_checksum=0eb9a91cc0c170a1f1bc9b47d0f4ec81
++sdk.win64_bundle_download=adt-bundle-windows-x86_64-20130522.zip
++sdk.win64_bundle_bytes=446864400
++sdk.win64_bundle_checksum=b28817f62e7f54e3c683841b61b65564
+@@ -30,3 +30,3 @@
+-sdk.linux_download=android-sdk_r22-linux.tgz
+-sdk.linux_bytes=99643077
+-sdk.linux_checksum=30fb75bad918c5c3d79f8ec3cc44b3cf
++sdk.linux_download=android-sdk_r22.0.1-linux.tgz
++sdk.linux_bytes=105617062
++sdk.linux_checksum=56ed27d456b4f0e0d3090b24f9b06757
+@@ -34,3 +34,3 @@
+-sdk.mac_download=android-sdk_r22-macosx.zip
+-sdk.mac_bytes=71244523
+-sdk.mac_checksum=fa5193ad41edecac6960023f55569ba3
++sdk.mac_download=android-sdk_r22.0.1-macosx.zip
++sdk.mac_bytes=77206237
++sdk.mac_checksum=5c20497d7f7b9d28ee30e57cbf769c8c
+@@ -38,3 +38,3 @@
+-sdk.win_download=android-sdk_r22-windows.zip
+-sdk.win_bytes=107505668
+-sdk.win_checksum=71722fe052ae6380444a21bce8ee87c2
++sdk.win_download=android-sdk_r22.0.1-windows.zip
++sdk.win_bytes=113483496
++sdk.win_checksum=cb7f7703450afa5914fb4b8b8332a9f3
+@@ -42,3 +42,3 @@
+-sdk.win_installer=installer_r22-windows.exe
+-sdk.win_installer_bytes=87498295
+-sdk.win_installer_checksum=e0cc167733bf8b51dbc7e0ad0a8c8d4b
++sdk.win_installer=installer_r22.0.1-windows.exe
++sdk.win_installer_bytes=93479015
++sdk.win_installer_checksum=81621d3b164f81f91e066011b325f88f
+@@ -78 +78 @@
+-1.2 “Android” means the Android software stack for devices, as made available under the Android Open Source Project, which is located at the following URL: http://source.android.com/, as updated from time to time.
++1.2 "Android" means the Android software stack for devices, as made available under the Android Open Source Project, which is located at the following URL: http://source.android.com/, as updated from time to time.
+diff --git a/docs/html/sdk/installing/installing-adt.jd b/docs/html/sdk/installing/installing-adt.jd
+index 4286db1..b8ab24b 100644
+--- a/docs/html/sdk/installing/installing-adt.jd
++++ b/docs/html/sdk/installing/installing-adt.jd
+@@ -2,4 +2,4 @@
+-adt.zip.version=22.0.0
+-adt.zip.download=ADT-22.0.0.zip
+-adt.zip.bytes=16797235
+-adt.zip.checksum=cabd8a19390d6268be7065ca69b89e88
++adt.zip.version=22.0.1
++adt.zip.download=ADT-22.0.1.zip
++adt.zip.bytes=16815544
++adt.zip.checksum=64473af058fa8f02e36241ee378b3ac0
+@@ -19 +19 @@
+-"http://eclipse.org/mobile/">eclipse.org/mobile</a>.</p>
++"http://www.eclipse.org/downloads/">eclipse.org/downloads/</a>.</p>
+diff --git a/docs/html/sdk/installing/studio.jd b/docs/html/sdk/installing/studio.jd
+index f3e181e..791f675 100644
+--- a/docs/html/sdk/installing/studio.jd
++++ b/docs/html/sdk/installing/studio.jd
+@@ -25 +25 @@
+-1.2 “Android” means the Android software stack for devices, as made available under the Android Open Source Project, which is located at the following URL: http://source.android.com/, as updated from time to time.
++1.2 "Android" means the Android software stack for devices, as made available under the Android Open Source Project, which is located at the following URL: http://source.android.com/, as updated from time to time.
+@@ -234,2 +233,0 @@
+-
+-
+@@ -240 +237,0 @@
+-
+@@ -243 +239,0 @@
+-<p class="table-caption">&nbsp;<strong>Android Studio v0.1</strong></p>
+@@ -256 +252 @@
+-      href="http://dl.google.com/android/studio/android-studio-bundle-130.677228-windows.exe">
++      href="http://dl.google.com/android/studio/android-studio-bundle-130.687321-windows.exe">
+@@ -260,2 +256,2 @@
+-    <td>382109250 bytes</td>
+-    <td>eb90d50a6ccd975bf19c6930c2006300</td>
++    <td>393023485 bytes</td>
++    <td>3da987a9778b66edb68fb43d8b53bfcb</td>
+@@ -268,2 +264,2 @@
+-    href="http://dl.google.com/android/studio/android-studio-bundle-130.677228-mac.dmg">
+-    android-studio-bundle-130.677228-mac.dmg
++    href="http://dl.google.com/android/studio/android-studio-bundle-130.687321-mac.dmg">
++    android-studio-bundle-130.687321-mac.dmg
+@@ -272,2 +268,2 @@
+-    <td>371607412 bytes</td>
+-    <td>119e8e7170f451bec82cfa321e53d780</td>
++    <td>379877697 bytes</td>
++    <td>eb5ca6c77f4a119595d941daeda58810</td>
+@@ -280,2 +276,2 @@
+-    href="http://dl.google.com/android/studio/android-studio-bundle-130.677228-linux.tgz">
+-    android-studio-bundle-130.677228-linux.tgz
++    href="http://dl.google.com/android/studio/android-studio-bundle-130.687321-linux.tgz">
++    android-studio-bundle-130.687321-linux.tgz
+@@ -284,2 +280,2 @@
+-    <td>400487529 bytes</td>
+-    <td>62b9ce75e4b74b7c1236ea2f1f99da34</td>
++    <td>406516375 bytes</td>
++    <td>6796d66de07c85b2822ca8d501a043c0</td>
+@@ -290,5 +285,0 @@
+-
+-
+-
+-
+-
+@@ -399,0 +391,18 @@
++<h2 id="Revisions">Revisions</h2>
++
++<div class="toggle-content opened">
++  <p><a href="#" onclick="return toggleContent(this)">
++    <img src="{@docRoot}assets/images/triangle-opened.png" class="toggle-content-img"
++      alt=""/>Android Studio v0.1.1</a> <em>(May 2013)</em>
++  </p>
++
++  <div class="toggle-content-toggleme">
++  <ul>
++    <li>Various bug fixes, including a fix for a common Windows installation issue.
++  </ul>
++  </div>
++</div>
++
++
++
++
+@@ -439 +448,2 @@
+-    $('#download-ide-button').append("Download Android Studio v0.1 <br/><span class='small'>for " + os + "</span>");
++    $('#download-ide-button').append("Download Android Studio <span class='small'>v0.1.1</span>"
++        + "<br/><span class='small'>for " + os + "</span>");
+diff --git a/docs/html/tools/sdk/eclipse-adt.jd b/docs/html/tools/sdk/eclipse-adt.jd
+index 2433ec9..52647ff 100644
+--- a/docs/html/tools/sdk/eclipse-adt.jd
++++ b/docs/html/tools/sdk/eclipse-adt.jd
+@@ -56 +55,0 @@
+-
+@@ -59,0 +59,36 @@
++      alt=""/>ADT 22.0.1</a> <em>(May 2013)</em>
++  </p>
++
++  <div class="toggle-content-toggleme">
++<dl>
++  <dt>Dependencies:</dt>
++
++  <dd>
++    <ul>
++      <li>Java 1.6 or higher is required for ADT 22.0.1.</li>
++      <li>Eclipse Helios (Version 3.6.2) or higher is required for ADT 22.0.1.</li>
++      <li>ADT 22.0.1 is designed for use with <a href="{@docRoot}tools/sdk/tools-notes.html">SDK
++      Tools r22.0.1</a>. If you haven't already installed SDK Tools r22 into your SDK, use the
++      Android SDK Manager to do so.</li>
++    </ul>
++  </dd>
++
++  <dt>General Notes:</dt>
++  <dd>
++    <ul>
++      <li>Fixed issue with Lint ServiceCast check and fully qualified class names.
++        (<a href="http://code.google.com/p/android/issues/detail?id=55403">Issue 55403</a>)</li>
++      <li>Fixed crash issue with Lint ArraySizeDetector check.
++        (<a href="http://code.google.com/p/android/issues/detail?id=54887">Issue 54887</a>)</li>
++      <li>Fixed problem with the Gradle export feature.</li>
++      <li>Fixed version check issue for the ADT Plugin.</li>
++    </ul>
++  </dd>
++
++</dl>
++</div>
++</div>
++
++<div class="toggle-content closed">
++  <p><a href="#" onclick="return toggleContent(this)">
++    <img src="{@docRoot}assets/images/triangle-closed.png" class="toggle-content-img"
+@@ -134 +169 @@
+-        references. For example, code completion in a {@code &lt;fragment android:name=””&gt;} tag
++        references. For example, code completion in a {@code &lt;fragment android:name="" &gt;} tag
+diff --git a/docs/html/tools/sdk/tools-notes.jd b/docs/html/tools/sdk/tools-notes.jd
+index 003acf2..b58fdd1 100644
+--- a/docs/html/tools/sdk/tools-notes.jd
++++ b/docs/html/tools/sdk/tools-notes.jd
+@@ -31,0 +32,41 @@
++      alt=""/>SDK Tools, Revision 22.0.1</a> <em>(May 2013)</em>
++  </p>
++
++  <div class="toggle-content-toggleme">
++
++    <dl>
++    <dt>Dependencies:</dt>
++    <dd>
++      <ul>
++        <li>Android SDK Platform-tools revision 16 or later.</li>
++        <li>If you are developing in Eclipse with ADT, note that the SDK Tools r22.0.1 is
++          designed for use with ADT 22.0.1 and later. If you haven't already, update your
++        <a href="{@docRoot}tools/sdk/eclipse-adt.html">ADT Plugin</a> to 22.0.1.</li>
++        <li>If you are developing outside Eclipse, you must have
++          <a href="http://ant.apache.org/">Apache Ant</a> 1.8 or later.</li>
++      </ul>
++    </dd>
++
++    <dt>General Notes:</dt>
++    <dd>
++      <ul>
++        <li>Fixed issue with Lint ServiceCast check and fully qualified class names.
++          (<a href="http://code.google.com/p/android/issues/detail?id=55403">Issue 55403</a>)</li>
++        <li>Fixed crash issue with Lint ArraySizeDetector check.
++          (<a href="http://code.google.com/p/android/issues/detail?id=54887">Issue 54887</a>)</li>
++        <li>Fixed a problem with the monkeyrunner tool failing to import standard python classes.
++          (<a href="http://code.google.com/p/android/issues/detail?id=55632">Issue 55632</a>)</li>
++        <li>Fixed a problem with DDMS monitor not opening heap and network statistics views due to
++          a class not found exception.
++          (<a href="http://code.google.com/p/android/issues/detail?id=55394">Issue 55394</a>)</li>
++      </ul>
++
++    </dd>
++    </dl>
++  </div>
++</div>
++
++
++<div class="toggle-content closed">
++  <p><a href="#" onclick="return toggleContent(this)">
++    <img src="{@docRoot}assets/images/triangle-closed.png" class="toggle-content-img"
+

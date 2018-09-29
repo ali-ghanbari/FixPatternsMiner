@@ -1,0 +1,15 @@
+diff --git a/src/main/java/com/twilio/sdk/resource/instance/Message.java b/src/main/java/com/twilio/sdk/resource/instance/Message.java
+index 90156c1..1ecd3ce 100644
+--- a/src/main/java/com/twilio/sdk/resource/instance/Message.java
++++ b/src/main/java/com/twilio/sdk/resource/instance/Message.java
+@@ -232 +232 @@
+-			return Integer.parseInt(this.getProperty("error_code"));
++			return (Integer)this.getObject("error_code");
+diff --git a/src/test/java/com/twilio/sdk/resource/instance/MessageTest.java b/src/test/java/com/twilio/sdk/resource/instance/MessageTest.java
+index af8344f..6a388fd 100644
+--- a/src/test/java/com/twilio/sdk/resource/instance/MessageTest.java
++++ b/src/test/java/com/twilio/sdk/resource/instance/MessageTest.java
+@@ -36 +36 @@
+-		map.put("error_code", "30001");
++		map.put("error_code", 30001);
+

@@ -1,0 +1,135 @@
+diff --git a/src/test/java/teammates/test/cases/ui/browsertests/AdminHomePageUiTest.java b/src/test/java/teammates/test/cases/ui/browsertests/AdminHomePageUiTest.java
+index 18158db..a262781 100644
+--- a/src/test/java/teammates/test/cases/ui/browsertests/AdminHomePageUiTest.java
++++ b/src/test/java/teammates/test/cases/ui/browsertests/AdminHomePageUiTest.java
+@@ -3,0 +4 @@
++import static org.testng.AssertJUnit.assertTrue;
+@@ -27,0 +29,4 @@
++import teammates.test.pageobjects.HomePage;
++import teammates.test.pageobjects.InstructorCourseDetailsPage;
++import teammates.test.pageobjects.InstructorCourseEditPage;
++import teammates.test.pageobjects.InstructorCourseEnrollPage;
+@@ -28,0 +34,5 @@
++import teammates.test.pageobjects.InstructorCoursesPage;
++import teammates.test.pageobjects.InstructorEvalsPage;
++import teammates.test.pageobjects.InstructorFeedbackResultsPage;
++import teammates.test.pageobjects.InstructorFeedbacksPage;
++import teammates.test.pageobjects.InstructorHomePage;
+@@ -30,0 +41,3 @@
++import teammates.test.pageobjects.StudentCourseDetailsPage;
++import teammates.test.pageobjects.StudentFeedbackResultsPage;
++import teammates.test.pageobjects.StudentHomePage;
+@@ -119,2 +132 @@
+-        confirmationPage.verifyContains("Instructor Home");
+-
++        
+@@ -124,3 +135,0 @@
+-        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+-        BackDoor.deleteCourse(demoCourseId);
+-        BackDoor.deleteInstructor(demoCourseId, instructor.email);
+@@ -128 +137,37 @@
+-        confirmationPage.logout();
++        //verify sample course is accessible for newly joined instructor as an instructor
++        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
++        instructorHomePage.verifyContains("Instructor Home");
++        instructorHomePage.verifyContains(demoCourseId);
++        
++        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseErollLink(demoCourseId);
++        enrollPage.verifyContains("Enroll Students for " + demoCourseId);
++        
++        instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
++        InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
++        detailsPage.verifyContains("Course Details");
++        
++        instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
++        InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
++        editPage.verifyContains("Edit Course Details");
++        editPage.verifyContains(demoCourseId);
++        
++        instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
++        InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
++        feedbacksPage.verifyContains("Add New Feedback Session");
++        
++        instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
++        instructorHomePage.clickArchiveCourseLink(demoCourseId);
++        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been archived"));
++        
++        
++        String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
++                                       Const.ParamsNames.USER_ID, 
++                                       TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
++        browser.driver.get(url);
++        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
++        coursesPage.unarchiveCourse(demoCourseId);
++        coursesPage.verifyStatus("The course " + demoCourseId + " has been unarchived.");
++        
++        
++        coursesPage.logout();
++        
+@@ -138,0 +184,50 @@
++        ______TS("action success: course is accessible for newly joined instructor as student");
++        //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
++        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
++            
++            BackDoor.deleteCourse(demoCourseId);
++            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
++            BackDoor.deleteInstructor(demoCourseId, instructor.email);
++            return;
++        }
++        
++        //verify sample course is accessible for newly joined instructor as an student
++        
++        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
++                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
++                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
++       
++        studentHomePage.verifyContains("Student Home");
++        studentHomePage.verifyContains(demoCourseId);
++        studentHomePage.clickViewTeam();
++        
++        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
++        courseDetailsPage.verifyContains("Team Details for " + demoCourseId);
++        
++        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
++        studentHomePage.getViewFeedbackButton("First team feedback session").click();
++        StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
++        sfrp.verifyContains("Feedback Results - Student");
++        
++        studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
++        studentHomePage.getEditFeedbackButton("First team feedback session").click();
++        assertTrue(browser.driver.getPageSource().contains("Submit Feedback"));
++        
++        studentHomePage.logout();
++        
++        //login in as instructor again to test sample course deletion
++        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
++                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
++                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
++        
++  
++        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
++        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
++     
++        instructorHomePage.logout();
++        
++        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
++        BackDoor.deleteCourse(demoCourseId);
++        BackDoor.deleteInstructor(demoCourseId, instructor.email);
++        
++   
+diff --git a/src/test/java/teammates/test/cases/ui/browsertests/StudentHomePageUiTest.java b/src/test/java/teammates/test/cases/ui/browsertests/StudentHomePageUiTest.java
+index 7214f8a..5c22d1f 100644
+--- a/src/test/java/teammates/test/cases/ui/browsertests/StudentHomePageUiTest.java
++++ b/src/test/java/teammates/test/cases/ui/browsertests/StudentHomePageUiTest.java
+@@ -110 +110,2 @@
+-        assertTrue(browser.driver.getCurrentUrl().contains("page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104"));
++        
++        assertTrue(browser.driver.getCurrentUrl().contains("page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101"));
+diff --git a/src/test/java/teammates/test/pageobjects/StudentHomePage.java b/src/test/java/teammates/test/pageobjects/StudentHomePage.java
+index 613ef09..6190659 100644
+--- a/src/test/java/teammates/test/pageobjects/StudentHomePage.java
++++ b/src/test/java/teammates/test/pageobjects/StudentHomePage.java
+@@ -44 +44 @@
+-        viewTeamLinks.get(1).click();
++        viewTeamLinks.get(0).click();
+

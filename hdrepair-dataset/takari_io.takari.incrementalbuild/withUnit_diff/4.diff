@@ -1,0 +1,17 @@
+diff --git a/incrementalbuild/src/main/java/io/takari/incrementalbuild/spi/DefaultBuildContext.java b/incrementalbuild/src/main/java/io/takari/incrementalbuild/spi/DefaultBuildContext.java
+index e236762..efd166f 100644
+--- a/incrementalbuild/src/main/java/io/takari/incrementalbuild/spi/DefaultBuildContext.java
++++ b/incrementalbuild/src/main/java/io/takari/incrementalbuild/spi/DefaultBuildContext.java
+@@ -571 +571 @@
+-            if (registeredInputs.containsKey(inputFile)) {
++            if (registeredInputs.containsKey(inputFile) && !processedInputs.containsKey(inputFile)) {
+diff --git a/incrementalbuild/src/test/java/io/takari/incremental/test/DefaultBuildContextTest.java b/incrementalbuild/src/test/java/io/takari/incremental/test/DefaultBuildContextTest.java
+index e873f12..56b527e 100644
+--- a/incrementalbuild/src/test/java/io/takari/incremental/test/DefaultBuildContextTest.java
++++ b/incrementalbuild/src/test/java/io/takari/incremental/test/DefaultBuildContextTest.java
+@@ -480 +480 @@
+-    Assert.assertEquals(3, outputs.size());
++    Assert.assertEquals(2, outputs.size());
+@@ -482 +481,0 @@
+-    Assert.assertNotNull(outputs.get(outputFile2));
+

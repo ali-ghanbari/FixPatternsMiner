@@ -1,0 +1,68 @@
+diff --git a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/append-4.logik.out b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/append-4.logik.out
+index 478c954..20d9a36 100644
+--- a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/append-4.logik.out
++++ b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/append-4.logik.out
+@@ -5 +5 @@
+-L1:Term |-> cons ( _110:Term, cons ( _115:Term, cons ( _120:Term, cons ( _125
++L1:Term |-> cons ( _141:Term, cons ( _175:Term, cons ( _212:Term, cons ( _252
+@@ -8 +8 @@
+-L3:Term |-> cons ( _110, cons ( _115, cons ( _120, cons ( _125, cons ( a, L2 )
++L3:Term |-> cons ( _141, cons ( _175, cons ( _212, cons ( _252, cons ( a, L2 )
+@@ -13 +13 @@
+-L1:Term |-> cons ( _110:Term, cons ( _115:Term, cons ( _120:Term, nil ) ) )
++L1:Term |-> cons ( _141:Term, cons ( _175:Term, cons ( _212:Term, nil ) ) )
+@@ -15 +15 @@
+-L3:Term |-> cons ( _110, cons ( _115, cons ( _120, cons ( a, L2 ) ) ) )
++L3:Term |-> cons ( _141, cons ( _175, cons ( _212, cons ( a, L2 ) ) ) )
+@@ -19 +19 @@
+-L1:Term |-> cons ( _110:Term, cons ( _115:Term, nil ) )
++L1:Term |-> cons ( _141:Term, cons ( _175:Term, nil ) )
+@@ -21 +21 @@
+-L3:Term |-> cons ( _110, cons ( _115, cons ( a, L2 ) ) )
++L3:Term |-> cons ( _141, cons ( _175, cons ( a, L2 ) ) )
+@@ -25 +25 @@
+-L1:Term |-> cons ( _110:Term, nil )
++L1:Term |-> cons ( _141:Term, nil )
+@@ -27 +27 @@
+-L3:Term |-> cons ( _110, cons ( a, L2 ) )
++L3:Term |-> cons ( _141, cons ( a, L2 ) )
+diff --git a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-1.logik.out b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-1.logik.out
+index 673a5cc..d7bdc8b 100644
+--- a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-1.logik.out
++++ b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-fast-palindromes-1.logik.out
+@@ -5 +5 @@
+-L:Term |-> cons ( _113:Term, cons ( _113, nil ) )
++L:Term |-> cons ( _164:Term, cons ( _164, nil ) )
+@@ -9 +9 @@
+-L:Term |-> cons ( _113:Term, cons ( _118:Term, cons ( _113, nil ) ) )
++L:Term |-> cons ( _164:Term, cons ( _198:Term, cons ( _164, nil ) ) )
+@@ -13 +13 @@
+-L:Term |-> cons ( _113:Term, cons ( _118:Term, cons ( _118, cons ( _113, nil )
++L:Term |-> cons ( _164:Term, cons ( _198:Term, cons ( _198, cons ( _164, nil )
+@@ -18 +18 @@
+-L:Term |-> cons ( _113:Term, nil )
++L:Term |-> cons ( _164:Term, nil )
+diff --git a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-slow-palindromes-1.logik.out b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-slow-palindromes-1.logik.out
+index bb44076..3d4440d 100644
+--- a/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-slow-palindromes-1.logik.out
++++ b/samples/java_rewrite_engine/tutorial/2_languages/4_logik/tests/reverse-slow-palindromes-1.logik.out
+@@ -5 +5 @@
+-L:Term |-> cons ( _113:Term, cons ( _113, nil ) )
++L:Term |-> cons ( _153:Term, cons ( _153, nil ) )
+@@ -9 +9 @@
+-L:Term |-> cons ( _113:Term, cons ( _117:Term, cons ( _113, nil ) ) )
++L:Term |-> cons ( _153:Term, cons ( _186:Term, cons ( _153, nil ) ) )
+@@ -13 +13 @@
+-L:Term |-> cons ( _113:Term, cons ( _117:Term, cons ( _117, cons ( _113, nil )
++L:Term |-> cons ( _153:Term, cons ( _186:Term, cons ( _186, cons ( _153, nil )
+@@ -18 +18 @@
+-L:Term |-> cons ( _113:Term, nil )
++L:Term |-> cons ( _153:Term, nil )
+diff --git a/src/javasources/KTool/src/org/kframework/kil/Variable.java b/src/javasources/KTool/src/org/kframework/kil/Variable.java
+index 336135f..15644bd 100644
+--- a/src/javasources/KTool/src/org/kframework/kil/Variable.java
++++ b/src/javasources/KTool/src/org/kframework/kil/Variable.java
+@@ -60 +60 @@
+-        this(sort, name, false, false);
++        this(name, sort, false, false);
+

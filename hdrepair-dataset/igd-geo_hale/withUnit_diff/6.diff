@@ -1,0 +1,29 @@
+diff --git a/cst/eu.esdihumboldt.cst.corefunctions/META-INF/MANIFEST.MF b/cst/eu.esdihumboldt.cst.corefunctions/META-INF/MANIFEST.MF
+index 1cf3724..95fc7fd 100644
+--- a/cst/eu.esdihumboldt.cst.corefunctions/META-INF/MANIFEST.MF
++++ b/cst/eu.esdihumboldt.cst.corefunctions/META-INF/MANIFEST.MF
+@@ -13 +13,2 @@
+- eu.esdihumboldt.hale.schemaprovider;bundle-version="1.0.0"
++ eu.esdihumboldt.hale.schemaprovider;bundle-version="1.0.0",
++ eu.esdihumboldt.transformer.cst
+diff --git a/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/inspire/GeographicalNameFunctionTest.java b/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/inspire/GeographicalNameFunctionTest.java
+index a90feae..9ec1099 100644
+--- a/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/inspire/GeographicalNameFunctionTest.java
++++ b/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/inspire/GeographicalNameFunctionTest.java
+@@ -83,4 +83,4 @@
+-		
+-		FeatureType geoNameType = TypeLoader.getType("GeographicalName", 
+-				"file:///d:/hale-workspace/eu.esdihumboldt.cst.corefunctions/" +
+-				"src/test/resource/inspire_v3.0_xsd/GeographicalNames.xsd");		
++		String url = getClass().getResource("/inspire_v3.0_xsd/GeographicalNames.xsd").toString();
++		FeatureType geoNameType = TypeLoader.getType("GeographicalName", url);
++		//		"file:///d:/hale-workspace/eu.esdihumboldt.cst.corefunctions/" +
++		//		"src/test/resource/inspire_v3.0_xsd/GeographicalNames.xsd");		
+diff --git a/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/util/TypeLoader.java b/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/util/TypeLoader.java
+index ed0ee3a..e5e498d 100644
+--- a/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/util/TypeLoader.java
++++ b/cst/eu.esdihumboldt.cst.corefunctions/src/test/java/eu/esdihumboldt/cst/corefunctions/util/TypeLoader.java
+@@ -47 +47 @@
+-				for (TypeDefinition td : schema.getTypes()) {
++				for (TypeDefinition td : schema.getTypes().values()) {
+

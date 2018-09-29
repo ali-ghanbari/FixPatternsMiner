@@ -1,0 +1,21 @@
+diff --git a/core/src/main/java/tachyon/TachyonURI.java b/core/src/main/java/tachyon/TachyonURI.java
+index f663255..3c463ad 100644
+--- a/core/src/main/java/tachyon/TachyonURI.java
++++ b/core/src/main/java/tachyon/TachyonURI.java
+@@ -346 +346 @@
+-    return new TachyonURI(toString() + TachyonURI.SEPARATOR + suffix);
++    return new TachyonURI(getScheme(), getAuthority(), getPath() + TachyonURI.SEPARATOR + suffix);
+diff --git a/core/src/test/java/tachyon/TachyonURITest.java b/core/src/test/java/tachyon/TachyonURITest.java
+index c8272dd..be24ceb 100644
+--- a/core/src/test/java/tachyon/TachyonURITest.java
++++ b/core/src/test/java/tachyon/TachyonURITest.java
+@@ -342,0 +343,8 @@
++
++    final String pathWithSpecialChar = "×ö,ßbÁ»$o\u0005ÉÆ[\u000F| \u009E=BÕ½";
++    Assert.assertEquals(new TachyonURI("/" + pathWithSpecialChar),
++            new TachyonURI("/").join(pathWithSpecialChar));
++
++    final String pathWithSpecialCharAndColon = "×ö,ßbÁ»$o\u0005ÉÆ[\u000F| \u009E=BÕ:½";
++    Assert.assertEquals(new TachyonURI("/" + pathWithSpecialCharAndColon),
++            new TachyonURI("/").join(pathWithSpecialCharAndColon));
+

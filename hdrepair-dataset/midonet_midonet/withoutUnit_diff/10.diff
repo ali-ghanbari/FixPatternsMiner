@@ -1,0 +1,106 @@
+diff --git a/midolman/src/main/java/org/midonet/midolman/simulation/Chain.java b/midolman/src/main/java/org/midonet/midolman/simulation/Chain.java
+index 6949c18..f2dec49 100644
+--- a/midolman/src/main/java/org/midonet/midolman/simulation/Chain.java
++++ b/midolman/src/main/java/org/midonet/midolman/simulation/Chain.java
+@@ -115,0 +116,2 @@
++            context.recordTraversedRule(r.id, res);
++
+diff --git a/midolman/src/main/scala/org/midonet/midolman/flows/ManagedFlow.scala b/midolman/src/main/scala/org/midonet/midolman/flows/ManagedFlow.scala
+index d27da34..3f1deb5 100644
+--- a/midolman/src/main/scala/org/midonet/midolman/flows/ManagedFlow.scala
++++ b/midolman/src/main/scala/org/midonet/midolman/flows/ManagedFlow.scala
+@@ -18 +18 @@
+-import java.util.{HashSet, ArrayList}
++import java.util.{ArrayList, Collection}
+@@ -42 +42 @@
+-    def reset(flowMatch: FlowMatch, flowTags: HashSet[FlowTag],
++    def reset(flowMatch: FlowMatch, flowTags: Collection[FlowTag],
+diff --git a/midolman/src/main/scala/org/midonet/midolman/simulation/PacketContext.scala b/midolman/src/main/scala/org/midonet/midolman/simulation/PacketContext.scala
+index f0dffb2..7ee117e 100644
+--- a/midolman/src/main/scala/org/midonet/midolman/simulation/PacketContext.scala
++++ b/midolman/src/main/scala/org/midonet/midolman/simulation/PacketContext.scala
+@@ -28,0 +29 @@
++import org.midonet.midolman.rules.RuleResult
+@@ -31,0 +33,2 @@
++import org.midonet.sdn.flows.FlowTagger.DeviceTag
++
+@@ -57 +60 @@
+-    val flowTags = new HashSet[FlowTag]()
++    val flowTags = new ArrayList[FlowTag]()
+@@ -70 +73 @@
+-    def addFlowTag(tag: FlowTag): Unit =
++    def addFlowTag(tag: FlowTag): Unit = {
+@@ -71,0 +75 @@
++    }
+@@ -191,0 +196,16 @@
++trait RecordedContext extends Clearable {
++    val traversedRules = new ArrayList[UUID]
++    val traversedRuleResults = new ArrayList[RuleResult]
++
++    def recordTraversedRule(rule: UUID, result: RuleResult): Unit = {
++        traversedRules.add(rule)
++        traversedRuleResults.add(result)
++    }
++
++    override def clear(): Unit = {
++        traversedRules.clear()
++        traversedRuleResults.clear()
++        super.clear()
++    }
++}
++
+@@ -203,0 +224 @@
++                                                 with RecordedContext
+diff --git a/midolman/src/main/scala/org/midonet/midolman/state/FlowStateReplicator.scala b/midolman/src/main/scala/org/midonet/midolman/state/FlowStateReplicator.scala
+index 6034b1b..38f5f5c 100644
+--- a/midolman/src/main/scala/org/midonet/midolman/state/FlowStateReplicator.scala
++++ b/midolman/src/main/scala/org/midonet/midolman/state/FlowStateReplicator.scala
+@@ -19 +19 @@
+-import java.util.{ArrayList, HashSet => JHashSet, Iterator => JIterator, List => JList, Set => JSet, UUID}
++import java.util.{ArrayList, Collection, HashSet => JHashSet, Iterator => JIterator, List => JList, Set => JSet, UUID}
+@@ -334 +334,2 @@
+-                                    ports: JSet[UUID], tags: JSet[FlowTag]) {
++                                    ports: JSet[UUID],
++                                    tags: Collection[FlowTag]) {
+@@ -367 +368 @@
+-                               tags: JSet[FlowTag]): Unit = {
++                               tags: Collection[FlowTag]): Unit = {
+diff --git a/midolman/src/test/scala/org/midonet/midolman/BridgeInvalidationTest.scala b/midolman/src/test/scala/org/midonet/midolman/BridgeInvalidationTest.scala
+index bad3fd9..504ce7b 100644
+--- a/midolman/src/test/scala/org/midonet/midolman/BridgeInvalidationTest.scala
++++ b/midolman/src/test/scala/org/midonet/midolman/BridgeInvalidationTest.scala
+@@ -170,2 +170,2 @@
+-                floodInvalidation).asJava
+-            pktContext.flowTags should be (expectedTags)
++                floodInvalidation)
++            pktContext.flowTags.asScala.toSet should be (expectedTags)
+@@ -190,2 +190,2 @@
+-                rightPortUnicastInvalidation).asJava
+-            pktContext.flowTags should be (expectedTags)
++                rightPortUnicastInvalidation)
++            pktContext.flowTags.asScala.toSet should be (expectedTags)
+@@ -214 +214 @@
+-                otherPortUnicastInvalidation).asJava
++                otherPortUnicastInvalidation)
+@@ -217 +217 @@
+-            pktContext.flowTags should be (expectedTags)
++            pktContext.flowTags.asScala.toSet should be (expectedTags)
+diff --git a/midolman/src/test/scala/org/midonet/midolman/FlowTranslatorTest.scala b/midolman/src/test/scala/org/midonet/midolman/FlowTranslatorTest.scala
+index e48d6ec..3fb3b70 100644
+--- a/midolman/src/test/scala/org/midonet/midolman/FlowTranslatorTest.scala
++++ b/midolman/src/test/scala/org/midonet/midolman/FlowTranslatorTest.scala
+@@ -530 +530 @@
+-                    pktCtx.flowTags should be (result._2.asJava)
++                    pktCtx.flowTags.asScala.toSet should be (result._2)
+diff --git a/midolman/src/test/scala/org/midonet/midolman/state/FlowStateReplicatorTest.scala b/midolman/src/test/scala/org/midonet/midolman/state/FlowStateReplicatorTest.scala
+index 018a0d4..2aebb9b 100644
+--- a/midolman/src/test/scala/org/midonet/midolman/state/FlowStateReplicatorTest.scala
++++ b/midolman/src/test/scala/org/midonet/midolman/state/FlowStateReplicatorTest.scala
+@@ -20 +20,2 @@
+-import java.util.{ArrayList, HashSet => JHashSet, List => JList, Set => JSet, UUID}
++import java.util.{ArrayList, Collection, HashSet => JHashSet}
++import java.util.{List => JList, Set => JSet, UUID}
+@@ -488 +489 @@
+-                                  tags: JSet[FlowTag]) {
++                                  tags: Collection[FlowTag]) {
+

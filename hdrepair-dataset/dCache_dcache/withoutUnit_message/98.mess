@@ -1,0 +1,22 @@
+billing-plots: get it working
+
+Last summer Tao wrote a framework to allow plotting of data from the billing database.
+
+This plot-engine isn't started and, when started, doesn't work.  This patch fixes these 
+problems.
+
+Note: temporary copies of plots are stored in a directory.  The location of this directory 
+is controlled by the system property: org.dcache.services.plots.imagedir and has a default 
+value "/tmp/img".  If the image storage directory doesn't exist then plotting doesn't work 
+(error is file not found), but the rest of httpd is unaffected.  Therefore one must do 
+"mkdir /tmp/img" before starting httpd service for plotting to work.
+
+Target: trunk
+Request: 1.9.10
+Acked-by: Tigran
+Patch: http://rb.dcache.org/r/2744/
+
+Patch is for trunk; recommend back-porting to 1.9.10.
+
+
+

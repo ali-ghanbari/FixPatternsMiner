@@ -1,0 +1,13 @@
+[bugfix] URL Rewriting: if controller.xql is stored inside the database, views have to be searched within the db as well. Before this fix, this only worked for the main rewrite action, but not for any additional views. Example:
+
+<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+  <forward url="modules/store.xql"/>
+  <view>
+    <forward url="modules/view.xql"/>
+  </view>
+</dispatch>
+
+XQueryURLRewrite loaded modules/store.xql from the db, but try to find modules/view.xql on the file system.
+
+svn path=/trunk/eXist/; revision=15531
+

@@ -1,0 +1,8 @@
+diff --git a/src/main/java/hudson/plugins/perforce/PerforceChangeLogEntry.java b/src/main/java/hudson/plugins/perforce/PerforceChangeLogEntry.java
+index 0bd1b85..36fa2c5 100644
+--- a/src/main/java/hudson/plugins/perforce/PerforceChangeLogEntry.java
++++ b/src/main/java/hudson/plugins/perforce/PerforceChangeLogEntry.java
+@@ -64 +64 @@
+-            paths.add(entry.getWorkspacePath());
++            paths.add(entry.getWorkspacePath()==null?entry.getFilename():entry.getWorkspacePath());
+

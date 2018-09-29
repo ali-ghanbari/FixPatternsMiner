@@ -1,0 +1,18 @@
+diff --git a/src/main/java/com/continuuity/data/metadata/SerializingMetaDataStore.java b/src/main/java/com/continuuity/data/metadata/SerializingMetaDataStore.java
+index e68a19e..280abd8 100644
+--- a/src/main/java/com/continuuity/data/metadata/SerializingMetaDataStore.java
++++ b/src/main/java/com/continuuity/data/metadata/SerializingMetaDataStore.java
+@@ -206 +206 @@
+-      throw new OperationException(StatusCode.ENTRY_EXISTS, message);
++      throw new OperationException(StatusCode.WRITE_CONFLICT, message);
+diff --git a/src/test/java/com/continuuity/data/metadata/MetaDataStoreTest.java b/src/test/java/com/continuuity/data/metadata/MetaDataStoreTest.java
+index 935638a..9314acf 100644
+--- a/src/test/java/com/continuuity/data/metadata/MetaDataStoreTest.java
++++ b/src/test/java/com/continuuity/data/metadata/MetaDataStoreTest.java
+@@ -95 +95 @@
+-      Assert.assertEquals(StatusCode.ENTRY_EXISTS, e.getStatus());
++      Assert.assertEquals(StatusCode.WRITE_CONFLICT, e.getStatus());
+@@ -103 +103 @@
+-      Assert.assertEquals(StatusCode.ENTRY_EXISTS, e.getStatus());
++      Assert.assertEquals(StatusCode.WRITE_CONFLICT, e.getStatus());
+

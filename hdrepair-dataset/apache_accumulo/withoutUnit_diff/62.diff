@@ -1,0 +1,9 @@
+diff --git a/server/src/main/java/org/apache/accumulo/server/master/Master.java b/server/src/main/java/org/apache/accumulo/server/master/Master.java
+index 27550a5..90d2331 100644
+--- a/server/src/main/java/org/apache/accumulo/server/master/Master.java
++++ b/server/src/main/java/org/apache/accumulo/server/master/Master.java
+@@ -1406,0 +1407,3 @@
++            // ignore entries for tables that do not exist in zookeeper
++            if (TableManager.getInstance().getTableState(tls.extent.getTableId().toString()) == null)
++              continue;
+

@@ -1,0 +1,31 @@
+diff --git a/src/org/intellij/erlang/psi/impl/ErlangVarProcessor.java b/src/org/intellij/erlang/psi/impl/ErlangVarProcessor.java
+index ee493cd..159a04c 100644
+--- a/src/org/intellij/erlang/psi/impl/ErlangVarProcessor.java
++++ b/src/org/intellij/erlang/psi/impl/ErlangVarProcessor.java
+@@ -68 +68 @@
+-        myVarList.add(0, (ErlangQVar) psiElement); // put all possible variables to list
++        myVarList.add((ErlangQVar) psiElement); // put all possible variables to list
+diff --git a/testData/highlighting/Mp4Mux.erl b/testData/highlighting/Mp4Mux.erl
+index 50eb5e2..e72fe44 100644
+--- a/testData/highlighting/Mp4Mux.erl
++++ b/testData/highlighting/Mp4Mux.erl
+@@ -226 +226 @@
+-    {ok, <<1:32, <warning>AtomName</warning>/binary>>} ->
++    {ok, <<1:32, AtomName/binary>>} ->
+diff --git a/testData/highlighting/VariableResolve.erl b/testData/highlighting/VariableResolve.erl
+index 35f538d..c68a51d 100644
+--- a/testData/highlighting/VariableResolve.erl
++++ b/testData/highlighting/VariableResolve.erl
+@@ -68,0 +69,11 @@
++  end.
++
++-export([find_in_binary/0]).
++
++find_in_binary() ->
++  case 1 of
++    Last when Last < 0 -> Last;
++    Last ->
++      case 2 of
++        _ -> Last
++      end
+

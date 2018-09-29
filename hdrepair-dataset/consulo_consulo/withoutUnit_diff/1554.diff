@@ -1,0 +1,8 @@
+diff --git a/plugins/maven/src/main/java/org/jetbrains/idea/maven/project/MavenArtifactDownloader.java b/plugins/maven/src/main/java/org/jetbrains/idea/maven/project/MavenArtifactDownloader.java
+index 4cc1b4d..799a595 100644
+--- a/plugins/maven/src/main/java/org/jetbrains/idea/maven/project/MavenArtifactDownloader.java
++++ b/plugins/maven/src/main/java/org/jetbrains/idea/maven/project/MavenArtifactDownloader.java
+@@ -34 +34 @@
+-  private final static ExecutorService EXECUTOR = new ThreadPoolExecutor(0, 5, 1, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(5));
++  private final static ExecutorService EXECUTOR = new ThreadPoolExecutor(0, 5, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(5));
+

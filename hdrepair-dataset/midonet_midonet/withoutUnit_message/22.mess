@@ -1,0 +1,14 @@
+Fix a crash in RoutingHandler
+
+ClusterBgpManager was incurring in a concurrent map modification while
+removing bgp objects if there was more than one. This is fixed in a separate
+patch that had not been submitted to v1.4.
+
+However RoutingHandler was assuming that map.remove() call always returned Some.
+This crashed the actor, and was triggered by the previous bug. We now log
+the case where the bgp id is not found in the map.
+
+Fixes: MN-1761
+Change-Id: I25bd30e970b8bedff4bdc30e1fdd6dd056aac76f
+Signed-off-by: Guillermo Ontanon <guillermo@midokura.jp>
+

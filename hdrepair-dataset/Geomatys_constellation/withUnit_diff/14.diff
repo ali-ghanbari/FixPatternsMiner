@@ -1,0 +1,177 @@
+diff --git a/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WCSRequestsTest.java b/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WCSRequestsTest.java
+index 88acf89..fb8e5d9 100644
+--- a/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WCSRequestsTest.java
++++ b/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WCSRequestsTest.java
+@@ -26 +25,0 @@
+-import javax.xml.bind.JAXBContext;
+@@ -30,0 +30 @@
++import javax.xml.bind.Unmarshaller;
+@@ -43,0 +44 @@
++import org.geotoolkit.xml.MarshallerPool;
+@@ -61,0 +63,2 @@
++
++    private static MarshallerPool pool;
+@@ -91 +94 @@
+-    public static void initLayerList() {
++    public static void initLayerList() throws JAXBException {
+@@ -98,0 +102,4 @@
++        pool = new MarshallerPool("org.constellation.ws:" +
++                                  "org.constellation.wcs.v100:" +
++                                  "org.constellation.ows.v100:" +
++                                  "org.constellation.gml.v311");
+@@ -106 +113 @@
+-    public void testWCSWrongRequest() {
++    public void testWCSWrongRequest() throws JAXBException {
+@@ -127,9 +134,4 @@
+-        try {
+-            final JAXBContext context = JAXBContext.newInstance("org.constellation.ws:" +
+-                                                                "org.constellation.wcs.v100");
+-            final Object obj = context.createUnmarshaller().unmarshal(in);
+-            assertTrue(obj instanceof ExceptionReport);
+-        } catch (JAXBException ex) {
+-            assumeNoException(ex);
+-            return;
+-        }
++        final Unmarshaller unmarshaller = pool.acquireUnmarshaller();
++        final Object obj = unmarshaller.unmarshal(in);
++        pool.release(unmarshaller);
++        assertTrue(obj instanceof ExceptionReport);
+@@ -214 +216 @@
+-    public void testWCSGetCapabilities() {
++    public void testWCSGetCapabilities() throws JAXBException {
+@@ -239,14 +241,5 @@
+-        Object obj;
+-        try {
+-            final JAXBContext context = JAXBContext.newInstance("org.constellation.ws:" +
+-                                                                "org.constellation.wcs.v100:" +
+-                                                                "org.constellation.ows.v100:" +
+-                                                                "org.constellation.gml.v311");
+-            obj = context.createUnmarshaller().unmarshal(in);
+-            if (obj instanceof JAXBElement) {
+-                obj = ((JAXBElement) obj).getValue();
+-            }
+-            assertTrue(obj instanceof WCSCapabilitiesType);
+-        } catch (JAXBException ex) {
+-            assumeNoException(ex);
+-            return;
++        final Unmarshaller unmarshaller = pool.acquireUnmarshaller();
++        Object obj = unmarshaller.unmarshal(in);
++        pool.release(unmarshaller);
++        if (obj instanceof JAXBElement) {
++            obj = ((JAXBElement) obj).getValue();
+@@ -253,0 +247 @@
++        assertTrue(obj instanceof WCSCapabilitiesType);
+@@ -282 +276 @@
+-    public void testWCSDescribeCoverage() {
++    public void testWCSDescribeCoverage() throws JAXBException {
+@@ -307,14 +301,5 @@
+-        Object obj;
+-        try {
+-            final JAXBContext context = JAXBContext.newInstance("org.constellation.ws:" +
+-                                                                "org.constellation.wcs.v100:" +
+-                                                                "org.constellation.ows.v100:" +
+-                                                                "org.constellation.gml.v311");
+-            obj = context.createUnmarshaller().unmarshal(in);
+-            if (obj instanceof JAXBElement) {
+-                obj = ((JAXBElement) obj).getValue();
+-            }
+-            assertTrue(obj instanceof CoverageDescription);
+-        } catch (JAXBException ex) {
+-            assumeNoException(ex);
+-            return;
++        final Unmarshaller unmarshaller = pool.acquireUnmarshaller();
++        Object obj = unmarshaller.unmarshal(in);
++        pool.release(unmarshaller);
++        if (obj instanceof JAXBElement) {
++            obj = ((JAXBElement) obj).getValue();
+@@ -321,0 +307 @@
++        assertTrue(obj instanceof CoverageDescription);
+diff --git a/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSAxesOrderTest.java b/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSAxesOrderTest.java
+index 809b0a9..308d890 100644
+--- a/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSAxesOrderTest.java
++++ b/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSAxesOrderTest.java
+@@ -35 +34,0 @@
+-import org.opengis.referencing.crs.CoordinateReferenceSystem;
+diff --git a/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSRequestsTest.java b/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSRequestsTest.java
+index c719559..c414fe9 100644
+--- a/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSRequestsTest.java
++++ b/modules/web-services/embedded/src/test/java/org/constellation/ws/embedded/WMSRequestsTest.java
+@@ -28 +27,0 @@
+-import javax.xml.bind.JAXBContext;
+@@ -31,0 +31 @@
++import javax.xml.bind.Unmarshaller;
+@@ -47,0 +48 @@
++import org.geotoolkit.xml.MarshallerPool;
+@@ -65,0 +67,2 @@
++
++    private static MarshallerPool pool;
+@@ -102 +105 @@
+-    public static void initLayerList() {
++    public static void initLayerList() throws JAXBException {
+@@ -109,0 +113,3 @@
++        pool = new MarshallerPool("org.constellation.ws:" +
++                                  "org.constellation.wms.v111:" +
++                                  "org.geotoolkit.internal.jaxb.v110.sld");
+@@ -117 +123 @@
+-    public void testWMSWrongRequest() {
++    public void testWMSWrongRequest() throws JAXBException {
+@@ -138,9 +144,4 @@
+-        try {
+-            final JAXBContext context = JAXBContext.newInstance("org.constellation.ws:" +
+-                                                                "org.constellation.wms.v111");
+-            final Object obj = context.createUnmarshaller().unmarshal(in);
+-            assertTrue(obj instanceof ServiceExceptionReport);
+-        } catch (JAXBException ex) {
+-            assumeNoException(ex);
+-            return;
+-        }
++        final Unmarshaller unmarshaller = pool.acquireUnmarshaller();
++        final Object obj = unmarshaller.unmarshal(in);
++        pool.release(unmarshaller);
++        assertTrue(obj instanceof ServiceExceptionReport);
+@@ -187 +188 @@
+-    public void testWMSGetCapabilities() {
++    public void testWMSGetCapabilities() throws JAXBException {
+@@ -212,11 +213,4 @@
+-        final Object obj;
+-        try {
+-            final JAXBContext context = JAXBContext.newInstance("org.constellation.ws:" +
+-                                                                "org.constellation.wms.v111:" +
+-                                                                "org.geotoolkit.internal.jaxb.v110.sld");
+-            obj = context.createUnmarshaller().unmarshal(in);
+-            assertTrue(obj instanceof WMT_MS_Capabilities);
+-        } catch (JAXBException ex) {
+-            assumeNoException(ex);
+-            return;
+-        }
++        final Unmarshaller unmarshaller = pool.acquireUnmarshaller();
++        final Object obj = unmarshaller.unmarshal(in);
++        pool.release(unmarshaller);
++        assertTrue(obj instanceof WMT_MS_Capabilities);
+@@ -316 +310 @@
+-    public void testWMSDescribeLayer() {
++    public void testWMSDescribeLayer() throws JAXBException {
+@@ -340,11 +334,4 @@
+-        final Object obj;
+-        try {
+-            final JAXBContext context = JAXBContext.newInstance("org.constellation.ws:" +
+-                                                                "org.constellation.wms.v111:" +
+-                                                                "org.geotoolkit.internal.jaxb.v110.sld");
+-            obj = context.createUnmarshaller().unmarshal(in);
+-            assertTrue(obj instanceof DescribeLayerResponseType);
+-        } catch (JAXBException ex) {
+-            assumeNoException(ex);
+-            return;
+-        }
++        final Unmarshaller unmarshaller = pool.acquireUnmarshaller();
++        final Object obj = unmarshaller.unmarshal(in);
++        pool.release(unmarshaller);
++        assertTrue(obj instanceof DescribeLayerResponseType);
+diff --git a/modules/web-services/wms/src/main/java/org/constellation/map/ws/rs/WMSService.java b/modules/web-services/wms/src/main/java/org/constellation/map/ws/rs/WMSService.java
+index b0e1e87..fd884b5 100644
+--- a/modules/web-services/wms/src/main/java/org/constellation/map/ws/rs/WMSService.java
++++ b/modules/web-services/wms/src/main/java/org/constellation/map/ws/rs/WMSService.java
+@@ -168 +168 @@
+-                marshaller.setProperty("com.sun.xml.bind.xmlHeaders",
++                marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders",
+

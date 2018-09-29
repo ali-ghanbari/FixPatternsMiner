@@ -1,0 +1,11 @@
+diff --git a/engine/org.eclipse.birt.report.engine.emitter.ppt/src/org/eclipse/birt/report/engine/emitter/ppt/device/PPTPage.java b/engine/org.eclipse.birt.report.engine.emitter.ppt/src/org/eclipse/birt/report/engine/emitter/ppt/device/PPTPage.java
+index 6006d61..a48eff3 100644
+--- a/engine/org.eclipse.birt.report.engine.emitter.ppt/src/org/eclipse/birt/report/engine/emitter/ppt/device/PPTPage.java
++++ b/engine/org.eclipse.birt.report.engine.emitter.ppt/src/org/eclipse/birt/report/engine/emitter/ppt/device/PPTPage.java
+@@ -106 +106,4 @@
+-		writer.drawText( text, textX, textY, width, height, textStyle
++		// width of text is enlarged by 1 point because in ppt the text will be
++		// automatically wrapped if the width of textbox equals to the width of
++		// text exactly.
++		writer.drawText( text, textX, textY, width + 1f, height, textStyle
+

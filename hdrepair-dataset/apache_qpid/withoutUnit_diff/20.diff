@@ -1,0 +1,22 @@
+diff --git a/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/SimpleAMQQueue.java b/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/SimpleAMQQueue.java
+index 891a492..f43de76 100644
+--- a/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/SimpleAMQQueue.java
++++ b/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/SimpleAMQQueue.java
+@@ -1898 +1898 @@
+-            return releasedNode == null || releasedNode.compareTo(entry) < 0;
++            return releasedNode != null && releasedNode.compareTo(entry) < 0;
+diff --git a/qpid/java/test-profiles/python_tests/Java010PythonExcludes b/qpid/java/test-profiles/python_tests/Java010PythonExcludes
+index b61ac73..6e05a21 100644
+--- a/qpid/java/test-profiles/python_tests/Java010PythonExcludes
++++ b/qpid/java/test-profiles/python_tests/Java010PythonExcludes
+@@ -25,3 +24,0 @@
+-#The broker does not support message groups
+-qpid_tests.broker_0_10.msg_groups.*
+-
+@@ -30,0 +28,5 @@
++qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_default_group_id
++qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_move_*
++qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_purge_*
++qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_query
++qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_reroute
+

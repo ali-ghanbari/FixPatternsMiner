@@ -1,0 +1,21 @@
+diff --git a/onebusaway-nyc-admin-webapp/src/main/java/org/onebusaway/nyc/admin/service/impl/BundleRequestServiceImpl.java b/onebusaway-nyc-admin-webapp/src/main/java/org/onebusaway/nyc/admin/service/impl/BundleRequestServiceImpl.java
+index 35578f0..78361a8 100644
+--- a/onebusaway-nyc-admin-webapp/src/main/java/org/onebusaway/nyc/admin/service/impl/BundleRequestServiceImpl.java
++++ b/onebusaway-nyc-admin-webapp/src/main/java/org/onebusaway/nyc/admin/service/impl/BundleRequestServiceImpl.java
+@@ -107 +107 @@
+-  	  msg.append("fromEmail=true&id=" + response.getId());
++  	  msg.append("?fromEmail=true&id=" + response.getId());
+diff --git a/onebusaway-nyc-admin-webapp/src/main/webapp/js/oba/bundles/bundles.js b/onebusaway-nyc-admin-webapp/src/main/webapp/js/oba/bundles/bundles.js
+index 83c8f84..2b1ada1 100644
+--- a/onebusaway-nyc-admin-webapp/src/main/webapp/js/oba/bundles/bundles.js
++++ b/onebusaway-nyc-admin-webapp/src/main/webapp/js/oba/bundles/bundles.js
+@@ -53,0 +54,2 @@
++		// TODO this doesn't work when fromEmail query string is present 
++		// alert("hash=" + hash);
+@@ -58 +59,0 @@
+-		// TODO setup id
+@@ -61,0 +63,3 @@
++		// just in case set the tab
++		var $tabs = jQuery("#tabs");
++		$tabs.tabs('select', 2);
+

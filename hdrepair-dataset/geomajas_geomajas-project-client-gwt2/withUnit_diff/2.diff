@@ -1,0 +1,18 @@
+diff --git a/plugin/wms/server-extension/src/main/java/org/geomajas/gwt2/plugin/wms/client/layer/FeatureSearchSupportedWmsServerLayer.java b/plugin/wms/server-extension/src/main/java/org/geomajas/gwt2/plugin/wms/client/layer/FeatureSearchSupportedWmsServerLayer.java
+index e8a124a..1bed6f4 100644
+--- a/plugin/wms/server-extension/src/main/java/org/geomajas/gwt2/plugin/wms/client/layer/FeatureSearchSupportedWmsServerLayer.java
++++ b/plugin/wms/server-extension/src/main/java/org/geomajas/gwt2/plugin/wms/client/layer/FeatureSearchSupportedWmsServerLayer.java
+@@ -39 +39 @@
+- * Default implementation of the {@link FeaturesSupportedWmsLayer}.
++ * Server-based implementation of {@link FeatureSearchSupported} WMS layer.
+diff --git a/plugin/wms/wms/src/test/java/org/geomajas/gwt2/plugin/wms/client/service/WmsServiceTest.java b/plugin/wms/wms/src/test/java/org/geomajas/gwt2/plugin/wms/client/service/WmsServiceTest.java
+index 0af1eaa..672a184 100644
+--- a/plugin/wms/wms/src/test/java/org/geomajas/gwt2/plugin/wms/client/service/WmsServiceTest.java
++++ b/plugin/wms/wms/src/test/java/org/geomajas/gwt2/plugin/wms/client/service/WmsServiceTest.java
+@@ -175 +175 @@
+-		String describeLayerUrl = wmsService.describeLayerUrl(VALUE_URL, "layer1,layer2", WmsVersion.V1_1_1);
++		String describeLayerUrl = wmsService.describeLayerUrl(VALUE_URL, VALUE_LAYER, WmsVersion.V1_1_1);
+@@ -179 +179 @@
+-		Assert.assertTrue(hasParameter(describeLayerUrl, "version", wmsConfig.getVersion().toString()));
++		Assert.assertTrue(hasParameter(describeLayerUrl, "version", WmsVersion.V1_1_1.toString()));
+

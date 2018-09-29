@@ -1,0 +1,9 @@
+diff --git a/Common/Frameworks/ERExtensions/Sources/er/extensions/ERXTabPanel.java b/Common/Frameworks/ERExtensions/Sources/er/extensions/ERXTabPanel.java
+index 4d35148..2c46f8d 100644
+--- a/Common/Frameworks/ERExtensions/Sources/er/extensions/ERXTabPanel.java
++++ b/Common/Frameworks/ERExtensions/Sources/er/extensions/ERXTabPanel.java
+@@ -48 +48,2 @@
+-            result = performParentAction(submitActionName());
++	    //FIXME: This should be more robust.
++	    result = parent() != null ? parent().valueForKey(submitActionName()) : null;
+

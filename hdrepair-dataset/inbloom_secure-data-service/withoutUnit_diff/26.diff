@@ -1,0 +1,43 @@
+diff --git a/sli/acceptance-tests/test/features/bulk_extract/features/bulk_extract_prior_data.feature b/sli/acceptance-tests/test/features/bulk_extract/features/bulk_extract_prior_data.feature
+index c29cd09..8591a1d 100644
+--- a/sli/acceptance-tests/test/features/bulk_extract/features/bulk_extract_prior_data.feature
++++ b/sli/acceptance-tests/test/features/bulk_extract/features/bulk_extract_prior_data.feature
+@@ -3,0 +4 @@
++  @wip
+@@ -12 +13 @@
+-
++  @wip
+@@ -13,0 +15,2 @@
++    Given I clean the bulk extract file system and database
++    And I trigger an extract for tenant "Midgar"
+@@ -19 +21,0 @@
+-      | cohort                                |
+@@ -33 +34,0 @@
+-      | section                               |
+@@ -67,0 +69,12 @@
++    And I verify this "disciplineAction" file should contain:
++      | id                                                                                     | condition |
++      | c3210dcba5a65f44d37a88528989e39cdbcc6e09_id | entityType = disciplineAction |
++    And I verify this "studentAssessment" file should contain:
++      | id                                                                                     | condition |
++      | abf6b39f8c841a247c3e4731a821ea8b86f1c5d1_id | entityType = studentAssessment |
++    And I verify this "studentSchoolAssociation" file should contain:
++      | id                                                                                     | condition |
++      | 89c3228f05f5d88d785b4788babbf12c02c9f3f4_id | entityType = studentSchoolAssociation |
++    And I verify this "parent" file should contain:
++      | id                                                                                     | condition |
++      | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id | entityType = parent |
+@@ -75 +87,0 @@
+-      | cohort                                |
+@@ -89 +100,0 @@
+-      | section                               |
+@@ -124,0 +136 @@
++
+diff --git a/sli/bulk-extract/src/main/java/org/slc/sli/bulk/extract/lea/StudentExtractor.java b/sli/bulk-extract/src/main/java/org/slc/sli/bulk/extract/lea/StudentExtractor.java
+index 0012ce5..f96833d 100644
+--- a/sli/bulk-extract/src/main/java/org/slc/sli/bulk/extract/lea/StudentExtractor.java
++++ b/sli/bulk-extract/src/main/java/org/slc/sli/bulk/extract/lea/StudentExtractor.java
+@@ -40 +40 @@
+-            EntityNames.STUDENT_COHORT_ASSOCIATION);
++            EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION);
+

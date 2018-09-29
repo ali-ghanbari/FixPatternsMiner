@@ -1,0 +1,8 @@
+MODE-1257 Corrected class cast exception
+
+The JoinRequestProcessor.process(RemovePropertyRequest) was incorrectly casting the forked request
+to SetPropertyRequest. This was a copy-and-paste error, and fixing it appears to fix the issue.
+(Additional tests being added under MODE-1256.)
+
+All unit and integration tests pass with these changes.
+

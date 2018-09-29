@@ -1,0 +1,49 @@
+diff --git a/config/gradle/ide.gradle b/config/gradle/ide.gradle
+index 4f791e7..5bcf022 100644
+--- a/config/gradle/ide.gradle
++++ b/config/gradle/ide.gradle
+@@ -170,0 +171,32 @@
++        // A run config for headless mode
++        runManager.append(new XmlParser().parseText('''
++            <configuration default="false" name="TerasologyPC (Headless)" type="Application" factoryName="Application">
++              <extension name="coverage" enabled="false" merge="false" runner="idea">
++                <pattern>
++                  <option name="PATTERN" value="org.terasology.engine.*"/>
++                  <option name="ENABLED" value="true"/>
++                </pattern>
++              </extension>
++              <option name="MAIN_CLASS_NAME" value="org.terasology.engine.Terasology"/>
++              <option name="VM_PARAMETERS" value="-Xms256m -Xmx1024m"/>
++              <option name="PROGRAM_PARAMETERS" value="-headless -homedir=terasology-server"/>
++              <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$"/>
++              <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
++              <option name="ALTERNATIVE_JRE_PATH" value=""/>
++              <option name="ENABLE_SWING_INSPECTOR" value="false"/>
++              <option name="ENV_VARIABLES"/>
++              <option name="PASS_PARENT_ENVS" value="true"/>
++              <module name="PC"/>
++              <envs/>
++              <RunnerSettings RunnerId="Debug">
++                <option name="DEBUG_PORT" value=""/>
++                <option name="TRANSPORT" value="0"/>
++                <option name="LOCAL" value="true"/>
++              </RunnerSettings>
++              <RunnerSettings RunnerId="Run"/>
++              <ConfigurationWrapper RunnerId="Debug"/>
++              <ConfigurationWrapper RunnerId="Run"/>
++              <method/>
++            </configuration>
++        '''))
++
+@@ -173 +205 @@
+-        <list size="1">
++        <list size="2">
+@@ -174,0 +207 @@
++        <item index="1" class="java.lang.String" itemvalue="Application.TerasologyPC (Headless)"/>
+diff --git a/engine/src/main/java/org/terasology/engine/subsystem/headless/renderer/HeadlessWorldRenderer.java b/engine/src/main/java/org/terasology/engine/subsystem/headless/renderer/HeadlessWorldRenderer.java
+index d829706..5be9c65 100644
+--- a/engine/src/main/java/org/terasology/engine/subsystem/headless/renderer/HeadlessWorldRenderer.java
++++ b/engine/src/main/java/org/terasology/engine/subsystem/headless/renderer/HeadlessWorldRenderer.java
+@@ -124,0 +125 @@
++        chunkProvider.completeUpdate();
+

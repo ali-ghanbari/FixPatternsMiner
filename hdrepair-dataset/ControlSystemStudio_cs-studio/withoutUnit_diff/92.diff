@@ -1,0 +1,12 @@
+diff --git a/core/plugins/org.csstudio.data/src/org/csstudio/data/values/internal/DoubleValue.java b/core/plugins/org.csstudio.data/src/org/csstudio/data/values/internal/DoubleValue.java
+index d8642d4..c40ee8e 100644
+--- a/core/plugins/org.csstudio.data/src/org/csstudio/data/values/internal/DoubleValue.java
++++ b/core/plugins/org.csstudio.data/src/org/csstudio/data/values/internal/DoubleValue.java
+@@ -123,3 +123,3 @@
+-            // Hack: If default format precision is 0, assume nobody configured
+-            // it properly, and fall back to Double.toString
+-            if (how == Format.Default  &&  precision == 0)
++            // If precision is still less than 0, which means
++        	// no meta data on this value, and fall back to Double.toString
++            if (how == Format.Default  &&  precision < 0)
+

@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/user/AccountManagerImpl.java b/server/src/com/cloud/user/AccountManagerImpl.java
+index ec7400f..ef6c574 100755
+--- a/server/src/com/cloud/user/AccountManagerImpl.java
++++ b/server/src/com/cloud/user/AccountManagerImpl.java
+@@ -321 +321 @@
+-            if (entity.getAccountId() != -1 && domainId != -1 && !(entity instanceof VirtualMachineTemplate)) {
++            if (entity.getAccountId() != -1 && domainId != -1 && !(entity instanceof VirtualMachineTemplate) && !(accessType != null && accessType == AccessType.UseNetwork)) {
+

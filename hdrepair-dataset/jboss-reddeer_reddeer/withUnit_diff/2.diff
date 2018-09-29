@@ -1,0 +1,38 @@
+diff --git a/org.jboss.reddeer.eclipse.test/src/org/jboss/reddeer/eclipse/test/ui/console/ConsoleViewTest.java b/org.jboss.reddeer.eclipse.test/src/org/jboss/reddeer/eclipse/test/ui/console/ConsoleViewTest.java
+index 5afc216..7868f87 100644
+--- a/org.jboss.reddeer.eclipse.test/src/org/jboss/reddeer/eclipse/test/ui/console/ConsoleViewTest.java
++++ b/org.jboss.reddeer.eclipse.test/src/org/jboss/reddeer/eclipse/test/ui/console/ConsoleViewTest.java
+@@ -17 +17 @@
+-import org.junit.Before;
++import org.junit.BeforeClass;
+@@ -22 +22 @@
+-	private ConsoleView consoleView;
++	private static ConsoleView consoleView;
+@@ -26,2 +26,2 @@
+-	@Before
+-	public void setup() {
++	@BeforeClass
++	public static void setup() {
+@@ -49 +49 @@
+-		consoleView.clearConsole();
++		consoleView.clearConsole();		
+@@ -54 +54 @@
+-	private void runTestProject() {
++	private static void runTestProject() {
+@@ -60 +60 @@
+-	private void createTestProject() {
++	private static void createTestProject() {
+@@ -69 +69 @@
+-	private void createJavaProject() {
++	private static void createJavaProject() {
+@@ -79 +79 @@
+-	private void createJavaClass() {
++	private static void createJavaClass() {
+diff --git a/org.jboss.reddeer.workbench/src/org/jboss/reddeer/workbench/view/View.java b/org.jboss.reddeer.workbench/src/org/jboss/reddeer/workbench/view/View.java
+index ab8b753..c7ff4d5 100644
+--- a/org.jboss.reddeer.workbench/src/org/jboss/reddeer/workbench/view/View.java
++++ b/org.jboss.reddeer.workbench/src/org/jboss/reddeer/workbench/view/View.java
+@@ -92 +92 @@
+-			if (button.isEnabled() && button.getToolTipText().equals(toolbarToolTip)) {
++			if (button.getToolTipText().equals(toolbarToolTip)) {
+

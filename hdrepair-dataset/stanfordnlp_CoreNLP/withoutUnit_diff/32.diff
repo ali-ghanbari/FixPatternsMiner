@@ -1,0 +1,15 @@
+diff --git a/doc/segmenter/README-Arabic.txt b/doc/segmenter/README-Arabic.txt
+index 7c1fd83..56450ee 100644
+--- a/doc/segmenter/README-Arabic.txt
++++ b/doc/segmenter/README-Arabic.txt
+@@ -41 +41 @@
+-  java -mx1g edu.stanford.nlp.international.arabic.process.ArabicSegmenter -loadClassifier data/arabic-segmenter-atbtrain.ser.gz -textFile my_arabic_file.txt > my_arabic_file.txt.segmented
++  java -mx1g edu.stanford.nlp.international.arabic.process.ArabicSegmenter -loadClassifier data/arabic-segmenter-atb+bn+arztrain.ser.gz -textFile my_arabic_file.txt > my_arabic_file.txt.segmented
+diff --git a/src/edu/stanford/nlp/international/arabic/process/ArabicSegmenter.java b/src/edu/stanford/nlp/international/arabic/process/ArabicSegmenter.java
+index 044a41f..40dedca 100644
+--- a/src/edu/stanford/nlp/international/arabic/process/ArabicSegmenter.java
++++ b/src/edu/stanford/nlp/international/arabic/process/ArabicSegmenter.java
+@@ -120 +120 @@
+-    domain = props.getProperty(optDomain, "123");
++    domain = props.getProperty(optDomain, "atb");
+

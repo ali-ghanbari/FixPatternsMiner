@@ -1,0 +1,24 @@
+diff --git a/cachestore/bdbje/src/main/java/org/infinispan/loaders/bdbje/BdbjeCacheStore.java b/cachestore/bdbje/src/main/java/org/infinispan/loaders/bdbje/BdbjeCacheStore.java
+index ef1f5f9..69c739a 100644
+--- a/cachestore/bdbje/src/main/java/org/infinispan/loaders/bdbje/BdbjeCacheStore.java
++++ b/cachestore/bdbje/src/main/java/org/infinispan/loaders/bdbje/BdbjeCacheStore.java
+@@ -563 +563 @@
+-         Map<Long, Object> expired = expiryMap.tailMap(System.currentTimeMillis(), true);
++         Map<Long, Object> expired = expiryMap.headMap(System.currentTimeMillis(), true);
+diff --git a/core/src/test/java/org/infinispan/loaders/BaseCacheStoreTest.java b/core/src/test/java/org/infinispan/loaders/BaseCacheStoreTest.java
+index 73483b3..7c95a2e 100644
+--- a/core/src/test/java/org/infinispan/loaders/BaseCacheStoreTest.java
++++ b/core/src/test/java/org/infinispan/loaders/BaseCacheStoreTest.java
+@@ -471,0 +472,2 @@
++      cs.store(InternalEntryFactory.create("k4", "v4", -1, -1)); // immortal entry
++      cs.store(InternalEntryFactory.create("k5", "v5", lifespan * 1000, idle * 1000)); // long life mortal entry
+@@ -474,0 +477,3 @@
++      assert cs.containsKey("k4");
++      assert cs.containsKey("k5");
++
+@@ -476,0 +482 @@
++
+@@ -479,0 +486,2 @@
++      assert cs.containsKey("k4");
++      assert cs.containsKey("k5");
+

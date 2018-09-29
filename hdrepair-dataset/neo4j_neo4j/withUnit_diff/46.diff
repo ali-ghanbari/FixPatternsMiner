@@ -1,0 +1,24 @@
+diff --git a/gremlin-plugin/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java b/gremlin-plugin/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java
+index 047ab45..264c80b 100755
+--- a/gremlin-plugin/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java
++++ b/gremlin-plugin/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java
+@@ -96 +96 @@
+-                    return ValueRepresentation.string(result.toString());
++                    return ValueRepresentation.string(result+"");
+diff --git a/gremlin-plugin/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginTest.java b/gremlin-plugin/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginTest.java
+index e048c32..d7c2e6a 100644
+--- a/gremlin-plugin/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginTest.java
++++ b/gremlin-plugin/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginTest.java
+@@ -148,0 +149,11 @@
++    public void testExecuteScriptNull() {
++        Assert.assertEquals("\"null\"", json.format(GremlinPluginTest.executeTestScript("for(i in 1..2){g.v(0)}")));
++    }
++
++    @Test
++    public void testMultilineScriptWithLinebreaks() {
++        Assert.assertEquals("2", json.format(GremlinPluginTest.executeTestScript("1;\n2")));
++    }
++
++    
++    @Test
+

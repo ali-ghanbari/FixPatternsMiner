@@ -1,0 +1,15 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 48e3ff8..fe7ee11 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -10,0 +11,2 @@
++ * faster flushes and compaction from fixing excessively pessimistic 
++   rebuffering in BRAF (CASSANDRA-2581)
+diff --git a/src/java/org/apache/cassandra/io/util/BufferedRandomAccessFile.java b/src/java/org/apache/cassandra/io/util/BufferedRandomAccessFile.java
+index 7317d1d..00aba8d 100644
+--- a/src/java/org/apache/cassandra/io/util/BufferedRandomAccessFile.java
++++ b/src/java/org/apache/cassandra/io/util/BufferedRandomAccessFile.java
+@@ -346 +346 @@
+-        if (newPosition >= bufferOffset + validBufferBytes || newPosition < bufferOffset)
++        if (newPosition > (bufferOffset + validBufferBytes) || newPosition < bufferOffset)
+

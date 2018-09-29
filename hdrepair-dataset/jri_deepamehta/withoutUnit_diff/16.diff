@@ -1,0 +1,69 @@
+diff --git a/modules/dm4-core/src/main/java/de/deepamehta/core/model/TypeModel.java b/modules/dm4-core/src/main/java/de/deepamehta/core/model/TypeModel.java
+index 599fdb0..9d96ce8 100644
+--- a/modules/dm4-core/src/main/java/de/deepamehta/core/model/TypeModel.java
++++ b/modules/dm4-core/src/main/java/de/deepamehta/core/model/TypeModel.java
+@@ -113 +113 @@
+-        // sanity check ### FIXME: drop this check or provide proper feedback to the type editor user
++        // error check ### FIXME: drop this check or provide proper feedback to the type editor user
+diff --git a/modules/dm4-webclient/src/main/resources/web/script/util/gui_toolkit.js b/modules/dm4-webclient/src/main/resources/web/script/util/gui_toolkit.js
+index 9f6f44d..734c224 100644
+--- a/modules/dm4-webclient/src/main/resources/web/script/util/gui_toolkit.js
++++ b/modules/dm4-webclient/src/main/resources/web/script/util/gui_toolkit.js
+@@ -2 +2,2 @@
+- * A GUI toolkit to create buttons, menus, combo boxes, and dialog boxes.
++ * A generic (DeepaMehta independent) GUI toolkit to create buttons, menus, combo boxes, and dialog boxes.
++ * Based on jQuery UI.
+@@ -4 +5 @@
+- * A toolkit instance is accessible as dm4c.ui
++ * The DeepaMehta Webclient's toolkit instance is accessible as dm4c.ui
+diff --git a/modules/dm4-webclient/src/main/resources/web/script/util/js_utils.js b/modules/dm4-webclient/src/main/resources/web/script/util/js_utils.js
+index 58d0ec5..5f2e00b 100644
+--- a/modules/dm4-webclient/src/main/resources/web/script/util/js_utils.js
++++ b/modules/dm4-webclient/src/main/resources/web/script/util/js_utils.js
+@@ -2 +2 @@
+- * Generic JavaScript Utilities.
++ * Generic (DeepaMehta independent) JavaScript Utilities.
+@@ -235,0 +236,14 @@
++    strip_html: function(text) {
++        // Compare to the Java-equivalent stripHTML() in JavaUtils.java
++        // *? is the reluctant version of the * quantifier (which is greedy).
++        return text.replace(/<.*?>/g, "")
++    },
++
++    truncate: function(text, max_length) {
++        if (text.length <= max_length) {
++            return text
++        }
++        var i = text.lastIndexOf(" ", max_length)
++        return text.substr(0, i >= 0 ? i : max_length) + " ..."
++    },
++
+diff --git a/modules/dm4-webclient/src/main/resources/web/script/util/render_helper.js b/modules/dm4-webclient/src/main/resources/web/script/util/render_helper.js
+index 42db148..ced6b15 100644
+--- a/modules/dm4-webclient/src/main/resources/web/script/util/render_helper.js
++++ b/modules/dm4-webclient/src/main/resources/web/script/util/render_helper.js
+@@ -0,0 +1,3 @@
++/**
++ * DeepaMehta-specific rendering functions.
++ */
+@@ -73 +76,2 @@
+-        return $("<a>").attr({href: "#", title: title}).append(topic.value).click(handler)
++        var text = this.link_text(topic)
++        return $("<a>").attr({href: "#", title: title}).append(text).click(handler)
+@@ -79,0 +84,9 @@
++    this.link_text = function(topic) {
++        if (dm4c.get_topic_type(topic.type_uri).data_type_uri == "dm4.core.html") {
++            var text = js.strip_html(topic.value)
++        } else {
++            var text = topic.value
++        }
++        return js.truncate(text, dm4c.MAX_LINK_TEXT_LENGTH)
++    }
++
+diff --git a/modules/dm4-webclient/src/main/resources/web/script/webclient.js b/modules/dm4-webclient/src/main/resources/web/script/webclient.js
+index 932dacf..5beb17a 100644
+--- a/modules/dm4-webclient/src/main/resources/web/script/webclient.js
++++ b/modules/dm4-webclient/src/main/resources/web/script/webclient.js
+@@ -12,0 +13 @@
++    this.MAX_LINK_TEXT_LENGTH = 50
+

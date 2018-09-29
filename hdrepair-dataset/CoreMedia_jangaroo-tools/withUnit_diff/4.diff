@@ -1,0 +1,59 @@
+diff --git a/jangaroo/jangaroo-compiler/src/main/java/net/jangaroo/jooc/DeclarationScope.java b/jangaroo/jangaroo-compiler/src/main/java/net/jangaroo/jooc/DeclarationScope.java
+index 33a9a20..abbba66 100644
+--- a/jangaroo/jangaroo-compiler/src/main/java/net/jangaroo/jooc/DeclarationScope.java
++++ b/jangaroo/jangaroo-compiler/src/main/java/net/jangaroo/jooc/DeclarationScope.java
+@@ -162 +162 @@
+-          throw Jooc.error(ide, "access to instance property in static context: '" + ide.getName() + "'");
++          decl = null;
+diff --git a/jangaroo/jangaroo-compiler/src/test/java/net/jangaroo/jooc/JoocTest.java b/jangaroo/jangaroo-compiler/src/test/java/net/jangaroo/jooc/JoocTest.java
+index 34fff28..c73492e 100644
+--- a/jangaroo/jangaroo-compiler/src/test/java/net/jangaroo/jooc/JoocTest.java
++++ b/jangaroo/jangaroo-compiler/src/test/java/net/jangaroo/jooc/JoocTest.java
+@@ -139,0 +140,5 @@
++  public void testStaticAndNonStatic() throws Exception {
++    assertCompilationResult("package1/StaticAndNonStatic");
++  }
++
++  @Test
+@@ -227 +232 @@
+-  
++
+diff --git a/jangaroo/jangaroo-compiler/src/test/resources/expected/package1/StaticAndNonStatic.js b/jangaroo/jangaroo-compiler/src/test/resources/expected/package1/StaticAndNonStatic.js
+new file mode 100644
+index 0000000..798606b
+--- /dev/null
++++ b/jangaroo/jangaroo-compiler/src/test/resources/expected/package1/StaticAndNonStatic.js
+@@ -0,0 +1,12 @@
++joo.classLoader.prepare("package package1",/* {*/
++
++/**
++ * Retest for JOO-64.
++ */
++"public class StaticAndNonStatic",1,function($$private){var $1=package1;return[ 
++
++  "public var",{ StaticAndNonStatic/*:String*/:null},function(){
++  
++  new $1.StaticAndNonStatic();},
++undefined];},[],[], "@runtimeVersion", "@version"
++);
+\ No newline at end of file
+diff --git a/jangaroo/jangaroo-compiler/src/test/resources/package1/StaticAndNonStatic.as b/jangaroo/jangaroo-compiler/src/test/resources/package1/StaticAndNonStatic.as
+new file mode 100644
+index 0000000..12490dc
+--- /dev/null
++++ b/jangaroo/jangaroo-compiler/src/test/resources/package1/StaticAndNonStatic.as
+@@ -0,0 +1,12 @@
++package package1 {
++
++/**
++ * Retest for JOO-64.
++ */
++public class StaticAndNonStatic {
++
++  public var StaticAndNonStatic:String;
++  
++  new StaticAndNonStatic();
++}
++}
+\ No newline at end of file
+

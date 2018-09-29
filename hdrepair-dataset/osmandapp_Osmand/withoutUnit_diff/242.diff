@@ -1,0 +1,9 @@
+diff --git a/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java b/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java
+index c0b5a62..5fc4403 100644
+--- a/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java
++++ b/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java
+@@ -52 +52,2 @@
+-		LatLon loc = OsmandSettings.getOsmandSettings(this).getLastKnownMapLocation();
++		// use actual map location instead, statement seems useless: LatLon loc = OsmandSettings.getOsmandSettings(this).getLastKnownMapLocation();
++		LatLon loc = activity.getMapLocation();
+

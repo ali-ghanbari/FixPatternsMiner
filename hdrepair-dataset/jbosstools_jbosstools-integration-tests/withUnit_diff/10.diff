@@ -1,0 +1,206 @@
+diff --git a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/WSTestBase.java b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/WSTestBase.java
+index f48618f..01e43db 100644
+--- a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/WSTestBase.java
++++ b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/WSTestBase.java
+@@ -40,0 +41,3 @@
++//@Require(perspective="Java EE", 
++//		server=@Server(type=ServerType.EAP, 
++//		version = "5.1", operator = ">="))
+diff --git a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/completion/RESTfulCompletionTest.java b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/completion/RESTfulCompletionTest.java
+index 6205f59..84d1a35 100644
+--- a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/completion/RESTfulCompletionTest.java
++++ b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/completion/RESTfulCompletionTest.java
+@@ -19,2 +19 @@
+-import org.junit.After;
+-import org.junit.Before;
++import org.jboss.tools.ws.ui.bot.test.rest.explorer.RESTfulExplorerTest;
+@@ -29,0 +29 @@
++	private final String GET_METHOD_PATH = "/{userId}";
+@@ -31 +30,0 @@
+-	
+@@ -33 +31,0 @@
+-	
+@@ -35 +32,0 @@
+-	
+@@ -37 +33,0 @@
+-	
+@@ -40,3 +36,3 @@
+-	@Before
+-	public void setup() {
+-		
++	@Override
++	protected String getWsProjectName() {
++		return "restEmpty";
+@@ -45 +41 @@
+-	@After
++	@Override
+@@ -47 +43 @@
+-		projectExplorer.deleteAllProjects();
++		
+@@ -53,2 +49,5 @@
+-		setWsProjectName("restCompletion1");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, "");
+@@ -67,2 +66,5 @@
+-		setWsProjectName("restCompletion2");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, CORRECT_PATH_PARAM);
+@@ -82,2 +84,5 @@
+-		setWsProjectName("restCompletion2");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, CORRECT_PATH_PARAM);
+@@ -96,2 +101,5 @@
+-		setWsProjectName("restCompletion3");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, INCORRECT_PATH_PARAM);
+@@ -111,2 +119,5 @@
+-		setWsProjectName("restCompletion3");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, INCORRECT_PATH_PARAM);
+@@ -125,2 +136,5 @@
+-		setWsProjectName("restCompletion3");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, INCORRECT_PATH_PARAM);
+diff --git a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/explorer/RESTfulExplorerTest.java b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/explorer/RESTfulExplorerTest.java
+index 4ee149b..37d3e36 100644
+--- a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/explorer/RESTfulExplorerTest.java
++++ b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/explorer/RESTfulExplorerTest.java
+@@ -19,2 +18,0 @@
+-import org.junit.After;
+-import org.junit.Before;
+@@ -34,2 +31,0 @@
+-	private String restBasicProjectName = "restBasic";
+-	private String restAdvancedProjectName = "restAdvanced";
+@@ -37,3 +33,3 @@
+-	@Before
+-	public void setup() {
+-		
++	@Override
++	protected String getWsProjectName() {
++		return restEmptyProjectName;
+@@ -42 +38 @@
+-	@After
++	@Override
+@@ -44 +40 @@
+-		projectExplorer.deleteAllProjects();
++		
+@@ -49,3 +44,0 @@
+-		
+-		setWsProjectName(restEmptyProjectName);
+-		prepareRestProject();
+@@ -77,3 +69,0 @@
+-		
+-		setWsProjectName(restBasicProjectName);
+-		prepareRestProject();
+@@ -124,2 +114,5 @@
+-		setWsProjectName(restBasicProjectName);
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(BASIC_WS_RESOURCE), 
++				false, getWsPackage(), getWsName());
+@@ -149 +141,0 @@
+-		
+@@ -155,2 +147,5 @@
+-		setWsProjectName(restAdvancedProjectName);
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(ADVANCED_WS_RESOURCE), 
++				false, getWsPackage(), getWsName());
+@@ -191,2 +186,5 @@
+-		setWsProjectName(restBasicProjectName);
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(BASIC_WS_RESOURCE), 
++				false, getWsPackage(), getWsName());
+diff --git a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/validation/RESTfulValidationTest.java b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/validation/RESTfulValidationTest.java
+index 681fdd8..569e6a5 100644
+--- a/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/validation/RESTfulValidationTest.java
++++ b/tests/org.jboss.tools.ws.ui.bot.test/src/org/jboss/tools/ws/ui/bot/test/rest/validation/RESTfulValidationTest.java
+@@ -16,2 +15,0 @@
+-import org.junit.After;
+-import org.junit.Before;
+@@ -31,3 +29,3 @@
+-	@Before
+-	public void setup() {
+-		
++	@Override
++	protected String getWsProjectName() {
++		return "restEmpty";
+@@ -36 +34 @@
+-	@After
++	@Override
+@@ -38 +36 @@
+-		projectExplorer.deleteAllProjects();
++		
+@@ -44,2 +42,5 @@
+-		setWsProjectName("restValidation1");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, CORRECT_PATH_PARAM);
+@@ -53,2 +54,5 @@
+-		setWsProjectName("restValidation2");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, BAD_PATH_PARAM);
+@@ -63,2 +67,5 @@
+-		setWsProjectName("restValidation1");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, CORRECT_PATH_PARAM);
+@@ -78,2 +85,6 @@
+-		setWsProjectName("restValidation2");
+-		prepareRestProject();
++		
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, BAD_PATH_PARAM);
+@@ -96,2 +107,5 @@
+-		setWsProjectName("restValidation2");
+-		prepareRestProject();
++		packageExplorer.openFile(getWsProjectName(), "src", 
++				getWsPackage(), getWsName() + ".java").toTextEditor();
++		resourceHelper.copyResourceToClass(bot.editorByTitle(getWsName() + ".java"),
++				RESTfulExplorerTest.class.getResourceAsStream(SIMPLE_REST_WS_RESOURCE), 
++				false, getWsPackage(), getWsName(), GET_METHOD_PATH, BAD_PATH_PARAM);
+

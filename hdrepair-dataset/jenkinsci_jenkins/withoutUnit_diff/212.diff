@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/hudson/tasks/MailSender.java b/core/src/main/java/hudson/tasks/MailSender.java
+index fdba1bd..05e49bd 100644
+--- a/core/src/main/java/hudson/tasks/MailSender.java
++++ b/core/src/main/java/hudson/tasks/MailSender.java
+@@ -366 +366 @@
+-    private static final int MAX_LOG_LINES = 250;
++    private static final int MAX_LOG_LINES = Integer.getInteger(MailSender.class.getName()+".maxLogLines",250);
+

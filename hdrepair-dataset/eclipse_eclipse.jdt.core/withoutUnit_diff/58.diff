@@ -1,0 +1,17 @@
+diff --git a/org.eclipse.jdt.core/buildnotes_jdt-core.html b/org.eclipse.jdt.core/buildnotes_jdt-core.html
+index 45a5312..d06eaca 100644
+--- a/org.eclipse.jdt.core/buildnotes_jdt-core.html
++++ b/org.eclipse.jdt.core/buildnotes_jdt-core.html
+@@ -49 +49,3 @@
+-<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=56449">56449</a>
++<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=56462">56462</a>
++[formatter] java profile; array initializer before closing brace
++<br><a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=56449">56449</a>
+diff --git a/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/DefaultCodeFormatterOptions.java b/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/DefaultCodeFormatterOptions.java
+index f6733ba..e98cd43 100644
+--- a/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/DefaultCodeFormatterOptions.java
++++ b/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/DefaultCodeFormatterOptions.java
+@@ -1548 +1548 @@
+-		this.insert_space_before_closing_brace_in_array_initializer = false;
++		this.insert_space_before_closing_brace_in_array_initializer = true;
+

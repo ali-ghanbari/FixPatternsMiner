@@ -1,0 +1,71 @@
+diff --git a/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_clp.ftl b/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_clp.ftl
+index d265241..e37c4e5 100644
+--- a/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_clp.ftl
++++ b/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_clp.ftl
+@@ -19,0 +20 @@
++import com.liferay.portal.kernel.util.ProxyUtil;
+@@ -29,0 +31 @@
++import java.lang.reflect.InvocationHandler;
+@@ -509 +511,15 @@
+-		return (${entity.name})Proxy.newProxyInstance(${entity.name}.class.getClassLoader(), new Class[] {${entity.name}.class}, new AutoEscapeBeanHandler(this));
++		return (${entity.name})ProxyUtil.newProxyInstance(${entity.name}.class.getClassLoader(), new Class[] {${entity.name}.class}, new AutoEscapeBeanHandler(this));
++	}
++
++	@Override
++	public ${entity.name} toUnescapedModel() {
++		if (ProxyUtil.isProxyClass(getClass())) {
++			InvocationHandler invocationHandler = ProxyUtil.getInvocationHandler(this);
++
++			AutoEscapeBeanHandler autoEscapeBeanHandler = (AutoEscapeBeanHandler)invocationHandler;
++
++			return (${entity.name})autoEscapeBeanHandler.getBean();
++		}
++		else {
++			return (${entity.name})this;
++		}
+diff --git a/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_impl.ftl b/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_impl.ftl
+index 7ade3c3..c08ce03 100644
+--- a/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_impl.ftl
++++ b/portal-impl/src/com/liferay/portal/tools/servicebuilder/dependencies/model_impl.ftl
+@@ -51,0 +52,2 @@
++import java.lang.reflect.InvocationHandler;
++
+@@ -806,2 +808,2 @@
+-		if (_escapedModelProxy == null) {
+-			_escapedModelProxy = (${entity.name})ProxyUtil.newProxyInstance(_classLoader, _escapedModelProxyInterfaces, new AutoEscapeBeanHandler(this));
++		if (_escapedModel == null) {
++			_escapedModel = (${entity.name})ProxyUtil.newProxyInstance(_classLoader, _escapedModelInterfaces, new AutoEscapeBeanHandler(this));
+@@ -810 +812,17 @@
+-		return _escapedModelProxy;
++		return _escapedModel;
++	}
++
++	@Override
++	public ${entity.name} toUnescapedModel() {
++		if (ProxyUtil.isProxyClass(getClass())) {
++			InvocationHandler invocationHandler = ProxyUtil.getInvocationHandler(this);
++
++			AutoEscapeBeanHandler autoEscapeBeanHandler = (AutoEscapeBeanHandler)invocationHandler;
++
++			_unescapedModel = (${entity.name})autoEscapeBeanHandler.getBean();
++		}
++		else {
++			_unescapedModel = (${entity.name})this;
++		}
++
++		return _unescapedModel;
+@@ -1053 +1071 @@
+-	private static Class<?>[] _escapedModelProxyInterfaces = new Class[] {${entity.name}.class};
++	private static Class<?>[] _escapedModelInterfaces = new Class[] {${entity.name}.class};
+@@ -1083 +1101,2 @@
+-	private ${entity.name} _escapedModelProxy;
++	private ${entity.name} _escapedModel;
++	private ${entity.name} _unescapedModel;
+diff --git a/portal-service/src/com/liferay/portal/model/impl/BaseModelImpl.java b/portal-service/src/com/liferay/portal/model/impl/BaseModelImpl.java
+index 5c954fb..2cd27b0 100644
+--- a/portal-service/src/com/liferay/portal/model/impl/BaseModelImpl.java
++++ b/portal-service/src/com/liferay/portal/model/impl/BaseModelImpl.java
+@@ -88 +88 @@
+-		return (T) this;
++		return (T)this;
+

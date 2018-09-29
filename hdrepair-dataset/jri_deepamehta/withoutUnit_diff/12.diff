@@ -1,0 +1,23 @@
+diff --git a/modules/dm4-files/src/main/java/de/deepamehta/plugins/files/FilesPlugin.java b/modules/dm4-files/src/main/java/de/deepamehta/plugins/files/FilesPlugin.java
+index a0c7263..df0d6fd 100644
+--- a/modules/dm4-files/src/main/java/de/deepamehta/plugins/files/FilesPlugin.java
++++ b/modules/dm4-files/src/main/java/de/deepamehta/plugins/files/FilesPlugin.java
+@@ -139,2 +139 @@
+-    // ### FIXME: Jersey WARNING: A HTTP GET method MUST return a non-void type
+-    @GET
++    @POST
+diff --git a/modules/dm4-files/src/main/resources/web/script/plugin.js b/modules/dm4-files/src/main/resources/web/script/plugin.js
+index c08cf80..f7f8470 100644
+--- a/modules/dm4-files/src/main/resources/web/script/plugin.js
++++ b/modules/dm4-files/src/main/resources/web/script/plugin.js
+@@ -20 +20 @@
+-        return this.request("GET", "/files/" + file_topic_id)
++        return this.request("POST", "/files/" + file_topic_id)
+diff --git a/modules/dm4-webclient/src/main/resources/web/script/util/rest_client.js b/modules/dm4-webclient/src/main/resources/web/script/util/rest_client.js
+index dfc7fd7..73244b1 100644
+--- a/modules/dm4-webclient/src/main/resources/web/script/util/rest_client.js
++++ b/modules/dm4-webclient/src/main/resources/web/script/util/rest_client.js
+@@ -263 +263 @@
+-                throw "RESTClientError: " + method + " request failed (status=\"" + text_status + "\"), " + error_thrown
++                throw "RESTClientError: " + method + " request failed (" + text_status + ": " + error_thrown + ")"
+

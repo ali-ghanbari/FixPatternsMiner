@@ -1,0 +1,35 @@
+diff --git a/.gitignore b/.gitignore
+index 15e9d97..aa14279 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -16,0 +17,2 @@
++examples/rand/RealtimeNode.out
++examples/twitter/RealtimeNode.out
+diff --git a/examples/rand/run_client.sh b/examples/rand/run_client.sh
+index ad555c3..8ec5ffa 100755
+--- a/examples/rand/run_client.sh
++++ b/examples/rand/run_client.sh
+@@ -3 +3 @@
+-echo "    before running this, do:  run_server.sh &"
++echo "    before running this, do:  run_server.sh"
+diff --git a/examples/rand/run_server.sh b/examples/rand/run_server.sh
+index 9273500..2789064 100755
+--- a/examples/rand/run_server.sh
++++ b/examples/rand/run_server.sh
+@@ -18 +18 @@
+-java -Xmx400m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath target/druid-examples-rand-2.5.72-SNAPSHOT-selfcontained.jar  druid.examples.RealtimeStandaloneMain  >RealtimeNode.out 2>&1  &
++java -Xmx400m -Duser.timezone=UTC -Dfile.encoding=UTF-8 -classpath target/druid-examples-rand-*-selfcontained.jar  druid.examples.RealtimeStandaloneMain  >RealtimeNode.out 2>&1  &
+diff --git a/examples/twitter/run_client.sh b/examples/twitter/run_client.sh
+index e811328..b11834e 100755
+--- a/examples/twitter/run_client.sh
++++ b/examples/twitter/run_client.sh
+@@ -3 +3 @@
+-echo "    before running this, do:  run_server.sh &"
++echo "    before running this, do:  run_server.sh"
+diff --git a/server/src/main/java/com/metamx/druid/index/v1/IndexMerger.java b/server/src/main/java/com/metamx/druid/index/v1/IndexMerger.java
+index 4a55c3f..8eea1be 100644
+--- a/server/src/main/java/com/metamx/druid/index/v1/IndexMerger.java
++++ b/server/src/main/java/com/metamx/druid/index/v1/IndexMerger.java
+@@ -60 +59,0 @@
+-import com.sun.tools.javac.resources.version;
+

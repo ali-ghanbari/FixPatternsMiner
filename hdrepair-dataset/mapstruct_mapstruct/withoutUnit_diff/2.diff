@@ -1,0 +1,8 @@
+diff --git a/processor/src/main/java/org/mapstruct/ap/model/source/builtin/JaxbElemToValue.java b/processor/src/main/java/org/mapstruct/ap/model/source/builtin/JaxbElemToValue.java
+index c4e69ab..463b7a6 100644
+--- a/processor/src/main/java/org/mapstruct/ap/model/source/builtin/JaxbElemToValue.java
++++ b/processor/src/main/java/org/mapstruct/ap/model/source/builtin/JaxbElemToValue.java
+@@ -44 +44 @@
+-            match = sourceType.getTypeParameters().get( 0 ).equals( targetType );
++            match = sourceType.getTypeParameters().get( 0 ).isAssignableTo( targetType );
+

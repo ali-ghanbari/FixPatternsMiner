@@ -1,0 +1,8 @@
+diff --git a/graylog2-server/src/main/java/org/graylog2/initializers/VersionCheckInitializer.java b/graylog2-server/src/main/java/org/graylog2/initializers/VersionCheckInitializer.java
+index c48cbbb..4daf934 100644
+--- a/graylog2-server/src/main/java/org/graylog2/initializers/VersionCheckInitializer.java
++++ b/graylog2-server/src/main/java/org/graylog2/initializers/VersionCheckInitializer.java
+@@ -46 +46 @@
+-        if (core.getConfiguration().isVersionchecks()) {
++        if (core.getConfiguration().isVersionchecks() && !core.isLocalMode()) {
+

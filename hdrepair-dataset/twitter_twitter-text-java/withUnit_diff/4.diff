@@ -1,0 +1,51 @@
+diff --git a/src/com/twitter/Regex.java b/src/com/twitter/Regex.java
+index 902b559..afd2c69 100644
+--- a/src/com/twitter/Regex.java
++++ b/src/com/twitter/Regex.java
+@@ -97 +97 @@
+-        URL_VALID_PATH + "*" +
++        URL_VALID_PATH + "*+" +
+diff --git a/tests/com/twitter/ExtractorTest.java b/tests/com/twitter/ExtractorTest.java
+index 1f06699..ef5c759 100644
+--- a/tests/com/twitter/ExtractorTest.java
++++ b/tests/com/twitter/ExtractorTest.java
+@@ -134,0 +135,7 @@
++   public void testURLFollowedByPunctuations() {
++     String text ="http://games.aarp.org/games/mahjongg-dimensions.aspx!!!!!!";
++     assertList("Failed to extract URLs followed by punctuations",
++         new String[]{"http://games.aarp.org/games/mahjongg-dimensions.aspx"},
++         extractor.extractURLs(text));
++   }
++
+@@ -140,0 +148 @@
++       "http://foo.com/bar(test)bar(test)bar(test)",
+diff --git a/tests/com/twitter/RegexTest.java b/tests/com/twitter/RegexTest.java
+index 80fd7aa..92a5e50 100644
+--- a/tests/com/twitter/RegexTest.java
++++ b/tests/com/twitter/RegexTest.java
+@@ -37 +37,4 @@
+-    String repeatedPath = "Try http://example.com/path**********************";
++    String[] repeatedPaths = {
++        "Try http://example.com/path**********************",
++        "http://foo.org/bar/foo-bar-foo-bar.aspx!!!!!! Test"
++    };
+@@ -39,4 +42,5 @@
+-    long start = System.currentTimeMillis();
+-    Matcher matcher = Regex.VALID_URL.matcher(repeatedPath);
+-    boolean isValid = matcher.find();
+-    long end = System.currentTimeMillis();
++    for (String text : repeatedPaths) {
++      long start = System.currentTimeMillis();
++      boolean isValid = Regex.VALID_URL.matcher(text).find();
++      Regex.VALID_URL.matcher(text).matches();
++      long end = System.currentTimeMillis();
+@@ -44 +48 @@
+-    assertTrue("Repeated puctuation should still produce a valid URL", isValid);
++      assertTrue("Should be able to extract a valid URL even followed by punctuations", isValid);
+@@ -46,2 +50,3 @@
+-    long duration = (end - start);
+-    assertTrue("Matching a repeated path end should take less than 10ms (took " + duration + "ms)", (duration < 10) );
++      long duration = (end - start);
++      assertTrue("Matching a repeated path end should take less than 10ms (took " + duration + "ms)", (duration < 10) );
++    }
+

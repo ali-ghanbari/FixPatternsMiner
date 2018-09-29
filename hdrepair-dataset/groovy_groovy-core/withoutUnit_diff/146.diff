@@ -1,0 +1,94 @@
+diff --git a/src/test/groovy/bugs/MarkupAndMethodBug.groovy b/src/test/groovy/bugs/MarkupAndMethodBug.groovy
+index 07bc785..2abbf52 100644
+--- a/src/test/groovy/bugs/MarkupAndMethodBug.groovy
++++ b/src/test/groovy/bugs/MarkupAndMethodBug.groovy
+@@ -13 +13 @@
+-        name = tree.person[0]['@name']
++		name = tree.person[0]['@name']
+@@ -17 +17 @@
+-    protected def createTree() {
++    protected createTree() {       
+@@ -42,2 +42,2 @@
+-    protected defgetName() {
+-        "James"
++    protected getName() {
++    	"James"
+diff --git a/src/test/groovy/bugs/MarkupInScriptBug.java b/src/test/groovy/bugs/MarkupInScriptBug.java
+index 30e4a2d..d6552c4 100644
+--- a/src/test/groovy/bugs/MarkupInScriptBug.java
++++ b/src/test/groovy/bugs/MarkupInScriptBug.java
+@@ -58 +58 @@
+-        assertScriptFile( "src/test-new/groovy/script/AtomTestScript.groovy" );
++        assertScriptFile( "src/test/groovy/script/AtomTestScript.groovy" );
+diff --git a/src/test/groovy/bugs/NestedClosure2Bug.groovy b/src/test/groovy/bugs/NestedClosure2Bug.groovy
+index a3df47f..dc61a79 100644
+--- a/src/test/groovy/bugs/NestedClosure2Bug.groovy
++++ b/src/test/groovy/bugs/NestedClosure2Bug.groovy
+@@ -8 +8 @@
+-    def f
++    f
+diff --git a/src/test/groovy/bugs/NestedClosureBug.groovy b/src/test/groovy/bugs/NestedClosureBug.groovy
+index 8a2b2c1..cc0aa9f 100644
+--- a/src/test/groovy/bugs/NestedClosureBug.groovy
++++ b/src/test/groovy/bugs/NestedClosureBug.groovy
+@@ -16 +16 @@
+-    def getValues() {
++    getValues() {
+diff --git a/src/test/groovy/bugs/OverloadInvokeMethodBug.groovy b/src/test/groovy/bugs/OverloadInvokeMethodBug.groovy
+index 76d13d5..bece380 100644
+--- a/src/test/groovy/bugs/OverloadInvokeMethodBug.groovy
++++ b/src/test/groovy/bugs/OverloadInvokeMethodBug.groovy
+@@ -18 +18 @@
+-        def invokeMethod(String name, Object args) {
++        invokeMethod(String name, Object args) {
+diff --git a/src/test/groovy/bugs/RodsBooleanBug.groovy b/src/test/groovy/bugs/RodsBooleanBug.groovy
+index 3f1717e..a06a52c 100644
+--- a/src/test/groovy/bugs/RodsBooleanBug.groovy
++++ b/src/test/groovy/bugs/RodsBooleanBug.groovy
+@@ -6 +6 @@
+-    def item = "hi"
++    item = "hi"
+@@ -12 +12 @@
+-    def isIt() {
++    isIt() {
+diff --git a/src/test/groovy/bugs/StaticClosurePropertyBug.groovy b/src/test/groovy/bugs/StaticClosurePropertyBug.groovy
+index 3873d04..f87ec5e 100644
+--- a/src/test/groovy/bugs/StaticClosurePropertyBug.groovy
++++ b/src/test/groovy/bugs/StaticClosurePropertyBug.groovy
+@@ -7 +7 @@
+-    def static out = {System.out.println(it)}
++    static out = {System.out.println(it)}
+@@ -13 +13 @@
+-    def static callStaticClosure() {
++    static callStaticClosure() {
+diff --git a/src/test/groovy/bugs/TestBase.groovy b/src/test/groovy/bugs/TestBase.groovy
+index b513142..3c25cbb 100644
+--- a/src/test/groovy/bugs/TestBase.groovy
++++ b/src/test/groovy/bugs/TestBase.groovy
+@@ -11 +11 @@
+-     def TestBase() {
++     TestBase() {
+@@ -14 +14 @@
+-     def TestBase(String aFoo) {
++     TestBase(String aFoo) {
+@@ -20 +20 @@
+-     def doSomething() {
++     doSomething() {
+diff --git a/src/test/groovy/bugs/TestCaseBug.groovy b/src/test/groovy/bugs/TestCaseBug.groovy
+index 8e2b558..f2f6763 100644
+--- a/src/test/groovy/bugs/TestCaseBug.groovy
++++ b/src/test/groovy/bugs/TestCaseBug.groovy
+@@ -8 +8 @@
+-    def TestCaseBug(String name) {
++    TestCaseBug(String name) {
+diff --git a/src/test/groovy/bugs/UseStaticInClosureBug.groovy b/src/test/groovy/bugs/UseStaticInClosureBug.groovy
+index af302f7..86c3430 100644
+--- a/src/test/groovy/bugs/UseStaticInClosureBug.groovy
++++ b/src/test/groovy/bugs/UseStaticInClosureBug.groovy
+@@ -6 +6 @@
+-    def static stuff = [:]
++    static stuff = [:]
+@@ -19 +19 @@
+-    def static doStatic() {
++    static doStatic() {
+

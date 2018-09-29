@@ -1,0 +1,86 @@
+diff --git a/jargon-conveyor/src/test/resources/testing.properties b/jargon-conveyor/src/test/resources/testing.properties
+index efb06c3..20560c4 100644
+--- a/jargon-conveyor/src/test/resources/testing.properties
++++ b/jargon-conveyor/src/test/resources/testing.properties
+@@ -2 +2 @@
+-									test.data.directory=/Users/mikeconway/temp/irodsscratch/
++									test.data.directory=C:/temp/irodsscratch/
+@@ -14 +14 @@
+-									test.irods.host=localhost
++									test.irods.host=fedZone1
+@@ -16 +16 @@
+-									test.irods.zone=test1
++									test.irods.zone=fedZone1
+@@ -21 +21 @@
+-									test.mac.icommand.path=/opt/iRODS/iRODS2.5/iRODS/clients/icommands/bin/
++									test.mac.icommand.path=${jargon.test.mac.icommand.path}
+@@ -25 +25 @@
+-									test.option.registration=true
++									test.option.registration=false
+@@ -27 +27 @@
+-									test.option.federated.zone=false
++									test.option.federated.zone=true
+@@ -30,2 +30,2 @@
+-									jargon.test.pam.user=pam
+-									jargon.test.pam.password=pam
++									jargon.test.pam.user=${jargon.test.pam.user}
++									jargon.test.pam.password=${jargon.test.pam.password}
+@@ -37 +37 @@
+-									test.federated.irods.host=fedzone2
++									test.federated.irods.host=fedZone2
+@@ -39 +39 @@
+-									test.federated.irods.zone=fedzone2
++									test.federated.irods.zone=fedZone2
+diff --git a/jargon-core/src/main/java/org/irods/jargon/core/utils/JargonVersion.java b/jargon-core/src/main/java/org/irods/jargon/core/utils/JargonVersion.java
+index 40d2fe6..5a41f59 100644
+--- a/jargon-core/src/main/java/org/irods/jargon/core/utils/JargonVersion.java
++++ b/jargon-core/src/main/java/org/irods/jargon/core/utils/JargonVersion.java
+@@ -4 +4 @@
+- public static String BUILD_TIME="20130815-0808";
++ public static String BUILD_TIME="20130815-0928";
+diff --git a/jargon-ticket/.classpath b/jargon-ticket/.classpath
+index 091c301..8b24110 100644
+--- a/jargon-ticket/.classpath
++++ b/jargon-ticket/.classpath
+@@ -10 +10 @@
+-  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar"/>
++  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar"/>
+@@ -12 +12 @@
+-  <classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" sourcepath="M2_REPO/commons-codec/commons-codec/1.4/commons-codec-1.4-sources.jar"/>
++  <classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.4/commons-codec-1.4.jar"/>
+@@ -15 +15 @@
+-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10-sources.jar"/>
++  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar"/>
+@@ -17,2 +17,2 @@
+-  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.16/log4j-1.2.16.jar" sourcepath="M2_REPO/log4j/log4j/1.2.16/log4j-1.2.16-sources.jar"/>
+-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.5.10/slf4j-log4j12-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.5.10/slf4j-log4j12-1.5.10-sources.jar"/>
++  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.16/log4j-1.2.16.jar"/>
++  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.5.10/slf4j-log4j12-1.5.10.jar"/>
+diff --git a/pom.xml b/pom.xml
+index 5652773..2d3bfec 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -314 +314 @@
+-				<version>3.1.0.RELEASE</version>
++				<version>${spring.core.version}</version>
+@@ -319 +319 @@
+-				<version>3.1.0.RELEASE</version>
++				<version>${spring.core.version}</version>
+@@ -333,5 +332,0 @@
+-				<artifactId>spring-webmvc</artifactId>
+-				<version>${spring.webmvc.version}</version>
+-			</dependency>
+-			<dependency>
+-				<groupId>org.springframework</groupId>
+@@ -345,10 +339,0 @@
+-			</dependency>
+-			<dependency>
+-				<groupId>org.springframework.security</groupId>
+-				<artifactId>spring-security-core</artifactId>
+-				<version>${spring.security.version}</version>
+-			</dependency>
+-			<dependency>
+-				<groupId>org.springframework.security</groupId>
+-				<artifactId>spring-security-web</artifactId>
+-				<version>${spring.security.version}</version>
+

@@ -1,0 +1,8 @@
+diff --git a/compiler/backend/src/org/jetbrains/jet/codegen/StackValue.java b/compiler/backend/src/org/jetbrains/jet/codegen/StackValue.java
+index a8a24b1..95ead6d 100644
+--- a/compiler/backend/src/org/jetbrains/jet/codegen/StackValue.java
++++ b/compiler/backend/src/org/jetbrains/jet/codegen/StackValue.java
+@@ -1122 +1122 @@
+-                    codegen.generateFromResolvedCall(thisObject, codegen.typeMapper.mapType(descriptor.getExpectedThisObject().getType()));
++                    codegen.generateFromResolvedCall(thisObject, callableMethod != null ? Type.getObjectType(callableMethod.getOwner()) : codegen.typeMapper.mapType(descriptor.getExpectedThisObject().getType()));
+

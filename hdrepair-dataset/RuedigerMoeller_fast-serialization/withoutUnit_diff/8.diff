@@ -1,0 +1,22 @@
+diff --git a/build.gradle b/build.gradle
+index 0d06157..e3e4ee3 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -5 +5 @@
+-version="1.38"
++version="1.39"
+diff --git a/pom.xml b/pom.xml
+index 515a036..e20ba16 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -13 +13 @@
+-    <version>1.39-snapshot</version>
++    <version>1.39</version>
+diff --git a/src/main/java/de/ruedigermoeller/serialization/util/FSTInputStream.java b/src/main/java/de/ruedigermoeller/serialization/util/FSTInputStream.java
+index 08acc96..cac347d 100644
+--- a/src/main/java/de/ruedigermoeller/serialization/util/FSTInputStream.java
++++ b/src/main/java/de/ruedigermoeller/serialization/util/FSTInputStream.java
+@@ -57 +57 @@
+-            while( read != -1 ) {
++            while( read != -1 && read == chunk_size ) {
+

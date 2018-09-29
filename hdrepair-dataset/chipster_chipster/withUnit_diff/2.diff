@@ -1,0 +1,21 @@
+diff --git a/src/main/java/fi/csc/microarray/description/SADLGenerator.java b/src/main/java/fi/csc/microarray/description/SADLGenerator.java
+index e9a75a8..d73bd3c 100644
+--- a/src/main/java/fi/csc/microarray/description/SADLGenerator.java
++++ b/src/main/java/fi/csc/microarray/description/SADLGenerator.java
+@@ -144 +144 @@
+-		if (string.contains(" ") || Strings.containsAnyOf(string, true, SADLTokeniser.tokenEndingOperators())) {
++		if (string.isEmpty() || string.contains(" ") || Strings.containsAnyOf(string, true, SADLTokeniser.tokenEndingOperators())) {
+diff --git a/src/test/java/fi/csc/microarray/description/SADLParserTest.java b/src/test/java/fi/csc/microarray/description/SADLParserTest.java
+index cf1d26e..e19df0c 100644
+--- a/src/test/java/fi/csc/microarray/description/SADLParserTest.java
++++ b/src/test/java/fi/csc/microarray/description/SADLParserTest.java
+@@ -180 +180 @@
+-		Assert.assertEquals(parsedDescription.parameters().size(), 2);
++		Assert.assertEquals(parsedDescription.parameters().size(), 3);
+@@ -181,0 +182 @@
++		Assert.assertEquals(parsedDescription.parameters().get(2).getDefaultValue(), "");
+@@ -216,0 +218 @@
++		description.addParameter(new Parameter(Name.createName("parameter3", "parameter3"), ParameterType.STRING, null, null, null, "", "empty default value"));
+@@ -222 +223,0 @@
+-		DirectoryLayout.initialiseSimpleLayout().getConfiguration();
+

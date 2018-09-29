@@ -1,0 +1,16 @@
+diff --git a/src/main/java/quickdt/predictiveModels/decisionTree/TreeBuilder.java b/src/main/java/quickdt/predictiveModels/decisionTree/TreeBuilder.java
+index 5cbc423..a3d9a8e 100644
+--- a/src/main/java/quickdt/predictiveModels/decisionTree/TreeBuilder.java
++++ b/src/main/java/quickdt/predictiveModels/decisionTree/TreeBuilder.java
+@@ -241 +241 @@
+-                thisPair = (numericPair.getValue1() < categoricalPair.getValue1()) ? numericPair : categoricalPair;
++                thisPair = (numericPair.getValue1() > categoricalPair.getValue1()) ? numericPair : categoricalPair;
+diff --git a/src/test/java/quickdt/predictiveModels/decisionTree/TreeBuilderTest.java b/src/test/java/quickdt/predictiveModels/decisionTree/TreeBuilderTest.java
+index be32e08..e82f2b4 100644
+--- a/src/test/java/quickdt/predictiveModels/decisionTree/TreeBuilderTest.java
++++ b/src/test/java/quickdt/predictiveModels/decisionTree/TreeBuilderTest.java
+@@ -29 +28,0 @@
+-        final double nodeMeanDepth = node.meanDepth();
+@@ -31 +29,0 @@
+-		Assert.assertTrue(nodeMeanDepth < 6, "Mean depth should be less than 6");
+

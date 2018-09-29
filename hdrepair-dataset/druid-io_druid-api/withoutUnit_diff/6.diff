@@ -1,0 +1,8 @@
+diff --git a/src/main/java/io/druid/data/input/impl/TimestampSpec.java b/src/main/java/io/druid/data/input/impl/TimestampSpec.java
+index 03aebf9..9193ce8 100644
+--- a/src/main/java/io/druid/data/input/impl/TimestampSpec.java
++++ b/src/main/java/io/druid/data/input/impl/TimestampSpec.java
+@@ -27 +27 @@
+-    this.timestampColumn = timestampColumn.toLowerCase();
++    this.timestampColumn = (timestampColumn == null) ? null : timestampColumn.toLowerCase();
+

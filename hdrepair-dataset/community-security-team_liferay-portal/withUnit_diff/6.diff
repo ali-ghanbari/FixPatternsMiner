@@ -1,0 +1,1556 @@
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.html
+index f26dc7e..caf3692 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Add Question</td>
+@@ -38 +38 @@
+-	<td>_25_title_en_US</td>
++	<td>//input[@id='_25_title_en_US']</td>
+@@ -43 +43 @@
+-	<td>_25_description_en_US</td>
++	<td>//textarea[@id='_25_description_en_US']</td>
+@@ -48 +48 @@
+-	<td>_25_choiceDescriptiona_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiona_en_US']</td>
+@@ -53 +53 @@
+-	<td>_25_choiceDescriptionb_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionb_en_US']</td>
+@@ -59 +59 @@
+-	<td></td>
++	<td>Add Choice</td>
+@@ -63 +63 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -69 +69 @@
+-	<td></td>
++	<td>Save</td>
+@@ -72 +72,2 @@
+-	<td>assertTextPresent</td>
++	<td>waitForText</td>
++	<td>xPath=(//div[@class='portlet-msg-error'])[1]</td>
+@@ -74 +74,0 @@
+-	<td></td>
+@@ -77 +77,7 @@
+-	<td>assertTextPresent</td>
++	<td>assertText</td>
++	<td>xPath=(//div[@class='portlet-msg-error'])[1]</td>
++	<td>Your request failed to complete.</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>xPath=(//div[@class='portlet-msg-error'])[2]</td>
+@@ -79 +84,0 @@
+-	<td></td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.java
+index 617cd06..a0aa986 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullChoicePollTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Question"));
+@@ -54 +55 @@
+-		selenium.type("_25_title_en_US",
++		selenium.type("//input[@id='_25_title_en_US']",
+@@ -57 +58 @@
+-		selenium.type("_25_description_en_US",
++		selenium.type("//textarea[@id='_25_description_en_US']",
+@@ -60 +61 @@
+-		selenium.type("_25_choiceDescriptiona_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiona_en_US']",
+@@ -63 +64 @@
+-		selenium.type("_25_choiceDescriptionb_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionb_en_US']",
+@@ -67 +68 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Choice"));
+@@ -70 +71 @@
+-		selenium.type("_25_choiceDescriptionc_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionc_en_US']",
+@@ -73 +74,2 @@
+-		selenium.clickAt("//input[@value='Save']", RuntimeVariables.replace(""));
++		selenium.clickAt("//input[@value='Save']",
++			RuntimeVariables.replace("Save"));
+@@ -76,2 +78,25 @@
+-		assertTrue(selenium.isTextPresent("Your request failed to complete."));
+-		assertTrue(selenium.isTextPresent("Please enter valid choices."));
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (RuntimeVariables.replace("Your request failed to complete.")
++										.equals(selenium.getText(
++								"xPath=(//div[@class='portlet-msg-error'])[1]"))) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.saveScreenShotAndSource();
++		assertEquals(RuntimeVariables.replace(
++				"Your request failed to complete."),
++			selenium.getText("xPath=(//div[@class='portlet-msg-error'])[1]"));
++		assertEquals(RuntimeVariables.replace("Please enter valid choices."),
++			selenium.getText("xPath=(//div[@class='portlet-msg-error'])[2]"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.html
+index 21c66d6..62c0202 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Add Question</td>
+@@ -38 +38 @@
+-	<td>_25_title_en_US</td>
++	<td>//input[@id='_25_title_en_US']</td>
+@@ -43 +43 @@
+-	<td>_25_description_en_US</td>
++	<td>//textarea[@id='_25_description_en_US']</td>
+@@ -48 +48 @@
+-	<td>_25_choiceDescriptiona_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiona_en_US']</td>
+@@ -53 +53 @@
+-	<td>_25_choiceDescriptionb_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionb_en_US']</td>
+@@ -57 +57 @@
+-	<td>clickAtAndWait</td>
++	<td>clickAt</td>
+@@ -59 +59 @@
+-	<td></td>
++	<td>Save</td>
+@@ -62,3 +62,3 @@
+-	<td>assertTextPresent</td>
+-	<td>Your request failed to complete.</td>
+-	<td></td>
++	<td>waitForText</td>
++	<td>//label/div</td>
++	<td>This field is required.</td>
+@@ -67,3 +67,3 @@
+-	<td>assertTextPresent</td>
+-	<td>Please enter a valid description.</td>
+-	<td></td>
++	<td>assertText</td>
++	<td>//label/div</td>
++	<td>This field is required.</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.java
+index f63d60f..ceb1594 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullDescriptionPollTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Question"));
+@@ -54 +55 @@
+-		selenium.type("_25_title_en_US",
++		selenium.type("//input[@id='_25_title_en_US']",
+@@ -57 +58,2 @@
+-		selenium.type("_25_description_en_US", RuntimeVariables.replace(""));
++		selenium.type("//textarea[@id='_25_description_en_US']",
++			RuntimeVariables.replace(""));
+@@ -59 +61 @@
+-		selenium.type("_25_choiceDescriptiona_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiona_en_US']",
+@@ -62 +64 @@
+-		selenium.type("_25_choiceDescriptionb_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionb_en_US']",
+@@ -65,2 +67,20 @@
+-		selenium.clickAt("//input[@value='Save']", RuntimeVariables.replace(""));
+-		selenium.waitForPageToLoad("30000");
++		selenium.clickAt("//input[@value='Save']",
++			RuntimeVariables.replace("Save"));
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (RuntimeVariables.replace("This field is required.")
++										.equals(selenium.getText("//label/div"))) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
+@@ -68,2 +88,2 @@
+-		assertTrue(selenium.isTextPresent("Your request failed to complete."));
+-		assertTrue(selenium.isTextPresent("Please enter a valid description."));
++		assertEquals(RuntimeVariables.replace("This field is required."),
++			selenium.getText("//label/div"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.html
+index 39ed757..b5a4f37 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Add Question</td>
+@@ -38 +38 @@
+-	<td>_25_description_en_US</td>
++	<td>//textarea[@id='_25_description_en_US']</td>
+@@ -43 +43 @@
+-	<td>_25_title_en_US</td>
++	<td>//input[@id='_25_title_en_US']</td>
+@@ -48 +48 @@
+-	<td>_25_choiceDescriptiona_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiona_en_US']</td>
+@@ -53 +53 @@
+-	<td>_25_choiceDescriptionb_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionb_en_US']</td>
+@@ -57 +57 @@
+-	<td>clickAtAndWait</td>
++	<td>clickAt</td>
+@@ -59 +59 @@
+-	<td></td>
++	<td>Save</td>
+@@ -62,3 +62,3 @@
+-	<td>assertTextPresent</td>
+-	<td>Your request failed to complete.</td>
+-	<td></td>
++	<td>waitForText</td>
++	<td>//label/div</td>
++	<td>This field is required.</td>
+@@ -67,3 +67,3 @@
+-	<td>assertTextPresent</td>
+-	<td>Please enter a valid title.</td>
+-	<td></td>
++	<td>assertText</td>
++	<td>//label/div</td>
++	<td>This field is required.</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.java
+index edf11dc..2c8bf05 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddNullTitlePollTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Question"));
+@@ -54 +55 @@
+-		selenium.type("_25_description_en_US",
++		selenium.type("//textarea[@id='_25_description_en_US']",
+@@ -57 +58,2 @@
+-		selenium.type("_25_title_en_US", RuntimeVariables.replace(""));
++		selenium.type("//input[@id='_25_title_en_US']",
++			RuntimeVariables.replace(""));
+@@ -59 +61 @@
+-		selenium.type("_25_choiceDescriptiona_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiona_en_US']",
+@@ -62 +64 @@
+-		selenium.type("_25_choiceDescriptionb_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionb_en_US']",
+@@ -65,2 +67,20 @@
+-		selenium.clickAt("//input[@value='Save']", RuntimeVariables.replace(""));
+-		selenium.waitForPageToLoad("30000");
++		selenium.clickAt("//input[@value='Save']",
++			RuntimeVariables.replace("Save"));
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (RuntimeVariables.replace("This field is required.")
++										.equals(selenium.getText("//label/div"))) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
+@@ -68,2 +88,2 @@
+-		assertTrue(selenium.isTextPresent("Your request failed to complete."));
+-		assertTrue(selenium.isTextPresent("Please enter a valid title."));
++		assertEquals(RuntimeVariables.replace("This field is required."),
++			selenium.getText("//label/div"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.html
+index 8d0b978..b931420 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Add Question</td>
+@@ -38 +38 @@
+-	<td>_25_title_en_US</td>
++	<td>//input[@id='_25_title_en_US']</td>
+@@ -43 +43 @@
+-	<td>_25_description_en_US</td>
++	<td>//textarea[@id='_25_description_en_US']</td>
+@@ -48 +48 @@
+-	<td>_25_choiceDescriptiona_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiona_en_US']</td>
+@@ -53 +53 @@
+-	<td>_25_choiceDescriptionb_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionb_en_US']</td>
+@@ -59 +59 @@
+-	<td></td>
++	<td>Add Choice</td>
+@@ -62,2 +62,2 @@
+-	<td>waitForElementPresent</td>
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>waitForVisible</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -68 +68 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -74 +74 @@
+-	<td></td>
++	<td>Save</td>
+@@ -77 +77,2 @@
+-	<td>assertTextPresent</td>
++	<td>waitForVisible</td>
++	<td>//div[@class='portlet-msg-success']</td>
+@@ -79 +80,5 @@
+-	<td></td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='portlet-msg-success']</td>
++	<td>Your request completed successfully.</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.java
+index def93e9..7b1686f 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestion2Test.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Question"));
+@@ -54 +55 @@
+-		selenium.type("_25_title_en_US",
++		selenium.type("//input[@id='_25_title_en_US']",
+@@ -57 +58 @@
+-		selenium.type("_25_description_en_US",
++		selenium.type("//textarea[@id='_25_description_en_US']",
+@@ -60 +61 @@
+-		selenium.type("_25_choiceDescriptiona_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiona_en_US']",
+@@ -63 +64 @@
+-		selenium.type("_25_choiceDescriptionb_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionb_en_US']",
+@@ -67 +68 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Choice"));
+@@ -77 +78,2 @@
+-				if (selenium.isElementPresent("_25_choiceDescriptionc_en_US")) {
++				if (selenium.isVisible(
++							"//input[@id='_25_choiceDescriptionc_en_US']")) {
+@@ -88 +90 @@
+-		selenium.type("_25_choiceDescriptionc_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionc_en_US']",
+@@ -91 +93,2 @@
+-		selenium.clickAt("//input[@value='Save']", RuntimeVariables.replace(""));
++		selenium.clickAt("//input[@value='Save']",
++			RuntimeVariables.replace("Save"));
+@@ -94,2 +97,21 @@
+-		assertTrue(selenium.isTextPresent(
+-				"Your request completed successfully."));
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isVisible("//div[@class='portlet-msg-success']")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.saveScreenShotAndSource();
++		assertEquals(RuntimeVariables.replace(
++				"Your request completed successfully."),
++			selenium.getText("//div[@class='portlet-msg-success']"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.html
+index baecd3e..81496b4 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Add Question</td>
+@@ -38 +38 @@
+-	<td>_25_title_en_US</td>
++	<td>//input[@id='_25_title_en_US']</td>
+@@ -43 +43 @@
+-	<td>_25_description_en_US</td>
++	<td>//textarea[@id='_25_description_en_US']</td>
+@@ -48 +48 @@
+-	<td>_25_choiceDescriptiona_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiona_en_US']</td>
+@@ -53 +53 @@
+-	<td>_25_choiceDescriptionb_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionb_en_US']</td>
+@@ -59 +59 @@
+-	<td></td>
++	<td>Add Choice</td>
+@@ -62,2 +62,2 @@
+-	<td>waitForElementPresent</td>
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>waitForVisible</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -68 +68 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -74 +74 @@
+-	<td></td>
++	<td>Save</td>
+@@ -77 +77,2 @@
+-	<td>assertTextPresent</td>
++	<td>waitForVisible</td>
++	<td>//div[@class='portlet-msg-success']</td>
+@@ -79 +80,5 @@
+-	<td></td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='portlet-msg-success']</td>
++	<td>Your request completed successfully.</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.java
+index 0ea677e..52aa526 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddQuestionTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Question"));
+@@ -54 +55 @@
+-		selenium.type("_25_title_en_US",
++		selenium.type("//input[@id='_25_title_en_US']",
+@@ -57 +58 @@
+-		selenium.type("_25_description_en_US",
++		selenium.type("//textarea[@id='_25_description_en_US']",
+@@ -60 +61 @@
+-		selenium.type("_25_choiceDescriptiona_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiona_en_US']",
+@@ -63 +64 @@
+-		selenium.type("_25_choiceDescriptionb_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionb_en_US']",
+@@ -67 +68 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Choice"));
+@@ -77 +78,2 @@
+-				if (selenium.isElementPresent("_25_choiceDescriptionc_en_US")) {
++				if (selenium.isVisible(
++							"//input[@id='_25_choiceDescriptionc_en_US']")) {
+@@ -88 +90 @@
+-		selenium.type("_25_choiceDescriptionc_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionc_en_US']",
+@@ -91 +93,2 @@
+-		selenium.clickAt("//input[@value='Save']", RuntimeVariables.replace(""));
++		selenium.clickAt("//input[@value='Save']",
++			RuntimeVariables.replace("Save"));
+@@ -94,2 +97,21 @@
+-		assertTrue(selenium.isTextPresent(
+-				"Your request completed successfully."));
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isVisible("//div[@class='portlet-msg-success']")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.saveScreenShotAndSource();
++		assertEquals(RuntimeVariables.replace(
++				"Your request completed successfully."),
++			selenium.getText("//div[@class='portlet-msg-success']"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.html
+index e3369a2..55944f4 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -33,2 +33,2 @@
+-	<td>link=Test Poll Question</td>
+-	<td></td>
++	<td>//td[1]/a</td>
++	<td>Test Poll Question</td>
+@@ -38,2 +38,2 @@
+-	<td>_25_choiceId</td>
+-	<td></td>
++	<td>//input[@name='_25_choiceId']</td>
++	<td>Choice A</td>
+@@ -44 +44,6 @@
+-	<td></td>
++	<td>Vote</td>
++</tr>
++<tr>
++	<td>waitForVisible</td>
++	<td>//div[@class='portlet-msg-success']</td>
++	<td>Your request completed successfully.</td>
+@@ -48 +53 @@
+-	<td>//section/div/div/div/div</td>
++	<td>//div[@class='portlet-msg-success']</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.java
+index e7a0aae..528c288 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AddVoteTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -50 +51,2 @@
+-		selenium.clickAt("link=Test Poll Question", RuntimeVariables.replace(""));
++		selenium.clickAt("//td[1]/a",
++			RuntimeVariables.replace("Test Poll Question"));
+@@ -53,2 +55,4 @@
+-		selenium.clickAt("_25_choiceId", RuntimeVariables.replace(""));
+-		selenium.clickAt("//input[@value='Vote']", RuntimeVariables.replace(""));
++		selenium.clickAt("//input[@name='_25_choiceId']",
++			RuntimeVariables.replace("Choice A"));
++		selenium.clickAt("//input[@value='Vote']",
++			RuntimeVariables.replace("Vote"));
+@@ -55,0 +60,18 @@
++		selenium.saveScreenShotAndSource();
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isVisible("//div[@class='portlet-msg-success']")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
+@@ -59 +81 @@
+-			selenium.getText("//section/div/div/div/div"));
++			selenium.getText("//div[@class='portlet-msg-success']"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.html
+index f00c939..dc5bd31 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Add Question</td>
+@@ -38 +38 @@
+-	<td>_25_title_en_US</td>
++	<td>//input[@id='_25_title_en_US']</td>
+@@ -43 +43 @@
+-	<td>_25_description_en_US</td>
++	<td>//textarea[@id='_25_description_en_US']</td>
+@@ -48 +48 @@
+-	<td>_25_choiceDescriptiona_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiona_en_US']</td>
+@@ -53 +53 @@
+-	<td>_25_choiceDescriptionb_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionb_en_US']</td>
+@@ -59 +59 @@
+-	<td></td>
++	<td>Add Choice</td>
+@@ -63 +63 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -69 +69 @@
+-	<td></td>
++	<td>Add Choice</td>
+@@ -73 +73 @@
+-	<td>_25_choiceDescriptiond_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiond_en_US']</td>
+@@ -79 +79 @@
+-	<td></td>
++	<td>Add Choice</td>
+@@ -83 +83 @@
+-	<td>_25_choiceDescriptione_en_US</td>
++	<td>//input[@id='_25_choiceDescriptione_en_US']</td>
+@@ -88 +88 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -93 +93 @@
+-	<td>_25_choiceDescriptiond_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiond_en_US']</td>
+@@ -98 +98 @@
+-	<td>_25_choiceDescriptione_en_US</td>
++	<td>//input[@id='_25_choiceDescriptione_en_US']</td>
+@@ -104 +104 @@
+-	<td></td>
++	<td>Delete</td>
+@@ -108 +108 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -113 +113 @@
+-	<td>_25_choiceDescriptiond_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiond_en_US']</td>
+@@ -118,2 +118,2 @@
+-	<td>_25_choiceDescriptione_en_US</td>
+-	<td></td>
++	<td>//input[@id='_25_choiceDescriptione_en_US']</td>
++	<td>Delete Choice E</td>
+@@ -124 +124 @@
+-	<td></td>
++	<td>Delete</td>
+@@ -128 +128 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
+@@ -133,2 +133,2 @@
+-	<td>_25_choiceDescriptiond_en_US</td>
+-	<td></td>
++	<td>//input[@id='_25_choiceDescriptiond_en_US']</td>
++	<td>Delete Choice E</td>
+@@ -138,2 +138,2 @@
+-	<td>_25_choiceDescriptione_en_US</td>
+-	<td></td>
++	<td>//input[@id='_25_choiceDescriptione_en_US']</td>
++	<td>Delete Choice D</td>
+@@ -144 +144 @@
+-	<td></td>
++	<td>Delete</td>
+@@ -148,2 +148,2 @@
+-	<td>_25_choiceDescriptionc_en_US</td>
+-	<td></td>
++	<td>//input[@id='_25_choiceDescriptionc_en_US']</td>
++	<td>Delete Choice E</td>
+@@ -153,2 +153,2 @@
+-	<td>_25_choiceDescriptiond_en_US</td>
+-	<td></td>
++	<td>//input[@id='_25_choiceDescriptiond_en_US']</td>
++	<td>Delete Choice D</td>
+@@ -158,2 +158,2 @@
+-	<td>_25_choiceDescriptione_en_US</td>
+-	<td></td>
++	<td>//input[@id='_25_choiceDescriptione_en_US']</td>
++	<td>Delete Choice C</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.java
+index 5f0cb45..a499ab2 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertDeleteChoiceTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Question"));
+@@ -54 +55 @@
+-		selenium.type("_25_title_en_US",
++		selenium.type("//input[@id='_25_title_en_US']",
+@@ -57 +58 @@
+-		selenium.type("_25_description_en_US",
++		selenium.type("//textarea[@id='_25_description_en_US']",
+@@ -60 +61 @@
+-		selenium.type("_25_choiceDescriptiona_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiona_en_US']",
+@@ -63 +64 @@
+-		selenium.type("_25_choiceDescriptionb_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionb_en_US']",
+@@ -67 +68 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Choice"));
+@@ -70 +71 @@
+-		selenium.type("_25_choiceDescriptionc_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptionc_en_US']",
+@@ -74 +75 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Choice"));
+@@ -77 +78 @@
+-		selenium.type("_25_choiceDescriptiond_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiond_en_US']",
+@@ -81 +82 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Choice"));
+@@ -84 +85 @@
+-		selenium.type("_25_choiceDescriptione_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptione_en_US']",
+@@ -88 +89 @@
+-			selenium.getValue("_25_choiceDescriptionc_en_US"));
++			selenium.getValue("//input[@id='_25_choiceDescriptionc_en_US']"));
+@@ -90 +91 @@
+-			selenium.getValue("_25_choiceDescriptiond_en_US"));
++			selenium.getValue("//input[@id='_25_choiceDescriptiond_en_US']"));
+@@ -92 +93 @@
+-			selenium.getValue("_25_choiceDescriptione_en_US"));
++			selenium.getValue("//input[@id='_25_choiceDescriptione_en_US']"));
+@@ -94 +95 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Delete"));
+@@ -98 +99 @@
+-			selenium.getValue("_25_choiceDescriptionc_en_US"));
++			selenium.getValue("//input[@id='_25_choiceDescriptionc_en_US']"));
+@@ -100,2 +101,3 @@
+-			selenium.getValue("_25_choiceDescriptiond_en_US"));
+-		assertFalse(selenium.isElementPresent("_25_choiceDescriptione_en_US"));
++			selenium.getValue("//input[@id='_25_choiceDescriptiond_en_US']"));
++		assertFalse(selenium.isElementPresent(
++				"//input[@id='_25_choiceDescriptione_en_US']"));
+@@ -103 +105 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Delete"));
+@@ -107,3 +109,5 @@
+-			selenium.getValue("_25_choiceDescriptionc_en_US"));
+-		assertFalse(selenium.isElementPresent("_25_choiceDescriptiond_en_US"));
+-		assertFalse(selenium.isElementPresent("_25_choiceDescriptione_en_US"));
++			selenium.getValue("//input[@id='_25_choiceDescriptionc_en_US']"));
++		assertFalse(selenium.isElementPresent(
++				"//input[@id='_25_choiceDescriptiond_en_US']"));
++		assertFalse(selenium.isElementPresent(
++				"//input[@id='_25_choiceDescriptione_en_US']"));
+@@ -111 +115 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Delete"));
+@@ -114,3 +118,6 @@
+-		assertFalse(selenium.isElementPresent("_25_choiceDescriptionc_en_US"));
+-		assertFalse(selenium.isElementPresent("_25_choiceDescriptiond_en_US"));
+-		assertFalse(selenium.isElementPresent("_25_choiceDescriptione_en_US"));
++		assertFalse(selenium.isElementPresent(
++				"//input[@id='_25_choiceDescriptionc_en_US']"));
++		assertFalse(selenium.isElementPresent(
++				"//input[@id='_25_choiceDescriptiond_en_US']"));
++		assertFalse(selenium.isElementPresent(
++				"//input[@id='_25_choiceDescriptione_en_US']"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.html
+index 2ab81b1..4de4c6d 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Edited Test Question 2</td>
+@@ -38,2 +38,2 @@
+-	<td>//span[1]/span/span/input</td>
+-	<td></td>
++	<td>//div[2]/div/span[1]/span/span/input</td>
++	<td>Choice A</td>
+@@ -44 +44 @@
+-	<td></td>
++	<td>Choice B</td>
+@@ -49 +49 @@
+-	<td></td>
++	<td>Choice C</td>
+@@ -54 +54 @@
+-	<td></td>
++	<td>Choice D</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.java
+index 3c72550..033d7e4 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/AssertExpiredQuestionTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Edited Test Question 2"));
+@@ -54 +55,2 @@
+-		assertFalse(selenium.isElementPresent("//span[1]/span/span/input"));
++		assertFalse(selenium.isElementPresent(
++				"//div[2]/div/span[1]/span/span/input"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.html
+index a4eca15..6710816 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29,6 +29 @@
+-	<td></td>
+-</tr>
+-<tr>
+-	<td>pause</td>
+-	<td>5000</td>
+-	<td></td>
++	<td>Polls</td>
+@@ -39 +34 @@
+-	<td></td>
++	<td>Actions</td>
+@@ -42 +37 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -44 +39,6 @@
+-	<td></td>
++	<td>Edit</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='lfr-component lfr-menu-list']/ul/li[1]/a</td>
++	<td>Edit</td>
+@@ -49 +49 @@
+-	<td></td>
++	<td>Edit</td>
+@@ -53 +53 @@
+-	<td>_25_title_en_US</td>
++	<td>//input[@id='_25_title_en_US']</td>
+@@ -58 +58 @@
+-	<td>_25_description_en_US</td>
++	<td>//textarea[@id='_25_description_en_US']</td>
+@@ -64 +64 @@
+-	<td></td>
++	<td>Add Choice</td>
+@@ -67,2 +67,2 @@
+-	<td>waitForElementPresent</td>
+-	<td>_25_choiceDescriptiond_en_US</td>
++	<td>waitForVisible</td>
++	<td>//input[@id='_25_choiceDescriptiond_en_US']</td>
+@@ -73 +73 @@
+-	<td>_25_choiceDescriptiond_en_US</td>
++	<td>//input[@id='_25_choiceDescriptiond_en_US']</td>
+@@ -79 +79 @@
+-	<td></td>
++	<td>Save</td>
+@@ -82 +82,2 @@
+-	<td>assertTextPresent</td>
++	<td>waitForVisible</td>
++	<td>//div[@class='portlet-msg-success']</td>
+@@ -84 +85,5 @@
+-	<td></td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='portlet-msg-success']</td>
++	<td>Your request completed successfully.</td>
+@@ -89 +94 @@
+-	<td></td>
++	<td>Edited Test Question 2</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.java
+index 4ec1c6e..0cea0c7 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/EditQuestionTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -50 +50,0 @@
+-		Thread.sleep(5000);
+@@ -52 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Actions"));
+@@ -60 +60 @@
+-				if (selenium.isElementPresent(
++				if (selenium.isVisible(
+@@ -71,0 +72,3 @@
++		assertEquals(RuntimeVariables.replace("Edit"),
++			selenium.getText(
++				"//div[@class='lfr-component lfr-menu-list']/ul/li[1]/a"));
+@@ -76 +79 @@
+-		selenium.type("_25_title_en_US",
++		selenium.type("//input[@id='_25_title_en_US']",
+@@ -79 +82 @@
+-		selenium.type("_25_description_en_US",
++		selenium.type("//textarea[@id='_25_description_en_US']",
+@@ -84 +87 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Add Choice"));
+@@ -94 +97,2 @@
+-				if (selenium.isElementPresent("_25_choiceDescriptiond_en_US")) {
++				if (selenium.isVisible(
++							"//input[@id='_25_choiceDescriptiond_en_US']")) {
+@@ -105 +109 @@
+-		selenium.type("_25_choiceDescriptiond_en_US",
++		selenium.type("//input[@id='_25_choiceDescriptiond_en_US']",
+@@ -108 +112,2 @@
+-		selenium.clickAt("//input[@value='Save']", RuntimeVariables.replace(""));
++		selenium.clickAt("//input[@value='Save']",
++			RuntimeVariables.replace("Save"));
+@@ -111,2 +116,21 @@
+-		assertTrue(selenium.isTextPresent(
+-				"Your request completed successfully."));
++
++		for (int second = 0;; second++) {
++			if (second >= 60) {
++				fail("timeout");
++			}
++
++			try {
++				if (selenium.isVisible("//div[@class='portlet-msg-success']")) {
++					break;
++				}
++			}
++			catch (Exception e) {
++			}
++
++			Thread.sleep(1000);
++		}
++
++		selenium.saveScreenShotAndSource();
++		assertEquals(RuntimeVariables.replace(
++				"Your request completed successfully."),
++			selenium.getText("//div[@class='portlet-msg-success']"));
+@@ -114 +138 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Edited Test Question 2"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.html
+index 6139231..a3886fd 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Edited Test Question 2</td>
+@@ -38,2 +38,2 @@
+-	<td>//span[1]/span/span/input</td>
+-	<td></td>
++	<td>//div[2]/div/span[1]/span/span/input</td>
++	<td>Choice A</td>
+@@ -44 +44 @@
+-	<td></td>
++	<td>Choice B</td>
+@@ -49 +49 @@
+-	<td></td>
++	<td>Choice C</td>
+@@ -54 +54 @@
+-	<td></td>
++	<td>Choice D</td>
+@@ -59,6 +59 @@
+-	<td></td>
+-</tr>
+-<tr>
+-	<td>pause</td>
+-	<td>5000</td>
+-	<td></td>
++	<td>Cancel</td>
+@@ -69 +64 @@
+-	<td></td>
++	<td>Actions</td>
+@@ -72 +67 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -74 +69,6 @@
+-	<td></td>
++	<td>Edit</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='lfr-component lfr-menu-list']/ul/li[1]/a</td>
++	<td>Edit</td>
+@@ -79 +79 @@
+-	<td></td>
++	<td>Edit</td>
+@@ -82,3 +82,3 @@
+-	<td>waitForElementPresent</td>
+-	<td>_25_expirationDateMonth</td>
+-	<td></td>
++	<td>assertChecked</td>
++	<td>//input[@id='_25_neverExpireCheckbox']</td>
++	<td>Never Expire</td>
+@@ -88,2 +88,2 @@
+-	<td>_25_neverExpireCheckbox</td>
+-	<td></td>
++	<td>//input[@id='_25_neverExpireCheckbox']</td>
++	<td>Never Expire</td>
+@@ -93 +93,6 @@
+-	<td>_25_neverExpireCheckbox</td>
++	<td>//input[@id='_25_neverExpireCheckbox']</td>
++	<td>Never Expire</td>
++</tr>
++<tr>
++	<td>waitForVisible</td>
++	<td>//select[@id='_25_expirationDateMonth']</td>
+@@ -97,3 +102,3 @@
+-	<td>keyPress</td>
+-	<td>_25_expirationDateMonth</td>
+-	<td>\38</td>
++	<td>select</td>
++	<td>//select[@id='_25_expirationDateYear']</td>
++	<td>label=2008</td>
+@@ -102,3 +107,23 @@
+-	<td>keyPress</td>
+-	<td>_25_expirationDateMinute</td>
+-	<td>\39</td>
++	<td>select</td>
++	<td>//select[@id='_25_expirationDateMonth']</td>
++	<td>label=January</td>
++</tr>
++<tr>
++	<td>select</td>
++	<td>//select[@id='_25_expirationDateDay']</td>
++	<td>label=1</td>
++</tr>
++<tr>
++	<td>select</td>
++	<td>//select[@name='_25_expirationDateHour']</td>
++	<td>label=12</td>
++</tr>
++<tr>
++	<td>select</td>
++	<td>//select[@name='_25_expirationDateMinute']</td>
++	<td>label=:00</td>
++</tr>
++<tr>
++	<td>select</td>
++	<td>//select[@name='_25_expirationDateAmPm']</td>
++	<td>label=AM</td>
+@@ -109 +134 @@
+-	<td></td>
++	<td>Save</td>
+@@ -112,3 +137,3 @@
+-	<td>assertTextPresent</td>
+-	<td>Your request completed successfully.</td>
+-	<td></td>
++	<td>assertText</td>
++	<td>xPath=(//div[@class='portlet-msg-error'])[1]</td>
++	<td>Your request failed to complete.</td>
+@@ -117,3 +142,3 @@
+-	<td>pause</td>
+-	<td>60000</td>
+-	<td></td>
++	<td>assertText</td>
++	<td>xPath=(//div[@class='portlet-msg-error'])[2]</td>
++	<td>Please enter a valid expiration date.</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.java
+index 69f9d50..15cd1a9 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ExpireQuestionTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -51 +52 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Edited Test Question 2"));
+@@ -54 +55,2 @@
+-		assertTrue(selenium.isElementPresent("//span[1]/span/span/input"));
++		assertTrue(selenium.isElementPresent(
++				"//div[2]/div/span[1]/span/span/input"));
+@@ -59 +61 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Cancel"));
+@@ -62 +63,0 @@
+-		Thread.sleep(5000);
+@@ -64 +65 @@
+-			RuntimeVariables.replace(""));
++			RuntimeVariables.replace("Actions"));
+@@ -72 +73 @@
+-				if (selenium.isElementPresent(
++				if (selenium.isVisible(
+@@ -83,0 +85,3 @@
++		assertEquals(RuntimeVariables.replace("Edit"),
++			selenium.getText(
++				"//div[@class='lfr-component lfr-menu-list']/ul/li[1]/a"));
+@@ -86,0 +91,6 @@
++		selenium.saveScreenShotAndSource();
++		assertTrue(selenium.isChecked("//input[@id='_25_neverExpireCheckbox']"));
++		selenium.saveScreenShotAndSource();
++		selenium.clickAt("//input[@id='_25_neverExpireCheckbox']",
++			RuntimeVariables.replace("Never Expire"));
++		assertFalse(selenium.isChecked("//input[@id='_25_neverExpireCheckbox']"));
+@@ -95 +105,2 @@
+-				if (selenium.isElementPresent("_25_expirationDateMonth")) {
++				if (selenium.isVisible(
++							"//select[@id='_25_expirationDateMonth']")) {
+@@ -106,8 +117,14 @@
+-		selenium.clickAt("_25_neverExpireCheckbox", RuntimeVariables.replace(""));
+-		assertFalse(selenium.isChecked("_25_neverExpireCheckbox"));
+-		selenium.saveScreenShotAndSource();
+-		selenium.keyPress("_25_expirationDateMonth",
+-			RuntimeVariables.replace("\\38"));
+-		selenium.keyPress("_25_expirationDateMinute",
+-			RuntimeVariables.replace("\\39"));
+-		selenium.clickAt("//input[@value='Save']", RuntimeVariables.replace(""));
++		selenium.select("//select[@id='_25_expirationDateYear']",
++			RuntimeVariables.replace("label=2008"));
++		selenium.select("//select[@id='_25_expirationDateMonth']",
++			RuntimeVariables.replace("label=January"));
++		selenium.select("//select[@id='_25_expirationDateDay']",
++			RuntimeVariables.replace("label=1"));
++		selenium.select("//select[@name='_25_expirationDateHour']",
++			RuntimeVariables.replace("label=12"));
++		selenium.select("//select[@name='_25_expirationDateMinute']",
++			RuntimeVariables.replace("label=:00"));
++		selenium.select("//select[@name='_25_expirationDateAmPm']",
++			RuntimeVariables.replace("label=AM"));
++		selenium.clickAt("//input[@value='Save']",
++			RuntimeVariables.replace("Save"));
+@@ -116,3 +133,6 @@
+-		assertTrue(selenium.isTextPresent(
+-				"Your request completed successfully."));
+-		Thread.sleep(60000);
++		assertEquals(RuntimeVariables.replace(
++				"Your request failed to complete."),
++			selenium.getText("xPath=(//div[@class='portlet-msg-error'])[1]"));
++		assertEquals(RuntimeVariables.replace(
++				"Please enter a valid expiration date."),
++			selenium.getText("xPath=(//div[@class='portlet-msg-error'])[2]"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/PollsTests.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/PollsTests.java
+index 71d399a..78f74e1 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/PollsTests.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/PollsTests.java
+@@ -32 +32 @@
+-		//testSuite.addTestSuite(ViewQuestionGraphsTest.class);
++		testSuite.addTestSuite(ViewQuestionGraphsTest.class);
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.html
+index 4481861..19e44e4 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -44 +44 @@
+-	<td></td>
++	<td>Actions</td>
+@@ -47 +47 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -49 +49,6 @@
+-	<td></td>
++	<td>Delete</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a</td>
++	<td>Delete</td>
+@@ -54 +59 @@
+-	<td></td>
++	<td>Delete</td>
+@@ -79 +84 @@
+-	<td></td>
++	<td>Actions</td>
+@@ -82 +87 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -84 +89,6 @@
+-	<td></td>
++	<td>Delete</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a</td>
++	<td>Delete</td>
+@@ -89 +99 @@
+-	<td></td>
++	<td>Delete</td>
+@@ -114 +124 @@
+-	<td></td>
++	<td>Actions</td>
+@@ -117 +127 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -119 +129,6 @@
+-	<td></td>
++	<td>Delete</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a</td>
++	<td>Delete</td>
+@@ -124 +139 @@
+-	<td></td>
++	<td>Delete</td>
+@@ -149 +164 @@
+-	<td></td>
++	<td>Actions</td>
+@@ -152 +167 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -154 +169,6 @@
+-	<td></td>
++	<td>Delete</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a</td>
++	<td>Delete</td>
+@@ -159 +179 @@
+-	<td></td>
++	<td>Delete</td>
+@@ -184 +204 @@
+-	<td></td>
++	<td>Actions</td>
+@@ -187 +207 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -189 +209,6 @@
+-	<td></td>
++	<td>Delete</td>
++</tr>
++<tr>
++	<td>assertText</td>
++	<td>//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a</td>
++	<td>Delete</td>
+@@ -194 +219 @@
+-	<td></td>
++	<td>Delete</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.java
+index 1cc2786..499afa5 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/TearDownQuestionTest.java
+@@ -38 +38 @@
+-						if (selenium.isElementPresent("link=Control Panel")) {
++						if (selenium.isVisible("link=Control Panel")) {
+@@ -50 +50 @@
+-					RuntimeVariables.replace(""));
++					RuntimeVariables.replace("Control Panel"));
+@@ -53 +53 @@
+-				selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++				selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -67 +67 @@
+-					RuntimeVariables.replace(""));
++					RuntimeVariables.replace("Actions"));
+@@ -75 +75 @@
+-						if (selenium.isElementPresent(
++						if (selenium.isVisible(
+@@ -86,0 +87,3 @@
++				assertEquals(RuntimeVariables.replace("Delete"),
++					selenium.getText(
++						"//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a"));
+@@ -106 +109 @@
+-					RuntimeVariables.replace(""));
++					RuntimeVariables.replace("Actions"));
+@@ -114 +117 @@
+-						if (selenium.isElementPresent(
++						if (selenium.isVisible(
+@@ -125,0 +129,3 @@
++				assertEquals(RuntimeVariables.replace("Delete"),
++					selenium.getText(
++						"//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a"));
+@@ -145 +151 @@
+-					RuntimeVariables.replace(""));
++					RuntimeVariables.replace("Actions"));
+@@ -153 +159 @@
+-						if (selenium.isElementPresent(
++						if (selenium.isVisible(
+@@ -164,0 +171,3 @@
++				assertEquals(RuntimeVariables.replace("Delete"),
++					selenium.getText(
++						"//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a"));
+@@ -184 +193 @@
+-					RuntimeVariables.replace(""));
++					RuntimeVariables.replace("Actions"));
+@@ -192 +201 @@
+-						if (selenium.isElementPresent(
++						if (selenium.isVisible(
+@@ -203,0 +213,3 @@
++				assertEquals(RuntimeVariables.replace("Delete"),
++					selenium.getText(
++						"//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a"));
+@@ -223 +235 @@
+-					RuntimeVariables.replace(""));
++					RuntimeVariables.replace("Actions"));
+@@ -231 +243 @@
+-						if (selenium.isElementPresent(
++						if (selenium.isVisible(
+@@ -242,0 +255,3 @@
++				assertEquals(RuntimeVariables.replace("Delete"),
++					selenium.getText(
++						"//div[@class='lfr-component lfr-menu-list']/ul/li[3]/a"));
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.html b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.html
+index afeb1d5..655663f 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.html
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.html
+@@ -17 +17 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -19 +19 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -24 +24 @@
+-	<td></td>
++	<td>Control Panel</td>
+@@ -29 +29 @@
+-	<td></td>
++	<td>Polls</td>
+@@ -34 +34 @@
+-	<td></td>
++	<td>Test Poll Question</td>
+@@ -39 +39 @@
+-	<td></td>
++	<td>Area</td>
+@@ -62 +62 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -64 +64 @@
+-	<td></td>
++	<td>Horizontal Bar</td>
+@@ -69 +69 @@
+-	<td></td>
++	<td>Horizontal Bar</td>
+@@ -92 +92 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -94 +94 @@
+-	<td></td>
++	<td>Line</td>
+@@ -99 +99 @@
+-	<td></td>
++	<td>Line</td>
+@@ -122 +122 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -124 +124 @@
+-	<td></td>
++	<td>Pie</td>
+@@ -129 +129 @@
+-	<td></td>
++	<td>Pie</td>
+@@ -152 +152 @@
+-	<td>waitForElementPresent</td>
++	<td>waitForVisible</td>
+@@ -154 +154 @@
+-	<td></td>
++	<td>Vertical Bar</td>
+@@ -159 +159 @@
+-	<td></td>
++	<td>Vertical Bar</td>
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.java
+index d09f021..7749074 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/polls/ViewQuestionGraphsTest.java
+@@ -33 +33 @@
+-				if (selenium.isElementPresent("link=Control Panel")) {
++				if (selenium.isVisible("link=Control Panel")) {
+@@ -44 +44,2 @@
+-		selenium.clickAt("link=Control Panel", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Control Panel",
++			RuntimeVariables.replace("Control Panel"));
+@@ -47 +48 @@
+-		selenium.clickAt("link=Polls", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Polls", RuntimeVariables.replace("Polls"));
+@@ -50 +51,2 @@
+-		selenium.clickAt("link=Test Poll Question", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Test Poll Question",
++			RuntimeVariables.replace("Test Poll Question"));
+@@ -53 +55 @@
+-		selenium.clickAt("link=Area", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Area", RuntimeVariables.replace("Area"));
+@@ -67 +69 @@
+-				if (selenium.isElementPresent("link=Horizontal Bar")) {
++				if (selenium.isVisible("link=Horizontal Bar")) {
+@@ -78 +80,2 @@
+-		selenium.clickAt("link=Horizontal Bar", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Horizontal Bar",
++			RuntimeVariables.replace("Horizontal Bar"));
+@@ -92 +95 @@
+-				if (selenium.isElementPresent("link=Line")) {
++				if (selenium.isVisible("link=Line")) {
+@@ -103 +106 @@
+-		selenium.clickAt("link=Line", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Line", RuntimeVariables.replace("Line"));
+@@ -117 +120 @@
+-				if (selenium.isElementPresent("link=Pie")) {
++				if (selenium.isVisible("link=Pie")) {
+@@ -128 +131 @@
+-		selenium.clickAt("link=Pie", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Pie", RuntimeVariables.replace("Pie"));
+@@ -142 +145 @@
+-				if (selenium.isElementPresent("link=Vertical Bar")) {
++				if (selenium.isVisible("link=Vertical Bar")) {
+@@ -153 +156,2 @@
+-		selenium.clickAt("link=Vertical Bar", RuntimeVariables.replace(""));
++		selenium.clickAt("link=Vertical Bar",
++			RuntimeVariables.replace("Vertical Bar"));
+

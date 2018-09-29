@@ -1,0 +1,43 @@
+diff --git a/sonar-server/src/main/java/org/sonar/server/issue/SetSeverityAction.java b/sonar-server/src/main/java/org/sonar/server/issue/SetSeverityAction.java
+index 363d963..b44fa04 100644
+--- a/sonar-server/src/main/java/org/sonar/server/issue/SetSeverityAction.java
++++ b/sonar-server/src/main/java/org/sonar/server/issue/SetSeverityAction.java
+@@ -53 +53 @@
+-    return issueUpdater.setSeverity((DefaultIssue) context.issue(), severity(properties), context.issueChangeContext());
++    return issueUpdater.setManualSeverity((DefaultIssue) context.issue(), severity(properties), context.issueChangeContext());
+diff --git a/sonar-server/src/main/webapp/WEB-INF/app/controllers/resource_controller.rb b/sonar-server/src/main/webapp/WEB-INF/app/controllers/resource_controller.rb
+index 1e0b00b..b645f80 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/app/controllers/resource_controller.rb
++++ b/sonar-server/src/main/webapp/WEB-INF/app/controllers/resource_controller.rb
+@@ -326 +326 @@
+-        options['createdAfter'] = date
++        options['createdAfter'] = Api::Utils.format_datetime(date)
+diff --git a/sonar-server/src/main/webapp/WEB-INF/app/views/resource/_tabs.html.erb b/sonar-server/src/main/webapp/WEB-INF/app/views/resource/_tabs.html.erb
+index 5007355..a81e243 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/app/views/resource/_tabs.html.erb
++++ b/sonar-server/src/main/webapp/WEB-INF/app/views/resource/_tabs.html.erb
+@@ -24,3 +24,3 @@
+-
+-      <% if @display_issues %>
+-        <li>
++      <% first=true %>
++      <% if logged_in? && @display_issues %>
++        <li class="<%= 'first' if first -%>">
+@@ -30,6 +30,3 @@
+-      <% end %>
+-
+-      <%
+-         first=true
+-         if @snapshot.has_source && has_role?(:codeviewer, @snapshot)
+-      %>
++      <% first=false
++         end %>
++      <% if @snapshot.has_source && has_role?(:codeviewer, @snapshot) %>
+diff --git a/sonar-server/src/test/java/org/sonar/server/issue/SetSeverityActionTest.java b/sonar-server/src/test/java/org/sonar/server/issue/SetSeverityActionTest.java
+index 0148ab2..487f9bb 100644
+--- a/sonar-server/src/test/java/org/sonar/server/issue/SetSeverityActionTest.java
++++ b/sonar-server/src/test/java/org/sonar/server/issue/SetSeverityActionTest.java
+@@ -60 +60 @@
+-    verify(issueUpdater).setSeverity(eq(issue), eq(severity), any(IssueChangeContext.class));
++    verify(issueUpdater).setManualSeverity(eq(issue), eq(severity), any(IssueChangeContext.class));
+

@@ -1,0 +1,43 @@
+diff --git a/plugins/android/src/org/jetbrains/android/dom/drawable/LayerListItem.java b/plugins/android/src/org/jetbrains/android/dom/drawable/LayerListItem.java
+index f324ade..cde04c7 100644
+--- a/plugins/android/src/org/jetbrains/android/dom/drawable/LayerListItem.java
++++ b/plugins/android/src/org/jetbrains/android/dom/drawable/LayerListItem.java
+@@ -34,0 +35,2 @@
++
++  List<Shape> getShapes();
+diff --git a/plugins/android/testData/dom/drawable/layerListHighlighting1.xml b/plugins/android/testData/dom/drawable/layerListHighlighting1.xml
+new file mode 100644
+index 0000000..1820624
+--- /dev/null
++++ b/plugins/android/testData/dom/drawable/layerListHighlighting1.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++  <item>
++    <shape android:shape="rectangle">
++      <solid android:color="#bababa"/>
++    </shape>
++  </item>
++  <item android:top="1px" android:bottom="1px">
++    <shape android:shape="rectangle">
++      <solid android:color="#e9eaec"/>
++    </shape>
++  </item>
++  <item android:top="2px" android:bottom="1px">
++    <shape android:shape="rectangle">
++      <solid android:color="#cecece"/>
++    </shape>
++  </item>
++</layer-list>
+\ No newline at end of file
+diff --git a/plugins/android/testSrc/org/jetbrains/android/dom/AndroidDrawableResourcesDomTest.java b/plugins/android/testSrc/org/jetbrains/android/dom/AndroidDrawableResourcesDomTest.java
+index 81c84ed..2e1e819 100644
+--- a/plugins/android/testSrc/org/jetbrains/android/dom/AndroidDrawableResourcesDomTest.java
++++ b/plugins/android/testSrc/org/jetbrains/android/dom/AndroidDrawableResourcesDomTest.java
+@@ -107,0 +108,4 @@
++  public void testLayerListHighlighting1() throws Throwable {
++    doTestHighlighting();
++  }
++
+

@@ -1,0 +1,65 @@
+diff --git a/src/main/java/com/ning/http/client/providers/NettyAsyncHttpProvider.java b/src/main/java/com/ning/http/client/providers/NettyAsyncHttpProvider.java
+index 97a69a0..74f8d3f 100644
+--- a/src/main/java/com/ning/http/client/providers/NettyAsyncHttpProvider.java
++++ b/src/main/java/com/ning/http/client/providers/NettyAsyncHttpProvider.java
+@@ -714 +714 @@
+-            log.debug("I/O Exception during read or doConnect: ", e.getCause());
++            log.debug("I/O Exception during read or doConnect: ", cause);
+diff --git a/src/test/java/com/ning/http/client/async/AsyncProvidersBasicTest.java b/src/test/java/com/ning/http/client/async/AsyncProvidersBasicTest.java
+index 4a1f3ee..04c827e 100755
+--- a/src/test/java/com/ning/http/client/async/AsyncProvidersBasicTest.java
++++ b/src/test/java/com/ning/http/client/async/AsyncProvidersBasicTest.java
+@@ -49,0 +50 @@
++import java.util.concurrent.atomic.AtomicBoolean;
+@@ -52,0 +54,4 @@
++import static org.testng.Assert.assertNotNull;
++import static org.testng.Assert.assertNull;
++import static org.testng.Assert.assertTrue;
++import static org.testng.Assert.fail;
+@@ -879 +883,0 @@
+-        ConnectException expected = null;
+@@ -881 +885 @@
+-            c.preparePost("http://127.0.0.1:9999/").execute(new AsyncCompletionHandlerAdapter() {
++            Response response = c.preparePost("http://127.0.0.1:9999/").execute(new AsyncCompletionHandlerAdapter() {
+@@ -886,0 +891 @@
++            assertNull(response, "Should have thrown ExecutionException");
+@@ -888,3 +893,3 @@
+-            ex.printStackTrace();
+-            if (ex.getCause() instanceof ConnectException) {
+-                expected = (ConnectException) ex.getCause();
++            Throwable cause = ex.getCause();
++            if (!(cause instanceof ConnectException)) {
++                fail("Should have been caused by ConnectException, not by " + cause.getClass().getName());
+@@ -892,6 +896,0 @@
+-        }
+-
+-        if (expected != null) {
+-            assertEquals(expected.getClass(), ConnectException.class);
+-        } else {
+-            Assert.fail("Must have thrown an ExecutionException");
+@@ -909 +908 @@
+-            c.preparePost(String.format("http://127.0.0.1:%d/", port)).execute(new AsyncCompletionHandlerAdapter() {
++            Response response = c.preparePost(String.format("http://127.0.0.1:%d/", port)).execute(new AsyncCompletionHandlerAdapter() {
+@@ -915 +914 @@
+-            Assert.assertTrue(false);
++            assertNull(response, "No ExecutionException was thrown");
+@@ -965,0 +965,2 @@
++        final AtomicBoolean called = new AtomicBoolean(false);
++        final AtomicBoolean rightCause = new AtomicBoolean(false);
+@@ -970 +971 @@
+-            c.prepareGet(String.format("http://127.0.0.1:%d/", port)).execute(new AsyncCompletionHandlerAdapter() {
++            Response response = c.prepareGet(String.format("http://127.0.0.1:%d/", port)).execute(new AsyncCompletionHandlerAdapter() {
+@@ -973 +974,4 @@
+-                    assertEquals(t.getClass(), ConnectException.class);
++                    called.set(true);
++                    if (t instanceof ConnectException) {
++                        rightCause.set(true);
++                    }
+@@ -976 +980 @@
+-            Assert.fail("No ConnectionException was thrown");
++            assertNull(response, "No ExecutionException was thrown");
+@@ -980 +984,2 @@
+-
++        assertTrue(called.get(), "onThrowable should get called.");
++        assertTrue(rightCause.get(), "onThrowable should get called with ConnectionException");
+

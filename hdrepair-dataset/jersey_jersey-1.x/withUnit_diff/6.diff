@@ -1,0 +1,139 @@
+diff --git a/test/com/sun/ws/rest/impl/container/grizzly/AbstractGrizzlyServerTester.java b/test/com/sun/ws/rest/impl/container/grizzly/AbstractGrizzlyServerTester.java
+index 71db09d..35c15f4 100644
+--- a/test/com/sun/ws/rest/impl/container/grizzly/AbstractGrizzlyServerTester.java
++++ b/test/com/sun/ws/rest/impl/container/grizzly/AbstractGrizzlyServerTester.java
+@@ -94 +94 @@
+-            Thread.sleep(500); 
++            Thread.sleep(1000); 
+diff --git a/test/com/sun/ws/rest/impl/container/grizzly/HttpMethodTest.java b/test/com/sun/ws/rest/impl/container/grizzly/HttpMethodTest.java
+index 60054de..0244a21 100644
+--- a/test/com/sun/ws/rest/impl/container/grizzly/HttpMethodTest.java
++++ b/test/com/sun/ws/rest/impl/container/grizzly/HttpMethodTest.java
+@@ -65 +65 @@
+-    public void _testGet() {
++    public void testGet() {
+@@ -77 +77 @@
+-    public void _testPut() {
++    public void testPut() {
+@@ -83 +83 @@
+-    public void _testDelete() {
++    public void testDelete() {
+@@ -87,0 +88,15 @@
++    
++    public void testAll() {
++        startServer(HttpMethodResource.class);
++        ResourceProxy r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("GET", r.get(String.class));
++
++        r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("POST", r.post(String.class, "POST"));
++        
++        r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("PUT", r.post(String.class, "PUT"));
++        
++        r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("DELETE", r.delete(String.class));
++    }
+diff --git a/test/com/sun/ws/rest/impl/container/grizzly/OutputStreamTest.java b/test/com/sun/ws/rest/impl/container/grizzly/OutputStreamTest.java
+index 18f2697..9922a20 100644
+--- a/test/com/sun/ws/rest/impl/container/grizzly/OutputStreamTest.java
++++ b/test/com/sun/ws/rest/impl/container/grizzly/OutputStreamTest.java
+@@ -29,0 +30 @@
++import javax.ws.rs.GET;
+@@ -42,0 +44,10 @@
++        @GET
++        public void get(HttpRequestContext requestContext, 
++                HttpResponseContext responseContext) throws IOException {
++            assertEquals("GET", requestContext.getHttpMethod());
++            
++            responseContext.getOutputStream().
++                    write("RESOURCE".getBytes());
++        }
++        
++        @ProduceMime("text/plain")
+@@ -44 +55 @@
+-        public void handleRequest(HttpRequestContext requestContext, 
++        public void post(HttpRequestContext requestContext, 
+@@ -60 +71 @@
+-    public void testOutputStream() {
++    public void testGet() {
+@@ -63,0 +75,17 @@
++        assertEquals("RESOURCE", r.get(String.class));        
++    }
++    
++    public void testPost() {        
++        startServer(TestResource.class);
++                
++        ResourceProxy r = ResourceProxy.create(getUri().path("output").build());
++        assertEquals("RESOURCE", r.post(String.class, "RESOURCE"));
++    }
++    
++    public void testAll() {
++        startServer(TestResource.class);
++                
++        ResourceProxy r = ResourceProxy.create(getUri().path("output").build());
++        assertEquals("RESOURCE", r.get(String.class));        
++        
++        r = ResourceProxy.create(getUri().path("output").build());
+diff --git a/test/com/sun/ws/rest/impl/container/httpserver/HttpMethodTest.java b/test/com/sun/ws/rest/impl/container/httpserver/HttpMethodTest.java
+index 656427e..246fe02 100644
+--- a/test/com/sun/ws/rest/impl/container/httpserver/HttpMethodTest.java
++++ b/test/com/sun/ws/rest/impl/container/httpserver/HttpMethodTest.java
+@@ -87,0 +88,15 @@
++    
++    public void testAll() {
++        startServer(HttpMethodResource.class);
++        ResourceProxy r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("GET", r.get(String.class));
++
++        r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("POST", r.post(String.class, "POST"));
++        
++        r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("PUT", r.post(String.class, "PUT"));
++        
++        r = ResourceProxy.create(getUri().path("test").build());
++        assertEquals("DELETE", r.delete(String.class));
++    }
+diff --git a/test/com/sun/ws/rest/impl/container/httpserver/OutputStreamTest.java b/test/com/sun/ws/rest/impl/container/httpserver/OutputStreamTest.java
+index 07da026..aca2f71 100644
+--- a/test/com/sun/ws/rest/impl/container/httpserver/OutputStreamTest.java
++++ b/test/com/sun/ws/rest/impl/container/httpserver/OutputStreamTest.java
+@@ -29,0 +30 @@
++import javax.ws.rs.GET;
+@@ -42,0 +44,10 @@
++        @GET
++        public void get(HttpRequestContext requestContext, 
++                HttpResponseContext responseContext) throws IOException {
++            assertEquals("GET", requestContext.getHttpMethod());
++            
++            responseContext.getOutputStream().
++                    write("RESOURCE".getBytes());
++        }
++        
++        @ProduceMime("text/plain")
+@@ -44 +55 @@
+-        public void handleRequest(HttpRequestContext requestContext, 
++        public void post(HttpRequestContext requestContext, 
+@@ -60 +71 @@
+-    public void testOutputStream() {
++    public void testGet() {
+@@ -63,0 +75,17 @@
++        assertEquals("RESOURCE", r.get(String.class));
++    }
++    
++    public void testPost() {
++        startServer(TestResource.class);
++                
++        ResourceProxy r = ResourceProxy.create(getUri().path("output").build());
++        assertEquals("RESOURCE", r.post(String.class, "RESOURCE"));
++    }
++    
++    public void testAll() {
++        startServer(TestResource.class);
++                
++        ResourceProxy r = ResourceProxy.create(getUri().path("output").build());
++        assertEquals("RESOURCE", r.get(String.class));        
++        
++        r = ResourceProxy.create(getUri().path("output").build());
+

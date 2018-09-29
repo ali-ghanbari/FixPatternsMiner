@@ -1,0 +1,191 @@
+diff --git a/dependencies/opennms-spring-test/pom.xml b/dependencies/opennms-spring-test/pom.xml
+index 97d53f8..9d0cd34 100644
+--- a/dependencies/opennms-spring-test/pom.xml
++++ b/dependencies/opennms-spring-test/pom.xml
+@@ -30,0 +31,5 @@
++    <dependency>
++      <groupId>org.opennms</groupId>
++      <artifactId>opennms-util</artifactId>
++    </dependency>
++
+diff --git a/opennms-rrd/opennms-rrd-api/pom.xml b/opennms-rrd/opennms-rrd-api/pom.xml
+index 38f08c3..2ecbc6f 100644
+--- a/opennms-rrd/opennms-rrd-api/pom.xml
++++ b/opennms-rrd/opennms-rrd-api/pom.xml
+@@ -20,0 +21,5 @@
++    <dependency>
++      <groupId>org.opennms</groupId>
++      <artifactId>opennms-spring-test</artifactId>
++      <scope>test</scope>
++    </dependency>
+diff --git a/opennms-rrd/opennms-rrd-rrdtool/opennms-rrdtool-api/src/test/java/org/opennms/netmgt/rrd/rrdtool/JniRrdStrategyTest.java b/opennms-rrd/opennms-rrd-rrdtool/opennms-rrdtool-api/src/test/java/org/opennms/netmgt/rrd/rrdtool/JniRrdStrategyTest.java
+index f2b424b..4ef9afe 100644
+--- a/opennms-rrd/opennms-rrd-rrdtool/opennms-rrdtool-api/src/test/java/org/opennms/netmgt/rrd/rrdtool/JniRrdStrategyTest.java
++++ b/opennms-rrd/opennms-rrd-rrdtool/opennms-rrdtool-api/src/test/java/org/opennms/netmgt/rrd/rrdtool/JniRrdStrategyTest.java
+@@ -41 +41 @@
+-import java.io.FileFilter;
++import java.io.FileNotFoundException;
+@@ -43,2 +43,3 @@
+-import junit.framework.TestCase;
+-
++import org.junit.Before;
++import org.junit.Test;
++import org.junit.runner.RunWith;
+@@ -46,0 +48,2 @@
++import org.springframework.test.context.TestExecutionListeners;
++import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+@@ -54 +57,3 @@
+-public class JniRrdStrategyTest extends TestCase {
++@TestExecutionListeners({})
++@RunWith(SpringJUnit4ClassRunner.class)
++public class JniRrdStrategyTest {
+@@ -58,4 +63,2 @@
+-    @Override
+-    protected void setUp() throws Exception {
+-        super.setUp();
+-        
++    @Before
++    public void setUp() throws Exception {
+@@ -63,7 +66,11 @@
+-        
+-        // FIXME: This is disabled.  See testGraph for details.
+-        if (false) {
+-            System.setProperty("opennms.library.jrrd", findJrrdLibrary().getAbsolutePath());
+-            
+-            m_strategy = new JniRrdStrategy();
+-            m_strategy.initialize();
++        String rrdLib = System.getProperty("opennms.library.jrrd");
++        if (rrdLib != null && !rrdLib.equals("${opennms.library.jrrd}")) {
++            File libFile = new File(rrdLib);
++            if (libFile.exists()) {
++                m_strategy = new JniRrdStrategy();
++                m_strategy.initialize();
++            } else {
++                throw new FileNotFoundException(rrdLib + " does not exist");
++            }
++        } else {
++            System.err.println("System property 'opennms.library.jrrd' not set: skipping tests");
+@@ -72 +79,2 @@
+-    
++
++    @Test
+@@ -74 +81,0 @@
+-        // Do nothing; just checking to see if setUp() worked.
+@@ -76,5 +83,2 @@
+-    
+-    /*
+-     * FIXME: This is disabled since the test doesn't work if building from
+-     * scratch.  This should likely be moved into the platform modules.
+-     */
++
++    @Test
+@@ -82,31 +86,7 @@
+-        long end = System.currentTimeMillis();
+-        long start = end - (24 * 60 * 60 * 1000);
+-        String[] command = new String[] {
+-                "rrdtool",
+-                "graph", 
+-                "-",
+-                "--start=" + start,
+-                "--end=" + end,
+-                "CDEF:a=1",
+-                "GPRINT:a:AVERAGE:\"%8.2lf\\n\""
+-        };
+-        
+-        m_strategy.createGraph(StringUtils.arrayToDelimitedString(command, " "), new File(""));
+-    }
+-
+-    private File findJrrdLibrary() {
+-        File parentDir = new File("..");
+-        assertTrue("parent directory exists at ..: " + parentDir.getAbsolutePath(), parentDir.exists());
+-        
+-        File parentPomXml = new File(parentDir, "pom.xml");
+-        assertTrue("parent directory's pom.xml exists at ../pom.xml: " + parentPomXml.getAbsolutePath(), parentPomXml.exists());
+-        
+-        File jniDir = new File(parentDir, "opennms-rrdtool-jni");
+-        assertTrue("opennms-rrdtool-jni directory exists at ../opennms-rrdtool-jni: " + jniDir.getAbsolutePath(), jniDir.exists());
+-        
+-        File[] jniPlatformDirs = jniDir.listFiles(new FileFilter() {
+-            public boolean accept(File file) {
+-                if (file.getName().matches("opennms-rrdtool-jni-.*") && file.isDirectory()) {
+-                    return true;
+-                } else {
+-                    return false;
++        if (m_strategy != null) {
++            String rrdtoolBin = System.getProperty("install.rrdtool.bin");
++            if (rrdtoolBin != null) {
++                File rrdtoolFile = new File(rrdtoolBin);
++                if (!rrdtoolFile.exists()) {
++                    System.err.println(rrdtoolBin + " does not exist");
++                    return;
+@@ -113,0 +94,3 @@
++            } else {
++                System.err.println("System property 'install.rrdtool.bin' not set: skipping test");
++                return;
+@@ -115,2 +97,0 @@
+-        });
+-        assertTrue("expecting at least one opennms opennms-rrdtool-jni platform directory in " + jniDir.getAbsolutePath() + "; got: " + StringUtils.arrayToDelimitedString(jniPlatformDirs, ", "), jniPlatformDirs.length > 0);
+@@ -118,3 +99,10 @@
+-        File jniFile = null;
+-        for (File jniPlatformDir : jniPlatformDirs) {
+-            assertTrue("opennms-rrdtool-jni platform directory does not exist but was listed in directory listing: " + jniPlatformDir.getAbsolutePath(), jniPlatformDir.exists());
++            long end = System.currentTimeMillis();
++            long start = end - (24 * 60 * 60 * 1000);
++            String[] command = new String[] {
++                    rrdtoolBin,
++                    "graph", 
++                    "-",
++                    "--start=" + start,
++                    "--end=" + end,
++                    "COMMENT:test"
++            };
+@@ -122,23 +110 @@
+-            File jniTargetDir = new File(jniPlatformDir, "target");
+-            if (!jniTargetDir.exists() || !jniTargetDir.isDirectory()) {
+-                // Skip this one
+-                continue;
+-            }
+-          
+-            File[] jniFiles = jniTargetDir.listFiles(new FileFilter() {
+-                public boolean accept(File file) {
+-                    if (file.isFile()
+-                        && (file.getName().matches("opennms-rrdtool-jni-.*\\.so")
+-                            || file.getName().matches("opennms-rrdtool-jni-.*\\.jnilib"))) {
+-                        return true;
+-                    } else {
+-                        return false;
+-                    }
+-                }
+-            });
+-            assertFalse("expecting zero or one opennms-rrdtool-jni file in " + jniTargetDir.getAbsolutePath() + "; got: " + StringUtils.arrayToDelimitedString(jniFiles, ", "), jniFiles.length > 1);
+-            
+-            if (jniFiles.length == 1) {
+-                jniFile = jniFiles[0];
+-            }
+-            
++            m_strategy.createGraph(StringUtils.arrayToDelimitedString(command, " "), (new File(rrdtoolBin)).getParentFile());
+@@ -146,4 +111,0 @@
+-        
+-        assertNotNull("Could not find opennms-rrdtool-jni shared object in a target directory in any of these directories: " + StringUtils.arrayToDelimitedString(jniPlatformDirs, ", "), jniFile);
+-        
+-        return jniFile;
+diff --git a/opennms-util/src/main/java/org/opennms/core/utils/PropertiesUtils.java b/opennms-util/src/main/java/org/opennms/core/utils/PropertiesUtils.java
+index 2bcbefa..6b1d59e 100644
+--- a/opennms-util/src/main/java/org/opennms/core/utils/PropertiesUtils.java
++++ b/opennms-util/src/main/java/org/opennms/core/utils/PropertiesUtils.java
+@@ -65 +65 @@
+-     * @param initialString the string to preform the substitions in
++     * @param initialString the string to perform the substitutions in
+diff --git a/pom.xml b/pom.xml
+index 6b69cb2..c4e774f 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -287,0 +288,4 @@
++              <name>install.rrdtool.bin</name>
++              <value>${install.rrdtool.bin}</value>
++            </property>
++            <property>
+@@ -1239 +1243 @@
+-        <version>4.5</version>
++        <version>4.4</version>
+

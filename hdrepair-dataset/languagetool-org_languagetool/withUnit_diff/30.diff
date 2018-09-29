@@ -1,0 +1,23 @@
+diff --git a/languagetool-language-modules/en/src/main/java/org/languagetool/rules/en/EnglishUnpairedBracketsRule.java b/languagetool-language-modules/en/src/main/java/org/languagetool/rules/en/EnglishUnpairedBracketsRule.java
+index 89b8a30..59faee1 100644
+--- a/languagetool-language-modules/en/src/main/java/org/languagetool/rules/en/EnglishUnpairedBracketsRule.java
++++ b/languagetool-language-modules/en/src/main/java/org/languagetool/rules/en/EnglishUnpairedBracketsRule.java
+@@ -35 +35 @@
+-  private static final Pattern NUMBER = Pattern.compile("\\d+");
++  private static final Pattern NUMBER = Pattern.compile("\\d+(?:-\\d+)?");
+diff --git a/languagetool-language-modules/en/src/main/resources/org/languagetool/rules/en/grammar.xml b/languagetool-language-modules/en/src/main/resources/org/languagetool/rules/en/grammar.xml
+index 26bd55a..a41757b 100644
+--- a/languagetool-language-modules/en/src/main/resources/org/languagetool/rules/en/grammar.xml
++++ b/languagetool-language-modules/en/src/main/resources/org/languagetool/rules/en/grammar.xml
+@@ -10639 +10639 @@
+-                    <token postag="''"></token>
++                    <token postag="''"><exception regexp="yes" scope="previous">\d+(?:-\d+)?</exception></token>
+@@ -10647,0 +10648 @@
++                <example type="correct">Economy class seats have a seat pitch of 31-33"</example>
+diff --git a/languagetool-language-modules/en/src/test/java/org/languagetool/rules/en/EnglishUnpairedBracketsRuleTest.java b/languagetool-language-modules/en/src/test/java/org/languagetool/rules/en/EnglishUnpairedBracketsRuleTest.java
+index 2e41f79..e8938f0 100644
+--- a/languagetool-language-modules/en/src/test/java/org/languagetool/rules/en/EnglishUnpairedBracketsRuleTest.java
++++ b/languagetool-language-modules/en/src/test/java/org/languagetool/rules/en/EnglishUnpairedBracketsRuleTest.java
+@@ -76,0 +77 @@
++    assertCorrect("Economy class seats have a seat pitch of 31-33\", with newer aircraft having thinner seats that have a 31\" pitch.");
+

@@ -1,0 +1,15 @@
+diff --git a/cps-global-lib/src/main/java/org/jenkinsci/plugins/workflow/cps/global/GroovyShellDecoratorImpl.java b/cps-global-lib/src/main/java/org/jenkinsci/plugins/workflow/cps/global/GroovyShellDecoratorImpl.java
+index 8de6f11..e51a74e 100644
+--- a/cps-global-lib/src/main/java/org/jenkinsci/plugins/workflow/cps/global/GroovyShellDecoratorImpl.java
++++ b/cps-global-lib/src/main/java/org/jenkinsci/plugins/workflow/cps/global/GroovyShellDecoratorImpl.java
+@@ -26 +26 @@
+-            shell.getClassLoader().addURL(new File(repo.workspace,"src").toURL());
++            shell.getClassLoader().addURL(new File(repo.workspace,"src").toURI().toURL());
+diff --git a/pom.xml b/pom.xml
+index 1fc7209..a17b955 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -157 +157 @@
+-                <version>3.0.0</version> <!-- need MFINDBUGS-118 in 2.5 -->
++                <version>3.0.1</version> <!-- need MFINDBUGS-118 in 2.5 -->
+

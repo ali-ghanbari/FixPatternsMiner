@@ -1,0 +1,27 @@
+diff --git a/src/fitnesse/testsystems/slim/results/SlimExceptionResult.java b/src/fitnesse/testsystems/slim/results/SlimExceptionResult.java
+index 5362a9e..33606b0 100644
+--- a/src/fitnesse/testsystems/slim/results/SlimExceptionResult.java
++++ b/src/fitnesse/testsystems/slim/results/SlimExceptionResult.java
+@@ -12 +12 @@
+-  public static final Pattern EXCEPTION_MESSAGE_PATTERN = Pattern.compile("^message:<<(.*)>>$", Pattern.DOTALL);
++  public static final Pattern EXCEPTION_MESSAGE_PATTERN = Pattern.compile("message:<<(.*)>>", Pattern.DOTALL);
+diff --git a/test/fitnesse/testsystems/slim/result/SlimExceptionResultTest.java b/test/fitnesse/testsystems/slim/result/SlimExceptionResultTest.java
+index a70c38b..a937207 100644
+--- a/test/fitnesse/testsystems/slim/result/SlimExceptionResultTest.java
++++ b/test/fitnesse/testsystems/slim/result/SlimExceptionResultTest.java
+@@ -29,14 +28,0 @@
+-
+-  @Test
+-  public void otherMessageWithExtraText() {
+-    SlimExceptionResult result = new SlimExceptionResult("key", "message:<<Bad things>>1");
+-    assertFalse(result.hasMessage());
+-    assertNull(result.getMessage());
+-  }
+-
+-  @Test
+-  public void otherMessageWithPrefix() {
+-    SlimExceptionResult result = new SlimExceptionResult("key", "2message:<<Bad things>>");
+-    assertFalse(result.hasMessage());
+-    assertNull(result.getMessage());
+-  }
+

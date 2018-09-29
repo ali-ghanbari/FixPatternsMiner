@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/util/xml/impl/GenericInfoImpl.java b/source/com/intellij/util/xml/impl/GenericInfoImpl.java
+index 453f589..0e9a68f 100644
+--- a/source/com/intellij/util/xml/impl/GenericInfoImpl.java
++++ b/source/com/intellij/util/xml/impl/GenericInfoImpl.java
+@@ -128 +128 @@
+-    final Implementation implAnno = myClass.getAnnotation(Implementation.class);
++    final Implementation implAnno = DomUtil.findAnnotationDFS(myClass, Implementation.class);
+

@@ -1,0 +1,10 @@
+Merge branch 'master' of github.com:fusesource/fabric
+
+* 'master' of github.com:fusesource/fabric:
+  temporary hack to fix fab:start - ideally we need to wait for dependent bundles to start first (within some time window I guess) before trying to start the fab
+  allow dependencices to be explicitly imported (in lieu of spring xml / blueprint xml scanning) for dependent types; also some exports are bad & have no versions, so lets reuse-reimported exports versions if available and not resolve them if not present in the export statement
+  some jars - e.g. osgi framework bundles - use specification-version rather than version to denote the osgi package version to export
+  fab:tree now works on pure bundles too - also show optional dependencies
+  added a simple camel + spring-dm example
+  fix so that transitive dependencies which are optional have their child dependencies marked as optional to avoid unnecessasry non-optional dependencies in the tree
+

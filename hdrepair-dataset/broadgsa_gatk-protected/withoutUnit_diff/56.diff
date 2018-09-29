@@ -1,0 +1,8 @@
+diff --git a/protected/java/src/org/broadinstitute/sting/gatk/walkers/haplotypecaller/DeBruijnAssembler.java b/protected/java/src/org/broadinstitute/sting/gatk/walkers/haplotypecaller/DeBruijnAssembler.java
+index 92962f6..0a552c0 100644
+--- a/protected/java/src/org/broadinstitute/sting/gatk/walkers/haplotypecaller/DeBruijnAssembler.java
++++ b/protected/java/src/org/broadinstitute/sting/gatk/walkers/haplotypecaller/DeBruijnAssembler.java
+@@ -139 +139 @@
+-        if( maxKmer < MIN_KMER ) { throw new IllegalStateException("Reads are too small for use in assembly."); }
++        if( maxKmer < MIN_KMER ) { return; } // Reads are too small for assembly so don't try to create any assembly graphs
+

@@ -1,0 +1,72 @@
+diff --git a/api/src/main/java/brooklyn/management/SubscriptionContext.java b/api/src/main/java/brooklyn/management/SubscriptionContext.java
+index 550b1c6..be4e236 100644
+--- a/api/src/main/java/brooklyn/management/SubscriptionContext.java
++++ b/api/src/main/java/brooklyn/management/SubscriptionContext.java
+@@ -28,0 +29,4 @@
++    
++    /** causes all subscriptions to be deregistered
++     * @return number of subscriptions removed */
++    int unsubscribeAll();
+diff --git a/core/src/main/java/brooklyn/management/internal/BasicSubscriptionContext.groovy b/core/src/main/java/brooklyn/management/internal/BasicSubscriptionContext.groovy
+index b6a210f..942250e 100644
+--- a/core/src/main/java/brooklyn/management/internal/BasicSubscriptionContext.groovy
++++ b/core/src/main/java/brooklyn/management/internal/BasicSubscriptionContext.groovy
+@@ -49 +49,7 @@
+-        return manager.getSubscriptionsBySubscriber(subscriber)
++        return manager.getSubscriptionsForSubscriber(subscriber)
++    }
++
++    public int unsubscribeAll() {
++        int count = 0;
++        getSubscriptions().each { count++; boolean result = unsubscribe(it); assert result }
++        count
+diff --git a/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy b/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy
+index c993692..ff81f79 100644
+--- a/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy
++++ b/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy
+@@ -152 +152 @@
+-                em.submit(tags: s.subscriber, { s.listener.onEvent(event) })
++                em.submit(tags: s.subscriberExecutionManagerTag, { s.listener.onEvent(event) })
+diff --git a/core/src/main/java/brooklyn/util/task/BasicExecutionManager.groovy b/core/src/main/java/brooklyn/util/task/BasicExecutionManager.groovy
+index dd7bcae..5fa0b04 100644
+--- a/core/src/main/java/brooklyn/util/task/BasicExecutionManager.groovy
++++ b/core/src/main/java/brooklyn/util/task/BasicExecutionManager.groovy
+@@ -192 +192 @@
+-            def old = preprocessorByTag.clear(tag)
++            def old = preprocessorByTag.remove(tag)
+diff --git a/core/src/test/java/brooklyn/entity/hello/LocalEntitiesTest.groovy b/core/src/test/java/brooklyn/entity/hello/LocalEntitiesTest.groovy
+index ae315ef..fa832f1 100644
+--- a/core/src/test/java/brooklyn/entity/hello/LocalEntitiesTest.groovy
++++ b/core/src/test/java/brooklyn/entity/hello/LocalEntitiesTest.groovy
+@@ -67 +67 @@
+-        a.getSubscriptionContext().subscribe(/* listener tag (typically an entity) */ null, h, HelloEntity.ITS_MY_BIRTHDAY, {
++        a.getSubscriptionContext().subscribe(h, HelloEntity.ITS_MY_BIRTHDAY, {
+@@ -85 +85,26 @@
+-    
++
++    @Test
++    public void testSendMultipleInOrderThenUnsubscribe() {
++        AbstractApplication a = new AbstractApplication() {}
++        HelloEntity h = new HelloEntity(owner:a)
++        a.start([new MockLocation()])
++
++        List data = []       
++        a.getSubscriptionContext().subscribe(h, HelloEntity.AGE, { SensorEvent e -> 
++            data << e.value
++            Thread.sleep((int)(20*Math.random()))
++            println "notify on subscription received for "+e.value
++            synchronized (data) { data.notifyAll() } 
++        });
++
++        long startTime = System.currentTimeMillis()
++        synchronized (data) {
++            (1..5).each { h.setAge(it) }
++            (1..5).each { println "waiting on $it"; data.wait(2000); }
++        }
++        a.getSubscriptionContext().unsubscribeAll();
++        h.setAge(6)
++        Thread.sleep(50);
++        assertEquals((1..5), data)
++        assertTrue(System.currentTimeMillis() - startTime < 2000)  //shouldn't have blocked for anywhere close to 2s
++    }
+

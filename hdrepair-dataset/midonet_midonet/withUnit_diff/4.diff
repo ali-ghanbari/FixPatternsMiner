@@ -1,0 +1,254 @@
+diff --git a/midolman/src/main/scala/org/midonet/midolman/monitoring/MonitoringActor.scala b/midolman/src/main/scala/org/midonet/midolman/monitoring/MonitoringActor.scala
+index 8b7b2c4..d809d86 100644
+--- a/midolman/src/main/scala/org/midonet/midolman/monitoring/MonitoringActor.scala
++++ b/midolman/src/main/scala/org/midonet/midolman/monitoring/MonitoringActor.scala
+@@ -17,0 +18,2 @@
++import org.midonet.midolman.monitoring.MonitoringActor.MetricsUpdated
++import org.midonet.odp.Port
+@@ -29 +31,2 @@
+-  override val Name = "MonitoringActor"
++    override val Name = "MonitoringActor"
++    case class MetricsUpdated(portID: UUID, portStatistics: Port.Stats)
+@@ -35,3 +38,3 @@
+-  import DatapathController._
+-  import VirtualToPhysicalMapper._
+-  import context._
++    import DatapathController._
++    import VirtualToPhysicalMapper._
++    import context._
+@@ -39,2 +42,2 @@
+-  @Inject
+-  var configuration: MidolmanConfig = null
++    @Inject
++    var configuration: MidolmanConfig = null
+@@ -42 +45 @@
+-  val vifMetrics: VifMetrics = new VifMetrics(context.system.eventStream)
++    val vifMetrics: VifMetrics = new VifMetrics(context.system.eventStream)
+@@ -44,2 +47,2 @@
+-  // monitored ports.
+-  val portsMap = new mutable.HashMap[UUID, Cancellable]
++    // monitored ports.
++    val portsMap = new mutable.HashMap[UUID, Cancellable]
+@@ -47 +50 @@
+-  override def preStart {
++    override def preStart() {
+@@ -49,2 +52,2 @@
+-    // subscribe to the LocalPortActive messages (the ones that create and remove local ports).
+-    context.system.eventStream.subscribe(self, classOf[LocalPortActive])
++        // subscribe to the LocalPortActive messages (the ones that create and remove local ports).
++        context.system.eventStream.subscribe(self, classOf[LocalPortActive])
+@@ -52 +55 @@
+-  }
++    }
+@@ -54,3 +57,3 @@
+-  override def postStop {
+-    log.info("Monitoring actor is shutting down")
+-  }
++    override def postStop() {
++        log.info("Monitoring actor is shutting down")
++    }
+@@ -59 +62 @@
+-  def receive = {
++    def receive = {
+@@ -61,2 +64,2 @@
+-    case LocalPortActive(portID, true) =>
+-      if (!portsMap.contains(portID)) {
++        case LocalPortActive(portID, true) =>
++            if (!portsMap.contains(portID)) {
+@@ -64,2 +67,2 @@
+-        // create the metric for this port.
+-        vifMetrics.enableVirtualPortMetrics(portID)
++                // create the metric for this port.
++                vifMetrics.enableVirtualPortMetrics(portID)
+@@ -67,5 +70,6 @@
+-        val task = system.scheduler.schedule(
+-          new FiniteDuration(0, "milliseconds"),
+-          new FiniteDuration(configuration.getPortStatsRequestTime, "milliseconds"),
+-          DatapathController.getRef(),
+-          PortStatsRequest(portID))
++                val task = system.scheduler.schedule(
++                    new FiniteDuration(0, "milliseconds"),
++                    new FiniteDuration(configuration.getPortStatsRequestTime,
++                        "milliseconds"),
++                    DatapathController.getRef(),
++                    PortStatsRequest(portID))
+@@ -73,3 +77,3 @@
+-        // add this port to the local map.
+-        portsMap.put(portID, task);
+-      }
++                // add this port to the local map.
++                portsMap.put(portID, task)
++            }
+@@ -78,6 +82,6 @@
+-    case LocalPortActive(portID, false) =>
+-      if (portsMap.contains(portID)) {
+-        portsMap.get(portID).get.cancel()
+-        portsMap.remove(portID)
+-      }
+-      vifMetrics.disableVirtualPortMetrics(portID)
++        case LocalPortActive(portID, false) =>
++            if (portsMap.contains(portID)) {
++                portsMap.get(portID).get.cancel()
++                portsMap.remove(portID)
++            }
++            vifMetrics.disableVirtualPortMetrics(portID)
+@@ -86,2 +90,3 @@
+-    case PortStats(portID, stats) =>
+-      vifMetrics.updateStats(portID, stats);
++        case PortStats(portID, stats) =>
++            vifMetrics.updateStats(portID, stats)
++            context.system.eventStream.publish(new MetricsUpdated(portID, stats))
+@@ -89,2 +94,2 @@
+-    case _ => log.info("RECEIVED UNKNOWN MESSAGE")
+-  }
++        case _ => log.info("RECEIVED UNKNOWN MESSAGE")
++    }
+diff --git a/midonet-functional-tests/src/test/java/org/midonet/functional_test/TestBase.java b/midonet-functional-tests/src/test/java/org/midonet/functional_test/TestBase.java
+index 462718c..30294d6 100644
+--- a/midonet-functional-tests/src/test/java/org/midonet/functional_test/TestBase.java
++++ b/midonet-functional-tests/src/test/java/org/midonet/functional_test/TestBase.java
+@@ -39 +39 @@
+-    private EmbeddedMidolman midolman;
++    protected EmbeddedMidolman midolman;
+diff --git a/midonet-functional-tests/src/test/java/org/midonet/functional_test/metrics/MetricsAndMonitoringTest.java b/midonet-functional-tests/src/test/java/org/midonet/functional_test/metrics/MetricsAndMonitoringTest.java
+index 3f513c6..e3c2137 100644
+--- a/midonet-functional-tests/src/test/java/org/midonet/functional_test/metrics/MetricsAndMonitoringTest.java
++++ b/midonet-functional-tests/src/test/java/org/midonet/functional_test/metrics/MetricsAndMonitoringTest.java
+@@ -5,0 +6,3 @@
++import java.lang.management.ManagementFactory;
++import java.util.UUID;
++import java.util.concurrent.TimeUnit;
+@@ -9,6 +12,3 @@
+-import org.junit.Ignore;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.testng.annotations.AfterClass;
+-import org.testng.annotations.BeforeClass;
+-import org.testng.annotations.Test;
++import akka.util.Duration;
++import org.junit.Test;
++import org.midonet.midolman.topology.LocalPortActive;
+@@ -16 +15,0 @@
+-import static org.midonet.util.Waiters.sleepBecause;
+@@ -17,0 +17 @@
++import static org.hamcrest.Matchers.equalTo;
+@@ -27 +26,0 @@
+-import org.midonet.functional_test.FunctionalTestsHelper;
+@@ -32 +30,0 @@
+-import org.midonet.util.lock.LockHelper;
+@@ -34 +31,0 @@
+-import static org.midonet.functional_test.FunctionalTestsHelper.fixQuaggaFolderPermissions;
+@@ -36 +33,3 @@
+-import static org.midonet.functional_test.FunctionalTestsHelper.stopMidolman;
++import org.midonet.midolman.monitoring.MonitoringActor.MetricsUpdated;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
+@@ -41 +39,0 @@
+-@Ignore
+@@ -45,2 +43 @@
+-    private BridgePort intBridgePort;
+-    private BridgePort tapBridgePort;
++    private BridgePort bridgePort;
+@@ -48 +45 @@
+-    private IntIPv4 ipInt;
++    private IntIPv4 ipDst;
+@@ -55,4 +52,6 @@
+-        //fixQuaggaFolderPermissions();
+-
+-        bridge = apiClient.addBridge().name("bridge-metrics").create();
+-        ipInt = IntIPv4.fromString("192.168.231.4");
++        midolman.getActorSystem().eventStream().subscribe(
++            probe.ref(), MetricsUpdated.class);
++        bridge = apiClient.addBridge().name("bridge-metrics")
++                          .tenantId("tenant1")
++                          .create();
++        ipDst = IntIPv4.fromString("192.168.231.4");
+@@ -60,3 +58,0 @@
+-        intBridgePort = bridge.addExteriorPort().create();
+-        //ovsBridge.addInternalPort(intBridgePort.getId(), "metricsInt",
+-                                  //ipInt, 24);
+@@ -66 +62 @@
+-        tapBridgePort = bridge.addExteriorPort().create();
++        bridgePort = bridge.addExteriorPort().create();
+@@ -68,3 +64,9 @@
+-        //ovsBridge.addSystemPort(tapBridgePort.getId(), metricsTap.getName());
+-
+-        helperTap_int = new PacketHelper(macTap, ipTap, macInt, ipInt);
++        thisHost.addHostInterfacePort()
++                .interfaceName(metricsTap.getName())
++                .portId(bridgePort.getId()).create();
++        LocalPortActive msg = probe.expectMsgClass(
++            Duration.create(10, TimeUnit.SECONDS),
++            LocalPortActive.class);
++        assertThat(msg.portID(), equalTo(bridgePort.getId()));
++        assertThat(msg.active(), equalTo(true));
++        helperTap_int = new PacketHelper(macTap, ipTap, macInt, ipDst);
+@@ -80,0 +83,4 @@
++        // MM is embedded, retrieve its pid
++        String runtimeMXBean = ManagementFactory.getRuntimeMXBean().getName();
++        // runtimeMXBean will return something like localhost@pid
++        String pid = runtimeMXBean.split("@")[0];
+@@ -82 +88 @@
+-            JMXHelper.newJvmJmxConnectorForPid(1 /*midolman.getPid()*/);
++            JMXHelper.newJvmJmxConnectorForPid(Integer.parseInt(pid));
+@@ -93 +99 @@
+-                     .withNameKey("scope", tapBridgePort.getId())
++                     .withNameKey("scope", bridgePort.getId())
+@@ -102,6 +108,2 @@
+-                                 helperTap_int.makeIcmpEchoRequest(ipInt));
+-        sleepBecause("need to wait for metric to update", 1);
+-
+-        // check that the counter increased properly
+-        assertThat("the counter didn't increased properly",
+-                   rxPkts.getValue(), is(previousCount + 1));
++                                 helperTap_int.makeIcmpEchoRequest(ipDst));
++        fishForMetricsUpdated(bridgePort.getId(), previousCount + 1);
+@@ -111,6 +113,2 @@
+-                                 helperTap_int.makeIcmpEchoRequest(ipInt));
+-        sleepBecause("need to wait for metric to update", 1);
+-
+-        // check that the counter increased properly
+-        assertThat("the counter didn't increase properly",
+-                   rxPkts.getValue(), is(previousCount + 2));
++                                 helperTap_int.makeIcmpEchoRequest(ipDst));
++        fishForMetricsUpdated(bridgePort.getId(), previousCount + 2);
+@@ -119,2 +117 @@
+-                                 helperTap_int.makeIcmpEchoRequest(ipInt));
+-        sleepBecause("need to wait for metric to update", 1);
++                                 helperTap_int.makeIcmpEchoRequest(ipDst));
+@@ -122,3 +119 @@
+-        // check that the counter increased properly
+-        assertThat("the counter didn't increased properly",
+-                   rxPkts.getValue(), is(previousCount + 3));
++        fishForMetricsUpdated(bridgePort.getId(), previousCount + 3);
+@@ -127,6 +122,2 @@
+-                                 helperTap_int.makeIcmpEchoRequest(ipInt));
+-        sleepBecause("need to wait for metric to update", 1);
+-
+-        // check that the counter increased properly
+-        assertThat("the counter didn't increased properly",
+-                   rxPkts.getValue(), is(previousCount + 4));
++                                 helperTap_int.makeIcmpEchoRequest(ipDst));
++        fishForMetricsUpdated(bridgePort.getId(), previousCount + 4);
+@@ -135,0 +127,20 @@
++
++    void fishForMetricsUpdated(UUID portID, long expectedRxPacketNumber) {
++        long timeOut = 15000L;
++        long start = System.currentTimeMillis();
++        long now = System.currentTimeMillis();
++        MetricsUpdated msg = probe.expectMsgClass(
++            Duration.create(10, TimeUnit.SECONDS), MetricsUpdated.class);
++
++        while(msg.portID() != bridgePort.getId()
++            && msg.portStatistics().getRxPackets() != expectedRxPacketNumber
++            && now <= start+timeOut) {
++            msg = probe.expectMsgClass(Duration.create(10, TimeUnit.SECONDS),
++                                       MetricsUpdated.class);
++            now = System.currentTimeMillis();
++        }
++        assertThat("we didn't get a metric update for the right port",
++                   msg.portID(), is(portID));
++        assertThat("the counter didn't increased properly",
++                   msg.portStatistics().getRxPackets(), is(expectedRxPacketNumber));
++    }
+

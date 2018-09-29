@@ -1,0 +1,8 @@
+diff --git a/core/src/com/cloud/network/resource/JuniperSrxResource.java b/core/src/com/cloud/network/resource/JuniperSrxResource.java
+index 1fc5b1e..3d680c2 100644
+--- a/core/src/com/cloud/network/resource/JuniperSrxResource.java
++++ b/core/src/com/cloud/network/resource/JuniperSrxResource.java
+@@ -625 +625 @@
+-            if (!ip.getVlanId().equals("untagged")) {
++            if (ip.getVlanId() != null && !ip.getVlanId().equals("untagged")) {
+

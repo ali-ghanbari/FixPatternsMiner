@@ -1,0 +1,8 @@
+diff --git a/gui/admin-gui/src/main/java/com/evolveum/midpoint/web/component/assignment/ACAttributeDto.java b/gui/admin-gui/src/main/java/com/evolveum/midpoint/web/component/assignment/ACAttributeDto.java
+index f9a4cad..a6a5939 100644
+--- a/gui/admin-gui/src/main/java/com/evolveum/midpoint/web/component/assignment/ACAttributeDto.java
++++ b/gui/admin-gui/src/main/java/com/evolveum/midpoint/web/component/assignment/ACAttributeDto.java
+@@ -133 +133 @@
+-        MappingType outbound = new MappingType();
++        MappingType outbound = construction != null && construction.getOutbound() != null ? construction.getOutbound().clone() : new MappingType();
+

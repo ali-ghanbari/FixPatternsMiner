@@ -1,0 +1,61 @@
+diff --git a/web/src/main/resources/bundles/I18n.properties b/web/src/main/resources/bundles/I18n.properties
+deleted file mode 100644
+index a37986a..0000000
+--- a/web/src/main/resources/bundles/I18n.properties
++++ /dev/null
+@@ -1,7 +0,0 @@
+-#factor names
+-factor.name.ORGANISMPART=Organism part
+-
+-
+-
+-#Miscellaneous
+-expression.level.metric=FPKM
+\ No newline at end of file
+diff --git a/web/src/main/resources/bundles/i18n.properties b/web/src/main/resources/bundles/i18n.properties
+deleted file mode 100644
+index a37986a..0000000
+--- a/web/src/main/resources/bundles/i18n.properties
++++ /dev/null
+@@ -1,7 +0,0 @@
+-#factor names
+-factor.name.ORGANISMPART=Organism part
+-
+-
+-
+-#Miscellaneous
+-expression.level.metric=FPKM
+\ No newline at end of file
+diff --git a/web/src/main/resources/bundles/labels.properties b/web/src/main/resources/bundles/labels.properties
+new file mode 100644
+index 0000000..e68ea9c
+--- /dev/null
++++ b/web/src/main/resources/bundles/labels.properties
+@@ -0,0 +1,8 @@
++# factor names
++factor.name.ORGANISMPART=Organism part
++
++
++
++# UI Labels
++expression.level.metric=FPKM
++bioentity.id=Gene id
+\ No newline at end of file
+diff --git a/web/src/main/webapp/WEB-INF/jsp/experiment.jsp b/web/src/main/webapp/WEB-INF/jsp/experiment.jsp
+index 3524891..2f8e806 100644
+--- a/web/src/main/webapp/WEB-INF/jsp/experiment.jsp
++++ b/web/src/main/webapp/WEB-INF/jsp/experiment.jsp
+@@ -10 +10 @@
+-<fmt:setBundle basename="bundles.I18n" var="i18n"/>
++<fmt:setBundle basename="bundles.labels" var="i18n"/>
+@@ -145 +145,2 @@
+-                                    <display:column title="Transcript id" property="transcriptId"/>
++                                    <fmt:message key="gene.id" bundle="${i18n}" var="bioentityLabel"/>
++                                    <display:column title="${bioentityLabel}" property="transcriptId"/>
+diff --git a/web/src/test/java/uk/ac/ebi/atlas/acceptance/selenium/SeleniumFixture.java b/web/src/test/java/uk/ac/ebi/atlas/acceptance/selenium/SeleniumFixture.java
+index 26a656b..cf0a6f5 100644
+--- a/web/src/test/java/uk/ac/ebi/atlas/acceptance/selenium/SeleniumFixture.java
++++ b/web/src/test/java/uk/ac/ebi/atlas/acceptance/selenium/SeleniumFixture.java
+@@ -27 +26,0 @@
+-        firefoxDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+

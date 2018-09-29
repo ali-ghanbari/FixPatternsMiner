@@ -1,0 +1,29 @@
+diff --git a/tests/src/org/aspectj/systemtest/ajc121/Ajc121Tests.java b/tests/src/org/aspectj/systemtest/ajc121/Ajc121Tests.java
+index 32eb250..377a0eb 100644
+--- a/tests/src/org/aspectj/systemtest/ajc121/Ajc121Tests.java
++++ b/tests/src/org/aspectj/systemtest/ajc121/Ajc121Tests.java
+@@ -116,0 +117,5 @@
++  
++// test takes over 5 minutes to run, so not included in normal suite run  
++//  public void test020_branchTargetOffsetTooLargeForShort() {
++//      runTest("Branch target offset too large for short");
++//  }
+diff --git a/tests/src/org/aspectj/systemtest/ajc121/ajc121-tests.xml b/tests/src/org/aspectj/systemtest/ajc121/ajc121-tests.xml
+index 8d2f214..10b51fe 100644
+--- a/tests/src/org/aspectj/systemtest/ajc121/ajc121-tests.xml
++++ b/tests/src/org/aspectj/systemtest/ajc121/ajc121-tests.xml
+@@ -157 +157,10 @@
+-   	</ajc-test>
+\ No newline at end of file
++   	</ajc-test>
++
++<!--
++	commented out as test takes over 5 minutes to run - reinstate if you need to investigate 70201 for
++	any reason.
++	<ajc-test dir="bugs" pr="70201"
++    	title="Branch target offset too large for short">
++        <compile files="VeryLongBranch.java"/>
++	</ajc-test>
++-->
+\ No newline at end of file
+

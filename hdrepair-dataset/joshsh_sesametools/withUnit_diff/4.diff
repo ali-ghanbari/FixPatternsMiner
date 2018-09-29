@@ -1,0 +1,55 @@
+diff --git a/caching/src/main/java/net/fortytwo/sesametools/caching/CachingSailConnection.java b/caching/src/main/java/net/fortytwo/sesametools/caching/CachingSailConnection.java
+index fc84320..5d24c40 100644
+--- a/caching/src/main/java/net/fortytwo/sesametools/caching/CachingSailConnection.java
++++ b/caching/src/main/java/net/fortytwo/sesametools/caching/CachingSailConnection.java
+@@ -179,0 +180 @@
++        uncommittedChanges = true;
+diff --git a/caching/src/test/java/net/fortytwo/sesametools/caching/CachingSailTest.java b/caching/src/test/java/net/fortytwo/sesametools/caching/CachingSailTest.java
+index f02a9fc..c28e5bb 100644
+--- a/caching/src/test/java/net/fortytwo/sesametools/caching/CachingSailTest.java
++++ b/caching/src/test/java/net/fortytwo/sesametools/caching/CachingSailTest.java
+@@ -16,0 +17 @@
++import org.openrdf.repository.RepositoryException;
+@@ -22,0 +24,2 @@
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
+@@ -29,0 +33,3 @@
++    
++    private static final Logger LOG = LoggerFactory.getLogger(CachingSailTest.class);
++    
+@@ -35 +41 @@
+-    private SailCounter counter = new SailCounter();
++    private SailCounter counter;
+@@ -40,0 +47 @@
++        counter = new SailCounter();
+@@ -56,3 +63,26 @@
+-    public void tearDown() throws Exception {
+-        sc.close();
+-        cachingSail.shutDown();
++    public void tearDown() {
++        try
++        {
++            sc.close();
++        }
++        catch(SailException e)
++        {
++            LOG.error("Error closing connection", e);
++        }
++        
++        sc = null;
++        
++        try
++        {
++            cachingSail.shutDown();
++        }
++        catch(SailException e)
++        {
++            LOG.error("Error shutting down repository", e);
++        }
++        
++        cachingSail = null;
++        proxySail = null;
++        baseSail = null;
++        
++        counter = null;
+

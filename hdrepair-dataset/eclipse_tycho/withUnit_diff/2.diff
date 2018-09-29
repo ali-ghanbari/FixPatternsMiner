@@ -1,0 +1,57 @@
+diff --git a/tycho-bundles/org.eclipse.tycho.p2.maven.repository.tests/src/test/java/org/eclipse/tycho/repository/util/StatusToolTest.java b/tycho-bundles/org.eclipse.tycho.p2.maven.repository.tests/src/test/java/org/eclipse/tycho/repository/util/StatusToolTest.java
+index f2fd0f0..b51b652 100644
+--- a/tycho-bundles/org.eclipse.tycho.p2.maven.repository.tests/src/test/java/org/eclipse/tycho/repository/util/StatusToolTest.java
++++ b/tycho-bundles/org.eclipse.tycho.p2.maven.repository.tests/src/test/java/org/eclipse/tycho/repository/util/StatusToolTest.java
+@@ -13,2 +13,4 @@
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertSame;
++import static org.hamcrest.CoreMatchers.is;
++import static org.hamcrest.CoreMatchers.nullValue;
++import static org.hamcrest.CoreMatchers.sameInstance;
++import static org.junit.Assert.assertThat;
+@@ -27,3 +29,3 @@
+-        // no extra quotes if no MultiStatus
+-        assertEquals("Simple error", StatusTool.collectProblems(status));
+-        assertSame(null, StatusTool.findException(status));
++
++        assertThat(StatusTool.collectProblems(status), is("Simple error"));
++        assertThat(StatusTool.findException(status), is(nullValue()));
+@@ -34 +36 @@
+-        Exception exception = new Exception();
++        Throwable exception = new Exception();
+@@ -36 +38,2 @@
+-        assertSame(exception, StatusTool.findException(status));
++
++        assertThat(StatusTool.findException(status), is(sameInstance(exception)));
+@@ -50,2 +53,2 @@
+-        assertEquals("Complicated error. See children for details.: [Detail 1; Detail 2; Detail 3]",
+-                StatusTool.collectProblems(status));
++        assertThat(StatusTool.collectProblems(status),
++                is("Complicated error. See children for details.: [Detail 1; Detail 2; Detail 3]"));
+@@ -53,2 +56,2 @@
+-        // take first exception found
+-        assertSame(exceptionChild2, StatusTool.findException(status));
++        // use the first exception found
++        assertThat(StatusTool.findException(status), is(sameInstance(exceptionChild2)));
+@@ -67 +70 @@
+-        assertSame(exceptionRoot, StatusTool.findException(root));
++        assertThat(StatusTool.findException(root), is(sameInstance(exceptionRoot)));
+@@ -82 +85 @@
+-        assertEquals("Root message: [Child 1; Child 2: [Child 2.1; Child 2.2]]", StatusTool.collectProblems(root));
++        assertThat(StatusTool.collectProblems(root), is("Root message: [Child 1; Child 2: [Child 2.1; Child 2.2]]"));
+@@ -93,2 +96,2 @@
+-        // extra comments are not really necessary, but not harmful either
+-        assertEquals("Root message: [Info message; Error message; Warning message]", StatusTool.collectProblems(status));
++        assertThat(StatusTool.collectProblems(status),
++                is("Root message: [Info message; Error message; Warning message]"));
+@@ -103 +106 @@
+-        assertEquals("Root message: []", StatusTool.collectProblems(status));
++        assertThat(StatusTool.collectProblems(status), is("Root message: []"));
+diff --git a/tycho-bundles/org.eclipse.tycho.test.utils/src/main/java/org/eclipse/tycho/repository/streaming/testutil/ProbeArtifactSink.java b/tycho-bundles/org.eclipse.tycho.test.utils/src/main/java/org/eclipse/tycho/repository/streaming/testutil/ProbeArtifactSink.java
+index a7f400b..b8f6706 100644
+--- a/tycho-bundles/org.eclipse.tycho.test.utils/src/main/java/org/eclipse/tycho/repository/streaming/testutil/ProbeArtifactSink.java
++++ b/tycho-bundles/org.eclipse.tycho.test.utils/src/main/java/org/eclipse/tycho/repository/streaming/testutil/ProbeArtifactSink.java
+@@ -125 +125 @@
+-            assertThat(writeIsAborted() || writeIsStarted(), is(true));
++            assertThat(writeIsAborted() || writeIsCommitted(), is(true));
+

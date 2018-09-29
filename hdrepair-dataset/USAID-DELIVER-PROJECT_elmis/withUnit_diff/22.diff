@@ -1,0 +1,144 @@
+diff --git a/test-modules/webservice-test/src/test/java/org/openlmis/functional/ApproveRequisitionTest.java b/test-modules/webservice-test/src/test/java/org/openlmis/functional/ApproveRequisitionTest.java
+index 7a8adff..18a5784 100644
+--- a/test-modules/webservice-test/src/test/java/org/openlmis/functional/ApproveRequisitionTest.java
++++ b/test-modules/webservice-test/src/test/java/org/openlmis/functional/ApproveRequisitionTest.java
+@@ -44 +44 @@
+-
++    dbWrapper.updateVirtualPropertyOfFacility("F10", "true");
+@@ -49,2 +49 @@
+-
+-    assertEquals("AUTHORIZED", dbWrapper.getRequisitionStatus(id));
++    dbWrapper.updateRequisitionStatus("AUTHORIZED","commTrack","HIV");
+@@ -53 +52 @@
+-    reportFromJson.setUserId("commTrack1");
++    reportFromJson.setUserName("commTrack1");
+@@ -69 +68 @@
+-    assertEquals("RELEASED", dbWrapper.getRequisitionStatus(id));
++    assertEquals("APPROVED", dbWrapper.getRequisitionStatus(id));
+@@ -73,5 +72,5 @@
+-    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"RELEASED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000,\"orderId\":" + id + ",\"orderStatus\":\"READY_TO_PACK\"}"));
+-    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"RELEASED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000,\"orderId\":" + id + ",\"orderStatus\":\"READY_TO_PACK\"}"));
+-    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"RELEASED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000,\"orderId\":" + id + ",\"orderStatus\":\"READY_TO_PACK\"}"));
+-    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"RELEASED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000,\"orderId\":" + id + ",\"orderStatus\":\"READY_TO_PACK\"}"));
+-    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"RELEASED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000,\"orderId\":" + id + ",\"orderStatus\":\"READY_TO_PACK\"}"));
++    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"APPROVED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000}"));
++    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"APPROVED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000}"));
++    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"APPROVED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000}"));
++    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"APPROVED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000}"));
++    assertTrue(responseEntity1.getResponse().contains("{\"requisitionId\":" + id + ",\"requisitionStatus\":\"APPROVED\",\"emergency\":false,\"startDate\":1358274600000,\"endDate\":1359570599000}"));
+@@ -83,0 +83,2 @@
++    dbWrapper.updateVirtualPropertyOfFacility("F10", "true");
++
+@@ -85,0 +87 @@
++    dbWrapper.updateRequisitionStatus("AUTHORIZED","commTrack","HIV");
+@@ -88 +90 @@
+-    reportFromJson.setUserId("ABCD");
++    reportFromJson.setUserName("ABCD");
+@@ -105,0 +108,2 @@
++    dbWrapper.updateVirtualPropertyOfFacility("F10", "true");
++
+@@ -107,0 +112 @@
++    dbWrapper.updateRequisitionStatus("AUTHORIZED","commTrack","HIV");
+@@ -111 +116 @@
+-    reportFromJson.setUserId("commTrack100");
++    reportFromJson.setUserName("commTrack100");
+@@ -126,0 +132,2 @@
++    dbWrapper.updateVirtualPropertyOfFacility("F10", "true");
++
+@@ -128,0 +136 @@
++    dbWrapper.updateRequisitionStatus("AUTHORIZED","commTrack","HIV");
+@@ -131 +139 @@
+-    reportFromJson.setUserId("commTrack");
++    reportFromJson.setUserName("commTrack");
+@@ -151,0 +160,2 @@
++    dbWrapper.updateVirtualPropertyOfFacility("F10", "true");
++
+@@ -154,0 +165 @@
++    dbWrapper.updateRequisitionStatus("AUTHORIZED","commTrack","HIV");
+@@ -158 +169 @@
+-    reportFromJson.setUserId("commTrack");
++    reportFromJson.setUserName("commTrack");
+@@ -168 +179 @@
+-    assertEquals("{\"error\":\"Requisition Not Found\"}", response);
++    assertEquals("{\"error\":\"Invalid Requisition id\"}", response);
+@@ -174,0 +186,2 @@
++    dbWrapper.updateVirtualPropertyOfFacility("F10", "true");
++
+@@ -176,0 +190 @@
++    dbWrapper.updateRequisitionStatus("AUTHORIZED","commTrack","HIV");
+@@ -180 +194 @@
+-    reportFromJson.setUserId("commTrack1");
++    reportFromJson.setUserName("commTrack1");
+@@ -194 +208 @@
+-    assertEquals("{\"error\":\"R&R has errors, please correct them to proceed.\"}", response);
++    assertEquals("{\"error\":\"Missing mandatory fields\"}", response);
+diff --git a/test-modules/webservice-test/src/test/java/org/openlmis/functional/CommTrackTemplateTest.java b/test-modules/webservice-test/src/test/java/org/openlmis/functional/CommTrackTemplateTest.java
+index 3daf936..40a1aac 100644
+--- a/test-modules/webservice-test/src/test/java/org/openlmis/functional/CommTrackTemplateTest.java
++++ b/test-modules/webservice-test/src/test/java/org/openlmis/functional/CommTrackTemplateTest.java
+@@ -47 +47 @@
+-    reportFromJson.setUserId("commTrack");
++    reportFromJson.setUserName("commTrack");
+diff --git a/test-modules/webservice-test/src/test/java/org/openlmis/functional/JsonUtility.java b/test-modules/webservice-test/src/test/java/org/openlmis/functional/JsonUtility.java
+index faddff3..a21866e 100644
+--- a/test-modules/webservice-test/src/test/java/org/openlmis/functional/JsonUtility.java
++++ b/test-modules/webservice-test/src/test/java/org/openlmis/functional/JsonUtility.java
+@@ -83 +83 @@
+-    reportFromJson.setUserId("commTrack1");
++    reportFromJson.setUserName("commTrack1");
+diff --git a/test-modules/webservice-test/src/test/java/org/openlmis/functional/SubmitReportTest.java b/test-modules/webservice-test/src/test/java/org/openlmis/functional/SubmitReportTest.java
+index f802f7c..28174ea 100644
+--- a/test-modules/webservice-test/src/test/java/org/openlmis/functional/SubmitReportTest.java
++++ b/test-modules/webservice-test/src/test/java/org/openlmis/functional/SubmitReportTest.java
+@@ -219 +219 @@
+-    reportFromJson.setUserId("commTrack");
++    reportFromJson.setUserName("commTrack");
+@@ -246 +246 @@
+-    reportFromJson.setUserId("commTrack100");
++    reportFromJson.setUserName("commTrack100");
+@@ -271 +271 @@
+-    reportFromJson.setUserId("commTrack");
++    reportFromJson.setUserName("commTrack");
+diff --git a/test-modules/webservice-test/src/test/resources/CommTrackReportJson.txt b/test-modules/webservice-test/src/test/resources/CommTrackReportJson.txt
+index c11775b..76acb32 100644
+--- a/test-modules/webservice-test/src/test/resources/CommTrackReportJson.txt
++++ b/test-modules/webservice-test/src/test/resources/CommTrackReportJson.txt
+@@ -5 +5 @@
+-    "userId": "",
++    "userName": "",
+diff --git a/test-modules/webservice-test/src/test/resources/ReportFullJson.txt b/test-modules/webservice-test/src/test/resources/ReportFullJson.txt
+index 686c367..ea9bdc3 100644
+--- a/test-modules/webservice-test/src/test/resources/ReportFullJson.txt
++++ b/test-modules/webservice-test/src/test/resources/ReportFullJson.txt
+@@ -5 +5 @@
+-    "userId": "commTrack",
++    "userName": "commTrack",
+diff --git a/test-modules/webservice-test/src/test/resources/ReportFullJson1.txt b/test-modules/webservice-test/src/test/resources/ReportFullJson1.txt
+index a5663a6..d5adcf6 100644
+--- a/test-modules/webservice-test/src/test/resources/ReportFullJson1.txt
++++ b/test-modules/webservice-test/src/test/resources/ReportFullJson1.txt
+@@ -5 +5 @@
+-    "userId": "commTrack",
++    "userName": "commTrack",
+diff --git a/test-modules/webservice-test/src/test/resources/ReportJsonApprove.txt b/test-modules/webservice-test/src/test/resources/ReportJsonApprove.txt
+index 157892e..eaa02c5 100644
+--- a/test-modules/webservice-test/src/test/resources/ReportJsonApprove.txt
++++ b/test-modules/webservice-test/src/test/resources/ReportJsonApprove.txt
+@@ -4 +4 @@
+-    "userId": "",
++    "userName": "",
+diff --git a/test-modules/webservice-test/src/test/resources/ReportMinimumJson.txt b/test-modules/webservice-test/src/test/resources/ReportMinimumJson.txt
+index b4ce5a2..41a3bec 100644
+--- a/test-modules/webservice-test/src/test/resources/ReportMinimumJson.txt
++++ b/test-modules/webservice-test/src/test/resources/ReportMinimumJson.txt
+@@ -5 +5 @@
+-       "userId": "",
++       "userName": "",
+diff --git a/test-modules/webservice-test/src/test/resources/ReportWithProductJson.txt b/test-modules/webservice-test/src/test/resources/ReportWithProductJson.txt
+index f4628c2..e523552 100644
+--- a/test-modules/webservice-test/src/test/resources/ReportWithProductJson.txt
++++ b/test-modules/webservice-test/src/test/resources/ReportWithProductJson.txt
+@@ -6 +6 @@
+-    "userId": "commTrack",
++    "userName": "commTrack",
+

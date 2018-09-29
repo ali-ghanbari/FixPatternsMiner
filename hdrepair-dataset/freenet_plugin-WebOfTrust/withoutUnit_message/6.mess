@@ -1,0 +1,16 @@
+Fix unit tests failing due to "Should not be called before start() or
+after stop()"
+
+For example XMLTransformerTest.testImportIntroduction() would fail with:
+	java.lang.AssertionError: Should not be called before start() or
+    after stop() as mJob won't execute then
+		at plugins.WebOfTrust.IdentityFetcher
+       .scheduleCommandProcessing(IdentityFetcher.java:417)
+
+The fix is to start() the IdentityFetcher in those unit tests as well.
+We didn't start it previously since that would cause its thread to
+iterate.
+But it has been changed recently to not do so in unit tests: If
+PluginRespirator is null (which it will be in those tests),
+IdentityFetcher.start() will create a fake Runable which does nothing.
+

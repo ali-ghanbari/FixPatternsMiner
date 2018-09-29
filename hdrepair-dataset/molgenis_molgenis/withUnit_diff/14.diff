@@ -1,0 +1,45 @@
+diff --git a/molgenis-data/src/main/java/org/molgenis/data/support/AggregateAnonymizerImpl.java b/molgenis-data/src/main/java/org/molgenis/data/support/AggregateAnonymizerImpl.java
+index e74a706..473e87f 100644
+--- a/molgenis-data/src/main/java/org/molgenis/data/support/AggregateAnonymizerImpl.java
++++ b/molgenis-data/src/main/java/org/molgenis/data/support/AggregateAnonymizerImpl.java
+@@ -27 +27 @@
+-					return input < threshold ? AGGREGATE_ANONYMIZATION_VALUE : input;
++					return input <= threshold ? AGGREGATE_ANONYMIZATION_VALUE : input;
+diff --git a/molgenis-data/src/test/java/org/molgenis/data/support/AggregateAnonymizerImplTest.java b/molgenis-data/src/test/java/org/molgenis/data/support/AggregateAnonymizerImplTest.java
+index 0b1bcae..e8122b4 100644
+--- a/molgenis-data/src/test/java/org/molgenis/data/support/AggregateAnonymizerImplTest.java
++++ b/molgenis-data/src/test/java/org/molgenis/data/support/AggregateAnonymizerImplTest.java
+@@ -34 +34,2 @@
+-		expectedMatrix.add(Arrays.asList(11l, 10l, 90l, AGGREGATE_ANONYMIZATION_VALUE, AGGREGATE_ANONYMIZATION_VALUE));
++		expectedMatrix.add(Arrays.asList(11l, AGGREGATE_ANONYMIZATION_VALUE, 90l, AGGREGATE_ANONYMIZATION_VALUE,
++				AGGREGATE_ANONYMIZATION_VALUE));
+@@ -36 +37 @@
+-		expectedMatrix.add(Arrays.asList(11l, null, 90l, AGGREGATE_ANONYMIZATION_VALUE, 10l));
++		expectedMatrix.add(Arrays.asList(11l, null, 90l, AGGREGATE_ANONYMIZATION_VALUE, AGGREGATE_ANONYMIZATION_VALUE));
+diff --git a/molgenis-omx-dataexplorer/src/main/resources/js/dataexplorer-aggregates.js b/molgenis-omx-dataexplorer/src/main/resources/js/dataexplorer-aggregates.js
+index 256ae48..8c8f226 100644
+--- a/molgenis-omx-dataexplorer/src/main/resources/js/dataexplorer-aggregates.js
++++ b/molgenis-omx-dataexplorer/src/main/resources/js/dataexplorer-aggregates.js
+@@ -148 +148 @@
+-                    		items.push('&lt;' + aggregateResult.anonymizationThreshold);
++                    		items.push('&le;' + aggregateResult.anonymizationThreshold);
+@@ -163 +163 @@
+-						items.push('&lt;');
++						items.push('&le;');
+@@ -172 +172 @@
+-				var grantTotal = {count: 0, anonymized: false};
++				var grandTotal = {count: 0, anonymized: false};
+@@ -176,2 +176,2 @@
+-						items.push('&lt');
+-						grantTotal.anonymized = true;
++						items.push('&le;');
++						grandTotal.anonymized = true;
+@@ -180 +180 @@
+-					grantTotal.count += this.count;
++					grandTotal.count += this.count;
+@@ -186,2 +186,2 @@
+-				if (grantTotal.anonymized) items.push('&lt;');
+-				items.push(grantTotal.count);
++				if (grandTotal.anonymized) items.push('&le;');
++				items.push(grandTotal.count);
+

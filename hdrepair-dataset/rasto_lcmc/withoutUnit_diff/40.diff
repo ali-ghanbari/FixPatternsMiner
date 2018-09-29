@@ -1,0 +1,22 @@
+diff --git a/src/main/java/lcmc/data/Host.java b/src/main/java/lcmc/data/Host.java
+index b283e24..c42e6a7 100644
+--- a/src/main/java/lcmc/data/Host.java
++++ b/src/main/java/lcmc/data/Host.java
+@@ -3029 +3029 @@
+-        if (pcmkServiceVersion < 1) {
++        if (pcmkServiceVersion == 0) {
+diff --git a/src/main/resources/help-progs/lcmc-gui-helper b/src/main/resources/help-progs/lcmc-gui-helper
+index 3e6ab1c..cec6221 100755
+--- a/src/main/resources/help-progs/lcmc-gui-helper
++++ b/src/main/resources/help-progs/lcmc-gui-helper
+@@ -1938 +1938 @@
+-	my $service = _exec("/usr/sbin/corosync-objctl service 2>/dev/null");
++	my $service = _exec("(/usr/sbin/corosync-cmapctl service || /usr/sbin/corosync-objctl|grep '^service\.') 2>/dev/null");
+@@ -1940,4 +1940,2 @@
+-	if ($service) {
+-		if ($service =~ /^service.ver=(\d*)/) {
+-			$pcmk_svc_ver = $1;
+-		}
++	if ($service && $service =~ /^service\.ver=(\d+)/m) {
++		$pcmk_svc_ver = $1;
+

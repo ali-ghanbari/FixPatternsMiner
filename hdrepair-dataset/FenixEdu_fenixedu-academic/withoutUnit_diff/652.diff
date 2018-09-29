@@ -1,0 +1,15 @@
+diff --git a/metadata/conf/validation-sop.xml b/metadata/conf/validation-sop.xml
+index ef2225a..ff57751 100755
+--- a/metadata/conf/validation-sop.xml
++++ b/metadata/conf/validation-sop.xml
+@@ -46 +46 @@
+-		<field property="newShiftId" depends="required, integer" page="1">
++		<field property="newShiftId" depends="integer" page="1">
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/Action/sop/ManageShiftDA.java b/src/net/sourceforge/fenixedu/presentationTier/Action/sop/ManageShiftDA.java
+index 3c5a3ae..326de06 100755
+--- a/src/net/sourceforge/fenixedu/presentationTier/Action/sop/ManageShiftDA.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/Action/sop/ManageShiftDA.java
+@@ -255 +255 @@
+-        Integer newShiftId = new Integer((String) dynaActionForm.get("newShiftId"));
++        Integer newShiftId = dynaActionForm.get("newShiftId") == null ? null : new Integer((String) dynaActionForm.get("newShiftId"));
+

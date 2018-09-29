@@ -1,0 +1,19 @@
+Revamp general rendering settings lookup logic. (Closes #3987)
+
+New/changed methods in the gateway:
+ * _getRDef() -- Now provides "custom" logic prior to initialization of
+   a thumbnail store or a rendering engine.
+ * _onResetDefaults() -- "Callback" that is called after a successful
+   execution of resetDefaults() during the initialization of a thumbnail
+   store or a rendering engine.
+
+Bug fixes:
+ * Fixed issue where thumbnail store was not resetting the missing
+   pyramid state.
+
+Every attempt was made to preserve the existing custom logic that is in
+place while utilizing the new getRenderingDefId() methods on the
+thumbnail store and rendering engine, keeping in line with the
+permissions changes introduced in Beta 4.2.x and missing pyramid
+handling introduced in Beta 4.3.0.
+

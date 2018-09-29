@@ -1,0 +1,29 @@
+diff --git a/cdap-data-fabric/src/main/java/co/cask/cdap/data/format/DelimitedStringsRecordFormat.java b/cdap-data-fabric/src/main/java/co/cask/cdap/data/format/DelimitedStringsRecordFormat.java
+index 52769f6..a91c570 100644
+--- a/cdap-data-fabric/src/main/java/co/cask/cdap/data/format/DelimitedStringsRecordFormat.java
++++ b/cdap-data-fabric/src/main/java/co/cask/cdap/data/format/DelimitedStringsRecordFormat.java
+@@ -79 +79 @@
+-  protected void validateDesiredSchema(Schema desiredSchema) throws UnsupportedTypeException {
++  protected void validateSchema(Schema desiredSchema) throws UnsupportedTypeException {
+diff --git a/cdap-data-fabric/src/test/java/co/cask/cdap/data/format/AvroRecordFormatTest.java b/cdap-data-fabric/src/test/java/co/cask/cdap/data/format/AvroRecordFormatTest.java
+index 97c4067..8efcaad 100644
+--- a/cdap-data-fabric/src/test/java/co/cask/cdap/data/format/AvroRecordFormatTest.java
++++ b/cdap-data-fabric/src/test/java/co/cask/cdap/data/format/AvroRecordFormatTest.java
+@@ -20,0 +21,2 @@
++import co.cask.cdap.api.data.format.Formats;
++import co.cask.cdap.api.data.format.RecordFormat;
+@@ -59 +61 @@
+-      RecordFormats.AVRO,
++      Formats.AVRO,
+@@ -87,2 +89 @@
+-    AvroRecordFormat format = new AvroRecordFormat();
+-    format.initialize(formatSpecification);
++    RecordFormat<ByteBuffer, GenericRecord> format = RecordFormats.createInitializedFormat(formatSpecification);
+@@ -131 +132 @@
+-      RecordFormats.AVRO,
++      Formats.AVRO,
+@@ -135,2 +136 @@
+-    AvroRecordFormat format = new AvroRecordFormat();
+-    format.initialize(formatSpecification);
++    RecordFormat<ByteBuffer, GenericRecord> format = RecordFormats.createInitializedFormat(formatSpecification);
+

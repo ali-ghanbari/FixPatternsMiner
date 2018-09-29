@@ -1,0 +1,8 @@
+diff --git a/modules/web-services/wfs/src/main/java/org/constellation/wfs/ws/DefaultWFSWorker.java b/modules/web-services/wfs/src/main/java/org/constellation/wfs/ws/DefaultWFSWorker.java
+index 5adb925..fedffdc 100644
+--- a/modules/web-services/wfs/src/main/java/org/constellation/wfs/ws/DefaultWFSWorker.java
++++ b/modules/web-services/wfs/src/main/java/org/constellation/wfs/ws/DefaultWFSWorker.java
+@@ -1698 +1698 @@
+-            if (!CRS.equalsIgnoreMetadata(trueCrs, exposedCrs)) {
++            if (exposedCrs!=null && trueCrs!=null && !CRS.equalsIgnoreMetadata(trueCrs, exposedCrs)) {
+

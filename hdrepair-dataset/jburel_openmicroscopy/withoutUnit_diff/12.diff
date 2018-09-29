@@ -1,0 +1,15 @@
+diff --git a/components/insight/ivy.xml b/components/insight/ivy.xml
+index 3c92c82..567766a 100644
+--- a/components/insight/ivy.xml
++++ b/components/insight/ivy.xml
+@@ -68,0 +69,2 @@
++    <!-- Required for annotations in Permissions.java -->
++    <dependency org="hibernate" name="hibernate-jpa-2.0-api" rev="${versions.persistence-api}" conf="build,client->default"/>
+diff --git a/components/server/src/ome/security/basic/EventHandler.java b/components/server/src/ome/security/basic/EventHandler.java
+index 487b3a3..f14194f 100644
+--- a/components/server/src/ome/security/basic/EventHandler.java
++++ b/components/server/src/ome/security/basic/EventHandler.java
+@@ -96 +96 @@
+-    @Override
++    /* Java6 only - @Override */
+

@@ -1,0 +1,45 @@
+diff --git a/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml b/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
+index 85c8683..427feb6 100644
+--- a/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
++++ b/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
+@@ -230,7 +229,0 @@
+-  <class className="org.flymine.model.genomic.GeneticInteraction">
+-    <fields>
+-      <fieldconfig fieldExpr="gene.primaryIdentifier"/>
+-      <fieldconfig fieldExpr="shortName"/>
+-      <fieldconfig fieldExpr="type"/>
+-    </fields>
+-  </class>
+@@ -238,6 +230,0 @@
+-  <class className="org.flymine.model.genomic.GeneticInteractionExperiment">
+-    <fields>
+-      <fieldconfig fieldExpr="name"/>
+-      <fieldconfig fieldExpr="description"/>
+-    </fields>
+-  </class>
+@@ -504,8 +490,0 @@
+-  <class className="org.flymine.model.genomic.ProteinInteraction">
+-    <fields>
+-      <fieldconfig fieldExpr="shortName"/>
+-      <fieldconfig fieldExpr="confidenceText"/>
+-      <fieldconfig fieldExpr="confidence"/>
+-      <fieldconfig fieldExpr="proteinRole"/>
+-    </fields>
+-  </class>
+@@ -516,2 +494,0 @@
+-      <fieldconfig fieldExpr="protein.primaryAccession"/>
+-      <fieldconfig fieldExpr="protein.organism.name"/>
+@@ -835 +812 @@
+-                         displayFields="name"
++                         displayFields="taxonId,name"
+@@ -844 +821 @@
+-                         displayFields="primaryIdentifier"
++                         displayFields="primaryIdentifier,symbol"
+diff --git a/intermine/web/main/src/org/intermine/web/logic/widget/TableWidgetLdr.java b/intermine/web/main/src/org/intermine/web/logic/widget/TableWidgetLdr.java
+index 8e5f3ae..a9b683e 100644
+--- a/intermine/web/main/src/org/intermine/web/logic/widget/TableWidgetLdr.java
++++ b/intermine/web/main/src/org/intermine/web/logic/widget/TableWidgetLdr.java
+@@ -468 +468 @@
+-                row.add(termsToIds.get(id));    // label
++
+

@@ -1,0 +1,28 @@
+diff --git a/org.eclipse.nebula.widgets.nattable.core.test/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistorTest.java b/org.eclipse.nebula.widgets.nattable.core.test/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistorTest.java
+index b5e93aa..7daad4a 100644
+--- a/org.eclipse.nebula.widgets.nattable.core.test/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistorTest.java
++++ b/org.eclipse.nebula.widgets.nattable.core.test/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistorTest.java
+@@ -13,0 +14 @@
++import static org.junit.Assert.assertNull;
+@@ -41 +42 @@
+-	public void shouldRecostructColorInstanceFromSavedRGBString() throws Exception {
++	public void shouldLoadColorFromSavedRGBString() throws Exception {
+@@ -43 +43,0 @@
+-		
+@@ -45 +44,0 @@
+-		
+@@ -47,0 +47,6 @@
++
++	@Test
++	public void shouldFailToLoadForMissingRGBString() throws Exception {
++		Color actual = ColorPersistor.loadColor("missing", properties);
++		assertNull(actual);
++	}
+diff --git a/org.eclipse.nebula.widgets.nattable.core/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistor.java b/org.eclipse.nebula.widgets.nattable.core/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistor.java
+index 5b4bbf5..f24c2cf 100644
+--- a/org.eclipse.nebula.widgets.nattable.core/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistor.java
++++ b/org.eclipse.nebula.widgets.nattable.core/src/org/eclipse/nebula/widgets/nattable/persistence/ColorPersistor.java
+@@ -45 +45 @@
+-			return DEFAULT_COLOR;
++			return null;
+

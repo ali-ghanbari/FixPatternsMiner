@@ -1,0 +1,25 @@
+diff --git a/server/src/com/cloud/upgrade/dao/DatabaseUpgradeChecker.java b/server/src/com/cloud/upgrade/dao/DatabaseUpgradeChecker.java
+index a97f7b4..04b8437 100644
+--- a/server/src/com/cloud/upgrade/dao/DatabaseUpgradeChecker.java
++++ b/server/src/com/cloud/upgrade/dao/DatabaseUpgradeChecker.java
+@@ -48 +48 @@
+-        _upgradeMap.put(new Pair<String, String>("2.1.7", "2.2.3"), new DbUpgrade[] { new Upgrade217to22(), new UpgradeSnapshot217to223()});
++        _upgradeMap.put(new Pair<String, String>("2.1.7", "2.2.3"), new DbUpgrade[] { new Upgrade217to22(), new Upgrade221to222(), new UpgradeSnapshot217to223()});
+diff --git a/server/test/com/cloud/upgrade/dao/PortForwarding217To221UpgradeTest.java b/server/test/com/cloud/upgrade/dao/PortForwarding217To221UpgradeTest.java
+index 0ec3284..ef62862 100644
+--- a/server/test/com/cloud/upgrade/dao/PortForwarding217To221UpgradeTest.java
++++ b/server/test/com/cloud/upgrade/dao/PortForwarding217To221UpgradeTest.java
+@@ -27,2 +26,0 @@
+-import javax.naming.ConfigurationException;
+-
+@@ -64,0 +63 @@
++        DatabaseUpgradeChecker checker = ComponentLocator.inject(DatabaseUpgradeChecker.class);
+@@ -74,6 +73 @@
+-        try {
+-            dao.upgrade("2.1.7", "2.2.3");
+-        } catch (ConfigurationException e) {
+-            s_logger.warn("Exception: ", e);
+-            assert false : "The test failed.  Check logs"; 
+-        }
++        checker.upgrade("2.1.7", "2.2.3");
+

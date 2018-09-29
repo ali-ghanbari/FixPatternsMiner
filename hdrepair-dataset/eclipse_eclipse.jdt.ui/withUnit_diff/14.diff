@@ -1,0 +1,97 @@
+diff --git a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/CoreTests.java b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/CoreTests.java
+index fb7d5ba..066f793 100644
+--- a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/CoreTests.java
++++ b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/CoreTests.java
+@@ -41,0 +42 @@
++		suite.addTest(PrimaryWorkingCopyTest.allTests());
+diff --git a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/PrimaryWorkingCopyTest.java b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/PrimaryWorkingCopyTest.java
+index 46f997f..3ad466b 100644
+--- a/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/PrimaryWorkingCopyTest.java
++++ b/org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/ui/tests/core/PrimaryWorkingCopyTest.java
+@@ -75 +75 @@
+-					
++			
+@@ -105,3 +105 @@
+-		// empty array when USE_WORKING_COPY_OWNERS is true
+-		IWorkingCopy[] workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();
+-		List result= doSearchForReferences("A", JavaUI.getSharedWorkingCopiesOnClasspath());
++		List result= doSearchForReferences("A", null);
+@@ -116 +114 @@
+-			int offset= document.search(0, replacedString, true, true, false);
++			int offset= document.get().indexOf(replacedString);
+@@ -120,2 +118 @@
+-			workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();
+-			result= doSearchForReferences("A", workingCopies);
++			result= doSearchForReferences("A", null);
+@@ -127,2 +124 @@
+-			workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();
+-			result= doSearchForReferences("A", workingCopies);
++			result= doSearchForReferences("A", null);
+@@ -136,2 +132 @@
+-		workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();
+-		result= doSearchForReferences("A", workingCopies);
++		result= doSearchForReferences("A", null);
+@@ -168,2 +162,0 @@
+-		// empty array when USE_WORKING_COPY_OWNERS is true
+-		IWorkingCopy[] workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();	
+@@ -171 +164 @@
+-		List result= doSearchForReferences("A", workingCopies);
++		List result= doSearchForReferences("A", null);
+@@ -180 +173 @@
+-			int offset= document.search(0, replacedString, true, true, false);
++			int offset= document.get().indexOf(replacedString);
+@@ -184,2 +177 @@
+-			workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();
+-			result= doSearchForReferences("A", workingCopies);
++			result= doSearchForReferences("A", null);
+@@ -196,4 +187,0 @@
+-				workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();
+-				IWorkingCopy[] newWorkingCopies= new IWorkingCopy[workingCopies.length + 1];
+-				System.arraycopy(workingCopies, 0, newWorkingCopies, 0, workingCopies.length);
+-				newWorkingCopies[workingCopies.length]= wcopy;
+@@ -201 +189 @@
+-				result= doSearchForReferences("A", newWorkingCopies);
++				result= doSearchForReferences("A", wcopy);
+@@ -212,2 +200 @@
+-		workingCopies= JavaUI.getSharedWorkingCopiesOnClasspath();
+-		result= doSearchForReferences("A", workingCopies);
++		result= doSearchForReferences("A", null);
+@@ -217,2 +203,0 @@
+-
+-	private static boolean BUG_43300= true;
+@@ -220,4 +205,18 @@
+-	private List doSearchForReferences(String ref, IWorkingCopy[] workingCopies) throws JavaModelException {
+-		SearchEngine engine= new SearchEngine(workingCopies);
+-		if (BUG_43300 && workingCopies.length == 0) {
+-			engine= new SearchEngine();
++	private List doSearchForReferences(String ref, ICompilationUnit wcopy) throws JavaModelException {
++		IWorkingCopy[] allWorkingCopies;
++		if (wcopy == null) {
++			if (JavaPlugin.USE_WORKING_COPY_OWNERS) {
++				allWorkingCopies= new ICompilationUnit[0];
++			} else {
++				allWorkingCopies= JavaUI.getSharedWorkingCopies();
++			}			
++
++		} else {
++			if (JavaPlugin.USE_WORKING_COPY_OWNERS) {
++				allWorkingCopies= new ICompilationUnit[] { wcopy };
++			} else {
++				IWorkingCopy[] copies= JavaUI.getSharedWorkingCopies();
++				allWorkingCopies= new ICompilationUnit[copies.length + 1];
++				System.arraycopy(copies, 0, allWorkingCopies, 0, copies.length);
++				allWorkingCopies[copies.length]= wcopy;
++			}
+@@ -224,0 +224,2 @@
++		
++		SearchEngine engine= new SearchEngine(allWorkingCopies);
+@@ -252 +253 @@
+-			int offset= document.search(0, replacedString, true, true, false);
++			int offset= document.get().indexOf(replacedString);
+@@ -299 +300 @@
+-			int offset= document.search(0, replacedString, true, true, false);
++			int offset= document.get().indexOf(replacedString);
+@@ -348 +349 @@
+-			int offset= document.search(0, replacedString, true, true, false);
++			int offset= document.get().indexOf(replacedString);
+

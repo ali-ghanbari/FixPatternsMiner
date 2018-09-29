@@ -1,0 +1,8 @@
+diff --git a/src/freenet/node/RequestHandler.java b/src/freenet/node/RequestHandler.java
+index 1c6741d..51f324a 100644
+--- a/src/freenet/node/RequestHandler.java
++++ b/src/freenet/node/RequestHandler.java
+@@ -386 +386 @@
+-			sendSSK(uid, rs.getHeaders(), rs.getSSKData(), needsPubKey, ((NodeSSK)rs.getSSKBlock().getKey()).getPubKey());
++			sendSSK(uid, block.getRawHeaders(), block.getRawData(), needsPubKey, ((SSKBlock)block).getPubKey());
+

@@ -1,0 +1,236 @@
+diff --git a/ninja-core/src/main/java/ninja/utils/CookieEncryptionKeyGeneratorImpl.java b/ninja-core/src/main/java/ninja/utils/CookieEncryptionKeyGeneratorImpl.java
+index e049477..1c7a624 100644
+--- a/ninja-core/src/main/java/ninja/utils/CookieEncryptionKeyGeneratorImpl.java
++++ b/ninja-core/src/main/java/ninja/utils/CookieEncryptionKeyGeneratorImpl.java
+@@ -50 +50 @@
+-        if (secret == null) {
++        if (secret == null || secret.isEmpty()) {
+diff --git a/ninja-core/src/test/java/ninja/session/SessionCookieTest.java b/ninja-core/src/test/java/ninja/session/SessionCookieTest.java
+index 9a3ba27..f805826 100644
+--- a/ninja-core/src/test/java/ninja/session/SessionCookieTest.java
++++ b/ninja-core/src/test/java/ninja/session/SessionCookieTest.java
+@@ -24,0 +25,4 @@
++
++import java.util.Arrays;
++import java.util.Collection;
++
+@@ -27,0 +32,2 @@
++import ninja.utils.CookieEncryption;
++import ninja.utils.CookieEncryptionKeyGeneratorImpl;
+@@ -34,0 +41,3 @@
++import org.junit.runners.Parameterized;
++import org.junit.runners.Parameterized.Parameter;
++import org.junit.runners.Parameterized.Parameters;
+@@ -39 +48 @@
+-import org.mockito.runners.MockitoJUnitRunner;
++import org.mockito.MockitoAnnotations;
+@@ -41 +50 @@
+-@RunWith(MockitoJUnitRunner.class)
++@RunWith(Parameterized.class)
+@@ -53,0 +63 @@
++    private CookieEncryption encryption;
+@@ -57,0 +68,15 @@
++    @Parameter
++    public String encryptionSecret;
++
++    /**
++     * This method provides data for parameter field {@code encryptionSecret}. The first set contains {@code null} so
++     * that {@link CookieEncryption} is not initialized and test class is run without session cookie encryption. Second
++     * set contains some secret key to be used for encrypting sessions cookies.
++     *
++     * @return
++     */
++    @Parameters
++    public static Collection<Object[]> data() {
++        return Arrays.asList(new Object[][] { { null }, { "cookie-secret" } });
++    }
++
+@@ -60,0 +86,2 @@
++        MockitoAnnotations.initMocks(this);
++
+@@ -62,3 +89,3 @@
+-                ninjaProperties
+-                        .getInteger(NinjaConstant.sessionExpireTimeInSeconds))
+-                .thenReturn(10000);
++            ninjaProperties
++            .getInteger(NinjaConstant.sessionExpireTimeInSeconds))
++            .thenReturn(10000);
+@@ -66,3 +93,3 @@
+-                ninjaProperties.getBooleanWithDefault(
+-                        NinjaConstant.sessionSendOnlyIfChanged, true))
+-                .thenReturn(true);
++            ninjaProperties.getBooleanWithDefault(
++                NinjaConstant.sessionSendOnlyIfChanged, true))
++            .thenReturn(true);
+@@ -70,3 +97,3 @@
+-                ninjaProperties.getBooleanWithDefault(
+-                        NinjaConstant.sessionTransferredOverHttpsOnly, true))
+-                .thenReturn(true);
++            ninjaProperties.getBooleanWithDefault(
++                NinjaConstant.sessionTransferredOverHttpsOnly, true))
++            .thenReturn(true);
+@@ -74,2 +101,2 @@
+-                ninjaProperties.getBooleanWithDefault(
+-                        NinjaConstant.sessionHttpOnly, true)).thenReturn(true);
++            ninjaProperties.getBooleanWithDefault(
++                NinjaConstant.sessionHttpOnly, true)).thenReturn(true);
+@@ -78 +105 @@
+-                .thenReturn("secret");
++            .thenReturn("secret");
+@@ -81 +108 @@
+-                .thenReturn("NINJA");
++            .thenReturn("NINJA");
+@@ -82,0 +110,3 @@
++        when(ninjaProperties.get(NinjaConstant.applicationCookieSecret)).thenReturn(encryptionSecret);
++
++        encryption = new CookieEncryption(new CookieEncryptionKeyGeneratorImpl(ninjaProperties));
+@@ -90,2 +120 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -106,2 +135 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -127,2 +155 @@
+-        String cookieFromSign = cookieString.substring(cookieString
+-                .indexOf("-") + 1);
++        String cookieFromSign = cookieString.substring(cookieString.indexOf("-") + 1);
+@@ -132,2 +159 @@
+-        assertEquals(computedSign,
+-                cookieString.substring(0, cookieString.indexOf("-")));
++        assertEquals(computedSign, cookieString.substring(0, cookieString.indexOf("-")));
+@@ -134,0 +161,3 @@
++        if (encryptionSecret != null) {
++            cookieFromSign = encryption.decrypt(cookieFromSign);
++        }
+@@ -136 +165 @@
+-        assertTrue(cookieString.contains("___TS"));
++        assertTrue(cookieFromSign.contains("___TS"));
+@@ -143,2 +172 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -166,3 +194,3 @@
+-                ninjaProperties.getBooleanWithDefault(
+-                        NinjaConstant.sessionTransferredOverHttpsOnly, true))
+-                .thenReturn(false);
++            ninjaProperties.getBooleanWithDefault(
++                NinjaConstant.sessionTransferredOverHttpsOnly, true))
++            .thenReturn(false);
+@@ -170,2 +198 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -192,2 +219 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -215,2 +241,2 @@
+-                ninjaProperties.getBooleanWithDefault(
+-                        NinjaConstant.sessionHttpOnly, true)).thenReturn(false);
++            ninjaProperties.getBooleanWithDefault(
++                NinjaConstant.sessionHttpOnly, true)).thenReturn(false);
+@@ -218,2 +244 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -240,2 +265 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -259,2 +283,2 @@
+-                cookieCaptor.getValue().getName(),
+-                cookieCaptor.getValue().getValue()).build();
++            cookieCaptor.getValue().getName(),
++            cookieCaptor.getValue().getValue()).build();
+@@ -264 +288 @@
+-                newSessionCookie);
++            newSessionCookie);
+@@ -267,2 +291 @@
+-        Session sessionCookie2 = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie2 = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -283 +306 @@
+-                .thenReturn(null);
++            .thenReturn(null);
+@@ -286,2 +309 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -294,2 +316 @@
+-        Session sessionCookie = new SessionImpl(crypto,
+-                ninjaProperties);
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
+@@ -310 +331 @@
+-    
++
+@@ -313,5 +334,3 @@
+-        
+-        Session sessionCookie = new SessionImpl(
+-                crypto,
+-                ninjaProperties);
+-        
++
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
++
+@@ -321 +340 @@
+-        
++
+@@ -323 +342 @@
+-        
++
+@@ -326,2 +345 @@
+-        
+-        
++
+@@ -329 +347,6 @@
+-        
++        String cookieValueWithoutSign = cookieValue.substring(cookieValue.indexOf("-") + 1);
++
++        if (encryptionSecret != null) {
++            cookieValueWithoutSign = encryption.decrypt(cookieValueWithoutSign);
++        }
++
+@@ -331 +354 @@
+-        assertTrue(cookieValue.contains("___AT=" + authenticityToken));
++        assertTrue(cookieValueWithoutSign.contains("___AT=" + authenticityToken));
+@@ -333 +356 @@
+-        assertTrue(cookieValue.contains("___TS="));
++        assertTrue(cookieValueWithoutSign.contains("___TS="));
+@@ -336 +359 @@
+-    
++
+@@ -339,5 +362,3 @@
+-        
+-        Session sessionCookie = new SessionImpl(
+-                crypto,
+-                ninjaProperties);
+-        
++
++        Session sessionCookie = new SessionImpl(crypto, encryption, ninjaProperties);
++
+@@ -347 +368 @@
+-        
++
+@@ -349 +370 @@
+-        
++
+@@ -352,2 +373 @@
+-        
+-        
++
+@@ -355 +375,5 @@
+-        
++        String valueWithoutSign = cookieValue.substring(cookieValue.indexOf("-") + 1);
++
++        if (encryptionSecret != null) {
++            valueWithoutSign = encryption.decrypt(valueWithoutSign);
++        }
+@@ -357 +381 @@
+-        assertTrue(cookieValue.contains("___ID=" + idToken));
++        assertTrue(valueWithoutSign.contains("___ID=" + idToken));
+@@ -359 +383 @@
+-        assertTrue(cookieValue.contains("___TS="));
++        assertTrue(valueWithoutSign.contains("___TS="));
+

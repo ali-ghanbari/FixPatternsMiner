@@ -1,0 +1,8 @@
+diff --git a/java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/ModulesConfigurator.java b/java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/ModulesConfigurator.java
+index 8ce7f6b..ed18f67 100644
+--- a/java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/ModulesConfigurator.java
++++ b/java/idea-ui/src/com/intellij/openapi/roots/ui/configuration/ModulesConfigurator.java
+@@ -275 +275 @@
+-      for (VirtualFile candidateContent = srcRoot; !candidateContent.equals(correspondingContent); candidateContent = candidateContent.getParent()) {
++      for (VirtualFile candidateContent = srcRoot; candidateContent != null && !candidateContent.equals(correspondingContent); candidateContent = candidateContent.getParent()) {
+

@@ -1,0 +1,29 @@
+diff --git a/src/org/jgll/grammar/symbol/Keyword.java b/src/org/jgll/grammar/symbol/Keyword.java
+index ceb8715..92d7447 100644
+--- a/src/org/jgll/grammar/symbol/Keyword.java
++++ b/src/org/jgll/grammar/symbol/Keyword.java
+@@ -73,0 +74 @@
++		seq.addConditions(conditions);
+diff --git a/test/org/jgll/regex/AltTest.java b/test/org/jgll/regex/AltTest.java
+index d3d4f83..b54a915 100644
+--- a/test/org/jgll/regex/AltTest.java
++++ b/test/org/jgll/regex/AltTest.java
+@@ -43 +42,0 @@
+-
+@@ -58 +57 @@
+-	public void test4() {
++	public void test1WithPostConditions() {
+@@ -70,0 +70,12 @@
++	
++	@Test
++	public void test2WithPostConditions() {
++		Keyword k1 = (Keyword) new Keyword("for").addCondition(RegularExpressionCondition.notFollow(new Character(':')));
++		Keyword k2 = new Keyword("forall");
++		
++		Automaton result = AutomatonOperations.or(k1.toAutomaton(), k2.toAutomaton());
++
++		RunnableAutomaton dfa = result.getRunnableAutomaton();
++		assertEquals(-1, dfa.match(Input.fromString("for:"), 0));
++		assertEquals(6, dfa.match(Input.fromString("forall"), 0));
++	}
+

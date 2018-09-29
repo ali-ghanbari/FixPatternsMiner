@@ -1,0 +1,27 @@
+diff --git a/datasets/palantir/README.md b/datasets/palantir/README.md
+index 46089de..d2e3fc4 100644
+--- a/datasets/palantir/README.md
++++ b/datasets/palantir/README.md
+@@ -24 +24 @@
+-1. Import `hdfs://palantir-export/owl/palantir.owl`
++1. Import `examples/ontology-minimal/minimal.owl`
+@@ -26 +26,3 @@
+-1. Modify `ontology/palantir-import.owl` as needed and import that owl file.
++1. Import `datasets/palantir/ontology/palantir-import.owl`
++
++1. Import `hdfs://palantir-export/owl/palantir.owl`
+diff --git a/datasets/palantir/data-to-sequence-file/src/main/java/io/lumify/palantir/ontologyToOwl/OntologyToOwl.java b/datasets/palantir/data-to-sequence-file/src/main/java/io/lumify/palantir/ontologyToOwl/OntologyToOwl.java
+index 6cc0bb1..3c538eb 100644
+--- a/datasets/palantir/data-to-sequence-file/src/main/java/io/lumify/palantir/ontologyToOwl/OntologyToOwl.java
++++ b/datasets/palantir/data-to-sequence-file/src/main/java/io/lumify/palantir/ontologyToOwl/OntologyToOwl.java
+@@ -104 +104 @@
+-            runOnImageInfoXml(fs, destinationPath, imageInfoXml);
++            runOnImageInfoXml(fs, outPath, imageInfoXml);
+diff --git a/examples/ontology-minimal/.gitignore b/examples/ontology-minimal/.gitignore
+new file mode 100644
+index 0000000..c4c4ffc
+--- /dev/null
++++ b/examples/ontology-minimal/.gitignore
+@@ -0,0 +1 @@
++*.zip
+

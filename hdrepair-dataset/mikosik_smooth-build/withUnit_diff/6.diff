@@ -1,0 +1,29 @@
+diff --git a/src/java/org/smoothbuild/message/listen/UserConsole.java b/src/java/org/smoothbuild/message/listen/UserConsole.java
+index 37b19d3..8f08131 100644
+--- a/src/java/org/smoothbuild/message/listen/UserConsole.java
++++ b/src/java/org/smoothbuild/message/listen/UserConsole.java
+@@ -36 +36 @@
+-      groupHeader = Strings.padEnd(messageGroup.name(), 42, ' ') + " CACHE";
++      groupHeader = Strings.padEnd(groupHeader, 42, ' ') + " CACHE";
+diff --git a/src/test/org/smoothbuild/message/listen/UserConsoleTest.java b/src/test/org/smoothbuild/message/listen/UserConsoleTest.java
+index 16d53bd..cce5ead 100644
+--- a/src/test/org/smoothbuild/message/listen/UserConsoleTest.java
++++ b/src/test/org/smoothbuild/message/listen/UserConsoleTest.java
+@@ -50,0 +51,16 @@
++  @Test
++  public void reporting_message_group_with_cache_result() throws Exception {
++    String name = "GROUP NAME";
++    MessageGroup messageGroup = new MessageGroup(name);
++    messageGroup.setResultIsFromCache();
++    messageGroup.report(new Message(WARNING, "message string\nsecond line"));
++
++    userConsole.report(messageGroup);
++
++    StringBuilder builder = new StringBuilder();
++    builder.append(" + GROUP NAME                              CACHE\n");
++    builder.append("   + WARNING: message string\n");
++    builder.append("     second line\n");
++    assertThat(outputStream.toString()).isEqualTo(builder.toString());
++  }
++
+

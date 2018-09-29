@@ -1,0 +1,71 @@
+diff --git a/org.hive2hive.core.test/src/org/hive2hive/core/test/model/IndexTest.java b/org.hive2hive.core.test/src/org/hive2hive/core/test/model/IndexTest.java
+index 98817dd..9c224ee 100644
+--- a/org.hive2hive.core.test/src/org/hive2hive/core/test/model/IndexTest.java
++++ b/org.hive2hive.core.test/src/org/hive2hive/core/test/model/IndexTest.java
+@@ -33,0 +34,2 @@
++	private FolderIndex dir3;
++	private FolderIndex dir4;
+@@ -65,0 +68,2 @@
++		// - - 3d:
++		// - - - 4d (empty folder)
+@@ -70,0 +75,2 @@
++		dir3 = new FolderIndex(dir1, keys, "3d");
++		dir4 = new FolderIndex(dir3, keys, "4d");
+@@ -80,0 +87,2 @@
++		Assert.assertEquals(Paths.get("1d", "3d").toString(), dir3.getFullPath().toString());
++		Assert.assertEquals(Paths.get("1d", "3d", "4d").toString(), dir4.getFullPath().toString());
+@@ -85,2 +93,2 @@
+-		// set 1d to be shared
+-		dir1.share(EncryptionUtil.generateRSAKeyPair(H2HConstants.KEYLENGTH_META_FILE));
++		// set 1d to be shared (use a shorter key to speed up)
++		dir1.share(EncryptionUtil.generateRSAKeyPair(EncryptionUtil.RSA_KEYLENGTH.BIT_512));
+@@ -88 +96 @@
+-		// 1d, 2f and 2d should return to be shared, others not
++		// 1d, 2f, 2d, 3d and 4d should return to be shared, others not
+@@ -92 +100,3 @@
+-
++		Assert.assertTrue(dir3.isShared());
++		Assert.assertTrue(dir4.isShared());
++		
+@@ -103,0 +114,2 @@
++		Assert.assertFalse(dir3.isShared());
++		Assert.assertFalse(dir4.isShared());
+@@ -112 +124,2 @@
+-		root.share(EncryptionUtil.generateRSAKeyPair(H2HConstants.KEYLENGTH_META_FILE));
++		// (use a shorter key to speed up)
++		root.share(EncryptionUtil.generateRSAKeyPair(EncryptionUtil.RSA_KEYLENGTH.BIT_512));
+@@ -117,2 +130,2 @@
+-		// set 2d to be shared
+-		dir2.share(EncryptionUtil.generateRSAKeyPair(H2HConstants.KEYLENGTH_META_FILE));
++		// set 2d to be shared (use a shorter key to speed up)
++		dir2.share(EncryptionUtil.generateRSAKeyPair(EncryptionUtil.RSA_KEYLENGTH.BIT_512));
+@@ -139 +151,0 @@
+-
+@@ -145,0 +158,2 @@
++		Assert.assertEquals(dir3, dir1.getChildByName("3d"));
++		Assert.assertEquals(dir4, dir3.getChildByName("4d"));
+@@ -164,0 +179,3 @@
++		Assert.assertEquals(2, dir3.getCalculatedUserList().size());
++		Assert.assertEquals(2, dir4.getCalculatedUserList().size());
++		Assert.assertTrue(dir1.canWrite("UserA"));
+@@ -165,0 +183 @@
++		Assert.assertTrue(dir2.canWrite("UserA"));
+@@ -166,0 +185,4 @@
++		Assert.assertTrue(dir3.canWrite("UserA"));
++		Assert.assertFalse(dir3.canWrite("UserB"));
++		Assert.assertTrue(dir4.canWrite("UserA"));
++		Assert.assertFalse(dir4.canWrite("UserB"));
+@@ -178,0 +201,2 @@
++		Assert.assertEquals(3, dir3.getCalculatedUserList().size());
++		Assert.assertEquals(3, dir4.getCalculatedUserList().size());
+@@ -180,0 +205,2 @@
++		Assert.assertTrue(dir3.canWrite("UserC"));
++		Assert.assertTrue(dir4.canWrite("UserC"));
+diff --git a/org.hive2hive.core/src/org/hive2hive/core/model/FolderIndex.java b/org.hive2hive.core/src/org/hive2hive/core/model/FolderIndex.java
+index c4ad695..7e9a824 100644
+--- a/org.hive2hive.core/src/org/hive2hive/core/model/FolderIndex.java
++++ b/org.hive2hive.core/src/org/hive2hive/core/model/FolderIndex.java
+@@ -260 +260 @@
+-		return parent.isShared;
++		return parent.isShared();
+

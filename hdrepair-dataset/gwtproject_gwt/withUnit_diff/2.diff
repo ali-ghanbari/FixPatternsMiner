@@ -1,0 +1,20 @@
+diff --git a/dev/core/src/com/google/gwt/dev/resource/impl/FileResource.java b/dev/core/src/com/google/gwt/dev/resource/impl/FileResource.java
+index 46174e3..4333e79 100644
+--- a/dev/core/src/com/google/gwt/dev/resource/impl/FileResource.java
++++ b/dev/core/src/com/google/gwt/dev/resource/impl/FileResource.java
+@@ -50 +49,0 @@
+-    assert (file.isFile()) : file + " is not a file.";
+diff --git a/dev/core/test/com/google/gwt/dev/resource/impl/ResourceOracleImplTest.java b/dev/core/test/com/google/gwt/dev/resource/impl/ResourceOracleImplTest.java
+index d7d4e87..1bbbff9 100644
+--- a/dev/core/test/com/google/gwt/dev/resource/impl/ResourceOracleImplTest.java
++++ b/dev/core/test/com/google/gwt/dev/resource/impl/ResourceOracleImplTest.java
+@@ -105,2 +105,3 @@
+-      if (expectedCpe.getLocation().endsWith(".jar")) {
+-        assertTrue(resource.getLocation().startsWith("jar:" + expectedCpe.getLocation()));
++      String cpeLocation = expectedCpe.getLocation();
++      if (cpeLocation.endsWith(".jar") || cpeLocation.endsWith(".zip")) {
++        assertTrue(resource.getLocation().startsWith("jar:" + cpeLocation));
+@@ -108 +109 @@
+-        assertTrue(resource.getLocation().startsWith(expectedCpe.getLocation()));
++        assertTrue(resource.getLocation().startsWith(cpeLocation));
+

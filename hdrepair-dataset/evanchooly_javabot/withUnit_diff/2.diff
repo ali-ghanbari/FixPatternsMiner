@@ -1,0 +1,23 @@
+diff --git a/core/src/main/java/javabot/MyPircBot.java b/core/src/main/java/javabot/MyPircBot.java
+index 8a42b3d..0576d0d 100644
+--- a/core/src/main/java/javabot/MyPircBot.java
++++ b/core/src/main/java/javabot/MyPircBot.java
+@@ -103 +103 @@
+-  protected void onNotice(final String sourceNick, final String sourceLogin, final String sourceHostname,
++  public void onNotice(final String sourceNick, final String sourceLogin, final String sourceHostname,
+diff --git a/core/src/test/java/javabot/dao/NickServDaoTest.java b/core/src/test/java/javabot/dao/NickServDaoTest.java
+index 71459ea..7794589 100644
+--- a/core/src/test/java/javabot/dao/NickServDaoTest.java
++++ b/core/src/test/java/javabot/dao/NickServDaoTest.java
+@@ -32,0 +33 @@
++    nickServDao.clear();
+@@ -34 +35 @@
+-      send(getNickServInfo("account" + i, "nick" + 1, LocalDateTime.of(2014, Month.MARCH, 1, 16, 30),
++      send(getNickServInfo("account" + i, "nick" + i, LocalDateTime.of(2014, Month.MARCH, 1, 16, 30),
+@@ -38 +39 @@
+-      Assert.assertNotNull(nickServDao.find("account" + i));
++      Assert.assertNotNull("Should find account" + i, nickServDao.find("account" + i));
+@@ -44 +45 @@
+-      getJavabot().getPircBot().onPrivateMessage("nickserv", "nickserv", "", o);
++      getJavabot().getPircBot().onNotice("nickserv", "nickserv", "", "", o);
+

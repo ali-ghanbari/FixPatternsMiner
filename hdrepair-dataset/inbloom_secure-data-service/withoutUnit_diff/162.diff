@@ -1,0 +1,15 @@
+diff --git a/sli/config/config.in/canonical_config.yml b/sli/config/config.in/canonical_config.yml
+index fe5ff5f..65b93e4 100644
+--- a/sli/config/config.in/canonical_config.yml
++++ b/sli/config/config.in/canonical_config.yml
+@@ -266 +266 @@
+-        sli.simple-idp.ldap.base: dc=slidev,dc=org
++        sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
+diff --git a/sli/simple-idp/src/main/java/org/slc/sli/sandbox/idp/service/UserService.java b/sli/simple-idp/src/main/java/org/slc/sli/sandbox/idp/service/UserService.java
+index 023c8c9..35b5436 100644
+--- a/sli/simple-idp/src/main/java/org/slc/sli/sandbox/idp/service/UserService.java
++++ b/sli/simple-idp/src/main/java/org/slc/sli/sandbox/idp/service/UserService.java
+@@ -76,0 +77,2 @@
++        LDAP_ROLE_MAPPING.put("sandbox_administrator", "Sandbox Administrator");
++        LDAP_ROLE_MAPPING.put("sandbox_slc_operator",  "Sandbox SLC Operator");
+

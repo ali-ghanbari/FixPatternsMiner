@@ -1,0 +1,27 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 24e76e0..4cb5800 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -9,0 +10,2 @@
++ - Fixed type conversion of bulk parameters
++
+diff --git a/sql/src/main/java/io/crate/analyze/ParameterContext.java b/sql/src/main/java/io/crate/analyze/ParameterContext.java
+index dedc46f..d53dee7 100644
+--- a/sql/src/main/java/io/crate/analyze/ParameterContext.java
++++ b/sql/src/main/java/io/crate/analyze/ParameterContext.java
+@@ -106 +106 @@
+-                return newLiteral(bulkTypes[index], bulkParameters[currentIdx][index]);
++                return newLiteral(bulkTypes[index], bulkTypes[index].value(bulkParameters[currentIdx][index]));
+diff --git a/sql/src/test/java/io/crate/analyze/ParameterContextTest.java b/sql/src/test/java/io/crate/analyze/ParameterContextTest.java
+index 8808ce7..35be334 100644
+--- a/sql/src/test/java/io/crate/analyze/ParameterContextTest.java
++++ b/sql/src/test/java/io/crate/analyze/ParameterContextTest.java
+@@ -27,0 +28 @@
++import org.apache.lucene.util.BytesRef;
+@@ -74 +75 @@
+-        TestingHelpers.assertLiteralSymbol(ctx.getAsSymbol(4), new String[]{null}, new ArrayType(DataTypes.STRING));
++        TestingHelpers.assertLiteralSymbol(ctx.getAsSymbol(4), new BytesRef[]{null}, new ArrayType(DataTypes.STRING));
+@@ -80 +81 @@
+-        TestingHelpers.assertLiteralSymbol(ctx.getAsSymbol(4), new String[]{ "foo", "bar" }, new ArrayType(DataTypes.STRING));
++        TestingHelpers.assertLiteralSymbol(ctx.getAsSymbol(4), new BytesRef[]{ new BytesRef("foo"), new BytesRef("bar") }, new ArrayType(DataTypes.STRING));
+

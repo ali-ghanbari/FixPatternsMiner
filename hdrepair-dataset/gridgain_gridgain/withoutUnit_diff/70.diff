@@ -1,0 +1,48 @@
+diff --git a/modules/clients/cpp/main/tests/gridclientabstractselftest.cpp b/modules/clients/cpp/main/tests/gridclientabstractselftest.cpp
+index 47e5712..63a1e97 100644
+--- a/modules/clients/cpp/main/tests/gridclientabstractselftest.cpp
++++ b/modules/clients/cpp/main/tests/gridclientabstractselftest.cpp
+@@ -138,31 +137,0 @@
+-/**
+- * Configuration for HTTP client over router.
+- */
+-class HttpRouterConfig {
+-public:
+-    /**
+-     * Invocation operator.
+-     *
+-     * @return Client configuration.
+-     */
+-    GridClientConfiguration operator()() const {
+-        GridClientConfiguration clientConfig;
+-
+-        vector<GridClientSocketAddress> routers;
+-
+-        routers.push_back(GridClientSocketAddress("127.0.0.1", 12200));
+-
+-        clientConfig.routers(routers);
+-
+-        GridClientProtocolConfiguration protoCfg;
+-
+-        protoCfg.credentials(CREDS);
+-
+-        protoCfg.protocol(HTTP);
+-
+-        clientConfig.protocolConfiguration(protoCfg);
+-
+-        return clientConfig;
+-    }
+-};
+-
+@@ -172 +141 @@
+-typedef boost::mpl::list<TcpRouterConfig, HttpRouterConfig> TestCfgs;
++typedef boost::mpl::list<TcpRouterConfig> TestCfgs;
+diff --git a/modules/clients/src/main/java/org/gridgain/client/router/GridTcpRouter.java b/modules/clients/src/main/java/org/gridgain/client/router/GridTcpRouter.java
+index adb2c07..2aa9bfc 100644
+--- a/modules/clients/src/main/java/org/gridgain/client/router/GridTcpRouter.java
++++ b/modules/clients/src/main/java/org/gridgain/client/router/GridTcpRouter.java
+@@ -24,3 +23,0 @@
+- * This router works only with TCP rest protocol, for routing of http protocol
+- * use {@link GridHttpRouter}.
+- * <p>
+

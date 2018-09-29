@@ -1,0 +1,10 @@
+Summary: Fix NPE when calling createFirewallRule
+
+Detail: CreateFirewallRuleCmd.java was returning 'null' for getTrafficType().
+Recently, getTrafficType started being used by createIngressFirewallRule.
+Changing getTrafficType() to return ingress per Jayapal Reddy.
+
+BUG-ID: CLOUDSTACK-1168
+Bugfix-for: master,4.1
+Signed-off-by: Marcus Sorensen <marcus@betterservers.com> 1360170916 -0700
+

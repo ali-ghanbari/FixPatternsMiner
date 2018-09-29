@@ -1,0 +1,35 @@
+diff --git a/src/main/java/net/objecthunter/exp4j/tokens/Tokenizer.java b/src/main/java/net/objecthunter/exp4j/tokens/Tokenizer.java
+index fdf9ffe..a730e41 100644
+--- a/src/main/java/net/objecthunter/exp4j/tokens/Tokenizer.java
++++ b/src/main/java/net/objecthunter/exp4j/tokens/Tokenizer.java
+@@ -68 +68 @@
+-								if (Character.isDigit(next)) {
++								if (Character.isDigit(next) || next == '.') {
+diff --git a/src/main/java/net/objecthunter/exp4j/tokens/TokenizerTest.java b/src/main/java/net/objecthunter/exp4j/tokens/TokenizerTest.java
+index 49c6505..e96dd7e 100644
+--- a/src/main/java/net/objecthunter/exp4j/tokens/TokenizerTest.java
++++ b/src/main/java/net/objecthunter/exp4j/tokens/TokenizerTest.java
+@@ -87,0 +88,22 @@
++	
++	@Test
++	public void testComplexTokenization2() {
++		Tokenizer<ComplexNumber> tokenizer = new Tokenizer<ComplexNumber>(ComplexNumber.class);
++		String expression = "10.4 + 17.8i";
++		List<Token> tokens = tokenizer.tokenizeExpression(expression);
++		Assert.assertTrue(tokens.size() == 1);
++		Assert.assertTrue(tokens.get(0).getType() == Type.NUMBER);
++		Assert.assertTrue(((NumberToken<ComplexNumber>) tokens.get(0)).getValue().getReal() == 10.4d);
++		Assert.assertTrue(((NumberToken<ComplexNumber>) tokens.get(0)).getValue().getImaginary() == 17.8d);
++	}
++
++	@Test
++	public void testComplexTokenization3() {
++		Tokenizer<ComplexNumber> tokenizer = new Tokenizer<ComplexNumber>(ComplexNumber.class);
++		String expression = "10.4 - 17.8i";
++		List<Token> tokens = tokenizer.tokenizeExpression(expression);
++		Assert.assertTrue(tokens.size() == 1);
++		Assert.assertTrue(tokens.get(0).getType() == Type.NUMBER);
++		Assert.assertTrue(((NumberToken<ComplexNumber>) tokens.get(0)).getValue().getReal() == 10.4d);
++		Assert.assertTrue(((NumberToken<ComplexNumber>) tokens.get(0)).getValue().getImaginary() == -17.8d);
++	}
+

@@ -1,0 +1,59 @@
+diff --git a/Slackware/i2p-base/i2p-base.SlackBuild b/Slackware/i2p-base/i2p-base.SlackBuild
+index d91d872..7101fb9 100644
+--- a/Slackware/i2p-base/i2p-base.SlackBuild
++++ b/Slackware/i2p-base/i2p-base.SlackBuild
+@@ -27 +27 @@
+-BUILD=1sim
++BUILD=1sponge
+@@ -41 +41,5 @@
+-requiredbuilder -v -y -s $CWD $PKG
++#
++# Not really that important to exec this.
++#requiredbuilder -v -y -s $CWD $PKG
++#
++cat $CWD/slack-required > $PKG/install/slack-required
+diff --git a/Slackware/i2p/i2p.SlackBuild b/Slackware/i2p/i2p.SlackBuild
+index f7ced54..a8ecf3b 100755
+--- a/Slackware/i2p/i2p.SlackBuild
++++ b/Slackware/i2p/i2p.SlackBuild
+@@ -18 +18 @@
+-BUILD=1sim
++BUILD=1sponge
+@@ -116 +116,7 @@
+-requiredbuilder -v -y -s $CWD $PKG
++#
++# requiredbuilder fucks up REALLY bad, and thinks java is perl?!
++# It also did not catch the shell requirements! BOOOOOOOOOOO! HISSSSSSSS!
++#
++#requiredbuilder -v -y -s $CWD $PKG
++#
++cat $CWD/slack-required > $PKG/install/slack-required
+diff --git a/Slackware/i2p/slack-required b/Slackware/i2p/slack-required
+index 3dcf362..d83d818 100644
+--- a/Slackware/i2p/slack-required
++++ b/Slackware/i2p/slack-required
+@@ -1,2 +1,4 @@
+-glibc >= 2.7-i486-17 | glibc-solibs >= 2.7-i486-17
+-perl >= 5.10.0-i486-1
++jre >= 5
++i2p-base >= 0.0.1
++bash >= 3.1.017
++
+diff --git a/history.txt b/history.txt
+index 7731041..724b257 100644
+--- a/history.txt
++++ b/history.txt
+@@ -0,0 +1,5 @@
++2009-09-21 sponge
++    * fixups to SlackBuilds. requiredbuilder does the wrong thing, and
++      thinks that java is perl! This isn't really a big deal, 
++      the file format is simple enough and the requirements are known.
++
+diff --git a/router/java/src/net/i2p/router/RouterVersion.java b/router/java/src/net/i2p/router/RouterVersion.java
+index 40028c0..67b9de3 100644
+--- a/router/java/src/net/i2p/router/RouterVersion.java
++++ b/router/java/src/net/i2p/router/RouterVersion.java
+@@ -21 +21 @@
+-    public final static long BUILD = 19;
++    public final static long BUILD = 20;
+

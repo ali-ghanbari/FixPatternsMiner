@@ -1,0 +1,8 @@
+diff --git a/modules/weblounge-dispatcher/src/main/java/ch/entwine/weblounge/dispatcher/impl/handler/PageRequestHandlerImpl.java b/modules/weblounge-dispatcher/src/main/java/ch/entwine/weblounge/dispatcher/impl/handler/PageRequestHandlerImpl.java
+index 0b1123b..32ba323 100644
+--- a/modules/weblounge-dispatcher/src/main/java/ch/entwine/weblounge/dispatcher/impl/handler/PageRequestHandlerImpl.java
++++ b/modules/weblounge-dispatcher/src/main/java/ch/entwine/weblounge/dispatcher/impl/handler/PageRequestHandlerImpl.java
+@@ -254 +254 @@
+-      } else if (!"GET".equals(requestMethod)) {
++      } else if (!"GET".equals(requestMethod) && !RequestUtils.containsAction(request)) {
+

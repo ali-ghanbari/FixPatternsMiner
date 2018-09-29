@@ -1,0 +1,10 @@
+Webclient fix: no side effect while update (#486).
+
+Construction of the object model passed to a topic/association update request no longer manipulates the dm4c.selected_object in place. This allows a plugin to investigate the selected object's enrichments (e.g. timestamps, access control information) before the request is actually send.
+
+In preparation of #486 ("New client-side extension point: pre_send_request").
+
+See ticket 486.
+
+Correction of previous commit message: `max-age=0` is set as `Cache-Control` header of course (not `Last-Modified` header).
+

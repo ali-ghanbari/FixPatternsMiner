@@ -1,0 +1,21 @@
+diff --git a/modules/dm4-caching/src/main/resources/web/script/plugin.js b/modules/dm4-caching/src/main/resources/web/script/plugin.js
+index 74a5dfa..950812d 100644
+--- a/modules/dm4-caching/src/main/resources/web/script/plugin.js
++++ b/modules/dm4-caching/src/main/resources/web/script/plugin.js
+@@ -13 +13,4 @@
+-                if (!modified) {
++                // Note: 0 is a perfect timestamp. It is send by the server as the default timestamp for objects which
++                // don't have a timestamp. This happens e.g. when upgrading from a DM 4.1 installation. Timestamps were
++                // introduced only in DM 4.1.1. So we must compare to undefined here. !modified would not work.
++                if (modified == undefined) {
+@@ -21 +24 @@
+-                    if (!modified) {
++                    if (modified == undefined) {
+diff --git a/modules/dm4-webclient/src/main/java/de/deepamehta/plugins/webclient/WebclientPlugin.java b/modules/dm4-webclient/src/main/java/de/deepamehta/plugins/webclient/WebclientPlugin.java
+index 75899e0..bad86dd 100644
+--- a/modules/dm4-webclient/src/main/java/de/deepamehta/plugins/webclient/WebclientPlugin.java
++++ b/modules/dm4-webclient/src/main/java/de/deepamehta/plugins/webclient/WebclientPlugin.java
+@@ -368 +368 @@
+-            // association definition type
++            // association type
+

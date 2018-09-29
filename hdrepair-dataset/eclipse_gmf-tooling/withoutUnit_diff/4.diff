@@ -1,0 +1,8 @@
+diff --git a/plugins/org.eclipse.gmf.xpand.migration/src/org/eclipse/gmf/internal/xpand/migration/XpandMigrationFacade.java b/plugins/org.eclipse.gmf.xpand.migration/src/org/eclipse/gmf/internal/xpand/migration/XpandMigrationFacade.java
+index 6817566..c527384 100644
+--- a/plugins/org.eclipse.gmf.xpand.migration/src/org/eclipse/gmf/internal/xpand/migration/XpandMigrationFacade.java
++++ b/plugins/org.eclipse.gmf.xpand.migration/src/org/eclipse/gmf/internal/xpand/migration/XpandMigrationFacade.java
+@@ -109 +109 @@
+-		ctx = rootExecutionContext != null ? rootExecutionContext : new MigrationExecutionContextImpl(resourceManager).<MigrationExecutionContext> cloneWithResource(xpandResource);
++		ctx = rootExecutionContext != null ? rootExecutionContext : (MigrationExecutionContext) new MigrationExecutionContextImpl(resourceManager).cloneWithResource(xpandResource);
+

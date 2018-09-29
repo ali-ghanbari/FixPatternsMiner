@@ -1,0 +1,29 @@
+diff --git a/modules/unsupported/geojson/src/test/java/org/geotools/geojson/Benchmark.java b/modules/unsupported/geojson/src/test/java/org/geotools/geojson/Benchmark.java
+index d4ac246..b391e4f 100644
+--- a/modules/unsupported/geojson/src/test/java/org/geotools/geojson/Benchmark.java
++++ b/modules/unsupported/geojson/src/test/java/org/geotools/geojson/Benchmark.java
+@@ -82 +82 @@
+-        features.close(it);
++        it.close();
+diff --git a/modules/unsupported/geojson/src/test/java/org/geotools/geojson/FeatureJSONTest.java b/modules/unsupported/geojson/src/test/java/org/geotools/geojson/FeatureJSONTest.java
+index 98b5f73..54557e1 100644
+--- a/modules/unsupported/geojson/src/test/java/org/geotools/geojson/FeatureJSONTest.java
++++ b/modules/unsupported/geojson/src/test/java/org/geotools/geojson/FeatureJSONTest.java
+@@ -476,2 +476,2 @@
+-        Iterator a = actual.iterator();
+-        Iterator e = expected.iterator();
++        FeatureIterator a = actual.features();
++        FeatureIterator e = expected.features();
+@@ -483,3 +483,2 @@
+-        
+-        actual.close(a);
+-        expected.close(e);
++        a.close();
++        e.close();
+@@ -501 +500 @@
+-        Iterator e = expected.iterator();
++        FeatureIterator e = expected.features();
+@@ -510 +509 @@
+-        expected.close(e);
++        e.close();
+

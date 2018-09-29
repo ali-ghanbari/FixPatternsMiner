@@ -1,0 +1,18 @@
+diff --git a/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/FallThroughCheck.java b/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/FallThroughCheck.java
+index f79f185..c6aaa56 100644
+--- a/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/FallThroughCheck.java
++++ b/src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/FallThroughCheck.java
+@@ -136 +136 @@
+-        if (!isTerminated(slist, true, true)
++        if (slist != null && !isTerminated(slist, true, true)
+diff --git a/src/main/resources/com/puppycrawl/tools/checkstyle/grammars/java.g b/src/main/resources/com/puppycrawl/tools/checkstyle/grammars/java.g
+index d8115f8..e7f6dae 100644
+--- a/src/main/resources/com/puppycrawl/tools/checkstyle/grammars/java.g
++++ b/src/main/resources/com/puppycrawl/tools/checkstyle/grammars/java.g
+@@ -1115 +1115 @@
+-		caseSList
++		(caseSList)?
+@@ -1134 +1134 @@
+-		)*
++        )+
+

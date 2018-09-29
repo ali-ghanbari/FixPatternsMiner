@@ -1,0 +1,5 @@
+Bug 223076
+Debug traces were printed for out-of-band events when they were processed (processEvent()) and again when the next ResultRecord is received (processCommandDone()).
+
+This fix only prints the ResultRecord in the processCommandDone() method.
+

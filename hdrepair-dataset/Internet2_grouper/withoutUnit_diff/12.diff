@@ -1,0 +1,8 @@
+diff --git a/grouper/src/grouper/edu/internet2/middleware/grouper/app/loader/GrouperLoaderType.java b/grouper/src/grouper/edu/internet2/middleware/grouper/app/loader/GrouperLoaderType.java
+index 5e6c075..cd0bca4 100644
+--- a/grouper/src/grouper/edu/internet2/middleware/grouper/app/loader/GrouperLoaderType.java
++++ b/grouper/src/grouper/edu/internet2/middleware/grouper/app/loader/GrouperLoaderType.java
+@@ -749 +749 @@
+-              String consumerName = GrouperUtil.stripStart(hib3GrouploaderLog.getJobName(), GROUPER_CHANGE_LOG_CONSUMER_PREFIX);
++              String consumerName = hib3GrouploaderLog.getJobName().substring(GROUPER_CHANGE_LOG_CONSUMER_PREFIX.length());
+

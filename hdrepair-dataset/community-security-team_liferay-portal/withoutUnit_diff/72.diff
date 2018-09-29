@@ -1,0 +1,42 @@
+diff --git a/modules/apps/activities/activities-web/src/com/liferay/activities/activities-friendly-url-routes.xml b/modules/apps/activities/activities-web/src/com/liferay/activities/activities-friendly-url-routes.xml
+deleted file mode 100644
+index 977401f..0000000
+--- a/modules/apps/activities/activities-web/src/com/liferay/activities/activities-friendly-url-routes.xml
++++ /dev/null
+@@ -1,9 +0,0 @@
+-<?xml version="1.0"?>
+-<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 7.0.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_7_0_0.dtd">
+-
+-<routes>
+-	<route>
+-		<pattern></pattern>
+-		<implicit-parameter name="struts_action">/activities/view</implicit-parameter>
+-	</route>
+-</routes>
+\ No newline at end of file
+diff --git a/modules/apps/activities/activities-web/src/com/liferay/activities/portlet/ActivitiesPortlet.java b/modules/apps/activities/activities-web/src/com/liferay/activities/portlet/ActivitiesPortlet.java
+index c64bc7e..3ff925e 100644
+--- a/modules/apps/activities/activities-web/src/com/liferay/activities/portlet/ActivitiesPortlet.java
++++ b/modules/apps/activities/activities-web/src/com/liferay/activities/portlet/ActivitiesPortlet.java
+@@ -34 +34 @@
+-		"com.liferay.portlet.friendly-url-routes=com/liferay/portlet/activities/activities-friendly-url-routes.xml",
++		"com.liferay.portlet.friendly-url-routes=com/liferay/activities/route/activities-friendly-url-routes.xml",
+diff --git a/modules/apps/activities/activities-web/src/com/liferay/activities/route/activities-friendly-url-routes.xml b/modules/apps/activities/activities-web/src/com/liferay/activities/route/activities-friendly-url-routes.xml
+new file mode 100644
+index 0000000..348c127
+--- /dev/null
++++ b/modules/apps/activities/activities-web/src/com/liferay/activities/route/activities-friendly-url-routes.xml
+@@ -0,0 +1,11 @@
++<?xml version="1.0"?>
++<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 7.0.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_7_0_0.dtd">
++
++<routes>
++	<route>
++		<pattern>/rss/{feedTitle}</pattern>
++		<ignored-parameter name="p_p_cacheability" />
++		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
++		<implicit-parameter name="javax.portlet.action">activities/rss</implicit-parameter>
++	</route>
++</routes>
+\ No newline at end of file
+

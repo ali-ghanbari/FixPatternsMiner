@@ -1,0 +1,14 @@
+diff --git a/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java b/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
+index 70351c8..7f63d75 100644
+--- a/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
++++ b/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
+@@ -523 +523 @@
+-      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token)) {
++      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")) {
+diff --git a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/CaseRuleTest.java b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/CaseRuleTest.java
+index 603d788..e762115 100644
+--- a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/CaseRuleTest.java
++++ b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/CaseRuleTest.java
+@@ -164,0 +165 @@
++    assertGood("Formationswasser, das oxidiert war.");
+

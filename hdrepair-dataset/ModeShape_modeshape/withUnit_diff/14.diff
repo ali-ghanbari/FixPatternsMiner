@@ -1,0 +1,36 @@
+diff --git a/modeshape-jcr/src/main/java/org/modeshape/jcr/query/plan/CanonicalPlanner.java b/modeshape-jcr/src/main/java/org/modeshape/jcr/query/plan/CanonicalPlanner.java
+index faa9fc1..7543fa0 100644
+--- a/modeshape-jcr/src/main/java/org/modeshape/jcr/query/plan/CanonicalPlanner.java
++++ b/modeshape-jcr/src/main/java/org/modeshape/jcr/query/plan/CanonicalPlanner.java
+@@ -315 +315 @@
+-            if (!column.getColumnName().equals(column.getPropertyName())) {
++            if (column.getColumnName() != null && !column.getColumnName().equals(column.getPropertyName())) {
+diff --git a/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrQueryManagerTest.java b/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrQueryManagerTest.java
+index 751b62d..036516f 100644
+--- a/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrQueryManagerTest.java
++++ b/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrQueryManagerTest.java
+@@ -970,0 +971,23 @@
++    @FixFor ( "MODE-1825" )
++    @Test
++    public void shouldBeAbleToExecuteQueryForAllColumns() throws RepositoryException {
++        QueryManager queryManager = session.getWorkspace().getQueryManager();
++        QueryObjectModelFactory factory = queryManager.getQOMFactory();
++        Selector car1Selector = factory.selector("car:Car", "car1");
++        Selector car2Selector = factory.selector("car:Car", "car2");
++        Join join = factory.join(car1Selector, car2Selector, QueryObjectModelConstants.JCR_JOIN_TYPE_INNER,
++                factory.equiJoinCondition("car1", "car:maker", "car2", "car:maker"));
++        Column[] columns = new Column[]{
++                factory.column("car1", null, null)
++        };
++        Constraint constraint = factory.comparison(factory.propertyValue("car1", "car:maker"),
++                QueryObjectModelConstants.JCR_OPERATOR_EQUAL_TO,
++                factory.literal(session.getValueFactory().createValue("Toyota")));
++        Ordering[] orderings = new Ordering[]{factory.descending(factory.propertyValue("car1", "car:year"))};
++        Query query = factory.createQuery(join, constraint, orderings, columns);
++        assertThat(query, is(notNullValue()));
++        QueryResult result = query.execute();
++        assertThat(result, is(notNullValue()));
++        assertResults(query, result, 9L);
++    }
++
+

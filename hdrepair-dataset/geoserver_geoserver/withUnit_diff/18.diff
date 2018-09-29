@@ -1,0 +1,36 @@
+diff --git a/src/main/src/main/java/org/geoserver/security/decorators/DecoratingWMSLayerInfo.java b/src/main/src/main/java/org/geoserver/security/decorators/DecoratingWMSLayerInfo.java
+index 79081f5..0385543 100644
+--- a/src/main/src/main/java/org/geoserver/security/decorators/DecoratingWMSLayerInfo.java
++++ b/src/main/src/main/java/org/geoserver/security/decorators/DecoratingWMSLayerInfo.java
+@@ -126 +126 @@
+-        return prefixedName();
++        return delegate.prefixedName();
+diff --git a/src/main/src/test/java/org/geoserver/security/decorators/DecoratingWMSLayerInfoTest.java b/src/main/src/test/java/org/geoserver/security/decorators/DecoratingWMSLayerInfoTest.java
+new file mode 100644
+index 0000000..e395f59
+--- /dev/null
++++ b/src/main/src/test/java/org/geoserver/security/decorators/DecoratingWMSLayerInfoTest.java
+@@ -0,0 +1,22 @@
++
++package org.geoserver.security.decorators;
++
++import static org.easymock.EasyMock.createNiceMock;
++import static org.easymock.EasyMock.expect;
++import static org.easymock.EasyMock.replay;
++import junit.framework.TestCase;
++
++import org.geoserver.catalog.WMSLayerInfo;
++
++public class DecoratingWMSLayerInfoTest extends TestCase {
++    public void testPrefixName() {
++        // build up the mock
++        WMSLayerInfo li = createNiceMock(WMSLayerInfo.class);
++    
++        expect(li.prefixedName()).andReturn("PREFIX");
++        replay(li);
++    
++        DecoratingWMSLayerInfo ro = new DecoratingWMSLayerInfo(li);
++        assertEquals("PREFIX", ro.prefixedName());
++    }
++}
+

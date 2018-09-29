@@ -1,0 +1,9 @@
+diff --git a/swing/visualizer/src/main/java/org/qi4j/library/swing/visualizer/ApplicationLayout.java b/swing/visualizer/src/main/java/org/qi4j/library/swing/visualizer/ApplicationLayout.java
+index 637c237..d8796f3 100644
+--- a/swing/visualizer/src/main/java/org/qi4j/library/swing/visualizer/ApplicationLayout.java
++++ b/swing/visualizer/src/main/java/org/qi4j/library/swing/visualizer/ApplicationLayout.java
+@@ -137 +137,2 @@
+-        Rectangle suggestedBounds = new Rectangle( left, y, width, 0 );
++        // Use a height of 1 instead of 0 for correct operation of Rectangle2D.intersects call later
++        Rectangle suggestedBounds = new Rectangle( left, y, width, 1 );
+

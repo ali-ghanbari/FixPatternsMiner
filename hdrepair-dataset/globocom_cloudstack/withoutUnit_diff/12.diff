@@ -1,0 +1,8 @@
+diff --git a/engine/orchestration/src/com/cloud/vm/VirtualMachineManagerImpl.java b/engine/orchestration/src/com/cloud/vm/VirtualMachineManagerImpl.java
+index 8a228ff..91af527 100755
+--- a/engine/orchestration/src/com/cloud/vm/VirtualMachineManagerImpl.java
++++ b/engine/orchestration/src/com/cloud/vm/VirtualMachineManagerImpl.java
+@@ -1866 +1866 @@
+-        VirtualMachineProfile profile = new VirtualMachineProfileImpl(vm);
++        VirtualMachineProfile profile = new VirtualMachineProfileImpl(vm, null, _offeringDao.findById(vm.getId(), vm.getServiceOfferingId()), null, null);
+

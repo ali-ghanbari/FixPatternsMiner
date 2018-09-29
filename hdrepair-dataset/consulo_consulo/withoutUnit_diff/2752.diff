@@ -1,0 +1,8 @@
+diff --git a/compiler/impl/com/intellij/compiler/classParsing/SignatureParser.java b/compiler/impl/com/intellij/compiler/classParsing/SignatureParser.java
+index 1219b05..cdf84d0 100644
+--- a/compiler/impl/com/intellij/compiler/classParsing/SignatureParser.java
++++ b/compiler/impl/com/intellij/compiler/classParsing/SignatureParser.java
+@@ -96 +96 @@
+-    while (it.current() == '/') {
++    while (it.current() == '/' || it.current() == '.') { // Eclipse compiler generates '.' for inner classes 
+

@@ -1,0 +1,27 @@
+diff --git a/agent/src/com/cloud/agent/resource/computing/KVMHAChecker.java b/agent/src/com/cloud/agent/resource/computing/KVMHAChecker.java
+index b2df8c1..f5b8a32 100644
+--- a/agent/src/com/cloud/agent/resource/computing/KVMHAChecker.java
++++ b/agent/src/com/cloud/agent/resource/computing/KVMHAChecker.java
+@@ -56 +56 @@
+-                    String.valueOf((_heartBeatUpdateFreq + _heartBeatUpdateTimeout) / 1000 * 2));
++                    String.valueOf(_heartBeatUpdateFreq/1000));
+diff --git a/scripts/vm/hypervisor/kvm/kvmheartbeat.sh b/scripts/vm/hypervisor/kvm/kvmheartbeat.sh
+index c634655..7293b14 100755
+--- a/scripts/vm/hypervisor/kvm/kvmheartbeat.sh
++++ b/scripts/vm/hypervisor/kvm/kvmheartbeat.sh
+@@ -136,4 +136,4 @@
+-  oldTimeStamp=$(cat $hbFile) 
+-  sleep $interval &> /dev/null
+-  newTimeStamp=$(cat $hbFile) 
+-  if [ $newTimeStamp -gt $oldTimeStamp ]
++  now=$(date +%s)
++  hb=$(cat $hbFile)
++  diff=`expr $now - $hb`
++  if [ $diff -gt $interval ]
+@@ -141 +141 @@
+-    return 0
++    return 1
+@@ -143 +143 @@
+-  return 1
++  return 0
+

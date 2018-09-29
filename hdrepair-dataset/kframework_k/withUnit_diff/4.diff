@@ -1,0 +1,28 @@
+diff --git a/kernel/src/main/java/org/kframework/parser/concrete2kore/ParseInModule.java b/kernel/src/main/java/org/kframework/parser/concrete2kore/ParseInModule.java
+index e530ea7..2e2c9d0 100644
+--- a/kernel/src/main/java/org/kframework/parser/concrete2kore/ParseInModule.java
++++ b/kernel/src/main/java/org/kframework/parser/concrete2kore/ParseInModule.java
+@@ -78 +78 @@
+-        rez2 = new AmbFilter().apply(rez.right().get());
++        rez2 = new AmbFilter().apply(rez3);
+diff --git a/kernel/src/test/java/org/kframework/parser/concrete2kore/RuleGrammarTest.java b/kernel/src/test/java/org/kframework/parser/concrete2kore/RuleGrammarTest.java
+index e3f1e41..5f00857 100644
+--- a/kernel/src/test/java/org/kframework/parser/concrete2kore/RuleGrammarTest.java
++++ b/kernel/src/test/java/org/kframework/parser/concrete2kore/RuleGrammarTest.java
+@@ -167,0 +168,15 @@
++
++    // test prefer and avoid
++    @Test
++    public void test8() {
++        String def = "" +
++                "module TEST " +
++                "syntax Exp ::= Exp \"+\" Exp [klabel('Plus), prefer] " +
++                "| Exp \"*\" Exp [klabel('Mul)] " +
++                "| r\"[0-9]+\" [token] " +
++                "endmodule";
++        Tuple2<Either<Set<ParseFailedException>, Term>, Set<ParseFailedException>> rule = parseRule(def, "1+2*3");
++        Assert.assertEquals("Expected 0 warnings: ", 0, rule._2().size());
++        Assert.assertTrue("Expected no errors here: ", rule._1().isRight());
++        printout(rule);
++    }
+

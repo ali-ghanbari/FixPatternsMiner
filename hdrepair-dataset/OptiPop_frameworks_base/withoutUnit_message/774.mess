@@ -1,0 +1,13 @@
+When reconnecting disassociate dc and apnContext.
+
+This is done in onActionIntentReconnectAlarm, which is called when
+retrying after an error, by setting the ApnContext.DataConnection &
+DataConnctionAc to null which intern clears the DataConnection.mApnList.
+
+With the mApnList cleared DataConnection.mRefCount will not be incremented
+because the DC will not be found by findReadyDataConnection. Thus fixing
+at least one cause of 6529189.
+
+Bug: 6529189
+Change-Id: I40ff1966f6fbd2f69e97d77b9db7122e4c5b992f
+

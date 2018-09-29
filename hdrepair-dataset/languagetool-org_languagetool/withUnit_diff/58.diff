@@ -1,0 +1,46 @@
+diff --git a/trunk/JLanguageTool/CHANGES.txt b/trunk/JLanguageTool/CHANGES.txt
+index ee2e1f9..96855f3 100644
+--- a/trunk/JLanguageTool/CHANGES.txt
++++ b/trunk/JLanguageTool/CHANGES.txt
+@@ -21,0 +22,2 @@
++ -bugfix: the "fromx" position in the XML output was wrong sometimes
++
+diff --git a/trunk/JLanguageTool/src/java/org/languagetool/JLanguageTool.java b/trunk/JLanguageTool/src/java/org/languagetool/JLanguageTool.java
+index b15ee55..c7fcdf7 100644
+--- a/trunk/JLanguageTool/src/java/org/languagetool/JLanguageTool.java
++++ b/trunk/JLanguageTool/src/java/org/languagetool/JLanguageTool.java
+@@ -520 +520 @@
+-        columnCount += sentence.length() -1;        
++        columnCount += sentence.length();
+diff --git a/trunk/JLanguageTool/src/test/org/languagetool/JLanguageToolTest.java b/trunk/JLanguageTool/src/test/org/languagetool/JLanguageToolTest.java
+index a35fdf1..bd4e80d 100644
+--- a/trunk/JLanguageTool/src/test/org/languagetool/JLanguageToolTest.java
++++ b/trunk/JLanguageTool/src/test/org/languagetool/JLanguageToolTest.java
+@@ -78,0 +79,11 @@
++  public void testPositionsWithGerman() throws IOException {
++    final JLanguageTool tool = new JLanguageTool(Language.GERMAN);
++    tool.activateDefaultPatternRules();
++    final List<RuleMatch> matches = tool.check("Stundenkilometer");
++    assertEquals(1, matches.size());
++    final RuleMatch match = matches.get(0);
++    // TODO: values should be either 0-based or 1-based, it should not be mixed up!
++    assertEquals(0, match.getLine());
++    assertEquals(1, match.getColumn());
++  }
++
+@@ -120 +131 @@
+-    assertEquals(16, matches.get(0).getColumn());
++    assertEquals(17, matches.get(0).getColumn());
+@@ -125 +136 @@
+-    assertEquals(30, matches.get(0).getColumn());
++    assertEquals(32, matches.get(0).getColumn());
+@@ -132 +143 @@
+-    assertEquals(16, matches.get(0).getColumn());
++    assertEquals(17, matches.get(0).getColumn());
+@@ -135 +146 @@
+-    assertEquals(16, matches.get(0).getColumn());
++    assertEquals(17, matches.get(0).getColumn());
+@@ -137 +148 @@
+-    assertEquals(23, matches.get(0).getColumn());
++    assertEquals(24, matches.get(0).getColumn());
+

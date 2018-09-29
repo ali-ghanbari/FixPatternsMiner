@@ -1,0 +1,8 @@
+diff --git a/refactoring/impl/com/intellij/refactoring/extractclass/ExtractClassHandler.java b/refactoring/impl/com/intellij/refactoring/extractclass/ExtractClassHandler.java
+index 3d8d88d..eba47da 100644
+--- a/refactoring/impl/com/intellij/refactoring/extractclass/ExtractClassHandler.java
++++ b/refactoring/impl/com/intellij/refactoring/extractclass/ExtractClassHandler.java
+@@ -39 +39 @@
+-    final PsiClass containingClass = selectedMember.getContainingClass();
++    final PsiClass containingClass = selectedMember instanceof PsiClass ? (PsiClass)selectedMember : selectedMember.getContainingClass();
+

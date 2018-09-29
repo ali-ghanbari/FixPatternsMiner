@@ -1,0 +1,41 @@
+diff --git a/solr/CHANGES.txt b/solr/CHANGES.txt
+index 07bd567..3a1f720 100644
+--- a/solr/CHANGES.txt
++++ b/solr/CHANGES.txt
+@@ -43,0 +44,4 @@
++  
++* SOLR-4489 - SpellCheckComponent can throw StringIndexOutOfBoundsException
++  when generating collations involving multiple word-break corrections.
++  (James Dyer)
+diff --git a/solr/core/src/java/org/apache/solr/spelling/SpellCheckCollator.java b/solr/core/src/java/org/apache/solr/spelling/SpellCheckCollator.java
+index b57552a..3c3ef7c 100644
+--- a/solr/core/src/java/org/apache/solr/spelling/SpellCheckCollator.java
++++ b/solr/core/src/java/org/apache/solr/spelling/SpellCheckCollator.java
+@@ -205 +205 @@
+-        char previousChar = tok.startOffset()>0 ? collation.charAt(tok.startOffset()-1) : ' ';
++        char previousChar = tok.startOffset()>0 ? origQuery.charAt(tok.startOffset()-1) : ' ';
+diff --git a/solr/core/src/test/org/apache/solr/spelling/WordBreakSolrSpellCheckerTest.java b/solr/core/src/test/org/apache/solr/spelling/WordBreakSolrSpellCheckerTest.java
+index 2caf2a2..8d3e724 100644
+--- a/solr/core/src/test/org/apache/solr/spelling/WordBreakSolrSpellCheckerTest.java
++++ b/solr/core/src/test/org/apache/solr/spelling/WordBreakSolrSpellCheckerTest.java
+@@ -46,0 +47 @@
++    assertNull(h.validateUpdate(adoc("id", "7", "lowerfilt", "zxcvqwtp fg hj")));
+@@ -280 +281,16 @@
+-    );    
++    );
++    assertQ(req(
++        "q", "zxcv AND qwtp AND fghj", 
++        "qt", "spellCheckWithWordbreak",
++        "defType", "edismax",
++        "qf", "lowerfilt",
++        "indent", "true",
++        SpellCheckComponent.SPELLCHECK_BUILD, "true",
++        SpellCheckComponent.COMPONENT_NAME, "true", 
++        SpellCheckComponent.SPELLCHECK_ACCURACY, ".75", 
++        SpellCheckComponent.SPELLCHECK_EXTENDED_RESULTS, "true",
++        SpellCheckComponent.SPELLCHECK_COLLATE, "true",
++        SpellCheckComponent.SPELLCHECK_COLLATE_EXTENDED_RESULTS, "true",
++        SpellCheckComponent.SPELLCHECK_MAX_COLLATIONS, "10"),
++        "//lst[@name='collation'][1 ]/str[@name='collationQuery']='zxcvqwtp AND (fg AND hj)'"
++    ); 
+

@@ -1,0 +1,26 @@
+diff --git a/src/org/mozilla/javascript/Parser.java b/src/org/mozilla/javascript/Parser.java
+index 87870e0..6d35c24 100644
+--- a/src/org/mozilla/javascript/Parser.java
++++ b/src/org/mozilla/javascript/Parser.java
+@@ -3232 +3232 @@
+-        if (currentToken != Token.NAME) {
++        if (!"".equals(prevNameTokenString)) {
+diff --git a/testsrc/org/mozilla/javascript/tests/ParserTest.java b/testsrc/org/mozilla/javascript/tests/ParserTest.java
+index bdebe32..2e8a07b 100644
+--- a/testsrc/org/mozilla/javascript/tests/ParserTest.java
++++ b/testsrc/org/mozilla/javascript/tests/ParserTest.java
+@@ -17,0 +18,13 @@
++    public void testAutoSemiColonBetweenNames() {
++        AstRoot root = parse("\nx\ny\nz\n");
++        AstNode first = ((ExpressionStatement)
++            root.getFirstChild()).getExpression();
++        assertEquals("x", first.getString());
++        AstNode second = ((ExpressionStatement)
++            root.getFirstChild().getNext()).getExpression();
++        assertEquals("y", second.getString());
++        AstNode third = ((ExpressionStatement)
++            root.getFirstChild().getNext().getNext()).getExpression();
++        assertEquals("z", third.getString());
++    }
++
+

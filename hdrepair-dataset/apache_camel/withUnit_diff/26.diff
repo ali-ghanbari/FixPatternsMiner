@@ -1,0 +1,31 @@
+diff --git a/camel-core/src/main/java/org/apache/camel/builder/xml/XsltBuilder.java b/camel-core/src/main/java/org/apache/camel/builder/xml/XsltBuilder.java
+index 0c77701..f0c714e 100644
+--- a/camel-core/src/main/java/org/apache/camel/builder/xml/XsltBuilder.java
++++ b/camel-core/src/main/java/org/apache/camel/builder/xml/XsltBuilder.java
+@@ -461 +461 @@
+-                source = tc.convertTo(Source.class, body);
++                source = tc.convertTo(Source.class, exchange, body);
+diff --git a/camel-core/src/test/java/org/apache/camel/component/xslt/XsltRouteTest.java b/camel-core/src/test/java/org/apache/camel/component/xslt/XsltRouteTest.java
+index 0ddae9e..8285ad6 100644
+--- a/camel-core/src/test/java/org/apache/camel/component/xslt/XsltRouteTest.java
++++ b/camel-core/src/test/java/org/apache/camel/component/xslt/XsltRouteTest.java
+@@ -27,3 +26,0 @@
+-/**
+- *
+- */
+@@ -30,0 +28,7 @@
++    public void testSendStringMessage() throws Exception {
++        sendMessageAndHaveItTransformed("<mail><subject>Hey</subject><body>Hello world!</body></mail>");
++    }
++    
++    public void testSendBytesMessage() throws Exception {
++        sendMessageAndHaveItTransformed("<mail><subject>Hey</subject><body>Hello world!</body></mail>".getBytes());
++    }
+@@ -32 +36 @@
+-    public void testSendMessageAndHaveItTransformed() throws Exception {
++    private void sendMessageAndHaveItTransformed(Object body) throws Exception {
+@@ -36,2 +40 @@
+-        template.sendBody("direct:start",
+-                "<mail><subject>Hey</subject><body>Hello world!</body></mail>");
++        template.sendBody("direct:start", body);
+

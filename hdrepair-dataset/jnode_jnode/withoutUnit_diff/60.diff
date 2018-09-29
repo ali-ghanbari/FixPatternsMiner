@@ -1,0 +1,24 @@
+diff --git a/core/descriptors/org.classpath.core.xml b/core/descriptors/org.classpath.core.xml
+index 0d1a435..5b3df51 100644
+--- a/core/descriptors/org.classpath.core.xml
++++ b/core/descriptors/org.classpath.core.xml
+@@ -15,0 +16,9 @@
++      <export name="gnu.classpath.jdwp.*"/>
++      <export name="gnu.classpath.jdwp.event.*"/>
++      <export name="gnu.classpath.jdwp.event.filters.*"/>
++      <export name="gnu.classpath.jdwp.exception.*"/>
++      <export name="gnu.classpath.jdwp.id.*"/>
++      <export name="gnu.classpath.jdwp.processor.*"/>
++      <export name="gnu.classpath.jdwp.transport.*"/>
++      <export name="gnu.classpath.jdwp.util.*"/>
++	  
+diff --git a/core/src/classpath/gnu/gnu/classpath/jdwp/transport/SocketTransport.java b/core/src/classpath/gnu/gnu/classpath/jdwp/transport/SocketTransport.java
+index 49d9e1f..757ef8c 100644
+--- a/core/src/classpath/gnu/gnu/classpath/jdwp/transport/SocketTransport.java
++++ b/core/src/classpath/gnu/gnu/classpath/jdwp/transport/SocketTransport.java
+@@ -103,0 +104,4 @@
++	    // @classpath-bugfix Michael Klaus (Michael.Klaus@gmx.net)
++	  } else if(s.length == 1) {
++		  _port = Integer.parseInt(s[0]);
++			// @classpath-bugfix-end
+

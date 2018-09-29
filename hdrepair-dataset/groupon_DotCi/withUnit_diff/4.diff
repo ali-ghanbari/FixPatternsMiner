@@ -1,0 +1,21 @@
+diff --git a/src/main/java/com/groupon/jenkins/github/CommitStatusUpdateListener.java b/src/main/java/com/groupon/jenkins/github/CommitStatusUpdateListener.java
+index d98e9fa..74ddc14 100644
+--- a/src/main/java/com/groupon/jenkins/github/CommitStatusUpdateListener.java
++++ b/src/main/java/com/groupon/jenkins/github/CommitStatusUpdateListener.java
+@@ -87 +87 @@
+-            repository.createCommitStatus(sha1, state, build.getFullUrl(), msg,"DotCI");
++            repository.createCommitStatus(sha1, state, build.getFullUrl(), msg,"DotCi");
+diff --git a/src/test/java/com/groupon/jenkins/github/CommitStatusUpdateListenerTest.java b/src/test/java/com/groupon/jenkins/github/CommitStatusUpdateListenerTest.java
+index e39e8a5..bf62e11 100644
+--- a/src/test/java/com/groupon/jenkins/github/CommitStatusUpdateListenerTest.java
++++ b/src/test/java/com/groupon/jenkins/github/CommitStatusUpdateListenerTest.java
+@@ -68 +68 @@
+-        verify(githubRepository).createCommitStatus(build.getSha(), GHCommitState.SUCCESS, build.getFullUrl(), "Success");
++        verify(githubRepository).createCommitStatus(build.getSha(), GHCommitState.SUCCESS, build.getFullUrl(), "Success", "DotCi");
+@@ -77 +77 @@
+-        verify(githubRepository).createCommitStatus(build.getSha(), GHCommitState.FAILURE, build.getFullUrl(), "Failed");
++        verify(githubRepository).createCommitStatus(build.getSha(), GHCommitState.FAILURE, build.getFullUrl(), "Failed", "DotCi");
+@@ -84 +84 @@
+-        verify(githubRepository).createCommitStatus(build.getSha(), GHCommitState.FAILURE, build.getFullUrl(), "Unstable");
++        verify(githubRepository).createCommitStatus(build.getSha(), GHCommitState.FAILURE, build.getFullUrl(), "Unstable", "DotCi");
+

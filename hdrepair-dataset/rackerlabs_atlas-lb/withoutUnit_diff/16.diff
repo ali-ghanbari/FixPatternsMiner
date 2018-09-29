@@ -1,0 +1,8 @@
+diff --git a/api/common-api/src/main/java/org/openstack/atlas/api/helpers/JsonSerializer/PropertyCollectionSerializer.java b/api/common-api/src/main/java/org/openstack/atlas/api/helpers/JsonSerializer/PropertyCollectionSerializer.java
+index 37bb8c8..f9f0793 100644
+--- a/api/common-api/src/main/java/org/openstack/atlas/api/helpers/JsonSerializer/PropertyCollectionSerializer.java
++++ b/api/common-api/src/main/java/org/openstack/atlas/api/helpers/JsonSerializer/PropertyCollectionSerializer.java
+@@ -114 +114 @@
+-        if (writeWhenNullOrEmpty) jgen.writeFieldName(fieldName);
++        if (writeWhenNullOrEmpty || !propList.isEmpty()) jgen.writeFieldName(fieldName);
+

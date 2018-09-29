@@ -1,0 +1,8 @@
+diff --git a/src/main/mondrian/rolap/RolapHierarchy.java b/src/main/mondrian/rolap/RolapHierarchy.java
+index 1f2134d..27e7a65 100644
+--- a/src/main/mondrian/rolap/RolapHierarchy.java
++++ b/src/main/mondrian/rolap/RolapHierarchy.java
+@@ -667 +667 @@
+-        query.addFrom(subRelation, null, failIfExists);
++        query.addFrom(subRelation, expression == null ? null : expression.getTableAlias(), failIfExists);
+

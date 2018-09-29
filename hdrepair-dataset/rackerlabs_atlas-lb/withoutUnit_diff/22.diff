@@ -1,0 +1,8 @@
+diff --git a/api/common-api/src/main/java/org/openstack/atlas/api/integration/ReverseProxyLoadBalancerServiceImpl.java b/api/common-api/src/main/java/org/openstack/atlas/api/integration/ReverseProxyLoadBalancerServiceImpl.java
+index 790bfc4..fb8554d 100644
+--- a/api/common-api/src/main/java/org/openstack/atlas/api/integration/ReverseProxyLoadBalancerServiceImpl.java
++++ b/api/common-api/src/main/java/org/openstack/atlas/api/integration/ReverseProxyLoadBalancerServiceImpl.java
+@@ -388 +388 @@
+-        LoadBalancerEndpointConfiguration config = getConfigbyLoadBalancerId(loadbalancerId);
++        LoadBalancerEndpointConfiguration config = getConfig(loadBalancerService.get(loadbalancerId).getHost());
+

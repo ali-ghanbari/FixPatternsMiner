@@ -1,0 +1,15 @@
+diff --git a/coeus-code/src/main/java/org/kuali/coeus/s2sgen/impl/generate/S2SBaseFormGenerator.java b/coeus-code/src/main/java/org/kuali/coeus/s2sgen/impl/generate/S2SBaseFormGenerator.java
+index bea49b8..5d01d2f 100644
+--- a/coeus-code/src/main/java/org/kuali/coeus/s2sgen/impl/generate/S2SBaseFormGenerator.java
++++ b/coeus-code/src/main/java/org/kuali/coeus/s2sgen/impl/generate/S2SBaseFormGenerator.java
+@@ -613 +613 @@
+-        formMappingService.registerForm(new FormMappingInfo(getNamespace(), getGeneratorName(), getFormName(), getStylesheet().getURL().getPath(), getSortIndex(), false));
++        formMappingService.registerForm(new FormMappingInfo(getNamespace(), getGeneratorName(), getFormName(), getStylesheet().getURL().toString(), getSortIndex(), false));
+diff --git a/coeus-it/src/test/java/org/kuali/kra/s2s/generator/impl/GeneratorConfigurationTest.java b/coeus-it/src/test/java/org/kuali/kra/s2s/generator/impl/GeneratorConfigurationTest.java
+index 2b00db2..4c8b8b1 100644
+--- a/coeus-it/src/test/java/org/kuali/kra/s2s/generator/impl/GeneratorConfigurationTest.java
++++ b/coeus-it/src/test/java/org/kuali/kra/s2s/generator/impl/GeneratorConfigurationTest.java
+@@ -106 +106 @@
+-            Resource resource = resourceLoader.getResource("classpath:" + info.getStyleSheet());
++            Resource resource = resourceLoader.getResource(info.getStyleSheet());
+

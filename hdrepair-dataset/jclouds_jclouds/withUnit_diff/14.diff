@@ -1,0 +1,46 @@
+diff --git a/apis/chef/src/main/java/org/jclouds/chef/binders/BindIsCompletedToJsonPayload.java b/apis/chef/src/main/java/org/jclouds/chef/binders/BindIsCompletedToJsonPayload.java
+index 53d87d0..5bb1b60 100644
+--- a/apis/chef/src/main/java/org/jclouds/chef/binders/BindIsCompletedToJsonPayload.java
++++ b/apis/chef/src/main/java/org/jclouds/chef/binders/BindIsCompletedToJsonPayload.java
+@@ -37 +37 @@
+-      super.bindToRequest(request, String.format("{\"is_completed\":\"%s\"}", payload));
++      super.bindToRequest(request, String.format("{\"is_completed\":%s}", payload));
+diff --git a/apis/chef/src/test/java/org/jclouds/chef/ChefAsyncClientTest.java b/apis/chef/src/test/java/org/jclouds/chef/ChefAsyncClientTest.java
+index eb94a16..beae7a0 100644
+--- a/apis/chef/src/test/java/org/jclouds/chef/ChefAsyncClientTest.java
++++ b/apis/chef/src/test/java/org/jclouds/chef/ChefAsyncClientTest.java
+@@ -89 +89 @@
+-      assertPayloadEquals(httpRequest, "{\"is_completed\":\"true\"}", "application/json", false);
++      assertPayloadEquals(httpRequest, "{\"is_completed\":true}", "application/json", false);
+diff --git a/apis/chef/src/test/java/org/jclouds/chef/internal/BaseChefClientLiveTest.java b/apis/chef/src/test/java/org/jclouds/chef/internal/BaseChefClientLiveTest.java
+index 6655660..8819fd9 100644
+--- a/apis/chef/src/test/java/org/jclouds/chef/internal/BaseChefClientLiveTest.java
++++ b/apis/chef/src/test/java/org/jclouds/chef/internal/BaseChefClientLiveTest.java
+@@ -133 +133 @@
+-      CookbookVersion cookbook = new CookbookVersion("test3", "0.0.0");
++      CookbookVersion cookbook = new CookbookVersion(PREFIX, "0.0.0");
+@@ -137 +137 @@
+-      chefClient.updateCookbook("test3", "0.0.0", cookbook);
++      chefClient.updateCookbook(PREFIX, "0.0.0", cookbook);
+@@ -171,5 +171,2 @@
+-      for (String cookbook : chefClient.listCookbooks())
+-         for (String version : chefClient.getVersionsOfCookbook(cookbook)) {
+-            CookbookVersion cook = chefClient.getCookbook(cookbook, version);
+-            chefClient.updateCookbook(cookbook, version, cook);
+-         }
++      CookbookVersion cookbook = chefClient.getCookbook(PREFIX, "0.0.0");
++      assertNotNull(chefClient.updateCookbook(PREFIX, "0.0.0", cookbook));
+@@ -178,9 +175,3 @@
+-   @Test(dependsOnMethods = {"testCreateNewCookbook", "testUpdateCookbook"}, enabled = false)
+-   public void testCreateCookbook() throws Exception {
+-      for (String cookbook : chefClient.listCookbooks())
+-         for (String version : chefClient.getVersionsOfCookbook(cookbook)) {
+-            CookbookVersion cook = chefClient.getCookbook(cookbook, version);
+-            chefClient.deleteCookbook(cookbook, version);
+-            assert chefClient.getCookbook(cookbook, version) == null : cookbook + version;
+-            chefClient.updateCookbook(cookbook, version, cook);
+-         }
++   @Test(dependsOnMethods = {"testCreateNewCookbook", "testUpdateCookbook"})
++   public void testDeleteCookbook() throws Exception {
++      assertNotNull(chefClient.deleteCookbook(PREFIX, "0.0.0"));
+

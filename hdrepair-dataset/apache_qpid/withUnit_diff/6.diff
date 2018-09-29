@@ -1,0 +1,88 @@
+diff --git a/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/main/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicy.java b/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/main/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicy.java
+index 9bd1dd3..577dced 100644
+--- a/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/main/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicy.java
++++ b/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/main/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicy.java
+@@ -96 +96 @@
+-            if (!q.isAutoDelete() && _configuration.deletePersistent())
++            if (!q.isAutoDelete() && (_configuration != null && _configuration.deletePersistent()))
+diff --git a/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/test/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicyTest.java b/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/test/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicyTest.java
+index 253745e..364766d 100644
+--- a/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/test/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicyTest.java
++++ b/qpid/java/broker-plugins/experimental/slowconsumerdetection/src/test/java/org/apache/qpid/server/virtualhost/plugin/policies/TopicDeletePolicyTest.java
+@@ -37 +36,0 @@
+-import org.apache.qpid.test.utils.QpidTestCase;
+@@ -100,2 +98,0 @@
+-
+-
+@@ -123 +120 @@
+-    public void testNonExclusiveQueue() throws ConfigurationException
++    public void testNonExclusiveQueue()
+@@ -144 +141 @@
+-    public void testQueuesAreNotProcessed() throws ConfigurationException
++    public void testQueuesAreNotProcessed()
+@@ -159 +155,0 @@
+-
+@@ -164 +160 @@
+-    public void testNonAutoDeleteTopicIsNotClosed() throws ConfigurationException
++    public void testNonAutoDeleteTopicIsNotClosed()
+@@ -185 +181 @@
+-    public void testTopicIsClosed() throws ConfigurationException
++    public void testTopicIsClosed()
+@@ -206 +202 @@
+-    public void testNonAutoDeleteTopicIsClosedNotDeleted() throws AMQException, ConfigurationException
++    public void testNonAutoDeleteTopicIsClosedNotDeleted()
+@@ -226 +222 @@
+-    public void testPersistentTopicIsClosedAndDeleted() throws ConfigurationException
++    public void testPersistentTopicIsClosedAndDeleted()
+@@ -246,0 +243,50 @@
++    /**
++     * Give a queue bound to the topic exchange the TopicDeletePolicy not
++     * configured to close a persistent queue
++     */
++    public void testPersistentTopicIsClosedAndDeletedNullConfig()
++    {
++        TopicDeletePolicy policy = new TopicDeletePolicy();
++        // Explicity say we are not configuring the policy.
++        policy.configure(null);
++
++        MockAMQQueue queue = createOwnedQueue();
++
++        queue.addBinding(new Binding(null, "bindingKey", queue, new TopicExchange(), null));
++
++        policy.performPolicy(queue);
++
++        assertFalse("Queue should not be deleted", queue.isDeleted());
++        assertTrue("Connection should be closed", _connection.isClosed());
++    }
++
++    public void testNonExclusiveQueueNullConfig()
++    {
++        _config = null;
++        testNonExclusiveQueue();
++    }
++
++    public void testQueuesAreNotProcessedNullConfig()
++    {
++        _config = null;
++        testQueuesAreNotProcessed();
++    }
++
++    public void testNonAutoDeleteTopicIsNotClosedNullConfig()
++    {
++        _config = null;
++        testNonAutoDeleteTopicIsNotClosed();
++    }
++
++    public void testTopicIsClosedNullConfig()
++    {
++        _config = null;
++        testTopicIsClosed();
++    }
++
++    public void testNonAutoDeleteTopicIsClosedNotDeletedNullConfig() throws AMQException
++    {
++        _config = null;
++        testNonAutoDeleteTopicIsClosedNotDeleted();
++    }
++
+

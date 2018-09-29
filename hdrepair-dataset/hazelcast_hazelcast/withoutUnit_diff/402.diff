@@ -1,0 +1,8 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/queue/tx/TransactionalQueueProxySupport.java b/hazelcast/src/main/java/com/hazelcast/queue/tx/TransactionalQueueProxySupport.java
+index 32f2736..eee0ddb 100644
+--- a/hazelcast/src/main/java/com/hazelcast/queue/tx/TransactionalQueueProxySupport.java
++++ b/hazelcast/src/main/java/com/hazelcast/queue/tx/TransactionalQueueProxySupport.java
+@@ -96 +96 @@
+-                    tx.removeTransactionLog(reservedOffer.getItemId());
++                    tx.removeTransactionLog(new TransactionLogKey(reservedOffer.getItemId(), name));
+

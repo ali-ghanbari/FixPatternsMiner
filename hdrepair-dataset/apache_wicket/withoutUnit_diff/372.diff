@@ -1,0 +1,12 @@
+diff --git a/wicket/src/java/wicket/Session.java b/wicket/src/java/wicket/Session.java
+index 2142d5b..5898d36 100644
+--- a/wicket/src/java/wicket/Session.java
++++ b/wicket/src/java/wicket/Session.java
+@@ -96,2 +96,4 @@
+- * method is provided. In a clustered environment, you should take care to
+- * 
++ * method is provided. In a clustered environment, you should take care to call
++ * the dirty() method when you change a property or youre own. This way the 
++ * session will be reset again in the http session so that the http session 
++ * knows the session is changed.
+

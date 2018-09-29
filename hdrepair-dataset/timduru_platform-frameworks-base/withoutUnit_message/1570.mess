@@ -1,0 +1,5 @@
+Merge change 3094 into donut
+
+* changes:
+  Grant permissions to older package when deleting an updated system application. When a system app gets updated, the permissions are granted to the new pkg. Similary when this updated pkg(from data partition) gets removed, the older pkg from system partition is restored. but the permissions are'nt being granted explicitly and so the restore fails. This fix addresses specific bugs related to uninstall of updated system apps. These code paths will be revisited later but this fix is needed for OTA's that might fall back to older versions of system apps.
+

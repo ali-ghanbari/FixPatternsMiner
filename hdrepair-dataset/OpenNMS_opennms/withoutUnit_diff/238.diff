@@ -1,0 +1,76 @@
+diff --git a/opennms-webapp/src/main/java/org/opennms/web/rss/EventFeed.java b/opennms-webapp/src/main/java/org/opennms/web/rss/EventFeed.java
+index f6014cf..b9b4887 100644
+--- a/opennms-webapp/src/main/java/org/opennms/web/rss/EventFeed.java
++++ b/opennms-webapp/src/main/java/org/opennms/web/rss/EventFeed.java
+@@ -68 +68 @@
+-        feed.setLink(getUrlBase() + "event/list");
++        feed.setLink(getUrlBase() + "event/list.htm");
+diff --git a/opennms-webapp/src/main/webapp/WEB-INF/jsp/alarm/list.jsp b/opennms-webapp/src/main/webapp/WEB-INF/jsp/alarm/list.jsp
+index 1afd147..490d7f1 100644
+--- a/opennms-webapp/src/main/webapp/WEB-INF/jsp/alarm/list.jsp
++++ b/opennms-webapp/src/main/webapp/WEB-INF/jsp/alarm/list.jsp
+@@ -452 +452 @@
+-                  <a href="event/list?sortby=id&acktype=unack&filter=alarm=<%=alarms[i].getId()%>"><%=alarms[i].getCount()%></a>
++                  <a href="event/list.htm?sortby=id&acktype=unack&filter=alarm=<%=alarms[i].getId()%>"><%=alarms[i].getCount()%></a>
+@@ -596 +596 @@
+-      StringBuffer buffer = new StringBuffer( "event/list" );
++      StringBuffer buffer = new StringBuffer( "event/list.htm" );
+diff --git a/opennms-webapp/src/main/webapp/WEB-INF/jsp/event/list.jsp b/opennms-webapp/src/main/webapp/WEB-INF/jsp/event/list.jsp
+index ebcffc0..79fed86 100644
+--- a/opennms-webapp/src/main/webapp/WEB-INF/jsp/event/list.jsp
++++ b/opennms-webapp/src/main/webapp/WEB-INF/jsp/event/list.jsp
+@@ -85 +85 @@
+-  at the /event/list URL.  It will not work by itself, as it requires two request
++  at the /event/list.htm URL.  It will not work by itself, as it requires two request
+diff --git a/opennms-webapp/src/main/webapp/admin/serviceDeleted.jsp b/opennms-webapp/src/main/webapp/admin/serviceDeleted.jsp
+index b200749..55ded5f 100644
+--- a/opennms-webapp/src/main/webapp/admin/serviceDeleted.jsp
++++ b/opennms-webapp/src/main/webapp/admin/serviceDeleted.jsp
+@@ -88 +88 @@
+-    String eventUrl = "event/list?filter=node%3D" + nodeId + "&filter=interface%3D" + ipAddr + "&filter=service%3D" + serviceId;
++    String eventUrl = "event/list.htm?filter=node%3D" + nodeId + "&filter=interface%3D" + ipAddr + "&filter=service%3D" + serviceId;
+diff --git a/opennms-webapp/src/main/webapp/element/bridgenode.jsp b/opennms-webapp/src/main/webapp/element/bridgenode.jsp
+index e5d7519..24a8f78 100644
+--- a/opennms-webapp/src/main/webapp/element/bridgenode.jsp
++++ b/opennms-webapp/src/main/webapp/element/bridgenode.jsp
+@@ -168 +168 @@
+-        	<a href="event/list?filter=node%3D<%=nodeId%>">View Events</a>
++        	<a href="event/list.htm?filter=node%3D<%=nodeId%>">View Events</a>
+diff --git a/opennms-webapp/src/main/webapp/element/interface.jsp b/opennms-webapp/src/main/webapp/element/interface.jsp
+index 29e29d9..7462f76 100644
+--- a/opennms-webapp/src/main/webapp/element/interface.jsp
++++ b/opennms-webapp/src/main/webapp/element/interface.jsp
+@@ -105,2 +105,2 @@
+-    String eventUrl1 = "event/list?filter=node%3D" + nodeId + "&filter=interface%3D" + ipAddr;
+-    String eventUrl2 = "event/list?filter=node%3D" + nodeId + "&filter=ifindex%3D" + ifIndex;
++    String eventUrl1 = "event/list.htm?filter=node%3D" + nodeId + "&filter=interface%3D" + ipAddr;
++    String eventUrl2 = "event/list.htm?filter=node%3D" + nodeId + "&filter=ifindex%3D" + ifIndex;
+diff --git a/opennms-webapp/src/main/webapp/element/linkednode.jsp b/opennms-webapp/src/main/webapp/element/linkednode.jsp
+index 434e687..479df7c 100644
+--- a/opennms-webapp/src/main/webapp/element/linkednode.jsp
++++ b/opennms-webapp/src/main/webapp/element/linkednode.jsp
+@@ -259 +259 @@
+-		<a href="event/list?filter=node%3D<%=nodeId%>">View Events</a>
++		<a href="event/list.htm?filter=node%3D<%=nodeId%>">View Events</a>
+diff --git a/opennms-webapp/src/main/webapp/element/routeipnode.jsp b/opennms-webapp/src/main/webapp/element/routeipnode.jsp
+index 5659b22..39a432a 100644
+--- a/opennms-webapp/src/main/webapp/element/routeipnode.jsp
++++ b/opennms-webapp/src/main/webapp/element/routeipnode.jsp
+@@ -162 +162 @@
+-        	<a href="event/list?filter=node%3D<%=nodeId%>">View Events</a>
++        	<a href="event/list.htm?filter=node%3D<%=nodeId%>">View Events</a>
+diff --git a/opennms-webapp/src/main/webapp/element/service.jsp b/opennms-webapp/src/main/webapp/element/service.jsp
+index 06faf3f..22fa8ef 100644
+--- a/opennms-webapp/src/main/webapp/element/service.jsp
++++ b/opennms-webapp/src/main/webapp/element/service.jsp
+@@ -59 +59 @@
+-    String eventUrl = "event/list?filter=node%3D" + nodeId
++    String eventUrl = "event/list.htm?filter=node%3D" + nodeId
+diff --git a/opennms-webapp/src/main/webapp/errors/eventidnotfound.jsp b/opennms-webapp/src/main/webapp/errors/eventidnotfound.jsp
+index aa79f7d..bd40a14 100644
+--- a/opennms-webapp/src/main/webapp/errors/eventidnotfound.jsp
++++ b/opennms-webapp/src/main/webapp/errors/eventidnotfound.jsp
+@@ -74 +74 @@
+-  You can re-enter it here or <a href="event/list?acktyp=unack">browse all
++  You can re-enter it here or <a href="event/list.htm?acktyp=unack">browse all
+

@@ -1,0 +1,8 @@
+diff --git a/common/src/geogebra/common/kernel/arithmetic/ExpressionNode.java b/common/src/geogebra/common/kernel/arithmetic/ExpressionNode.java
+index 38e19b7..23a327f 100644
+--- a/common/src/geogebra/common/kernel/arithmetic/ExpressionNode.java
++++ b/common/src/geogebra/common/kernel/arithmetic/ExpressionNode.java
+@@ -928 +928 @@
+-		return t.check(this) || left.inspect(t) || (right!=null && right.inspect(t));
++		return t.check(this) || (left!=null && left.inspect(t)) || (right!=null && right.inspect(t));
+

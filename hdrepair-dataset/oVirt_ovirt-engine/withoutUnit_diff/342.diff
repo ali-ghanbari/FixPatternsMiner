@@ -1,0 +1,8 @@
+diff --git a/frontend/webadmin/modules/webadmin/src/main/java/org/ovirt/engine/ui/webadmin/section/main/view/tab/MainTabHostView.java b/frontend/webadmin/modules/webadmin/src/main/java/org/ovirt/engine/ui/webadmin/section/main/view/tab/MainTabHostView.java
+index bb5b302..4691534 100644
+--- a/frontend/webadmin/modules/webadmin/src/main/java/org/ovirt/engine/ui/webadmin/section/main/view/tab/MainTabHostView.java
++++ b/frontend/webadmin/modules/webadmin/src/main/java/org/ovirt/engine/ui/webadmin/section/main/view/tab/MainTabHostView.java
+@@ -141 +141 @@
+-                    return Math.min(object.getvm_active(), 100);
++                    return object.getvm_active() != null ? Math.min(object.getvm_active(), 100) : 0;
+

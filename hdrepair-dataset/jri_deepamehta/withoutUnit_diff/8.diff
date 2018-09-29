@@ -1,0 +1,36 @@
+diff --git a/modules/dm4-core/src/main/java/de/deepamehta/core/model/CompositeValueModel.java b/modules/dm4-core/src/main/java/de/deepamehta/core/model/CompositeValueModel.java
+index 12f695c..4ec2c10 100644
+--- a/modules/dm4-core/src/main/java/de/deepamehta/core/model/CompositeValueModel.java
++++ b/modules/dm4-core/src/main/java/de/deepamehta/core/model/CompositeValueModel.java
+@@ -494,0 +495,2 @@
++            // ### TODO: "type_uri" should not be regarded mandatory. It would simplify update requests.
++            // ### Can we use another heuristic for detection: "value" exists OR "composite" exists?
+diff --git a/modules/dm4-webclient/src/main/resources/web/script/renderers/page_renderers/page_model/page_model.js b/modules/dm4-webclient/src/main/resources/web/script/renderers/page_renderers/page_model/page_model.js
+index b929950..bc3e3f6 100644
+--- a/modules/dm4-webclient/src/main/resources/web/script/renderers/page_renderers/page_model/page_model.js
++++ b/modules/dm4-webclient/src/main/resources/web/script/renderers/page_renderers/page_model/page_model.js
+@@ -335,0 +336,5 @@
++            var object_model = {
++                id: page_model.object.id,
++                type_uri: page_model.object.type_uri    // ### TODO: setting type_uri should not be required
++                                                        // ### see CompositeValueModel.createTopicModel()
++            }
+@@ -347,2 +352,2 @@
+-                    page_model.object.value = value
+-                    return page_model.object
++                    object_model.value = value
++                    return object_model
+@@ -356 +361 @@
+-                var composite = {}
++                object_model.composite = {}
+@@ -362 +367 @@
+-                        composite[assoc_def_uri] = values
++                        object_model.composite[assoc_def_uri] = values
+@@ -367 +372 @@
+-                            composite[assoc_def_uri] = value
++                            object_model.composite[assoc_def_uri] = value
+@@ -371,2 +376 @@
+-                page_model.object.composite = composite
+-                return page_model.object
++                return object_model
+

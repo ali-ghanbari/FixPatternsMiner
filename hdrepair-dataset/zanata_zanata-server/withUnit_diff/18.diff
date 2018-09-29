@@ -1,0 +1,259 @@
+diff --git a/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitsNavigationService.java b/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitsNavigationService.java
+index 23eee1a..36a9b3e 100644
+--- a/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitsNavigationService.java
++++ b/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitsNavigationService.java
+@@ -74 +74 @@
+-      GetTransUnitsNavigationService.log.debug("for action {} returned size: ", action, idIndexList.size());
++      log.info("for action {} returned size: {}", action, idIndexList.size());
+diff --git a/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java b/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java
+index f7ce4fa..9b16bce 100644
+--- a/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java
++++ b/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java
+@@ -31,0 +32,2 @@
++import org.mockito.invocation.InvocationOnMock;
++import org.mockito.stubbing.Answer;
+@@ -53 +55 @@
+-import com.google.common.collect.Lists;
++import com.google.common.collect.ImmutableList;
+@@ -58,4 +59,0 @@
+-import net.customware.gwt.dispatch.server.ActionHandler;
+-import net.customware.gwt.dispatch.shared.Action;
+-import net.customware.gwt.dispatch.shared.ActionException;
+-import net.customware.gwt.dispatch.shared.Result;
+@@ -68,0 +67 @@
++import static org.mockito.Mockito.doAnswer;
+@@ -73,2 +72 @@
+-// TODO fail on jenkins. need to sort out why?
+-@Test(groups = { "unit-tests" }, description = "This test uses SeamAutowire with mockito to simulate a RPC call environment", enabled = false)
++@Test(groups = { "unit-tests" }, description = "This test uses SeamAutowire with mockito to simulate a RPC call environment")
+@@ -78,4 +76,13 @@
+-   private WorkspaceId workspaceId = TestFixture.workspaceId();
+-   private HLocale hLocale = new HLocale(workspaceId.getLocaleId());
+-
+-   private List<HTextFlow> hTextFlows;
++   private static final WorkspaceId WORKSPACE_ID = TestFixture.workspaceId();
++   private static final HLocale LOCALE = new HLocale(WORKSPACE_ID.getLocaleId());
++   // @formatter:off
++   private static final List<HTextFlow> TEXT_FLOWS = ImmutableList.<HTextFlow>builder().add(
++         TestFixture.makeHTextFlow(0, LOCALE, ContentState.New),
++         TestFixture.makeHTextFlow(1, LOCALE, ContentState.New),
++         TestFixture.makeHTextFlow(2, LOCALE, ContentState.NeedReview),
++         TestFixture.makeHTextFlow(3, LOCALE, ContentState.Approved),
++         TestFixture.makeHTextFlow(4, LOCALE, ContentState.NeedReview),
++         TestFixture.makeHTextFlow(5, LOCALE, ContentState.New)
++   ).build();
++   // @formatter:on
++   private static final DocumentId DOCUMENT_ID = new DocumentId(1L);
+@@ -88 +94,0 @@
+-
+@@ -90,3 +95,0 @@
+-
+-   private DocumentId documentId = new DocumentId(1L);
+-
+@@ -95 +97,0 @@
+-
+@@ -98,5 +99,0 @@
+-
+-   //captured dispatcher arguments
+-   private GetTransUnitList getTransUnitList;
+-   private AsyncCallback<GetTransUnitListResult> getTransUnitListCallback;
+-
+@@ -110 +106,0 @@
+-   private MockHandlerFactory handlerFactory;
+@@ -112,0 +109 @@
++   private GetTransUnitListResult getTransUnitListResult;
+@@ -118 +114,0 @@
+-      UserConfigHolder configHolder = new UserConfigHolder();
+@@ -120,3 +116 @@
+-      handlerFactory = new MockHandlerFactory();
+-
+-      service = new NavigationService(eventBus, dispatcher, configHolder, messages);
++      service = new NavigationService(eventBus, dispatcher, new UserConfigHolder(), messages);
+@@ -126,11 +120,15 @@
+-      context = new GetTransUnitActionContext(documentId);
+-      // @formatter:off
+-      hTextFlows = Lists.newArrayList(
+-            TestFixture.makeHTextFlow(0, hLocale, ContentState.New),
+-            TestFixture.makeHTextFlow(1, hLocale, ContentState.New),
+-            TestFixture.makeHTextFlow(2, hLocale, ContentState.NeedReview),
+-            TestFixture.makeHTextFlow(3, hLocale, ContentState.Approved),
+-            TestFixture.makeHTextFlow(4, hLocale, ContentState.NeedReview),
+-            TestFixture.makeHTextFlow(5, hLocale, ContentState.New)
+-      );
+-      // @formatter:on
++      context = new GetTransUnitActionContext(DOCUMENT_ID);
++
++      doAnswer(new Answer<Void>()
++      {
++         @Override
++         public Void answer(InvocationOnMock invocation) throws Throwable
++         {
++            Object[] arguments = invocation.getArguments();
++            GetTransUnitList action = (GetTransUnitList) arguments[0];
++            action.setWorkspaceId(WORKSPACE_ID);
++            GetTransUnitListHandler handler = new MockHandlerFactory().createGetTransUnitListHandlerWithBehavior(DOCUMENT_ID, TEXT_FLOWS, LOCALE, action.getOffset(), action.getCount());
++            getTransUnitListResult = handler.execute(action, null);
++            return null;
++         }
++      }).when(dispatcher).execute(actionCaptor.capture(), asyncCallbackCaptor.capture());
+@@ -139,2 +137 @@
+-   @SuppressWarnings("unchecked")
+-   private void verifyDispatcherAndCaptureArguments()
++   private void verifyDispatcherAndCallOnSuccess()
+@@ -143,7 +140 @@
+-
+-      List<GetTransUnitList> allValues = actionCaptor.getAllValues();
+-      getTransUnitList = allValues.get(allValues.size() - 1);
+-      getTransUnitList.setWorkspaceId(workspaceId);
+-
+-      List<AsyncCallback<GetTransUnitListResult>> allCallbacks = asyncCallbackCaptor.getAllValues();
+-      getTransUnitListCallback = allCallbacks.get(allCallbacks.size() - 1);
++      asyncCallbackCaptor.getValue().onSuccess(getTransUnitListResult);
+@@ -152,26 +143 @@
+-   //look at this AWESOME generic work ;)
+-   private static <A extends Action<R>, R extends Result, H extends ActionHandler<A, R>> R callHandler(H handler, A action)
+-   {
+-      R result;
+-      try
+-      {
+-         result = handler.execute(action, null);
+-      }
+-      catch (ActionException e)
+-      {
+-         throw new RuntimeException("fail to call getTransUnitListHandler.execute()", e);
+-      }
+-
+-      log.info("result: {}", result);
+-      return result;
+-   }
+-
+-   private void simulateRPCCallbackOnSuccess()
+-   {
+-      verifyDispatcherAndCaptureArguments();
+-      GetTransUnitListHandler handler = handlerFactory.createGetTransUnitListHandlerWithBehavior(documentId, hTextFlows, hLocale, getTransUnitList.getOffset(), getTransUnitList.getCount());
+-
+-      getTransUnitListCallback.onSuccess(callHandler(handler, getTransUnitList));
+-   }
+-
+-   @Test(enabled = false)
++   @Test
+@@ -180,2 +146 @@
+-      service.init(context.changeCount(6));
+-      verifyDispatcherAndCaptureArguments();
++      service.requestTransUnitsAndUpdatePageIndex(context.changeCount(6), true);
+@@ -183,4 +148 @@
+-      GetTransUnitListHandler handler = handlerFactory.createGetTransUnitListHandlerWithBehavior(documentId, hTextFlows, hLocale, getTransUnitList.getOffset(), getTransUnitList.getCount());
+-
+-      GetTransUnitListResult getTransUnitListResult = callHandler(handler, getTransUnitList);
+-      assertThat(getTransUnitListResult.getDocumentId(), equalTo(documentId));
++      assertThat(getTransUnitListResult.getDocumentId(), equalTo(DOCUMENT_ID));
+@@ -199 +161 @@
+-   @Test(enabled = false)
++   @Test
+@@ -203 +165,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -205 +168 @@
+-      simulateRPCCallbackOnSuccess();
++
+@@ -221 +184 @@
+-   @Test(enabled = false)
++   @Test
+@@ -225 +188,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -227 +191,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -235 +200 @@
+-   @Test(enabled = false)
++   @Test
+@@ -238 +203,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -240 +206,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -250 +217 @@
+-   @Test(enabled = false)
++   @Test
+@@ -253 +220,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -255 +223,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -260 +229,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -265 +235 @@
+-   @Test(enabled = false)
++   @Test
+@@ -269 +239,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -271 +242,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -276 +248,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -287 +260 @@
+-   @Test(enabled = false)
++   @Test
+@@ -291 +264,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -299 +273,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -304 +279,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -309 +285,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -319 +296 @@
+-   @Test(enabled = false)
++   @Test
+@@ -323 +300,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -325 +303,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -331 +310,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -337 +317,2 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
++
+@@ -342 +323 @@
+-   @Test(enabled = false)
++   @Test
+@@ -348 +329 @@
+-      simulateRPCCallbackOnSuccess();
++      verifyDispatcherAndCallOnSuccess();
+@@ -355 +336 @@
+-      TransUnitId firstItem = new TransUnitId(hTextFlows.get(0).getId());
++      TransUnitId firstItem = new TransUnitId(TEXT_FLOWS.get(0).getId());
+

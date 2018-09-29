@@ -1,0 +1,23 @@
+core: avoid db deadlock and unneeded db updates for images
+
+When adding a VM from template (as part of pool or not),
+CreateSnapshotFromTemplateCommand is being executed and when the
+operation ends its end method is being called for each of the disks.
+
+In the end method there's an attempt to unlock the template image which
+causes to numerous issues:
+1. There are attempts to update the template disks statuses to ok,
+as the updates aren't ordered and are executed for each added vm based
+on that template - db deadlocks occur.
+2.Currently the template disks aren't being locked at all (which 
+should be inspected regardless), so there's currently no point in unlocking them.
+
+The fix which is introduced is to not update the image status if it's
+already in the desired status, which will reduce the updates count in
+general and will prevent possible db deadlocks in the provided
+scenarios.
+
+Change-Id: I26a09ce674cfefd59819f3edf95accab31f0e80e
+Bug-Url: https://bugzilla.redhat.com/show_bug.cgi?id=915753
+Signed-off-by: Liron Aravot <laravot@redhat.com>
+

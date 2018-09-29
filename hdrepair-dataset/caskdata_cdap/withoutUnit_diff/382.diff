@@ -1,0 +1,122 @@
+diff --git a/src/main/java/com/continuuity/performance/runner/PerformanceTestRunner.java b/src/main/java/com/continuuity/performance/runner/PerformanceTestRunner.java
+index 5c8e2ef..300e28b 100644
+--- a/src/main/java/com/continuuity/performance/runner/PerformanceTestRunner.java
++++ b/src/main/java/com/continuuity/performance/runner/PerformanceTestRunner.java
+@@ -745,8 +744,0 @@
+-    /**
+-     * Waits until the provided counter has reached the provided count.
+-     * @param counterName Name of counter
+-     * @param count Value to be reached by counter
+-     * @param timeout Maximum time to wait for
+-     * @param timeoutUnit {@link java.util.concurrent.TimeUnit} for the timeout time.
+-     * @throws java.util.concurrent.TimeoutException If the timeout time passed and still not seeing that many count.
+-     */
+diff --git a/src/main/resources/SimplePerformanceTest.xml b/src/main/resources/SimplePerformanceTest.xml
+new file mode 100644
+index 0000000..07ca699
+--- /dev/null
++++ b/src/main/resources/SimplePerformanceTest.xml
+@@ -0,0 +1,48 @@
++<?xml version="1.0"?>
++<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
++<!--
++    Copyright (c) to Continuuity Inc. All rights reserved.
++-->
++<configuration>
++
++    <!--
++        Performance configurations.
++    -->
++
++    <property>
++        <name>perf.datafabric.mode</name>
++        <value>single</value>
++        <description>Specifies the data fabric mode.</description>
++    </property>
++
++    <property>
++        <name>perf.reporter.enabled</name>
++        <value>true</value>
++        <description>Specifies whether reporting of metrics is enabled or not.</description>
++    </property>
++
++    <property>
++        <name>perf.reporter.class</name>
++        <value>com.continuuity.performance.application.MensaMetricsReporter</value>
++        <description>Specifies a comma-separated list of classes for the REST metrics connector</description>
++    </property>
++
++    <property>
++        <name>perf.reporter.threads</name>
++        <value>1</value>
++        <description>Number of reporter threads.</description>
++    </property>
++
++    <property>
++        <name>perf.report.metrics</name>
++        <value>developer:SimpleApp:SimpleFlow:source:processed.count</value>
++        <description>Specifies a comma-separated list of metrics that need to be added to overlord</description>
++    </property>
++
++    <property>
++        <name>perf.report.interval</name>
++        <value>10</value>
++        <description>Specifies the reporting interval in seconds</description>
++    </property>
++
++</configuration>
+diff --git a/src/main/resources/simplerennen.xml b/src/main/resources/simplerennen.xml
+deleted file mode 100644
+index 07ca699..0000000
+--- a/src/main/resources/simplerennen.xml
++++ /dev/null
+@@ -1,48 +0,0 @@
+-<?xml version="1.0"?>
+-<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+-<!--
+-    Copyright (c) to Continuuity Inc. All rights reserved.
+--->
+-<configuration>
+-
+-    <!--
+-        Performance configurations.
+-    -->
+-
+-    <property>
+-        <name>perf.datafabric.mode</name>
+-        <value>single</value>
+-        <description>Specifies the data fabric mode.</description>
+-    </property>
+-
+-    <property>
+-        <name>perf.reporter.enabled</name>
+-        <value>true</value>
+-        <description>Specifies whether reporting of metrics is enabled or not.</description>
+-    </property>
+-
+-    <property>
+-        <name>perf.reporter.class</name>
+-        <value>com.continuuity.performance.application.MensaMetricsReporter</value>
+-        <description>Specifies a comma-separated list of classes for the REST metrics connector</description>
+-    </property>
+-
+-    <property>
+-        <name>perf.reporter.threads</name>
+-        <value>1</value>
+-        <description>Number of reporter threads.</description>
+-    </property>
+-
+-    <property>
+-        <name>perf.report.metrics</name>
+-        <value>developer:SimpleApp:SimpleFlow:source:processed.count</value>
+-        <description>Specifies a comma-separated list of metrics that need to be added to overlord</description>
+-    </property>
+-
+-    <property>
+-        <name>perf.report.interval</name>
+-        <value>10</value>
+-        <description>Specifies the reporting interval in seconds</description>
+-    </property>
+-
+-</configuration>
+

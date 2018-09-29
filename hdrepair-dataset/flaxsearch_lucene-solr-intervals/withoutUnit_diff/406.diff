@@ -1,0 +1,8 @@
+diff --git a/solr/src/java/org/apache/solr/handler/component/TermsComponent.java b/solr/src/java/org/apache/solr/handler/component/TermsComponent.java
+index 3386b81..1ac33c1 100644
+--- a/solr/src/java/org/apache/solr/handler/component/TermsComponent.java
++++ b/solr/src/java/org/apache/solr/handler/component/TermsComponent.java
+@@ -113 +113 @@
+-      Terms terms = lfields.terms(field);
++      Terms terms = lfields == null ? null : lfields.terms(field);
+

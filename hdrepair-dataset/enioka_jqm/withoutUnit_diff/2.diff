@@ -1,0 +1,9 @@
+diff --git a/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/Polling.java b/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/Polling.java
+index 1abffed..0b053c7 100644
+--- a/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/Polling.java
++++ b/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/Polling.java
+@@ -351 +351,2 @@
+-        return (Calendar.getInstance().getTimeInMillis() - this.lastLoop.getTimeInMillis()) <= Math.max(2, dp.getPollingInterval());
++        // 100ms is a rough estimate of the time taken to do the actual poll. If it's more, there is a huge issue elsewhere.
++        return (Calendar.getInstance().getTimeInMillis() - this.lastLoop.getTimeInMillis()) <= dp.getPollingInterval() + 100;
+

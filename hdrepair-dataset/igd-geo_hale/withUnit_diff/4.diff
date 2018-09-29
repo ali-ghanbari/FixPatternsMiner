@@ -1,0 +1,28 @@
+diff --git a/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/AddFunctionsToPathUtility.java b/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/AddFunctionsToPathUtility.java
+index 97515bd..7901a11 100755
+--- a/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/AddFunctionsToPathUtility.java
++++ b/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/AddFunctionsToPathUtility.java
+@@ -21 +21 @@
+-		URL functions = getClass().getResource("corefunctions-1.0.1-SNAPSHOT.jar");		
++		URL functions = getClass().getResource("corefunctions-1.0.2-SNAPSHOT.jar");		
+diff --git a/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/CstFunctionFactoryTest.java b/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/CstFunctionFactoryTest.java
+index a3700df..6fcfaa8 100755
+--- a/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/CstFunctionFactoryTest.java
++++ b/cst/eu.esdihumboldt.cst/src/test/java/eu/esdihumboldt/cst/transformer/service/CstFunctionFactoryTest.java
+@@ -15,0 +16 @@
++import java.util.Iterator;
+@@ -22,0 +24 @@
++import eu.esdihumboldt.cst.transformer.capabilities.FunctionDescription;
+@@ -43 +45 @@
+-	private static final Class[] parameters = new Class[] { URL.class };
++	
+@@ -51 +53 @@
+-		AddFunctionsToPathUtility.getInstance().add();
++	 	AddFunctionsToPathUtility.getInstance().add();
+@@ -99 +101,4 @@
+-		CstService factory = CstServiceFactory.getInstance();				
++		CstService factory = CstServiceFactory.getInstance();		
++		for (Iterator<FunctionDescription> it = factory.getCapabilities().getFunctionDescriptions().iterator();it.hasNext();){
++			System.out.println(it.next().getFunctionId());
++		}
+

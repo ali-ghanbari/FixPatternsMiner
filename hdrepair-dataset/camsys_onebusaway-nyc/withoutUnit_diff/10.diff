@@ -1,0 +1,10 @@
+diff --git a/onebusaway-nyc-report-archive/src/main/java/org/onebusaway/nyc/report_archive/result/HistoricalRecordResultTransformer.java b/onebusaway-nyc-report-archive/src/main/java/org/onebusaway/nyc/report_archive/result/HistoricalRecordResultTransformer.java
+index 676896f..b2aae37 100644
+--- a/onebusaway-nyc-report-archive/src/main/java/org/onebusaway/nyc/report_archive/result/HistoricalRecordResultTransformer.java
++++ b/onebusaway-nyc-report-archive/src/main/java/org/onebusaway/nyc/report_archive/result/HistoricalRecordResultTransformer.java
+@@ -55,2 +55,2 @@
+-		//Fix for OBANYC-1910. Boolean value cannot be null
+-		record.setInferenceIsFormal((Boolean)tuple[30] == null ? Boolean.FALSE : (Boolean)tuple[30]);
++		//Fix for OBANYC-1905. Boolean value cannot be null
++		record.setInferenceIsFormal(tuple[30] == null ? Boolean.FALSE : (Boolean)tuple[30]);
+

@@ -1,0 +1,14 @@
+diff --git a/object-mapper/CHANGELOG b/object-mapper/CHANGELOG
+index a42ee75..7a6cbc1 100644
+--- a/object-mapper/CHANGELOG
++++ b/object-mapper/CHANGELOG
+@@ -15,0 +16 @@
++- fix bug: when mapping java collections, if property name different from column name, would not map correctly
+diff --git a/object-mapper/src/main/java/me/prettyprint/hom/CollectionMapperHelper.java b/object-mapper/src/main/java/me/prettyprint/hom/CollectionMapperHelper.java
+index 5499823..1776e59 100644
+--- a/object-mapper/src/main/java/me/prettyprint/hom/CollectionMapperHelper.java
++++ b/object-mapper/src/main/java/me/prettyprint/hom/CollectionMapperHelper.java
+@@ -93 +93 @@
+-    PropertyMappingDefinition md = cfMapDef.getPropMapByPropName(collColumnName.getPropertyName());
++    PropertyMappingDefinition md = cfMapDef.getPropMapByColumnName(collColumnName.getPropertyName());
+

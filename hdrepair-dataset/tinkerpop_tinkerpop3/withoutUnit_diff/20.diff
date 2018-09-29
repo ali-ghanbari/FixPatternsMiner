@@ -1,0 +1,33 @@
+diff --git a/CHANGELOG.asciidoc b/CHANGELOG.asciidoc
+index cd11406..c296abf 100644
+--- a/CHANGELOG.asciidoc
++++ b/CHANGELOG.asciidoc
+@@ -9 +9 @@
+-TinkerPop 3.0.0-M1 (Release Date: August ?, 2014)
++TinkerPop 3.0.0-M1 (Release Date: August 7, 2014)
+diff --git a/docs/index.asciidoc b/docs/index.asciidoc
+index dff23ca..5e9a2b9 100644
+--- a/docs/index.asciidoc
++++ b/docs/index.asciidoc
+@@ -2361,2 +2361,2 @@
+-gremlin> :> g.V.groupBy{it.value('name')[1]}{it.value('name')}
+-INFO  com.tinkerpop.gremlin.giraph.process.computer.GiraphGraphComputer  - GiraphGremlin: TraversalVertexProgram[GiraphGraphStep, GroupByStep]
++gremlin> :> g.V.groupBy{it.value('name')[1]}{it.value('name')}.as('a')
++INFO  com.tinkerpop.gremlin.giraph.process.computer.GiraphGraphComputer  - GiraphGremlin: TraversalVertexProgram[GiraphGraphStep, GroupByStep@a]
+@@ -2384 +2384 @@
+-==>rwxr-xr-x marko supergroup 0 (D) ~cap
++==>rwxr-xr-x marko supergroup 0 (D) a
+@@ -2386 +2386 @@
+-gremlin> hdfs.ls('output/~cap')
++gremlin> hdfs.ls('output/a')
+@@ -2390 +2390 @@
+-gremlin> hdfs.head('output/~cap',KryoWritable.class)
++gremlin> hdfs.head('output/a',KryoWritable.class)
+diff --git a/giraph-gremlin/src/main/java/com/tinkerpop/gremlin/giraph/structure/util/GiraphInternalVertex.java b/giraph-gremlin/src/main/java/com/tinkerpop/gremlin/giraph/structure/util/GiraphInternalVertex.java
+index 34bed8f..071d077 100644
+--- a/giraph-gremlin/src/main/java/com/tinkerpop/gremlin/giraph/structure/util/GiraphInternalVertex.java
++++ b/giraph-gremlin/src/main/java/com/tinkerpop/gremlin/giraph/structure/util/GiraphInternalVertex.java
+@@ -110 +110 @@
+-            this.tinkerVertex = (TinkerVertex) this.tinkerGraph.v(this.tinkerGraph.variables().get(VERTEX_ID));
++            this.tinkerVertex = (TinkerVertex) this.tinkerGraph.v(this.tinkerGraph.variables().get(VERTEX_ID).get());
+

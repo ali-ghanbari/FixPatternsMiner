@@ -1,0 +1,18 @@
+diff --git a/cdap-gateway/src/test/java/co/cask/cdap/gateway/handlers/metrics/MetricsQueryTest.java b/cdap-gateway/src/test/java/co/cask/cdap/gateway/handlers/metrics/MetricsQueryTest.java
+index 44e1180..4e162f1 100644
+--- a/cdap-gateway/src/test/java/co/cask/cdap/gateway/handlers/metrics/MetricsQueryTest.java
++++ b/cdap-gateway/src/test/java/co/cask/cdap/gateway/handlers/metrics/MetricsQueryTest.java
+@@ -216 +216 @@
+-    collector2.increment("rid_metric", 2);
++    collector2.increment("rid_metric_invalid", 2);
+@@ -221 +221 @@
+-        "rid_metric?aggregate=true&run-id=" + runId1 + "&run-id=" + runId2;
++        "rid_metric_invalid?aggregate=true&run-id=" + runId1 + "&run-id=" + runId2;
+diff --git a/cdap-watchdog/src/main/java/co/cask/cdap/metrics/query/MetricsRequestParser.java b/cdap-watchdog/src/main/java/co/cask/cdap/metrics/query/MetricsRequestParser.java
+index fffbfdf..780a3c1 100644
+--- a/cdap-watchdog/src/main/java/co/cask/cdap/metrics/query/MetricsRequestParser.java
++++ b/cdap-watchdog/src/main/java/co/cask/cdap/metrics/query/MetricsRequestParser.java
+@@ -365 +365 @@
+-      if (queryParams.size() > 1) {
++      if (queryParams.get(RUN_ID).size() > 1) {
+

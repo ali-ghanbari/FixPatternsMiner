@@ -1,0 +1,16 @@
+Related to JIRA PM-67
+
+The function getAbsolutePath(String) computed the path incorrectly for URL's 
+where the hostname was in the directory name 
+
+for e.g. the path for following url was computed incorrectly as 
+gsiftp://osg-nemo-ce.phys.uwm.edu/opt/osg/data/LIGO/tmp/osg-nemo-ce.phys.uwm.edu/LIGO_UWM_NEMO/ligo-lalapps_tmpltbank-1.0
+
+/Ligo_UWM_NEMO/ligo-lalapps_tmpltbank-1.0
+
+instead of  /opt/osg/data/LIGO/tmp/osg-nemo-ce.phys.uwm.edu/LIGO_UWM_NEMO/ligo-lalapps_tmpltbank-1.0
+
+This is now fixed.
+
+
+

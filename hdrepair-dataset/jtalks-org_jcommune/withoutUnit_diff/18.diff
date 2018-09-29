@@ -1,0 +1,15 @@
+diff --git a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/UserProfileController.java b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/UserProfileController.java
+index 3562bd8..c35f621 100644
+--- a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/UserProfileController.java
++++ b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/controller/UserProfileController.java
+@@ -180 +180 @@
+-    @RequestMapping(value = "/users/edit", method = RequestMethod.POST)
++    @RequestMapping(value = "/users/edit/**", method = RequestMethod.POST)
+diff --git a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp
+index 7914025..1dbdf82 100644
+--- a/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp
++++ b/jcommune-view/jcommune-web-view/src/main/webapp/WEB-INF/jsp/editProfile.jsp
+@@ -45 +45 @@
+-                   action="${pageContext.request.contextPath}/users/edit"
++                   action="${pageContext.request.contextPath}/users/edit/${editedUser.userId}"
+

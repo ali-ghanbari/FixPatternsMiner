@@ -1,0 +1,34 @@
+diff --git a/indexing-common/src/main/java/com/metamx/druid/indexer/data/StringInputRowParser.java b/indexing-common/src/main/java/com/metamx/druid/indexer/data/StringInputRowParser.java
+index b3942d6..c1b52d1 100644
+--- a/indexing-common/src/main/java/com/metamx/druid/indexer/data/StringInputRowParser.java
++++ b/indexing-common/src/main/java/com/metamx/druid/indexer/data/StringInputRowParser.java
+@@ -70 +70 @@
+-		int payloadSize = input.limit();
++		int payloadSize = input.remaining();
+diff --git a/indexing-common/src/test/java/com/metamx/druid/indexer/data/StringInputRowParserTest.java b/indexing-common/src/test/java/com/metamx/druid/indexer/data/StringInputRowParserTest.java
+deleted file mode 100644
+index bee550a..0000000
+--- a/indexing-common/src/test/java/com/metamx/druid/indexer/data/StringInputRowParserTest.java
++++ /dev/null
+@@ -1,20 +0,0 @@
+-package com.metamx.druid.indexer.data;
+-
+-import junit.framework.Assert;
+-import org.junit.Test;
+-
+-import java.nio.ByteBuffer;
+-
+-public class StringInputRowParserTest {
+-
+-
+-
+-  @Test
+-  public void testPayloadSize() {
+-    ByteBuffer payload = ByteBuffer.allocate(10);
+-    payload.position(2);
+-    payload.limit(5);
+-    payload.rewind();
+-    Assert.assertEquals(5, payload.limit());
+-  }
+-}
+

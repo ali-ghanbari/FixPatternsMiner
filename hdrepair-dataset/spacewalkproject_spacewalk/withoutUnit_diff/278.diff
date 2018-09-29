@@ -1,0 +1,39 @@
+diff --git a/backend/server/handlers/xmlrpc/queue.py b/backend/server/handlers/xmlrpc/queue.py
+index f14b772..402b9ad 100644
+--- a/backend/server/handlers/xmlrpc/queue.py
++++ b/backend/server/handlers/xmlrpc/queue.py
+@@ -388,0 +389,2 @@
++        elif data.has_key('koan'):
++            rmsg = "%s: %s" % (message, data['koan'])
+diff --git a/client/tools/spacewalk-koan/actions/kickstart_guest.py b/client/tools/spacewalk-koan/actions/kickstart_guest.py
+index 94bc176..168ee42 100644
+--- a/client/tools/spacewalk-koan/actions/kickstart_guest.py
++++ b/client/tools/spacewalk-koan/actions/kickstart_guest.py
+@@ -49,2 +49 @@
+-    try:
+-        spacewalkkoan.initiate_guest(kickstart_host, cobbler_system_name,
++    return  spacewalkkoan.initiate_guest(kickstart_host, cobbler_system_name,
+@@ -52,5 +50,0 @@
+-    except Exception, e:
+-        error_code = 1
+-        status_message = str(e)
+-
+-    return (error_code, status_message, error_messages)
+diff --git a/client/tools/spacewalk-koan/spacewalkkoan/spacewalkkoan.py b/client/tools/spacewalk-koan/spacewalkkoan/spacewalkkoan.py
+index 6ec8a38..96f10e1 100644
+--- a/client/tools/spacewalk-koan/spacewalkkoan/spacewalkkoan.py
++++ b/client/tools/spacewalk-koan/spacewalkkoan/spacewalkkoan.py
+@@ -72 +72 @@
+-            error_messages['from_koan'] = str(e)[1:-1]
++            error_messages['koan'] = str(e)[1:-1]
+@@ -126 +126 @@
+-            error_messages['from_koan'] = str(e)[1:-1]
++            error_messages['koan'] = str(e)[1:-1]
+diff --git a/java/code/src/com/redhat/rhn/manager/kickstart/ProvisionVirtualInstanceCommand.java b/java/code/src/com/redhat/rhn/manager/kickstart/ProvisionVirtualInstanceCommand.java
+index 44dc284..3e9848b 100644
+--- a/java/code/src/com/redhat/rhn/manager/kickstart/ProvisionVirtualInstanceCommand.java
++++ b/java/code/src/com/redhat/rhn/manager/kickstart/ProvisionVirtualInstanceCommand.java
+@@ -187 +187 @@
+-    
++        ksSession.setAction(ksAction);
+

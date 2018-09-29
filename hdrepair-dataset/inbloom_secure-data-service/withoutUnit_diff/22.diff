@@ -1,0 +1,10 @@
+diff --git a/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java b/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
+index 4305d03..52ba52b 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
++++ b/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
+@@ -91,0 +92,4 @@
++    //in order to reduce extremely long API calls, we will limit the number of entities any one call can return
++    // NOTE: this must agree with the limit set in UriInfoToApiQueryConverter
++    private static final int HARD_ENTITY_COUNT_LIMIT = 20000;
++
+

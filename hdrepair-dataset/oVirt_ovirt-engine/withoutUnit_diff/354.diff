@@ -1,0 +1,107 @@
+diff --git a/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.conf b/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.conf
+index 62717ea..4155dda 100644
+--- a/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.conf
++++ b/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.conf
+@@ -12,9 +11,0 @@
+-#---------------------------------#
+-# Database Connectivity Settings: #
+-#---------------------------------#
+-# Path to datasource file used by Jboss, stores DB connectivity details
+-AS_DATA_SOURCE=/etc/ovirt-engine/engine-service.xml
+-
+-# Parameter should be set if using an encrypted DB password, else not required
+-AS_LOGIN_CONFIG=/etc/ovirt-engine/login-config.xml
+-
+@@ -68,2 +59,2 @@
+-# The address of the engine server, in format of address:port. Default is localhost:8080
+-#ENGINE_ADDRESS=localhost:8080
++# The address of the engine server, in format of address:port. Default is localhost:80
++#ENGINE_ADDRESS=localhost:80
+@@ -72 +63 @@
+-# be filled with the actual engine server name and port (do not use localhost), e.g. engineserver:8443
++# be filled with the actual engine server name and port (do not use localhost), e.g. engineserver:443
+@@ -89,19 +79,0 @@
+-
+-#---------------------------------------------#
+-# Alternative Database Connectivity Settings: #
+-#---------------------------------------------#
+-# The following properties (DB_CONNECTION_URL, DB_USER_NAME, DB_PASSWORD and DB_JDBC_DRIVER_CLASS) could be set
+-# instead of database properties AS_DATA_SOURCE and AS_LOGIN_CONFIG to specify alternate database connectivity
+-# details. DB_JDBC_DRIVER_CLASS should be associated within the service classpath as defined on /usr/share/engine/notifier/notifier.sh
+-
+-# JDBC url to the database
+-#DB_CONNECTION_URL=jdbc:postgresql://localhost:5432/engine
+-
+-# Database user name
+-#DB_USER_NAME=
+-
+-# Database password
+-#DB_PASSWORD=
+-
+-# Database JDBC driver
+-#DB_JDBC_DRIVER_CLASS=org.postgresql.Driver
+diff --git a/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.sh b/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.sh
+index ce82ed7..b2c1126 100755
+--- a/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.sh
++++ b/backend/manager/tools/engine-notifier/engine-notifier-resources/src/main/resources/notifier.sh
+@@ -184,39 +183,0 @@
+-# DB_CONNECTION_URL if defined can not be empty
+-if [ "${DB_CONNECTION_URL+x}" ]; then
+-    if [ -z "$DB_CONNECTION_URL" ]; then
+-        die_no_propset \$DB_CONNECTION_URL
+-    fi
+-    # DB_USER_NAME if defined can not be empty
+-    if [ "${DB_USER_NAME+x}" ]; then
+-        if [ -z "$DB_USER_NAME" ]; then
+-            die_no_propset \$DB_USER_NAME
+-        fi
+-    else
+-        die_no_propset \$DB_USER_NAME
+-    fi
+-    # DB_PASSWORD if defined can not be empty
+-    if [ "${DB_PASSWORD+x}" ]; then
+-        if [ -z "$DB_PASSWORD" ]; then
+-            die_no_propset \$DB_PASSWORD
+-        fi
+-    else
+-        die_no_propset \$DB_PASSWORD
+-    fi
+-    # DB_JDBC_DRIVER_CLASS if defined can not be empty
+-    if [ "${DB_JDBC_DRIVER_CLASS+x}" ]; then
+-        if [ -z "$DB_JDBC_DRIVER_CLASS" ]; then
+-            die_no_propset \$DB_JDBC_DRIVER_CLASS
+-        fi
+-    else
+-        die_no_propset \$DB_JDBC_DRIVER_CLASS
+-    fi
+-else
+-    # AS_DATA_SOURCE is required!
+-    if [ -z "$AS_DATA_SOURCE" ]; then
+-        die_no_propset \$AS_DATA_SOURCE
+-    fi
+-    if [ ! -s $AS_DATA_SOURCE ]; then
+-        die "Error: Missing or inaccessible configuration file $AS_DATA_SOURCE ( See \$AS_DATA_SOURCE in $CONF_FILE ).\n" 6
+-    fi
+-fi
+-
+@@ -250,0 +212 @@
++    glassfish-jaxb/jaxb-impl
+@@ -271 +232,0 @@
+-    jaxb-impl
+diff --git a/backend/manager/tools/engine-notifier/engine-notifier-service/src/main/java/org/ovirt/engine/core/notifier/EngineMonitorService.java b/backend/manager/tools/engine-notifier/engine-notifier-service/src/main/java/org/ovirt/engine/core/notifier/EngineMonitorService.java
+index 969131a..e5409c8 100644
+--- a/backend/manager/tools/engine-notifier/engine-notifier-service/src/main/java/org/ovirt/engine/core/notifier/EngineMonitorService.java
++++ b/backend/manager/tools/engine-notifier/engine-notifier-service/src/main/java/org/ovirt/engine/core/notifier/EngineMonitorService.java
+@@ -56 +56 @@
+-    private static final String DEFAULT_SERVER_ADDRESS = "localhost:8080";
++    private static final String DEFAULT_SERVER_ADDRESS = "localhost:80";
+diff --git a/backend/manager/tools/engine-notifier/engine-notifier-service/src/test/resources/conf/notifier.conf b/backend/manager/tools/engine-notifier/engine-notifier-service/src/test/resources/conf/notifier.conf
+index 49287c2..cf73ebb 100644
+--- a/backend/manager/tools/engine-notifier/engine-notifier-service/src/test/resources/conf/notifier.conf
++++ b/backend/manager/tools/engine-notifier/engine-notifier-service/src/test/resources/conf/notifier.conf
+@@ -1,4 +0,0 @@
+-# Data source files location
+-AS_DATA_SOURCE=src/test/resources/conf/postgres-ds.xml
+-AS_LOGIN_CONFIG=src/test/resources/conf/login-config.xml
+-
+

@@ -1,0 +1,31 @@
+diff --git a/dist/bin/maude/lib/TCPSupport.maude b/dist/bin/maude/lib/TCPSupport.maude
+index 9729ecd..7e038c0 100644
+--- a/dist/bin/maude/lib/TCPSupport.maude
++++ b/dist/bin/maude/lib/TCPSupport.maude
+@@ -39 +39 @@
+-	var S : #String .
++	var S S2 : #String .
+@@ -65 +65 @@
+-	=> < Me : Client | #state: #receiving,#Socket  A > #Socket #receive(Server, Me)
++	=> < Me : Client | #state: #receiving,#Socket answer: "",#Socket  A > #Socket #receive(Server, Me)
+@@ -68,2 +68,2 @@
+-	rl < Me : Client | #state: #receiving,#Socket  A > #Socket #received(Me, Server, S)
+-	=> < Me : Client | #state: #haveAnswer,#Socket  answer: S,#Socket  A >
++	rl < Me : Client | #state: #receiving,#Socket  answer: S,#Socket A > #Socket #received(Me, Server, S2)
++	=> < Me : Client | #state: #receiving,#Socket  answer: (S +String S2),#Socket  A > #Socket #receive(Server, Me)
+@@ -71,6 +71,2 @@
+-	
+-	rl < Me : Client | #state: #haveAnswer,#Socket  #connectedTo: Server,#Socket  A > 
+-	=> < Me : Client | #state: #closing,#Socket  #connectedTo: Server,#Socket  A > #Socket #closeSocket(Server, Me)
+-	[print Me " closing"] .
+-	
+-	rl < Me : Client | #state: #closing,#Socket  A  > #Socket #closedSocket(Me, Server, S)
++
++	rl < Me : Client | #state: #receiving,#Socket A > #Socket #closedSocket(Me, Server, S)
+diff --git a/javasources/KTool/src/org/kframework/krun/ioserver/commands/Command.java b/javasources/KTool/src/org/kframework/krun/ioserver/commands/Command.java
+index 67f59ac..0a1ccd3 100644
+--- a/javasources/KTool/src/org/kframework/krun/ioserver/commands/Command.java
++++ b/javasources/KTool/src/org/kframework/krun/ioserver/commands/Command.java
+@@ -41,0 +42 @@
++			output.close();
+

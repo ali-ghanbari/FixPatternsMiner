@@ -1,0 +1,17 @@
+diff --git a/java/java-impl/src/com/intellij/psi/impl/source/tree/java/PsiBinaryExpressionImpl.java b/java/java-impl/src/com/intellij/psi/impl/source/tree/java/PsiBinaryExpressionImpl.java
+index 5576c18..934fb03 100644
+--- a/java/java-impl/src/com/intellij/psi/impl/source/tree/java/PsiBinaryExpressionImpl.java
++++ b/java/java-impl/src/com/intellij/psi/impl/source/tree/java/PsiBinaryExpressionImpl.java
+@@ -175,0 +176 @@
++      if (lType instanceof PsiClassType) lType = PsiPrimitiveType.getUnboxedType(lType);
+diff --git a/plugins/InspectionGadgets/test/com/siyeh/igtest/jdk/auto_boxing/expected.xml b/plugins/InspectionGadgets/test/com/siyeh/igtest/jdk/auto_boxing/expected.xml
+index 8ba27bf..9e222ce 100644
+--- a/plugins/InspectionGadgets/test/com/siyeh/igtest/jdk/auto_boxing/expected.xml
++++ b/plugins/InspectionGadgets/test/com/siyeh/igtest/jdk/auto_boxing/expected.xml
+@@ -11 +11 @@
+- <!-- <problem>
++  <problem>
+@@ -16 +16 @@
+-  </problem>-->
++  </problem>
+

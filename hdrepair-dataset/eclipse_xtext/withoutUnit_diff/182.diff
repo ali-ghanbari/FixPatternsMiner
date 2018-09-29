@@ -1,0 +1,8 @@
+diff --git a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/findrefs/FindReferenceQueryDataFactory.java b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/findrefs/FindReferenceQueryDataFactory.java
+index 44bf568..4a9947c 100644
+--- a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/findrefs/FindReferenceQueryDataFactory.java
++++ b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/findrefs/FindReferenceQueryDataFactory.java
+@@ -60 +60 @@
+-		if(queryLabelProvider == null)
++		if(queryLabelProvider == null || target.eIsProxy() || target.eResource() == null)
+

@@ -1,0 +1,23 @@
+Hack JUnit integration to support broken DevMode plugins.
+
+When the Developer Mode plugins were updated to support whitelisting
+hosts/codeservers as a pair[1], they initially didn't correctly handle
+when the colon in the gwt.codesvr parameter ended up percent-encoded
+as %3A.  This was fixed about a year and a half later[2].
+
+Since we don't proactively rebuild old plugin binaries, some (if not
+many or even all) plugins built during this time window are still
+affected by the bug.  RFC 3986 allows ":" to appear unencoded in the
+query string, so simply unencoding any colons embedded in the URL is
+the easiest fix.
+
+[1] https://gwt.googlesource.com/gwt-plugins/+/f112cef2331c3b1e9066d860234ae17a2f7ce310
+[2] https://gwt.googlesource.com/gwt-plugins/+/ce000d6ff4c9e9cdca34d49d7285ab4930d19ac4
+
+Change-Id: Ieea221af4b955639345a7da7677abf1a833f4e73
+Review-Link: https://gwt-review.googlesource.com/#/c/1500/
+
+Review by: skybrian@google.com
+
+git-svn-id: https://google-web-toolkit.googlecode.com/svn/trunk@11431 8db76d5a-ed1c-0410-87a9-c151d255dfc7
+

@@ -1,0 +1,14 @@
+diff --git a/driver-core/CHANGELOG.rst b/driver-core/CHANGELOG.rst
+index 415b5c7..4d547c0 100644
+--- a/driver-core/CHANGELOG.rst
++++ b/driver-core/CHANGELOG.rst
+@@ -9,0 +10 @@
++- [bug] Avoid NPE when node is in an unconfigured DC (JAVA-244)
+diff --git a/driver-core/src/main/java/com/datastax/driver/core/ReplicationStategy.java b/driver-core/src/main/java/com/datastax/driver/core/ReplicationStategy.java
+index e6eca86..23f4bf0 100644
+--- a/driver-core/src/main/java/com/datastax/driver/core/ReplicationStategy.java
++++ b/driver-core/src/main/java/com/datastax/driver/core/ReplicationStategy.java
+@@ -117 +117 @@
+-                    if (dc == null)
++                    if (dc == null || !allDcReplicas.containsKey(dc))
+

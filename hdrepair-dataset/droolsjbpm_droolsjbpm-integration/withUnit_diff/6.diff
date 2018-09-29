@@ -1,0 +1,64 @@
+diff --git a/kie-server/kie-server-services/src/main/java/org/kie/server/services/impl/KieServerImpl.java b/kie-server/kie-server-services/src/main/java/org/kie/server/services/impl/KieServerImpl.java
+index caa8f5c..aa96a66 100644
+--- a/kie-server/kie-server-services/src/main/java/org/kie/server/services/impl/KieServerImpl.java
++++ b/kie-server/kie-server-services/src/main/java/org/kie/server/services/impl/KieServerImpl.java
+@@ -524 +524 @@
+-                    containers.put("containerId", ci);
++                    containers.put(containerId, ci);
+diff --git a/kie-server/kie-server-services/src/test/java/org/kie/server/integrationtests/KieServerContainerCRUDIntegrationTest.java b/kie-server/kie-server-services/src/test/java/org/kie/server/integrationtests/KieServerContainerCRUDIntegrationTest.java
+index 3240cce..344ae44 100644
+--- a/kie-server/kie-server-services/src/test/java/org/kie/server/integrationtests/KieServerContainerCRUDIntegrationTest.java
++++ b/kie-server/kie-server-services/src/test/java/org/kie/server/integrationtests/KieServerContainerCRUDIntegrationTest.java
+@@ -2,0 +3,4 @@
++import java.util.List;
++import javax.ws.rs.core.MediaType;
++import javax.ws.rs.core.Response;
++
+@@ -15,4 +18,0 @@
+-
+-import javax.ws.rs.core.MediaType;
+-import javax.ws.rs.core.Response;
+-import java.util.List;
+@@ -34 +34 @@
+-                releaseId1));
++                                                                                                              releaseId1));
+@@ -40,2 +40,6 @@
+-        ServiceResponse<KieContainerResource> reply = client.createContainer("bad-gav", new KieContainerResource("bad-gav",
+-                new ReleaseId("foo", "bar", "0.0.0")));
++        ServiceResponse<KieContainerResource> reply = client.createContainer("bad-gav",
++                                                                             new KieContainerResource("bad-gav",
++                                                                                                      new ReleaseId(
++                                                                                                              "foo",
++                                                                                                              "bar",
++                                                                                                              "0.0.0")));
+@@ -47 +51,2 @@
+-        KieContainerResource resource = new KieContainerResource("no-gav2-container", new ReleaseId("foo", "bar", "0.0.0"));
++        KieContainerResource resource = new KieContainerResource("no-gav2-container",
++                                                                 new ReleaseId("foo", "bar", "0.0.0"));
+@@ -59 +64,3 @@
+-            throw new ClientResponseFailure("Unexpected exception creating container: " + resource.getContainerId() + " with release-id " + resource.getReleaseId(), e, response);
++            throw new ClientResponseFailure(
++                    "Unexpected exception creating container: " + resource.getContainerId() + " with release-id " + resource.getReleaseId(),
++                    e, response);
+@@ -75,0 +83,16 @@
++    }
++
++    @Test
++    public void testCreateContainerAfterFailure() throws Exception {
++        // non-existing ID to simulate failure
++        KieContainerResource resource = new KieContainerResource("kie1", new ReleaseId("non-existing", "non-existing",
++                                                                                       "0.0.0"));
++        ServiceResponse<KieContainerResource> reply = client.createContainer(resource.getContainerId(), resource);
++
++        Assert.assertEquals(ServiceResponse.ResponseType.FAILURE, reply.getType());
++
++        // now try to re-create the container with a valid release ID
++        resource.setReleaseId(releaseId1);
++        reply = client.createContainer(resource.getContainerId(), resource);
++
++        Assert.assertEquals(ServiceResponse.ResponseType.SUCCESS, reply.getType());
+@@ -143 +166,2 @@
+-        Assert.fail("Container list " + containers + " does not contain expected container with id " + expectedContainerId);
++        Assert.fail(
++                "Container list " + containers + " does not contain expected container with id " + expectedContainerId);
+

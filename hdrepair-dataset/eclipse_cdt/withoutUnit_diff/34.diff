@@ -1,0 +1,13 @@
+diff --git a/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/spawner/Spawner.java b/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/spawner/Spawner.java
+index 41abe03..4bacde2 100644
+--- a/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/spawner/Spawner.java
++++ b/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/spawner/Spawner.java
+@@ -44,4 +44,3 @@
+-	 * <li>If the process this is being raised against was <i>not</i> launched by us, search for a console
+-	 * window whose PID matches the one we're trying to raise a signal on. If we find one, then send keyboard
+-	 * events to simulate the user hitting CTRL-C at that console. We do all this because we can't programatically
+-	 * send a CTRL-C to a process that doesn't share our console.
++	 * <li>If the process this is being raised against was <i>not</i> launched by us, use 
++	 * DebugBreakProcess to interrupt it (sending a CTRL-C is easy only if we share a console 
++	 * with the target process) 
+

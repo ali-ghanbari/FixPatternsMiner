@@ -1,0 +1,8 @@
+fixed problem with preserveRoot and subdirectories by removing extra
+slash from addFiles(). Also added test to prove issue existed.
+
+The issue is clearly visible after opening the zip file in Archive
+Manager or 7Zip. There is an extra un-named directory created due to the
+extra slash. ZipUtils.explode() seems to deal with this, so existing
+test patterns did not show the issue. Using ZipUtil.containsEntry
+properly detects the issue.

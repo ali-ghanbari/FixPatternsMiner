@@ -1,0 +1,17 @@
+diff --git a/src/main/org/apache/tools/ant/taskdefs/Jar.java b/src/main/org/apache/tools/ant/taskdefs/Jar.java
+index 2ada0d2..27c17c4 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/Jar.java
++++ b/src/main/org/apache/tools/ant/taskdefs/Jar.java
+@@ -166,3 +166,8 @@
+-     * Not used for jar files.
+-     * @param we not used
+-     * @ant.attribute ignore="true"
++     * Indicates if a jar file should be created when it would only contain a
++     * manifest file.
++     * Possible values are: <code>fail</code> (throw an exception
++     * and halt the build); <code>skip</code> (do not create
++     * any archive, but issue a warning); <code>create</code>
++     * (make an archive with only a manifest file).
++     * Default is <code>create</code>;
++     * @param we a <code>WhenEmpty</code> enumerated value
+

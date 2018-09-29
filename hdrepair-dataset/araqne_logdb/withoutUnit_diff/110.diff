@@ -1,0 +1,16 @@
+diff --git a/araqne-log-api/pom.xml b/araqne-log-api/pom.xml
+index 3cf8d2f..4c001c6 100644
+--- a/araqne-log-api/pom.xml
++++ b/araqne-log-api/pom.xml
+@@ -12 +12 @@
+-	<version>1.5.1</version>
++	<version>1.5.2</version>
+diff --git a/araqne-log-api/src/main/java/org/araqne/log/api/AbstractLogger.java b/araqne-log-api/src/main/java/org/araqne/log/api/AbstractLogger.java
+index b092b21..3cad535 100644
+--- a/araqne-log-api/src/main/java/org/araqne/log/api/AbstractLogger.java
++++ b/araqne-log-api/src/main/java/org/araqne/log/api/AbstractLogger.java
+@@ -376 +376,2 @@
+-		if (stopped)
++		// call method to support overriding (ex. base remote logger)
++		if (!isRunning())
+

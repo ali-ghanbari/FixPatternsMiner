@@ -1,0 +1,12 @@
+Fix fileno bookkeeping leak in RackEnvironment (TORQUE-569)
+
+JRuby does some internal bookkeeping any time you create a new RubyIO
+for STDIO.*. We were doing this for every request inside
+RackEnvironment and thus a new entry was being added to an internal
+JRuby HashMap on each request.
+
+The underlying JRuby leak needs to be fixed but there was no reason
+for us to be creating new STDIO.ERR streams each request anyway. Now
+we just use the ruby.getErr() OutputStream from our existing Ruby
+runtime instead of opening a new ChannelDescriptor stream.
+

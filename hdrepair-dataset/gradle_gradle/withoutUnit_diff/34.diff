@@ -1,0 +1,44 @@
+diff --git a/subprojects/internal-testing/src/main/groovy/org/gradle/integtests/fixtures/JUnitXmlTestExecutionResult.groovy b/subprojects/internal-testing/src/main/groovy/org/gradle/integtests/fixtures/JUnitXmlTestExecutionResult.groovy
+index aa92cda..86eb644 100644
+--- a/subprojects/internal-testing/src/main/groovy/org/gradle/integtests/fixtures/JUnitXmlTestExecutionResult.groovy
++++ b/subprojects/internal-testing/src/main/groovy/org/gradle/integtests/fixtures/JUnitXmlTestExecutionResult.groovy
+@@ -25,0 +26 @@
++    private final String xmlResultDirName
+@@ -27,2 +28,2 @@
+-    def JUnitXmlTestExecutionResult(TestFile projectDir, String buildDirName = 'build') {
+-        this(projectDir, TestResultOutputAssociation.WITH_SUITE, buildDirName)
++    def JUnitXmlTestExecutionResult(TestFile projectDir, String buildDirName = 'build', String xmlResultDirName = "test-results") {
++        this(projectDir, TestResultOutputAssociation.WITH_SUITE, buildDirName, xmlResultDirName)
+@@ -31 +32 @@
+-    def JUnitXmlTestExecutionResult(TestFile projectDir, TestResultOutputAssociation outputAssociation, String buildDirName = 'build') {
++    def JUnitXmlTestExecutionResult(TestFile projectDir, TestResultOutputAssociation outputAssociation, String buildDirName = 'build', String xmlResultDirName = 'test-results') {
+@@ -33,0 +35 @@
++        this.xmlResultDirName = xmlResultDirName
+@@ -68 +70 @@
+-        buildDir.file('test-results').eachFile { File file ->
++        buildDir.file(xmlResultDirName).eachFile { File file ->
+@@ -78 +80 @@
+-        buildDir.file('test-results')
++        buildDir.file(xmlResultDirName)
+diff --git a/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/AbstractPlayAppIntegrationTest.groovy b/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/AbstractPlayAppIntegrationTest.groovy
+index c4ff18a..16f0840 100644
+--- a/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/AbstractPlayAppIntegrationTest.groovy
++++ b/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/AbstractPlayAppIntegrationTest.groovy
+@@ -80 +80 @@
+-        verifyTestOutput(new JUnitXmlTestExecutionResult(testDirectory, "build/reports/test/playBinary"))
++        verifyTestOutput(new JUnitXmlTestExecutionResult(testDirectory, "build/reports/test/playBinary", "junit"))
+diff --git a/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/PlayAppWithFailingTestsIntegrationTest.groovy b/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/PlayAppWithFailingTestsIntegrationTest.groovy
+index daf334d..dd1b749 100644
+--- a/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/PlayAppWithFailingTestsIntegrationTest.groovy
++++ b/subprojects/platform-play/src/integTest/groovy/org/gradle/play/integtest/PlayAppWithFailingTestsIntegrationTest.groovy
+@@ -50 +50 @@
+-        def result = new JUnitXmlTestExecutionResult(testDirectory, "build/reports/test/playBinary")
++        def result = new JUnitXmlTestExecutionResult(testDirectory, "build/reports/test/playBinary", "junit")
+diff --git a/subprojects/platform-play/src/main/java/org/gradle/play/plugins/PlayApplicationPlugin.java b/subprojects/platform-play/src/main/java/org/gradle/play/plugins/PlayApplicationPlugin.java
+index 6f2e9a6..af3fc10 100644
+--- a/subprojects/platform-play/src/main/java/org/gradle/play/plugins/PlayApplicationPlugin.java
++++ b/subprojects/platform-play/src/main/java/org/gradle/play/plugins/PlayApplicationPlugin.java
+@@ -353 +353 @@
+-                        test.setClasspath(testCompileClasspath);
++                        test.setClasspath(testCompileClasspath.plus(fileResolver.resolveFiles(testClassesDir)));
+

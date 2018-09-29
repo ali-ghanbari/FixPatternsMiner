@@ -1,0 +1,8 @@
+fixing calculateAggregatesForOneScheduleWhenDBIsEmpty test
+
+calculateAggregatesForOneScheduleWhenDBIsEmpty was using timestamps based off
+of the current time which could lead to inconsistent results when executing
+around boundary times for the 6 hour bucket. The test has been refactored to
+use timestamps based off of set hours. The metric data that is inserted during
+the test always has timestamps in the fifth hour (of the day).
+

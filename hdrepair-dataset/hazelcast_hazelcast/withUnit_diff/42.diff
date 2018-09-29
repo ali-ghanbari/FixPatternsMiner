@@ -1,0 +1,59 @@
+diff --git a/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java b/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java
+index bcc7297..3c8cb26 100644
+--- a/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java
++++ b/hazelcast-client/src/test/java/com/hazelcast/client/lock/ClientLockTest.java
+@@ -23,0 +24 @@
++import com.hazelcast.test.HazelcastTestSupport;
+@@ -25 +26,5 @@
+-import org.junit.*;
++import org.junit.After;
++import org.junit.AfterClass;
++import org.junit.Before;
++import org.junit.BeforeClass;
++import org.junit.Test;
+@@ -33 +38,3 @@
+-import static org.junit.Assert.*;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertFalse;
++import static org.junit.Assert.assertTrue;
+@@ -40 +47 @@
+-public class ClientLockTest {
++public class ClientLockTest extends HazelcastTestSupport{
+@@ -140,0 +148,29 @@
++
++    @Test
++    public void testTryLockwithZeroTTL() throws Exception {
++
++        boolean lockWithZeroTTL = l.tryLock(0, TimeUnit.SECONDS);
++        assertTrue(lockWithZeroTTL);
++
++    }
++    @Test
++    public void testTryLockwithZeroTTLWithExistingLock() throws Exception {
++
++        l.lock();
++        final CountDownLatch latch = new CountDownLatch(1);
++        new Thread() {
++            public void run() {
++                try {
++                    if (!l.tryLock(0,TimeUnit.SECONDS)) {
++                        latch.countDown();
++                    }
++               } catch (InterruptedException e) {
++                }
++            }
++        }.start();
++        assertOpenEventually(latch);
++        l.forceUnlock();
++
++    }
++
++
+diff --git a/hazelcast/src/main/java/com/hazelcast/concurrent/lock/client/LockRequest.java b/hazelcast/src/main/java/com/hazelcast/concurrent/lock/client/LockRequest.java
+index b2aaeb8..48e9f7d 100644
+--- a/hazelcast/src/main/java/com/hazelcast/concurrent/lock/client/LockRequest.java
++++ b/hazelcast/src/main/java/com/hazelcast/concurrent/lock/client/LockRequest.java
+@@ -63 +63 @@
+-        } else if (timeout > 0) {
++        } else if (timeout >= 0) {
+

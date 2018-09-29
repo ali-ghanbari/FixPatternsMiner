@@ -1,0 +1,8 @@
+diff --git a/xml/impl/src/com/intellij/codeInsight/completion/XmlCompletionData.java b/xml/impl/src/com/intellij/codeInsight/completion/XmlCompletionData.java
+index 49a2ddc..5a74850 100644
+--- a/xml/impl/src/com/intellij/codeInsight/completion/XmlCompletionData.java
++++ b/xml/impl/src/com/intellij/codeInsight/completion/XmlCompletionData.java
+@@ -335 +335 @@
+-        if (attributeDecl.isRequired()) {
++        if (attributeDecl.isRequired() && tag.getAttributeValue(attributeName) == null) {
+

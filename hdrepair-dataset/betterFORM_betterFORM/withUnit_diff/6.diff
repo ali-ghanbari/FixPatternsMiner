@@ -1,0 +1,32 @@
+diff --git a/core/src/main/java/de/betterform/xml/xforms/model/Model.java b/core/src/main/java/de/betterform/xml/xforms/model/Model.java
+index a53b7d7..68e6779 100644
+--- a/core/src/main/java/de/betterform/xml/xforms/model/Model.java
++++ b/core/src/main/java/de/betterform/xml/xforms/model/Model.java
+@@ -817 +817 @@
+-                if(Config.getInstance().getProperty("betterform.debug-allowed").equals("true")){
++                if(isReady() && Config.getInstance().getProperty("betterform.debug-allowed").equals("true")){
+diff --git a/core/src/main/resources/META-INF/version.info b/core/src/main/resources/META-INF/version.info
+index e543dfa..89cc2a2 100644
+--- a/core/src/main/resources/META-INF/version.info
++++ b/core/src/main/resources/META-INF/version.info
+@@ -1 +1 @@
+-betterform 3.1.0 [build: 20101124/1811]
++betterform 3.1.0 [build: 20101125/1332]
+diff --git a/core/src/main/resources/de/betterform/xml/config/default.xml b/core/src/main/resources/de/betterform/xml/config/default.xml
+index ea5a07e..5fd7aa8 100644
+--- a/core/src/main/resources/de/betterform/xml/config/default.xml
++++ b/core/src/main/resources/de/betterform/xml/config/default.xml
+@@ -14,0 +15,2 @@
++        <property name="betterform.debug-allowed" value="true" description="if debug may be switched by Url param 'debug'"/>
++        
+diff --git a/core/src/test/java/de/betterform/xml/config/ConfigTest.java b/core/src/test/java/de/betterform/xml/config/ConfigTest.java
+index 55e8acf..9e4e167 100644
+--- a/core/src/test/java/de/betterform/xml/config/ConfigTest.java
++++ b/core/src/test/java/de/betterform/xml/config/ConfigTest.java
+@@ -34,5 +33,0 @@
+-        Map useragents= Config.getInstance().getUserAgents();
+-        assertTrue(2 == useragents.size());
+-
+-        assertEquals("foo.bar",useragents.get("foo"));
+-        assertEquals("bar.baz",useragents.get("bar"));
+

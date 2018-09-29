@@ -1,0 +1,21 @@
+A fix for bug # 952637
+
+Decoder would not decode grammar rules of the form:
+
+public <rule> = (test one) | (test two) ;
+
+properly, it would always recognize as 'test two'.
+
+Looking at the grammar.gdl output, the grammar graph is correct.
+Looking at the linguist.gdl output (this is the plot of the search
+graph), there are only nodes for 'test two' no nodes for 'test one'.
+
+The problem was that the signature (which is used to identify
+duplicate states), for the PronunciationState did not include the
+grammar node ID, so grammar states that had identical words would be
+erroneously collapsed. This has been fixed by including the grammar id
+in the pronunciation state.
+
+
+git-svn-id: svn+ssh://svn.code.sf.net/p/cmusphinx/code/trunk/sphinx4@3188 94700074-3cef-4d97-a70e-9c8c206c02f5
+

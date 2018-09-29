@@ -1,0 +1,9 @@
+diff --git a/core/src/main/java/hudson/model/Project.java b/core/src/main/java/hudson/model/Project.java
+index 1b99cad..41250fd 100644
+--- a/core/src/main/java/hudson/model/Project.java
++++ b/core/src/main/java/hudson/model/Project.java
+@@ -272,0 +273,3 @@
++
++        // notify the queue as the project might be now tied to different node
++        Hudson.getInstance().getQueue().scheduleMaintenance();  
+

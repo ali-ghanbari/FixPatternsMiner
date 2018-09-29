@@ -1,0 +1,48 @@
+diff --git a/scripts/vm/network/security_group.py b/scripts/vm/network/security_group.py
+index d63c0fe..bf9b9b8 100755
+--- a/scripts/vm/network/security_group.py
++++ b/scripts/vm/network/security_group.py
+@@ -91 +91 @@
+-    destroy_ebtables_rules(vmchain)
++    destroy_ebtables_rules(vmchain, vif)
+@@ -132,4 +132,22 @@
+-def destroy_ebtables_rules(vm_name):
+-    delcmd = "ebtables-save | grep ROUTING | grep " +  vm_name + " | sed 's/-A/-D/'"
+-    delcmds = execute(delcmd).split('\n')
+-    delcmds.pop()
++def destroy_ebtables_rules(vm_name, vif):
++    if vif is None:
++        return
++    delcmd = "ebtables -t nat -L PREROUTING | grep " + vif
++    delcmds = []
++    try:
++        delcmds = execute(delcmd).split('\n')
++        delcmds.pop()
++        delcmds = ["-D PREROUTING " + x for x in delcmds ]
++    except:
++        pass
++    postcmds = []
++    try:
++        postcmd = "ebtables -t nat -L POSTROUTING | grep " + vif
++        postcmds = execute(postcmd).split('\n')
++        postcmds.pop()
++        postcmds = ["-D POSTROUTING " + x for x in postcmds]
++    except:
++        pass
++
++    delcmds += postcmds
++
+@@ -234 +252 @@
+-    destroy_ebtables_rules(vmName)
++    destroy_ebtables_rules(vmName, vif)
+@@ -287 +305 @@
+-        execute("ebtables -t nat -A PREROUTING -i " + vif + " -p IPv4 --ip-protocol tcp --ip-destination-port 80 --ip-dst " + dhcpSvr + " -j dnat --to-destination " + hostMacAddr)
++        execute("ebtables -t nat -I " + vmchain_in + " -p IPv4 --ip-protocol tcp --ip-destination-port 80 --ip-dst " + dhcpSvr + " -j dnat --to-destination " + hostMacAddr)
+diff --git a/server/src/com/cloud/agent/manager/AgentManagerImpl.java b/server/src/com/cloud/agent/manager/AgentManagerImpl.java
+index f017a01..3687965 100755
+--- a/server/src/com/cloud/agent/manager/AgentManagerImpl.java
++++ b/server/src/com/cloud/agent/manager/AgentManagerImpl.java
+@@ -593 +593 @@
+-                if (nextState == null) {
++                if (nextState == null && !isForced) {
+

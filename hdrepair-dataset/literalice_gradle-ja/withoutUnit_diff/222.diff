@@ -1,0 +1,23 @@
+diff --git a/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/IncrementalBuildIntegrationTest.groovy b/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/IncrementalBuildIntegrationTest.groovy
+index 7dc0d0c..db66108 100644
+--- a/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/IncrementalBuildIntegrationTest.groovy
++++ b/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/IncrementalBuildIntegrationTest.groovy
+@@ -148,0 +149,2 @@
++        outputAFile.assertHasChangedSince(aSnapshot)
++        outputBFile.assertHasChangedSince(bSnapshot)
+diff --git a/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/TestFile.java b/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/TestFile.java
+index e6271e4..401041a 100644
+--- a/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/TestFile.java
++++ b/subprojects/gradle-core/src/test/groovy/org/gradle/integtests/TestFile.java
+@@ -272 +272 @@
+-        assertTrue(now.modTime != snapshot.modTime);
++        assertTrue(now.modTime != snapshot.modTime || !Arrays.equals(now.hash, snapshot.hash));
+diff --git a/subprojects/gradle-core/src/test/resources/org/gradle/integtests/eclipseproject/scala/expectedProjectFile.txt b/subprojects/gradle-core/src/test/resources/org/gradle/integtests/eclipseproject/scala/expectedProjectFile.txt
+index e854eb5..fd5ca0a 100755
+--- a/subprojects/gradle-core/src/test/resources/org/gradle/integtests/eclipseproject/scala/expectedProjectFile.txt
++++ b/subprojects/gradle-core/src/test/resources/org/gradle/integtests/eclipseproject/scala/expectedProjectFile.txt
+@@ -8 +7,0 @@
+-    <nature>ch.epfl.lamp.sdt.core.scalanature</nature>
+@@ -9,0 +9 @@
++    <nature>ch.epfl.lamp.sdt.core.scalanature</nature>
+

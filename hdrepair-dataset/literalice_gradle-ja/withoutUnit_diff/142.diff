@@ -1,0 +1,54 @@
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/HttpServer.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/HttpServer.groovy
+index 59f914c..778855e 100755
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/HttpServer.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/HttpServer.groovy
+@@ -45,0 +46,2 @@
++    private Matcher expectedUserAgent = null
++
+@@ -113,0 +116,4 @@
++    void expectUserAgent(UserAgentMatcher userAgent){
++        this.expectedUserAgent = userAgent;
++    }
++
+@@ -123,0 +130 @@
++            expectedUserAgent = null
+@@ -137,2 +144,2 @@
+-    void allowGetOrHead(String path, File srcFile, Matcher userAgent = null) {
+-        allow(path, true, ['GET', 'HEAD'], fileHandler(path, srcFile, null, null, userAgent))
++    void allowGetOrHead(String path, File srcFile) {
++        allow(path, true, ['GET', 'HEAD'], fileHandler(path, srcFile))
+@@ -155 +162 @@
+-    private Action fileHandler(String path, File srcFile, Long lastModified = null, Long contentLength = null, Matcher expectedUserAgent = null) {
++    private Action fileHandler(String path, File srcFile, Long lastModified = null, Long contentLength = null) {
+@@ -162 +169 @@
+-                if(expectedUserAgent!=null){
++                if(HttpServer.this.expectedUserAgent!=null){
+@@ -164 +170,0 @@
+-
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/UserAgentMatcher.java b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/UserAgentMatcher.java
+index 7193cba..6e738ee 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/UserAgentMatcher.java
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/integtests/fixtures/UserAgentMatcher.java
+@@ -34 +34 @@
+-    public static Matcher matchesUserAgent(String applicationName) {
++    public static Matcher matchesApplicationName(String applicationName) {
+diff --git a/subprojects/wrapper/src/integTest/groovy/org/gradle/integtests/WrapperProjectIntegrationTest.groovy b/subprojects/wrapper/src/integTest/groovy/org/gradle/integtests/WrapperProjectIntegrationTest.groovy
+index 85b8602..f362d6b 100644
+--- a/subprojects/wrapper/src/integTest/groovy/org/gradle/integtests/WrapperProjectIntegrationTest.groovy
++++ b/subprojects/wrapper/src/integTest/groovy/org/gradle/integtests/WrapperProjectIntegrationTest.groovy
+@@ -19 +18,0 @@
+-import org.gradle.util.Requires
+@@ -21 +19,0 @@
+-import org.gradle.util.TestPrecondition
+@@ -26,0 +25 @@
++import static org.gradle.integtests.fixtures.UserAgentMatcher.matchesApplicationName
+@@ -33 +31,0 @@
+-@Requires(TestPrecondition.NOT_UNKNOWN_OS) //TODO fix passing unknown os params to forked test jvm
+@@ -40,0 +39,3 @@
++        //pass os.name, os.arch and os.version to the system.properties file (needed for unknown os tests)
++        file("gradle.properties") << System.properties.findAll {key, value -> key.startsWith("os.")}.collect {key, value -> "systemProp.${key}=$value"}.join("\n")
++        server.expectUserAgent(matchesApplicationName("gradlew"))
+@@ -70 +71 @@
+-        server.allowGetOrHead("/gradlew/dist", distribution.binDistribution, UserAgentMatcher.matchesUserAgent("gradlew"))
++        server.allowGetOrHead("/gradlew/dist", distribution.binDistribution)
+

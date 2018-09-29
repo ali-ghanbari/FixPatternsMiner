@@ -1,0 +1,34 @@
+diff --git a/src/main/java/com/mongodb/FongoDBCollection.java b/src/main/java/com/mongodb/FongoDBCollection.java
+index 3268719..745d15f 100644
+--- a/src/main/java/com/mongodb/FongoDBCollection.java
++++ b/src/main/java/com/mongodb/FongoDBCollection.java
+@@ -93 +93 @@
+-    if (!obj.containsField(ID_KEY)) {
++    if (!obj.containsField(ID_KEY) || obj.get(ID_KEY) == null) {
+diff --git a/src/test/java/com/foursquare/fongo/FongoTest.java b/src/test/java/com/foursquare/fongo/FongoTest.java
+index b597d09..df1eae0 100644
+--- a/src/test/java/com/foursquare/fongo/FongoTest.java
++++ b/src/test/java/com/foursquare/fongo/FongoTest.java
+@@ -584,0 +585,21 @@
++  /**
++   * Test that ObjectId is getting generated even if _id is present in
++   * DBObject but it's value is null
++   *
++   * @throws Exception
++   */
++  @Test
++  public void testIdGenerated() throws Exception {
++    DBObject toSave = new BasicDBObject();
++    toSave.put("_id", null);
++    toSave.put("name", "test");
++    Fongo fongo = newFongo();
++    DB fongoDB = fongo.getDB("testDB");
++    DBCollection collection = fongoDB.getCollection("testCollection");
++    collection.save(toSave);
++    DBObject result = collection.findOne(new BasicDBObject("name", "test"));
++    //default index in mongoDB
++    final String ID_KEY = "_id";
++    assertNotNull("Expected _id to be generated" + result.get(ID_KEY));
++  }
++
+

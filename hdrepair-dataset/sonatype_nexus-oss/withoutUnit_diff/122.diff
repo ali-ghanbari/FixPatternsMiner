@@ -1,0 +1,8 @@
+diff --git a/nexus/nexus-api/src/main/java/org/sonatype/nexus/proxy/attributes/internal/DefaultAttributes.java b/nexus/nexus-api/src/main/java/org/sonatype/nexus/proxy/attributes/internal/DefaultAttributes.java
+index e0267a4..04b7c39 100644
+--- a/nexus/nexus-api/src/main/java/org/sonatype/nexus/proxy/attributes/internal/DefaultAttributes.java
++++ b/nexus/nexus-api/src/main/java/org/sonatype/nexus/proxy/attributes/internal/DefaultAttributes.java
+@@ -156 +156 @@
+-        return String.format( "%s-%s", "storageItem", Preconditions.checkNotNull( attributeName ) );
++        return new StringBuilder( 32 ).append( "storageItem-" ).append( Preconditions.checkNotNull( attributeName ) ).toString();
+

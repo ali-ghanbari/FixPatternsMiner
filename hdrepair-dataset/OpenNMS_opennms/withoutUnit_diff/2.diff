@@ -1,0 +1,25 @@
+diff --git a/opennms-base-assembly/src/main/filtered/etc/rrd-configuration.properties b/opennms-base-assembly/src/main/filtered/etc/rrd-configuration.properties
+index 7fa57f3..a17a10f 100644
+--- a/opennms-base-assembly/src/main/filtered/etc/rrd-configuration.properties
++++ b/opennms-base-assembly/src/main/filtered/etc/rrd-configuration.properties
+@@ -155 +155 @@
+-# This property defines which log4j category to use when printing the queue
++# This property defines which log4j2 routing prefix to use when printing the queue
+@@ -159 +159 @@
+-#org.opennms.rrd.queuing.category=OpenNMS.Queued
++#org.opennms.rrd.queuing.category=queued
+diff --git a/opennms-rrd/opennms-rrd-api/src/main/java/org/opennms/netmgt/rrd/QueuingRrdStrategy.java b/opennms-rrd/opennms-rrd-api/src/main/java/org/opennms/netmgt/rrd/QueuingRrdStrategy.java
+index 0d1b9d0..6386611 100644
+--- a/opennms-rrd/opennms-rrd-api/src/main/java/org/opennms/netmgt/rrd/QueuingRrdStrategy.java
++++ b/opennms-rrd/opennms-rrd-api/src/main/java/org/opennms/netmgt/rrd/QueuingRrdStrategy.java
+@@ -96 +96 @@
+- * org.opennms.rrd.queuing.category: (default "OpenNMS.Queued") the log category
++ * org.opennms.rrd.queuing.category: (default "queued") the log routing prefix
+diff --git a/opennms-rrd/opennms-rrd-api/src/main/resources/org/opennms/netmgt/rrd/rrd-configuration.xml b/opennms-rrd/opennms-rrd-api/src/main/resources/org/opennms/netmgt/rrd/rrd-configuration.xml
+index f1ae24f..55548ac 100644
+--- a/opennms-rrd/opennms-rrd-api/src/main/resources/org/opennms/netmgt/rrd/rrd-configuration.xml
++++ b/opennms-rrd/opennms-rrd-api/src/main/resources/org/opennms/netmgt/rrd/rrd-configuration.xml
+@@ -21 +21 @@
+-				<prop key="org.opennms.rrd.queuing.category">OpenNMS.Queued</prop>
++				<prop key="org.opennms.rrd.queuing.category">queued</prop>
+

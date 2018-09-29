@@ -1,0 +1,22 @@
+diff --git a/topcat/src/docs/sun253.xml b/topcat/src/docs/sun253.xml
+index 6f68a9b..7b4b679 100644
+--- a/topcat/src/docs/sun253.xml
++++ b/topcat/src/docs/sun253.xml
+@@ -14956,0 +14957,2 @@
++    <li>Fix cone search verbosity parameter so that VERB=3 is not erroneously
++        ignored.</li>
+diff --git a/ttools/src/docs/sun256.xml b/ttools/src/docs/sun256.xml
+index c39e1ae..8f05f18 100644
+--- a/ttools/src/docs/sun256.xml
++++ b/ttools/src/docs/sun256.xml
+@@ -7614,0 +7615,2 @@
++    <li>Fix <code>coneskymatch</code> cone search verbosity parameter so that
++        VERB=3 is not erroneously ignored.</li>
+diff --git a/vo/src/main/uk/ac/starlink/vo/ConeSearch.java b/vo/src/main/uk/ac/starlink/vo/ConeSearch.java
+index 5ac52e7..c4c01de 100644
+--- a/vo/src/main/uk/ac/starlink/vo/ConeSearch.java
++++ b/vo/src/main/uk/ac/starlink/vo/ConeSearch.java
+@@ -187 +187 @@
+-        if ( verb > 0 && verb < 3 ) {
++        if ( verb > 0 && verb <= 3 ) {
+

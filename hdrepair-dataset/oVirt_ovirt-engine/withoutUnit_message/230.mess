@@ -1,0 +1,10 @@
+core: fix log when detecting HA VM went down
+
+The previous log message noted that there was an error while starting
+the VM everytime the monitoring detects that HA VM went down. This might
+be wrong since the VM might already be UP before it went down. Thus,
+this patch corrects the log message.
+
+Change-Id: I563d914d9adfa7e555b1c5d21d39c10d5b1d4b41
+Signed-off-by: Arik Hadas <ahadas@redhat.com>
+

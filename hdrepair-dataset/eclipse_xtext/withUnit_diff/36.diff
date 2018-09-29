@@ -1,0 +1,135 @@
+diff --git a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/resource/XbaseResourceDescriptionStrategy.java b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/resource/XbaseResourceDescriptionStrategy.java
+index 3990132..ccf652c 100644
+--- a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/resource/XbaseResourceDescriptionStrategy.java
++++ b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/resource/XbaseResourceDescriptionStrategy.java
+@@ -78 +78 @@
+-				userData.put(SIGNATURE_HASH_KEY, Boolean.TRUE.toString());
++				userData.put(IS_INTERFACE, Boolean.TRUE.toString());
+diff --git a/tests/org.eclipse.xtext.xbase.tests/src/org/eclipse/xtext/xbase/tests/resources/XbaseResourceDescriptionStrategyTest.xtend b/tests/org.eclipse.xtext.xbase.tests/src/org/eclipse/xtext/xbase/tests/resources/XbaseResourceDescriptionStrategyTest.xtend
+new file mode 100644
+index 0000000..9130b40
+--- /dev/null
++++ b/tests/org.eclipse.xtext.xbase.tests/src/org/eclipse/xtext/xbase/tests/resources/XbaseResourceDescriptionStrategyTest.xtend
+@@ -0,0 +1,35 @@
++package org.eclipse.xtext.xbase.tests.resources
++
++import com.google.inject.Inject
++import org.eclipse.xtext.common.types.TypesFactory
++import org.eclipse.xtext.resource.IEObjectDescription
++import org.eclipse.xtext.xbase.resource.XbaseResourceDescriptionStrategy
++import org.eclipse.xtext.xbase.tests.AbstractXbaseTestCase
++import org.junit.Test
++
++import static org.junit.Assert.*
++
++class XbaseResourceDescriptionStrategyTest extends AbstractXbaseTestCase {
++	
++	@Inject XbaseResourceDescriptionStrategy descriptionStrategy
++	
++	@Test def void testInterfaceDescription_01() {
++		val interfaceType = TypesFactory::eINSTANCE.createJvmGenericType
++		interfaceType.setInterface(true)
++		interfaceType.setPackageName("foo")
++		interfaceType.setSimpleName('MyType')
++		val list = <IEObjectDescription>newArrayList()
++		descriptionStrategy.createEObjectDescriptions(interfaceType, [ list += it ])
++		assertTrue(list.exists[ "true" == getUserData(XbaseResourceDescriptionStrategy::IS_INTERFACE) ])
++	}
++	
++	@Test def void testInterfaceDescription_02() {
++		val interfaceType = TypesFactory::eINSTANCE.createJvmGenericType
++		interfaceType.setInterface(false)
++		interfaceType.setPackageName("foo")
++		interfaceType.setSimpleName('MyType')
++		val list = <IEObjectDescription>newArrayList()
++		descriptionStrategy.createEObjectDescriptions(interfaceType, [ list += it ])
++		assertFalse(list.exists[ "true" == getUserData(XbaseResourceDescriptionStrategy::IS_INTERFACE) ])
++	}
++}
+\ No newline at end of file
+diff --git a/tests/org.eclipse.xtext.xbase.tests/xtend-gen/org/eclipse/xtext/xbase/tests/resources/XbaseResourceDescriptionStrategyTest.java b/tests/org.eclipse.xtext.xbase.tests/xtend-gen/org/eclipse/xtext/xbase/tests/resources/XbaseResourceDescriptionStrategyTest.java
+new file mode 100644
+index 0000000..7f988d2
+--- /dev/null
++++ b/tests/org.eclipse.xtext.xbase.tests/xtend-gen/org/eclipse/xtext/xbase/tests/resources/XbaseResourceDescriptionStrategyTest.java
+@@ -0,0 +1,79 @@
++package org.eclipse.xtext.xbase.tests.resources;
++
++import com.google.common.base.Objects;
++import com.google.inject.Inject;
++import java.util.ArrayList;
++import org.eclipse.xtext.common.types.JvmGenericType;
++import org.eclipse.xtext.common.types.TypesFactory;
++import org.eclipse.xtext.resource.IEObjectDescription;
++import org.eclipse.xtext.util.IAcceptor;
++import org.eclipse.xtext.xbase.lib.CollectionLiterals;
++import org.eclipse.xtext.xbase.lib.Functions.Function1;
++import org.eclipse.xtext.xbase.lib.IterableExtensions;
++import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
++import org.eclipse.xtext.xbase.resource.XbaseResourceDescriptionStrategy;
++import org.eclipse.xtext.xbase.tests.AbstractXbaseTestCase;
++import org.junit.Assert;
++import org.junit.Test;
++
++@SuppressWarnings("all")
++public class XbaseResourceDescriptionStrategyTest extends AbstractXbaseTestCase {
++  @Inject
++  private XbaseResourceDescriptionStrategy descriptionStrategy;
++  
++  @Test
++  public void testInterfaceDescription_01() {
++    final JvmGenericType interfaceType = TypesFactory.eINSTANCE.createJvmGenericType();
++    interfaceType.setInterface(true);
++    interfaceType.setPackageName("foo");
++    interfaceType.setSimpleName("MyType");
++    final ArrayList<IEObjectDescription> list = CollectionLiterals.<IEObjectDescription>newArrayList();
++    final Procedure1<IEObjectDescription> _function = new Procedure1<IEObjectDescription>() {
++        public void apply(final IEObjectDescription it) {
++          list.add(it);
++        }
++      };
++    this.descriptionStrategy.createEObjectDescriptions(interfaceType, new IAcceptor<IEObjectDescription>() {
++        public void accept(IEObjectDescription t) {
++          _function.apply(t);
++        }
++    });
++    final Function1<IEObjectDescription,Boolean> _function_1 = new Function1<IEObjectDescription,Boolean>() {
++        public Boolean apply(final IEObjectDescription it) {
++          String _userData = it.getUserData(XbaseResourceDescriptionStrategy.IS_INTERFACE);
++          boolean _equals = Objects.equal("true", _userData);
++          return Boolean.valueOf(_equals);
++        }
++      };
++    boolean _exists = IterableExtensions.<IEObjectDescription>exists(list, _function_1);
++    Assert.assertTrue(_exists);
++  }
++  
++  @Test
++  public void testInterfaceDescription_02() {
++    final JvmGenericType interfaceType = TypesFactory.eINSTANCE.createJvmGenericType();
++    interfaceType.setInterface(false);
++    interfaceType.setPackageName("foo");
++    interfaceType.setSimpleName("MyType");
++    final ArrayList<IEObjectDescription> list = CollectionLiterals.<IEObjectDescription>newArrayList();
++    final Procedure1<IEObjectDescription> _function = new Procedure1<IEObjectDescription>() {
++        public void apply(final IEObjectDescription it) {
++          list.add(it);
++        }
++      };
++    this.descriptionStrategy.createEObjectDescriptions(interfaceType, new IAcceptor<IEObjectDescription>() {
++        public void accept(IEObjectDescription t) {
++          _function.apply(t);
++        }
++    });
++    final Function1<IEObjectDescription,Boolean> _function_1 = new Function1<IEObjectDescription,Boolean>() {
++        public Boolean apply(final IEObjectDescription it) {
++          String _userData = it.getUserData(XbaseResourceDescriptionStrategy.IS_INTERFACE);
++          boolean _equals = Objects.equal("true", _userData);
++          return Boolean.valueOf(_equals);
++        }
++      };
++    boolean _exists = IterableExtensions.<IEObjectDescription>exists(list, _function_1);
++    Assert.assertFalse(_exists);
++  }
++}
+

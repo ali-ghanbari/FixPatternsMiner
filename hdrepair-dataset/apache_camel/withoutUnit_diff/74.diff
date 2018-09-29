@@ -1,0 +1,16 @@
+diff --git a/components/camel-blueprint/pom.xml b/components/camel-blueprint/pom.xml
+index f3369c1..d3882a2 100644
+--- a/components/camel-blueprint/pom.xml
++++ b/components/camel-blueprint/pom.xml
+@@ -46,0 +47,3 @@
++        <camel.osgi.activator>
++            org.apache.camel.core.osgi.Activator
++        </camel.osgi.activator>
+diff --git a/components/camel-blueprint/src/main/java/org/apache/camel/blueprint/handler/CamelNamespaceHandler.java b/components/camel-blueprint/src/main/java/org/apache/camel/blueprint/handler/CamelNamespaceHandler.java
+index a6e51d1..857e1c6 100644
+--- a/components/camel-blueprint/src/main/java/org/apache/camel/blueprint/handler/CamelNamespaceHandler.java
++++ b/components/camel-blueprint/src/main/java/org/apache/camel/blueprint/handler/CamelNamespaceHandler.java
+@@ -109 +109 @@
+-            factory2.setInitMethod("init");
++            factory2.setInitMethod("afterPropertiesSet");
+

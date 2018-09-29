@@ -1,0 +1,360 @@
+diff --git a/midolmanj/src/main/java/com/midokura/midonet/cluster/data/BGP.java b/midolmanj/src/main/java/com/midokura/midonet/cluster/data/BGP.java
+index 003c3f0..6651804 100644
+--- a/midolmanj/src/main/java/com/midokura/midonet/cluster/data/BGP.java
++++ b/midolmanj/src/main/java/com/midokura/midonet/cluster/data/BGP.java
+@@ -12,0 +13,10 @@
++
++/* TODO(abel): This BGP class should be split into two classes:
++ * - one that deals with the actual BGP connection:
++ *   - local AS
++ *   - BGP router Id
++ * - one that deals with the BGP peers for one BGP connection:
++ *   - peer IP address
++ *   - peer AS number
++ *   - (maybe) port Id
++ */
+diff --git a/midolmanj/src/main/scala/com/midokura/midolman/routingprotocols/RoutingHandler.scala b/midolmanj/src/main/scala/com/midokura/midolman/routingprotocols/RoutingHandler.scala
+index cdd018e..42c5695 100644
+--- a/midolmanj/src/main/scala/com/midokura/midolman/routingprotocols/RoutingHandler.scala
++++ b/midolmanj/src/main/scala/com/midokura/midolman/routingprotocols/RoutingHandler.scala
+@@ -88,0 +89,8 @@
++    private case class AddPeerRoute(ribType: RIBType.Value,
++                                    destination: IntIPv4, gateway: IntIPv4)
++    private case class RemovePeerRoute(ribType: RIBType.Value,
++                                       destination: IntIPv4, gateway: IntIPv4)
++
++    // BgpdProcess will notify via these messages
++    case class BGPD_READY()
++    case class BGPD_DEAD()
+@@ -123 +131 @@
+-        //TODO(abel) tear down
++        stopBGP()
+@@ -126,4 +133,0 @@
+-    private case class AddPeerRoute(ribType: RIBType.Value,
+-                                   destination: IntIPv4, gateway: IntIPv4)
+-    private case class RemovePeerRoute(ribType: RIBType.Value,
+-                                       destination: IntIPv4, gateway: IntIPv4)
+@@ -164,4 +167,0 @@
+-    // BgpProcess will notify via these messages
+-    case class BGPD_READY()
+-    case class BGPD_DEAD()
+-
+@@ -191,0 +192,5 @@
++                        if (bgps.size != 0) {
++                            log.error("This should be the first bgp connection" +
++                            " but there was already other connections configured")
++                            return
++                        }
+@@ -198,2 +203,52 @@
+-                    // TODO(pino): use vtyBgp to configure the bgp session.
+-                    // TODO(pino): distinguish between new and modified bgp.
++                        // The first bgp will enforce the AS
++                        // for the other bgps. For a given routingHandler, we
++                        // only have one bgpd process and all the BGP configs
++                        // that specify different peers must have that field
++                        // in common.
++                        if (bgps.size == 0) {
++                            log.error("This shouldn't be the first bgp connection" +
++                            " but other connections were already configured")
++                        }
++
++                        val bgpPair = bgps.toList.head
++                        val originalBgp = bgpPair._2
++
++                        if (bgp.getLocalAS != originalBgp.getLocalAS) {
++                            log.error("new BGP connections must have same AS")
++                            return
++                        }
++
++                        bgps.put(bgp.getId, bgp)
++                        bgpVty.setPeer(bgp.getLocalAS, bgp.getPeerAddr, bgp.getPeerAS)
++
++                    case Stopping =>
++                }
++
++            case ModifyBgpSession(bgp) =>
++                //TODO(abel) case not implemented (yet)
++                phase match {
++                    case _ => log.debug("message not implemented: ModifyBgpSession")
++                }
++
++            case RemoveBgpSession(bgpID) =>
++                phase match {
++                    case NotStarted =>
++                        // This probably shouldn't happen. A BGP config is being
++                        // removed, implying we knew about it - we shouldn't be
++                        // NotStarted...
++                        log.error("KillBgp not expected in phase NotStarted")
++                    case Starting =>
++                        stash()
++                    case Started =>
++                        // TODO(pino): Use bgpVty to remove this BGP and its routes
++                        val Some(bgp) = bgps.remove(bgpID)
++                        bgpVty.deletePeer(bgp.getLocalAS, bgp.getPeerAddr)
++                        // Remove all the flows for this BGP link
++                        FlowController.getRef().tell(
++                            FlowController.InvalidateFlowsByTag(bgpID))
++
++                        // If this is the last BGP for ths port, tear everything down.
++                        if (bgps.size == 0) {
++                            phase = Stopping
++                            stopBGP()
++                        }
+@@ -204,2 +258,0 @@
+-            case ModifyBgpSession(bgp) => // TODO(pino): implement me!
+-
+@@ -207 +260 @@
+-            false, null, null) =>
++                                     false, null, null) =>
+@@ -233,25 +285,0 @@
+-                }
+-
+-            case RemoveBgpSession(bgpID) =>
+-                phase match {
+-                    case NotStarted =>
+-                        // This probably shouldn't happen. A BGP config is being
+-                        // removed, implying we knew about it - we shouldn't be
+-                        // NotStarted...
+-                        log.error("KillBgp not expected in phase NotStarted")
+-                    case Starting =>
+-                        stash()
+-                    case Started =>
+-                        // TODO(pino): Use bgpVty to remove this BGP and its routes
+-                        val bgp = bgps.remove(bgpID)
+-                        // Remove all the flows for this BGP link
+-                        FlowController.getRef().tell(
+-                            FlowController.InvalidateFlowsByTag(bgpID))
+-
+-                        // If this is the last BGP for ths port, tear everything down.
+-                        if (bgps.size == 0) {
+-                            phase = Stopping
+-                            stopBGP
+-                        }
+-                    case Stopping =>
+-                        stash()
+@@ -314,0 +343,16 @@
++                        if (peerRoutes.size > 100) {
++                            /*
++                             * TODO(abel) in order not to overwhelm the cluster,
++                             * we will limit the max amount of routes we store
++                             * at least for this version of the code.
++                             * Note that peer routes, if not limited by bgpd
++                             * or by the peer, can grow to hundreds of thousands
++                             * of entries.
++                             * I won't use a constant for this number because
++                             * this problem should be tackled in a more elegant
++                             * way and it's not used elsewhere.
++                             */
++                            log.error("Max amount of peer routes reached (100)")
++                            return
++                        }
++
+@@ -316,0 +361 @@
++                        route.setDstNetworkLength(destination.prefixLen())
+@@ -333,0 +379 @@
++                        route.setDstNetworkLength(destination.prefixLen())
+@@ -361 +406,0 @@
+-            //server,  // not needed anymore
+@@ -386,4 +431,4 @@
+-        // The internal port is ready. Set up ƒthe flows
+-        for (bgp <- bgps.values) {
+-            setBGPFlows(internalPort.getPortNo.shortValue(), bgp, rport)
+-            bgpdProcess = new BgpdProcess(this, BGP_VTY_PORT)
++        // The internal port is ready. Set up the flows
++        if (bgps.size <= 0) {
++            log.warning("No BGPs configured for this port: {}", newPort)
++            return
+@@ -390,0 +436,7 @@
++
++        // Of all the possible BGPs configured for this port, we only consider
++        // the very first one to create the BGPd process
++        val bgpPair = bgps.toList.head
++        val bgp = bgpPair._2
++        setBGPFlows(internalPort.getPortNo.shortValue(), bgp, rport)
++        bgpdProcess = new BgpdProcess(this, BGP_VTY_PORT)
+@@ -398,0 +451,2 @@
++            // If an adRoute is already configured in bgp, it will be
++            // silently ignored
+diff --git a/midolmanj/src/main/scala/com/midokura/quagga/VtyConnection.scala b/midolmanj/src/main/scala/com/midokura/quagga/VtyConnection.scala
+index 43d108c..dd097d4 100644
+--- a/midolmanj/src/main/scala/com/midokura/quagga/VtyConnection.scala
++++ b/midolmanj/src/main/scala/com/midokura/quagga/VtyConnection.scala
+@@ -56 +56 @@
+-        var lines = new ListBuffer[String]()
++        val lines = new ListBuffer[String]()
+@@ -64 +64 @@
+-        return lines.toSeq
++        lines.toSeq
+@@ -74 +74 @@
+-        out = new PrintWriter(socket.getOutputStream(), true)
++        out = new PrintWriter(socket.getOutputStream, true)
+@@ -81 +81 @@
+-            dropMessage
++            dropMessage()
+@@ -85,2 +85,2 @@
+-        dropMessage
+-        enable
++        dropMessage()
++        enable()
+@@ -92,2 +92,2 @@
+-        out.close
+-        in.close
++        out.close()
++        in.close()
+@@ -98 +98 @@
+-        openConnection
++        openConnection()
+@@ -100 +100 @@
+-            configureTerminal
++            configureTerminal()
+@@ -109 +109 @@
+-            end
++            end()
+@@ -112 +112 @@
+-        exit
++        exit()
+@@ -114,3 +114,3 @@
+-        val response = recvMessage
+-        closeConnection
+-        return response
++        val response = recvMessage()
++        closeConnection()
++        response
+@@ -119,2 +119,2 @@
+-    protected def isConnected(): Boolean = {
+-        return connected
++    protected def isConnected: Boolean = {
++        connected
+@@ -125 +125 @@
+-        dropMessage
++        dropMessage()
+@@ -130 +130 @@
+-        dropMessage
++        dropMessage()
+@@ -135 +135 @@
+-        dropMessage
++        dropMessage()
+@@ -157,0 +158 @@
++    private final val DeletePeer = "no neighbor %s"
+@@ -174 +175 @@
+-    def getAs(): Int
++    def getAs: Int
+@@ -184 +185,3 @@
+-    def getNetwork(): Seq[String]
++    def deletePeer(as: Int, peerAddr: IntIPv4)
++
++    def getNetwork: Seq[String]
+@@ -196 +199 @@
+-    override def getAs(): Int = {
++    override def getAs: Int = {
+@@ -203 +206 @@
+-            response = doTransacation(request.toSeq, false)
++            response = doTransacation(request.toSeq, isConfigure = false)
+@@ -221 +224 @@
+-        return 0
++        0
+@@ -229 +232 @@
+-            doTransacation(request.toSeq, true)
++            doTransacation(request.toSeq, isConfigure = true)
+@@ -237,0 +241,3 @@
++    /*
++     * this will delete the entire AS config, including peers and networks
++     */
+@@ -243 +249 @@
+-            doTransacation(request.toSeq, true)
++            doTransacation(request.toSeq, isConfigure = true)
+@@ -254 +260 @@
+-        //request += SetAs.format(as)
++        request += SetAs.format(as) // this is actually needed
+@@ -258 +264 @@
+-            doTransacation(request.toSeq, true)
++            doTransacation(request.toSeq, isConfigure = true)
+@@ -269 +275 @@
+-        //request += SetAs.format(as)
++        request += SetAs.format(as) // this is actually needed
+@@ -273 +279 @@
+-            doTransacation(request.toSeq, true)
++            doTransacation(request.toSeq, isConfigure = true)
+@@ -282 +288,16 @@
+-    def getPeerNetwork(): Seq[(String, String, String, String)] = {
++    override def deletePeer(as: Int, peerAddr: IntIPv4) {
++        val request = ListBuffer[String]()
++        request += SetAs.format(as) // this is actually needed
++        request += DeletePeer.format(peerAddr.toUnicastString)
++
++        try {
++            doTransacation(request.toSeq, isConfigure = true)
++        } catch {
++            // TODO(yoshi): finer exception handling.
++            case e: Exception => {
++                log.error("failed deleting peer", e)
++            }
++        }
++    }
++
++    def getPeerNetwork: Seq[(String, String, String, String)] = {
+@@ -289 +310 @@
+-            response = doTransacation(request.toSeq, false)
++            response = doTransacation(request.toSeq, isConfigure = false)
+@@ -320 +341 @@
+-        return peerNetworks.toSeq
++        peerNetworks.toSeq
+@@ -323 +344 @@
+-    override def getNetwork(): Seq[String] = {
++    override def getNetwork: Seq[String] = {
+@@ -336 +357 @@
+-        return networks.toSeq
++        networks.toSeq
+@@ -342 +363 @@
+-        //request += SetAs.format(as)
++        request += SetAs.format(as) // this is actually needed
+@@ -346 +367 @@
+-            doTransacation(request.toSeq, true)
++            doTransacation(request.toSeq, isConfigure = true)
+@@ -356,5 +377,4 @@
+-                               prefixLength: Int) = {
+-        if (getAs != 0) {
+-            val request = new ListBuffer[String]()
+-            //request += SetAs.format(as)
+-            request += DeleteNetwork.format(nwPrefix, prefixLength)
++                               prefixLength: Int) {
++        val request = new ListBuffer[String]()
++        request += SetAs.format(as) // this is actually needed
++        request += DeleteNetwork.format(nwPrefix, prefixLength)
+@@ -362,7 +382,6 @@
+-            try {
+-                doTransacation(request.toSeq, true)
+-            } catch {
+-                // TODO(yoshi): finer exception handling.
+-                case e: Exception => {
+-                    log.error("failed deleting advertising routes", e)
+-                }
++        try {
++            doTransacation(request.toSeq, isConfigure = true)
++        } catch {
++            // TODO(yoshi): finer exception handling.
++            case e: Exception => {
++                log.error("failed deleting advertising routes", e)
+@@ -371,0 +391 @@
++
+diff --git a/midolmanj/src/test/scala/com/midokura/quagga/MockBgpConnection.scala b/midolmanj/src/test/scala/com/midokura/quagga/MockBgpConnection.scala
+index 6d3f776..e0633e9 100644
+--- a/midolmanj/src/test/scala/com/midokura/quagga/MockBgpConnection.scala
++++ b/midolmanj/src/test/scala/com/midokura/quagga/MockBgpConnection.scala
+@@ -17 +17 @@
+-    override def getAs(): Int = {
++    override def getAs: Int = {
+@@ -19 +19 @@
+-        return 0
++        0
+@@ -38 +38,5 @@
+-    override def getNetwork(): Seq[String] = {
++    override def deletePeer(as: Int, peerAddr: IntIPv4) {
++        log.info("deletePeer")
++    }
++
++    override def getNetwork: Seq[String] = {
+@@ -40 +44 @@
+-        return Seq[String]()
++        Seq[String]()
+

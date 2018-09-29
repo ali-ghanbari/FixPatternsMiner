@@ -1,0 +1,85 @@
+diff --git a/src/community/gpxppio/src/main/java/org/geoserver/wps/ppio/GPXPPIO.java b/src/community/gpxppio/src/main/java/org/geoserver/wps/ppio/GPXPPIO.java
+index e396d8b..fac5a09 100644
+--- a/src/community/gpxppio/src/main/java/org/geoserver/wps/ppio/GPXPPIO.java
++++ b/src/community/gpxppio/src/main/java/org/geoserver/wps/ppio/GPXPPIO.java
+@@ -30,0 +31 @@
++    
+diff --git a/src/community/pom.xml b/src/community/pom.xml
+index 9c8989f..be5e4ae 100644
+--- a/src/community/pom.xml
++++ b/src/community/pom.xml
+@@ -55 +55 @@
+-		  <descriptor>release/ext-gpxppio.xml</descriptor>
++		  <descriptor>release/ext-gpx.xml</descriptor>
+@@ -121,2 +121,6 @@
+-    
+-    
++    <profile>
++      <id>gpx</id>
++      <modules>
++        <module>gpxppio</module>
++      </modules>
++    </profile>
+@@ -168,0 +173 @@
++		<module>gpxppio</module>
+@@ -343,5 +347,0 @@
+-    <profile>      
+-      <id>gpxppio</id>
+-      <modules>
+-        <module>gpxppio</module>
+-      </modules>
+diff --git a/src/community/release/ext-gpx.xml b/src/community/release/ext-gpx.xml
+new file mode 100644
+index 0000000..3262188
+--- /dev/null
++++ b/src/community/release/ext-gpx.xml
+@@ -0,0 +1,16 @@
++<assembly>
++  <id>gpx-plugin</id>
++  <formats>
++    <format>zip</format>
++  </formats>
++  <includeBaseDirectory>false</includeBaseDirectory>
++  <fileSets>
++    <fileSet>
++      <directory>release/target/dependency</directory>
++      <outputDirectory></outputDirectory>
++      <includes>
++        <include>gs-gpxppio*.jar</include>
++      </includes>
++    </fileSet>
++  </fileSets>
++</assembly>
+diff --git a/src/community/release/ext-gpxppio.xml b/src/community/release/ext-gpxppio.xml
+deleted file mode 100644
+index 1786a69..0000000
+--- a/src/community/release/ext-gpxppio.xml
++++ /dev/null
+@@ -1,16 +0,0 @@
+-<assembly>
+-  <id>gpxppio-plugin</id>
+-  <formats>
+-    <format>zip</format>
+-  </formats>
+-  <includeBaseDirectory>false</includeBaseDirectory>
+-  <fileSets>
+-    <fileSet>
+-      <directory>release/target/dependency</directory>
+-      <outputDirectory></outputDirectory>
+-      <includes>
+-        <include>gs-gpxppio*</include>
+-      </includes>
+-    </fileSet>
+-  </fileSets>
+-</assembly>
+diff --git a/src/community/release/pom.xml b/src/community/release/pom.xml
+index 65a6108..30fd747 100644
+--- a/src/community/release/pom.xml
++++ b/src/community/release/pom.xml
+@@ -27,0 +28,5 @@
++     <artifactId>gs-gpxppio</artifactId>
++     <version>${project.version}</version>
++   </dependency>   
++   <dependency>
++     <groupId>org.geoserver.community</groupId>
+

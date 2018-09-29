@@ -1,0 +1,15 @@
+diff --git a/core/src/main/java/hudson/model/MyViewsProperty.java b/core/src/main/java/hudson/model/MyViewsProperty.java
+index fce6655..b023129 100644
+--- a/core/src/main/java/hudson/model/MyViewsProperty.java
++++ b/core/src/main/java/hudson/model/MyViewsProperty.java
+@@ -150 +150 @@
+-        return new HttpRedirect("view/" + getPrimaryView().getViewName());
++        return new HttpRedirect("view/" + getPrimaryView().getViewName() + "/");
+diff --git a/core/src/main/resources/hudson/model/User/sidepanel.jelly b/core/src/main/resources/hudson/model/User/sidepanel.jelly
+index 6c30e4d..1c5230b 100644
+--- a/core/src/main/resources/hudson/model/User/sidepanel.jelly
++++ b/core/src/main/resources/hudson/model/User/sidepanel.jelly
+@@ -35 +35 @@
+-      <l:task icon="images/24x24/notepad.gif" href="${rootURL}/${it.url}/my-views" title="${%My Views}" />
++      <l:task icon="images/24x24/notepad.gif" href="${rootURL}/${it.url}/my-views/" title="${%My Views}" />
+

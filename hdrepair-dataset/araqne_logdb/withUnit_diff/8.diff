@@ -1,0 +1,65 @@
+diff --git a/araqne-logdb-cep/pom.xml b/araqne-logdb-cep/pom.xml
+index 5eba391..9178bc6 100644
+--- a/araqne-logdb-cep/pom.xml
++++ b/araqne-logdb-cep/pom.xml
+@@ -65 +65 @@
+-			<version>2.4.15</version>
++			<version>2.4.16</version>
+diff --git a/araqne-logdb-crawler/pom.xml b/araqne-logdb-crawler/pom.xml
+index 2b1b062..253cced 100644
+--- a/araqne-logdb-crawler/pom.xml
++++ b/araqne-logdb-crawler/pom.xml
+@@ -72 +72 @@
+-			<version>2.4.15</version>
++			<version>2.4.16</version>
+diff --git a/araqne-logdb-geoip/pom.xml b/araqne-logdb-geoip/pom.xml
+index 8c5f921..5a10627 100644
+--- a/araqne-logdb-geoip/pom.xml
++++ b/araqne-logdb-geoip/pom.xml
+@@ -68 +68 @@
+-			<version>2.4.15</version>
++			<version>2.4.16</version>
+diff --git a/araqne-logdb-groovy/pom.xml b/araqne-logdb-groovy/pom.xml
+index 747f4c6..4a26e45 100644
+--- a/araqne-logdb-groovy/pom.xml
++++ b/araqne-logdb-groovy/pom.xml
+@@ -67 +67 @@
+-			<version>2.4.15</version>
++			<version>2.4.16</version>
+diff --git a/araqne-logdb-jython/pom.xml b/araqne-logdb-jython/pom.xml
+index d83e418..8a8a93a 100644
+--- a/araqne-logdb-jython/pom.xml
++++ b/araqne-logdb-jython/pom.xml
+@@ -60 +60 @@
+-			<version>2.4.15</version>
++			<version>2.4.16</version>
+diff --git a/araqne-logdb/pom.xml b/araqne-logdb/pom.xml
+index aa389bd..16acafb 100644
+--- a/araqne-logdb/pom.xml
++++ b/araqne-logdb/pom.xml
+@@ -12 +12 @@
+-	<version>2.4.15</version>
++	<version>2.4.16</version>
+diff --git a/araqne-logdb/src/main/java/org/araqne/logdb/query/parser/AggregationParser.java b/araqne-logdb/src/main/java/org/araqne/logdb/query/parser/AggregationParser.java
+index 3a96e84..9dbef80 100644
+--- a/araqne-logdb/src/main/java/org/araqne/logdb/query/parser/AggregationParser.java
++++ b/araqne-logdb/src/main/java/org/araqne/logdb/query/parser/AggregationParser.java
+@@ -73 +73 @@
+-			alias = s.substring(p + AS.length());
++			alias = s.substring(p + AS.length()).trim();
+diff --git a/araqne-logdb/src/test/java/org/araqne/logdb/query/parser/StatsParserTest.java b/araqne-logdb/src/test/java/org/araqne/logdb/query/parser/StatsParserTest.java
+index a120ae8..3421c54 100644
+--- a/araqne-logdb/src/test/java/org/araqne/logdb/query/parser/StatsParserTest.java
++++ b/araqne-logdb/src/test/java/org/araqne/logdb/query/parser/StatsParserTest.java
+@@ -105,0 +106 @@
++	}
+@@ -106,0 +108,8 @@
++	@Test
++	public void testWhiteSpaceFieldNameBugFix() {
++		StatsParser p = new StatsParser();
++		p.setQueryParserService(queryParserService);
++		Stats stats = (Stats) p.parse(null, "stats first(a) as a , first(b) as b by c");
++		assertEquals("a", stats.getAggregationFields().get(0).getName());
++		assertEquals("b", stats.getAggregationFields().get(1).getName());
++		assertEquals("c", stats.getClauses().get(0));
+

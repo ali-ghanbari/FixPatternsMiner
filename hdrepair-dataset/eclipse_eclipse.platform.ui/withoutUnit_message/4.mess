@@ -1,0 +1,10 @@
+Bug 356840 Blank spaces show up if views of multiple view stacks are
+placed into the shared area
+
+When an element is set to not needing to be rendered, a check
+for its parent is also required in the event that the parent
+should also be hidden from the user. In the scenario described
+in the bug, the two part stacks were made hidden but its parent
+was not. The fix is to recurse upwards and check to see if any
+elements in the parent chain needs to be hidden also and to set
+it as such if necessary.

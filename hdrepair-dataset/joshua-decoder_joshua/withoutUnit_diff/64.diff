@@ -1,0 +1,26 @@
+diff --git a/.gitignore b/.gitignore
+index 2294a28..472d15f 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -20,0 +21,12 @@
++
++*.out
++*.o
++*.dSYM
++lib/libken.dylib
++scripts/training/giza-pp/GIZA++-v2/GIZA++
++scripts/training/giza-pp/mkcls-v2/mkcls
++scripts/training/parallelize/sentclient
++scripts/training/parallelize/sentserver
++src/joshua/decoder/ff/lm/kenlm/build_binary
++src/joshua/decoder/ff/lm/kenlm/libken.dylib
++src/joshua/decoder/ff/lm/kenlm/ngram_query
+\ No newline at end of file
+diff --git a/src/joshua/util/ExtractTopCand.java b/src/joshua/util/ExtractTopCand.java
+index e4fb0f4..a9b6499 100644
+--- a/src/joshua/util/ExtractTopCand.java
++++ b/src/joshua/util/ExtractTopCand.java
+@@ -78 +78 @@
+-										  : new LineReader(inFile));
++							  : new LineReader(inFile));
+

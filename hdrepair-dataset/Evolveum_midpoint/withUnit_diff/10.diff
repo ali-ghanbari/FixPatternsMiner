@@ -1,0 +1,420 @@
+diff --git a/repo/repo-sql-impl/src/main/java/com/evolveum/midpoint/repo/sql/data/common/RAnyConverter.java b/repo/repo-sql-impl/src/main/java/com/evolveum/midpoint/repo/sql/data/common/RAnyConverter.java
+index 6577d7d..6e5d48c 100644
+--- a/repo/repo-sql-impl/src/main/java/com/evolveum/midpoint/repo/sql/data/common/RAnyConverter.java
++++ b/repo/repo-sql-impl/src/main/java/com/evolveum/midpoint/repo/sql/data/common/RAnyConverter.java
+@@ -365 +365 @@
+-                return DOMUtil.printDom(value);
++                return DOMUtil.serializeDOMToString(value);
+diff --git a/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/AddGetObjectTest.java b/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/AddGetObjectTest.java
+index 84c1410..ba0b354 100644
+--- a/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/AddGetObjectTest.java
++++ b/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/AddGetObjectTest.java
+@@ -29 +28,0 @@
+-import com.evolveum.midpoint.repo.sql.data.common.*;
+@@ -34,3 +32,0 @@
+-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+-import org.hibernate.Query;
+-import org.hibernate.Session;
+@@ -45 +40,0 @@
+-import javax.xml.namespace.QName;
+@@ -47 +42,2 @@
+-import java.util.*;
++import java.util.ArrayList;
++import java.util.List;
+@@ -67,186 +63 @@
+-    private RObjectReference simpleInsertConnector2(RUser user) {
+-        RConnector connector = new RConnector();
+-        connector.setName("connector");
+-        connector.setFramework("framework");
+-        RObjectReference reference = new RObjectReference();
+-        reference.setOwner(connector);
+-        reference.setTarget(user);
+-        connector.setConnectorHostRef(reference);
+-
+-        Session session = open();
+-        session.save(connector);
+-        close(session);
+-
+-        return reference;
+-    }
+-
+-    private RConnector simpleInsertConnector3() {
+-        RConnector connector = new RConnector();
+-        connector.setName("connector1");
+-
+-        Session session = open();
+-        session.save(connector);
+-        close(session);
+-
+-        return connector;
+-    }
+-
+-    private RConnector simpleInsertConnector1() {
+-        RConnector connector = new RConnector();
+-        connector.setName("connector0");
+-        connector.setFramework("framework");
+-
+-        Session session = open();
+-        session.save(connector);
+-        close(session);
+-
+-        return connector;
+-    }
+-
+-    private RResourceObjectShadow simpleInsertShadow() {
+-        RResourceObjectShadow shadow = new RResourceObjectShadow();
+-        shadow.setObjectClass(new QName("object class", "local"));
+-        //extension
+-        RAnyContainer extension = new RAnyContainer();
+-        extension.setOwner(shadow);
+-        shadow.setExtension(extension);
+-        Set<RStringValue> strings = new HashSet<RStringValue>();
+-        strings.add(new RStringValue(null, null, "ext1"));
+-        strings.add(new RStringValue(null, null, "ext2"));
+-        extension.setStrings(strings);
+-        Set<RDateValue> dates = new HashSet<RDateValue>();
+-        extension.setDates(dates);
+-        dates.add(new RDateValue(new Date()));
+-        //attributes
+-        RAnyContainer attributes = new RAnyContainer();
+-        attributes.setOwner(shadow);
+-        shadow.setAttributes(attributes);
+-        strings = new HashSet<RStringValue>();
+-        strings.add(new RStringValue(null, null, "attr1"));
+-        strings.add(new RStringValue(null, null, "attr2"));
+-        attributes.setStrings(strings);
+-        dates = new HashSet<RDateValue>();
+-        attributes.setDates(dates);
+-        dates.add(new RDateValue(new Date()));
+-
+-        Session session = open();
+-        session.save(shadow);
+-        close(session);
+-
+-        return shadow;
+-    }
+-
+-    private RUser simpleInsertUser(RConnector connector0, RConnector connector1) {
+-        RUser user = new RUser();
+-        user.setFullName("connector reference target");
+-        //assignment
+-        Set<RAssignment> aset = new HashSet<RAssignment>();
+-        RAssignment a = new RAssignment();
+-        a.setAccountConstruction("a1");
+-        a.setOwner(user);
+-        aset.add(a);
+-        a = new RAssignment();
+-        a.setAccountConstruction("a2");
+-        a.setOwner(user);
+-        aset.add(a);
+-        user.setAssignments(aset);
+-        //extension
+-        RAnyContainer userExt = new RAnyContainer();
+-        userExt.setOwner(a);
+-        a.setExtension(userExt);
+-        Set<RStringValue> userStrings = new HashSet<RStringValue>();
+-        userExt.setStrings(userStrings);
+-        userStrings.add(new RStringValue(null, null, "ass ext"));
+-        //refs
+-        Set<RObjectReference> accountRefs = new HashSet<RObjectReference>();
+-        RObjectReference reference = new RObjectReference();
+-        reference.setOwner(user);
+-        reference.setTarget(connector0);
+-        accountRefs.add(reference);
+-        reference = new RObjectReference();
+-        reference.setOwner(user);
+-        reference.setTarget(connector1);
+-        accountRefs.add(reference);
+-        user.setAccountRefs(accountRefs);
+-        //extensions
+-        RAnyContainer value = new RAnyContainer();
+-        value.setOwner(user);
+-        user.setExtension(value);
+-        Set<RStringValue> strings = new HashSet<RStringValue>();
+-        strings.add(new RStringValue(new QName("name namespace", "loc"), null, "str1"));
+-        strings.add(new RStringValue(null, new QName("name namespace", "loc"), "str1"));
+-        value.setStrings(strings);
+-        Set<RLongValue> longs = new HashSet<RLongValue>();
+-        longs.add(new RLongValue(123L));
+-        longs.add(new RLongValue(456L));
+-        value.setLongs(longs);
+-        Set<RDateValue> dates = new HashSet<RDateValue>();
+-        value.setDates(dates);
+-        dates.add(new RDateValue(new Date()));
+-
+-        Session session = open();
+-        session.save(user);
+-        close(session);
+-
+-        return user;
+-    }
+-
+-    /**
+-     * Test just to check some parts of annotations mapping (for obvious errors)
+-     */
+-//    @Test
+-    public void simpleInsertTest() {
+-        Statistics stats = factory.getStatistics();
+-        stats.setStatisticsEnabled(true);
+-
+-        String oid = null;
+-
+-        long previousCycle = 0;
+-        int cycles = 1;
+-        long time = System.currentTimeMillis();
+-        for (int i = 0; i < cycles; i++) {
+-            if (i % 100 == 0) {
+-                LOGGER.info("Previous cycle time {}. Next cycle: {}", new Object[]{
+-                        (System.currentTimeMillis() - time - previousCycle), i});
+-                previousCycle = System.currentTimeMillis() - time;
+-            }
+-
+-            RConnector connector0 = simpleInsertConnector1();
+-            RConnector connector1 = simpleInsertConnector3();
+-
+-            RUser user = simpleInsertUser(connector0, connector1);
+-            simpleInsertConnector2(user);
+-            RResourceObjectShadow shadow = simpleInsertShadow();
+-
+-            if (0.1 < Math.random()) {
+-                oid = shadow.getOid();
+-            }
+-        }
+-        LOGGER.info("I did {} cycles ({} objects) in {} ms.", new Object[]{
+-                cycles, (cycles * 5), (System.currentTimeMillis() - time)});
+-
+-        if (oid != null) {
+-            Session session = open();
+-            Query query = session.createQuery("from RResourceObjectShadowType as s where s.oid = :oid");
+-            query.setString("oid", oid);
+-            RResourceObjectShadow shadow = (RResourceObjectShadow) query.uniqueResult();
+-
+-            LOGGER.info("shadow\n{}", ReflectionToStringBuilder.toString(shadow));
+-            session.close();
+-        }
+-
+-        stats.logSummary();
+-    }
+-
+-    private Session open() {
+-        Session session = factory.openSession();
+-        session.beginTransaction();
+-        return session;
+-    }
+-
+-    private void close(Session session) {
+-        session.getTransaction().commit();
+-        session.close();
+-    }
+-
+-    //    @Test
++    @Test(enabled = false)
+diff --git a/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/RAnyConverterStaticTest.java b/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/RAnyConverterStaticTest.java
+index 4c2ac28..9c619cc 100644
+--- a/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/RAnyConverterStaticTest.java
++++ b/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/RAnyConverterStaticTest.java
+@@ -29,0 +30 @@
++import com.evolveum.midpoint.util.DebugUtil;
+@@ -43,0 +45 @@
++import javax.xml.XMLConstants;
+@@ -58,0 +61 @@
++    private static final String NS_FOO_RESOURCE = "http://example.com/foo";
+@@ -78,0 +82,2 @@
++
++        session.close();
+@@ -94,0 +100,2 @@
++
++        session.close();
+@@ -110,0 +118,2 @@
++
++        session.close();
+@@ -126,0 +136,2 @@
++
++        session.close();
+@@ -142,0 +154,2 @@
++
++        session.close();
+@@ -158,0 +172,2 @@
++
++        session.close();
+@@ -162,2 +177,33 @@
+-    public void testExtensionClob() {
+-        //todo test
++    public void testExtensionClob() throws Exception {
++        Session session = factory.openSession();
++        QueryInterpreter interpreter = new QueryInterpreter(session, GenericObjectType.class, prismContext);
++
++        QName valueName = new QName(NS_P, "locations");
++        ItemDefinition def = getDefinition(interpreter, valueName);
++        AssertJUnit.assertNotNull(def);
++
++        Document document = DOMUtil.getDocument();
++        Element value = DOMUtil.createElement(document, valueName);
++        Element location = DOMUtil.createElement(document, new QName(NS_P, "location"));
++        value.appendChild(location);
++        location.setAttribute("key", "heaven");
++        location.setTextContent("somewhere above");
++
++        Object realValue = RAnyConverter.getRealRepoValue(def, value);
++        //asserting simple dom
++        document = DOMUtil.parseDocument((String) realValue);
++        Element root = document.getDocumentElement();
++        AssertJUnit.assertNotNull(root);
++        AssertJUnit.assertEquals("locations", root.getLocalName());
++        AssertJUnit.assertEquals(NS_P, root.getNamespaceURI());
++        AssertJUnit.assertEquals(1, DOMUtil.listChildElements(root).size());
++        
++        location = DOMUtil.listChildElements(root).get(0);
++        AssertJUnit.assertNotNull(location);
++        AssertJUnit.assertEquals("location", location.getLocalName());
++        AssertJUnit.assertEquals(NS_P, location.getNamespaceURI());
++        AssertJUnit.assertEquals(0, DOMUtil.listChildElements(location).size());
++        AssertJUnit.assertEquals("heaven", location.getAttribute("key"));
++        AssertJUnit.assertEquals("somewhere above", location.getTextContent());
++
++        session.close();
+@@ -167,2 +213,57 @@
+-    public void testAttributesString() {
+-        //todo test
++    public void testAttributesString() throws Exception {
++        Session session = factory.openSession();
++        QueryInterpreter interpreter = new QueryInterpreter(session, GenericObjectType.class, prismContext);
++
++        QName valueName = new QName(NS_FOO_RESOURCE, "uid");
++        ItemDefinition def = getDefinition(interpreter, valueName);
++        AssertJUnit.assertNull(def);
++
++        Element value = createAttributeValue(valueName, "xsd:string", "some uid");
++
++        Object realValue = RAnyConverter.getRealRepoValue(def, value);
++        AssertJUnit.assertEquals("some uid", realValue);
++
++        session.close();
++    }
++
++    @Test
++    public void testAttributesDouble() throws Exception {
++        Session session = factory.openSession();
++        QueryInterpreter interpreter = new QueryInterpreter(session, GenericObjectType.class, prismContext);
++
++        QName valueName = new QName(NS_FOO_RESOURCE, "uid");
++        ItemDefinition def = getDefinition(interpreter, valueName);
++        AssertJUnit.assertNull(def);
++
++        Element value = createAttributeValue(valueName, "xsd:double", "123.1");
++
++        Object realValue = RAnyConverter.getRealRepoValue(def, value);
++        AssertJUnit.assertEquals("123.1", realValue);
++
++        session.close();
++    }
++
++    private Element createAttributeValue(QName valueName, String xsdType, String textContent) {
++        Element value = DOMUtil.createElement(DOMUtil.getDocument(), valueName);
++        value.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI);
++        value.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi:type", xsdType);
++        value.setTextContent(textContent);
++
++        return value;
++    }
++
++    @Test
++    public void testAttributesLong() throws Exception {
++        Session session = factory.openSession();
++        QueryInterpreter interpreter = new QueryInterpreter(session, GenericObjectType.class, prismContext);
++
++        QName valueName = new QName(NS_FOO_RESOURCE, "uid");
++        ItemDefinition def = getDefinition(interpreter, valueName);
++        AssertJUnit.assertNull(def);
++
++        Element value = createAttributeValue(valueName, "xsd:long", "123");
++
++        Object realValue = RAnyConverter.getRealRepoValue(def, value);
++        AssertJUnit.assertEquals(123L, realValue);
++
++        session.close();
+@@ -194 +295 @@
+-        extension.setAttributeNS("xmlns", "c", SchemaConstants.NS_COMMON);
++        extension.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:c", SchemaConstants.NS_COMMON);
+diff --git a/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/SpringApplicationContextTest.java b/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/SpringApplicationContextTest.java
+index e59f2fe..81fb283 100644
+--- a/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/SpringApplicationContextTest.java
++++ b/repo/repo-sql-impl/src/test/java/com/evolveum/midpoint/repo/sql/SpringApplicationContextTest.java
+@@ -79,76 +78,0 @@
+-
+-//    public void initialize() throws Exception {
+-//        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("application-context-repository.xml");
+-//        SqlRepositoryServiceImpl service = (SqlRepositoryServiceImpl) ctx.getBean("sqlRepositoryServiceImpl");
+-//
+-//        Objects objects = (Objects) JAXBUtil.unmarshal(new File("./src/test/resources/objects.xml"));
+-//        List<JAXBElement<? extends ObjectType>> elements = objects.getObject();
+-//        List<String> oids = new ArrayList<String>();
+-//
+-//        long time = System.currentTimeMillis();
+-//        for (int i = 0; i < elements.size(); i++) {
+-//            JAXBElement<? extends ObjectType> element = elements.get(i);
+-//            ObjectType object = element.getValue();
+-//            oids.add(service.addObject(object, new OperationResult("a")));
+-//        }
+-//        System.out.println("XXX Time: " + (System.currentTimeMillis() - time));
+-//
+-//        int count = 0;
+-//
+-//        objects = (Objects) JAXBUtil.unmarshal(new File("./src/test/resources/objects.xml"));
+-//        for (int i = 0; i < elements.size(); i++) {
+-//            JAXBElement<? extends ObjectType> element = elements.get(i);
+-//            ObjectType object = element.getValue();
+-//            object.setTarget(oids.get(i));
+-//
+-//            ObjectType type = service.getObject(ObjectType.class, oids.get(i), null, new OperationResult("R"));
+-//            ObjectModificationType changes = CalculateXmlDiff.calculateChanges(type, object);
+-//            if (changes.getPropertyModification().isEmpty()) {
+-//                continue;
+-//            }
+-//            count += changes.getPropertyModification().size();
+-//            System.out.println("Changes: " + (i + 1) + "\n" + type.getClass()
+-//                    + "\n" + JAXBUtil.marshalWrap(changes) + "\n\n");
+-//        }
+-//
+-//        ResultList<UserType> list = service.listObjects(UserType.class, PagingTypeFactory.createPaging(1, 2,
+-//                OrderDirectionType.ASCENDING, "name"), new OperationResult("a"));
+-//        System.out.println(list.getTotalResultCount() + "\n" + list);
+-//
+-//        UserType user = service.listAccountShadowOwner("1234", new OperationResult("a"));
+-//        System.out.println(JAXBUtil.marshalWrap(user));
+-//
+-//        System.out.println("*******************");
+-//        System.out.println(JAXBUtil.marshalWrap(service.getObject(TaskType.class, "555", null, new OperationResult("a"))));
+-//        service.claimTask("555", new OperationResult("r"));
+-//        System.out.println(JAXBUtil.marshalWrap(service.getObject(TaskType.class, "555", null, new OperationResult("a"))));
+-//        service.releaseTask("555", new OperationResult("r"));
+-//        System.out.println(JAXBUtil.marshalWrap(service.getObject(TaskType.class, "555", null, new OperationResult("a"))));
+-//        System.out.println("*******************");
+-//
+-//       ResultList<? extends ResourceObjectShadowType> shadows = service.listResourceObjectShadows(
+-//               "ef2bc95b-76e0-48e2-86d6-3d4f02d3e1a2", AccountShadowType.class, new OperationResult("a"));
+-//        System.out.println(shadows.getTotalResultCount() + "\n" + shadows);
+-//
+-//
+-//        System.out.println(JAXBUtil.marshalWrap(service.getObject(GenericObjectType.class, "9999", null, new OperationResult("a"))));
+-//
+-//        System.out.println("Expected changes must be 0, but was: " + count);
+-////        AssertJUnit.assertEquals("Expected changes must be 0. ", 0, count);
+-//    }
+-//
+-//    //    @Test
+-//    public void perfTest() throws Exception {
+-//        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("application-context-repo-sql.xml");
+-//        SqlRepositoryServiceImpl service = (SqlRepositoryServiceImpl) ctx.getBean("sqlRepositoryServiceImpl");
+-//
+-//        Objects objects = (Objects) JAXBUtil.unmarshal(new File("./src/test/resources/50k-users.xml"));
+-//        List<JAXBElement<? extends ObjectType>> elements = objects.getObject();
+-//
+-//        long time = System.currentTimeMillis();
+-//        for (JAXBElement<? extends ObjectType> element : elements) {
+-//            service.addObject(element.getValue(), new OperationResult("a"));
+-//        }
+-//        time = (System.currentTimeMillis() - time);
+-//        System.out.println("XXX Time: " + (time / 1000) + "s, that's " + (50000000 / time) + "/s");
+-//    }
+

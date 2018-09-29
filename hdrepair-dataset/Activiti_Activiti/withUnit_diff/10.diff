@@ -1,0 +1,42 @@
+diff --git a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/persistence/entity/TaskEntity.java b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/persistence/entity/TaskEntity.java
+index 852bc59..2c1a24a 100644
+--- a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/persistence/entity/TaskEntity.java
++++ b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/persistence/entity/TaskEntity.java
+@@ -301 +301 @@
+-        if ((userId != null && identityLinkEntity.getUserId().equals(userId))
++        if ((userId != null && userId.equals(identityLinkEntity.getUserId()))
+diff --git a/modules/activiti-engine/src/test/java/org/activiti/engine/test/api/task/TaskIdentityLinksTest.java b/modules/activiti-engine/src/test/java/org/activiti/engine/test/api/task/TaskIdentityLinksTest.java
+index be4f1a1..275904a 100644
+--- a/modules/activiti-engine/src/test/java/org/activiti/engine/test/api/task/TaskIdentityLinksTest.java
++++ b/modules/activiti-engine/src/test/java/org/activiti/engine/test/api/task/TaskIdentityLinksTest.java
+@@ -216 +216,28 @@
+-  
++
++  @Deployment(resources = "org/activiti/engine/test/api/task/IdentityLinksProcess.bpmn20.xml")
++  public void testEmptyCandidateUserLink() {
++    runtimeService.startProcessInstanceByKey("IdentityLinksProcess");
++
++    String taskId = taskService
++        .createTaskQuery()
++        .singleResult()
++        .getId();
++
++    taskService.addCandidateGroup(taskId, "muppets");
++    taskService.deleteCandidateUser(taskId, "kermit");
++
++    List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(taskId);
++    assertNotNull(identityLinks);
++    assertEquals( 1, identityLinks.size());
++
++    IdentityLink identityLink = identityLinks.get(0);
++    assertEquals("muppets", identityLink.getGroupId());
++    assertEquals(null, identityLink.getUserId());
++    assertEquals(IdentityLinkType.CANDIDATE, identityLink.getType());
++    assertEquals(taskId, identityLink.getTaskId());
++
++    taskService.deleteCandidateGroup(taskId, "muppets");
++
++    assertEquals(0, taskService.getIdentityLinksForTask(taskId).size());
++  }
++
+

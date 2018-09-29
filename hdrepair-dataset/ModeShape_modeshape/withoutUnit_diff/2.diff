@@ -1,0 +1,113 @@
+diff --git a/deploy/jbossas/kit/jboss-eap61/domain/configuration/domain-modeshape.xml b/deploy/jbossas/kit/jboss-eap61/domain/configuration/domain-modeshape.xml
+index 89193a8..1c3a562 100644
+--- a/deploy/jbossas/kit/jboss-eap61/domain/configuration/domain-modeshape.xml
++++ b/deploy/jbossas/kit/jboss-eap61/domain/configuration/domain-modeshape.xml
+@@ -532,0 +533,19 @@
++                <cache-container name="modeshape-binary-cache-container" aliases="modeshape-binary-cache" default-cache="binary-fs" module="org.modeshape">
++                    <transport lock-timeout="60000"/>
++                    <replicated-cache name="sample-binary-fs" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/sample-binary-data-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                    <replicated-cache name="sample-binary-fs-meta" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/sample-binary-metadata-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                    <replicated-cache name="artifacts-binary-fs" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/artifacts-binary-data-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                    <replicated-cache name="artifacts-binary-fs-meta" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/artifacts-binary-metadata-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                </cache-container>
+@@ -542 +561,5 @@
+-                <repository name="sample" cache-name="sample" cache-container="modeshape" cluster-name="modeshape-sample-cluster" cluster-stack="tcp"/>
++                <repository name="sample" cache-name="sample" cache-container="modeshape" cluster-name="modeshape-sample-cluster" cluster-stack="tcp">
++                    <indexing rebuild-upon-startup="if_missing"/>
++                    <local-file-index-storage path="modeshape/indexes/sample-${jboss.node.name}"/>
++                    <cache-binary-storage data-cache-name="sample-binary-fs" metadata-cache-name="sample-binary-fs-meta" cache-container="modeshape-binary-cache-container"/>
++                </repository>
+@@ -545 +568,3 @@
+-                    <indexing rebuild-upon-startup="never"/>
++                    <local-file-index-storage path="modeshape/indexes/artifacts-${jboss.node.name}"/>
++                    <cache-binary-storage data-cache-name="artifacts-binary-fs" metadata-cache-name="artifacts-binary-fs-meta" cache-container="modeshape-binary-cache-container"/>
++                    <indexing rebuild-upon-startup="if_missing"/>
+@@ -1361,0 +1387,19 @@
++                <cache-container name="modeshape-binary-cache-container" aliases="modeshape-binary-cache" default-cache="binary-fs" module="org.modeshape">
++                    <transport lock-timeout="60000"/>
++                    <replicated-cache name="sample-binary-fs" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/sample-binary-data-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                    <replicated-cache name="sample-binary-fs-meta" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/sample-binary-metadata-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                    <replicated-cache name="artifacts-binary-fs" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/artifacts-binary-data-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                    <replicated-cache name="artifacts-binary-fs-meta" mode="SYNC" batching="true">
++                        <transaction mode="NON_XA"/>
++                        <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/artifacts-binary-metadata-${jboss.node.name}" passivation="false" purge="false"/>
++                    </replicated-cache>
++                </cache-container>
+@@ -1371 +1415,5 @@
+-                <repository name="sample" cache-name="sample" cache-container="modeshape" cluster-name="modeshape-sample-cluster" cluster-stack="tcp"/>
++                <repository name="sample" cache-name="sample" cache-container="modeshape" cluster-name="modeshape-sample-cluster" cluster-stack="tcp">
++                    <indexing rebuild-upon-startup="if_missing"/>
++                    <local-file-index-storage path="modeshape/indexes/sample-${jboss.node.name}"/>
++                    <cache-binary-storage data-cache-name="sample-binary-fs" metadata-cache-name="sample-binary-fs-meta" cache-container="modeshape-binary-cache-container"/>
++                </repository>
+@@ -1374 +1422,3 @@
+-                    <indexing rebuild-upon-startup="never"/>
++                    <local-file-index-storage path="modeshape/indexes/artifacts-${jboss.node.name}"/>
++                    <cache-binary-storage data-cache-name="artifacts-binary-fs" metadata-cache-name="artifacts-binary-fs-meta" cache-container="modeshape-binary-cache-container"/>
++                    <indexing rebuild-upon-startup="if_missing"/>
+diff --git a/deploy/jbossas/kit/jboss-eap61/standalone/configuration/standalone-modeshape-ha.xml b/deploy/jbossas/kit/jboss-eap61/standalone/configuration/standalone-modeshape-ha.xml
+index 97cdba6..06c78b4 100644
+--- a/deploy/jbossas/kit/jboss-eap61/standalone/configuration/standalone-modeshape-ha.xml
++++ b/deploy/jbossas/kit/jboss-eap61/standalone/configuration/standalone-modeshape-ha.xml
+@@ -221,0 +222,19 @@
++            <cache-container name="modeshape-binary-cache-container" aliases="modeshape-binary-cache" default-cache="binary-fs" module="org.modeshape">
++                <transport lock-timeout="60000"/>
++                <replicated-cache name="sample-binary-fs" mode="SYNC" batching="true">
++                    <transaction mode="NON_XA"/>
++                    <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/sample-binary-data-${jboss.node.name}" passivation="false" purge="false"/>
++                </replicated-cache>
++                <replicated-cache name="sample-binary-fs-meta" mode="SYNC" batching="true">
++                    <transaction mode="NON_XA"/>
++                    <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/sample-binary-metadata-${jboss.node.name}" passivation="false" purge="false"/>
++                </replicated-cache>
++                <replicated-cache name="artifacts-binary-fs" mode="SYNC" batching="true">
++                    <transaction mode="NON_XA"/>
++                    <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/artifacts-binary-data-${jboss.node.name}" passivation="false" purge="false"/>
++                </replicated-cache>
++                <replicated-cache name="artifacts-binary-fs-meta" mode="SYNC" batching="true">
++                    <transaction mode="NON_XA"/>
++                    <file-store relative-to="jboss.server.data.dir" path="modeshape/binary-store/artifacts-binary-metadata-${jboss.node.name}" passivation="false" purge="false"/>
++                </replicated-cache>
++            </cache-container>
+@@ -231 +250,5 @@
+-            <repository name="sample" cache-name="sample" cache-container="modeshape" cluster-name="modeshape-sample-cluster" cluster-stack="tcp"/>
++            <repository name="sample" cache-name="sample" cache-container="modeshape" cluster-name="modeshape-sample-cluster" cluster-stack="tcp">
++                <local-file-index-storage path="modeshape/indexes/sample-${jboss.node.name}"/>
++                <cache-binary-storage data-cache-name="sample-binary-fs" metadata-cache-name="sample-binary-fs-meta" cache-container="modeshape-binary-cache-container"/>
++                <indexing rebuild-upon-startup="if_missing"/>
++            </repository>
+@@ -234 +257,3 @@
+-                <indexing rebuild-upon-startup="never"/>
++                <indexing rebuild-upon-startup="if_missing"/>
++                <local-file-index-storage path="modeshape/indexes/artifacts-${jboss.node.name}"/>
++                <cache-binary-storage data-cache-name="artifacts-binary-fs" metadata-cache-name="artifacts-binary-fs-meta" cache-container="modeshape-binary-cache-container"/>
+diff --git a/modeshape-schematic/src/main/java/org/infinispan/schematic/internal/CacheContext.java b/modeshape-schematic/src/main/java/org/infinispan/schematic/internal/CacheContext.java
+index 25a186a..e500592 100644
+--- a/modeshape-schematic/src/main/java/org/infinispan/schematic/internal/CacheContext.java
++++ b/modeshape-schematic/src/main/java/org/infinispan/schematic/internal/CacheContext.java
+@@ -147,2 +147 @@
+-        //TODO author=Horia Chiorean date=4/2/13 description=See https://issues.jboss.org/browse/MODE-1875 for more information
+-        return false;
++        return true;
+

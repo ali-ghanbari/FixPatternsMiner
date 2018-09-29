@@ -1,0 +1,22 @@
+diff --git a/config-example.properties b/config-example.properties
+index 4fb8afb..23d4085 100644
+--- a/config-example.properties
++++ b/config-example.properties
+@@ -19 +19 @@
+-osmreader.flagEncoders=car
++graph.flagEncoders=car
+diff --git a/graphhopper.sh b/graphhopper.sh
+index f919333..b2a1dda 100755
+--- a/graphhopper.sh
++++ b/graphhopper.sh
+@@ -259 +259 @@
+- ARGS="config=$CONFIG graph.location=$GRAPH osmreader.osm=$OSM_FILE prepare.chWeighting=fastest osmreader.flagEncoders=CAR"
++ ARGS="config=$CONFIG graph.location=$GRAPH osmreader.osm=$OSM_FILE prepare.chWeighting=fastest graph.flagEncoders=CAR"
+diff --git a/tools/src/main/java/com/graphhopper/tools/Measurement.java b/tools/src/main/java/com/graphhopper/tools/Measurement.java
+index 419599e..9041b3f 100644
+--- a/tools/src/main/java/com/graphhopper/tools/Measurement.java
++++ b/tools/src/main/java/com/graphhopper/tools/Measurement.java
+@@ -119 +119 @@
+-        String vehicleStr = args.get("osmreader.flagEncoders", "");
++        String vehicleStr = args.get("graph.flagEncoders", "");
+

@@ -1,0 +1,11 @@
+Fix bug regarding handling of non-versioned files during merge
+
+There was a bug introduced by commit 0e815fe. For non-versioned files
+the merge algorithm detected an incoming deletion from THEIRS.
+Consequently such files were deleted. That's a severe bug which was
+fixed by more precisely detecting incoming deletions.
+
+Change-Id: I4385d3c990db11d62e371a385dc8ee89841db84a
+Signed-off-by: Christian Halstrick <christian.halstrick@sap.com>
+Signed-off-by: Philipp Thun <philipp.thun@sap.com>
+Signed-off-by: Matthias Sohn <matthias.sohn@sap.com>

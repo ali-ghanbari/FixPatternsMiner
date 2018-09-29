@@ -1,0 +1,8 @@
+Column and table names in Postgres are apparently case-sensitive.
+
+ActiveObjects does not attempt to Uppercase columns in query strings, but
+will respect uppercasing and properly send it to PG _if_ there is a space before
+and after the = in the query. (oy.)
+
+This fixed the only immediately fatal query I saw: I haven't gone through the rest.
+

@@ -1,0 +1,102 @@
+diff --git a/RELEASENOTES.txt b/RELEASENOTES.txt
+index 781173c..7e6772a 100644
+--- a/RELEASENOTES.txt
++++ b/RELEASENOTES.txt
+@@ -17,0 +18,5 @@
++Maven2Builder
++----------------------
++* Fix validation error: 'mvnhome' and 'mvnscript' cannot both be set. when only mvnhome attrib is set. Reported by Tim Morrow
++
++
+diff --git a/main/src/net/sourceforge/cruisecontrol/builders/Maven2Builder.java b/main/src/net/sourceforge/cruisecontrol/builders/Maven2Builder.java
+index 9defab1..fa4d9d1 100644
+--- a/main/src/net/sourceforge/cruisecontrol/builders/Maven2Builder.java
++++ b/main/src/net/sourceforge/cruisecontrol/builders/Maven2Builder.java
+@@ -131,0 +132,2 @@
++            LOG.debug("Clearing mvnHome after finding mvnScript for builder instance reuse");
++            mvnHome = null;
+diff --git a/main/test/net/sourceforge/cruisecontrol/builders/Maven2BuilderTest.java b/main/test/net/sourceforge/cruisecontrol/builders/Maven2BuilderTest.java
+index e086f70..8090b96 100644
+--- a/main/test/net/sourceforge/cruisecontrol/builders/Maven2BuilderTest.java
++++ b/main/test/net/sourceforge/cruisecontrol/builders/Maven2BuilderTest.java
+@@ -79,0 +80,52 @@
++    public void testValidateMvnHomeAndMvnScriptSet() throws Exception {
++        Maven2Builder mb = new Maven2Builder();
++        // these files must also exist for Maven2Builder to be happy.
++        final File testScript = createTestMvnScriptFile();
++        final File testProject = createTestMvnProjectFile();
++
++        mb.setMultiple(1);
++        mb.setPomFile(testProject.getAbsolutePath());
++        mb.setGoal("mygoal");
++
++        mb.setMvnHome(testScript.getParentFile().getAbsolutePath());
++        mb.setMvnScript(testScript.getAbsolutePath());
++
++        try {
++            mb.validate();
++            fail();
++        } catch (CruiseControlException e) {
++            assertTrue(e.getMessage().startsWith("'mvnhome' and 'mvnscript' cannot both be set."));
++        }
++
++        mb.setMvnScript(null);
++        mb.validate();
++        // rerun validate to test for reuse issues
++        mb.validate();
++    }
++
++    private static File createTestMvnScriptFile() throws IOException, CruiseControlException {
++        File testScript = File.createTempFile("Maven2BuilderTest.testValidate", "_testmaven.bat");
++        testScript.deleteOnExit();
++        makeTestFile(testScript, "@echo This is a fake maven.bat\n", true);
++        return testScript;
++    }
++
++    /**
++     * Test validation with MvnHome set and resuse issues.
++     */
++    public void testValidateMvnHomeReuse() throws Exception {
++        Maven2Builder mb = new Maven2Builder();
++        // these files must also exist for Maven2Builder to be happy.
++        final File testScript = createTestMvnScriptFile();
++        final File testProject = createTestMvnProjectFile();
++
++        mb.setMultiple(1);
++        mb.setMvnHome(testScript.getParentFile().getAbsolutePath());
++        mb.setPomFile(testProject.getAbsolutePath());
++        mb.setGoal("mygoal");
++
++        mb.validate();
++        // rerun validate to test for reuse issues
++        mb.validate();
++    }
++
+@@ -93,3 +145,2 @@
+-        File testScript = File.createTempFile("Maven2BuilderTest.testValidate", "_testmaven.bat");
+-        testScript.deleteOnExit();
+-        makeTestFile(testScript, "@echo This is a fake maven.bat\n", true);
++        final File testScript = createTestMvnScriptFile();
++        final File testProject = createTestMvnProjectFile();
+@@ -97,4 +147,0 @@
+-        File testProject = File.createTempFile("Maven2BuilderTest.testValidate", "_testproject.xml");
+-        testProject.deleteOnExit();
+-        makeTestFile(testProject,
+-            "<project><!-- This is a fake Maven project file --></project>\n", true);
+@@ -131,0 +179,10 @@
++        // do validate again, just to check reuse issues
++        mb.validate();
++    }
++
++    private static File createTestMvnProjectFile() throws IOException, CruiseControlException {
++        File testProject = File.createTempFile("Maven2BuilderTest.testValidate", "_testproject.xml");
++        testProject.deleteOnExit();
++        makeTestFile(testProject,
++            "<project><!-- This is a fake Maven project file --></project>\n", true);
++        return testProject;
+@@ -297 +354,3 @@
+-    private void makeTestFile(File testFile, String content, boolean onWindows) throws CruiseControlException {
++    private static void makeTestFile(File testFile, String content, boolean onWindows)
++            throws CruiseControlException {
++
+

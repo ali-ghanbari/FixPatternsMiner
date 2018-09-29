@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/hudson/tasks/test/MatrixTestResult.java b/core/src/main/java/hudson/tasks/test/MatrixTestResult.java
+index 75399a6..5f6fa77 100644
+--- a/core/src/main/java/hudson/tasks/test/MatrixTestResult.java
++++ b/core/src/main/java/hudson/tasks/test/MatrixTestResult.java
+@@ -56 +56 @@
+-        return b.getRun(Combination.fromString(child.name));
++        return b.getProject().getItem(Combination.fromString(child.name)).getBuildByNumber(child.build);
+

@@ -1,0 +1,9 @@
+diff --git a/basex-core/src/main/java/org/basex/query/up/Updates.java b/basex-core/src/main/java/org/basex/query/up/Updates.java
+index 00e9562..3383f04 100644
+--- a/basex-core/src/main/java/org/basex/query/up/Updates.java
++++ b/basex-core/src/main/java/org/basex/query/up/Updates.java
+@@ -161 +161,2 @@
+-    for(ANode n; (n = it.next()) != null && n.id <= trgID;) {
++    // n.id <= trgID: rewritten to catch ID overflow
++    for(ANode n; (n = it.next()) != null && trgID - n.id >= 0;) {
+

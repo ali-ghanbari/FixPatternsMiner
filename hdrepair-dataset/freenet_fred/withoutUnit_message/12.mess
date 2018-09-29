@@ -1,0 +1,9 @@
+FCPPluginClient: Fix post-purge-db4o-merge glitch
+
+The class has been moved from freenet.node.fcp to freenet.clients.fcp as
+part of merging purge-db4o into plugin-fcp-rewrite.
+While I fixed most references to the old package, I forgot one which
+this commit fixes: The JavaDoc of FCPPluginClient contains a Logger
+configuration instruction which still used the old package name. As that
+is not JavaDoc-linkified, it was missed during the merge.
+

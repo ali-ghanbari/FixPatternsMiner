@@ -1,0 +1,18 @@
+diff --git a/project/src/main/java/org/springframework/roo/project/DependencyType.java b/project/src/main/java/org/springframework/roo/project/DependencyType.java
+index 27475a7..e748969 100644
+--- a/project/src/main/java/org/springframework/roo/project/DependencyType.java
++++ b/project/src/main/java/org/springframework/roo/project/DependencyType.java
+@@ -48 +48 @@
+-			return valueOf(typeCode);
++			return valueOf(typeCode.toUpperCase());
+diff --git a/project/src/test/java/org/springframework/roo/project/DependencyTypeTest.java b/project/src/test/java/org/springframework/roo/project/DependencyTypeTest.java
+index ca04de3..da0b965 100644
+--- a/project/src/test/java/org/springframework/roo/project/DependencyTypeTest.java
++++ b/project/src/test/java/org/springframework/roo/project/DependencyTypeTest.java
+@@ -31 +31 @@
+-	public void testValueOfKnownCode() {
++	public void testValueOfKnownCodes() {
+@@ -33 +33 @@
+-			assertEquals(dependencyType, DependencyType.valueOfTypeCode(dependencyType.name()));
++			assertEquals(dependencyType, DependencyType.valueOfTypeCode(dependencyType.name().toLowerCase()));
+

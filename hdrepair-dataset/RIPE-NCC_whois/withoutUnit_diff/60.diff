@@ -1,0 +1,8 @@
+diff --git a/whois-api/src/main/java/net/ripe/db/whois/api/whois/InternalUpdatePerformer.java b/whois-api/src/main/java/net/ripe/db/whois/api/whois/InternalUpdatePerformer.java
+index 9d66dd8..4a96504 100644
+--- a/whois-api/src/main/java/net/ripe/db/whois/api/whois/InternalUpdatePerformer.java
++++ b/whois-api/src/main/java/net/ripe/db/whois/api/whois/InternalUpdatePerformer.java
+@@ -58 +58 @@
+-            return update.getOperation() == Operation.DELETE ? null : rpslObjectDao.getById(updateContext.getUpdateInfo(update).getObjectId());
++            return updateContext.getPreparedUpdate(update).getUpdatedObject();
+

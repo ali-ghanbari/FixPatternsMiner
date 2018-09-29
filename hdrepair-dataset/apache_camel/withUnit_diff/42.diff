@@ -1,0 +1,56 @@
+diff --git a/camel-core/src/main/java/org/apache/camel/processor/validation/ValidatorErrorHandler.java b/camel-core/src/main/java/org/apache/camel/processor/validation/ValidatorErrorHandler.java
+index 541b43e..347f9cb 100644
+--- a/camel-core/src/main/java/org/apache/camel/processor/validation/ValidatorErrorHandler.java
++++ b/camel-core/src/main/java/org/apache/camel/processor/validation/ValidatorErrorHandler.java
+@@ -45 +45 @@
+-     * @throws ValidationException is thrown in case of validatation errors
++     * @throws ValidationException is thrown in case of validation errors
+diff --git a/camel-core/src/test/java/org/apache/camel/component/seda/SedaShouldNotUseSameThreadTest.java b/camel-core/src/test/java/org/apache/camel/component/seda/SedaShouldNotUseSameThreadTest.java
+index ff02eb3..a514add 100644
+--- a/camel-core/src/test/java/org/apache/camel/component/seda/SedaShouldNotUseSameThreadTest.java
++++ b/camel-core/src/test/java/org/apache/camel/component/seda/SedaShouldNotUseSameThreadTest.java
+@@ -56 +56 @@
+-                        assertNotSame("Thead is should not be same", id, Thread.currentThread().getId());
++                        assertNotSame("Thread is should not be same", id, Thread.currentThread().getId());
+diff --git a/camel-core/src/test/java/org/apache/camel/component/vm/VmShouldNotUseSameThreadTest.java b/camel-core/src/test/java/org/apache/camel/component/vm/VmShouldNotUseSameThreadTest.java
+index 4c9d249..ed46f8e 100644
+--- a/camel-core/src/test/java/org/apache/camel/component/vm/VmShouldNotUseSameThreadTest.java
++++ b/camel-core/src/test/java/org/apache/camel/component/vm/VmShouldNotUseSameThreadTest.java
+@@ -56 +56 @@
+-                        assertNotSame("Thead is should not be same", id, Thread.currentThread().getId());
++                        assertNotSame("Thread is should not be same", id, Thread.currentThread().getId());
+diff --git a/camel-core/src/test/java/org/apache/camel/impl/DefaultProducerTemplateAsyncTest.java b/camel-core/src/test/java/org/apache/camel/impl/DefaultProducerTemplateAsyncTest.java
+index 6dc9ac9..bd0f7c0 100644
+--- a/camel-core/src/test/java/org/apache/camel/impl/DefaultProducerTemplateAsyncTest.java
++++ b/camel-core/src/test/java/org/apache/camel/impl/DefaultProducerTemplateAsyncTest.java
+@@ -550,0 +551,26 @@
++    public void testAsyncCallbackThreadsInOutProcessor() throws Exception {
++        ORDER.set(0);
++
++        final CountDownLatch latch = new CountDownLatch(1);
++
++        template.asyncCallback("direct:threads", new Processor() {
++            public void process(Exchange exchange) throws Exception {
++                exchange.getIn().setBody("Bye");
++                exchange.setPattern(ExchangePattern.InOut);
++            }
++        }, new SynchronizationAdapter() {
++            @Override
++            public void onDone(Exchange exchange) {
++                ORDER.addAndGet(2);
++                assertEquals("ByeBye", exchange.getOut().getBody());
++                latch.countDown();
++            }
++        });
++
++        ORDER.addAndGet(1);
++        latch.await(10, TimeUnit.SECONDS);
++        ORDER.addAndGet(4);
++
++        assertEquals(7, ORDER.get());
++    }
++
+@@ -568,0 +595,2 @@
++
++                from("direct:threads").threads(5).transform(body().append(body()));
+

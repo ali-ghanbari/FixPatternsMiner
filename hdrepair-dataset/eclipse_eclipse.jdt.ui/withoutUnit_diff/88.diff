@@ -1,0 +1,8 @@
+diff --git a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java
+index 6315392..6e39a88 100644
+--- a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java
++++ b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java
+@@ -406 +406 @@
+-					if (isInStaticContext && !Modifier.isStatic(curr.getModifiers())) {
++					if (isInStaticContext && !Modifier.isStatic(curr.getModifiers()) && curr.isField()) {
+

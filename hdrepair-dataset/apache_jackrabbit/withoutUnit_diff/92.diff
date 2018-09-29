@@ -1,0 +1,10 @@
+diff --git a/src/java/org/apache/jackrabbit/core/SessionImpl.java b/src/java/org/apache/jackrabbit/core/SessionImpl.java
+index eb74cf0..77bcc88 100644
+--- a/src/java/org/apache/jackrabbit/core/SessionImpl.java
++++ b/src/java/org/apache/jackrabbit/core/SessionImpl.java
+@@ -534,0 +535,4 @@
++            } catch (AccessDeniedException re) {
++                // otherwise the RepositoryException catch clause will
++                // log a warn message, which is not appropriate in this case.
++                throw new AccessControlException(READ_ACTION);
+

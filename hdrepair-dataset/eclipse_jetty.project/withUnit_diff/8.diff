@@ -1,0 +1,23 @@
+diff --git a/jetty-proxy/src/main/java/org/eclipse/jetty/proxy/ProxyServlet.java b/jetty-proxy/src/main/java/org/eclipse/jetty/proxy/ProxyServlet.java
+index 3c6ab64..98a25f7 100644
+--- a/jetty-proxy/src/main/java/org/eclipse/jetty/proxy/ProxyServlet.java
++++ b/jetty-proxy/src/main/java/org/eclipse/jetty/proxy/ProxyServlet.java
+@@ -260,0 +261,2 @@
++            if (executor==null)
++                throw new IllegalStateException("No server executor for proxy");
+diff --git a/jetty-proxy/src/test/java/org/eclipse/jetty/proxy/ProxyServletTest.java b/jetty-proxy/src/test/java/org/eclipse/jetty/proxy/ProxyServletTest.java
+index 7739fe8..2d356ed 100644
+--- a/jetty-proxy/src/test/java/org/eclipse/jetty/proxy/ProxyServletTest.java
++++ b/jetty-proxy/src/test/java/org/eclipse/jetty/proxy/ProxyServletTest.java
+@@ -242 +242 @@
+-        threadPool.setMaxThreads(2);
++        threadPool.setMaxThreads(20);
+@@ -272,4 +272,3 @@
+-
+-        Assert.assertEquals(200, responses[i].getStatus());
+-        Assert.assertTrue(responses[i].getHeaders().containsKey(PROXIED_HEADER));
+-        Assert.assertArrayEquals(content, responses[i].getContent());
++            Assert.assertEquals(200, responses[i].getStatus());
++            Assert.assertTrue(responses[i].getHeaders().containsKey(PROXIED_HEADER));
++            Assert.assertArrayEquals(content, responses[i].getContent());
+

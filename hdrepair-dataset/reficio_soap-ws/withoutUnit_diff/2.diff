@@ -1,0 +1,9 @@
+diff --git a/soap-server/src/main/java/org/reficio/ws/server/matcher/SoapOperationMatcher.java b/soap-server/src/main/java/org/reficio/ws/server/matcher/SoapOperationMatcher.java
+index 8af6755..7916578 100644
+--- a/soap-server/src/main/java/org/reficio/ws/server/matcher/SoapOperationMatcher.java
++++ b/soap-server/src/main/java/org/reficio/ws/server/matcher/SoapOperationMatcher.java
+@@ -246 +246,2 @@
+-        return operation.getBindingOutput() != null && operation.getBindingOutput().getName() != null;
++        // return operation.getBindingOutput() != null && operation.getBindingOutput().getName() != null;
++        return operation.getOperation().getStyle().equals(OperationType.REQUEST_RESPONSE);
+

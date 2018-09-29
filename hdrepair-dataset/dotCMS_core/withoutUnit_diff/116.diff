@@ -1,0 +1,44 @@
+diff --git a/dotCMS/html/portlet/ext/contentlet/field/edit_field.jsp b/dotCMS/html/portlet/ext/contentlet/field/edit_field.jsp
+index f28e26a..39b0925 100644
+--- a/dotCMS/html/portlet/ext/contentlet/field/edit_field.jsp
++++ b/dotCMS/html/portlet/ext/contentlet/field/edit_field.jsp
+@@ -207 +207 @@
+-    <div style="margin-bottom:20px;max-width:600px;overflow:visible;">
++    <div style="margin-bottom:20px;width:700px;overflow:visible;border:0px red solid">
+@@ -211 +211 @@
+-            id="<%=field.getVelocityVarName()%>"  style="width:100%; height:350px;font-family:monospace;clear:both;"><%=UtilMethods.htmlifyString(textValue)%>
++            id="<%=field.getVelocityVarName()%>" style="width:100%; height:450px;font-family:monospace;clear:both;"><%=UtilMethods.htmlifyString(textValue)%>
+@@ -214 +214 @@
+-   		<table style="margin:10px 5px 20px 5px;width:600px;">
++   		<table style="margin:10px 5px 20px 5px;">
+diff --git a/dotCMS/html/portlet/ext/contentlet/field/tiny_mce_config_default.jsp b/dotCMS/html/portlet/ext/contentlet/field/tiny_mce_config_default.jsp
+index 2201359..0294904 100644
+--- a/dotCMS/html/portlet/ext/contentlet/field/tiny_mce_config_default.jsp
++++ b/dotCMS/html/portlet/ext/contentlet/field/tiny_mce_config_default.jsp
+@@ -25,7 +25,2 @@
+-    		theme_advanced_buttons1_add : "separator,forecolor,fontselect,fontsizeselect,separator,fullscreen,preview",
+-    		theme_advanced_buttons1_add_before : "newdocument,separator",
+-            theme_advanced_buttons2_add : "dotimageclipboard,separator,spellchecker<%= LicenseUtil.getLevel()>=200 ? ",validation":"" %>",
+-            theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
+-            theme_advanced_buttons3_add_before : "tablecontrols,separator",
+-            theme_advanced_buttons3_add : "flash,advhr,separator,print,separator,ltr,rtl",
+-            theme_advanced_disable : "styleselect",
++    		theme_advanced_buttons1 : "cut,copy,paste,pasteword,separator,undo,redo,separator,image,dotimageclipboard,anchor,link,unlink,separator,spellchecker<%= LicenseUtil.getLevel()>=200 ? ",validation":"" %>,",
++    		theme_advanced_buttons2 : "bold,italic,underline,strikethrough,separator,formatselect,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,outdent,indent,hr,charmap,separator,styleselect,separator,fullscreen,",
+@@ -33,0 +29 @@
++            theme_advanced_blockformats : "p,h1,h2,h3,h4,h5,h6,blockquote,pre,code,samp",
+@@ -35,2 +30,0 @@
+-            plugin_insertdate_dateFormat : "%Y-%m-%d",
+-            plugin_insertdate_timeFormat : "%H:%M:%S",
+@@ -38,0 +33 @@
++            extended_valid_elements : "span[!class]",
+@@ -43 +37,0 @@
+-            paste_convert_headers_to_strong : "true",
+diff --git a/src/com/dotmarketing/viewtools/BrowserAPI.java b/src/com/dotmarketing/viewtools/BrowserAPI.java
+index b875519..bc6cf46 100644
+--- a/src/com/dotmarketing/viewtools/BrowserAPI.java
++++ b/src/com/dotmarketing/viewtools/BrowserAPI.java
+@@ -263 +263 @@
+-                    fileMap.put( "extension", FileUtil.getIconExtension( fileAsset.getFileName() ) );
++                    fileMap.put( "extension", UtilMethods.getFileExtension( fileAsset.getFileName() ) );
+

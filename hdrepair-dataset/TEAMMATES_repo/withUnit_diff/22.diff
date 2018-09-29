@@ -1,0 +1,14 @@
+diff --git a/src/main/java/teammates/logic/backdoor/BackDoorLogic.java b/src/main/java/teammates/logic/backdoor/BackDoorLogic.java
+index 71af82e..58270a9 100644
+--- a/src/main/java/teammates/logic/backdoor/BackDoorLogic.java
++++ b/src/main/java/teammates/logic/backdoor/BackDoorLogic.java
+@@ -85 +85 @@
+-                super.instructorsLogic.createInstructor(instructor);
++                super.instructorsLogic.createInstructor(instructor.googleId, instructor.courseId, instructor.name, instructor.email);
+diff --git a/src/test/java/teammates/test/cases/common/StringHelperTest.java b/src/test/java/teammates/test/cases/common/StringHelperTest.java
+index 2001934..910a6c1 100644
+--- a/src/test/java/teammates/test/cases/common/StringHelperTest.java
++++ b/src/test/java/teammates/test/cases/common/StringHelperTest.java
+@@ -25 +24,0 @@
+-        assertEquals("", StringHelper.encrypt("franklinguIns3@google.com%testCourse-1180002611"));
+

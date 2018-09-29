@@ -1,0 +1,135 @@
+diff --git a/README.md b/README.md
+index b4f2585..3a1d223 100644
+--- a/README.md
++++ b/README.md
+@@ -44 +44 @@
+-    [HTML](http://teammatesv4.appspot.com/dev/htmlstyleguide.html)
++    [HTML](https://docs.google.com/document/d/12PJYbQoqjK-0LzaUuguQ4kGE--eikCcHfwzZDGwFOJ0/pub?embedded=true)
+diff --git a/runtests.bat b/runtests.bat
+index 233746b..b49ec8f 100644
+--- a/runtests.bat
++++ b/runtests.bat
+@@ -21,21 +21,6 @@
+-set tempcp=%tempcp%;%1\lib\shared\appengine-local-runtime-shared.jar
+-set tempcp=%tempcp%;%1\lib\shared\-api.jar
+-set tempcp=%tempcp%;%1\lib\shared\jsp-api.jar
+-set tempcp=%tempcp%;%1\lib\shared\servlet-api.jar
+-set tempcp=%tempcp%;%1\lib\shared\jsp\repackaged-appengine-ant-1.7.1.jar
+-set tempcp=%tempcp%;%1\lib\shared\jsp\repackaged-appengine-ant-launcher-1.7.1.jar
+-set tempcp=%tempcp%;%1\lib\shared\jsp\repackaged-appengine-jasper-6.0.29.jar
+-set tempcp=%tempcp%;%1\lib\shared\jsp\repackaged-appengine-jasper-el-6.0.29.jar
+-set tempcp=%tempcp%;%1\lib\shared\jsp\repackaged-appengine-tomcat-juli-6.0.29.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\appengine-api-labs\v1\appengine-api-labs.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\appengine-endpoints\v1\appengine-endpoints.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\appengine-endpoints\v1\appengine-endpoints-deps.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\jsr107\v1\appengine-jsr107cache-1.9.4.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\jsr107\v1\jsr107cache-1.1.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\datanucleus-appengine-1.0.10.final.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\datanucleus-core-1.1.5.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\datanucleus-jpa-1.1.5.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\geronimo-jpa_3.0_spec-1.1.1.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\geronimo-jta_1.1_spec-1.1.1.jar
+-set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\jdo2-api-2.3-eb.jar
+-set tempcp=%tempcp%;%1\lib\appengine-tools-api.jar
++set tempcp=%tempcp%;%1\lib\shared\*
++set tempcp=%tempcp%;%1\lib\shared\jsp\*
++set tempcp=%tempcp%;%1\lib\opt\user\appengine-api-labs\v1\*
++set tempcp=%tempcp%;%1\lib\opt\user\jsr107\v1\*
++set tempcp=%tempcp%;%1\lib\opt\user\datanucleus\v1\*
++set tempcp=%tempcp%;%1\lib\*
+@@ -43,11 +28,6 @@
+-set tempcp=%tempcp%;%2\src\test\resources\lib\javamail\mail.jar
+-set tempcp=%tempcp%;%2\src\main\webapp\WEB-INF\lib\gson-2.2.2.jar
+-set tempcp=%tempcp%;%2\src\main\webapp\WEB-INF\lib\xercesImpl-2.9.1.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\appengine\appengine-remote-api.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\appengine\appengine-testing.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\appengine\appengine-api.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\appengine\appengine-api-stubs.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\appengine\appengine-api-labs.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\selenium\selenium-server-standalone-2.41.0.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\httpunit\httpunit.jar
+-set tempcp=%tempcp%;%2\src\test\resources\lib\testng\testng.jar
++set tempcp=%tempcp%;%2\src\test\resources\lib\*
++set tempcp=%tempcp%;%2\src\main\webapp\WEB-INF\lib\*
++set tempcp=%tempcp%;%2\src\test\resources\lib\appengine\*
++set tempcp=%tempcp%;%2\src\test\resources\lib\selenium\*
++set tempcp=%tempcp%;%2\src\test\resources\lib\httpunit\*
++set tempcp=%tempcp%;%2\src\test\resources\lib\testng\*
+@@ -59,5 +39,3 @@
+-java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+-java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+-java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+-java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
+-java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
++for /l %i in (1, 1, 5) do (
++   java -cp "%tempcp%" %vmparams% org.testng.TestNG .\test-output\testng-failed.xml
++)
+diff --git a/runtests.sh b/runtests.sh
+index 902f2a9..3187365 100644
+--- a/runtests.sh
++++ b/runtests.sh
+@@ -19,21 +19,6 @@
+-tempcp=$tempcp:$1/lib/shared/appengine-local-runtime-shared.jar
+-tempcp=$tempcp:$1/lib/shared/el-api.jar
+-tempcp=$tempcp:$1/lib/shared/jsp-api.jar
+-tempcp=$tempcp:$1/lib/shared/servlet-api.jar
+-tempcp=$tempcp:$1/lib/shared/jsp/repackaged-appengine-ant-1.7.1.jar
+-tempcp=$tempcp:$1/lib/shared/jsp/repackaged-appengine-ant-launcher-1.7.1.jar
+-tempcp=$tempcp:$1/lib/shared/jsp/repackaged-appengine-jasper-6.0.29.jar
+-tempcp=$tempcp:$1/lib/shared/jsp/repackaged-appengine-jasper-el-6.0.29.jar
+-tempcp=$tempcp:$1/lib/shared/jsp/repackaged-appengine-tomcat-juli-6.0.29.jar
+-tempcp=$tempcp:$1/lib/opt/user/appengine-api-labs/v1/appengine-api-labs.jar
+-tempcp=$tempcp:$1/lib/opt/user/appengine-endpoints/v1/appengine-endpoints.jar
+-tempcp=$tempcp:$1/lib/opt/user/appengine-endpoints/v1/appengine-endpoints-deps.jar
+-tempcp=$tempcp:$1/lib/opt/user/jsr107/v1/appengine-jsr107cache-1.9.4.jar
+-tempcp=$tempcp:$1/lib/opt/user/jsr107/v1/jsr107cache-1.1.jar
+-tempcp=$tempcp:$1/lib/opt/user/datanucleus/v1/datanucleus-appengine-1.0.10.final.jar
+-tempcp=$tempcp:$1/lib/opt/user/datanucleus/v1/datanucleus-core-1.1.5.jar
+-tempcp=$tempcp:$1/lib/opt/user/datanucleus/v1/datanucleus-jpa-1.1.5.jar
+-tempcp=$tempcp:$1/lib/opt/user/datanucleus/v1/geronimo-jpa_3.0_spec-1.1.1.jar
+-tempcp=$tempcp:$1/lib/opt/user/datanucleus/v1/geronimo-jta_1.1_spec-1.1.1.jar
+-tempcp=$tempcp:$1/lib/opt/user/datanucleus/v1/jdo2-api-2.3-eb.jar
+-tempcp=$tempcp:$1/lib/appengine-tools-api.jar
++tempcp=$tempcp:$1/lib/shared/*
++tempcp=$tempcp:$1/lib/shared/jsp/*
++tempcp=$tempcp:$1/lib/opt/user/appengine-api-labs/v1/*
++tempcp=$tempcp:$1/lib/opt/user/jsr107/v1/*
++tempcp=$tempcp:$1/lib/opt/user/datanucleus/v1/*
++tempcp=$tempcp:$1/lib/*
+@@ -41,11 +26,6 @@
+-tempcp=$tempcp:$2/src/test/resources/lib/javamail/mail.jar
+-tempcp=$tempcp:$2/src/main/webapp/WEB-INF/lib/gson-2.2.2.jar
+-tempcp=$tempcp:$2/src/main/webapp/WEB-INF/lib/xercesImpl-2.9.1.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/appengine/appengine-remote-api.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/appengine/appengine-testing.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/appengine/appengine-api.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/appengine/appengine-api-stubs.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/appengine/appengine-api-labs.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/selenium/selenium-server-standalone-2.41.0.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/httpunit/httpunit.jar
+-tempcp=$tempcp:$2/src/test/resources/lib/testng/testng.jar
++tempcp=$tempcp:$2/src/test/resources/lib/javamail/*
++tempcp=$tempcp:$2/src/main/webapp/WEB-INF/lib/*
++tempcp=$tempcp:$2/src/test/resources/lib/appengine/*
++tempcp=$tempcp:$2/src/test/resources/lib/selenium/*
++tempcp=$tempcp:$2/src/test/resources/lib/httpunit/*
++tempcp=$tempcp:$2/src/test/resources/lib/testng/*
+@@ -59,5 +39,4 @@
+-java -cp $tempcp $args org.testng.TestNG ./test-output/testng-failed.xml
+-java -cp $tempcp $args org.testng.TestNG ./test-output/testng-failed.xml
+-java -cp $tempcp $args org.testng.TestNG ./test-output/testng-failed.xml
+-java -cp $tempcp $args org.testng.TestNG ./test-output/testng-failed.xml
+-java -cp $tempcp $args org.testng.TestNG ./test-output/testng-failed.xml
++for(( i=1; i <= 5; i++ ))
++do
++    java -cp $tempcp $args org.testng.TestNG ./test-output/testng-failed.xml
++done
+diff --git a/src/main/java/teammates/storage/entity/Student.java b/src/main/java/teammates/storage/entity/Student.java
+index 0660ae4..494972d 100755
+--- a/src/main/java/teammates/storage/entity/Student.java
++++ b/src/main/java/teammates/storage/entity/Student.java
+@@ -43 +43,2 @@
+-     * The student's Google ID. Used as the foreign key for the Course object.
++     * The student's Course ID. References the primary key of the course.
++     * This shows the course the student is taking
+

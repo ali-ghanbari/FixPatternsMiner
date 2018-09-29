@@ -1,0 +1,10 @@
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/highlighting/ChooseOneOrAllRunnable.java b/platform/lang-impl/src/com/intellij/codeInsight/highlighting/ChooseOneOrAllRunnable.java
+index 7ce0314..0196bb6 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/highlighting/ChooseOneOrAllRunnable.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/highlighting/ChooseOneOrAllRunnable.java
+@@ -48 +48,3 @@
+-      selected(myClasses[0]);
++      //TODO: cdr this place should produce at least warning
++      // selected(myClasses[0]);
++      selected((T[])ArrayUtil.toObjectArray(myClasses[0].getClass(), myClasses[0]));
+

@@ -1,0 +1,43 @@
+diff --git a/nuxeo-platform-ear/src/main/assemble/nuxeo.xml b/nuxeo-platform-ear/src/main/assemble/nuxeo.xml
+index 447ca04..4f1fca0 100644
+--- a/nuxeo-platform-ear/src/main/assemble/nuxeo.xml
++++ b/nuxeo-platform-ear/src/main/assemble/nuxeo.xml
+@@ -48,2 +47,0 @@
+-  <!-- CUSTOMER RESOURCES -->
+-
+@@ -170,0 +169 @@
++  -->
+@@ -172,2 +171,14 @@
+-  <!-- CUSTOMER ARTIFACTS -->
+-  <!--
++  <!-- CUSTOM RESOURCES
++    <assemble>
++    <outputFile>/</outputFile>
++    <set>custom-resources</set>
++    </assemble>
++    <fileSet id="custom-resources">
++    <directory>src/main/resources_custom</directory>
++    <excludes>
++    <exclude>**/.svn</exclude>
++    </excludes>
++    </fileSet>
++  -->
++
++  <!-- CUSTOM ARTIFACTS
+@@ -176 +187 @@
+-    <set>customer-plugins</set>
++    <set>custom-plugins</set>
+@@ -178 +189 @@
+-    <artifactSet id="customer-plugins">
++    <artifactSet id="custom-plugins">
+@@ -182 +193 @@
+-    <artifact group="com.customer.sample" />
++    <artifact group="com.custom.sample" />
+diff --git a/nuxeo-platform-versioning-core/src/main/java/org/nuxeo/ecm/platform/versioning/listeners/DocVersioningListener.java b/nuxeo-platform-versioning-core/src/main/java/org/nuxeo/ecm/platform/versioning/listeners/DocVersioningListener.java
+index 312865b..1a20314 100644
+--- a/nuxeo-platform-versioning-core/src/main/java/org/nuxeo/ecm/platform/versioning/listeners/DocVersioningListener.java
++++ b/nuxeo-platform-versioning-core/src/main/java/org/nuxeo/ecm/platform/versioning/listeners/DocVersioningListener.java
+@@ -166,2 +165,0 @@
+-                    } catch (DocumentException e) {
+-                        log.error(e);
+

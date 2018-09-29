@@ -1,0 +1,9 @@
+core: fixed exception during creation of VM from template
+
+During executing AddVmFromTemplateCommand, the parent parameters weren't
+set on CloneVmFromVmTemplateCommand paramaters which is being executed
+within. CommandBase throws an exception when the parent parameters aren't set which cause the template to remain in image locked status.
+
+Change-Id: I47633b3cb6b2f5b078bdc8d8955f17eed1edd71e
+Signed-off-by: Liron Aravot <laravot@redhat.com>
+

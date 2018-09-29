@@ -1,0 +1,56 @@
+diff --git a/build.xml b/build.xml
+index 905477c..eed3e65 100644
+--- a/build.xml
++++ b/build.xml
+@@ -319 +319 @@
+-        <equals arg1="${os.prefix}" arg2="w32ce-arm"/>
++        <not><equals arg1="${os.prefix}" arg2="w32ce-arm"/></not>
+diff --git a/native/dispatch.c b/native/dispatch.c
+index 758b5a0..ad27010 100644
+--- a/native/dispatch.c
++++ b/native/dispatch.c
+@@ -1616,0 +1617,3 @@
++    else if (preserve_last_error) {
++      update_last_error(env, GET_LAST_ERROR()); 
++    }
+diff --git a/native/testlib.c b/native/testlib.c
+index 63d3638..3c796b3 100644
+--- a/native/testlib.c
++++ b/native/testlib.c
+@@ -90,0 +91,6 @@
++EXPORT int
++callCount() {
++  return ++_callCount;
++}
++
++/** Simulate native code setting an arbitrary errno/LastError */
+@@ -98,5 +103,0 @@
+-}
+-
+-EXPORT int
+-callCount() {
+-  return ++_callCount;
+diff --git a/src/com/sun/jna/Native.java b/src/com/sun/jna/Native.java
+index 6ad4ba7..ae4322c 100644
+--- a/src/com/sun/jna/Native.java
++++ b/src/com/sun/jna/Native.java
+@@ -146,0 +147 @@
++        setPreserveLastError(Boolean.parseBoolean(System.getProperty("jna.preserve_last_error", "true")));
+diff --git a/src/com/sun/jna/overview.html b/src/com/sun/jna/overview.html
+index c3f47fb..cda22a5 100644
+--- a/src/com/sun/jna/overview.html
++++ b/src/com/sun/jna/overview.html
+@@ -730,0 +731,5 @@
++<h3>Throw exceptions on last error</h3>
++If you are interested in the value of errno/GetLastError(), declare your
++method to throw LastErrorException, and call
++{@link com.sun.jna.Native#PreserveLastError PreserveLastError(false)} or set
++the System property <code>jna.preserve_last_error=false</code>.
+diff --git a/test/com/sun/jna/LastErrorTest.java b/test/com/sun/jna/LastErrorTest.java
+index 31aca95..122d3e8 100644
+--- a/test/com/sun/jna/LastErrorTest.java
++++ b/test/com/sun/jna/LastErrorTest.java
+@@ -66 +66 @@
+-    public void XFAIL_WCE_testThrowLastErrorDirect() {
++    public void testThrowLastErrorDirect() {
+

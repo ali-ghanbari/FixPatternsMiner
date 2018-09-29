@@ -1,0 +1,12 @@
+diff --git a/src/main/mondrian/olap/Util.java b/src/main/mondrian/olap/Util.java
+index cc82a98..264f7d3 100644
+--- a/src/main/mondrian/olap/Util.java
++++ b/src/main/mondrian/olap/Util.java
+@@ -2171,0 +2172,6 @@
++        // Because of VFS caching, make sure we refresh to get the latest file
++        // content.
++        // This refresh may possibly solve the following workaround for defect
++        // 2613265, but cannot be tested, so we will leave the work around for now
++        file.refresh();
++
+

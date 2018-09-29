@@ -1,0 +1,28 @@
+diff --git a/modules/activiti-webapp-cycle/src/main/webapp/components/artifact/artifact.js b/modules/activiti-webapp-cycle/src/main/webapp/components/artifact/artifact.js
+index fa377fd..b30c9be 100644
+--- a/modules/activiti-webapp-cycle/src/main/webapp/components/artifact/artifact.js
++++ b/modules/activiti-webapp-cycle/src/main/webapp/components/artifact/artifact.js
+@@ -51 +51,14 @@
+-
++      var size = parseInt(Dom.getStyle('content', 'width'), 10); 
++      var left, main;
++      var resize = new YAHOO.util.Resize('left', {
++          handles: ['r']
++        });
++      left = Dom.get('left');
++      main = Dom.get('main');
++      resize.on('resize', function(ev) {
++          var w = ev.width;
++          Dom.setStyle(left, 'height', '');
++          Dom.setStyle(main, 'width', (size - w - 37) + 'px');
++        });
++      
++      
+diff --git a/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/cycle/ContentRepresentationGet.java b/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/cycle/ContentRepresentationGet.java
+index a7420c7..6136e9c 100644
+--- a/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/cycle/ContentRepresentationGet.java
++++ b/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/cycle/ContentRepresentationGet.java
+@@ -88 +88 @@
+-      model.put("contentRepresentationId", "Exception");
++      model.put("contentRepresentationId", representationId);
+

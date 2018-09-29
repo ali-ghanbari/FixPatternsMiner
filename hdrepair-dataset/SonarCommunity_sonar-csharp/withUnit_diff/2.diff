@@ -1,0 +1,20 @@
+diff --git a/sonar-csharp-plugin/src/main/java/org/sonar/plugins/csharp/api/CSharpConstants.java b/sonar-csharp-plugin/src/main/java/org/sonar/plugins/csharp/api/CSharpConstants.java
+index d35aae2..9b772f6 100644
+--- a/sonar-csharp-plugin/src/main/java/org/sonar/plugins/csharp/api/CSharpConstants.java
++++ b/sonar-csharp-plugin/src/main/java/org/sonar/plugins/csharp/api/CSharpConstants.java
+@@ -32 +32 @@
+-  public static final String FILE_SUFFIXES_DEFVALUE = "cs";
++  public static final String FILE_SUFFIXES_DEFVALUE = ".cs";
+diff --git a/sonar-csharp-plugin/src/test/java/org/sonar/plugins/csharp/api/CSharpTest.java b/sonar-csharp-plugin/src/test/java/org/sonar/plugins/csharp/api/CSharpTest.java
+index 0da51ee..47b5c89 100644
+--- a/sonar-csharp-plugin/src/test/java/org/sonar/plugins/csharp/api/CSharpTest.java
++++ b/sonar-csharp-plugin/src/test/java/org/sonar/plugins/csharp/api/CSharpTest.java
+@@ -43 +43 @@
+-    assertThat(cSharp.getFileSuffixes()).containsOnly("cs");
++    assertThat(cSharp.getFileSuffixes()).containsOnly(".cs");
+@@ -48,2 +48,2 @@
+-    settings.setProperty(CSharpConstants.FILE_SUFFIXES_KEY, "cs, csharp");
+-    assertThat(cSharp.getFileSuffixes()).containsOnly("cs", "csharp");
++    settings.setProperty(CSharpConstants.FILE_SUFFIXES_KEY, ".cs,.csharp");
++    assertThat(cSharp.getFileSuffixes()).containsOnly(".cs", ".csharp");
+

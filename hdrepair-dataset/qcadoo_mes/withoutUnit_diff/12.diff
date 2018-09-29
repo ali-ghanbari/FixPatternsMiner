@@ -1,0 +1,8 @@
+diff --git a/mes-plugins/mes-plugins-samples/src/main/java/com/qcadoo/mes/samples/aop/ValidationAfterSaveAspect.java b/mes-plugins/mes-plugins-samples/src/main/java/com/qcadoo/mes/samples/aop/ValidationAfterSaveAspect.java
+index 028e0f0..3f4c4f6 100644
+--- a/mes-plugins/mes-plugins-samples/src/main/java/com/qcadoo/mes/samples/aop/ValidationAfterSaveAspect.java
++++ b/mes-plugins/mes-plugins-samples/src/main/java/com/qcadoo/mes/samples/aop/ValidationAfterSaveAspect.java
+@@ -49 +49 @@
+-    @After("dataDefinitionSaveCall(entity) && cflow(within(com.qcadoo.mes.samples.api.SamplesLoader+))")
++    @After("com.qcadoo.mes.samples.aop.ValidationAfterSaveAspect.dataDefinitionSaveCall(entity) && cflow(execution(* com.qcadoo.mes.samples.api.SamplesLoader.*(..)))")
+

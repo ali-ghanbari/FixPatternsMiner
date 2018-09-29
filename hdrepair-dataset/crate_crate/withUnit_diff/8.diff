@@ -1,0 +1,34 @@
+diff --git a/sql/src/main/java/io/crate/operation/merge/SortingBucketMerger.java b/sql/src/main/java/io/crate/operation/merge/SortingBucketMerger.java
+index 3d04fe5..5d05bd8 100644
+--- a/sql/src/main/java/io/crate/operation/merge/SortingBucketMerger.java
++++ b/sql/src/main/java/io/crate/operation/merge/SortingBucketMerger.java
+@@ -232,0 +233 @@
++                    bucketsWithRowEqualToLeast.clear();
+diff --git a/sql/src/test/java/io/crate/operation/merge/SortingBucketMergerTest.java b/sql/src/test/java/io/crate/operation/merge/SortingBucketMergerTest.java
+index 622263a..483c152 100644
+--- a/sql/src/test/java/io/crate/operation/merge/SortingBucketMergerTest.java
++++ b/sql/src/test/java/io/crate/operation/merge/SortingBucketMergerTest.java
+@@ -48 +48,2 @@
+-import static io.crate.testing.TestingHelpers.*;
++import static io.crate.testing.TestingHelpers.createPage;
++import static io.crate.testing.TestingHelpers.isSorted;
+@@ -206,0 +208,18 @@
++    public void testMultiBucketsEqualValues() throws Exception {
++        BucketPage p846 = createPage(Arrays.<Object[]>asList(
++                        new Object[]{"B"}
++                ),
++                Arrays.<Object[]>asList(
++                        new Object[]{"B"}
++                ),
++                Arrays.<Object[]>asList(
++                        new Object[]{"A"}
++                ),
++                Arrays.<Object[]>asList(
++                        new Object[]{"A"}
++                ));
++        Bucket bucket = mergeWith(4, false, p846);
++        assertRows(bucket, "A", "A", "B", "B");
++    }
++
++    @Test
+

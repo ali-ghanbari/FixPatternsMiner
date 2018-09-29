@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java b/platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java
+index eacb72b..6cc1277 100644
+--- a/platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java
++++ b/platform/platform-impl/src/com/intellij/openapi/updateSettings/impl/UpdateSettingsConfigurable.java
+@@ -98 +98 @@
+-    return (channelsBox.getSelectedItem() != null && !channelsBox.getSelectedItem().equals(settings.UPDATE_CHANNEL_TYPE));
++    return (channelsBox.getSelectedItem() != null && !channelsBox.getSelectedItem().equals(ChannelStatus.fromCode(settings.UPDATE_CHANNEL_TYPE)));
+

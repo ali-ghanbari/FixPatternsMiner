@@ -1,0 +1,18 @@
+diff --git a/web/src/main/webapp/WEB-INF/jsp/bioEntities.jsp b/web/src/main/webapp/WEB-INF/jsp/bioEntities.jsp
+index e9acc46..4b0ff9e 100644
+--- a/web/src/main/webapp/WEB-INF/jsp/bioEntities.jsp
++++ b/web/src/main/webapp/WEB-INF/jsp/bioEntities.jsp
+@@ -149,2 +149,4 @@
+-                            <c:when test="${hasBaselineExperimentForSpecies || singleBaselineSearchResult || hasGeneProfiles}">
+-                                <div id="widgetBody"></div>
++                            <c:when test="${hasBaselineExperimentForSpecies || singleBaselineSearchResult}">
++                                <c:if test="${not empty baselineCounts || hasGeneProfiles}">
++                                    <div id="widgetBody"></div>
++                                </c:if>
+diff --git a/web/src/test/java/uk/ac/ebi/atlas/search/BioentitiesSearchControllerGeneQuery2GenesSingleResultSIT.java b/web/src/test/java/uk/ac/ebi/atlas/search/BioentitiesSearchControllerGeneQuery2GenesSingleResultSIT.java
+index 326a362..2826e13 100644
+--- a/web/src/test/java/uk/ac/ebi/atlas/search/BioentitiesSearchControllerGeneQuery2GenesSingleResultSIT.java
++++ b/web/src/test/java/uk/ac/ebi/atlas/search/BioentitiesSearchControllerGeneQuery2GenesSingleResultSIT.java
+@@ -25 +24,0 @@
+-import org.junit.Ignore;
+

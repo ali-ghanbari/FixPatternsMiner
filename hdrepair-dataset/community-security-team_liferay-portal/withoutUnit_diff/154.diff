@@ -1,0 +1,14 @@
+diff --git a/portal-impl/src/com/liferay/portlet/assetpublisher/action/ConfigurationActionImpl.java b/portal-impl/src/com/liferay/portlet/assetpublisher/action/ConfigurationActionImpl.java
+index 35070fc..7f3aca3 100644
+--- a/portal-impl/src/com/liferay/portlet/assetpublisher/action/ConfigurationActionImpl.java
++++ b/portal-impl/src/com/liferay/portlet/assetpublisher/action/ConfigurationActionImpl.java
+@@ -163,0 +164 @@
++		preferences.setValue("defaultScope", Boolean.FALSE.toString());
+diff --git a/portal-web/docroot/html/portlet/asset_publisher/configuration.jsp b/portal-web/docroot/html/portlet/asset_publisher/configuration.jsp
+index 8e505cf..c8d4259 100644
+--- a/portal-web/docroot/html/portlet/asset_publisher/configuration.jsp
++++ b/portal-web/docroot/html/portlet/asset_publisher/configuration.jsp
+@@ -67 +67 @@
+-			<aui:option label="<%= _getName(themeDisplay, themeDisplay.getScopeGroup()) %>" selected="<%= (groupIds.length == 1) && (themeDisplay.getScopeGroupId() == groupIds[0]) %>" value="<%= themeDisplay.getScopeGroupId() %>" />
++			<aui:option label="<%= _getName(themeDisplay, themeDisplay.getScopeGroup()) %>" selected="<%= (groupIds.length == 1) && (themeDisplay.getScopeGroupId() == groupIds[0]) %>" value="<%= true %>" />
+

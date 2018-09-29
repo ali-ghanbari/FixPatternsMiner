@@ -1,0 +1,18 @@
+Bug: HA takes a lot of time to migrate VMs (trigger HA) to another KVM
+host if there are multiple storage pools in a cluster.
+
+The issue is as follows:
+1. When CloudStack detects that a host is not responding to ping
+requests it'll send a fence command for this host to another host in the
+cluster.
+2. The agent takes a long time to respond to this check if the storage
+is fenced. This is because the agent checks if the first host is writing
+to its heartbeat file on all pools in the cluster. It is doing this in a
+sequential manner on all storage pool.
+
+Making a fix to get rid of sleep, wait during HA. The behavior is now
+similar to Xenserver.
+
+RB: https://reviews.apache.org/r/6133/
+Send-by:devdeep.singh@citrix.com
+

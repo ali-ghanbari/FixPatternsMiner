@@ -1,0 +1,8 @@
+diff --git a/src/org/nutz/dao/impl/sql/pojo/UpdateFieldsPItem.java b/src/org/nutz/dao/impl/sql/pojo/UpdateFieldsPItem.java
+index 95ec039..e7c21c4 100644
+--- a/src/org/nutz/dao/impl/sql/pojo/UpdateFieldsPItem.java
++++ b/src/org/nutz/dao/impl/sql/pojo/UpdateFieldsPItem.java
+@@ -22 +22 @@
+-            return Pojos.getFieldsForUpdate(_en(en), getFieldMatcher(), refer);
++        	return Pojos.getFieldsForUpdate(_en(en), getFieldMatcher(), refer == null ? pojo.getOperatingObject() : refer);
+

@@ -1,0 +1,9 @@
+diff --git a/plugins/org.eclipse.emf.cdo.releng.setup/src/org/eclipse/emf/cdo/releng/setup/impl/P2TaskImpl.java b/plugins/org.eclipse.emf.cdo.releng.setup/src/org/eclipse/emf/cdo/releng/setup/impl/P2TaskImpl.java
+index 58791a0..6513deb 100644
+--- a/plugins/org.eclipse.emf.cdo.releng.setup/src/org/eclipse/emf/cdo/releng/setup/impl/P2TaskImpl.java
++++ b/plugins/org.eclipse.emf.cdo.releng.setup/src/org/eclipse/emf/cdo/releng/setup/impl/P2TaskImpl.java
+@@ -503 +503,2 @@
+-      if (trigger != Trigger.MANUAL)
++      // TODO Check why it fails if no updates are found
++      if (!Boolean.getBoolean("ed.manual.p2.update") || trigger != Trigger.MANUAL)
+

@@ -1,0 +1,24 @@
+diff --git a/src/main/java/ilarkesto/core/diff/WordDiff.java b/src/main/java/ilarkesto/core/diff/WordDiff.java
+index dfa02c9..d97886a 100644
+--- a/src/main/java/ilarkesto/core/diff/WordDiff.java
++++ b/src/main/java/ilarkesto/core/diff/WordDiff.java
+@@ -162,0 +163 @@
++		if (s == null) return ret;
+diff --git a/src/test/java/ilarkesto/core/diff/WordDiffTest.java b/src/test/java/ilarkesto/core/diff/WordDiffTest.java
+index 3e6ebf4..9c3185d 100644
+--- a/src/test/java/ilarkesto/core/diff/WordDiffTest.java
++++ b/src/test/java/ilarkesto/core/diff/WordDiffTest.java
+@@ -44,0 +45,12 @@
++	public void addedFromNothing() {
++		assertDiff(null, "a", "[+a]");
++		assertDiff(null, "hello world", "[+hello world]");
++	}
++
++	@Test
++	public void removedToNothing() {
++		assertDiff("a", null, "[-a]");
++		assertDiff("hello world", null, "[-hello world]");
++	}
++
++	@Test
+

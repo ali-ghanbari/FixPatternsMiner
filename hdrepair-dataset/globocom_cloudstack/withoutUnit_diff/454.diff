@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/vm/VirtualMachineManagerImpl.java b/server/src/com/cloud/vm/VirtualMachineManagerImpl.java
+index 976577b..9572b59 100755
+--- a/server/src/com/cloud/vm/VirtualMachineManagerImpl.java
++++ b/server/src/com/cloud/vm/VirtualMachineManagerImpl.java
+@@ -702 +702 @@
+-                        throw new InsufficientServerCapacityException("Unable to create a deployment for " + vmProfile, DataCenter.class, plan.getDataCenterId());
++                        throw new InsufficientServerCapacityException("Unable to create a deployment for " + vmProfile + " due to lack of VLAN available.", DataCenter.class, plan.getDataCenterId());
+

@@ -1,0 +1,64 @@
+diff --git a/sandbox/spring-integration/src/main/config/spring-config.xml b/sandbox/spring-integration/src/main/config/spring-config.xml
+index a6ea394..328794c 100644
+--- a/sandbox/spring-integration/src/main/config/spring-config.xml
++++ b/sandbox/spring-integration/src/main/config/spring-config.xml
+@@ -24,3 +23,0 @@
+-<!--
+-
+-  -->
+@@ -29 +26,3 @@
+-    <!-- beans which replace Avalon specific container logic -->
++    <!--
++         beans which replace Avalon specific container logic
++    -->
+@@ -46,0 +46,3 @@
++    <!--
++         JMX part
++     -->
+@@ -48 +50,22 @@
+-    <!-- beans which manage bootstrapping and component lifecycle -->
++    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" >
++        <property name="autodetect" value="true" />
++        <property name="namingStrategy" ref="namingStrategy" />
++    </bean>
++
++    <bean id="namingStrategy" class="org.springframework.jmx.export.naming.KeyNamingStrategy" >
++        <property name="mappings" ><props>
++            <prop key="fetchmail" >bean:name=fetchmail</prop>
++            <prop key="smtpserver" >bean:name=smtpserver</prop>
++            <prop key="James" >bean:name=James</prop>
++            <prop key="dnsserver" >bean:name=dnsserver</prop>
++            <prop key="remotemanager" >bean:name=remotemanager</prop>
++            <prop key="pop3server" >bean:name=pop3server</prop>
++            <prop key="nntpserver" >bean:name=nntpserver</prop>
++        </props></property>
++    </bean>
++
++    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean" />
++
++    <!--
++         beans which manage bootstrapping and component lifecycle
++    -->
+@@ -60 +83,8 @@
+-    <!-- James components which are not dependent from other components -->
++
++    <!--
++         JAMES components starting from here
++    -->
++
++    <!--
++         James components which are not dependent from other components
++    -->
+@@ -85 +115,3 @@
+-    <!-- James components with dependencies to other components -->
++    <!--
++         James components with dependencies to other components
++    -->
+diff --git a/sandbox/spring-integration/src/main/java/org/apache/james/container/spring/logging/SystemConsoleLogWorker.java b/sandbox/spring-integration/src/main/java/org/apache/james/container/spring/logging/SystemConsoleLogWorker.java
+index da6e264..541f4cd 100644
+--- a/sandbox/spring-integration/src/main/java/org/apache/james/container/spring/logging/SystemConsoleLogWorker.java
++++ b/sandbox/spring-integration/src/main/java/org/apache/james/container/spring/logging/SystemConsoleLogWorker.java
+@@ -22 +22 @@
+- * logs forwareded logging messages to System console, the most simple form of a LogWorker
++ * logs forwarded logging messages to System console, the most simple form of a LogWorker
+

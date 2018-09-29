@@ -1,0 +1,16 @@
+diff --git a/software/webapp/src/main/java/brooklyn/entity/webapp/JavaWebAppSoftwareProcess.java b/software/webapp/src/main/java/brooklyn/entity/webapp/JavaWebAppSoftwareProcess.java
+index 5c3c430..ffc98db 100644
+--- a/software/webapp/src/main/java/brooklyn/entity/webapp/JavaWebAppSoftwareProcess.java
++++ b/software/webapp/src/main/java/brooklyn/entity/webapp/JavaWebAppSoftwareProcess.java
+@@ -127 +127,2 @@
+-    @Description("Undeploys the given artifact")
++    /** For the DEPLOYED_WARS to be updated, the input must match the result of the call to deploy */ 
++    @Description("Undeploys the given context/artifact")
+diff --git a/software/webapp/src/test/java/brooklyn/entity/webapp/WebAppIntegrationTest.groovy b/software/webapp/src/test/java/brooklyn/entity/webapp/WebAppIntegrationTest.groovy
+index aed1b2f..326c6a2 100644
+--- a/software/webapp/src/test/java/brooklyn/entity/webapp/WebAppIntegrationTest.groovy
++++ b/software/webapp/src/test/java/brooklyn/entity/webapp/WebAppIntegrationTest.groovy
+@@ -421 +421 @@
+-        entity.undeploy("myartifactname.war")
++        entity.undeploy("/myartifactname")
+

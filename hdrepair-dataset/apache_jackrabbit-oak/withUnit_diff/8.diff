@@ -1,0 +1,74 @@
+diff --git a/oak-core/src/test/java/org/apache/jackrabbit/oak/spi/commit/BackgroundObserverTest.java b/oak-core/src/test/java/org/apache/jackrabbit/oak/spi/commit/BackgroundObserverTest.java
+index b961fd6..a889a03 100644
+--- a/oak-core/src/test/java/org/apache/jackrabbit/oak/spi/commit/BackgroundObserverTest.java
++++ b/oak-core/src/test/java/org/apache/jackrabbit/oak/spi/commit/BackgroundObserverTest.java
+@@ -42,0 +43 @@
++    public static final int CHANGE_COUNT = 1024;
+@@ -55 +56 @@
+-        for (int k = 0; k < 1024; k++) {
++        for (int k = 0; k < CHANGE_COUNT; k++) {
+@@ -92,0 +94,5 @@
++        // Ensure the observation revision queue is sufficiently large to hold
++        // all revisions. Otherwise waiting for events might block since pending
++        // events would only be released on a subsequent commit. See OAK-1491
++        int queueLength = CHANGE_COUNT + 1;
++
+@@ -120 +126 @@
+-        }, executor, 1024);
++        }, executor, queueLength);
+diff --git a/oak-jcr/src/main/java/org/apache/jackrabbit/oak/jcr/Jcr.java b/oak-jcr/src/main/java/org/apache/jackrabbit/oak/jcr/Jcr.java
+index cbbc758..23eee79 100644
+--- a/oak-jcr/src/main/java/org/apache/jackrabbit/oak/jcr/Jcr.java
++++ b/oak-jcr/src/main/java/org/apache/jackrabbit/oak/jcr/Jcr.java
+@@ -59 +59 @@
+-    private static final int DEFAULT_OBSERVATION_QUEUE_LENGTH = 1000;
++    public static final int DEFAULT_OBSERVATION_QUEUE_LENGTH = 1000;
+diff --git a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/AbstractRepositoryTest.java b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/AbstractRepositoryTest.java
+index 0f70446..27575c3 100644
+--- a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/AbstractRepositoryTest.java
++++ b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/AbstractRepositoryTest.java
+@@ -55,0 +56 @@
++    protected int observationQueueLength = Jcr.DEFAULT_OBSERVATION_QUEUE_LENGTH;
+@@ -121 +122,3 @@
+-            repository  = new Jcr(nodeStore).createRepository();
++            repository  = new Jcr(nodeStore)
++                    .withObservationQueueLength(observationQueueLength)
++                    .createRepository();
+diff --git a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/CompatibilityIssuesTest.java b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/CompatibilityIssuesTest.java
+index dd58027..f453987 100644
+--- a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/CompatibilityIssuesTest.java
++++ b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/CompatibilityIssuesTest.java
+@@ -328 +328 @@
+-            latch.await(10,TimeUnit.SECONDS);
++            latch.await(60, TimeUnit.SECONDS);
+diff --git a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationRefreshTest.java b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationRefreshTest.java
+index 269f92e..d450d36 100644
+--- a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationRefreshTest.java
++++ b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationRefreshTest.java
+@@ -80,0 +81,4 @@
++        // Ensure the observation revision queue is sufficiently large to hold
++        // all revisions. Otherwise waiting for events might block since pending
++        // events would only be released on a subsequent commit. See OAK-1491
++        observationQueueLength = 1000000;
+diff --git a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationTest.java b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationTest.java
+index ba7d07f..bdc412a 100644
+--- a/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationTest.java
++++ b/oak-jcr/src/test/java/org/apache/jackrabbit/oak/jcr/observation/ObservationTest.java
+@@ -79,0 +80,2 @@
++import org.junit.runner.RunWith;
++import org.junit.runners.Parameterized;
+@@ -80,0 +83,2 @@
++@RunWith(Parameterized.class)
++// Don't run "Parallelized" as this causes tests to timeout in "weak" environments
+@@ -88 +92 @@
+-    public static final int TIME_OUT = 4;
++    public static final int TIME_OUT = 60;
+@@ -463 +467 @@
+-        assertFalse(noEvents.wait(TIME_OUT, TimeUnit.SECONDS));
++        assertFalse(noEvents.wait(4, TimeUnit.SECONDS));
+@@ -930,4 +933,0 @@
+-                long dt = System.nanoTime() - t0;
+-                // TODO remove again once OAK-1491 is fixed
+-                assertTrue("Spurious wak-up after " + dt,
+-                        dt > 0.8*TimeUnit.NANOSECONDS.convert(time, timeUnit));
+

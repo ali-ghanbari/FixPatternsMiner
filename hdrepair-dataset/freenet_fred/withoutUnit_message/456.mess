@@ -1,0 +1,269 @@
+1205:
+Misc:
+- Fix some NPEs.
+L10n:
+- French update from "dimonqmfcb whjsbbzcnd"
+- Spanish update from Caco Patane.
+- Italian update from Luke771.
+- Finnish update from Smar.
+- Make "default bookmarks" translatable.
+Web interface
+- Update bookmark editions.
+- Fix bug #2650: when navigate to somewhere not allowed to upload from, can't get out of it. Redirect to a known allowed dir.
+Optimisations:
+- Only update nodestats.activeThreadsByPriorities when we need to. ERROR: 23509: DO WE UPDATE IT WHEN WE NEED IT??
+- Keep a counter of waiting threads in a volatile variable, eliminate contention on the PooledExecutor in nodestats.getActiveThreadCount.
+- Cache the list of threads by priority for 60 seconds. This is only used in rendering the stats page. (WHY?)
+- Major logging optimisation: Each class has a static volatile boolean logMINOR (and maybe logDEBUG), and registers a callback which gets called whenever the log settings change. Hence we never make an unnecessary call to shouldLog, save CPU and lock contention.
+- Don't fill in stack trace unless logDEBUG: WouldBlockException.
+- Don't fill in stack trace unless logDEBUG or the error code is particularly interesting: LowLevelGetException.
+- Don't fill in stack trace: NotConnectedException, DisconnectedException, RetrievalException.
+- NetworkInterface: don't throw a SocketTimeoutException, just return null. Simplify callers' code.
+- Synchronization fix in NodePinger. Reschedule before running.
+- Use HashMap instead of Hashtable in LRUQueue, since LRUQueue itself is synchronized.
+- Fix a minor bucket leak (which would show up as an ERROR and be freed by finalizer).
+Misc (backports from db4o):
+- Serialize writeNodeFile(), avoid corruption of node-<port> on race conditions.
+Client layer (backports from db4o):
+- Fix cancelling inserts.
+- Maybe fix large directory inserts (bug #2486).
+- Allow NullBucket's in PersistentPutDir, treat as uploadfrom=direct.
+- Add a separate setting for the maximum number of retries for a USK fetch. Make it cooldown-1 by default. This fixes persistent requests for USK@..../-<num>/.
+Plugins:
+- Fix bug #2797: Start the web interface slightly later.
+- Don't kill the transfer thread if iterate() throws.
+- Add FreenetURI.getEdition(), gets edition for either a USK or an SSK-form USK.
+Dev stuff:
+- DoublyLinkedListImpl: Don't create a buffer at each end, since we cannot construct one for generics. Point to the actual first and last items, null if empty. Simplifies code and enables genericising; tested with unit tests. Clarify interface with generics. (Related to bug #2512). Delete non-working copy constructor and some unused code.
+- Make LRUQueue, LRUHashtable use new API, make clearer generic interface.
+- Javadocs.
+- Genericise LRUQueue.
+- Minor generics.
+- Remove unused code.
+- Fix some findbugs issues.
+- Autoboxing.
+- Synchronization cloning a MedianMeanRunningAverage (used only in logging atm).
+- Logging.
+- Fix NPE in logging.
+- Imports.
+- NPE paranoia.
+- Fix or suppress warnings.
+- Add @Deprecated in various places.
+Unit tests:
+- Simplify code slightly, minor cleanups.
+- Remove some unnecessary casts.
+- Delete some other bogus code (makes no difference to results).
+- Change DoublyLinkedListImpl unit tests slightly, delete clone test.
+- Fix generics warnings in various unit tests.
+
+nextgens
+toad
+dimonqmfcb whjsbbzcnd
+Caco Patane
+luke771
+tommy
+xor
+j16sdiz
+Smar
+
+Website:
+- Posted a note explaining the IRC spam attack. Took it down again some time later.
+- Minor change to FAQ.
+- Ian tried out and then gave up on userfly.com.
+- Update bank balance and USD:GBP rate on the news page.
+
+KeyExplorer: (saces)
+- Don't ignore NPEs.
+
+XMLLibrarian (j16sdiz):
+- Update default index edition number.
+- Remove the index folders support, it doesn't work. Just search a single index.
+- Delete unused code.
+- Indent and comments formatting.
+
+XMLSpider (j16sdiz):
+- Tweak a hack to reduce file sizes.
+
+Installer:
+- Reduce impact of a race condition in run.sh stale Freenet.pid detection, which was causing Freenet to stop and not start up again until a reboot.
+
+Windows installer (Zero3):
+- Horrible long source lines!
+- Depends on various binaries.
+- For example, the freeware, unmaintained Resource Hacker. Source code will never be posted, so we have no reason to trust it. FIXME!!!
+- Bundles everything.
+- Including some from the resource kit, and RemProf.exe, which is not open source nor do we have any reason to trust it. FIXME!!!
+- Much better Vista support: start/stop binaries and the installer do UAC escalation, also we use icacls on Vista not cacls.
+- installid.dat : unique installation key for multiple installations
+- Launcher: Read installid.dat, try to start freenet using start script, warn user if failed, try to launch firefox (read the version from the registry and then the path to the exe, better than our browse.sh), try to launch Opera, try to launch Chrome, then try to launch IE.
+- Start script: allow 60 seconds to start up, again show a warning if failed for whatever reason. Support /silent and /verysilent; show info boxes if not. Show a splash image while waiting for the background service to start.
+- Stop script: likewise.
+- All these need admin privelidges. The binaries do UAC escalation.
+- Installer: Check for supported windows version, check for supported java version, unsupported old uninstaller, ...
+- Exit label, v_cInstallJavaButton, v_cInstallDirText, v_cBrowseButton, v_cDefaultButton
+- Recheck every 5 seconds if wrong version of java or old uninstaller installed.
+- Warn the user about the fact that Freenet will run as a service.
+- User clicks Install.
+- Find ports for FCP and fproxy.
+- Create installid.dat
+- Check the install dir.
+- Copy base files.
+- Write the freenet.ini.
+- Create the uninstaller.
+- Create the new account, hide it from the login screen, set password never expires, set rights etc.
+- Install the service.
+- Create the shortcuts.
+- JRE online installer is included for the case where the JVM isn't installed or is too old.
+- Shows either status line (why install won't work), or progress bar.
+- Uninstaller: Unpack into the temp folder, run self.
+- Shut down the node, remove the service, remove rights for user, remove files, remove shortcuts, remove registry changes, remove user
+
+wxFCP: (saces)
+- Add a demo app: non-functional systray applet.
+
+DB4O: (toad, saces)
+TEMPFILES:
+-- Fix forgot-to-encrypt-blob-temp-files bug!
+-- Shrink the persistent-blob file when possible. Don't shrink if less than a megabyte, don't shrink if last block is after 80% of the file, don't check more than once every minute, allow 10% at the end, check 61 seconds after not shrinking. When checking for the last block, start at the end and work backwards 4096 blocks at a time to avoid huge numbers of query results causing OOM.
+-- Remove unclear half-implemented code preventing us from cancelling inserts.
+-- Fix a huge bucket leak on restart (post-restart orphaned SegmentedBucketChainBucket deletion code was breaking due to activation bugs).
+-- Fix other segmented bucket bucket leaks, remove the kill job on clear() and free() not on close().
+-- Don't search from the end for free blocks. We want to reuse free blocks near the beginning so we can shrink at the end.
+-- Run the queued segment deletion jobs before extending the blob file.
+-- More blob bucket bugfixes.
+-- Try to work around problems storing File's in db4o, especially on startup of tempfile code.
+-- Factor out PersistentTempBucketFactory.postCommit() callback, cleanup buckets here.
+-- Blob buckets optimisation: Do not wrap in DelayedFreeBucket's, when freeing change the tag and add to almostFreedSlots, then move almostFreedSlots into freeSlots after commit. (The original purpose of both mechanisms is to not free the file/reuse the slot until after the database changes are committed, and hence avoid corruption).
+-- Persist the list of buckets to free. Store it only if it's been updated since the last transaction. If we free a lot of buckets after a commit, commit again to reduce the size of the following commit.
+-- Check block size before checking files equal on startup of blob temp factory, trivial bugfix.
+-- Search for unused buckets from the beginning of the file in groups of 16384. Avoid a query fetching all the buckets and OOMing!
+-- free(): free one segment per database job. Free in the background, but we will be freed on restart. Same with clear().
+-- Add 8192 blocks at a time max, not 16384.
+-- Bugfix for BucketChainBucket.
+-- Optimise starting splitfile inserts: BucketTools.split: if persistent=true is passed in, this method is responsible for ensuring the buckets have been stored to the database. So if it's a SegmentedBCB, it gets this for free; if it's a FileBucket, or it actually has to copy the data, it has to call storeTo() on each.
+-- Shadow bucket support for blob-based tempfiles.
+-- Fix makeBucket() returning null when creating a blob bucket fails.
+-- Synchronization in blob factory.
+-- Add a kill job when closing a segmentedBCB, if we haven't added one already, i.e. in the case where the file is only one segment long.
+- Restart jobs etc:
+-- Remove restart jobs from the queue before running them, so they can re-add themselves if necessary. Re-add if they throw.
+-- Remove one segment at a time in SegmentedBCBKillJob, to avoid OOM. Re-add to restart jobs queue, and re-add to queue, if there are more segments to delete. Remove the first segment first so early blocks get reused.
+-- Late vs early restart jobs: Late restart jobs are treated as ordinary jobs. Early restart jobs run just after startup, at HIGH. Late restart jobs must remove themselves when done.
+-- Delete the SegmentedBCBKillJob when it has completed.
+- Never deactivate the global queue.
+- Various optimisations and bugfixes to make large site inserts work:
+-- Run gotAllMetadata() on its own transaction; make sure it gets run on restart if not before.
+-- Don't copy data, just use the one bucket, when compress to a SegmentedBCB and find it fits in a single block. (Compression produces a SegmentedBCB which isn't in itself persistent, so we may need to copy).
+-- resolve(): mustWait (return value) is ignored, don't make it. If metadata is already resolved, log an error and don't resolve it.
+-- Don't start inserting if we have to resolve a MetadataUnresolvedException! Clearly we do not have enough information to proceed.
+-- Resolve immediately on got metadata for any PutHandler to speed up the insert and reduce the size of the commit on gotAllMetadata().
+-- Persistent hash code for Metadata.
+-- Generics.
+-- OOMs with big sites: Deactivation, attempts to clarify where the OOM happens, ...
+-- Activation in some places to fix NPEs possibly caused by deactivation.
+-- Comments and javadocs.
+- Refactor locking in onSuccess and related methods, ensure keys not removed from the bloom filter twice in SplitFileFetcherSegment.
+- Handle 0-length files better in PersistentPutDir.
+INSERTS:
+- Segment-ise inserts. Reduces startup time and database usage of inserts dramatically. Successful or failed blocks will come in burst-wise like with requests, for persistent inserts. Splitfile inserts are not scheduled by retry count. Can start all segments immediately even for a persistent insert.
+- Prevent the same transient insert (SendableInsert:token tuple) running more than once simultaneously via tracking RunningTransientInsert's in schedCore.
+- Selected request token is a SendableRequestItem, not an Object. We call dump() when we drop it.
+- Don't encode at selection time and pass around a ClientCHKBlock! Take a shadow bucket, and pass everything we need to encode at send time with it in the SendableRequestItem. Saves significant memory under load.
+- Use FakeBlockItem's in SingleBlockInserter for checking whether a transient insert is running, which are equals() to and have the same hashCode() as the real thing.
+- If a cancelled insert gets onEncodedSegment(), log an error and handle it gracefully.
+- Never deactivate FreenetURI.EMPTY_CHK_URI.
+- BackgroundBlockEncoder: queue Encodeable's not SingleBlockInserter's. SBI: check not finished, no URI before encoding in tryEncode.
+- On completing an insert PCR, if there are more blocks to insert, reschedule it and wake up the request starter. (This happens because splitfile inserters handle retries internally).
+- Wake up the request starter on starting an insert (as well as on starting a request).
+- Don't re-add a request to the starter queue if it is already there. This happens via a race condition with SingleBlockInserter's.
+- No need to copy when inserting a single block if the bucket is non-persistent or isn't a NotPersistentBucket.
+- Fix bug causing buckets not to be freed/removed from database.
+FIX DATABASE LEAKS:
+- Dump the database on startup: how many of which kind of object. Commented out code to dump the actual objects as toString().
+- Remove retry count tracker (SRGA) from the database as well as the priority if it is empty in selecting a request to send.
+- Remove RGA's when finished with in SectoredRGA.
+- Don't leak progress messages in FCP layer.
+- Move semaphore and getMaxRunningCompressionThreads() from COMPRESSOR to RealCompressor.
+- Remove ArchiveExtractCallback's, ArchiveContext's.
+- Remove ClientGetter's, ClientPutter's, ClientRequester's.
+- Remove [Persistent]SendableRequestSet.
+- RequestClient's: support removal. Only removed when removing an FCPClient at the moment, so adding it to the API is dubious... FIXME
+- *SingleFileFetcher, SplitFileFetcher: Remove the FetchContext, track whether we own it and therefore we need to remove it. Pass on the responsibility in some places (set our deleteFetchContext to false and the new structure's deleteFetchContext to true).
+- Likewise, clear the archiveMetadata if the new request will delete it.
+- Delete the DatastoreCheckerItem when the request has already been deleted.
+- Clone keys etc where necessary to prevent NPEs after removing keys.
+- Don't copy the archive metadata when fetching an archive or multi-level metadata.
+- Copy various structures, sometimes conditionally on persistent, so we can delete them independantly.
+- After removing the splitfile keys from metadata, store the updated metadata.
+- Add removeFrom() for USK.
+- Cancel a request *before* removing it in FCPClient and FCPConnectionHandler.
+- Lots of minor database leak fixes.
+- SplitFileFetcherSegment: Don't store if we are finished.
+- SFFS: Remove the vector, don't store it, in removeSubSegments, if we are finishing.
+- Delete the File's for splitfile fetcher bloom filters.
+- Most FreenetURI operations create a new FreenetURI, had to remove the old one in some cases.
+- Remove stuff in the right order.
+- Activate stuff before removing it.
+- Creator of ctx.allowedMIMETypes (fcp/ClientGet) must remove it.
+- Remove USKFetcherTag.removeFromDatabase.
+- Fix leaks caused by changing something and then not storing.
+- Don't cancel twice.
+- SplitFileFetcherSegment: We remove the segment when both FEC and the fetcher have finished. If the fetcher finishes and we haven't started to decode, e.g. because of a cancellation, remove the segment anyway.
+- Remove FetchException's from the database. cascadeOnDelete to get rid of stack traces.
+OTHER STUFF:
+- Set db4o block size 8 to allow for databases up to 16GB. Ideally this would be configurable, unfortunately it cannot be changed once the database has been created.
+- When we fail to fill the request starter queue because there is nothing queued, don't re-run the queue filler for 60 seconds or until the first request comes off the cooldown, whichever is earlier. We know that if new requests are started, we will add them to the starter queue.
+- Combine moveKeysFromCooldownQueue job into fillRequestQueue job. Wake the starter if needed after processing.
+- Don't skip moving from the transient cooldown queue when there is stuff on the persistent cooldown queue.
+- Don't try to move stuff from the cooldown queue on an insert scheduler.
+- Don't store FECCodec's to the database, just store the algorithm and the sizes.
+- Deal with FEC jobs where the originator has been deleted.
+- Always delete FEC jobs even when the callback throws.
+- Don't register cancelled requests.
+- Fix minor bucket leaks.
+- Add requests to the running persistent requests list when they are selected.
+- Don't forget to unregister in BaseSingleFileFetcher.
+- Cooldown queue debugging, if already on the cooldown queue then unregister.
+- Activation bugfixes, etc.
+- Don't deactivate unless already deactivated in various places.
+- Make FreenetURI.toStringCache transient.
+- Fix lots of NPEs.
+- Fix NPEs caused by accessing variables inside functions called by the constructor.
+- Fix NPEs caused by accessing already deleted objects.
+- bucket.storeTo(container) not container.store(bucket).
+- Comments and javadocs.
+- Autoboxing.
+- Logging, paranoia.
+- Various tricks to detect e.g. writing deactivated or deleted objects.
+- Warnings fixes.
+- Trivial optimisations/minor structure changes.
+- SingleBlockInserter: Don't encode blocks if finished already.
+- Splitfile inserts: Don't start the FEC job until after we have stored (race condition with object storage).
+- Serialize writeNodeFile(). Also in trunk.
+- Fix leak of running requests in PersistentChosenRequest.onDump()!
+- Start segments inline for non-persistent inserts.
+- FCP: Fix NPEs, don't start request if it is a collision.
+- dontCache() -> dontCache(container), getClient() -> getClient(ObjectContainer), allKeys and sendableKeys add context.
+- Lazily init the hashmap in FailureCodeTracker.
+- Priority tweaking.
+- Delete SplitFileFetcherSubSegment.parent.
+- isRunningOrQueuedRequest -> isRunningOrQueuedPersistentRequest.
+- equals(), hashCode() for ClientCHK, ClientSSK, CHKBlock, ClientCHKBlock, SSKBlock, ClientSSKBlock
+- ClientSSKBlock.key should be final.
+- Permanent hash code for RandomGrabArray.
+- SplitFileFetcherSegment: int checkNo = blockNum - dataBlocks.length, instead of just blockNum -= dataBlocks.length. Confuses things and allows the last check block to be too short, as well as the last data block.
+- More minor refactoring.
+- Store ArrayList's explicitly to depth 1, since they do bad things (update to some depth) if you just store() them.
+- Detect and refuse to store various transient classes.
+- Bugfixes: failed to store after changing something.
+- Archives: Free the bucket containing an archive after extracting it off-thread.
+- Add a separate setting for the maximum number of retries for a USK fetch. Make it cooldown-1 by default. This fixes persistent requests for USK@..../-<num>/.
+- Check for end in BucketChainBucket.inputstream.read().
+- Fail inserts immediately on an internal error or unrecognised error.
+- Wake up request starter on adding first and last requests in fillRequestStarterQueue.
+
+Vive's new simulator (NOT REVIEWED AT PRESENT): trunk/apps/simsalabim
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@25843 67a373e5-eb02-0410-a15c-ee090a768436
+

@@ -1,0 +1,17 @@
+srm: fix retry of copy-pull
+
+When srmCopy copies a file from a remote site it issues a prepareToPut and putDone
+when the transfer is successful.  If the transfer is unsuccessful then an abortPut
+is called, which destroys the upload directory.
+
+The current behaviour attempts to reuse the transfer TURL when retrying.  Since
+abortPut has been called, this directory no longer exists and the transfer-manager
+will fail the request as it discovers this.
+
+This patch fixes the problem by issuing prepareToPut when retrying.
+
+Target: master
+Patch: http://rb.dcache.org/r/6956/
+Acked-by: Gerd Behrmann
+Request: 2.9
+

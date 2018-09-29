@@ -1,0 +1,1695 @@
+diff --git a/bom/pom.xml b/bom/pom.xml
+index daf3d80..cd4f639 100644
+--- a/bom/pom.xml
++++ b/bom/pom.xml
+@@ -7 +7 @@
+-	<version>2.3.1-SNAPSHOT</version>
++	<version>2.3.2-SNAPSHOT</version>
+@@ -34 +34 @@
+-        <version.seam>2.3.1-SNAPSHOT</version.seam>
++        <version.seam>2.3.2-SNAPSHOT</version.seam>
+@@ -1024 +1024,2 @@
+-	</scm>
++	  <tag>HEAD</tag>
++  </scm>
+diff --git a/distribution/pom.xml b/distribution/pom.xml
+index 5ce52d0..0995af1 100644
+--- a/distribution/pom.xml
++++ b/distribution/pom.xml
+@@ -7 +7 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+@@ -35 +35 @@
+-                            <property name="test.lib.dir"  location="target/arquillian/" />
++                            <property name="test.lib.dir" location="target/arquillian/" />
+@@ -37 +37 @@
+-                            <ant antfile="get-arquillian-libs.xml" target="copyarq"/>
++                            <ant antfile="get-arquillian-libs.xml" target="copyarq" />
+diff --git a/distribution/src/main/assembly/changelog.txt b/distribution/src/main/assembly/changelog.txt
+index 98e338b..2660b85 100644
+--- a/distribution/src/main/assembly/changelog.txt
++++ b/distribution/src/main/assembly/changelog.txt
+@@ -3,0 +4,72 @@
++Release Notes - Seam 2 - Version 2.3.1.CR1
++
++** Bug
++    * [JBSEAM-4529] - org.jboss.seam.framework.Query --- count query generation fails if the query contains a JOIN FETCH operation written in uppercase 
++    * [JBSEAM-4701] - Cookie path being set to empty string via getRequestContextPath forming invalid cookies in IE
++    * [JBSEAM-4811] - Problem sending an email with multiple recipients and attachments in <ui:repeat>.
++    * [JBSEAM-4848] - jboss-seam-ui.jar is not backward compatible
++    * [JBSEAM-4925] - Some broken links in Seam 2.3 reference guide
++    * [JBSEAM-4947] - <s:decorate /> tag breaks JSF2 f:ajax functionality
++    * [JBSEAM-4976] - Conversation id not restored from page context
++    * [JBSEAM-5001] - Deadlock between SFSB EJB lock and Component.getInstanceFromFactory factoryLock calling factory from the same component
++    * [JBSEAM-5020] - Binding component does not restore conversation
++    * [JBSEAM-5044] - s:decorate javax.faces.FacesException: Cannot add the same component twice on Mojarra 2.1.11
++    * [JBSEAM-5045] - Ajax error not calling ExceptionFilter
++    * [JBSEAM-5047] - Transaction lookup fails on Tomcat
++    * [JBSEAM-5048] - blog example atom feed not working
++    * [JBSEAM-5052] - s:selectItems noSelectionLabel causes errors without using ui:debug 
++    * [JBSEAM-5054] - Seam UI taglib tag Decorate has got wrong default value for enclose attribute
++    * [JBSEAM-5055] - only a single attachment is attached to a mail
++    * [JBSEAM-5057] - Move all Seam UI faces-config properties from xml into annotation fields/methods
++    * [JBSEAM-5058] - s:validateEquality required attribute is false by default (should be true)
++    * [JBSEAM-5061] - FacesManager.interpolateAndRedirect throws NoSuchElementException on http-Parameter without value
++    * [JBSEAM-5063] - Debug page broken
++    * [JBSEAM-5064] - s:link conversation propagation none broken
++    * [JBSEAM-5065] - page context broken on Mojarra 2.1.16
++    * [JBSEAM-5066] - Incorrect Redirection
++    * [JBSEAM-5067] - ConcurrentModificationException in ServerConversationContext.flush()
++    * [JBSEAM-5068] - seam-gen explode target touches .dodeploy forcing a restart, preventing hot-deployment
++    * [JBSEAM-5070] - seam-gen identity-management creating a new user fails with org.hibernate.exception.ConstraintViolationException: Duplicate entry '1' for key 1 
++    * [JBSEAM-5071] - seam-gen identity-management user and role manager "edit" link doesn't open the selected entity
++    * [JBSEAM-5073] - Programmatic redirect always add conversation id
++    * [JBSEAM-5074] - Excel example SeamTest failure UnsupportedOperationException in ExternalContext.getRequestCharacterEncoding
++    * [JBSEAM-5077] - ui example, s:resource s:download error 404
++    * [JBSEAM-5080] - Seam2.3 NPE in Interpolator.interpolate if pages.xml exception http-error no message set
++    * [JBSEAM-5081] - Upgrade Hibernate Search version to latest final 4.2.0.Final
++    * [JBSEAM-5082] - seam-gen generated JUnitSeamTest deployment should use org.jboss.seam.mock.MockSeamListener instead of the SeamListener
++    * [JBSEAM-5083] - SeamViewHandler adds conversation id even if conversation is not long running
++    * [JBSEAM-5084] - seam-gen dependency management with ivy is not updated
++    * [JBSEAM-5085] - Pages rewrite doesn't rewrite s:link params
++    * [JBSEAM-5086] - localization settings via component.xml doesn't work
++    * [JBSEAM-5087] - seam-gen EAR explode target touches .dodeploy forcing a restart, preventing hot-deployment
++    * [JBSEAM-5090] - Seam Text documentation falsely claims that forward slash creates italics
++    * [JBSEAM-5091] - SeamInterceptor doesn't work on EJB @Schedule methods
++    * [JBSEAM-5093] - Seam produces malformed partial response on ViewExpiredException with Ajax
++    * [JBSEAM-5097] - s:link and s:button don't work correctly when using taskInstance param
++    * [JBSEAM-5098] - SeamApplication missing JSF 2.0 methods
++    * [JBSEAM-5100] - Example Remoting Progressbar: progressbar is not changing
++    * [JBSEAM-5102] - Seam examples use unencrypted client-side view state
++    * [JBSEAM-5103] - Conversation after @End method process does not release ConversationEntry lock
++    * [JBSEAM-5104] - SoapRequestHandler doesn't create SOAP header if not exists
++    * [JBSEAM-5105] - Disable default bean validation in seam-gen generated application to use Seam validation by default
++    * [JBSEAM-5106] - Default Seam-gen generated jdbc driver is not set to h2 if it is not provided the path to driver
++    * [JBSEAM-5107] -  seam-gen EAR projects tests (form and action tests) fails with "org.jboss.seam.InstantiationException: Could not instantiate Seam component"
++    * [JBSEAM-5108] - seam-gen command generate fails in generating of UI from templates
++
++
++** Enhancement
++    * [JBSEAM-4958] - Improve the Seam UI javadoc
++    * [JBSEAM-5049] - Unify artifactIds and finalName in WAR examples for better JBDS experience
++    * [JBSEAM-5089] - Update jboss-as-maven plugin to use newer compatible version with latest AS 7/8 releases
++
++
++** Feature Request
++    * [JBSEAM-3033] - make s:graphicImage cachable
++    * [JBSEAM-5034] - Allow for seam-gen run arquillian testsuite on generated project structure
++    * [JBSEAM-5062] - Seam example ant scripts should be pure ant scripts
++
++
++** Patch
++    * [JBSEAM-5051] - messageList on place off messageManager - seam-reference-2.3.0.Final
++
++
+diff --git a/distribution/src/main/assembly/readme.txt b/distribution/src/main/assembly/readme.txt
+index d80d04b..59306e3 100644
+--- a/distribution/src/main/assembly/readme.txt
++++ b/distribution/src/main/assembly/readme.txt
+@@ -4 +4 @@
+-version 2.3.0.Final, September 2012
++version 2.3.1.CR1, May 2013
+diff --git a/examples/blog/blog-ear/pom.xml b/examples/blog/blog-ear/pom.xml
+index bc2ecb5..8962975 100644
+--- a/examples/blog/blog-ear/pom.xml
++++ b/examples/blog/blog-ear/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/blog/blog-ejb/pom.xml b/examples/blog/blog-ejb/pom.xml
+index 504cdbb..5d3e260 100644
+--- a/examples/blog/blog-ejb/pom.xml
++++ b/examples/blog/blog-ejb/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/blog/blog-tests/pom.xml b/examples/blog/blog-tests/pom.xml
+index 260ae6c..eb2c503 100644
+--- a/examples/blog/blog-tests/pom.xml
++++ b/examples/blog/blog-tests/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/blog/blog-web/pom.xml b/examples/blog/blog-web/pom.xml
+index d0dbbde..4b9c049 100644
+--- a/examples/blog/blog-web/pom.xml
++++ b/examples/blog/blog-web/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -9 +8 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/blog/pom.xml b/examples/blog/pom.xml
+index 0693c3c..f6cfacf 100644
+--- a/examples/blog/pom.xml
++++ b/examples/blog/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -7 +6 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/booking/booking-ear/pom.xml b/examples/booking/booking-ear/pom.xml
+index e89b1a3..58c7698 100644
+--- a/examples/booking/booking-ear/pom.xml
++++ b/examples/booking/booking-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+@@ -109 +109 @@
+-						<phase></phase>
++						<phase />
+diff --git a/examples/booking/booking-ejb/pom.xml b/examples/booking/booking-ejb/pom.xml
+index 8041a9e..71ac64d 100644
+--- a/examples/booking/booking-ejb/pom.xml
++++ b/examples/booking/booking-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/booking/booking-tests/pom.xml b/examples/booking/booking-tests/pom.xml
+index 78a7f06..d6109e3 100644
+--- a/examples/booking/booking-tests/pom.xml
++++ b/examples/booking/booking-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/booking/booking-web/pom.xml b/examples/booking/booking-web/pom.xml
+index 0f8658b..a3ed0ac 100644
+--- a/examples/booking/booking-web/pom.xml
++++ b/examples/booking/booking-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/booking/pom.xml b/examples/booking/pom.xml
+index e9a7f35..953f809 100644
+--- a/examples/booking/pom.xml
++++ b/examples/booking/pom.xml
+@@ -9 +9 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/contactlist/contactlist-ear/pom.xml b/examples/contactlist/contactlist-ear/pom.xml
+index 21104dd..2983cc7 100644
+--- a/examples/contactlist/contactlist-ear/pom.xml
++++ b/examples/contactlist/contactlist-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/contactlist/contactlist-ejb/pom.xml b/examples/contactlist/contactlist-ejb/pom.xml
+index 9c1b515..19e3d8a 100644
+--- a/examples/contactlist/contactlist-ejb/pom.xml
++++ b/examples/contactlist/contactlist-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/contactlist/contactlist-tests/pom.xml b/examples/contactlist/contactlist-tests/pom.xml
+index 00740b1..c2ef89a 100644
+--- a/examples/contactlist/contactlist-tests/pom.xml
++++ b/examples/contactlist/contactlist-tests/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/contactlist/contactlist-web/pom.xml b/examples/contactlist/contactlist-web/pom.xml
+index 47f3f56..c70de8d 100644
+--- a/examples/contactlist/contactlist-web/pom.xml
++++ b/examples/contactlist/contactlist-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/contactlist/pom.xml b/examples/contactlist/pom.xml
+index b884247..6f7c856 100644
+--- a/examples/contactlist/pom.xml
++++ b/examples/contactlist/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/drools/drools-ear/pom.xml b/examples/drools/drools-ear/pom.xml
+index 27a8e5e..546ccaf 100644
+--- a/examples/drools/drools-ear/pom.xml
++++ b/examples/drools/drools-ear/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+@@ -97 +96 @@
+-                  <phase></phase>
++                  <phase />
+diff --git a/examples/drools/drools-ejb/pom.xml b/examples/drools/drools-ejb/pom.xml
+index e17c881..d0a8601 100644
+--- a/examples/drools/drools-ejb/pom.xml
++++ b/examples/drools/drools-ejb/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/drools/drools-tests/pom.xml b/examples/drools/drools-tests/pom.xml
+index 809cd49..d40b00c 100644
+--- a/examples/drools/drools-tests/pom.xml
++++ b/examples/drools/drools-tests/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/drools/drools-web/pom.xml b/examples/drools/drools-web/pom.xml
+index 91aabc8..fb973e6 100644
+--- a/examples/drools/drools-web/pom.xml
++++ b/examples/drools/drools-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/drools/pom.xml b/examples/drools/pom.xml
+index fafa672..f38f575 100644
+--- a/examples/drools/pom.xml
++++ b/examples/drools/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -7 +6 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/dvdstore/dvdstore-ear/pom.xml b/examples/dvdstore/dvdstore-ear/pom.xml
+index 3593c2d..0ac0749 100644
+--- a/examples/dvdstore/dvdstore-ear/pom.xml
++++ b/examples/dvdstore/dvdstore-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/dvdstore/dvdstore-ejb/pom.xml b/examples/dvdstore/dvdstore-ejb/pom.xml
+index f18945e..76c87a3 100644
+--- a/examples/dvdstore/dvdstore-ejb/pom.xml
++++ b/examples/dvdstore/dvdstore-ejb/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/dvdstore/dvdstore-tests/pom.xml b/examples/dvdstore/dvdstore-tests/pom.xml
+index 715bef0..e2d4c81 100644
+--- a/examples/dvdstore/dvdstore-tests/pom.xml
++++ b/examples/dvdstore/dvdstore-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/dvdstore/dvdstore-web/pom.xml b/examples/dvdstore/dvdstore-web/pom.xml
+index 94a411c..0c91d4c 100644
+--- a/examples/dvdstore/dvdstore-web/pom.xml
++++ b/examples/dvdstore/dvdstore-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/dvdstore/pom.xml b/examples/dvdstore/pom.xml
+index 44ac9f9..6bd5c46 100644
+--- a/examples/dvdstore/pom.xml
++++ b/examples/dvdstore/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/excel/excel-ear/pom.xml b/examples/excel/excel-ear/pom.xml
+index a3ea2ed..aab99ef 100644
+--- a/examples/excel/excel-ear/pom.xml
++++ b/examples/excel/excel-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/excel/excel-ejb/pom.xml b/examples/excel/excel-ejb/pom.xml
+index 601c186..e248b8e 100644
+--- a/examples/excel/excel-ejb/pom.xml
++++ b/examples/excel/excel-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/excel/excel-tests/pom.xml b/examples/excel/excel-tests/pom.xml
+index cd73f15..b03bd47 100644
+--- a/examples/excel/excel-tests/pom.xml
++++ b/examples/excel/excel-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/excel/excel-web/pom.xml b/examples/excel/excel-web/pom.xml
+index 5e48bb0..77ad49f 100644
+--- a/examples/excel/excel-web/pom.xml
++++ b/examples/excel/excel-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/excel/pom.xml b/examples/excel/pom.xml
+index 1a1ee6d..1bcc73b 100644
+--- a/examples/excel/pom.xml
++++ b/examples/excel/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/groovybooking/groovybooking-tests/pom.xml b/examples/groovybooking/groovybooking-tests/pom.xml
+index a372f12..a3a7c91 100644
+--- a/examples/groovybooking/groovybooking-tests/pom.xml
++++ b/examples/groovybooking/groovybooking-tests/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -9 +8 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/groovybooking/groovybooking-web/pom.xml b/examples/groovybooking/groovybooking-web/pom.xml
+index af0641f..8f387cc 100644
+--- a/examples/groovybooking/groovybooking-web/pom.xml
++++ b/examples/groovybooking/groovybooking-web/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -9 +8 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+@@ -141 +140 @@
+-                           <classpath refid="maven.compile.classpath"/>
++                           <classpath refid="maven.compile.classpath" />
+@@ -143,6 +142,4 @@
+-                        <mkdir dir="${project.build.outputDirectory}"/>
+-                        <groovyc destdir="${project.build.outputDirectory}"
+-                                 srcdir="${basedir}/src/main/groovy/"
+-                                 listfiles="true">
+-                           <classpath refid="maven.compile.classpath"/>
+-                           <include name="**/model/**"/>
++                        <mkdir dir="${project.build.outputDirectory}" />
++                        <groovyc destdir="${project.build.outputDirectory}" srcdir="${basedir}/src/main/groovy/" listfiles="true">
++                           <classpath refid="maven.compile.classpath" />
++                           <include name="**/model/**" />
+@@ -161,3 +158,2 @@
+-                        <property name="dev.dir"
+-                                  value="${project.build.directory}/${project.build.finalName}/WEB-INF/dev"/>
+-                        <mkdir dir="${dev.dir}"/>
++                        <property name="dev.dir" value="${project.build.directory}/${project.build.finalName}/WEB-INF/dev" />
++                        <mkdir dir="${dev.dir}" />
+@@ -166 +162 @@
+-                              <include name="**/action/**"/>
++                              <include name="**/action/**" />
+@@ -171,2 +167,2 @@
+-                              <include name="**/AuthenticatorAction.class"/>
+-                              <include name="**/ChangePasswordAction.class"/>
++                              <include name="**/AuthenticatorAction.class" />
++                              <include name="**/ChangePasswordAction.class" />
+diff --git a/examples/groovybooking/pom.xml b/examples/groovybooking/pom.xml
+index e63cb1a..b93e64d 100644
+--- a/examples/groovybooking/pom.xml
++++ b/examples/groovybooking/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/guice/guice-ear/pom.xml b/examples/guice/guice-ear/pom.xml
+index 8c046a3..c48abce 100644
+--- a/examples/guice/guice-ear/pom.xml
++++ b/examples/guice/guice-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/guice/guice-ejb/pom.xml b/examples/guice/guice-ejb/pom.xml
+index ec9313b..c98d068 100644
+--- a/examples/guice/guice-ejb/pom.xml
++++ b/examples/guice/guice-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/guice/guice-tests/pom.xml b/examples/guice/guice-tests/pom.xml
+index bc528ee..7c2fb84 100644
+--- a/examples/guice/guice-tests/pom.xml
++++ b/examples/guice/guice-tests/pom.xml
+@@ -2,3 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0"
+-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -10 +8 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/guice/guice-web/pom.xml b/examples/guice/guice-web/pom.xml
+index 90c0f5b..3846daf 100644
+--- a/examples/guice/guice-web/pom.xml
++++ b/examples/guice/guice-web/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/guice/pom.xml b/examples/guice/pom.xml
+index 082e745..7426456 100644
+--- a/examples/guice/pom.xml
++++ b/examples/guice/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/hibernate/hibernate-tests/pom.xml b/examples/hibernate/hibernate-tests/pom.xml
+index 22e2683..80fd3ed 100644
+--- a/examples/hibernate/hibernate-tests/pom.xml
++++ b/examples/hibernate/hibernate-tests/pom.xml
+@@ -2,3 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0"
+-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -10 +8 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/hibernate/hibernate-web/pom.xml b/examples/hibernate/hibernate-web/pom.xml
+index fd3de12..0e37ccb 100644
+--- a/examples/hibernate/hibernate-web/pom.xml
++++ b/examples/hibernate/hibernate-web/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -9 +8 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/hibernate/pom.xml b/examples/hibernate/pom.xml
+index b4e4425..d443963 100644
+--- a/examples/hibernate/pom.xml
++++ b/examples/hibernate/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/icefaces/icefaces-ear/pom.xml b/examples/icefaces/icefaces-ear/pom.xml
+index 0fdfe00..97f34a1 100644
+--- a/examples/icefaces/icefaces-ear/pom.xml
++++ b/examples/icefaces/icefaces-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/icefaces/icefaces-ejb/pom.xml b/examples/icefaces/icefaces-ejb/pom.xml
+index ffd226b..980b754 100644
+--- a/examples/icefaces/icefaces-ejb/pom.xml
++++ b/examples/icefaces/icefaces-ejb/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/icefaces/icefaces-tests/pom.xml b/examples/icefaces/icefaces-tests/pom.xml
+index 49b3809..e4b245f 100644
+--- a/examples/icefaces/icefaces-tests/pom.xml
++++ b/examples/icefaces/icefaces-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/icefaces/icefaces-web/pom.xml b/examples/icefaces/icefaces-web/pom.xml
+index 6e25de0..6e159b5 100644
+--- a/examples/icefaces/icefaces-web/pom.xml
++++ b/examples/icefaces/icefaces-web/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/icefaces/pom.xml b/examples/icefaces/pom.xml
+index a6f50bf..3a14d71 100644
+--- a/examples/icefaces/pom.xml
++++ b/examples/icefaces/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/itext/itext-ear/pom.xml b/examples/itext/itext-ear/pom.xml
+index 78e4111..b4b4748 100644
+--- a/examples/itext/itext-ear/pom.xml
++++ b/examples/itext/itext-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/itext/itext-ejb/pom.xml b/examples/itext/itext-ejb/pom.xml
+index 103d23d..64ec3e4 100644
+--- a/examples/itext/itext-ejb/pom.xml
++++ b/examples/itext/itext-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/itext/itext-tests/pom.xml b/examples/itext/itext-tests/pom.xml
+index 49dd1a6..ff1c5cb 100644
+--- a/examples/itext/itext-tests/pom.xml
++++ b/examples/itext/itext-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/itext/itext-web/pom.xml b/examples/itext/itext-web/pom.xml
+index 06222e7..55d928f 100644
+--- a/examples/itext/itext-web/pom.xml
++++ b/examples/itext/itext-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/itext/pom.xml b/examples/itext/pom.xml
+index 4d940e7..e362fd5 100644
+--- a/examples/itext/pom.xml
++++ b/examples/itext/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/jee6/jee6-tests/pom.xml b/examples/jee6/jee6-tests/pom.xml
+index 7f33596..683bc1e 100644
+--- a/examples/jee6/jee6-tests/pom.xml
++++ b/examples/jee6/jee6-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/jee6/jee6-web/pom.xml b/examples/jee6/jee6-web/pom.xml
+index 1240c94..a215d00 100644
+--- a/examples/jee6/jee6-web/pom.xml
++++ b/examples/jee6/jee6-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/jee6/pom.xml b/examples/jee6/pom.xml
+index 243abc8..8c8ed7c 100644
+--- a/examples/jee6/pom.xml
++++ b/examples/jee6/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/jpa/jpa-tests/pom.xml b/examples/jpa/jpa-tests/pom.xml
+index 1166afa..0918c47 100644
+--- a/examples/jpa/jpa-tests/pom.xml
++++ b/examples/jpa/jpa-tests/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/jpa/jpa-web/pom.xml b/examples/jpa/jpa-web/pom.xml
+index 93dcf34..294919a 100644
+--- a/examples/jpa/jpa-web/pom.xml
++++ b/examples/jpa/jpa-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/jpa/pom.xml b/examples/jpa/pom.xml
+index c6892dd..4c958d2 100644
+--- a/examples/jpa/pom.xml
++++ b/examples/jpa/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/mail/mail-ear/pom.xml b/examples/mail/mail-ear/pom.xml
+index d3f0617..9bcdada 100644
+--- a/examples/mail/mail-ear/pom.xml
++++ b/examples/mail/mail-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/mail/mail-ejb/pom.xml b/examples/mail/mail-ejb/pom.xml
+index 867db81..76c8d93 100644
+--- a/examples/mail/mail-ejb/pom.xml
++++ b/examples/mail/mail-ejb/pom.xml
+@@ -7 +7 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/mail/mail-tests/pom.xml b/examples/mail/mail-tests/pom.xml
+index c6f2008..f06a125 100644
+--- a/examples/mail/mail-tests/pom.xml
++++ b/examples/mail/mail-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/mail/mail-web/pom.xml b/examples/mail/mail-web/pom.xml
+index 30f9cfe..5b72391 100644
+--- a/examples/mail/mail-web/pom.xml
++++ b/examples/mail/mail-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/mail/pom.xml b/examples/mail/pom.xml
+index d4e9ea0..fe8d19c 100644
+--- a/examples/mail/pom.xml
++++ b/examples/mail/pom.xml
+@@ -9 +9 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/messages/messages-ear/pom.xml b/examples/messages/messages-ear/pom.xml
+index 905523a..df20388 100644
+--- a/examples/messages/messages-ear/pom.xml
++++ b/examples/messages/messages-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/messages/messages-ejb/pom.xml b/examples/messages/messages-ejb/pom.xml
+index 747cfb2..2e13eaf 100644
+--- a/examples/messages/messages-ejb/pom.xml
++++ b/examples/messages/messages-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/messages/messages-tests/pom.xml b/examples/messages/messages-tests/pom.xml
+index c3618ac..24ad5a4 100644
+--- a/examples/messages/messages-tests/pom.xml
++++ b/examples/messages/messages-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/messages/messages-web/pom.xml b/examples/messages/messages-web/pom.xml
+index 7a0547a..251e50d 100644
+--- a/examples/messages/messages-web/pom.xml
++++ b/examples/messages/messages-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/messages/pom.xml b/examples/messages/pom.xml
+index be0a54f..ea4798d 100644
+--- a/examples/messages/pom.xml
++++ b/examples/messages/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/booking/booking-ear/pom.xml b/examples/metawidget/booking/booking-ear/pom.xml
+index 207e673..44c795a 100644
+--- a/examples/metawidget/booking/booking-ear/pom.xml
++++ b/examples/metawidget/booking/booking-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/booking/booking-ejb/pom.xml b/examples/metawidget/booking/booking-ejb/pom.xml
+index 7e2a98b..ad0340e 100644
+--- a/examples/metawidget/booking/booking-ejb/pom.xml
++++ b/examples/metawidget/booking/booking-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/booking/booking-tests/pom.xml b/examples/metawidget/booking/booking-tests/pom.xml
+index e97e8bc..79c91bd 100644
+--- a/examples/metawidget/booking/booking-tests/pom.xml
++++ b/examples/metawidget/booking/booking-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/booking/booking-web/pom.xml b/examples/metawidget/booking/booking-web/pom.xml
+index 1447e28..372a2bf 100644
+--- a/examples/metawidget/booking/booking-web/pom.xml
++++ b/examples/metawidget/booking/booking-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/booking/pom.xml b/examples/metawidget/booking/pom.xml
+index f69ee8c..072fbce 100644
+--- a/examples/metawidget/booking/pom.xml
++++ b/examples/metawidget/booking/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/groovybooking/groovybooking-tests/pom.xml b/examples/metawidget/groovybooking/groovybooking-tests/pom.xml
+index dbaa978..3e4d833 100644
+--- a/examples/metawidget/groovybooking/groovybooking-tests/pom.xml
++++ b/examples/metawidget/groovybooking/groovybooking-tests/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/groovybooking/groovybooking-web/pom.xml b/examples/metawidget/groovybooking/groovybooking-web/pom.xml
+index 6ff16de..e79d172 100644
+--- a/examples/metawidget/groovybooking/groovybooking-web/pom.xml
++++ b/examples/metawidget/groovybooking/groovybooking-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/metawidget/groovybooking/pom.xml b/examples/metawidget/groovybooking/pom.xml
+index 7985492..930c889 100644
+--- a/examples/metawidget/groovybooking/pom.xml
++++ b/examples/metawidget/groovybooking/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/nestedbooking/nestedbooking-ear/pom.xml b/examples/nestedbooking/nestedbooking-ear/pom.xml
+index d2cc981..ff0a391 100644
+--- a/examples/nestedbooking/nestedbooking-ear/pom.xml
++++ b/examples/nestedbooking/nestedbooking-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/nestedbooking/nestedbooking-ejb/pom.xml b/examples/nestedbooking/nestedbooking-ejb/pom.xml
+index 39eae5e..9c31225 100644
+--- a/examples/nestedbooking/nestedbooking-ejb/pom.xml
++++ b/examples/nestedbooking/nestedbooking-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/nestedbooking/nestedbooking-tests/pom.xml b/examples/nestedbooking/nestedbooking-tests/pom.xml
+index 7128d1e..3305fda 100644
+--- a/examples/nestedbooking/nestedbooking-tests/pom.xml
++++ b/examples/nestedbooking/nestedbooking-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/nestedbooking/nestedbooking-web/pom.xml b/examples/nestedbooking/nestedbooking-web/pom.xml
+index c4a2ce2..c22fce6 100644
+--- a/examples/nestedbooking/nestedbooking-web/pom.xml
++++ b/examples/nestedbooking/nestedbooking-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/nestedbooking/pom.xml b/examples/nestedbooking/pom.xml
+index 860a19e..51eb1e5 100644
+--- a/examples/nestedbooking/pom.xml
++++ b/examples/nestedbooking/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/numberguess/numberguess-ear/pom.xml b/examples/numberguess/numberguess-ear/pom.xml
+index ce8e556..09f0535 100644
+--- a/examples/numberguess/numberguess-ear/pom.xml
++++ b/examples/numberguess/numberguess-ear/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/numberguess/numberguess-ejb/pom.xml b/examples/numberguess/numberguess-ejb/pom.xml
+index 2b5cabe..40b5a51 100644
+--- a/examples/numberguess/numberguess-ejb/pom.xml
++++ b/examples/numberguess/numberguess-ejb/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/numberguess/numberguess-tests/pom.xml b/examples/numberguess/numberguess-tests/pom.xml
+index c58b363..ec520a7 100644
+--- a/examples/numberguess/numberguess-tests/pom.xml
++++ b/examples/numberguess/numberguess-tests/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/numberguess/numberguess-web/pom.xml b/examples/numberguess/numberguess-web/pom.xml
+index 818505e..9acdefc 100644
+--- a/examples/numberguess/numberguess-web/pom.xml
++++ b/examples/numberguess/numberguess-web/pom.xml
+@@ -2,2 +2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -8 +7 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/numberguess/pom.xml b/examples/numberguess/pom.xml
+index 98157e7..2a97a29 100644
+--- a/examples/numberguess/pom.xml
++++ b/examples/numberguess/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/openid/openid-ear/pom.xml b/examples/openid/openid-ear/pom.xml
+index 45090e8..56fee89 100644
+--- a/examples/openid/openid-ear/pom.xml
++++ b/examples/openid/openid-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/openid/openid-ejb/pom.xml b/examples/openid/openid-ejb/pom.xml
+index 49dbf9a..ebb063c 100644
+--- a/examples/openid/openid-ejb/pom.xml
++++ b/examples/openid/openid-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/openid/openid-tests/pom.xml b/examples/openid/openid-tests/pom.xml
+index 794e42c..ef6bab0 100644
+--- a/examples/openid/openid-tests/pom.xml
++++ b/examples/openid/openid-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/openid/openid-web/pom.xml b/examples/openid/openid-web/pom.xml
+index 30f2b81..2308594 100644
+--- a/examples/openid/openid-web/pom.xml
++++ b/examples/openid/openid-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/openid/pom.xml b/examples/openid/pom.xml
+index d83e233..6240623 100644
+--- a/examples/openid/pom.xml
++++ b/examples/openid/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/pom.xml b/examples/pom.xml
+index b515c4b..4e70ab3 100644
+--- a/examples/pom.xml
++++ b/examples/pom.xml
+@@ -1,2 +1 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+@@ -7 +6 @@
+-    <version>2.3.1-SNAPSHOT</version>
++    <version>2.3.2-SNAPSHOT</version>
+@@ -38 +37,2 @@
+-    </scm>
++      <tag>HEAD</tag>
++  </scm>
+@@ -56 +56 @@
+-        <ftest.version.discriminator/>
++        <ftest.version.discriminator />
+@@ -199 +199 @@
+-                            <phase></phase>
++                            <phase />
+@@ -569 +569 @@
+-                                            <echo message="Waiting for ${selenium.browser.url}/${example.context.path}"/>
++                                            <echo message="Waiting for ${selenium.browser.url}/${example.context.path}" />
+@@ -571,2 +571 @@
+-                                                <http url="${selenium.browser.url}/${example.context.path}"
+-                                                      errorsBeginAt="404"/>
++                                                <http url="${selenium.browser.url}/${example.context.path}" errorsBeginAt="404" />
+@@ -586,5 +585,2 @@
+-                                            <echo taskname="selenium-shutdown"
+-                                                  message="DGF Errors during shutdown are expected"/>
+-                                            <get taskname="selenium-shutdown"
+-                                                 src="http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
+-                                                 ignoreerrors="true" dest="${selenium.log.dir}/selenium.stop.msg"/>
++                                            <echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
++                                            <get taskname="selenium-shutdown" src="http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer" ignoreerrors="true" dest="${selenium.log.dir}/selenium.stop.msg" />
+@@ -603,2 +599 @@
+-                                            <delete dir="${jboss.home}/server/${jboss.domain}/deploy/${example.context.path}.war"
+-                                                    failonerror="false"/>
++                                            <delete dir="${jboss.home}/server/${jboss.domain}/deploy/${example.context.path}.war" failonerror="false" />
+@@ -781,2 +776 @@
+-                                            <copy todir="${jboss.master.configuration}/farm" overwrite="true"
+-                                                  flatten="true">
++                                            <copy todir="${jboss.master.configuration}/farm" overwrite="true" flatten="true">
+@@ -784,3 +778,2 @@
+-                                                    <include
+-                                                            name="src/main/resources/jboss-seam-${example.name}-ds.xml"/>
+-                                                    <include name="target/${example.context.path}.ear"/>
++                                                    <include name="src/main/resources/jboss-seam-${example.name}-ds.xml" />
++                                                    <include name="target/${example.context.path}.ear" />
+@@ -801 +794 @@
+-                                            <echo message="Waiting for ${selenium.browser.cluster.url}/${example.context.path}"/>
++                                            <echo message="Waiting for ${selenium.browser.cluster.url}/${example.context.path}" />
+@@ -803,2 +796 @@
+-                                                <http url="${selenium.browser.cluster.url}/${example.context.path}"
+-                                                      errorsBeginAt="404"/>
++                                                <http url="${selenium.browser.cluster.url}/${example.context.path}" errorsBeginAt="404" />
+@@ -818,5 +810,2 @@
+-                                            <echo taskname="selenium-shutdown"
+-                                                  message="DGF Errors during shutdown are expected"/>
+-                                            <get taskname="selenium-shutdown"
+-                                                 src="http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer"
+-                                                 ignoreerrors="true" dest="${selenium.log.dir}/selenium.stop.msg"/>
++                                            <echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
++                                            <get taskname="selenium-shutdown" src="http://${selenium.server.host}:${selenium.server.port}/selenium-server/driver/?cmd=shutDownSeleniumServer" ignoreerrors="true" dest="${selenium.log.dir}/selenium.stop.msg" />
+@@ -836,2 +825,2 @@
+-                                                    <include name="jboss-seam-${example.name}-ds.xml"/>
+-                                                    <include name="${example.context.path}.ear"/>
++                                                    <include name="jboss-seam-${example.name}-ds.xml" />
++                                                    <include name="${example.context.path}.ear" />
+diff --git a/examples/quartz/pom.xml b/examples/quartz/pom.xml
+index 7f8237e..2a980f3 100644
+--- a/examples/quartz/pom.xml
++++ b/examples/quartz/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/quartz/quartz-ear/pom.xml b/examples/quartz/quartz-ear/pom.xml
+index 7630c4d..f2573fe 100644
+--- a/examples/quartz/quartz-ear/pom.xml
++++ b/examples/quartz/quartz-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/quartz/quartz-ejb/pom.xml b/examples/quartz/quartz-ejb/pom.xml
+index f1b6627..201fddc 100644
+--- a/examples/quartz/quartz-ejb/pom.xml
++++ b/examples/quartz/quartz-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/quartz/quartz-tests/pom.xml b/examples/quartz/quartz-tests/pom.xml
+index 864f85d..c166b9b 100644
+--- a/examples/quartz/quartz-tests/pom.xml
++++ b/examples/quartz/quartz-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/quartz/quartz-web/pom.xml b/examples/quartz/quartz-web/pom.xml
+index 34b107a..303a0c6 100644
+--- a/examples/quartz/quartz-web/pom.xml
++++ b/examples/quartz/quartz-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/registration/pom.xml b/examples/registration/pom.xml
+index e6a4862..05925d6 100644
+--- a/examples/registration/pom.xml
++++ b/examples/registration/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/registration/registration-ear/pom.xml b/examples/registration/registration-ear/pom.xml
+index 16a57ee..6a3ac06 100644
+--- a/examples/registration/registration-ear/pom.xml
++++ b/examples/registration/registration-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/registration/registration-ejb/pom.xml b/examples/registration/registration-ejb/pom.xml
+index 239ebfb..6f4c637 100644
+--- a/examples/registration/registration-ejb/pom.xml
++++ b/examples/registration/registration-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/registration/registration-tests/pom.xml b/examples/registration/registration-tests/pom.xml
+index 72831e7..4077ed1 100644
+--- a/examples/registration/registration-tests/pom.xml
++++ b/examples/registration/registration-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/registration/registration-web/pom.xml b/examples/registration/registration-web/pom.xml
+index e530bde..af374b9 100644
+--- a/examples/registration/registration-web/pom.xml
++++ b/examples/registration/registration-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/chatroom/chatroom-ear/pom.xml b/examples/remoting/chatroom/chatroom-ear/pom.xml
+index 603ca00..da38971 100644
+--- a/examples/remoting/chatroom/chatroom-ear/pom.xml
++++ b/examples/remoting/chatroom/chatroom-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/chatroom/chatroom-ejb/pom.xml b/examples/remoting/chatroom/chatroom-ejb/pom.xml
+index 43546c2..e793802 100644
+--- a/examples/remoting/chatroom/chatroom-ejb/pom.xml
++++ b/examples/remoting/chatroom/chatroom-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/chatroom/chatroom-tests/pom.xml b/examples/remoting/chatroom/chatroom-tests/pom.xml
+index 1736507..0aadcb4 100644
+--- a/examples/remoting/chatroom/chatroom-tests/pom.xml
++++ b/examples/remoting/chatroom/chatroom-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/chatroom/chatroom-web/pom.xml b/examples/remoting/chatroom/chatroom-web/pom.xml
+index 8b74cc8..6f6cb13 100644
+--- a/examples/remoting/chatroom/chatroom-web/pom.xml
++++ b/examples/remoting/chatroom/chatroom-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/chatroom/pom.xml b/examples/remoting/chatroom/pom.xml
+index aa9148d..9bf18c5 100644
+--- a/examples/remoting/chatroom/pom.xml
++++ b/examples/remoting/chatroom/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/gwt/gwt-ear/pom.xml b/examples/remoting/gwt/gwt-ear/pom.xml
+index 8c2c8e9..38a15ae 100644
+--- a/examples/remoting/gwt/gwt-ear/pom.xml
++++ b/examples/remoting/gwt/gwt-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/gwt/gwt-ejb/pom.xml b/examples/remoting/gwt/gwt-ejb/pom.xml
+index 0c16c4e..47ddda7 100644
+--- a/examples/remoting/gwt/gwt-ejb/pom.xml
++++ b/examples/remoting/gwt/gwt-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/gwt/gwt-tests/pom.xml b/examples/remoting/gwt/gwt-tests/pom.xml
+index 66fd3b1..7233f21 100644
+--- a/examples/remoting/gwt/gwt-tests/pom.xml
++++ b/examples/remoting/gwt/gwt-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/gwt/gwt-web/pom.xml b/examples/remoting/gwt/gwt-web/pom.xml
+index d85405a..258091f 100644
+--- a/examples/remoting/gwt/gwt-web/pom.xml
++++ b/examples/remoting/gwt/gwt-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/gwt/pom.xml b/examples/remoting/gwt/pom.xml
+index 2031739..2b83ffd 100644
+--- a/examples/remoting/gwt/pom.xml
++++ b/examples/remoting/gwt/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/helloworld/helloworld-ear/pom.xml b/examples/remoting/helloworld/helloworld-ear/pom.xml
+index 114ebcb..3599841 100644
+--- a/examples/remoting/helloworld/helloworld-ear/pom.xml
++++ b/examples/remoting/helloworld/helloworld-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/helloworld/helloworld-ejb/pom.xml b/examples/remoting/helloworld/helloworld-ejb/pom.xml
+index 6237198..fa58c2f 100644
+--- a/examples/remoting/helloworld/helloworld-ejb/pom.xml
++++ b/examples/remoting/helloworld/helloworld-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/helloworld/helloworld-tests/pom.xml b/examples/remoting/helloworld/helloworld-tests/pom.xml
+index ed938a2..bae4a93 100644
+--- a/examples/remoting/helloworld/helloworld-tests/pom.xml
++++ b/examples/remoting/helloworld/helloworld-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/helloworld/helloworld-web/pom.xml b/examples/remoting/helloworld/helloworld-web/pom.xml
+index 348abbd..d9baa9e 100644
+--- a/examples/remoting/helloworld/helloworld-web/pom.xml
++++ b/examples/remoting/helloworld/helloworld-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/helloworld/pom.xml b/examples/remoting/helloworld/pom.xml
+index daf2879..c74bc03 100644
+--- a/examples/remoting/helloworld/pom.xml
++++ b/examples/remoting/helloworld/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/progressbar/pom.xml b/examples/remoting/progressbar/pom.xml
+index 79a75e2..ddd952d 100644
+--- a/examples/remoting/progressbar/pom.xml
++++ b/examples/remoting/progressbar/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/progressbar/progressbar-ear/pom.xml b/examples/remoting/progressbar/progressbar-ear/pom.xml
+index 4a5ad1e..a73957e 100644
+--- a/examples/remoting/progressbar/progressbar-ear/pom.xml
++++ b/examples/remoting/progressbar/progressbar-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/progressbar/progressbar-ejb/pom.xml b/examples/remoting/progressbar/progressbar-ejb/pom.xml
+index 6bdd6d0..0363e81 100644
+--- a/examples/remoting/progressbar/progressbar-ejb/pom.xml
++++ b/examples/remoting/progressbar/progressbar-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/remoting/progressbar/progressbar-web/pom.xml b/examples/remoting/progressbar/progressbar-web/pom.xml
+index 42d4129..85f859f 100644
+--- a/examples/remoting/progressbar/progressbar-web/pom.xml
++++ b/examples/remoting/progressbar/progressbar-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/restbay/pom.xml b/examples/restbay/pom.xml
+index 5e8770b..824a575 100644
+--- a/examples/restbay/pom.xml
++++ b/examples/restbay/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/restbay/restbay-ear/pom.xml b/examples/restbay/restbay-ear/pom.xml
+index 7f6f6e9..78c8139 100644
+--- a/examples/restbay/restbay-ear/pom.xml
++++ b/examples/restbay/restbay-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/restbay/restbay-ejb/pom.xml b/examples/restbay/restbay-ejb/pom.xml
+index 13e9ae3..f06212f 100644
+--- a/examples/restbay/restbay-ejb/pom.xml
++++ b/examples/restbay/restbay-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/restbay/restbay-tests/pom.xml b/examples/restbay/restbay-tests/pom.xml
+index 01c2229..71b7f27 100644
+--- a/examples/restbay/restbay-tests/pom.xml
++++ b/examples/restbay/restbay-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/restbay/restbay-web/pom.xml b/examples/restbay/restbay-web/pom.xml
+index f71d092..27ebf7c 100644
+--- a/examples/restbay/restbay-web/pom.xml
++++ b/examples/restbay/restbay-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/rss/pom.xml b/examples/rss/pom.xml
+index 506f986..ccfee43 100644
+--- a/examples/rss/pom.xml
++++ b/examples/rss/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/rss/rss-ear/pom.xml b/examples/rss/rss-ear/pom.xml
+index decd715..772ed7e 100644
+--- a/examples/rss/rss-ear/pom.xml
++++ b/examples/rss/rss-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/rss/rss-ejb/pom.xml b/examples/rss/rss-ejb/pom.xml
+index f2c91f3..772bb20 100644
+--- a/examples/rss/rss-ejb/pom.xml
++++ b/examples/rss/rss-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/rss/rss-tests/pom.xml b/examples/rss/rss-tests/pom.xml
+index 9057200..1ac2f1c 100644
+--- a/examples/rss/rss-tests/pom.xml
++++ b/examples/rss/rss-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/rss/rss-web/pom.xml b/examples/rss/rss-web/pom.xml
+index 7ad858f..3e2df02 100644
+--- a/examples/rss/rss-web/pom.xml
++++ b/examples/rss/rss-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seambay/pom.xml b/examples/seambay/pom.xml
+index dd4fd84..275d5ca 100644
+--- a/examples/seambay/pom.xml
++++ b/examples/seambay/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seambay/seambay-ear/pom.xml b/examples/seambay/seambay-ear/pom.xml
+index 641ff3a..4b77953 100644
+--- a/examples/seambay/seambay-ear/pom.xml
++++ b/examples/seambay/seambay-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seambay/seambay-ejb/pom.xml b/examples/seambay/seambay-ejb/pom.xml
+index cc613a7..77ea576 100644
+--- a/examples/seambay/seambay-ejb/pom.xml
++++ b/examples/seambay/seambay-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seambay/seambay-tests/pom.xml b/examples/seambay/seambay-tests/pom.xml
+index 83c6a1a..5d351ab 100644
+--- a/examples/seambay/seambay-tests/pom.xml
++++ b/examples/seambay/seambay-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seambay/seambay-web/pom.xml b/examples/seambay/seambay-web/pom.xml
+index b51f189..9895bd4 100644
+--- a/examples/seambay/seambay-web/pom.xml
++++ b/examples/seambay/seambay-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamdiscs/pom.xml b/examples/seamdiscs/pom.xml
+index 2a948e9..9e034ce 100644
+--- a/examples/seamdiscs/pom.xml
++++ b/examples/seamdiscs/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamdiscs/seamdiscs-ear/pom.xml b/examples/seamdiscs/seamdiscs-ear/pom.xml
+index 01974b5..f8d19e8 100644
+--- a/examples/seamdiscs/seamdiscs-ear/pom.xml
++++ b/examples/seamdiscs/seamdiscs-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamdiscs/seamdiscs-ejb/pom.xml b/examples/seamdiscs/seamdiscs-ejb/pom.xml
+index b021b3f..6dbc0c6 100644
+--- a/examples/seamdiscs/seamdiscs-ejb/pom.xml
++++ b/examples/seamdiscs/seamdiscs-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamdiscs/seamdiscs-tests/pom.xml b/examples/seamdiscs/seamdiscs-tests/pom.xml
+index 150caea..b7c8e28 100644
+--- a/examples/seamdiscs/seamdiscs-tests/pom.xml
++++ b/examples/seamdiscs/seamdiscs-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamdiscs/seamdiscs-web/pom.xml b/examples/seamdiscs/seamdiscs-web/pom.xml
+index 74654f0..0577f6f 100644
+--- a/examples/seamdiscs/seamdiscs-web/pom.xml
++++ b/examples/seamdiscs/seamdiscs-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seampay/pom.xml b/examples/seampay/pom.xml
+index bc2e227..556f11d 100644
+--- a/examples/seampay/pom.xml
++++ b/examples/seampay/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seampay/seampay-ear/pom.xml b/examples/seampay/seampay-ear/pom.xml
+index d3a3218..eb875f9 100644
+--- a/examples/seampay/seampay-ear/pom.xml
++++ b/examples/seampay/seampay-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seampay/seampay-ejb/pom.xml b/examples/seampay/seampay-ejb/pom.xml
+index 4eaa922..48d3da7 100644
+--- a/examples/seampay/seampay-ejb/pom.xml
++++ b/examples/seampay/seampay-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seampay/seampay-tests/pom.xml b/examples/seampay/seampay-tests/pom.xml
+index 596d250..813fc5d 100644
+--- a/examples/seampay/seampay-tests/pom.xml
++++ b/examples/seampay/seampay-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seampay/seampay-web/pom.xml b/examples/seampay/seampay-web/pom.xml
+index 5333bba..79c35ee 100644
+--- a/examples/seampay/seampay-web/pom.xml
++++ b/examples/seampay/seampay-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamspace/pom.xml b/examples/seamspace/pom.xml
+index b57c489..09122ef 100644
+--- a/examples/seamspace/pom.xml
++++ b/examples/seamspace/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamspace/seamspace-ear/pom.xml b/examples/seamspace/seamspace-ear/pom.xml
+index c4234e5..d1e934d 100644
+--- a/examples/seamspace/seamspace-ear/pom.xml
++++ b/examples/seamspace/seamspace-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamspace/seamspace-ejb/pom.xml b/examples/seamspace/seamspace-ejb/pom.xml
+index 35c0251..e4fa7bb 100644
+--- a/examples/seamspace/seamspace-ejb/pom.xml
++++ b/examples/seamspace/seamspace-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamspace/seamspace-tests/pom.xml b/examples/seamspace/seamspace-tests/pom.xml
+index 6f8c892..914047a 100644
+--- a/examples/seamspace/seamspace-tests/pom.xml
++++ b/examples/seamspace/seamspace-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/seamspace/seamspace-web/pom.xml b/examples/seamspace/seamspace-web/pom.xml
+index 1e02a65..462ef85 100644
+--- a/examples/seamspace/seamspace-web/pom.xml
++++ b/examples/seamspace/seamspace-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/spring/pom.xml b/examples/spring/pom.xml
+index 7653dea..d9bd24d 100644
+--- a/examples/spring/pom.xml
++++ b/examples/spring/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/spring/spring-tests/pom.xml b/examples/spring/spring-tests/pom.xml
+index 640f6f7..458020b 100644
+--- a/examples/spring/spring-tests/pom.xml
++++ b/examples/spring/spring-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/spring/spring-web/pom.xml b/examples/spring/spring-web/pom.xml
+index e2e1297..9abdfac 100644
+--- a/examples/spring/spring-web/pom.xml
++++ b/examples/spring/spring-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/tasks/pom.xml b/examples/tasks/pom.xml
+index 087c629..09729f3 100644
+--- a/examples/tasks/pom.xml
++++ b/examples/tasks/pom.xml
+@@ -9 +9 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/tasks/tasks-ear/pom.xml b/examples/tasks/tasks-ear/pom.xml
+index 7d1fbf7..6fab515 100644
+--- a/examples/tasks/tasks-ear/pom.xml
++++ b/examples/tasks/tasks-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/tasks/tasks-ejb/pom.xml b/examples/tasks/tasks-ejb/pom.xml
+index c605c13..0f008ac 100644
+--- a/examples/tasks/tasks-ejb/pom.xml
++++ b/examples/tasks/tasks-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/tasks/tasks-tests/pom.xml b/examples/tasks/tasks-tests/pom.xml
+index 2573b17..94a1e9e 100644
+--- a/examples/tasks/tasks-tests/pom.xml
++++ b/examples/tasks/tasks-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/tasks/tasks-web/pom.xml b/examples/tasks/tasks-web/pom.xml
+index 51514bd..2f159fb 100644
+--- a/examples/tasks/tasks-web/pom.xml
++++ b/examples/tasks/tasks-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/todo/pom.xml b/examples/todo/pom.xml
+index f0e85bf..d063249 100644
+--- a/examples/todo/pom.xml
++++ b/examples/todo/pom.xml
+@@ -10 +10 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/todo/todo-ear/pom.xml b/examples/todo/todo-ear/pom.xml
+index 3e06f6f..d2d83cc 100644
+--- a/examples/todo/todo-ear/pom.xml
++++ b/examples/todo/todo-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+@@ -75 +75 @@
+-                        <phase></phase>
++                        <phase />
+diff --git a/examples/todo/todo-ejb/pom.xml b/examples/todo/todo-ejb/pom.xml
+index 0bab230..b3551b5 100644
+--- a/examples/todo/todo-ejb/pom.xml
++++ b/examples/todo/todo-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/todo/todo-tests/pom.xml b/examples/todo/todo-tests/pom.xml
+index 7029222..99162a7 100644
+--- a/examples/todo/todo-tests/pom.xml
++++ b/examples/todo/todo-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/todo/todo-web/pom.xml b/examples/todo/todo-web/pom.xml
+index c7e1bd0..bcc318d 100644
+--- a/examples/todo/todo-web/pom.xml
++++ b/examples/todo/todo-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/ui/pom.xml b/examples/ui/pom.xml
+index 4d7cfcf..3202b28 100644
+--- a/examples/ui/pom.xml
++++ b/examples/ui/pom.xml
+@@ -6 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/ui/ui-ear/pom.xml b/examples/ui/ui-ear/pom.xml
+index 723b847..dea9e69 100644
+--- a/examples/ui/ui-ear/pom.xml
++++ b/examples/ui/ui-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/ui/ui-ejb/pom.xml b/examples/ui/ui-ejb/pom.xml
+index 72397fa..359365a 100644
+--- a/examples/ui/ui-ejb/pom.xml
++++ b/examples/ui/ui-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/ui/ui-tests/pom.xml b/examples/ui/ui-tests/pom.xml
+index 270c419..5fbcefa 100644
+--- a/examples/ui/ui-tests/pom.xml
++++ b/examples/ui/ui-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/ui/ui-web/pom.xml b/examples/ui/ui-web/pom.xml
+index 906c63d..6eea882 100644
+--- a/examples/ui/ui-web/pom.xml
++++ b/examples/ui/ui-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/wicket/pom.xml b/examples/wicket/pom.xml
+index 53de640..6c69ef2 100644
+--- a/examples/wicket/pom.xml
++++ b/examples/wicket/pom.xml
+@@ -9 +9 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/wicket/wicket-ear/pom.xml b/examples/wicket/wicket-ear/pom.xml
+index a12b7fd..799b64f 100644
+--- a/examples/wicket/wicket-ear/pom.xml
++++ b/examples/wicket/wicket-ear/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/wicket/wicket-ejb/pom.xml b/examples/wicket/wicket-ejb/pom.xml
+index d1ebfb7..151ede6 100644
+--- a/examples/wicket/wicket-ejb/pom.xml
++++ b/examples/wicket/wicket-ejb/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/wicket/wicket-tests/pom.xml b/examples/wicket/wicket-tests/pom.xml
+index 2e2b328..4b7583d 100644
+--- a/examples/wicket/wicket-tests/pom.xml
++++ b/examples/wicket/wicket-tests/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/examples/wicket/wicket-web/pom.xml b/examples/wicket/wicket-web/pom.xml
+index 682bd82..429dbdf 100644
+--- a/examples/wicket/wicket-web/pom.xml
++++ b/examples/wicket/wicket-web/pom.xml
+@@ -7 +7 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/functional-tests/pom.xml b/functional-tests/pom.xml
+index 2073561..8926884 100644
+--- a/functional-tests/pom.xml
++++ b/functional-tests/pom.xml
+@@ -5 +5 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-debug/pom.xml b/jboss-seam-debug/pom.xml
+index e10b5d9..dac2be5 100644
+--- a/jboss-seam-debug/pom.xml
++++ b/jboss-seam-debug/pom.xml
+@@ -5 +5 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-excel/pom.xml b/jboss-seam-excel/pom.xml
+index 3914a22..c685e37 100644
+--- a/jboss-seam-excel/pom.xml
++++ b/jboss-seam-excel/pom.xml
+@@ -5 +5 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-flex/pom.xml b/jboss-seam-flex/pom.xml
+index e5bf260..7928027 100644
+--- a/jboss-seam-flex/pom.xml
++++ b/jboss-seam-flex/pom.xml
+@@ -5 +5 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-gen/pom.xml b/jboss-seam-gen/pom.xml
+index fa32e01..b1b6f7f 100644
+--- a/jboss-seam-gen/pom.xml
++++ b/jboss-seam-gen/pom.xml
+@@ -10 +10 @@
+-      <version>2.3.1-SNAPSHOT</version>
++      <version>2.3.2-SNAPSHOT</version>
+@@ -57 +57 @@
+-                <delete file="${project.basedir}/../build/build.properties"/>
++                <delete file="${project.basedir}/../build/build.properties" />
+diff --git a/jboss-seam-ioc/pom.xml b/jboss-seam-ioc/pom.xml
+index 22201b4..864ca0c 100644
+--- a/jboss-seam-ioc/pom.xml
++++ b/jboss-seam-ioc/pom.xml
+@@ -5 +5 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-mail/pom.xml b/jboss-seam-mail/pom.xml
+index aed8003..9bd2a82 100644
+--- a/jboss-seam-mail/pom.xml
++++ b/jboss-seam-mail/pom.xml
+@@ -6 +6 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-pdf/pom.xml b/jboss-seam-pdf/pom.xml
+index 93b323d..0e408c3 100644
+--- a/jboss-seam-pdf/pom.xml
++++ b/jboss-seam-pdf/pom.xml
+@@ -6 +6 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-remoting/pom.xml b/jboss-seam-remoting/pom.xml
+index 8813dbe..dcc194c 100644
+--- a/jboss-seam-remoting/pom.xml
++++ b/jboss-seam-remoting/pom.xml
+@@ -5 +5 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-resteasy/pom.xml b/jboss-seam-resteasy/pom.xml
+index 146f29f..e457b20 100644
+--- a/jboss-seam-resteasy/pom.xml
++++ b/jboss-seam-resteasy/pom.xml
+@@ -5 +5 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-rss/pom.xml b/jboss-seam-rss/pom.xml
+index b5cafb9..34e353f 100644
+--- a/jboss-seam-rss/pom.xml
++++ b/jboss-seam-rss/pom.xml
+@@ -5 +5 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam-ui/pom.xml b/jboss-seam-ui/pom.xml
+index 51bd983..371beb7 100644
+--- a/jboss-seam-ui/pom.xml
++++ b/jboss-seam-ui/pom.xml
+@@ -1,2 +1 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+@@ -7 +6 @@
+-        <version>2.3.1-SNAPSHOT</version>
++        <version>2.3.2-SNAPSHOT</version>
+@@ -105 +104 @@
+-                                <ignore></ignore>
++                                <ignore />
+diff --git a/jboss-seam-wicket/pom.xml b/jboss-seam-wicket/pom.xml
+index e6335a3..b00cd1a 100644
+--- a/jboss-seam-wicket/pom.xml
++++ b/jboss-seam-wicket/pom.xml
+@@ -6 +6 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/jboss-seam/pom.xml b/jboss-seam/pom.xml
+index ffa056c..792b8f1 100644
+--- a/jboss-seam/pom.xml
++++ b/jboss-seam/pom.xml
+@@ -1,2 +1 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+@@ -8 +7 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+@@ -77,2 +76 @@
+-							<zipfileset includes="**/*"
+-								excludes="org/jboss/seam/async/TimerServiceDispatcher*" src="${project.build.directory}/${project.artifactId}.jar" />
++							<zipfileset includes="**/*" excludes="org/jboss/seam/async/TimerServiceDispatcher*" src="${project.build.directory}/${project.artifactId}.jar" />
+@@ -86,4 +84,2 @@
+-						<jar
+-							destfile="${project.build.directory}/${project.artifactId}-wls-compatible-sources.jar">
+-							<zipfileset includes="**/*"
+-								excludes="org/jboss/seam/async/TimerServiceDispatcher.java" src="${project.build.directory}/${project.artifactId}-sources.jar" />
++						<jar destfile="${project.build.directory}/${project.artifactId}-wls-compatible-sources.jar">
++							<zipfileset includes="**/*" excludes="org/jboss/seam/async/TimerServiceDispatcher.java" src="${project.build.directory}/${project.artifactId}-sources.jar" />
+diff --git a/jboss-seam/src/main/java/org/jboss/seam/mock/ResourceRequestEnvironment.java b/jboss-seam/src/main/java/org/jboss/seam/mock/ResourceRequestEnvironment.java
+index 00f91d8..5ae99b8 100644
+--- a/jboss-seam/src/main/java/org/jboss/seam/mock/ResourceRequestEnvironment.java
++++ b/jboss-seam/src/main/java/org/jboss/seam/mock/ResourceRequestEnvironment.java
+@@ -209 +209 @@
+-         return new EnhancedMockHttpServletRequest();
++         return new EnhancedMockHttpServletRequest(environment.seamTest.servletContext);
+diff --git a/pom.xml b/pom.xml
+index 1127a08..5c43cb3 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -13 +13 @@
+-	<version>2.3.1-SNAPSHOT</version>
++	<version>2.3.2-SNAPSHOT</version>
+@@ -48 +48 @@
+-        <version.seam>2.3.1-SNAPSHOT</version.seam>
++        <version.seam>2.3.2-SNAPSHOT</version.seam>
+@@ -318 +318,2 @@
+-	</scm>
++	  <tag>HEAD</tag>
++  </scm>
+diff --git a/seam-cdk-helper/pom.xml b/seam-cdk-helper/pom.xml
+index 9d6ba1c..319414f 100644
+--- a/seam-cdk-helper/pom.xml
++++ b/seam-cdk-helper/pom.xml
+@@ -1,2 +1 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+diff --git a/seam-integration-tests/pom.xml b/seam-integration-tests/pom.xml
+index 3085c1f..fcd2c41 100644
+--- a/seam-integration-tests/pom.xml
++++ b/seam-integration-tests/pom.xml
+@@ -7 +7 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+diff --git a/seam-reference-guide/pom.xml b/seam-reference-guide/pom.xml
+index b9b623b..fc38845 100644
+--- a/seam-reference-guide/pom.xml
++++ b/seam-reference-guide/pom.xml
+@@ -6 +6 @@
+-		<version>2.3.1-SNAPSHOT</version>
++		<version>2.3.2-SNAPSHOT</version>
+

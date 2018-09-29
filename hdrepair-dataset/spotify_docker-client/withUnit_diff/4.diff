@@ -1,0 +1,14 @@
+diff --git a/src/main/java/com/spotify/docker/client/messages/ContainerInfo.java b/src/main/java/com/spotify/docker/client/messages/ContainerInfo.java
+index 4f5f865..976a246 100644
+--- a/src/main/java/com/spotify/docker/client/messages/ContainerInfo.java
++++ b/src/main/java/com/spotify/docker/client/messages/ContainerInfo.java
+@@ -41 +41 @@
+-  @JsonProperty("ID") private String id;
++  @JsonProperty("Id") private String id;
+diff --git a/src/test/java/com/spotify/docker/client/DockerClientTest.java b/src/test/java/com/spotify/docker/client/DockerClientTest.java
+index c31fd81..66c126b 100644
+--- a/src/test/java/com/spotify/docker/client/DockerClientTest.java
++++ b/src/test/java/com/spotify/docker/client/DockerClientTest.java
+@@ -199,0 +200 @@
++      assertThat(info.id(), equalTo(id));
+

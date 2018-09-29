@@ -1,0 +1,17 @@
+diff --git a/ejb-core/formtemplate/src/main/java/com/silverpeas/form/displayers/ExplorerFieldDisplayer.java b/ejb-core/formtemplate/src/main/java/com/silverpeas/form/displayers/ExplorerFieldDisplayer.java
+index dd64784..41d46c4 100644
+--- a/ejb-core/formtemplate/src/main/java/com/silverpeas/form/displayers/ExplorerFieldDisplayer.java
++++ b/ejb-core/formtemplate/src/main/java/com/silverpeas/form/displayers/ExplorerFieldDisplayer.java
+@@ -165,0 +166 @@
++          + "&dedicatedToWriters=true"
+diff --git a/war-core/src/main/webapp/explorer/jsp/explorer.jsp b/war-core/src/main/webapp/explorer/jsp/explorer.jsp
+index 732e1d1..cec26a4 100644
+--- a/war-core/src/main/webapp/explorer/jsp/explorer.jsp
++++ b/war-core/src/main/webapp/explorer/jsp/explorer.jsp
+@@ -64,0 +65 @@
++boolean dedicatedToWriters = StringUtil.getBooleanValue(request.getParameter("DedicatedToWriters"));
+@@ -124,0 +126 @@
++					<% if (dedicatedToWriters) { %>
+@@ -138,0 +141 @@
++					<% } %>
+

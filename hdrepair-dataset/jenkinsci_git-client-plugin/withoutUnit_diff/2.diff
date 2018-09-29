@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/jenkinsci/plugins/gitclient/CliGitAPIImpl.java b/src/main/java/org/jenkinsci/plugins/gitclient/CliGitAPIImpl.java
+index 08986bd..83ba4b1 100644
+--- a/src/main/java/org/jenkinsci/plugins/gitclient/CliGitAPIImpl.java
++++ b/src/main/java/org/jenkinsci/plugins/gitclient/CliGitAPIImpl.java
+@@ -1532,0 +1533,2 @@
++        // ${SSH_ASKPASS} might be ignored if ${DISPLAY} is not set
++        w.println("[ -z \"${DISPLAY}\" ] && export DISPLAY=:123.456");
+

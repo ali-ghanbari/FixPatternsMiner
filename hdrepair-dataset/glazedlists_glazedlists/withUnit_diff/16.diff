@@ -1,0 +1,22 @@
+diff --git a/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/JEventListPanelTest.java b/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/JEventListPanelTest.java
+index 997ce5c..e36e1a5 100644
+--- a/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/JEventListPanelTest.java
++++ b/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/JEventListPanelTest.java
+@@ -69,0 +70 @@
++        panel.setElementColumns(1);
+@@ -90 +91,3 @@
+-        public AddAction(EventList target) { this.target = target; }
++        public AddAction(EventList target) {
++            this.target = target;
++        }
+@@ -92 +95 @@
+-            target.add("X " + (dice.nextInt(100)));
++            target.add(3, "X " + (dice.nextInt(100)));
+diff --git a/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/ListLayout.java b/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/ListLayout.java
+index 5902e2a..e75775e 100644
+--- a/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/ListLayout.java
++++ b/extensions/jgoodiesforms/source/ca/odell/glazedlists/swing/ListLayout.java
+@@ -250 +250 @@
+-        gridComponents.add(new CellComponents());
++        gridComponents.add(index, new CellComponents());
+

@@ -1,0 +1,32 @@
+diff --git a/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientQueueProxy.java b/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientQueueProxy.java
+index 4b03e71..433a344 100644
+--- a/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientQueueProxy.java
++++ b/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientQueueProxy.java
+@@ -77,0 +78,10 @@
++    /**
++     * It is advised to use this method in a try-catch block to take the offer operation
++     * full lifecycle control, in a "lost node" scenario you can not be sure
++     * offer is succeeded or not so you may want to retry.
++     *
++     * @param e the element to add
++     * @return <tt>true</tt> if the element was added to this queue.
++     *         <tt>false</tt> if there is not enough capacity to insert the element.
++     * @throws HazelcastException if client loses the connected node.
++     */
+diff --git a/hazelcast/src/test/java/com/hazelcast/concurrent/atomiclong/AtomicLongTest.java b/hazelcast/src/test/java/com/hazelcast/concurrent/atomiclong/AtomicLongTest.java
+index ba63883..598a2cb 100644
+--- a/hazelcast/src/test/java/com/hazelcast/concurrent/atomiclong/AtomicLongTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/concurrent/atomiclong/AtomicLongTest.java
+@@ -28,0 +29 @@
++import com.hazelcast.test.annotation.Repeat;
+@@ -120 +120,0 @@
+-    @Category(ProblematicTest.class)
+diff --git a/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java b/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java
+index e23ca2e..9067d73 100644
+--- a/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java
+@@ -1510,0 +1511 @@
++    @Category(ProblematicTest.class)
+@@ -1515,0 +1517 @@
++    @Category(ProblematicTest.class)
+

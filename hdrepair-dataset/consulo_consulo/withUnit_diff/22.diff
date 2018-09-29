@@ -1,0 +1,37 @@
+diff --git a/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionOrderingTest.java b/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionOrderingTest.java
+index 986d2fb..6a1a00c 100644
+--- a/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionOrderingTest.java
++++ b/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionOrderingTest.java
+@@ -287 +287 @@
+-      checkPreferredItems(0, "Foo", "foo1", "foo2");
++      checkPreferredItems(1, "Foo", "foo1", "foo2");
+diff --git a/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionTest.groovy b/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionTest.groovy
+index 3504f99..6a0592d 100644
+--- a/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionTest.groovy
++++ b/java/java-tests/testSrc/com/intellij/codeInsight/completion/NormalCompletionTest.groovy
+@@ -1144,0 +1145,17 @@
++  public void testDontPreselectCaseInsensitivePrefixMatch() {
++    CodeInsightSettings.instance.COMPLETION_CASE_SENSITIVE = CodeInsightSettings.NONE
++    try {
++      myFixture.configureByText "a.java", "import java.io.*; class Foo {{ int fileSize; fil<caret>x }}"
++      myFixture.completeBasic()
++      assert lookup.currentItem.lookupString == 'fileSize'
++      myFixture.type('e')
++      
++      assert lookup.items[0].lookupString == 'File'
++      assert lookup.items[1].lookupString == 'fileSize'
++      assert lookup.currentItem == lookup.items[1]
++    }
++    finally {
++      CodeInsightSettings.instance.COMPLETION_CASE_SENSITIVE = CodeInsightSettings.FIRST_LETTER
++    }
++  }
++
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java b/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
+index 32effe3..087bc5c 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
+@@ -448 +448 @@
+-      if (isFocused() && (!(isExactPrefixItem(first, true) || isExactPrefixItem(first, false)) || mySelectionTouched)) {
++      if (isFocused() && (!isExactPrefixItem(first, true) || mySelectionTouched)) {
+

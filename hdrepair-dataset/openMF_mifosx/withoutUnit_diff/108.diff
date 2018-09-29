@@ -1,0 +1,20 @@
+diff --git a/mifosng-individual-lending-app/src/main/java/org/mifosng/configuration/InMemoryApplicationConfigurationService.java b/mifosng-individual-lending-app/src/main/java/org/mifosng/configuration/InMemoryApplicationConfigurationService.java
+index e75d6ce..f434a09 100644
+--- a/mifosng-individual-lending-app/src/main/java/org/mifosng/configuration/InMemoryApplicationConfigurationService.java
++++ b/mifosng-individual-lending-app/src/main/java/org/mifosng/configuration/InMemoryApplicationConfigurationService.java
+@@ -12,0 +13,3 @@
++	
++//	private String platformApiUrl = "https://ec2-176-34-172-61.eu-west-1.compute.amazonaws.com:8443/mifosng-provider/api/v1/";
++	
+diff --git a/mifosng-individual-lending-app/src/main/webapp/WEB-INF/views/client/viewClientAccount.jsp b/mifosng-individual-lending-app/src/main/webapp/WEB-INF/views/client/viewClientAccount.jsp
+index a6cc407..553fec6 100644
+--- a/mifosng-individual-lending-app/src/main/webapp/WEB-INF/views/client/viewClientAccount.jsp
++++ b/mifosng-individual-lending-app/src/main/webapp/WEB-INF/views/client/viewClientAccount.jsp
+@@ -494 +494,2 @@
+-						var getAndPostUrl = baseApiUrl + 'clients/' + clientId + '/notes';
++						var getUrl = baseApiUrl + 'clients/' + clientId;
++						var postUrl = baseApiUrl + 'clients/' + clientId + '/notes';
+@@ -505 +506 @@
+-						popupDialogWithFormView(getAndPostUrl, getAndPostUrl, 'POST', "dialog.title.add.note", templateSelector, width, height, saveSuccessFunction);
++						popupDialogWithFormView(getUrl, postUrl, 'POST', "dialog.title.add.note", templateSelector, width, height, saveSuccessFunction);
+

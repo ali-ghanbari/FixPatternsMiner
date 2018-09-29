@@ -1,0 +1,76 @@
+1156:
+
+You might need to reload your plugins when you update to this build
+
+fproxy:
+	- bug #2446: handle the "human" notation for the max-size parameter
+	- bug #2446: fproxy should allow configurable max-size parameter
+	- bug #2370: don't ask for the darknet port to be forwarded if there is no darknet peer
+	- change the Opennet Question
+	- hide the MeaningfullNodeNameUserAlert if there is no darknet peer
+	- resolve bug #2499 (Reduce the number of steps of the wizard if possible)
+	- combine the outgoing request distribution histograms into one.
+	- skip the bandwidth limiting step in the wizard if the node has detected a recent enough, and working UPnP plugin
+	- FOAF: make the peer selection stats time decaying
+
+plugins:
+	- return the request handle on non blocking calls
+	- handle plugins which require newer jvms better
+	- firstTimeWizard: switch steps to enums... so that we can extend it easily
+	- enable sha1 check for downloaded official plugins
+
+config:
+	- show UserAlert for need node restart config change
+	- allow changing storeType
+	- add isReadOnly() for ConfigCallback
+
+FNP:
+	- reinstanciate the size-length check in FNPPacketMangler (MTU)
+	- get rid of the old FNPLocationChange message now that 1154 is mandatory
+	- fix bug #2492: set Socket.setReuseAddress(true);
+	- disconnect from a seed client after an hour.
+
+dev stuffs:
+	- logging
+	- use generics and autoboxing in some classes
+	- replace freenet.support.Closer by java.io.Closeable
+	- get rid of the old plugin system
+	- code cleanup
+	- convert AddressIdentifier.AddressType from a class to an enum
+	- update SizeUtil ... We might need to get a value without any space
+	- arrayBucket.size() is unreliable until the OutputStream has been closed... So close it first and ensure it's not closed more than once
+	- throw if we attempt to write to a read-only ArrayBucket
+	- simplify the client-layer and bucket cruft
+	- fix Fields.valueOf() so that it deals with both the SI and ICE notation
+	- fix RealNodeBusyNetworkTest so that it finishes
+	- switch PluginManager to 1.5 code level
+	- Bootstrap push/pull test; seednode tester; bootstrap test
+
+performance:
+	- spare a signature verification on each signature if we aren't debugging the node
+	- reimplement LineReadingInputStream.readLine() so that it's faster
+	- don't create new HTMLNodes when we draw the circles on the StatisticsToadlet
+	- PeerNode.getNumberOfSelections() is definitly too time consuming: don't return a copy of the TreeSet (might lead to sync problems)
+	- switch the l10n from StringBuffer to StringBuilder
+	- switch the Toadlets from StringBuffer to StringBuilder
+	- spare a call to Logger.shouldLog() on a hot spot
+	- delete StringArray now that we use java 1.5
+	- implement RAMBuckets and ensure all the TemporaryBuckets use them if possible
+	- enable "group stripping" every time a compressed noderef is required.
+	- DiffieHellman: tweak the generation settings
+	- JFK: tweak the size of the signed-exponents cache
+	- add two new config options to disable encryption on file buckets
+
+l10n:
+	- german language update by NEOatNHNG
+	- french language update by batosai
+
+authors:
+	nextgens
+	saces
+	sdiz
+	toad
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@21939 67a373e5-eb02-0410-a15c-ee090a768436
+

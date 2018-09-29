@@ -1,0 +1,24 @@
+diff --git a/java/java-tests/testSrc/com/intellij/codeInsight/completion/JavaAutoPopupTest.groovy b/java/java-tests/testSrc/com/intellij/codeInsight/completion/JavaAutoPopupTest.groovy
+index f66c917..693f6b1 100644
+--- a/java/java-tests/testSrc/com/intellij/codeInsight/completion/JavaAutoPopupTest.groovy
++++ b/java/java-tests/testSrc/com/intellij/codeInsight/completion/JavaAutoPopupTest.groovy
+@@ -307 +307 @@
+-  public void _testTwoQuickRestartsAfterHiding() {
++  public void testTwoQuickRestartsAfterHiding() {
+@@ -732 +732 @@
+-  public void _testRestartWithInvisibleLookup() {
++  public void testRestartWithInvisibleLookup() {
+@@ -740,0 +741,2 @@
++    joinAlarm()
++    joinCompletion()
+@@ -759 +761 @@
+-  public void _testEveryPossibleWayToTypeIf() {
++  public void testEveryPossibleWayToTypeIf() {
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/AutoPopupController.java b/platform/lang-impl/src/com/intellij/codeInsight/AutoPopupController.java
+index 99c6684..8963bc0 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/AutoPopupController.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/AutoPopupController.java
+@@ -107 +107 @@
+-      currentCompletion.closeAndFinish(false);
++      currentCompletion.closeAndFinish(!shouldBeFast);
+

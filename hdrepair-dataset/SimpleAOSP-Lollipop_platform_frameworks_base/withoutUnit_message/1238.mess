@@ -1,0 +1,15 @@
+Reduce the AppCache maximum size to a more reasonable value in DumpRenderTree2
+
+Without this change, any use of AppCache fails after the test
+http/tests/appcache/max-size.html has been run. The test in question
+passes, but seems to leave the database in a corrupted state, causing
+all future database transactions to fail. The only fix is to remove
+the database file.
+
+This behaviour is only observed with DumpRenderTree2, not
+DumpRenderTree, so I don't think this is a WebView problem. I'm not
+sure what the root cause is, but I think it make sense to submit this
+fix now in order to get the LayoutTests stable with DumpRenderTree2.
+
+Change-Id: I763c09406e66839676b839e3cdeba3b9427c1cb9
+

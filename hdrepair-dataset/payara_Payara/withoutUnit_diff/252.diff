@@ -1,0 +1,11 @@
+diff --git a/nucleus/deployment/common/src/main/java/org/glassfish/deployment/versioning/VersioningService.java b/nucleus/deployment/common/src/main/java/org/glassfish/deployment/versioning/VersioningService.java
+index d7354cf..54ba4fa 100644
+--- a/nucleus/deployment/common/src/main/java/org/glassfish/deployment/versioning/VersioningService.java
++++ b/nucleus/deployment/common/src/main/java/org/glassfish/deployment/versioning/VersioningService.java
+@@ -312 +312,4 @@
+-                if (app.getLocation().equals(dir.toURI().toString())) {
++                /*
++                 * A lifecycle module appears as an application but has a null location.
++                 */
++                if (dir.toURI().toString().equals(app.getLocation())) {
+

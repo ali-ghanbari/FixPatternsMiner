@@ -1,0 +1,8 @@
+diff --git a/sonar-plugin-api/src/main/java/org/sonar/api/scan/filesystem/internal/DefaultInputFile.java b/sonar-plugin-api/src/main/java/org/sonar/api/scan/filesystem/internal/DefaultInputFile.java
+index 5c9a2dd..2437ec3 100644
+--- a/sonar-plugin-api/src/main/java/org/sonar/api/scan/filesystem/internal/DefaultInputFile.java
++++ b/sonar-plugin-api/src/main/java/org/sonar/api/scan/filesystem/internal/DefaultInputFile.java
+@@ -44 +44 @@
+-      this.path = file.getCanonicalPath();
++      this.path = FilenameUtils.separatorsToUnix(file.getCanonicalPath());
+

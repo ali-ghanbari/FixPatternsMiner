@@ -1,0 +1,16 @@
+diff --git a/zanata-war/src/main/java/org/zanata/webtrans/client/service/ModalNavigationStateHolder.java b/zanata-war/src/main/java/org/zanata/webtrans/client/service/ModalNavigationStateHolder.java
+index e9503e3..6f04b9f 100644
+--- a/zanata-war/src/main/java/org/zanata/webtrans/client/service/ModalNavigationStateHolder.java
++++ b/zanata-war/src/main/java/org/zanata/webtrans/client/service/ModalNavigationStateHolder.java
+@@ -122 +122 @@
+-      return pageCount - 1;
++      return pageCount == 0 ? 0 : pageCount - 1;
+diff --git a/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java b/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java
+index 0986f6a..63cdb98 100644
+--- a/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java
++++ b/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationServiceIntegrationTest.java
+@@ -50 +49,0 @@
+-import org.zanata.webtrans.shared.rpc.AbstractWorkspaceAction;
+@@ -53 +51,0 @@
+-import org.zanata.webtrans.shared.rpc.GetTransUnitsNavigation;
+

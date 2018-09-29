@@ -1,0 +1,60 @@
+diff --git a/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperationTest.java b/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperationTest.java
+index addcc19..19e5096 100644
+--- a/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperationTest.java
++++ b/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperationTest.java
+@@ -20,0 +21 @@
++import static org.mockito.Mockito.doNothing;
+@@ -35 +35,0 @@
+-import org.eclipse.core.runtime.Path;
+@@ -75,0 +76 @@
++        doNothing().when(createBonitaBPMProjectOperation).createProjectManifest(monitor);
+@@ -77,3 +77,0 @@
+-        doReturn(metaInfFolder).when(project).getFolder("META-INF");
+-        doReturn(manifestFile).when(metaInfFolder).getFile("MANIFEST.MF");
+-        doReturn(Path.fromOSString("/aFakePath")).when(manifestFile).getLocation();
+@@ -99,0 +98 @@
++        verify(createBonitaBPMProjectOperation).createProjectManifest(monitor);
+diff --git a/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/ui/viewer/RepositoryTreeContentProviderTest.java b/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/ui/viewer/RepositoryTreeContentProviderTest.java
+index c86d978..3fccae5 100644
+--- a/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/ui/viewer/RepositoryTreeContentProviderTest.java
++++ b/bundles/plugins/org.bonitasoft.studio.common.repository/src-test/java/org/bonitasoft/studio/common/repository/ui/viewer/RepositoryTreeContentProviderTest.java
+@@ -8 +7,0 @@
+- *
+@@ -13 +11,0 @@
+- *
+@@ -17,0 +16,3 @@
++
++import static org.assertj.core.api.Assertions.assertThat;
++import static org.mockito.Mockito.doReturn;
+@@ -67,3 +68,4 @@
+-    public void testHasChildren() {
+-        Mockito.doReturn(Collections.emptyList()).when(repoStore).getChildren();
+-        Assertions.assertThat(new RepositoryTreeContentProvider().hasChildren(repoStore)).isFalse();
++    public void should_have_no_child() {
++        //Given
++        final RepositoryTreeContentProvider repositoryTreeContentProvider = new RepositoryTreeContentProvider();
++        doReturn(true).when(repoStore).isEmpty();
+@@ -71,2 +73,13 @@
+-        Mockito.doReturn(Arrays.asList(new IRepositoryFileStore[] { repoFileStore })).when(repoStore).getChildren();
+-        Assertions.assertThat(new RepositoryTreeContentProvider().hasChildren(repoStore)).isTrue();
++        //When Then
++        assertThat(repositoryTreeContentProvider.hasChildren(repoStore)).isFalse();
++    }
++
++    @Test
++    public void should_have_children() {
++        //Given
++        final RepositoryTreeContentProvider repositoryTreeContentProvider = new RepositoryTreeContentProvider();
++        doReturn(false).when(repoStore).isEmpty();
++
++        //When Then
++
++        assertThat(repositoryTreeContentProvider.hasChildren(repoStore)).isTrue();
+diff --git a/bundles/plugins/org.bonitasoft.studio.common.repository/src/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperation.java b/bundles/plugins/org.bonitasoft.studio.common.repository/src/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperation.java
+index af828ac..f9b2a31 100644
+--- a/bundles/plugins/org.bonitasoft.studio.common.repository/src/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperation.java
++++ b/bundles/plugins/org.bonitasoft.studio.common.repository/src/org/bonitasoft/studio/common/repository/core/CreateBonitaBPMProjectOperation.java
+@@ -101 +101 @@
+-    private void createProjectManifest(final IProgressMonitor monitor) throws CoreException {
++    protected void createProjectManifest(final IProgressMonitor monitor) throws CoreException {
+

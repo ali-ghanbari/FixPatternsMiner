@@ -1,0 +1,11 @@
+diff --git a/applications/plugins/org.csstudio.ams/src/org/csstudio/ams/configReplicator/ConfigReplicator.java b/applications/plugins/org.csstudio.ams/src/org/csstudio/ams/configReplicator/ConfigReplicator.java
+index c44358f..4f26024 100644
+--- a/applications/plugins/org.csstudio.ams/src/org/csstudio/ams/configReplicator/ConfigReplicator.java
++++ b/applications/plugins/org.csstudio.ams/src/org/csstudio/ams/configReplicator/ConfigReplicator.java
+@@ -267 +267,4 @@
+-			HistoryDAO.copyHistory(masterDB, hsqlDB);
++			// The following line causes a Memory-Exception, because the history table contains
++			// soooooo many data...
++			// HistoryDAO.copyHistory(masterDB, hsqlDB);
++			
+

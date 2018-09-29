@@ -1,0 +1,20 @@
+hopefully fix that :
+
+May 11, 2006 19:52:13:149 (freenet.node.PacketSender, PacketSender thread for 0, ERROR): Caught in PacketSender: java.lang.StackOverflowError
+java.lang.StackOverflowError
+        at java.net.NetworkInterface.getAll(Native Method)
+        at java.net.NetworkInterface.getNetworkInterfaces(Unknown Source)
+        at freenet.transport.IPAddressDetector.checkpoint(IPAddressDetector.java:100)
+        at freenet.transport.IPAddressDetector.checkpoint(IPAddressDetector.java:87)
+        at freenet.transport.IPAddressDetector.getAddress(IPAddressDetector.java:62)
+        at freenet.transport.IPAddressDetector.getAddress(IPAddressDetector.java:51)
+        at freenet.node.Node.detectPrimaryIPAddress(Node.java:1785)
+        at freenet.node.Node.getPrimaryIPAddress(Node.java:1843)
+        at freenet.node.Node$MyARKInserter.update(Node.java:127)
+        at freenet.node.Node.shouldInsertARK(Node.java:1284)
+        at freenet.node.Node.detectPrimaryIPAddress(Node.java:1812)
+        at freenet.node.Node.getPrimaryIPAddress(Node.java:1843)
+        at freenet.node.Node$MyARKInserter.update(Node.java:127)
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@8666 67a373e5-eb02-0410-a15c-ee090a768436
+

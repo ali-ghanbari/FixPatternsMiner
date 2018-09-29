@@ -1,0 +1,20 @@
+diff --git a/pmd/regress/test/net/sourceforge/pmd/rules/AvoidUsingOctalValuesTest.java b/pmd/regress/test/net/sourceforge/pmd/rules/AvoidUsingOctalValuesTest.java
+index 3072cbb..8b938e4 100644
+--- a/pmd/regress/test/net/sourceforge/pmd/rules/AvoidUsingOctalValuesTest.java
++++ b/pmd/regress/test/net/sourceforge/pmd/rules/AvoidUsingOctalValuesTest.java
+@@ -23,0 +24 @@
++            new TestDescriptor(TEST6, "bad, 012L", 1, rule),
+@@ -51,0 +53,5 @@
++    private static final String TEST6 =
++    "public class Foo {" + PMD.EOL +
++    "  long x = 012L;" + PMD.EOL +
++    "}";
++
+diff --git a/pmd/src/net/sourceforge/pmd/rules/basic/AvoidUsingOctalValues.java b/pmd/src/net/sourceforge/pmd/rules/basic/AvoidUsingOctalValues.java
+index 1258aba..3e2a33f 100644
+--- a/pmd/src/net/sourceforge/pmd/rules/basic/AvoidUsingOctalValues.java
++++ b/pmd/src/net/sourceforge/pmd/rules/basic/AvoidUsingOctalValues.java
+@@ -10 +10 @@
+-    public static final Pattern OCTAL_PATTERN = Pattern.compile("0[0-7]+");
++    public static final Pattern OCTAL_PATTERN = Pattern.compile("0[0-7]+[lL]?");
+

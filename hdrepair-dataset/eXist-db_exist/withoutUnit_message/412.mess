@@ -1,0 +1,4 @@
+[bugfix] trigger a checkpoint after the database has initialized. The startup procedure always creates a few transaction, even if the database is mostly read-only. Triggering a checkpoint avoids unnecessary recovery runs if eXist got killed.
+
+svn path=/trunk/eXist/; revision=8934
+

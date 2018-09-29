@@ -1,0 +1,8 @@
+diff --git a/src/org/exist/http/urlrewrite/XQueryURLRewrite.java b/src/org/exist/http/urlrewrite/XQueryURLRewrite.java
+index a9cbbe3..c5ef250 100644
+--- a/src/org/exist/http/urlrewrite/XQueryURLRewrite.java
++++ b/src/org/exist/http/urlrewrite/XQueryURLRewrite.java
+@@ -335 +335 @@
+-                final int status = wrappedResponse.getStatus();
++                int status = ((CachingResponseWrapper) wrappedResponse).getStatus();
+

@@ -1,0 +1,15 @@
+UsbDeviceManager: A better fix for race condition when starting USB accessory mode
+
+On some devices, the USB "set configuration" command is propogated to the framework
+after the "start accessory" event is received.  However, on other devices like
+the 2011 ADK board, no "set configuration" command is sent at all until we have
+reenumerated in acccessory mode.  To fix the original problem without breaking other
+devices, we can simply remove assumptions about if or when "set configuration"
+will be received.  Now we simply remain switch USB configuration to accessory mode
+when we receive the "start accessory" command, and remain there until the existing
+10 second timeout expires.
+
+Bug: 13393825
+
+Change-Id: I4c9e3423185bd7252a907e4568d9e3ff06044b7d
+

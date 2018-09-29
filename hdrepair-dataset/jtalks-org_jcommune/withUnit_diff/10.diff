@@ -1,0 +1,47 @@
+diff --git a/jcommune-view/jcommune-web-view/src/main/java/org/jtalks/jcommune/web/tags/FormattedDate.java b/jcommune-view/jcommune-web-view/src/main/java/org/jtalks/jcommune/web/tags/FormattedDate.java
+index c15d067..6bf9fa4 100644
+--- a/jcommune-view/jcommune-web-view/src/main/java/org/jtalks/jcommune/web/tags/FormattedDate.java
++++ b/jcommune-view/jcommune-web-view/src/main/java/org/jtalks/jcommune/web/tags/FormattedDate.java
+@@ -101 +101 @@
+-            long utcTime = zone.convertLocalToUTC(time.getMillis(), true);
++            long utcTime = zone.convertLocalToUTC(time.getMillis(), false);
+diff --git a/jcommune-view/jcommune-web-view/src/test/java/org/jtalks/jcommune/web/tags/FormattedDateTagTest.java b/jcommune-view/jcommune-web-view/src/test/java/org/jtalks/jcommune/web/tags/FormattedDateTagTest.java
+index 5adadcd..04c74d7 100644
+--- a/jcommune-view/jcommune-web-view/src/test/java/org/jtalks/jcommune/web/tags/FormattedDateTagTest.java
++++ b/jcommune-view/jcommune-web-view/src/test/java/org/jtalks/jcommune/web/tags/FormattedDateTagTest.java
+@@ -17,12 +16,0 @@
+-import static org.mockito.Mockito.mock;
+-import static org.mockito.Mockito.when;
+-import static org.testng.Assert.assertEquals;
+-
+-import java.io.UnsupportedEncodingException;
+-import java.util.Locale;
+-
+-import javax.servlet.http.Cookie;
+-import javax.servlet.http.HttpServletRequest;
+-import javax.servlet.jsp.JspException;
+-import javax.servlet.jsp.PageContext;
+-
+@@ -29,0 +18,2 @@
++import org.joda.time.DateTimeZone;
++import org.joda.time.chrono.ISOChronology;
+@@ -39,0 +30,11 @@
++
++import javax.servlet.http.Cookie;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.jsp.JspException;
++import javax.servlet.jsp.PageContext;
++import java.io.UnsupportedEncodingException;
++import java.util.Locale;
++
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.when;
++import static org.testng.Assert.assertEquals;
+@@ -122,0 +124,6 @@
++
++    @Test
++    public void testSetValueCorrectlyConvertDstDatetime() throws JspException {
++        DateTime date = new DateTime(2011, 3, 27, 4, 34, 30, 0, ISOChronology.getInstance(DateTimeZone.forID("Europe/Berlin")));
++        tag.setValue(date);
++    }
+

@@ -1,0 +1,42 @@
+diff --git a/extensions/assistedinject/src/com/google/inject/assistedinject/FactoryProvider2.java b/extensions/assistedinject/src/com/google/inject/assistedinject/FactoryProvider2.java
+index d3e2783..ee8f9fe 100644
+--- a/extensions/assistedinject/src/com/google/inject/assistedinject/FactoryProvider2.java
++++ b/extensions/assistedinject/src/com/google/inject/assistedinject/FactoryProvider2.java
+@@ -458 +458 @@
+-            binder.bind(assistedReturnType).toConstructor((Constructor)constructor);
++            binder.bind(assistedReturnType).toConstructor((Constructor)constructor, (TypeLiteral)returnType.getTypeLiteral());
+diff --git a/extensions/assistedinject/test/com/google/inject/assistedinject/FactoryModuleBuilderTest.java b/extensions/assistedinject/test/com/google/inject/assistedinject/FactoryModuleBuilderTest.java
+index 6a8de20..940fe93 100644
+--- a/extensions/assistedinject/test/com/google/inject/assistedinject/FactoryModuleBuilderTest.java
++++ b/extensions/assistedinject/test/com/google/inject/assistedinject/FactoryModuleBuilderTest.java
+@@ -19,0 +20 @@
++
+@@ -22,0 +24,2 @@
++import com.google.inject.Key;
++import com.google.inject.TypeLiteral;
+@@ -154,0 +158,12 @@
++  
++  public void testParameterizedClassesWithNoImplements() {
++    Injector injector = Guice.createInjector(new AbstractModule() {
++      @Override
++      protected void configure() {
++        install(new FactoryModuleBuilder().build(new TypeLiteral<Foo.Factory<String>>() {}));
++      }
++    });
++    
++    Foo.Factory<String> factory = injector.getInstance(Key.get(new TypeLiteral<Foo.Factory<String>>() {}));
++    Foo<String> foo = factory.create(new Bar());
++  }
+@@ -194,0 +210,11 @@
++  
++  public static class Foo<E> {
++    static interface Factory<E> {
++      Foo<E> create(Bar bar);
++    }
++    @Inject Foo(@Assisted Bar bar, Baz<E> baz) {}
++  }
++  
++  public static class Bar {}
++  public static class Baz<E> {}
++  
+

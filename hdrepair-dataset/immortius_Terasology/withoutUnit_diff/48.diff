@@ -1,0 +1,38 @@
+diff --git a/src/main/java/org/terasology/rendering/world/WorldRenderer.java b/src/main/java/org/terasology/rendering/world/WorldRenderer.java
+index b8c35c1..29bdd17 100644
+--- a/src/main/java/org/terasology/rendering/world/WorldRenderer.java
++++ b/src/main/java/org/terasology/rendering/world/WorldRenderer.java
+@@ -104 +104 @@
+-    public static final float BLOCK_LIGHT_SUN_POW = 0.8f;
++    public static final float BLOCK_LIGHT_SUN_POW = 0.96f;
+diff --git a/src/main/resources/assets/shaders/lightGeometryPass_frag.glsl b/src/main/resources/assets/shaders/lightGeometryPass_frag.glsl
+index 00f1dc0..ff381f6 100644
+--- a/src/main/resources/assets/shaders/lightGeometryPass_frag.glsl
++++ b/src/main/resources/assets/shaders/lightGeometryPass_frag.glsl
+@@ -91 +91 @@
+-        // TODO: Not so nice that this is all hardcoded
++        // TODO: Add shader parameters for this...
+@@ -120,2 +120,2 @@
+-
+-    ambTerm *= clamp(shadowTerm, 0.25, 1.0);
++    // TODO: Add this as a shader parameter...
++    ambTerm *= clamp(shadowTerm, 0.5, 1.0);
+diff --git a/src/main/resources/org/terasology/include/globalDefinesIncl.glsl b/src/main/resources/org/terasology/include/globalDefinesIncl.glsl
+index 6b35a06..4ac6e3e 100644
+--- a/src/main/resources/org/terasology/include/globalDefinesIncl.glsl
++++ b/src/main/resources/org/terasology/include/globalDefinesIncl.glsl
+@@ -33 +32,0 @@
+-
+@@ -35,0 +35 @@
++#define PI_TIMES_8 25.13274122872
+diff --git a/src/main/resources/org/terasology/include/globalFunctionsFragIncl.glsl b/src/main/resources/org/terasology/include/globalFunctionsFragIncl.glsl
+index fa3006d..fc570e3 100644
+--- a/src/main/resources/org/terasology/include/globalFunctionsFragIncl.glsl
++++ b/src/main/resources/org/terasology/include/globalFunctionsFragIncl.glsl
+@@ -49,2 +48,0 @@
+-    const float PI_TIMES_8 = 8.0 * PI;
+-
+@@ -52 +50 @@
+-    return clamp(((exp + 8.0) / PI_TIMES_8) * pow(dot(halfWay, normal), exp), 0.0, 1.0);
++    return ((exp + 8.0) / PI_TIMES_8) * pow(clamp(dot(halfWay, normal), 0.0, 1.0), exp);
+

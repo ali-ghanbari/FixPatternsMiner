@@ -1,0 +1,9 @@
+diff --git a/src/main/java/quickdt/predictiveModels/randomForest/RandomForestBuilder.java b/src/main/java/quickdt/predictiveModels/randomForest/RandomForestBuilder.java
+index dc980eb..de1b168 100644
+--- a/src/main/java/quickdt/predictiveModels/randomForest/RandomForestBuilder.java
++++ b/src/main/java/quickdt/predictiveModels/randomForest/RandomForestBuilder.java
+@@ -133 +133,2 @@
+-                int position = Misc.random.nextInt(bagSize);
++                //TODO: using bagSize here was getting indexOutOfBounds, can't figure out why
++                int position = Misc.random.nextInt(treeTrainingDataArrayList.size());
+

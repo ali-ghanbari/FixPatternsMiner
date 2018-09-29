@@ -1,0 +1,15 @@
+core: fix NPE on failure to run stateless vm
+
+Running VM in stateless mode is composed of two parts: the stateless
+snapshot creation and then running the VM. In the second part we invoke
+RunVmCommand and ask it to end the operation's job when it is done.
+
+The problem was that RunVmCommand didn't get the operation's job, so
+when it tried to end the job, NPE was thrown and the job's tasks
+remained unfinished. This problem is solved by passing the operation's
+job to the inner RunVmCommand.
+
+Change-Id: I922b0cfaf9a50de35ec9c2ca6195d5326600ce5a
+Bug-Url: https://bugzilla.redhat.com/1039507
+Signed-off-by: Arik Hadas <ahadas@redhat.com>
+

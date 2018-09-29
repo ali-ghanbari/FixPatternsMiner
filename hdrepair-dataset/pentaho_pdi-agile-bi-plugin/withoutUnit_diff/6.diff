@@ -1,0 +1,15 @@
+diff --git a/src/org/pentaho/agilebi/pdi/modeler/ModelerController.java b/src/org/pentaho/agilebi/pdi/modeler/ModelerController.java
+index 064c4bc..11bd3d8 100644
+--- a/src/org/pentaho/agilebi/pdi/modeler/ModelerController.java
++++ b/src/org/pentaho/agilebi/pdi/modeler/ModelerController.java
+@@ -310 +310 @@
+-    		return getSelectedFields().length == 0 || value == null || value instanceof LevelMetaData  || selectedTreeItem instanceof MainModelNode;
++    		return getSelectedFields().length == 0 || selectedTreeItem == null || selectedTreeItem instanceof LevelMetaData  || selectedTreeItem instanceof MainModelNode;
+diff --git a/src/org/pentaho/agilebi/pdi/modeler/res/panel.xul b/src/org/pentaho/agilebi/pdi/modeler/res/panel.xul
+index 3ad3137..25cdca7 100644
+--- a/src/org/pentaho/agilebi/pdi/modeler/res/panel.xul
++++ b/src/org/pentaho/agilebi/pdi/modeler/res/panel.xul
+@@ -56 +56 @@
+-          <toolbarbutton id="addField" image="images/insert_to_model.png" onclick="modeler.modeler.addField()" tooltiptext="${add}"/>
++          <toolbarbutton id="addField" image="images/insert_to_model.png" onclick="modeler.addField()" tooltiptext="${add}"/>
+

@@ -1,0 +1,43 @@
+diff --git a/org.bpelunit.framework/src-test/org/bpelunit/framework/control/deploy/activebpel/ActiveBPELEndToEndTest.java b/org.bpelunit.framework/src-test/org/bpelunit/framework/control/deploy/activebpel/ActiveBPELEndToEndTest.java
+index 8833508..0ff6679 100644
+--- a/org.bpelunit.framework/src-test/org/bpelunit/framework/control/deploy/activebpel/ActiveBPELEndToEndTest.java
++++ b/org.bpelunit.framework/src-test/org/bpelunit/framework/control/deploy/activebpel/ActiveBPELEndToEndTest.java
+@@ -9,0 +10 @@
++import java.util.Collection;
+@@ -10,0 +12 @@
++import org.apache.commons.io.FileUtils;
+@@ -42,0 +45,26 @@
++	/**
++	 * Ensures that the deployer works when the .bpts is in the current directory.
++	 */
++	@SuppressWarnings("unchecked")
++	@Test
++	public void allTestCasesPassSameDir() throws Exception {
++		checkAssumptions();
++
++		// Copy the test suite files to the current directory
++		final File testSuiteDir = new File(TEST_SUITE_DIR);
++		final File cwd = new File(".");
++		// List the test resources, so we can clean them up later
++		final Collection<File> testFiles = FileUtils.listFiles(testSuiteDir, null, false);
++
++		try {
++			FileUtils.copyDirectory(testSuiteDir, cwd);
++			TestTestRunner runner = new TestTestRunner(new File(TEST_SUITE_FNAME));
++			runner.testRun();
++			assertEquals("All test cases should pass", 4, runner.getPassed());
++		} finally {
++			for (File f : testFiles) {
++				new File(f.getName()).delete();
++			}
++		}
++	}
++
+diff --git a/org.bpelunit.framework/src/org/bpelunit/framework/SpecificationLoader.java b/org.bpelunit.framework/src/org/bpelunit/framework/SpecificationLoader.java
+index 034ff04..7cb22a2 100644
+--- a/org.bpelunit.framework/src/org/bpelunit/framework/SpecificationLoader.java
++++ b/org.bpelunit.framework/src/org/bpelunit/framework/SpecificationLoader.java
+@@ -115 +115 @@
+-			String path = FilenameUtils.getFullPath(suite.toString());
++			String path = suite.getCanonicalFile().getParent() + File.separator;
+

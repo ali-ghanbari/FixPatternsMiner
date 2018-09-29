@@ -1,0 +1,9 @@
+diff --git a/plugins/org.eclipse.xtext/src/org/eclipse/xtext/serializer/sequencer/EmitterNodeIterator.java b/plugins/org.eclipse.xtext/src/org/eclipse/xtext/serializer/sequencer/EmitterNodeIterator.java
+index eb6aff3..4a47c47 100644
+--- a/plugins/org.eclipse.xtext/src/org/eclipse/xtext/serializer/sequencer/EmitterNodeIterator.java
++++ b/plugins/org.eclipse.xtext/src/org/eclipse/xtext/serializer/sequencer/EmitterNodeIterator.java
+@@ -65,2 +65 @@
+-		return GrammarUtil.isAssigned(node.getGrammarElement())
+-		/*|| GrammarUtil.isAssignedAction(node.getGrammarElement())*/;
++		return node.getGrammarElement() != null && GrammarUtil.isAssigned(node.getGrammarElement());
+

@@ -1,0 +1,24 @@
+diff --git a/tipi_dev/com.dexels.navajo.tipi.dev.core/src/com/dexels/navajo/tipi/dev/core/projectbuilder/BaseJnlpBuilder.java b/tipi_dev/com.dexels.navajo.tipi.dev.core/src/com/dexels/navajo/tipi/dev/core/projectbuilder/BaseJnlpBuilder.java
+index fd0e867..d93ef40 100644
+--- a/tipi_dev/com.dexels.navajo.tipi.dev.core/src/com/dexels/navajo/tipi/dev/core/projectbuilder/BaseJnlpBuilder.java
++++ b/tipi_dev/com.dexels.navajo.tipi.dev.core/src/com/dexels/navajo/tipi/dev/core/projectbuilder/BaseJnlpBuilder.java
+@@ -188 +188 @@
+-		return websock+"/websocket";
++		return websock+"websocket";
+diff --git a/tipi_dev/com.dexels.navajo.tipi.dev.server/OSGI-INF/tipi.dev.operation.cleanrepo.xml b/tipi_dev/com.dexels.navajo.tipi.dev.server/OSGI-INF/tipi.dev.operation.cleanrepo.xml
+index 2e0d742..95987b5 100644
+--- a/tipi_dev/com.dexels.navajo.tipi.dev.server/OSGI-INF/tipi.dev.operation.cleanrepo.xml
++++ b/tipi_dev/com.dexels.navajo.tipi.dev.server/OSGI-INF/tipi.dev.operation.cleanrepo.xml
+@@ -4,0 +5 @@
++   <reference bind="setApplicationManager" cardinality="1..1" interface="com.dexels.navajo.tipi.dev.server.appmanager.ApplicationManager" name="ApplicationManager" policy="dynamic" unbind="clearApplicationManager"/>
+diff --git a/tipi_dev/com.dexels.navajo.tipi.dev.server/web/ui/index.html b/tipi_dev/com.dexels.navajo.tipi.dev.server/web/ui/index.html
+index 10e650c..00ec647 100644
+--- a/tipi_dev/com.dexels.navajo.tipi.dev.server/web/ui/index.html
++++ b/tipi_dev/com.dexels.navajo.tipi.dev.server/web/ui/index.html
+@@ -164 +164 @@
+-				timeout : 300000,
++				timeout : 500000,
+@@ -192 +192 @@
+-				timeout : 300000,
++				timeout : 500000,
+

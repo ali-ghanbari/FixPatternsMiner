@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/storage/StorageManagerImpl.java b/server/src/com/cloud/storage/StorageManagerImpl.java
+index 350c557..cbd2264 100755
+--- a/server/src/com/cloud/storage/StorageManagerImpl.java
++++ b/server/src/com/cloud/storage/StorageManagerImpl.java
+@@ -1450 +1450 @@
+-            VolumeVO vol = _volsDao.findById(snapshotCheck.getVolumeId());
++            VolumeVO vol = _volsDao.findByIdIncludingRemoved(snapshotCheck.getVolumeId());
+

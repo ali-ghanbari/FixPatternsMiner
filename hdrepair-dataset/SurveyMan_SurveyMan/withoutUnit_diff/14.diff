@@ -1,0 +1,57 @@
+diff --git a/.metadata/.definitions.js b/.metadata/.definitions.js
+index 35ddeb4..d294aa6 100644
+--- a/.metadata/.definitions.js
++++ b/.metadata/.definitions.js
+@@ -71,7 +71,6 @@
+-                               + "<input type='"+inputType
+-                               +"' name='"+quid
+-                               +"' value='"+value+";"+questionsChosen.length+";"+i
+-                               +"' id='"+oid
+-                               +"' onclick='showNext(\""+quid+"\", \""+oid+"\")'>"
+-                               + text
+-                               +"</input>";
++                    + "<input type='"+inputType
++                    +"' name='"+quid
++                    +"' value='"+value+";"+questionsChosen.length+";"+i
++                    +"' id='"+oid
++                    +"' onclick='showNext(\""+quid+"\", \""+oid+"\")' />"
++                    +"<label for='"+oid+"'>"+text+"</label>";
+diff --git a/.metadata/.surveyman.js b/.metadata/.surveyman.js
+index 35ddeb4..e707234 100644
+--- a/.metadata/.surveyman.js
++++ b/.metadata/.surveyman.js
+@@ -88,0 +89,27 @@
++$(document).ready(function() {
++    assignmentId = turkGetParam('assignmentId', "");
++
++    $('form').submit(function() {
++        window.onbeforeunload = null;
++    });
++
++    questions = $('[name="question"]');
++    lastQuestion = questions[questions.length-1];
++    firstQuestion = questions[0];
++
++	$(firstQuestion).find("[id^='prev']").hide();
++	$(lastQuestion).find("[id^='next']").hide();
++	//loadPreview();
++    //$("#preview").hide();
++    questions.hide();
++    if (assignmentId=="ASSIGNMENT_ID_NOT_AVAILABLE") {
++        $("#preview").show();
++    } else {
++        $("#preview").hide();
++        $(firstQuestion).show();
++        displayQ(firstQuestion.id);
++    }
++    if (customInit) {
++        customInit();
++    }
++});
+diff --git a/src/main/java/survey/Question.java b/src/main/java/survey/Question.java
+index ff738cd..2bfc27c 100644
+--- a/src/main/java/survey/Question.java
++++ b/src/main/java/survey/Question.java
+@@ -41 +40,0 @@
+-        assert(randomize);
+

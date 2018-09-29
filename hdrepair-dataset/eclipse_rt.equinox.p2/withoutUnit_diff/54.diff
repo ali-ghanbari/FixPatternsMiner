@@ -1,0 +1,8 @@
+diff --git a/bundles/org.eclipse.equinox.frameworkadmin/src/org/eclipse/equinox/internal/provisional/frameworkadmin/BundleInfo.java b/bundles/org.eclipse.equinox.frameworkadmin/src/org/eclipse/equinox/internal/provisional/frameworkadmin/BundleInfo.java
+index c2ea527..49dea42 100644
+--- a/bundles/org.eclipse.equinox.frameworkadmin/src/org/eclipse/equinox/internal/provisional/frameworkadmin/BundleInfo.java
++++ b/bundles/org.eclipse.equinox.frameworkadmin/src/org/eclipse/equinox/internal/provisional/frameworkadmin/BundleInfo.java
+@@ -91 +91 @@
+-				return (info.location == null || location == null ? false : info.location.equals(location));
++				return (info.location == null || location == null ? false : new Path(info.location).toFile().equals(new Path(location).toFile()));
+

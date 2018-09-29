@@ -1,0 +1,12 @@
+diff --git a/src/main/java/com/github/fge/jsonschema/report/AbstractProcessingReport.java b/src/main/java/com/github/fge/jsonschema/report/AbstractProcessingReport.java
+index 392e713..9903787 100644
+--- a/src/main/java/com/github/fge/jsonschema/report/AbstractProcessingReport.java
++++ b/src/main/java/com/github/fge/jsonschema/report/AbstractProcessingReport.java
+@@ -182,0 +183,6 @@
++        /*
++         * The other report may have no messages, and as such the successful
++         * status won't be overriden: we have to do that instead
++         */
++        if (!other.isSuccess() && currentLevel.compareTo(LogLevel.ERROR) < 0)
++            currentLevel = LogLevel.ERROR;
+

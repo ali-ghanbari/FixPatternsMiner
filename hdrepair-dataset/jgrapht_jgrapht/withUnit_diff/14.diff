@@ -1,0 +1,43 @@
+diff --git a/src/org/jgrapht/alg/StrongConnectivityInspector.java b/src/org/jgrapht/alg/StrongConnectivityInspector.java
+index ffe0bd8..67d47ab 100644
+--- a/src/org/jgrapht/alg/StrongConnectivityInspector.java
++++ b/src/org/jgrapht/alg/StrongConnectivityInspector.java
+@@ -276 +276 @@
+-                        vertexToVertexData.get(this.graph.getEdgeTarget(edge));
++                        vertexToVertexData.get(graph.getEdgeTarget(edge));
+diff --git a/testsrc/org/jgrapht/alg/ConnectivityInspectorTest.java b/testsrc/org/jgrapht/alg/ConnectivityInspectorTest.java
+index 5b54405..6ae1f7b 100644
+--- a/testsrc/org/jgrapht/alg/ConnectivityInspectorTest.java
++++ b/testsrc/org/jgrapht/alg/ConnectivityInspectorTest.java
+@@ -47,0 +48 @@
++import org.jgrapht.generate.RingGraphGenerator;
+@@ -342 +343,26 @@
+-}
++
++    public void testStronglyConnected4() {
++		DefaultDirectedGraph<Integer, String> graph = new DefaultDirectedGraph<Integer, String>(
++				new EdgeFactory<Integer, String>() {
++					public String createEdge(Integer from, Integer to) {
++						return (from + "->" + to).intern();
++					}
++				});
++
++		new RingGraphGenerator<Integer, String>(3).generateGraph(graph,
++				new VertexFactory<Integer>() {
++					private int i = 0;
++
++					public Integer createVertex() {
++						return i++;
++					}
++				}, null);
++
++		StrongConnectivityInspector<Integer, String> sc = new StrongConnectivityInspector<Integer, String>(
++				graph);
++		Set<Set<Integer>> expected = new HashSet<Set<Integer>>();
++		expected.add(graph.vertexSet());
++		assertEquals(expected, new HashSet<Set<Integer>>(sc.stronglyConnectedSets()));
++	}
++
++}
+\ No newline at end of file
+

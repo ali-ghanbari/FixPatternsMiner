@@ -1,0 +1,18 @@
+diff --git a/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java b/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java
+index 89ee048..1417102 100644
+--- a/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java
++++ b/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java
+@@ -77 +77 @@
+-  public static final Set<String> KNOWN_MACROS = ContainerUtil.set("MODULE", "MODULE_NAME", "FILE", "LINE", "MACHINE");
++  public static final Set<String> KNOWN_MACROS = ContainerUtil.set("MODULE", "MODULE_STRING", "FILE", "LINE", "MACHINE");
+diff --git a/testData/highlighting/MacrosResolve.erl b/testData/highlighting/MacrosResolve.erl
+index 3338838..fe471ea 100644
+--- a/testData/highlighting/MacrosResolve.erl
++++ b/testData/highlighting/MacrosResolve.erl
+@@ -6 +6,2 @@
+-  set(#?MODULE{}, Values).
+\ No newline at end of file
++  S = ?MODULE_STRING,
++  set(#?MODULE{}, Values ++ S).
+\ No newline at end of file
+

@@ -1,0 +1,8 @@
+diff --git a/jaxws-ri/rt/src/com/sun/xml/ws/db/glassfish/WrapperBridge.java b/jaxws-ri/rt/src/com/sun/xml/ws/db/glassfish/WrapperBridge.java
+index 8398015..3aad48d 100644
+--- a/jaxws-ri/rt/src/com/sun/xml/ws/db/glassfish/WrapperBridge.java
++++ b/jaxws-ri/rt/src/com/sun/xml/ws/db/glassfish/WrapperBridge.java
+@@ -121 +121 @@
+-		bridge.marshal(object, output, am);
++		bridge.marshal((T) convert(object), output, am);
+

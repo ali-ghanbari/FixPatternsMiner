@@ -1,0 +1,8 @@
+diff --git a/spring-data-redis/src/main/java/org/springframework/data/keyvalue/redis/core/RedisTemplate.java b/spring-data-redis/src/main/java/org/springframework/data/keyvalue/redis/core/RedisTemplate.java
+index 260a029..7a76873 100644
+--- a/spring-data-redis/src/main/java/org/springframework/data/keyvalue/redis/core/RedisTemplate.java
++++ b/spring-data-redis/src/main/java/org/springframework/data/keyvalue/redis/core/RedisTemplate.java
+@@ -963 +963 @@
+-			return (HV) deserializeHashValue(rawHashValue);
++			return RedisTemplate.this.<HV> deserializeHashValue(rawHashValue);
+

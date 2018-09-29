@@ -1,0 +1,48 @@
+diff --git a/jooby-jetty/src/main/java/org/jooby/internal/jetty/JettyHandler.java b/jooby-jetty/src/main/java/org/jooby/internal/jetty/JettyHandler.java
+index 6647d43..2c19962 100644
+--- a/jooby-jetty/src/main/java/org/jooby/internal/jetty/JettyHandler.java
++++ b/jooby-jetty/src/main/java/org/jooby/internal/jetty/JettyHandler.java
+@@ -57,0 +58 @@
++   this.addManaged(webSocketServerFactory);
+diff --git a/jooby-jetty/src/test/java/org/jooby/internal/jetty/JettyHandlerTest.java b/jooby-jetty/src/test/java/org/jooby/internal/jetty/JettyHandlerTest.java
+index 0e0b28a..9b59988 100644
+--- a/jooby-jetty/src/test/java/org/jooby/internal/jetty/JettyHandlerTest.java
++++ b/jooby-jetty/src/test/java/org/jooby/internal/jetty/JettyHandlerTest.java
+@@ -16,0 +17 @@
++import org.jooby.MockUnit.Block;
+@@ -23,0 +25,5 @@
++
++  private Block wsStopTimeout = unit -> {
++    WebSocketServerFactory ws = unit.get(WebSocketServerFactory.class);
++    ws.setStopTimeout(30000L);
++  };
+@@ -47,0 +54 @@
++        .expect(wsStopTimeout)
+@@ -76,0 +84 @@
++        .expect(wsStopTimeout)
+@@ -120,0 +129 @@
++        .expect(wsStopTimeout)
+@@ -165,0 +175 @@
++        .expect(wsStopTimeout)
+@@ -206,0 +217 @@
++        .expect(wsStopTimeout)
+@@ -249,0 +261 @@
++        .expect(wsStopTimeout)
+@@ -282,0 +295 @@
++        .expect(wsStopTimeout)
+@@ -318,0 +332 @@
++        .expect(wsStopTimeout)
+@@ -351,0 +366 @@
++        .expect(wsStopTimeout)
+@@ -384,0 +400 @@
++        .expect(wsStopTimeout)
+@@ -417,0 +434 @@
++        .expect(wsStopTimeout)
+diff --git a/pom.xml b/pom.xml
+index 888020d..53468a0 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1259 +1259 @@
+-    <jetty.version>9.2.11.v20150529</jetty.version>
++    <jetty.version>9.3.0.v20150612</jetty.version>
+

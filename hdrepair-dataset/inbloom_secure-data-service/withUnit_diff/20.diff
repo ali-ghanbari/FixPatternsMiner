@@ -1,0 +1,23 @@
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/context/WriteValidator.java b/sli/api/src/main/java/org/slc/sli/api/security/context/WriteValidator.java
+index 2d7d0cb..1e4c349 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/context/WriteValidator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/context/WriteValidator.java
+@@ -66 +66 @@
+-                && uriInfo.getPathSegments().get(VERSION_INDEX).equals(PathConstants.V1)) {
++                && uriInfo.getPathSegments().get(VERSION_INDEX).getPath().equals(PathConstants.V1)) {
+diff --git a/sli/api/src/test/java/org/slc/sli/api/security/context/WriteValidatorTest.java b/sli/api/src/test/java/org/slc/sli/api/security/context/WriteValidatorTest.java
+index 437d7b8..4501d97 100644
+--- a/sli/api/src/test/java/org/slc/sli/api/security/context/WriteValidatorTest.java
++++ b/sli/api/src/test/java/org/slc/sli/api/security/context/WriteValidatorTest.java
+@@ -20 +19,0 @@
+-import junit.framework.Assert;
+@@ -26,0 +26 @@
++import org.slc.sli.api.constants.PathConstants;
+@@ -82 +82 @@
+-        when(v1Path.getPath()).thenReturn("v1");
++        when(v1Path.getPath()).thenReturn(PathConstants.V1);
+@@ -109 +108,0 @@
+-        Assert.fail("should fail validation");
+@@ -182,0 +182 @@
++
+

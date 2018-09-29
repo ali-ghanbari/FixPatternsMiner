@@ -1,0 +1,8 @@
+diff --git a/dependencymanager/core/src/main/java/org/apache/felix/dm/impl/ServiceImpl.java b/dependencymanager/core/src/main/java/org/apache/felix/dm/impl/ServiceImpl.java
+index bf980f5..ed0a36b 100644
+--- a/dependencymanager/core/src/main/java/org/apache/felix/dm/impl/ServiceImpl.java
++++ b/dependencymanager/core/src/main/java/org/apache/felix/dm/impl/ServiceImpl.java
+@@ -295 +295 @@
+-        if (newState.isAllRequiredAvailable()) {
++        if (newState.isAllRequiredAvailable() || newState.isWaitingForRequiredInstantiated()) {
+

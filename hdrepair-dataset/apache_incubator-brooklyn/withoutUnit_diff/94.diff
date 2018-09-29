@@ -1,0 +1,8 @@
+diff --git a/software/base/src/main/java/brooklyn/entity/basic/lifecycle/CommonCommands.java b/software/base/src/main/java/brooklyn/entity/basic/lifecycle/CommonCommands.java
+index 0addb86..6b06c1b 100644
+--- a/software/base/src/main/java/brooklyn/entity/basic/lifecycle/CommonCommands.java
++++ b/software/base/src/main/java/brooklyn/entity/basic/lifecycle/CommonCommands.java
+@@ -75 +75 @@
+-        return sudo("bash -c 'sed -i s/.*requiretty.*/#brooklyn-removed-require-tty/ /etc/sudoers'");
++        return sudo("sed -i.brooklyn.bak s/.*requiretty.*/#brooklyn-removed-require-tty/ /etc/sudoers");
+

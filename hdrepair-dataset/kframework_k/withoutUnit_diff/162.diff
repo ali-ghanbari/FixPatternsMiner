@@ -1,0 +1,8 @@
+diff --git a/k-core/src/main/java/org/kframework/parser/concrete/disambiguate/SentenceVariablesFilter.java b/k-core/src/main/java/org/kframework/parser/concrete/disambiguate/SentenceVariablesFilter.java
+index 882aedd..a312ffc 100644
+--- a/k-core/src/main/java/org/kframework/parser/concrete/disambiguate/SentenceVariablesFilter.java
++++ b/k-core/src/main/java/org/kframework/parser/concrete/disambiguate/SentenceVariablesFilter.java
+@@ -63 +63 @@
+-            if (!var.getName().startsWith("$")) {
++            if (!(var.getName().startsWith("$") || var.isFreshConstant() || var.isFreshVariable())) {
+

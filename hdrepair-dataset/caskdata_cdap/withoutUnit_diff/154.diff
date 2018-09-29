@@ -1,0 +1,66 @@
+diff --git a/cdap-docs/developer-guide/source/_examples/helloworld.rst b/cdap-docs/developer-guide/source/_examples/helloworld.rst
+index 8e090ea..5d9c498 100644
+--- a/cdap-docs/developer-guide/source/_examples/helloworld.rst
++++ b/cdap-docs/developer-guide/source/_examples/helloworld.rst
+@@ -107 +107 @@
+-remember that only the last name ist stored in the key-value table.
++remember that only the last name is stored in the key-value table.
+diff --git a/cdap-docs/developer-guide/source/_examples/purchase.rst b/cdap-docs/developer-guide/source/_examples/purchase.rst
+index 846c7ae..3c8a94c 100644
+--- a/cdap-docs/developer-guide/source/_examples/purchase.rst
++++ b/cdap-docs/developer-guide/source/_examples/purchase.rst
+@@ -187 +187 @@
+-  bin/cdap-cli.sh execute SELECT * FROM cdap_user_history WHERE customer IN ('Alice','Bob')
++  $ ./bin/cdap-cli.sh execute "SELECT * FROM cdap_user_history WHERE customer IN ('Alice','Bob')"
+@@ -192,6 +192,7 @@
+-  Query handle is ad004d63-7e8d-44f8-b53a-33f3cf3bd5c8.
+-  ["Alice","[{\"customer\":\"Alice\",\"product\":\"grapefruit\",\"quantity\":12,\"price\":10
+-    \"purchasetime\":1403737694225}]"]
+-  ["Bob","[{\"customer\":\"Bob\",\"product\":\"orange\",\"quantity\":6,\"price\":12
+-    \"purchasetime\":1403737694226}]"]
+-  . . .
++  +=====================================================================================================================================================================================================================================================================+
++  | cdap_user_history.customer: STRING | cdap_user_history.purchases: array<struct<customer:string,product:string,quantity:int,price:int,purchasetime:bigint,catalogid:string>>                                                                                         |
++  +=====================================================================================================================================================================================================================================================================+
++  | Alice                              | [{"customer":"Alice","product":"coconut","quantity":2,"price":5,"purchasetime":1413399429579,"catalogid":""},{"customer":"Alice","product":"grapefruit","quantity":12,"price":10,"purchasetime":1413399429575,"catalogid":""}] |
++  | Bob                                | [{"customer":"Bob","product":"coffee","quantity":1,"price":1,"purchasetime":1413399429600,"catalogid":""},{"customer":"Bob","product":"orange","quantity":6,"price":12,"purchasetime":1413399429578,"catalogid":""}]           |
++  +=====================================================================================================================================================================================================================================================================+
++
+@@ -203,2 +204,2 @@
+-  curl -v -d '{"query": "'"SELECT * FROM cask_user_history WHERE customer IN ('Alice','Bob')"'"}'
+-    -X POST http://localhost:10000/v2/data/queries
++  curl -v -d '{"query": "'"SELECT * FROM cdap_user_history WHERE customer IN ('Alice','Bob')"'"}'
++    -X POST http://localhost:10000/v2/data/explore/queries
+@@ -214 +215 @@
+-  curl -v -X GET http://localhost:10000/v2/data/queries/363f8ceb-29fe-493d-810f-858ed0440782/status
++  curl -v -X GET http://localhost:10000/v2/data/explore/queries/363f8ceb-29fe-493d-810f-858ed0440782/status
+@@ -222 +223 @@
+-  curl -v -X POST http://localhost:10000/v2/data/queries/363f8ceb-29fe-493d-810f-858ed0440782/next
++  curl -v -X POST http://localhost:10000/v2/data/explore/queries/363f8ceb-29fe-493d-810f-858ed0440782/next
+@@ -224 +225 @@
+-This will return—up to a limited number of—the results in JSON format::
++This will return—up to a limited number—the results in JSON format::
+@@ -233 +234 @@
+-  curl -v -X DELETE http://localhost:10000/v2/data/queries/363f8ceb-29fe-493d-810f-858ed0440782
++  curl -v -X DELETE http://localhost:10000/v2/data/explore/queries/363f8ceb-29fe-493d-810f-858ed0440782
+diff --git a/cdap-docs/developer-guide/source/admin.rst b/cdap-docs/developer-guide/source/admin.rst
+index 80fd6e2..6f83937 100644
+--- a/cdap-docs/developer-guide/source/admin.rst
++++ b/cdap-docs/developer-guide/source/admin.rst
+@@ -228,0 +229,8 @@
++- Set the ``router.server.address`` property in ``conf/cdap-site.xml`` to the hostname of the CDAP Router.
++  The CDAP Console uses this property to connect to the Router::
++
++      <property>
++        <name>router.server.address</name>
++        <value>{router-host-name}</value>
++      </property>
++
+diff --git a/cdap-examples/WordCount/src/main/java/co/cask/cdap/examples/wordcount/RetrieveCounts.java b/cdap-examples/WordCount/src/main/java/co/cask/cdap/examples/wordcount/RetrieveCounts.java
+index bc28f8d..6919324 100644
+--- a/cdap-examples/WordCount/src/main/java/co/cask/cdap/examples/wordcount/RetrieveCounts.java
++++ b/cdap-examples/WordCount/src/main/java/co/cask/cdap/examples/wordcount/RetrieveCounts.java
+@@ -119 +119 @@
+-      responder.error(Code.CLIENT_ERROR, "Method 'getCount' requires arguments 'word1' and 'word2'");
++      responder.error(Code.CLIENT_ERROR, "Method 'getAssoc' requires arguments 'word1' and 'word2'");
+

@@ -1,0 +1,8 @@
+diff --git a/platform/lang-api/src/com/intellij/psi/search/searches/ReferencesSearch.java b/platform/lang-api/src/com/intellij/psi/search/searches/ReferencesSearch.java
+index c455101..1d1e49d 100644
+--- a/platform/lang-api/src/com/intellij/psi/search/searches/ReferencesSearch.java
++++ b/platform/lang-api/src/com/intellij/psi/search/searches/ReferencesSearch.java
+@@ -64 +64 @@
+-      return new ReferenceDescriptor(file, element.getTextOffset() + psiReference.getRangeInElement().getStartOffset());
++      return new ReferenceDescriptor(file, element.getTextRange().getStartOffset() + psiReference.getRangeInElement().getStartOffset());
+

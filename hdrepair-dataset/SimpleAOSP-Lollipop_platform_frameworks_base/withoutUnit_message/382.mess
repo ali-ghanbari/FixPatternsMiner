@@ -1,0 +1,12 @@
+Remove over-aggressive stack movement.
+
+Moving a task to the bottom was also moving its stack to the back.
+Since chrome always finishes by calling moveTaskToBack this put
+the home stack in front of the application stack and would cause
+bizarre window layering effects.
+
+Definitely fixes 10764463.
+Maybe fixes 10678010.
+
+Change-Id: Ic202ae4fad44b36a8444255764d2135fccd4743d
+

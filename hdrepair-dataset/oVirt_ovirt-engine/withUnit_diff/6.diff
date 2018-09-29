@@ -1,0 +1,28 @@
+diff --git a/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/SyntaxChecker.java b/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/SyntaxChecker.java
+index 0b1f7c4..05233a1 100644
+--- a/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/SyntaxChecker.java
++++ b/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/SyntaxChecker.java
+@@ -936 +936 @@
+-            } else if (primeryKey.equals("vmt_guid") && wherePhrase.length() == 0) {
++            } else if ((primeryKey.equals("vmt_guid") || primeryKey.equals("vm_pool_id")) && wherePhrase.length() == 0) {
+diff --git a/backend/manager/modules/searchbackend/src/test/java/org/ovirt/engine/core/searchbackend/SyntaxCheckerTest.java b/backend/manager/modules/searchbackend/src/test/java/org/ovirt/engine/core/searchbackend/SyntaxCheckerTest.java
+index 4a4cb4c..575ba44 100644
+--- a/backend/manager/modules/searchbackend/src/test/java/org/ovirt/engine/core/searchbackend/SyntaxCheckerTest.java
++++ b/backend/manager/modules/searchbackend/src/test/java/org/ovirt/engine/core/searchbackend/SyntaxCheckerTest.java
+@@ -125,0 +126,15 @@
++
++    @Test
++    public void testVmPools() {
++        SyntaxChecker chkr = new SyntaxChecker(100);
++
++        ISyntaxChecker curSyntaxChecker = SyntaxCheckerFactory.createBackendSyntaxChecker("foo");
++
++        SyntaxContainer res = curSyntaxChecker.analyzeSyntaxState("Pools: ", true);
++
++        String query = chkr.generateQueryFromSyntaxContainer(res, true);
++
++        Assert.assertEquals(
++                "SELECT * FROM ((SELECT * FROM vm_pools_full_view )  ORDER BY vm_pool_name ASC ) as T1 OFFSET (1 -1) LIMIT 0",
++                query);
++    }
+

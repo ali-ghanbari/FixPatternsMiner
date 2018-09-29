@@ -1,0 +1,68 @@
+diff --git a/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java b/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java
+index a3c4326..6e2f218 100644
+--- a/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java
++++ b/vraptor-core/src/main/java/br/com/caelum/vraptor/environment/DefaultEnvironment.java
+@@ -75 +75 @@
+-	public void setup() {
++	protected void setup() {
+diff --git a/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java b/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java
+index 7f0d818..0c08f9e 100644
+--- a/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java
++++ b/vraptor-core/src/test/java/br/com/caelum/vraptor/environment/DefaultEnvironmentTest.java
+@@ -51 +51 @@
+-		DefaultEnvironment env = new DefaultEnvironment(EnvironmentType.DEVELOPMENT);
++		DefaultEnvironment env = buildEnvironment(EnvironmentType.DEVELOPMENT);
+@@ -60 +60 @@
+-		DefaultEnvironment env = new DefaultEnvironment(EnvironmentType.PRODUCTION);
++		DefaultEnvironment env = buildEnvironment(EnvironmentType.PRODUCTION);
+@@ -69 +68,0 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
+@@ -70,0 +70 @@
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -78 +78 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -84 +84 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -92 +92 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -98 +98 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -105 +105 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -112 +112,2 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
++		DefaultEnvironment env = buildEnvironment(context);
++		env.setup();
+@@ -122 +122,0 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
+@@ -123,0 +124 @@
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -130 +130,0 @@
+-		DefaultEnvironment env = new DefaultEnvironment(context);
+@@ -131,0 +132 @@
++		DefaultEnvironment env = buildEnvironment(context);
+@@ -140 +141 @@
+-		DefaultEnvironment defaultEnvironment = new DefaultEnvironment(EnvironmentType.DEVELOPMENT);
++		DefaultEnvironment defaultEnvironment = buildEnvironment(EnvironmentType.DEVELOPMENT);
+@@ -146,0 +148,15 @@
++	
++	private DefaultEnvironment buildEnvironment(EnvironmentType environmentType) {
++		DefaultEnvironment defaultEnvironment = new DefaultEnvironment(environmentType);
++		defaultEnvironment.setup();
++		
++		return defaultEnvironment;
++	}
++	
++	private DefaultEnvironment buildEnvironment(ServletContext context) {
++		DefaultEnvironment defaultEnvironment = new DefaultEnvironment(context);
++		defaultEnvironment.setup();
++		
++		return defaultEnvironment;
++	}
++	
+

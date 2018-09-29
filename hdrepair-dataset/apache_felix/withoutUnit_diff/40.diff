@@ -1,0 +1,8 @@
+diff --git a/http/base/src/main/java/org/apache/felix/http/base/internal/service/HttpServiceImpl.java b/http/base/src/main/java/org/apache/felix/http/base/internal/service/HttpServiceImpl.java
+index c0e684c..fa7954d 100644
+--- a/http/base/src/main/java/org/apache/felix/http/base/internal/service/HttpServiceImpl.java
++++ b/http/base/src/main/java/org/apache/felix/http/base/internal/service/HttpServiceImpl.java
+@@ -147 +147 @@
+-        if (name.endsWith( "/" )) {
++        if (!name.equals("/") && name.endsWith( "/" )) {
+

@@ -1,0 +1,27 @@
+diff --git a/qulice/qulice-pmd/src/main/java/com/qulice/pmd/PMDValidator.java b/qulice/qulice-pmd/src/main/java/com/qulice/pmd/PMDValidator.java
+index bf9d1e7..be2b00e 100644
+--- a/qulice/qulice-pmd/src/main/java/com/qulice/pmd/PMDValidator.java
++++ b/qulice/qulice-pmd/src/main/java/com/qulice/pmd/PMDValidator.java
+@@ -198 +198 @@
+-        final File sources = new File(env.basedir(), "");
++        final File sources = new File(env.basedir(), "src/main/java");
+diff --git a/qulice/qulice-pmd/src/test/java/com/qulice/pmd/PMDValidatorTest.java b/qulice/qulice-pmd/src/test/java/com/qulice/pmd/PMDValidatorTest.java
+index dc7c4b8..ca56cfc 100644
+--- a/qulice/qulice-pmd/src/test/java/com/qulice/pmd/PMDValidatorTest.java
++++ b/qulice/qulice-pmd/src/test/java/com/qulice/pmd/PMDValidatorTest.java
+@@ -61 +61 @@
+-    private File folder;
++    private File basedir;
+@@ -75 +75 @@
+-        this.folder = this.temp.newFolder("temp-src");
++        this.basedir = this.temp.newFolder("basedir");
+@@ -77,2 +77,2 @@
+-        Mockito.doReturn(this.folder).when(this.env).basedir();
+-        Mockito.doReturn(this.folder).when(this.env).tempdir();
++        Mockito.doReturn(this.basedir).when(this.env).basedir();
++        Mockito.doReturn(this.basedir).when(this.env).tempdir();
+@@ -88 +88,2 @@
+-        final File java = new File(this.folder, "Main.java");
++        final File java = new File(this.basedir, "src/main/java/Main.java");
++        java.getParentFile().mkdirs();
+

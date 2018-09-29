@@ -1,0 +1,8 @@
+diff --git a/molgenis-data-omx/src/main/java/org/molgenis/data/omx/OmxRepositoryIterator.java b/molgenis-data-omx/src/main/java/org/molgenis/data/omx/OmxRepositoryIterator.java
+index c796cce..9516fe0 100644
+--- a/molgenis-data-omx/src/main/java/org/molgenis/data/omx/OmxRepositoryIterator.java
++++ b/molgenis-data-omx/src/main/java/org/molgenis/data/omx/OmxRepositoryIterator.java
+@@ -44 +44 @@
+-		pageSize = q.getPageSize() == 0 ? result.getTotalHitCount() : q.getPageSize();
++		pageSize = result.getTotalHitCount() < q.getPageSize() ? result.getTotalHitCount() : q.getPageSize();
+

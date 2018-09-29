@@ -1,0 +1,12 @@
+diff --git a/chart/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/computation/Engine3D.java b/chart/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/computation/Engine3D.java
+index 082ec70..5f3d321 100644
+--- a/chart/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/computation/Engine3D.java
++++ b/chart/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/computation/Engine3D.java
+@@ -609 +609,5 @@
+-			if ( bClip )
++			// If this render event is disabled, it means this render event is
++			// used for determining the order of 3D polygons, not used for
++			// rendering, so here we can't do clipping action for this event,
++			// the clipping action might cause this render event is ignored. 
++			if ( bClip && p3dre.isEnabled( ) )
+

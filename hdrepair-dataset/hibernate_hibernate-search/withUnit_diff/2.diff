@@ -1,0 +1,15 @@
+diff --git a/hibernate-search/src/test/java/org/hibernate/search/test/embedded/depth/LeakingLuceneBackend.java b/hibernate-search/src/test/java/org/hibernate/search/test/embedded/depth/LeakingLuceneBackend.java
+index f9d394f..d0c5c78 100644
+--- a/hibernate-search/src/test/java/org/hibernate/search/test/embedded/depth/LeakingLuceneBackend.java
++++ b/hibernate-search/src/test/java/org/hibernate/search/test/embedded/depth/LeakingLuceneBackend.java
+@@ -45 +45 @@
+-		lastProcessedQueue = null;
++		lastProcessedQueue = new ArrayList<LuceneWork>();
+diff --git a/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventsSecondTest.java b/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventsSecondTest.java
+index 67d2981..71a4987 100644
+--- a/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventsSecondTest.java
++++ b/hibernate-search/src/test/java/org/hibernate/search/test/engine/optimizations/CollectionUpdateEventsSecondTest.java
+@@ -60 +60 @@
+-			//this should have dtriggered 5 indexing operations, no entity loadings:
++			//this should have triggered 5 indexing operations, no entity loadings:
+

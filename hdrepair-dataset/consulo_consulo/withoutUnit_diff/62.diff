@@ -1,0 +1,30 @@
+diff --git a/plugins/core/src/META-INF/plugin.xml b/plugins/core/src/META-INF/plugin.xml
+index 3f9ac19..faaa23a 100644
+--- a/plugins/core/src/META-INF/plugin.xml
++++ b/plugins/core/src/META-INF/plugin.xml
+@@ -3548 +3547,0 @@
+-    <extensionPoint name="variableTypeCalculator" interface="com.intellij.codeInsight.template.macro.VariableTypeCalculator"/>
+diff --git a/plugins/groovy/src/META-INF/plugin.xml b/plugins/groovy/src/META-INF/plugin.xml
+index cdbe92d..ac62234 100644
+--- a/plugins/groovy/src/META-INF/plugin.xml
++++ b/plugins/groovy/src/META-INF/plugin.xml
+@@ -222,0 +223,2 @@
++    <variableTypeCalculator implementation="org.jetbrains.plugins.groovy.template.GroovyVariableTypeCalculator"/>
++
+@@ -344 +345,0 @@
+-    <variableTypeCalculator implementation="org.jetbrains.plugins.groovy.template.GroovyVariableTypeCalculator"/>
+diff --git a/plugins/java/src/META-INF/plugin.xml b/plugins/java/src/META-INF/plugin.xml
+index 51620f1..e1d5dfd 100644
+--- a/plugins/java/src/META-INF/plugin.xml
++++ b/plugins/java/src/META-INF/plugin.xml
+@@ -401,0 +402,2 @@
++    <extensionPoint name="variableTypeCalculator" interface="com.intellij.codeInsight.template.macro.VariableTypeCalculator"/>
++
+diff --git a/plugins/java/src/com/intellij/codeInsight/template/macro/VariableTypeCalculator.java b/plugins/java/src/com/intellij/codeInsight/template/macro/VariableTypeCalculator.java
+index 106a887..21d79f1 100644
+--- a/plugins/java/src/com/intellij/codeInsight/template/macro/VariableTypeCalculator.java
++++ b/plugins/java/src/com/intellij/codeInsight/template/macro/VariableTypeCalculator.java
+@@ -30 +30 @@
+-    ExtensionPointName.create("com.intellij.variableTypeCalculator");
++    ExtensionPointName.create("org.consulo.java.variableTypeCalculator");
+

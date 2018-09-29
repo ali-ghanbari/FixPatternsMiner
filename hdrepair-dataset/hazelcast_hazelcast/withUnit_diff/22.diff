@@ -1,0 +1,31 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/map/impl/DefaultRecordStore.java b/hazelcast/src/main/java/com/hazelcast/map/impl/DefaultRecordStore.java
+index 8ce36c7..38daa08 100644
+--- a/hazelcast/src/main/java/com/hazelcast/map/impl/DefaultRecordStore.java
++++ b/hazelcast/src/main/java/com/hazelcast/map/impl/DefaultRecordStore.java
+@@ -637 +637,2 @@
+-            put(entry.getKey(), entry.getValue(), DEFAULT_TTL);
++            // use putTransient since we already fetched entries from map-loader.
++            putTransient(entry.getKey(), entry.getValue(), DEFAULT_TTL);
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/mapstore/MapLoaderTest.java b/hazelcast/src/test/java/com/hazelcast/map/mapstore/MapLoaderTest.java
+index 7dc877a..aa4b860 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/mapstore/MapLoaderTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/mapstore/MapLoaderTest.java
+@@ -125,2 +125,2 @@
+-        AtomicInteger loadAllCounter = new AtomicInteger(0);
+-        MapStore mapStore = createMapLoader(loadAllCounter);
++        AtomicInteger loadedKeysCounter = new AtomicInteger(0);
++        MapStore mapStore = createMapLoader(loadedKeysCounter);
+@@ -141 +141 @@
+-        assertEquals(1, loadAllCounter.get());
++        assertEquals(requestedKeys.length, loadedKeysCounter.get());
+@@ -148 +148 @@
+-                loadAllCounter.incrementAndGet();
++                loadAllCounter.addAndGet(keys.size());
+@@ -155,0 +156,6 @@
++
++            @Override
++            public Integer load(Integer key) {
++                loadAllCounter.incrementAndGet();
++                return super.load(key);
++            }
+

@@ -1,0 +1,8 @@
+diff --git a/src/org/exist/xquery/OpOr.java b/src/org/exist/xquery/OpOr.java
+index d6c16f5..8e04615 100644
+--- a/src/org/exist/xquery/OpOr.java
++++ b/src/org/exist/xquery/OpOr.java
+@@ -64 +64 @@
+-        doOptimize = doOptimize && ls.isPersistentSet();
++        doOptimize = doOptimize && (ls.isPersistentSet() || ls.isEmpty());
+

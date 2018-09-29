@@ -1,0 +1,62 @@
+diff --git a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDISupportProcessTest.java b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDISupportProcessTest.java
+index e97e395..6b9c344 100644
+--- a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDISupportProcessTest.java
++++ b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDISupportProcessTest.java
+@@ -114 +113,0 @@
+-        HumanTaskServiceFactory.setJbpmServicesPersistenceManager(pm);
+@@ -117 +116 @@
+-        taskService = HumanTaskServiceFactory.getService();
++        taskService = HumanTaskServiceFactory.newTaskService();
+@@ -122 +120,0 @@
+-        HumanTaskServiceFactory.addTaskEventListener(externalTaskEventListener);
+diff --git a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDIWithFactoriesSupportProcessTest.java b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDIWithFactoriesSupportProcessTest.java
+index dee93e4..b097613 100644
+--- a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDIWithFactoriesSupportProcessTest.java
++++ b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/test/support/NoCDIWithFactoriesSupportProcessTest.java
+@@ -77 +77 @@
+-        HumanTaskServiceFactory.setJbpmServicesPersistenceManager(pm);
++       
+@@ -80 +80 @@
+-        taskService = HumanTaskServiceFactory.getService();
++        taskService = HumanTaskServiceFactory.newTaskService();
+@@ -85 +85 @@
+-        HumanTaskServiceFactory.addTaskEventListener(externalTaskEventListener);
++      
+@@ -137 +136,0 @@
+-        HumanTaskServiceFactory.dispose();
+diff --git a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIHTWorkItemHandlerTest.java b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIHTWorkItemHandlerTest.java
+index 99a5a0a..91eb259 100644
+--- a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIHTWorkItemHandlerTest.java
++++ b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIHTWorkItemHandlerTest.java
+@@ -85 +85 @@
+-        HumanTaskServiceFactory.setJbpmServicesPersistenceManager(pm);
++       
+@@ -87 +87 @@
+-        taskService = HumanTaskServiceFactory.getService();
++        taskService = HumanTaskServiceFactory.newTaskService();
+@@ -92 +91,0 @@
+-        HumanTaskServiceFactory.addTaskEventListener(externalTaskEventListener);
+@@ -165 +163,0 @@
+-        HumanTaskServiceFactory.dispose();
+diff --git a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIWithFactoriesHTWorkItemHandlerTest.java b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIWithFactoriesHTWorkItemHandlerTest.java
+index ddb5ae9..1eb2119 100644
+--- a/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIWithFactoriesHTWorkItemHandlerTest.java
++++ b/jbpm-services/droolsjbpm-knowledge-services/src/test/java/org/droolsjbpm/services/wih/events/NoCDIWithFactoriesHTWorkItemHandlerTest.java
+@@ -74 +74 @@
+-        HumanTaskServiceFactory.setJbpmServicesPersistenceManager(pm);
++        
+@@ -77 +77 @@
+-        taskService = HumanTaskServiceFactory.getService();
++        taskService = HumanTaskServiceFactory.newTaskService();
+@@ -81,2 +80,0 @@
+-        
+-        HumanTaskServiceFactory.addTaskEventListener(externalTaskEventListener);
+@@ -111 +108,0 @@
+-        HumanTaskServiceFactory.dispose();
+diff --git a/jbpm-services/jbpm-human-task-workitems/src/main/java/org/jbpm/task/wih/ExternalTaskEventListener.java b/jbpm-services/jbpm-human-task-workitems/src/main/java/org/jbpm/task/wih/ExternalTaskEventListener.java
+index 69a4f58..214d9fd 100644
+--- a/jbpm-services/jbpm-human-task-workitems/src/main/java/org/jbpm/task/wih/ExternalTaskEventListener.java
++++ b/jbpm-services/jbpm-human-task-workitems/src/main/java/org/jbpm/task/wih/ExternalTaskEventListener.java
+@@ -30 +29,0 @@
+-import org.jbpm.task.events.AfterTaskAddedEvent;
+

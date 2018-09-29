@@ -1,0 +1,63 @@
+diff --git a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.java b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.java
+index f3e1600..0cb6a8c 100644
+--- a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.java
++++ b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/core/DevelopmentProposal.java
+@@ -1866 +1866 @@
+-        } else if (proposalDocument.getDocumentHeader() != null && !proposalDocument.getDocumentHeader().hasWorkflowDocument()) {
++        } else if (proposalDocument.getDocumentHeader() != null && proposalDocument.getDocumentNumber() != null && !proposalDocument.getDocumentHeader().hasWorkflowDocument()) {
+diff --git a/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/person/masschange/ProposalDevelopmentPersonMassChangeServiceTest.java b/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/person/masschange/ProposalDevelopmentPersonMassChangeServiceTest.java
+index e61817c..fcdac23 100644
+--- a/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/person/masschange/ProposalDevelopmentPersonMassChangeServiceTest.java
++++ b/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/person/masschange/ProposalDevelopmentPersonMassChangeServiceTest.java
+@@ -11,2 +10,0 @@
+-import org.eclipse.persistence.internal.identitymaps.CacheKey;
+-import org.eclipse.persistence.queries.FetchGroup;
+@@ -18 +15,0 @@
+-import org.junit.Ignore;
+@@ -85,0 +83 @@
++        document.getDevelopmentProposal().setProposalDocument(document);
+@@ -128 +125,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+diff --git a/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/s2s/question/ProposalDevelopmentS2sQuestionnaireServiceImplTest.java b/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/s2s/question/ProposalDevelopmentS2sQuestionnaireServiceImplTest.java
+index 06fe76a..f05a065 100644
+--- a/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/s2s/question/ProposalDevelopmentS2sQuestionnaireServiceImplTest.java
++++ b/coeus-impl/src/test/java/org/kuali/coeus/propdev/impl/s2s/question/ProposalDevelopmentS2sQuestionnaireServiceImplTest.java
+@@ -9,2 +8,0 @@
+-import junit.framework.Assert;
+-
+@@ -16 +13,0 @@
+-import org.junit.Ignore;
+@@ -30,0 +28 @@
++import org.kuali.rice.kew.impl.document.WorkflowDocumentImpl;
+@@ -58 +55,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -98 +94,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -145 +140,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -198 +192,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -205 +198,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -227 +219,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -257 +248,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -292 +282,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -322 +311,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -331 +319,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -351 +338,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -404 +390,0 @@
+-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
+@@ -416,0 +403,6 @@
++        documentHeader.setWorkflowDocument(new WorkflowDocumentImpl() {
++            @Override
++            public boolean isApproved() {
++                return true;
++            }
++        });
+

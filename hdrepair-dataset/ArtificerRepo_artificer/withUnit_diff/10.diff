@@ -1,0 +1,25 @@
+diff --git a/s-ramp-atom/src/test/java/org/overlord/sramp/atom/services/ArtifactResourceTest.java b/s-ramp-atom/src/test/java/org/overlord/sramp/atom/services/ArtifactResourceTest.java
+index 9d58c07..3a0f5ca 100644
+--- a/s-ramp-atom/src/test/java/org/overlord/sramp/atom/services/ArtifactResourceTest.java
++++ b/s-ramp-atom/src/test/java/org/overlord/sramp/atom/services/ArtifactResourceTest.java
+@@ -63 +63 @@
+-	@Before
++	@BeforeClass
+@@ -68 +68,5 @@
+-		//new JCRRepositoryCleaner().clean();
++	}
++	
++	@Before
++	public void clean() {
++	    new JCRRepositoryCleaner().clean();
+@@ -75,3 +78,0 @@
+-	
+-	
+-
+diff --git a/s-ramp-client/src/main/java/org/overlord/sramp/client/SrampAtomApiClient.java b/s-ramp-client/src/main/java/org/overlord/sramp/client/SrampAtomApiClient.java
+index 28578b8..ed2c3ef 100644
+--- a/s-ramp-client/src/main/java/org/overlord/sramp/client/SrampAtomApiClient.java
++++ b/s-ramp-client/src/main/java/org/overlord/sramp/client/SrampAtomApiClient.java
+@@ -151 +150,0 @@
+-	@SuppressWarnings("resource")
+

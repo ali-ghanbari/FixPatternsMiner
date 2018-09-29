@@ -1,0 +1,8 @@
+diff --git a/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityHealthchecker.java b/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityHealthchecker.java
+index f2b16d7..3922ca8 100644
+--- a/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityHealthchecker.java
++++ b/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityHealthchecker.java
+@@ -126 +126 @@
+-    return Optional.of(String.format("http://%s:%s/%s", hostname, firstPort, task.getTaskRequest().getDeploy().getHealthcheckUri().get()));
++    return Optional.of(String.format("http://%s:%d/%s", hostname, firstPort.get(), task.getTaskRequest().getDeploy().getHealthcheckUri().get()));
+

@@ -1,0 +1,8 @@
+diff --git a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java
+index c7c1bdb..4cc8d8c 100644
+--- a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java
++++ b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/correction/UnresolvedElementsSubProcessor.java
+@@ -595 +595 @@
+-			proposal= new ASTRewriteCorrectionProposal(label, cu, null, relevance + 100, image);
++			proposal= new ASTRewriteCorrectionProposal(label, cu, ASTRewrite.create(node.getAST()), relevance + 100, image);
+

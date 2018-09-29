@@ -1,0 +1,70 @@
+diff --git a/changelog.txt b/changelog.txt
+index 666bd17..7abf7b7 100644
+--- a/changelog.txt
++++ b/changelog.txt
+@@ -1,0 +2 @@
++  * Fixed a bug in the calculation of the maximum of date field in a RealmResults
+@@ -3 +3,0 @@
+-
+diff --git a/realm/src/androidTest/java/io/realm/RealmResultsTest.java b/realm/src/androidTest/java/io/realm/RealmResultsTest.java
+index 445a33a..2504fa2 100644
+--- a/realm/src/androidTest/java/io/realm/RealmResultsTest.java
++++ b/realm/src/androidTest/java/io/realm/RealmResultsTest.java
+@@ -56 +56 @@
+-            allTypes.setColumnDate(new Date((long) i));
++            allTypes.setColumnDate(new Date((long) 1000*i));
+@@ -98,2 +98,2 @@
+-        assertNotNull("ResultList.get has returned null", allTypes);
+-        assertTrue("ResultList.get returned invalid data", allTypes.getColumnString().startsWith("test data"));
++        assertNotNull(allTypes);
++        assertTrue(allTypes.getColumnString().startsWith("test data"));
+@@ -106,2 +106,2 @@
+-        assertNotNull("ResultList.where has returned null", resultList);
+-        assertEquals("ResultList.where unexpected number of objects returned", TEST_DATA_SIZE, resultList.size());
++        assertNotNull(resultList);
++        assertEquals(TEST_DATA_SIZE, resultList.size());
+@@ -115,2 +115,2 @@
+-        assertNotNull("ResultList.first has returned null", allTypes);
+-        assertTrue("ResultList.first returned invalid data", allTypes.getColumnString().startsWith("test data 0"));
++        assertNotNull(allTypes);
++        assertTrue(allTypes.getColumnString().startsWith("test data 0"));
+@@ -123,2 +123,2 @@
+-        assertNotNull("ResultList.last has returned null", allTypes);
+-        assertEquals("ResultList.last returned invalid data", (TEST_DATA_SIZE - 1), allTypes.getColumnLong());
++        assertNotNull(allTypes);
++        assertEquals((TEST_DATA_SIZE - 1), allTypes.getColumnLong());
+@@ -131 +131,7 @@
+-        assertEquals("ResultList.min returned wrong value", 0, minimum.intValue());
++        assertEquals(0, minimum.intValue());
++    }
++
++    public void testMinMaxDate() {
++        RealmResults<AllTypes> results = testRealm.where(AllTypes.class).findAll();
++        assertEquals(new Date(0), results.minDate(FIELD_DATE));
++        assertEquals(new Date(1000*(TEST_DATA_SIZE-1)), results.maxDate(FIELD_DATE));
+@@ -138 +144 @@
+-        assertEquals("ResultList.max returned wrong value", TEST_DATA_SIZE - 1, maximum.intValue());
++        assertEquals(TEST_DATA_SIZE - 1, maximum.intValue());
+@@ -145,6 +151,2 @@
+-
+-        int checkSum = 0;
+-        for (int i = 0; i < TEST_DATA_SIZE; ++i) {
+-            checkSum += i;
+-        }
+-        assertEquals("ResultList.sum returned wrong sum", checkSum, sum.intValue());
++        // Sum of numbers 0 to M-1: (M-1)*M/2
++        assertEquals((TEST_DATA_SIZE-1)*TEST_DATA_SIZE/2, sum.intValue());
+@@ -192 +194 @@
+-        assertTrue("ResultList.remove did not remove record", checkListSize);
++        assertTrue(checkListSize);
+@@ -195 +197 @@
+-        assertTrue("ResultList.remove unexpected first record", allTypes.getColumnLong() == 1);
++        assertTrue(allTypes.getColumnLong() == 1);
+diff --git a/realm/src/main/java/io/realm/RealmResults.java b/realm/src/main/java/io/realm/RealmResults.java
+index 37b6817..59a58f7 100644
+--- a/realm/src/main/java/io/realm/RealmResults.java
++++ b/realm/src/main/java/io/realm/RealmResults.java
+@@ -249 +249 @@
+-            return table.minimumDate(columnIndex);
++            return table.maximumDate(columnIndex);
+

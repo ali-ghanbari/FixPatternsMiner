@@ -1,0 +1,14 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index ba0c0d9..115af0c 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -10,0 +11 @@
++ * fix counter entry in jdbc TypesMap (CASSANDRA-3268)
+diff --git a/src/java/org/apache/cassandra/cql/jdbc/TypesMap.java b/src/java/org/apache/cassandra/cql/jdbc/TypesMap.java
+index e1d649c..3d99c68 100644
+--- a/src/java/org/apache/cassandra/cql/jdbc/TypesMap.java
++++ b/src/java/org/apache/cassandra/cql/jdbc/TypesMap.java
+@@ -36 +36 @@
+-        map.put("org.apache.cassandra.db.marshal.ColumnCounterType", JdbcCounterColumn.instance);
++        map.put("org.apache.cassandra.db.marshal.CounterColumnType", JdbcCounterColumn.instance);
+

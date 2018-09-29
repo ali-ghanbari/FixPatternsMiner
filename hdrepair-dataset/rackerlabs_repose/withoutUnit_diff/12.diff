@@ -1,0 +1,43 @@
+diff --git a/repose-aggregator/core/core-lib/src/main/java/com/rackspace/papi/service/datastore/distributed/impl/distributed/servlet/DistributedDatastoreServlet.java b/repose-aggregator/core/core-lib/src/main/java/com/rackspace/papi/service/datastore/distributed/impl/distributed/servlet/DistributedDatastoreServlet.java
+index b393e06..823a319 100644
+--- a/repose-aggregator/core/core-lib/src/main/java/com/rackspace/papi/service/datastore/distributed/impl/distributed/servlet/DistributedDatastoreServlet.java
++++ b/repose-aggregator/core/core-lib/src/main/java/com/rackspace/papi/service/datastore/distributed/impl/distributed/servlet/DistributedDatastoreServlet.java
+@@ -174,0 +175,2 @@
++            } catch (ClassCastException e){
++                response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+diff --git a/repose-aggregator/functional-tests/spock-functional-test/src/test/groovy/features/services/datastore/DistDatastoreServicePutTest.groovy b/repose-aggregator/functional-tests/spock-functional-test/src/test/groovy/features/services/datastore/DistDatastoreServicePutTest.groovy
+index 092c466..07aa4cf 100644
+--- a/repose-aggregator/functional-tests/spock-functional-test/src/test/groovy/features/services/datastore/DistDatastoreServicePutTest.groovy
++++ b/repose-aggregator/functional-tests/spock-functional-test/src/test/groovy/features/services/datastore/DistDatastoreServicePutTest.groovy
+@@ -3,0 +4 @@
++import com.rackspace.papi.components.datastore.StringValue
+@@ -14 +15 @@
+-    def BODY = ObjectSerializer.instance().writeObject("test body")
++    def BODY = ObjectSerializer.instance().writeObject(new StringValue.Patch("test data"))
+@@ -73 +74 @@
+-    def "PUT a cache object to an existing key should overwrite the cached value"() {
++    def "PATCH a cache object to an existing key should append the cached value"() {
+@@ -76 +77 @@
+-        def newBody = ObjectSerializer.instance().writeObject("MY NEW VALUE")
++        def newBody = ObjectSerializer.instance().writeObject(new StringValue.Patch("MY NEW VALUE"))
+@@ -83 +84 @@
+-        then: "The body of the get response should be my second request body"
++        then: "The body of the get response should be the original body with the patch appended"
+@@ -103 +104,2 @@
+-        MessageChain mc = deproxy.makeRequest([method: 'PUT', url:DD_URI + KEY, headers:DD_HEADERS, requestBody: ObjectSerializer.instance().writeObject("")])
++        MessageChain mc = deproxy.makeRequest([method: 'PATCH', url:DD_URI + KEY, headers:DD_HEADERS,
++                requestBody: ObjectSerializer.instance().writeObject(new StringValue.Patch(""))])
+@@ -170 +172,2 @@
+-        def largeBody = ObjectSerializer.instance().writeObject(RandomStringUtils.random(2097139, ('A'..'Z').join().toCharArray()))
++        def largeBodyContent = RandomStringUtils.random(2006139, ('A'..'Z').join().toCharArray())
++        def largeBody = ObjectSerializer.instance().writeObject(new StringValue.Patch(largeBodyContent))
+@@ -183,2 +186 @@
+-        mc.receivedResponse.body == largeBody
+-        mc.receivedResponse.body.length == 2097152
++        ObjectSerializer.instance().readObject(mc.receivedResponse.body as byte[]).value == largeBodyContent
+@@ -190 +192,3 @@
+-        def largeBody = ObjectSerializer.instance().writeObject(RandomStringUtils.random(2097153, ('A'..'Z').join().toCharArray()))
++        def largeBody = ObjectSerializer.instance().writeObject(
++                new StringValue.Patch(
++                        RandomStringUtils.random(2097152, ('A'..'Z').join().toCharArray())))
+

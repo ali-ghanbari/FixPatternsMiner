@@ -1,0 +1,30 @@
+diff --git a/data-fabric/src/main/java/com/continuuity/data2/transaction/Transaction.java b/data-fabric/src/main/java/com/continuuity/data2/transaction/Transaction.java
+index 7dd3f4a..ec5aa47 100644
+--- a/data-fabric/src/main/java/com/continuuity/data2/transaction/Transaction.java
++++ b/data-fabric/src/main/java/com/continuuity/data2/transaction/Transaction.java
+@@ -68 +68,2 @@
+-    return version <= getReadPointer() && !isExcluded(version);
++    // either it was committed before or the change belongs to current tx
++    return (version <= getReadPointer() && !isExcluded(version)) || writePointer == version;
+diff --git a/data-fabric/src/test/java/com/continuuity/data2/transaction/queue/QueueTest.java b/data-fabric/src/test/java/com/continuuity/data2/transaction/queue/QueueTest.java
+index 5c3684e..bd25a08 100644
+--- a/data-fabric/src/test/java/com/continuuity/data2/transaction/queue/QueueTest.java
++++ b/data-fabric/src/test/java/com/continuuity/data2/transaction/queue/QueueTest.java
+@@ -444 +444 @@
+-    Queue2Consumer consumer1 = queueClientFactory.createConsumer(
++    Queue2Consumer consumer = queueClientFactory.createConsumer(
+@@ -448 +448 @@
+-    txContext = createTxContext(consumer1);
++    txContext = createTxContext(consumer);
+@@ -450 +450 @@
+-    Assert.assertEquals(55, Bytes.toInt(consumer1.dequeue().iterator().next()));
++    Assert.assertEquals(55, Bytes.toInt(consumer.dequeue().iterator().next()));
+@@ -452,0 +453,7 @@
++    if (producer instanceof Closeable) {
++      ((Closeable) producer).close();
++    }
++    if (consumer instanceof Closeable) {
++      ((Closeable) consumer).close();
++    }
++
+

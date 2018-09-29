@@ -1,0 +1,7 @@
+JBPAPP-7491 , JBPAPP-7488 , HHH-6806 Add support for vfsfile and vfszip in JarVisitor
+
+The method getVisitor(URL jarUrl, Filter[] filters, String entry) does not have conditionals for protocols vfs based,
+like vfszip or vfsfile. It returns an InputStreamZippedJarVisitor implementation for both protocols. If it is a vfszip,
+it will work, but will not not for vfsfile. The fix includes vfszip and vfsfile to JarVisitorFactory, so it can return
+FileZippedJarVisitor (more efficient than InputStreamZippedJarVisitor) for vfszip and ExplodedJarVisitor for vfsfile
+

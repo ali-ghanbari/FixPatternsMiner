@@ -1,0 +1,29 @@
+diff --git a/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyStatementMover.java b/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyStatementMover.java
+index c0cdb6f..6ccfa5d 100644
+--- a/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyStatementMover.java
++++ b/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyStatementMover.java
+@@ -212 +212 @@
+-      if (!(sibling instanceof PsiComment) && !StringUtil.isEmptyOrSpaces(text)) {
++      if (!(sibling instanceof PsiComment) && !StringUtil.isEmptyOrSpaces(text) && !text.equals(";")) {
+diff --git a/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/actions/updown/GroovyMoveStatementTest.java b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/actions/updown/GroovyMoveStatementTest.java
+index 8edfa88..3ab2dc8 100644
+--- a/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/actions/updown/GroovyMoveStatementTest.java
++++ b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/actions/updown/GroovyMoveStatementTest.java
+@@ -100,0 +101,2 @@
++  public void testStatementsWithSemicolons() throws Throwable { bothTest(); }
++
+diff --git a/plugins/groovy/testdata/groovy/actions/moveStatement/statementsWithSemicolons.test b/plugins/groovy/testdata/groovy/actions/moveStatement/statementsWithSemicolons.test
+new file mode 100644
+index 0000000..2f9735c
+--- /dev/null
++++ b/plugins/groovy/testdata/groovy/actions/moveStatement/statementsWithSemicolons.test
+@@ -0,0 +1,7 @@
++println 'a';
++<caret>println 'b';
++println 'c';
++-----
++<caret>println 'b';
++println 'a';
++println 'c';
+\ No newline at end of file
+

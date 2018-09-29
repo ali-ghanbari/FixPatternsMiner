@@ -1,0 +1,9 @@
+diff --git a/kundera-core/src/main/java/com/impetus/kundera/persistence/context/FlushManager.java b/kundera-core/src/main/java/com/impetus/kundera/persistence/context/FlushManager.java
+index 525af1f..22cb012 100644
+--- a/kundera-core/src/main/java/com/impetus/kundera/persistence/context/FlushManager.java
++++ b/kundera-core/src/main/java/com/impetus/kundera/persistence/context/FlushManager.java
+@@ -475 +475,2 @@
+-                    if (node.isProcessed() /*&& delegator.defaultTransactionSupported(metadata.getPersistenceUnit())*/)
++                    // do manual rollback, if data is processed, and running without transaction or with kundera's default transaction support!
++                    if (node.isProcessed() && (!delegator.isTransactionInProgress() || delegator.defaultTransactionSupported(metadata.getPersistenceUnit())))
+

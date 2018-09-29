@@ -1,0 +1,5 @@
+fixed RemotingServiceImpl.freeze()
+
+* pause the acceptors instead of stopping them. This will not close the existing connections
+  on the client side which can then simulate a connection failure in ClusterWithBackupFailoverTestBase.failNode()
+

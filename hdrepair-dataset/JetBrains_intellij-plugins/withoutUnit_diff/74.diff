@@ -1,0 +1,9 @@
+diff --git a/osmorc/src/org/osmorc/settings/ProjectSettingsEditor.java b/osmorc/src/org/osmorc/settings/ProjectSettingsEditor.java
+index 5276abd..0883459 100644
+--- a/osmorc/src/org/osmorc/settings/ProjectSettingsEditor.java
++++ b/osmorc/src/org/osmorc/settings/ProjectSettingsEditor.java
+@@ -55 +55,2 @@
+-    return component.isModified();
++    // Fixes:    EA-23200. This probably occurs when isModified is called after disposing the UI. should not happen but does.. :(
++    return component != null ? component.isModified() : false;
+

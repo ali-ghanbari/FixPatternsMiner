@@ -1,0 +1,8 @@
+diff --git a/src/javasources/KTool/src/org/kframework/backend/unparser/UnparserFilterNew.java b/src/javasources/KTool/src/org/kframework/backend/unparser/UnparserFilterNew.java
+index af614a4..7304b6a 100644
+--- a/src/javasources/KTool/src/org/kframework/backend/unparser/UnparserFilterNew.java
++++ b/src/javasources/KTool/src/org/kframework/backend/unparser/UnparserFilterNew.java
+@@ -550 +550 @@
+-                        if (subterm instanceof TermCons && isDataStructure(((TermCons) subterm).getProduction())) {
++                        if (subterm instanceof TermCons && !isDataStructure(termCons.getProduction()) && isDataStructure(((TermCons) subterm).getProduction())) {
+

@@ -1,0 +1,69 @@
+diff --git a/tests/org.eclipse.emf.ocl.tests/.settings/org.eclipse.jdt.core.prefs b/tests/org.eclipse.emf.ocl.tests/.settings/org.eclipse.jdt.core.prefs
+index d89cdf5..903f900 100644
+--- a/tests/org.eclipse.emf.ocl.tests/.settings/org.eclipse.jdt.core.prefs
++++ b/tests/org.eclipse.emf.ocl.tests/.settings/org.eclipse.jdt.core.prefs
+@@ -1 +1 @@
+-#Wed Nov 12 21:22:33 EST 2008
++#Mon Jul 13 10:28:50 BST 2009
+@@ -9 +9,2 @@
+-org.eclipse.jdt.core.compiler.problem.deprecation=warning
++org.eclipse.jdt.core.compiler.problem.deadCode=warning
++org.eclipse.jdt.core.compiler.problem.deprecation=ignore
+@@ -40 +41 @@
+-org.eclipse.jdt.core.compiler.problem.rawTypeReference=warning
++org.eclipse.jdt.core.compiler.problem.rawTypeReference=ignore
+@@ -48 +49 @@
+-org.eclipse.jdt.core.compiler.problem.uncheckedTypeOperation=warning
++org.eclipse.jdt.core.compiler.problem.uncheckedTypeOperation=ignore
+diff --git a/tests/org.eclipse.emf.ocl.tests/build.properties b/tests/org.eclipse.emf.ocl.tests/build.properties
+index 3d6d460..07deee6 100644
+--- a/tests/org.eclipse.emf.ocl.tests/build.properties
++++ b/tests/org.eclipse.emf.ocl.tests/build.properties
+@@ -17,2 +17 @@
+-bin.includes = plugin.xml,\
+-               META-INF/,\
++bin.includes = META-INF/,\
+diff --git a/tests/org.eclipse.emf.ocl.tests/plugin.xml b/tests/org.eclipse.emf.ocl.tests/plugin.xml
+deleted file mode 100644
+index 7c94aba..0000000
+--- a/tests/org.eclipse.emf.ocl.tests/plugin.xml
++++ /dev/null
+@@ -1,13 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<?eclipse version="3.0"?>
+-<!-- Copyright (c) 2005  IBM Corporation and others.                       -->
+-<!-- All rights reserved. This program and the accompanying materials      -->
+-<!-- are made available under the terms of the Eclipse Public License v1.0 -->
+-<!-- which accompanies this distribution, and is available at              -->
+-<!-- http://www.eclipse.org/legal/epl-v10.html                             -->
+-<!--                                                                       -->
+-<!-- Contributors:                                                         -->
+-<!--    IBM Corporation - initial API and implementation                   -->
+-<plugin>
+-
+-</plugin>
+diff --git a/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/helper/tests/ParsingTest.java b/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/helper/tests/ParsingTest.java
+index c9da7d1..5f00c81 100644
+--- a/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/helper/tests/ParsingTest.java
++++ b/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/helper/tests/ParsingTest.java
+@@ -139 +139,2 @@
+-            OCLExpression expr = helper.createBodyCondition(
++            @SuppressWarnings("unused")
++			OCLExpression expr = helper.createBodyCondition(
+diff --git a/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/AllTests.java b/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/AllTests.java
+index bd5db6a..5213b06 100644
+--- a/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/AllTests.java
++++ b/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/AllTests.java
+@@ -42 +42 @@
+-		if (System.getProperty("standalone") != null) {
++		if (System.getProperty("standalone") != null) { //$NON-NLS-1$
+diff --git a/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/SerializationTest.java b/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/SerializationTest.java
+index b9d37c9..c132043 100644
+--- a/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/SerializationTest.java
++++ b/tests/org.eclipse.emf.ocl.tests/src/org/eclipse/emf/ocl/tests/SerializationTest.java
+@@ -15 +15 @@
+- * $Id: SerializationTest.java,v 1.4 2007/10/11 23:05:08 cdamus Exp $
++ * $Id: SerializationTest.java,v 1.5 2009/07/27 15:28:52 ewillink Exp $
+@@ -44 +43,0 @@
+-import org.eclipse.emf.ocl.utilities.ASTNode;
+

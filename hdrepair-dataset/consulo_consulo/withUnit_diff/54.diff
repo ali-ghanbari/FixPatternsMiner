@@ -1,0 +1,27 @@
+diff --git a/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyEnterHandler.java b/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyEnterHandler.java
+index a420bec..55ca6e2 100644
+--- a/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyEnterHandler.java
++++ b/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/editor/actions/GroovyEnterHandler.java
+@@ -104 +104 @@
+-    if (caret < 1 || caret > text.length() - 2) {
++    if (caret < 1 || caret > text.length() - 1) {
+diff --git a/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/formatter/enterAction/EnterActionTest.java b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/formatter/enterAction/EnterActionTest.java
+index 793269f..716b9be 100644
+--- a/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/formatter/enterAction/EnterActionTest.java
++++ b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/formatter/enterAction/EnterActionTest.java
+@@ -44 +44 @@
+-  private static final String DATA_PATH = PathUtil.getDataPath(EnterActionTest.class);
++  private static final String DATA_PATH = PathUtil.getDataPath(EnterActionTest.class)+ "/actual";
+diff --git a/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/formatter/enterAction/data/handler/GRVY-953.test b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/formatter/enterAction/data/handler/GRVY-953.test
+new file mode 100644
+index 0000000..343e1a2
+--- /dev/null
++++ b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/formatter/enterAction/data/handler/GRVY-953.test
+@@ -0,0 +1,5 @@
++static hasMany = [<caret>]
++-----
++static hasMany = [
++    <caret>
++]
+\ No newline at end of file
+

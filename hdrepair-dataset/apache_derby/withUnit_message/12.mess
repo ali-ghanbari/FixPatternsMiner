@@ -1,0 +1,22 @@
+DERBY-4736 ASSERT FAIL when code generating a column reference in a join predicate in presence of other outer join reordering
+
+Follow-up patch derby-4736-followup-a.
+
+In some cases, with this fix, the nullability of columns from the
+null-producing (right) side of the LOJ gets set to NOT NULL after
+reassociation.
+
+The problem is that the added call to SelectNode#bindResultColumns, in
+addition to calling fromList.bindResultColumns, which what we need in
+for this issue, also calls super.bindResultColumns, which sets up the
+datatypes over again, erroneously (i.e. without taking into
+consideration the nature of outer join which can make values stemming
+from otherwise NOT NULL columns be null in the final result set).
+
+Replacing the call to SelectNode#bindResultColumns with
+fromTable.bindResultColumns avoids this problem.
+
+
+
+git-svn-id: https://svn.apache.org/repos/asf/db/derby/code/trunk@989099 13f79535-47bb-0310-9956-ffa450edef68
+

@@ -1,0 +1,22 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index d52168c..943802e 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -7,0 +8 @@
++ * fix CLI get recognition of supercolumns (CASSANDRA-1899)
+diff --git a/src/java/org/apache/cassandra/cli/CliClient.java b/src/java/org/apache/cassandra/cli/CliClient.java
+index bf59f39..2d29f54 100644
+--- a/src/java/org/apache/cassandra/cli/CliClient.java
++++ b/src/java/org/apache/cassandra/cli/CliClient.java
+@@ -379 +379 @@
+-        boolean isSuper = cfDef.comparator_type.equals("Super");
++        boolean isSuper = cfDef.column_type.equals("Super");
+diff --git a/test/unit/org/apache/cassandra/cli/CliTest.java b/test/unit/org/apache/cassandra/cli/CliTest.java
+index d840533..22de0bc 100644
+--- a/test/unit/org/apache/cassandra/cli/CliTest.java
++++ b/test/unit/org/apache/cassandra/cli/CliTest.java
+@@ -110,0 +111,3 @@
++        "create column family myCF with column_type='Super' and comparator='UTF8Type' AND subcomparator='UTF8Type';",
++        "set myCF['key']['scName']['firstname'] = 'John';",
++        "get myCF['key']['scName']",
+

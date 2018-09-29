@@ -1,0 +1,36 @@
+diff --git a/src/main/java/rx/internal/operators/OperatorSampleWithTime.java b/src/main/java/rx/internal/operators/OperatorSampleWithTime.java
+index ea94a7d..7138d76 100644
+--- a/src/main/java/rx/internal/operators/OperatorSampleWithTime.java
++++ b/src/main/java/rx/internal/operators/OperatorSampleWithTime.java
+@@ -52,0 +53 @@
++        child.add(sampler);
+diff --git a/src/test/java/rx/internal/operators/OperatorSampleTest.java b/src/test/java/rx/internal/operators/OperatorSampleTest.java
+index 0a8c9da..815d002 100644
+--- a/src/test/java/rx/internal/operators/OperatorSampleTest.java
++++ b/src/test/java/rx/internal/operators/OperatorSampleTest.java
+@@ -31 +31 @@
+-import rx.Observable;
++import rx.*;
+@@ -33,3 +32,0 @@
+-import rx.Observer;
+-import rx.Scheduler;
+-import rx.Subscriber;
+@@ -38,0 +36 @@
++import rx.subscriptions.Subscriptions;
+@@ -273,0 +272,15 @@
++
++    @Test
++    public void testSampleUnsubscribe() {
++        final Subscription s = mock(Subscription.class);
++        Observable<Integer> o = Observable.create(
++                new OnSubscribe<Integer>() {
++                    @Override
++                    public void call(Subscriber<? super Integer> subscriber) {
++                        subscriber.add(s);
++                    }
++                }
++        );
++        o.throttleLast(1, TimeUnit.MILLISECONDS).subscribe().unsubscribe();
++        verify(s).unsubscribe();
++    }
+

@@ -1,0 +1,40 @@
+diff --git a/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseContainerIntegrationTest.java b/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseContainerIntegrationTest.java
+index 14ada88..130ad6d 100755
+--- a/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseContainerIntegrationTest.java
++++ b/blobstore/src/test/java/org/jclouds/blobstore/integration/internal/BaseContainerIntegrationTest.java
+@@ -56 +56 @@
+-   public void testPutTwiceIsOk() throws InterruptedException {
++   public void testPutTwiceIsOkAndDoesntOverwrite() throws InterruptedException {
+@@ -59,0 +60,5 @@
++
++         Blob blob = context.getBlobStore().newBlob("hello");
++         blob.setPayload(TEST_STRING);
++         context.getBlobStore().putBlob(containerName, blob);
++
+@@ -60,0 +66 @@
++         assertEquals(context.getBlobStore().countBlobs(containerName), 1);
+diff --git a/tools/vfs/pom.xml b/tools/vfs/pom.xml
+index 15e496b..4b8a312 100644
+--- a/tools/vfs/pom.xml
++++ b/tools/vfs/pom.xml
+@@ -107,0 +108,12 @@
++
++  <repositories>
++    <repository>
++      <id>apache.snapshots.https</id>
++      <name>Apache Snapshot Repository</name>
++      <url>https://repository.apache.org/content/repositories/snapshots</url>
++      <releases>
++        <enabled>false</enabled>
++      </releases>
++    </repository>
++  </repositories>
++
+diff --git a/tools/vfs/src/main/java/org/jclouds/vfs/provider/blobstore/BlobStoreFileNameParser.java b/tools/vfs/src/main/java/org/jclouds/vfs/provider/blobstore/BlobStoreFileNameParser.java
+index 1314a6d..81aca0a 100644
+--- a/tools/vfs/src/main/java/org/jclouds/vfs/provider/blobstore/BlobStoreFileNameParser.java
++++ b/tools/vfs/src/main/java/org/jclouds/vfs/provider/blobstore/BlobStoreFileNameParser.java
+@@ -76 +76 @@
+-      return new BlobStoreFileName(auth.getHostName(), creds.account, creds.key, path, fileType,
++      return new BlobStoreFileName(auth.hostName, creds.account, creds.key, path, fileType,
+

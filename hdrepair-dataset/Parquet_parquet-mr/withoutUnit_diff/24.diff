@@ -1,0 +1,8 @@
+diff --git a/parquet-column/src/main/java/parquet/column/values/rle/RunLengthBitPackingHybridValuesReader.java b/parquet-column/src/main/java/parquet/column/values/rle/RunLengthBitPackingHybridValuesReader.java
+index 1a6e920..2628353 100644
+--- a/parquet-column/src/main/java/parquet/column/values/rle/RunLengthBitPackingHybridValuesReader.java
++++ b/parquet-column/src/main/java/parquet/column/values/rle/RunLengthBitPackingHybridValuesReader.java
+@@ -52 +52 @@
+-    ByteArrayInputStream in = new ByteArrayInputStream(page, offset, page.length);
++    ByteArrayInputStream in = new ByteArrayInputStream(page, offset, page.length-offset);
+

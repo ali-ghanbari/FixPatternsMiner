@@ -1,0 +1,9 @@
+diff --git a/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/test/java/org/nuxeo/elasticsearch/test/aggregates/TestAggregates.java b/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/test/java/org/nuxeo/elasticsearch/test/aggregates/TestAggregates.java
+index 882ebbf..35413aa 100644
+--- a/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/test/java/org/nuxeo/elasticsearch/test/aggregates/TestAggregates.java
++++ b/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/test/java/org/nuxeo/elasticsearch/test/aggregates/TestAggregates.java
+@@ -97 +97,2 @@
+-            doc.setPropertyValue("dc:created", new Date(new DateTime().minusWeeks(i).getMillis()));
++            // remove few hours so when there is a DST change in the period this does not affect the results
++            doc.setPropertyValue("dc:created", new Date(new DateTime().minusWeeks(i).minusHours(2).getMillis()));
+

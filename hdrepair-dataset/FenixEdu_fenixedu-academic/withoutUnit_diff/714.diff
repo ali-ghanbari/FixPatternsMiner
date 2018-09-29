@@ -1,0 +1,53 @@
+diff --git a/config/resources/HomepageResources_en.properties b/config/resources/HomepageResources_en.properties
+index b84d21c..a00fb56 100755
+--- a/config/resources/HomepageResources_en.properties
++++ b/config/resources/HomepageResources_en.properties
+@@ -4 +4 @@
+-message.homepage.info=Info
++message.homepage.info=From now on you can have a personal homepage in the public IST site. Here you can choose if your personal webpage will be available and choose wich information to include. After you make it available the page adress will be http://fenix.ist.utl.pt/homepage/istxxxxx. By now you can only include essential information, in the future we hope to improve the possibilities to make the personal web pages more rich.
+@@ -6 +5,0 @@
+-description.manage.homepage=From now on you can have a personal homepage in the public IST site. Here you can choose if your personal webpage will be available and choose wich information to include. After you make it available the page adress will be http://fenix.ist.utl.pt/homepage/istxxxxx. By now you can only include essential information, in the future we hope to improve the possibilities to make the personal web pages more rich.
+@@ -25 +24,2 @@
+-link.homepage.statistics=Statistics
+\ No newline at end of file
++link.homepage.statistics=Statistics
++link.homepage.home=Home
+\ No newline at end of file
+diff --git a/config/resources/HomepageResources_pt.properties b/config/resources/HomepageResources_pt.properties
+index 6b92314..47b22c9 100755
+--- a/config/resources/HomepageResources_pt.properties
++++ b/config/resources/HomepageResources_pt.properties
+@@ -4 +4 @@
+-message.homepage.info=Info
++message.homepage.info=Apartir de agora poder� ter uma p�gina pessoal p�blica no site do IST. Aqui pode optar por disponibilizar a sua p�gina pessoal e escolher a informa��o que deseja incluir. Depois de a disponibilizar poder� aceder-lhe em http://fenix.ist.utl.pt/homepage/istxxxxx. Por enquanto s� pode incluir informa��o essencial, no futuro desejamos aumentar as possibilidades para tornar p�ginas pessoais mais ricas.<br/> Caso pretenda actualizar a sua fotografia, deve solicit�-lo junto do Operador na recep��o do CIIST.<br/>Se desejar actualizar os seus contactos pessoais poder� faz�-lo na p�gina Contactos.
+@@ -6 +5,0 @@
+-description.manage.homepage=Apartir de agora poder� ter uma p�gina pessoal p�blica no site do IST. Aqui pode optar por disponibilizar a sua p�gina pessoal e escolher a informa��o que deseja incluir. Depois de a disponibilizar poder� aceder-lhe em http://fenix.ist.utl.pt/homepage/istxxxxx. Por enquanto s� pode incluir informa��o essencial, no futuro desejamos aumentar as possibilidades para tornar p�ginas pessoais mais ricas.<br/> Caso pretenda actualizar a sua fotografia, deve solicit�-lo junto do Operador na recep��o do CIIST.<br/>Se desejar actualizar os seus contactos pessoais poder� faz�-lo na p�gina Contactos. 
+@@ -25 +24,2 @@
+-link.homepage.statistics=Estat�sticas
+\ No newline at end of file
++link.homepage.statistics=Estat�sticas
++link.homepage.home=In�cio
+\ No newline at end of file
+diff --git a/jsp/person/mainMenu.jsp b/jsp/person/mainMenu.jsp
+index 98fdfc9..9a3aacc 100755
+--- a/jsp/person/mainMenu.jsp
++++ b/jsp/person/mainMenu.jsp
+@@ -12 +11,0 @@
+-<!--
+@@ -14 +12,0 @@
+--->
+diff --git a/jsp/person/manageHomepage.jsp b/jsp/person/manageHomepage.jsp
+index 4c35110..984bf1f 100755
+--- a/jsp/person/manageHomepage.jsp
++++ b/jsp/person/manageHomepage.jsp
+@@ -10 +10 @@
+-<p class="mvert0"><bean:message key="description.manage.homepage" bundle="HOMEPAGE_RESOURCES"/></p>
++<p class="mvert0"><bean:message key="message.homepage.info" bundle="HOMEPAGE_RESOURCES"/></p>
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/Action/publico/ViewHomepageDA.java b/src/net/sourceforge/fenixedu/presentationTier/Action/publico/ViewHomepageDA.java
+index 5315dcf..7727268 100755
+--- a/src/net/sourceforge/fenixedu/presentationTier/Action/publico/ViewHomepageDA.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/Action/publico/ViewHomepageDA.java
+@@ -75 +75 @@
+-        final byte[] pngFile = TextPngCreator.createPng("Sleek", 25, "000000", email);
++        final byte[] pngFile = TextPngCreator.createPng("arial", 12, "000000", email);
+

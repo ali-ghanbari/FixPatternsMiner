@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/formatting/FormatProcessor.java b/source/com/intellij/formatting/FormatProcessor.java
+index 71c551f..3a267c6 100644
+--- a/source/com/intellij/formatting/FormatProcessor.java
++++ b/source/com/intellij/formatting/FormatProcessor.java
+@@ -270 +270 @@
+-    if (shouldReformatBecauseOfBackwardDependance(whiteSpace.getTextRange())) {
++    if (!whiteSpace.isIsReadOnly() && shouldReformatBecauseOfBackwardDependance(whiteSpace.getTextRange())) {
+

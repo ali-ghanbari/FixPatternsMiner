@@ -1,0 +1,36 @@
+diff --git a/annis-service/src/main/distribution/sql/annotations.sql b/annis-service/src/main/distribution/sql/annotations.sql
+index 318e1c2..32eda40 100644
+--- a/annis-service/src/main/distribution/sql/annotations.sql
++++ b/annis-service/src/main/distribution/sql/annotations.sql
+@@ -24 +24 @@
+-SELECT :id, namespace, name, value, count(value) as occurences, 
++SELECT DISTINCT :id, namespace, name, value, count(value) as occurences, 
+@@ -31 +31 @@
+-UNION ALL
++UNION
+@@ -40 +40 @@
+-UNION ALL
++UNION
+@@ -47 +47 @@
+-;
++;
+\ No newline at end of file
+diff --git a/annis-service/src/main/distribution/sql/indexes_annotations.sql b/annis-service/src/main/distribution/sql/indexes_annotations.sql
+index ae7f631..a74c7f9 100644
+--- a/annis-service/src/main/distribution/sql/indexes_annotations.sql
++++ b/annis-service/src/main/distribution/sql/indexes_annotations.sql
+@@ -4,2 +4,3 @@
+-CREATE INDEX idx__annotatations__order_:id ON annotations_:id(namespace, name, occurences);
+-CREATE INDEX idx__annotatations__value_:id ON annotations_:id(value);
++CREATE INDEX idx__annotations__order_:id ON annotations_:id(namespace, name, occurences);
++CREATE INDEX idx__annotations__order2_:id ON annotations_1157 (namespace, "name", edge_namespace, edge_name, occurences DESC);
++CREATE INDEX idx__annotations__value_:id ON annotations_:id(value);
+\ No newline at end of file
+diff --git a/annis-service/src/main/java/annis/sqlgen/ListAnnotationsSqlHelper.java b/annis-service/src/main/java/annis/sqlgen/ListAnnotationsSqlHelper.java
+index c876886..c2ced4c 100644
+--- a/annis-service/src/main/java/annis/sqlgen/ListAnnotationsSqlHelper.java
++++ b/annis-service/src/main/java/annis/sqlgen/ListAnnotationsSqlHelper.java
+@@ -48 +48 @@
+-      + "    select distinct\n"
++      + "    select\n"
+

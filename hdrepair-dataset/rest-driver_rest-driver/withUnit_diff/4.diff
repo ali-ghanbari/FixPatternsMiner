@@ -1,0 +1,21 @@
+diff --git a/rest-server-driver/src/main/java/com/github/restdriver/serverdriver/matchers/Rfc1123DateMatcher.java b/rest-server-driver/src/main/java/com/github/restdriver/serverdriver/matchers/Rfc1123DateMatcher.java
+index 5c7c149..cdc66c4 100644
+--- a/rest-server-driver/src/main/java/com/github/restdriver/serverdriver/matchers/Rfc1123DateMatcher.java
++++ b/rest-server-driver/src/main/java/com/github/restdriver/serverdriver/matchers/Rfc1123DateMatcher.java
+@@ -47 +47 @@
+-        description.appendText("Rfc1123-compliant date in header");
++        description.appendText("Rfc1123-compliant date in header, like 'Mon, 09 May 2011 18:49:18 GMT'");
+diff --git a/rest-server-driver/src/test/java/com/github/restdriver/serverdriver/acceptance/Rfc1123DatesInHeadersAcceptanceTest.java b/rest-server-driver/src/test/java/com/github/restdriver/serverdriver/acceptance/Rfc1123DatesInHeadersAcceptanceTest.java
+index 72615b7..a625fee 100644
+--- a/rest-server-driver/src/test/java/com/github/restdriver/serverdriver/acceptance/Rfc1123DatesInHeadersAcceptanceTest.java
++++ b/rest-server-driver/src/test/java/com/github/restdriver/serverdriver/acceptance/Rfc1123DatesInHeadersAcceptanceTest.java
+@@ -45 +45 @@
+-        driver.expect(new ClientDriverRequest("/"), new ClientDriverResponse().withHeader("Date", compliantDate));
++        driver.addExpectation(new ClientDriverRequest("/"), new ClientDriverResponse().withHeader("Date", compliantDate));
+@@ -56 +56 @@
+-        driver.expect(new ClientDriverRequest("/"), new ClientDriverResponse().withHeader("Date", unCompliantDate));
++        driver.addExpectation(new ClientDriverRequest("/"), new ClientDriverResponse().withHeader("Date", unCompliantDate));
+@@ -67 +67 @@
+-        driver.expect(new ClientDriverRequest("/"), new ClientDriverResponse().withHeader("Date", compliantButInvalidDate));
++        driver.addExpectation(new ClientDriverRequest("/"), new ClientDriverResponse().withHeader("Date", compliantButInvalidDate));
+

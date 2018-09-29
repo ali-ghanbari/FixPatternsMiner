@@ -1,0 +1,38 @@
+diff --git a/src/edu/washington/escience/myriad/parallel/Server.java b/src/edu/washington/escience/myriad/parallel/Server.java
+index 5091622..ba3180b 100644
+--- a/src/edu/washington/escience/myriad/parallel/Server.java
++++ b/src/edu/washington/escience/myriad/parallel/Server.java
+@@ -172 +172 @@
+-   * Results of succeeded queries, currently the number of tuples received by the SonkRoot.
++   * Results of succeeded queries, currently the number of tuples received by the SinkRoot.
+diff --git a/test/edu/washington/escience/myriad/systemtest/JsonQuerySubmitTest.java b/test/edu/washington/escience/myriad/systemtest/JsonQuerySubmitTest.java
+index fd6c663..e49d780 100644
+--- a/test/edu/washington/escience/myriad/systemtest/JsonQuerySubmitTest.java
++++ b/test/edu/washington/escience/myriad/systemtest/JsonQuerySubmitTest.java
+@@ -65,2 +65,4 @@
+-    /* make sure the ingesting is done. */
+-    Thread.sleep(200);
++    /* make sure the ingestion is done. */
++    while (!server.queryCompleted(1)) {
++      Thread.sleep(100);
++    }
+@@ -74 +76,3 @@
+-    Thread.sleep(200);
++    while (!server.queryCompleted(2)) {
++      Thread.sleep(100);
++    }
+@@ -82 +86,3 @@
+-    Thread.sleep(200);
++    while (!server.queryCompleted(3)) {
++      Thread.sleep(100);
++    }
+@@ -90 +96,3 @@
+-    Thread.sleep(200);
++    while (!server.queryCompleted(4)) {
++      Thread.sleep(100);
++    }
+@@ -99,2 +107 @@
+-
+-    while (!server.allQueriesCompleted()) {
++    while (!server.queryCompleted(5)) {
+

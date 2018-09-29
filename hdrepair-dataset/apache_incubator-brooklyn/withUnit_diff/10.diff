@@ -1,0 +1,55 @@
+diff --git a/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManager.java b/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManager.java
+index c032e19..6f01077 100644
+--- a/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManager.java
++++ b/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManager.java
+@@ -6,0 +7 @@
++        super.addUser("hacker", Entitlements.minimal());
+diff --git a/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManagerTest.java b/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManagerTest.java
+index 8c80833..021b867 100644
+--- a/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManagerTest.java
++++ b/core/src/test/java/brooklyn/management/entitlement/AcmeEntitlementManagerTest.java
+@@ -51 +51 @@
+-    public void testUserWithMinimalAllows() {
++    public void testUserWithMinimal() {
+@@ -53 +53 @@
+-        WebEntitlementContext entitlementContext = new WebEntitlementContext("bob", "127.0.0.1", URI.create("/applications").toString());
++        WebEntitlementContext entitlementContext = new WebEntitlementContext("hacker", "127.0.0.1", URI.create("/applications").toString());
+@@ -59 +59 @@
+-        // and can invoke methods, without any user/login registered
++        // and can invoke methods
+@@ -64 +64 @@
+-    public void testUserWithReadOnlyAllows() {
++    public void testUserWithReadOnly() {
+@@ -66 +66 @@
+-        WebEntitlementContext entitlementContext = new WebEntitlementContext("alice", "127.0.0.1", URI.create("/applications").toString());
++        WebEntitlementContext entitlementContext = new WebEntitlementContext("bob", "127.0.0.1", URI.create("/applications").toString());
+@@ -72 +72 @@
+-        // and can invoke methods, without any user/login registered
++        // and cannot invoke methods
+@@ -75,0 +76,25 @@
++    @Test
++    public void testUserWithAllPermissions() {
++        setup(configBag);
++        WebEntitlementContext entitlementContext = new WebEntitlementContext("alice", "127.0.0.1", URI.create("/applications").toString());
++        Entitlements.setEntitlementContext(entitlementContext);
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.ROOT, null));
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.SEE_ENTITY, app));
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.INVOKE_EFFECTOR, EntityAndItem.of(app, "any-eff")));
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.SEE_SENSOR, EntityAndItem.of(app, "any-sensor")));
++        // and can invoke methods
++        confirmEffectorEntitlement(true);
++    }
++
++    @Test
++    public void testNullHasAllPermissions() {
++        setup(configBag);
++        WebEntitlementContext entitlementContext = new WebEntitlementContext(null, "127.0.0.1", URI.create("/applications").toString());
++        Entitlements.setEntitlementContext(entitlementContext);
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.ROOT, null));
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.SEE_ENTITY, app));
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.INVOKE_EFFECTOR, EntityAndItem.of(app, "any-eff")));
++        Assert.assertTrue(Entitlements.isEntitled(mgmt.getEntitlementManager(), Entitlements.SEE_SENSOR, EntityAndItem.of(app, "any-sensor")));
++        // and can invoke methods
++        confirmEffectorEntitlement(true);
++    }
+

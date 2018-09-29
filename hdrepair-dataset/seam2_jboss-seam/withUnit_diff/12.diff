@@ -1,0 +1,83 @@
+diff --git a/src/test/misc/org/jboss/seam/test/Bar.java b/src/test/misc/org/jboss/seam/test/Bar.java
+index a6dfa88..da2e35d 100644
+--- a/src/test/misc/org/jboss/seam/test/Bar.java
++++ b/src/test/misc/org/jboss/seam/test/Bar.java
+@@ -36 +36 @@
+-   @Out
++   @Out(required=false)
+diff --git a/src/test/misc/org/jboss/seam/test/ComponentTest.java b/src/test/misc/org/jboss/seam/test/ComponentTest.java
+index aae3988..3d51cbb 100644
+--- a/src/test/misc/org/jboss/seam/test/ComponentTest.java
++++ b/src/test/misc/org/jboss/seam/test/ComponentTest.java
+@@ -5,0 +6 @@
++import org.jboss.seam.InterceptionType;
+@@ -24,0 +26,4 @@
++      assert Seam.getBeanClass(Foo.class)==Foo.class;
++      assert Seam.getEjbName(EjbBean.class).equals("EjbBean");
++      assert Seam.getEjbName(Foo.class)==null;
++      assert Seam.getInterceptionType(Foo.class)==InterceptionType.ALWAYS;
+diff --git a/src/test/misc/org/jboss/seam/test/ContextTest.java b/src/test/misc/org/jboss/seam/test/ContextTest.java
+index b7d5528..ded694e 100644
+--- a/src/test/misc/org/jboss/seam/test/ContextTest.java
++++ b/src/test/misc/org/jboss/seam/test/ContextTest.java
+@@ -11,0 +12 @@
++import org.jboss.seam.contexts.ContextAdaptor;
+@@ -13 +13,0 @@
+-import org.jboss.seam.contexts.MapContext;
+@@ -17 +16,0 @@
+-import org.jboss.seam.contexts.ContextAdaptor;
+@@ -51,0 +51,5 @@
++      appContext.set( 
++            Seam.getComponentName(Foo.class) + ".component",
++            new Component(Foo.class)
++      );
++      appContext.set("otherFoo", new Foo());
+@@ -84,2 +88,2 @@
+-      Contexts.getSessionContext().set("foo", "bar");
+-      Contexts.getApplicationContext().set("foo", "bar");
++      Contexts.getSessionContext().set("zzz", "bar");
++      Contexts.getApplicationContext().set("zzz", "bar");
+@@ -91,0 +96,3 @@
++      Object foo = Contexts.getSessionContext().get("foo");
++      assert foo!=null;
++      assert foo instanceof Foo;
+@@ -99,2 +106,2 @@
+-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==3;
+-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==4;
++      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==4;
++      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==6;
+@@ -126,2 +133,2 @@
+-      assert Contexts.getSessionContext().get("foo").equals("bar");
+-      assert Contexts.getApplicationContext().get("foo").equals("bar");
++      assert Contexts.getSessionContext().get("zzz").equals("bar");
++      assert Contexts.getApplicationContext().get("zzz").equals("bar");
+@@ -129,0 +137 @@
++      assert Contexts.getSessionContext().get("foo")==foo;
+@@ -132,2 +140,2 @@
+-      assert Contexts.getApplicationContext().getNames().length==4;
+-      assert Contexts.getSessionContext().getNames().length==1;
++      assert Contexts.getApplicationContext().getNames().length==6;
++      assert Contexts.getSessionContext().getNames().length==2;
+@@ -135 +143 @@
+-      assert seamVariableResolver.resolveVariable(null, "foo").equals("bar");
++      assert seamVariableResolver.resolveVariable(null, "zzz").equals("bar");
+@@ -137,0 +146 @@
++      assert seamVariableResolver.resolveVariable(null, "foo")==foo;
+@@ -139 +148 @@
+-      assert jbpmVariableResolver.resolveVariable("foo").equals("bar");
++      assert jbpmVariableResolver.resolveVariable("zzz").equals("bar");
+@@ -141,0 +151 @@
++      assert jbpmVariableResolver.resolveVariable("foo")==foo;
+@@ -150,2 +160,2 @@
+-      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==1;
+-      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==4;
++      assert ((MockHttpSession)externalContext.getSession(false)).getAttributes().size()==2;
++      assert ((MockServletContext)externalContext.getContext()).getAttributes().size()==6;
+@@ -154,3 +164 @@
+-      
+-      //assert session.getAttributes().size()==0;
+-      
++            
+@@ -159 +166,0 @@
+-      //assert servletContext.getAttributes().size()==0;
+

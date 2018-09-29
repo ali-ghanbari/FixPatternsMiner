@@ -1,0 +1,16 @@
+diff --git a/eol-globi-data-tool/src/main/java/org/eol/globi/data/StudyImporterForSPIRE.java b/eol-globi-data-tool/src/main/java/org/eol/globi/data/StudyImporterForSPIRE.java
+index a563542..236184e 100644
+--- a/eol-globi-data-tool/src/main/java/org/eol/globi/data/StudyImporterForSPIRE.java
++++ b/eol-globi-data-tool/src/main/java/org/eol/globi/data/StudyImporterForSPIRE.java
+@@ -231 +231 @@
+-                                addEnvironment(location, PropertyAndValueDictionary.NO_MATCH, habitat);
++                                addEnvironment(location, "SPIRE:" + habitat, habitat);
+diff --git a/eol-globi-data-tool/src/test/java/org/eol/globi/data/StudyImporterForSPIRETest.java b/eol-globi-data-tool/src/test/java/org/eol/globi/data/StudyImporterForSPIRETest.java
+index 6ee35ab..35f17e5 100644
+--- a/eol-globi-data-tool/src/test/java/org/eol/globi/data/StudyImporterForSPIRETest.java
++++ b/eol-globi-data-tool/src/test/java/org/eol/globi/data/StudyImporterForSPIRETest.java
+@@ -167 +167,2 @@
+-        assertSingleImport("some unmapped spire habitat", PropertyAndValueDictionary.NO_MATCH, "some unmapped spire habitat");
++        String unmappedHabitat = "some unmapped spire habitat";
++        assertSingleImport("some unmapped spire habitat", "SPIRE:" + unmappedHabitat, unmappedHabitat);
+

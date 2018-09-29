@@ -1,0 +1,12 @@
+diff --git a/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/model/businessobjects/rrd4j/PoolQueuePlotData.java b/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/model/businessobjects/rrd4j/PoolQueuePlotData.java
+index 641b12e..4d4b103 100644
+--- a/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/model/businessobjects/rrd4j/PoolQueuePlotData.java
++++ b/modules/dcache-webadmin/src/main/java/org/dcache/webadmin/model/businessobjects/rrd4j/PoolQueuePlotData.java
+@@ -144,5 +144 @@
+-            /*
+-             * "!" appended to the datasource name is the Rrd4j convention
+-             * for storing unknown values as 0.0 rather than as NaN.
+-             */
+-            return toString() + "!";
++            return getLabel().replaceAll(" ", "_");
+

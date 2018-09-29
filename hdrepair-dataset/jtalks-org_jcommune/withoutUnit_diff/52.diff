@@ -1,0 +1,8 @@
+diff --git a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/util/RssViewer.java b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/util/RssViewer.java
+index 80a9fda..db27d67 100644
+--- a/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/util/RssViewer.java
++++ b/jcommune-view/jcommune-web-controller/src/main/java/org/jtalks/jcommune/web/util/RssViewer.java
+@@ -52 +52 @@
+-        feed.setLink("http://deploy.jtalks.org/jcommune");
++        feed.setLink(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath());
+

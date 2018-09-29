@@ -1,0 +1,328 @@
+diff --git a/doc/doc2web.sh b/doc/doc2web.sh
+index 8511f1b..2bec979 100755
+--- a/doc/doc2web.sh
++++ b/doc/doc2web.sh
+@@ -59 +59 @@
+-javadoc=true
++javadoc=false
+@@ -126,0 +127 @@
++doHtml en workbench.html
+@@ -128,11 +129,3 @@
+-doImg images/aggregate_tables_1.png
+-doImg images/aggregate_tables_2.png
+-doImg images/aggregate_tables_3.png
+-doImg images/arch_mondrian_v1_tn.png
+-doImg images/arch_mondrian_sketch_tn.png
+-doImg images/zoom.png
+-doImg images/logo_mondrian_lrg.png
+-doImg images/perforce_setup.gif
+-doImg images/code_spacing.png
+-doImg images/code_indentation.png
+-doImg images/perforce_setup.png
++for i in images/*.png; do
++  doImg $i
++done
+diff --git a/src/main/mondrian/olap/Mondrian.xml b/src/main/mondrian/olap/Mondrian.xml
+index ad3544d..86249fa 100644
+--- a/src/main/mondrian/olap/Mondrian.xml
++++ b/src/main/mondrian/olap/Mondrian.xml
+@@ -1047 +1047,2 @@
+-             * Converts an array of SQL to a {@link SqlQuery.CodeSet} object.
++             * Converts an array of SQL to a
++             * {@link mondrian.rolap.sql.SqlQuery.CodeSet} object.
+diff --git a/src/main/mondrian/olap/Mondrian_SW.xml b/src/main/mondrian/olap/Mondrian_SW.xml
+index f763997..48cfd7d 100644
+--- a/src/main/mondrian/olap/Mondrian_SW.xml
++++ b/src/main/mondrian/olap/Mondrian_SW.xml
+@@ -486,3 +486,3 @@
+-                The {@link MondrianDef.Table table},
+-                {@link MondrianDef.Join set of tables}, or
+-                {@link MondrianDef.View SQL statement} which populates this
++                The {@link MondrianGuiDef.Table table},
++                {@link MondrianGuiDef.Join set of tables}, or
++                {@link MondrianGuiDef.View SQL statement} which populates this
+@@ -1098 +1098,2 @@
+-             * Converts an array of SQL to a {@link SqlQuery.CodeSet} object.
++             * Converts an array of SQL to a
++             * {@link mondrian.rolap.sql.SqlQuery.CodeSet} object.
+diff --git a/src/main/mondrian/util/Bug.java b/src/main/mondrian/util/Bug.java
+index 299b4a3..e5c4024 100644
+--- a/src/main/mondrian/util/Bug.java
++++ b/src/main/mondrian/util/Bug.java
+@@ -49,0 +50,7 @@
++     * Whether
++     * <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1530543&group_id=35302&atid=1696772">bug 1696772</a>
++     * is fixed.
++     */
++    public static final boolean Bug1696772Fixed = false;
++
++    /**
+diff --git a/testsrc/main/mondrian/rolap/DataSourceChangeListenerTest.java b/testsrc/main/mondrian/rolap/DataSourceChangeListenerTest.java
+index e96c092..ad06714 100644
+--- a/testsrc/main/mondrian/rolap/DataSourceChangeListenerTest.java
++++ b/testsrc/main/mondrian/rolap/DataSourceChangeListenerTest.java
+@@ -5,0 +6 @@
++// Copyright (C) 2007-2007 Julian Hyde
+@@ -28 +29 @@
+-import mondrian.util.Bug;
++
+@@ -41 +42 @@
+-    private static Logger logger =
++    private static final Logger logger =
+@@ -43 +44 @@
+-    SqlConstraintFactory scf = SqlConstraintFactory.instance();
++    final SqlConstraintFactory scf = SqlConstraintFactory.instance();
+@@ -55 +56 @@
+-     * Test whether the data source plugin is able to tell mondrian
++     * Tests whether the data source plugin is able to tell mondrian
+@@ -58,0 +60,5 @@
++        final MondrianProperties properties = MondrianProperties.instance();
++        if (properties.TestExpDependencies.get() > 0) {
++            // Dependency testing produces side-effects in the cache.
++            return;
++        }
+@@ -66 +72,2 @@
+-        final mondrian.olap.Cube salesCube = connection.getSchema().lookupCube("Sales", true);
++        final mondrian.olap.Cube salesCube =
++            connection.getSchema().lookupCube("Sales", true);
+@@ -71 +77,0 @@
+-        final MondrianProperties properties = MondrianProperties.instance();
+@@ -79,2 +85,3 @@
+-        /* Use hard caching for testing. When using soft references, we can not test caching
+-        * because things may be garbage collected during the tests. */
++        // Use hard caching for testing. When using soft references, we can not
++        // test caching because things may be garbage collected during the
++        // tests.
+@@ -102,2 +109,2 @@
+-            RolapResult r1 = (RolapResult) executeQuery(
+-            "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
++            Result r1 = executeQuery(
++                "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
+@@ -111,2 +118,2 @@
+-            RolapResult r2 = (RolapResult) executeQuery(
+-            "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
++            Result r2 = executeQuery(
++                "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
+@@ -122,2 +129,2 @@
+-            RolapResult r3 = (RolapResult) executeQuery(
+-            "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
++            Result r3 = executeQuery(
++                "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
+@@ -134,2 +141,2 @@
+-            RolapResult r4 = (RolapResult) executeQuery(
+-            "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
++            Result r4 = executeQuery(
++                "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
+@@ -145,2 +152,2 @@
+-            RolapResult r5 = (RolapResult) executeQuery(
+-            "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
++            Result r5 = executeQuery(
++                "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
+@@ -158,2 +165,2 @@
+-            RolapResult r6 = (RolapResult) executeQuery(
+-            "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
++            Result r6 = executeQuery(
++                "select {[Store].[All Stores].[USA].[CA].[San Francisco]} on columns from [Sales]");
+@@ -177,0 +185 @@
++
+@@ -179 +187 @@
+-     * Test to see whether the flushing of the cache is thread safe.
++     * Tests whether the flushing of the cache is thread safe.
+@@ -248,80 +256,67 @@
+-                    "{}\n" +
+-                    "Axis #1:\n" +
+-                    "{[Measures].[Unit Sales]}\n" +
+-                    "{[Measures].[Units Shipped]}\n" +
+-                    "{[Measures].[Shipped per Ordered]}\n" +
+-                    "{[Measures].[Profit per Unit Shipped]}\n" +
+-                    "Axis #2:\n" +
+-                    "{[Product].[All Products].[Drink], [Time].[1997].[Q1]}\n" +
+-                    "{[Product].[All Products].[Drink], [Time].[1997].[Q2]}\n" +
+-                    "{[Product].[All Products].[Drink], [Time].[1997].[Q3]}\n" +
+-                    "{[Product].[All Products].[Drink], [Time].[1997].[Q4]}\n" +
+-                    "{[Product].[All Products].[Food], [Time].[1997].[Q1]}\n" +
+-                    "{[Product].[All Products].[Food], [Time].[1997].[Q2]}\n" +
+-                    "{[Product].[All Products].[Food], [Time].[1997].[Q3]}\n" +
+-                    "{[Product].[All Products].[Food], [Time].[1997].[Q4]}\n" +
+-                    "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q1]}\n" +
+-                    "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q2]}\n" +
+-                    "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q3]}\n" +
+-                    "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q4]}\n" +
+-                    "Row #0: 5,976\n" +
+-                    "Row #0: 4637.0\n" +
+-                    "Row #0: 77.59%\n" +
+-                    "Row #0: $1.50\n" +
+-                    "Row #1: 5,895\n" +
+-                    "Row #1: 4501.0\n" +
+-                    "Row #1: 76.35%\n" +
+-                    "Row #1: $1.60\n" +
+-                    "Row #2: 6,065\n" +
+-                    "Row #2: 6258.0\n" +
+-                    "Row #2: 103.18%\n" +
+-                    "Row #2: $1.15\n" +
+-                    "Row #3: 6,661\n" +
+-                    "Row #3: 5802.0\n" +
+-                    "Row #3: 87.10%\n" +
+-                    "Row #3: $1.38\n" +
+-                    "Row #4: 47,809\n" +
+-                    "Row #4: 37153.0\n" +
+-                    "Row #4: 77.71%\n" +
+-                    "Row #4: $1.64\n" +
+-                    "Row #5: 44,825\n" +
+-                    "Row #5: 35459.0\n" +
+-                    "Row #5: 79.11%\n" +
+-                    "Row #5: $1.62\n" +
+-                    "Row #6: 47,440\n" +
+-                    "Row #6: 41545.0\n" +
+-                    "Row #6: 87.57%\n" +
+-                    "Row #6: $1.47\n" +
+-                    "Row #7: 51,866\n" +
+-                    "Row #7: 34706.0\n" +
+-                    "Row #7: 66.91%\n" +
+-                    "Row #7: $1.91\n" +
+-                    "Row #8: 12,506\n" +
+-                    "Row #8: 9161.0\n" +
+-                    "Row #8: 73.25%\n" +
+-                    "Row #8: $1.76\n" +
+-                    "Row #9: 11,890\n" +
+-                    "Row #9: 9227.0\n" +
+-                    "Row #9: 77.60%\n" +
+-                    "Row #9: $1.65\n" +
+-                    "Row #10: 12,343\n" +
+-                    "Row #10: 9986.0\n" +
+-                    "Row #10: 80.90%\n" +
+-                    "Row #10: $1.59\n" +
+-                    "Row #11: 13,497\n" +
+-                    "Row #11: 9291.0\n" +
+-                    "Row #11: 68.84%\n" +
+-                    "Row #11: $1.86\n"),
+-
+-            fold(
+-                    "Axis #0:\n" +
+-                        "{[Time].[1997]}\n" +
+-                        "Axis #1:\n" +
+-                        "{[Measures].[Profit Per Unit Shipped]}\n" +
+-                        "Axis #2:\n" +
+-                        "{[Store].[All Stores].[USA].[CA]}\n" +
+-                        "{[Store].[All Stores].[USA].[OR]}\n" +
+-                        "{[Store].[All Stores].[USA].[WA]}\n" +
+-                        "Row #0: |1.6|style=red\n" +
+-                        "Row #1: |2.1|style=green\n" +
+-                        "Row #2: |1.5|style=red\n"),
++                "{}\n" +
++                "Axis #1:\n" +
++                "{[Measures].[Unit Sales]}\n" +
++                "{[Measures].[Units Shipped]}\n" +
++                "{[Measures].[Shipped per Ordered]}\n" +
++                "{[Measures].[Profit per Unit Shipped]}\n" +
++                "Axis #2:\n" +
++                "{[Product].[All Products].[Drink], [Time].[1997].[Q1]}\n" +
++                "{[Product].[All Products].[Drink], [Time].[1997].[Q2]}\n" +
++                "{[Product].[All Products].[Drink], [Time].[1997].[Q3]}\n" +
++                "{[Product].[All Products].[Drink], [Time].[1997].[Q4]}\n" +
++                "{[Product].[All Products].[Food], [Time].[1997].[Q1]}\n" +
++                "{[Product].[All Products].[Food], [Time].[1997].[Q2]}\n" +
++                "{[Product].[All Products].[Food], [Time].[1997].[Q3]}\n" +
++                "{[Product].[All Products].[Food], [Time].[1997].[Q4]}\n" +
++                "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q1]}\n" +
++                "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q2]}\n" +
++                "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q3]}\n" +
++                "{[Product].[All Products].[Non-Consumable], [Time].[1997].[Q4]}\n" +
++                "Row #0: 5,976\n" +
++                "Row #0: 4637.0\n" +
++                "Row #0: 77.59%\n" +
++                "Row #0: $1.50\n" +
++                "Row #1: 5,895\n" +
++                "Row #1: 4501.0\n" +
++                "Row #1: 76.35%\n" +
++                "Row #1: $1.60\n" +
++                "Row #2: 6,065\n" +
++                "Row #2: 6258.0\n" +
++                "Row #2: 103.18%\n" +
++                "Row #2: $1.15\n" +
++                "Row #3: 6,661\n" +
++                "Row #3: 5802.0\n" +
++                "Row #3: 87.10%\n" +
++                "Row #3: $1.38\n" +
++                "Row #4: 47,809\n" +
++                "Row #4: 37153.0\n" +
++                "Row #4: 77.71%\n" +
++                "Row #4: $1.64\n" +
++                "Row #5: 44,825\n" +
++                "Row #5: 35459.0\n" +
++                "Row #5: 79.11%\n" +
++                "Row #5: $1.62\n" +
++                "Row #6: 47,440\n" +
++                "Row #6: 41545.0\n" +
++                "Row #6: 87.57%\n" +
++                "Row #6: $1.47\n" +
++                "Row #7: 51,866\n" +
++                "Row #7: 34706.0\n" +
++                "Row #7: 66.91%\n" +
++                "Row #7: $1.91\n" +
++                "Row #8: 12,506\n" +
++                "Row #8: 9161.0\n" +
++                "Row #8: 73.25%\n" +
++                "Row #8: $1.76\n" +
++                "Row #9: 11,890\n" +
++                "Row #9: 9227.0\n" +
++                "Row #9: 77.60%\n" +
++                "Row #9: $1.65\n" +
++                "Row #10: 12,343\n" +
++                "Row #10: 9986.0\n" +
++                "Row #10: 80.90%\n" +
++                "Row #10: $1.59\n" +
++                "Row #11: 13,497\n" +
++                "Row #11: 9291.0\n" +
++                "Row #11: 68.84%\n" +
++                "Row #11: $1.86\n"),
+@@ -330 +325,13 @@
+-                 "{}\n" +
++                "{[Time].[1997]}\n" +
++                "Axis #1:\n" +
++                "{[Measures].[Profit Per Unit Shipped]}\n" +
++                "Axis #2:\n" +
++                "{[Store].[All Stores].[USA].[CA]}\n" +
++                "{[Store].[All Stores].[USA].[OR]}\n" +
++                "{[Store].[All Stores].[USA].[WA]}\n" +
++                "Row #0: |1.6|style=red\n" +
++                "Row #1: |2.1|style=green\n" +
++                "Row #2: |1.5|style=red\n"),
++
++            fold("Axis #0:\n" +
++                "{}\n" +
+@@ -493 +500 @@
+-// End NonEmptyTest.java
++// End DataSourceChangeListenerTest.java
+diff --git a/testsrc/main/mondrian/test/clearview/MetricFilterTest.java b/testsrc/main/mondrian/test/clearview/MetricFilterTest.java
+index ede6fa9..c1e6fe2 100644
+--- a/testsrc/main/mondrian/test/clearview/MetricFilterTest.java
++++ b/testsrc/main/mondrian/test/clearview/MetricFilterTest.java
+@@ -15,0 +16,2 @@
++import mondrian.olap.MondrianProperties;
++import mondrian.util.Bug;
+@@ -18,6 +20,6 @@
+- * <code>MetricFilterTest</code> is a test suite which tests scenarios of 
+- * filtering out measures' values in the FoodMart database. 
+- * MDX queries and their expected results are maintained separately in 
+- * MetricFilterTest.ref.xml file.If you would prefer to see them as inlined 
+- * Java string literals, run ant target "generateDiffRepositoryJUnit" and 
+- * then use file MetricFilterTestJUnit.java which will be generated in 
++ * <code>MetricFilterTest</code> is a test suite which tests scenarios of
++ * filtering out measures' values in the FoodMart database.
++ * MDX queries and their expected results are maintained separately in
++ * MetricFilterTest.ref.xml file.If you would prefer to see them as inlined
++ * Java string literals, run ant target "generateDiffRepositoryJUnit" and
++ * then use file MetricFilterTestJUnit.java which will be generated in
+@@ -50,0 +53,10 @@
++    protected void runTest() throws Exception {
++        // Do not run the test in circumstances which hit bug 1696772. Remove
++        // this short-circuit when that bug is fixed.
++        if (getName().equals("testMetricFiltersWithNoSubtotals") &&
++            !MondrianProperties.instance().EnableNativeCrossJoin.get() &&
++            !Bug.Bug1696772Fixed) {
++            return;
++        }
++        super.runTest();
++    }
+

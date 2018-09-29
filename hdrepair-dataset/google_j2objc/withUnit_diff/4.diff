@@ -1,0 +1,37 @@
+diff --git a/translator/src/main/java/com/google/devtools/j2objc/gen/TypeDeclarationGenerator.java b/translator/src/main/java/com/google/devtools/j2objc/gen/TypeDeclarationGenerator.java
+index 2e6b983..e512276 100644
+--- a/translator/src/main/java/com/google/devtools/j2objc/gen/TypeDeclarationGenerator.java
++++ b/translator/src/main/java/com/google/devtools/j2objc/gen/TypeDeclarationGenerator.java
+@@ -431 +431 @@
+-          printf("\ntypedef %s %s;\n", typeName, unprefixedName);
++          printf("\n@compatibility_alias %s %s;\n", unprefixedName, typeName);
+diff --git a/translator/src/test/java/com/google/devtools/j2objc/J2ObjCTest.java b/translator/src/test/java/com/google/devtools/j2objc/J2ObjCTest.java
+index 01918eb..5e66d8e 100644
+--- a/translator/src/test/java/com/google/devtools/j2objc/J2ObjCTest.java
++++ b/translator/src/test/java/com/google/devtools/j2objc/J2ObjCTest.java
+@@ -68 +67,0 @@
+-    assertTranslation(exampleH, "typedef CBTExample");
+diff --git a/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java b/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java
+index 6984fb1..b985f37 100644
+--- a/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java
++++ b/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java
+@@ -814 +814 @@
+-    assertTranslation(translation, "typedef FBMTest FooBarMumbleTest;");
++    assertTranslation(translation, "@compatibility_alias FooBarMumbleTest FBMTest;");
+@@ -831 +831 @@
+-    assertTranslation(translation, "typedef FBMTest FooBarMumbleTest;");
++    assertTranslation(translation, "@compatibility_alias FooBarMumbleTest FBMTest;");
+@@ -864 +864 @@
+-      assertTranslation(translation, "typedef FBMTest FooBarMumbleTest;");
++      assertTranslation(translation, "@compatibility_alias FooBarMumbleTest FBMTest;");
+diff --git a/translator/src/test/java/com/google/devtools/j2objc/util/NameTableTest.java b/translator/src/test/java/com/google/devtools/j2objc/util/NameTableTest.java
+index 7326b68..1058390 100644
+--- a/translator/src/test/java/com/google/devtools/j2objc/util/NameTableTest.java
++++ b/translator/src/test/java/com/google/devtools/j2objc/util/NameTableTest.java
+@@ -291 +291 @@
+-    assertTranslation(translation, "typedef FBTest FooBarTest;");
++    assertTranslation(translation, "@compatibility_alias FooBarTest FBTest;");
+@@ -312 +312 @@
+-    assertTranslation(translation, "typedef FBTestEnum FooBarTestEnum;");
++    assertTranslation(translation, "@compatibility_alias FooBarTestEnum FBTestEnum;");
+

@@ -1,0 +1,16 @@
+diff --git a/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java b/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java
+index 3e81487..cfe0c8b 100644
+--- a/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java
++++ b/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java
+@@ -36,0 +37 @@
++        super.visitRecordField(o);
+diff --git a/testData/highlighting/Record.erl b/testData/highlighting/Record.erl
+index 70a74b8..464c516 100644
+--- a/testData/highlighting/Record.erl
++++ b/testData/highlighting/Record.erl
+@@ -3 +3 @@
+-f(AAAA) -> AAAA#test{id=1}.
+\ No newline at end of file
++f(AAAA) -> AAAA#test{id=1}, AAAA#test{name=#test{name = 1, <error>aaa</error>=1}}.
+\ No newline at end of file
+

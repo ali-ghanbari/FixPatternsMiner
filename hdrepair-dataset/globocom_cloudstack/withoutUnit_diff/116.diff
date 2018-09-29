@@ -1,0 +1,8 @@
+diff --git a/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtComputingResource.java b/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtComputingResource.java
+index b8c6f09..0147682 100755
+--- a/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtComputingResource.java
++++ b/plugins/hypervisors/kvm/src/com/cloud/hypervisor/kvm/resource/LibvirtComputingResource.java
+@@ -3154,0 +3155,2 @@
++        } else if (vmTO.getType() != VirtualMachine.Type.User) {
++            clock.setTimer("kvmclock", "catchup", null);
+

@@ -1,0 +1,15 @@
+quick fix for missing task error reporting
+
+the reason string given to the exception contained
+characters that are forbidden in an http status
+header (it had a newline).
+
+in theory, we could put the multi-line description
+in the body of the error response, but that involves
+a few larger api changes and seems to also line up
+best for exception semantics where the name of the
+exception class is a decent summary and then the
+message is always treated as multi-line detailed
+content. However, our exception classing is an even
+thornier issue so this suffices for now
+

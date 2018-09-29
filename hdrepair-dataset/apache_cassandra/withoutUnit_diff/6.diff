@@ -1,0 +1,80 @@
+diff --git a/doc/native_protocol_v4.spec b/doc/native_protocol_v4.spec
+index 0f86989..ba3d3b3 100644
+--- a/doc/native_protocol_v4.spec
++++ b/doc/native_protocol_v4.spec
+@@ -854 +854,10 @@
+-6.5 decimal
++6.5 date
++
++  An unsigned integer representing days with epoch centered at 2^31.
++  (unix epoch January 1st, 1970).
++  A few examples:
++    0:    -5877641-06-23
++    2^31: 1970-1-1
++    2^32: 5881580-07-11
++
++6.6 decimal
+@@ -861 +870 @@
+-6.6 double
++6.7 double
+@@ -865 +874 @@
+-6.7 float
++6.8 float
+@@ -869 +878 @@
+-6.8 inet
++6.9 inet
+@@ -873 +882 @@
+-6.9 int
++6.10 int
+@@ -877 +886 @@
+-6.10 list
++6.11 list
+@@ -882 +891 @@
+-6.11 map
++6.12 map
+@@ -888 +897 @@
+-6.12 set
++6.13 set
+@@ -893 +902 @@
+-6.13 smallint
++6.14 smallint
+@@ -897,2 +906 @@
+-
+-6.14 text
++6.15 text
+@@ -902 +910,6 @@
+-6.15 timestamp
++6.16 time
++
++  An eight-byte two's complement long representing nanoseconds since midnight.
++  Valid values are in the range 0 to 86399999999999
++
++6.17 timestamp
+@@ -908 +921 @@
+-6.16 timeuuid
++6.18 timeuuid
+@@ -912 +925 @@
+-6.17 tinyint
++6.19 tinyint
+@@ -916 +929 @@
+-6.18 tuple
++6.20 tuple
+@@ -925 +938 @@
+-6.19 uuid
++6.21 uuid
+@@ -929 +942 @@
+-6.20 varchar
++6.22 varchar
+@@ -933 +946 @@
+-6.21 varint
++6.23 varint
+@@ -1153,0 +1167 @@
++  * Add the date and time data types
+diff --git a/src/java/org/apache/cassandra/serializers/TimeSerializer.java b/src/java/org/apache/cassandra/serializers/TimeSerializer.java
+index 1f1ce77..1857be3 100644
+--- a/src/java/org/apache/cassandra/serializers/TimeSerializer.java
++++ b/src/java/org/apache/cassandra/serializers/TimeSerializer.java
+@@ -49 +49 @@
+-                if (result < 0 || result > TimeUnit.DAYS.toNanos(1))
++                if (result < 0 || result >= TimeUnit.DAYS.toNanos(1))
+

@@ -1,0 +1,8 @@
+diff --git a/src/com/redhat/ceylon/compiler/java/loader/CeylonModelLoader.java b/src/com/redhat/ceylon/compiler/java/loader/CeylonModelLoader.java
+index 6946313..addb12e 100755
+--- a/src/com/redhat/ceylon/compiler/java/loader/CeylonModelLoader.java
++++ b/src/com/redhat/ceylon/compiler/java/loader/CeylonModelLoader.java
+@@ -218 +218 @@
+-            classSymbol = symtab.classes.get(names.fromString(outerName));
++            classSymbol = symtab.classes.get(names.fromString(Util.quoteJavaKeywords(outerName)));
+

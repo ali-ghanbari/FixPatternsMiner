@@ -1,0 +1,83 @@
+diff --git a/proxy/src/main/java/org/apache/accumulo/proxy/ProxyServer.java b/proxy/src/main/java/org/apache/accumulo/proxy/ProxyServer.java
+index 1a70229..9ce1840 100644
+--- a/proxy/src/main/java/org/apache/accumulo/proxy/ProxyServer.java
++++ b/proxy/src/main/java/org/apache/accumulo/proxy/ProxyServer.java
+@@ -201 +201 @@
+-      throw new org.apache.accumulo.core.client.AccumuloSecurityException("", org.apache.accumulo.core.client.impl.thrift.SecurityErrorCode.INVALID_INSTANCEID);
++      throw new org.apache.accumulo.core.client.AccumuloSecurityException(pair[0], org.apache.accumulo.core.client.impl.thrift.SecurityErrorCode.INVALID_INSTANCEID);
+diff --git a/proxy/src/test/java/org/apache/accumulo/proxy/SimpleTest.java b/proxy/src/test/java/org/apache/accumulo/proxy/SimpleTest.java
+index 0121c4e..c625ae3 100644
+--- a/proxy/src/test/java/org/apache/accumulo/proxy/SimpleTest.java
++++ b/proxy/src/test/java/org/apache/accumulo/proxy/SimpleTest.java
+@@ -41,0 +42 @@
++import java.util.concurrent.atomic.AtomicInteger;
+@@ -116,2 +116,0 @@
+-  public static final String TABLE_TEST = "test";
+-  
+@@ -145,0 +145,5 @@
++  private static final AtomicInteger tableCounter = new AtomicInteger(0);
++  private static String makeTableName() {
++    return "test" + tableCounter.getAndIncrement();
++  }
++
+@@ -182 +186 @@
+-    String table = "test1";
++    final String table = makeTableName();
+@@ -399,0 +404 @@
++      final String TABLE_TEST = makeTableName();
+@@ -478,0 +484 @@
++      final String TABLE_TEST = makeTableName();
+@@ -628,2 +634 @@
+-    if (client.tableExists(creds, TABLE_TEST))
+-      client.deleteTable(creds, TABLE_TEST);
++    final String TABLE_TEST = makeTableName();
+@@ -667,3 +672 @@
+-    
+-    if (client.tableExists(creds, TABLE_TEST))
+-      client.deleteTable(creds, TABLE_TEST);
++    final String TABLE_TEST = makeTableName();
+@@ -824,3 +827,2 @@
+-    if (client.tableExists(creds, TABLE_TEST))
+-      client.deleteTable(creds, TABLE_TEST);
+-
++    final String TABLE_TEST = makeTableName();
++    
+@@ -908,2 +910 @@
+-    if (client.tableExists(creds, TABLE_TEST))
+-      client.deleteTable(creds, TABLE_TEST);
++    final String TABLE_TEST = makeTableName();
+@@ -956,2 +957,2 @@
+-    if (client.tableExists(creds, TABLE_TEST))
+-      client.deleteTable(creds, TABLE_TEST);
++    final String TABLE_TEST = makeTableName();
++    
+@@ -1019,2 +1020,3 @@
+-    client.cloneTable(creds, TABLE_TEST, "test2", true, null, null);
+-    scanner = client.createScanner(creds, "test2", null);
++    final String TABLE_TEST2 = makeTableName();
++    client.cloneTable(creds, TABLE_TEST, TABLE_TEST2, true, null, null);
++    scanner = client.createScanner(creds, TABLE_TEST2, null);
+@@ -1024 +1026 @@
+-    client.deleteTable(creds, "test2");
++    client.deleteTable(creds, TABLE_TEST2);
+@@ -1034 +1036 @@
+-    client.cloneTable(creds, TABLE_TEST, "test2", true, null, null);
++    client.cloneTable(creds, TABLE_TEST, TABLE_TEST2, true, null, null);
+@@ -1037 +1039 @@
+-    tablesToScan.add("test2");
++    tablesToScan.add(TABLE_TEST2);
+@@ -1044 +1046 @@
+-    client.compactTable(creds, "test2", null, null, null, true, true);
++    client.compactTable(creds, TABLE_TEST2, null, null, null, true, true);
+@@ -1051 +1053 @@
+-    client.deleteTable(creds, "test2");
++    client.deleteTable(creds, TABLE_TEST2);
+@@ -1152 +1154 @@
+-    String scid = client.createScanner(creds, TABLE_TEST, new ScanOptions());
++    String scid = client.createScanner(creds, table, new ScanOptions());
+@@ -1167,2 +1169,2 @@
+-    if (client.tableExists(creds, TABLE_TEST))
+-      client.deleteTable(creds, TABLE_TEST);
++    final String TABLE_TEST = makeTableName();
++    
+

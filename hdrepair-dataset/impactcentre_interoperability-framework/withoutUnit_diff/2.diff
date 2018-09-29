@@ -1,0 +1,18 @@
+diff --git a/toolwrapper/src/main/java/eu/impact_project/iif/tw/gen/ServiceCodeCreator.java b/toolwrapper/src/main/java/eu/impact_project/iif/tw/gen/ServiceCodeCreator.java
+index 5b55f1a..9e2bf43 100644
+--- a/toolwrapper/src/main/java/eu/impact_project/iif/tw/gen/ServiceCodeCreator.java
++++ b/toolwrapper/src/main/java/eu/impact_project/iif/tw/gen/ServiceCodeCreator.java
+@@ -115 +115 @@
+-            oc.put("evaluationIdDir", "evaluationId");
++            oc.put("evaluationIdDir", "evaluationId + File.separator +");
+diff --git a/toolwrapper/tmpl/operation.vm b/toolwrapper/tmpl/operation.vm
+index f5cc9ff..93ca9f8 100644
+--- a/toolwrapper/tmpl/operation.vm
++++ b/toolwrapper/tmpl/operation.vm
+@@ -41 +41 @@
+-					${evaluationIdDir} + File.separator +
++					${evaluationIdDir}
+@@ -47 +47 @@
+-			    ${evaluationIdDir} + File.separator +
++			    ${evaluationIdDir}
+

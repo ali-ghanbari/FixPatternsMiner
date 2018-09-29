@@ -1,0 +1,7 @@
+Don't read until EOF when asked to read > 4096 bytes (TORQUE-1228)
+
+This fixes an issue where when asked to read a request body amount
+greater than 4096 bytes we were actually reading the entire request
+body into memory, leading to OutOfMemory situations on large file
+uploads.
+

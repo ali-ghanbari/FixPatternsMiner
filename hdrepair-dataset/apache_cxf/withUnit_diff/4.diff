@@ -1,0 +1,146 @@
+diff --git a/rt/ws/security/src/main/java/org/apache/cxf/ws/security/wss4j/policyhandlers/SymmetricBindingHandler.java b/rt/ws/security/src/main/java/org/apache/cxf/ws/security/wss4j/policyhandlers/SymmetricBindingHandler.java
+index 05ff7b0..9f64392 100644
+--- a/rt/ws/security/src/main/java/org/apache/cxf/ws/security/wss4j/policyhandlers/SymmetricBindingHandler.java
++++ b/rt/ws/security/src/main/java/org/apache/cxf/ws/security/wss4j/policyhandlers/SymmetricBindingHandler.java
+@@ -255 +255 @@
+-                        secondRefList = ((WSSecEncrypt)encr).encryptForRef(null, encrParts);
++                        secondRefList = ((WSSecEncrypt)encr).encryptForRef(null, secondEncrParts);
+diff --git a/systests/ws-security/src/test/java/org/apache/cxf/systest/ws/x509/X509TokenTest.java b/systests/ws-security/src/test/java/org/apache/cxf/systest/ws/x509/X509TokenTest.java
+index f72bdba..8e95e63 100644
+--- a/systests/ws-security/src/test/java/org/apache/cxf/systest/ws/x509/X509TokenTest.java
++++ b/systests/ws-security/src/test/java/org/apache/cxf/systest/ws/x509/X509TokenTest.java
+@@ -771,0 +772,27 @@
++    public void testSymmetricUsernameToken() throws Exception {
++
++        SpringBusFactory bf = new SpringBusFactory();
++        URL busFile = X509TokenTest.class.getResource("client.xml");
++
++        Bus bus = bf.createBus(busFile.toString());
++        SpringBusFactory.setDefaultBus(bus);
++        SpringBusFactory.setThreadDefaultBus(bus);
++
++        URL wsdl = X509TokenTest.class.getResource("DoubleItX509.wsdl");
++        Service service = Service.create(wsdl, SERVICE_QNAME);
++        QName portQName = new QName(NAMESPACE, "DoubleItSymmetricUsernameTokenPort");
++        DoubleItPortType x509Port = 
++                service.getPort(portQName, DoubleItPortType.class);
++        updateAddressPort(x509Port, test.getPort());
++        
++        if (test.isStreaming()) {
++            SecurityTestUtil.enableStreaming(x509Port);
++        }
++        
++        x509Port.doubleIt(25);
++        
++        ((java.io.Closeable)x509Port).close();
++        bus.shutdown(true);
++    }
++    
++    @org.junit.Test
+diff --git a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/DoubleItX509.wsdl b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/DoubleItX509.wsdl
+index 4d95fbe..1c94065 100644
+--- a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/DoubleItX509.wsdl
++++ b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/DoubleItX509.wsdl
+@@ -417,0 +418,18 @@
++    <wsdl:binding name="DoubleItSymmetricUsernameTokenBinding" type="tns:DoubleItPortType">
++        <wsp:PolicyReference URI="#DoubleItSymmetricUsernameTokenPolicy"/>
++        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
++        <wsdl:operation name="DoubleIt">
++            <soap:operation soapAction=""/>
++            <wsdl:input>
++                <soap:body use="literal"/>
++                <wsp:PolicyReference URI="#DoubleItBinding_DoubleIt_Input_Policy"/>
++            </wsdl:input>
++            <wsdl:output>
++                <soap:body use="literal"/>
++                <wsp:PolicyReference URI="#DoubleItBinding_DoubleIt_Output_Policy"/>
++            </wsdl:output>
++            <wsdl:fault name="DoubleItFault">
++                <soap:body use="literal" name="DoubleItFault"/>
++            </wsdl:fault>
++        </wsdl:operation>
++    </wsdl:binding>
+@@ -642,0 +661,3 @@
++        </wsdl:port>
++        <wsdl:port name="DoubleItSymmetricUsernameTokenPort" binding="tns:DoubleItSymmetricUsernameTokenBinding">
++            <soap:address location="http://localhost:9001/DoubleItX509SymmetricUsernameToken"/>
+@@ -1392,0 +1414,42 @@
++    <wsp:Policy wsu:Id="DoubleItSymmetricUsernameTokenPolicy">
++        <wsp:ExactlyOne>
++            <wsp:All>
++                <sp:SymmetricBinding>
++                    <wsp:Policy>
++                        <sp:ProtectionToken>
++                            <wsp:Policy>
++                                <sp:X509Token sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
++                                    <wsp:Policy>
++                                        <sp:WssX509V3Token11/>
++                                        <sp:RequireThumbprintReference/>
++                                    </wsp:Policy>
++                                </sp:X509Token>
++                            </wsp:Policy>
++                        </sp:ProtectionToken>
++                        <sp:Layout>
++                            <wsp:Policy>
++                                <sp:Lax/>
++                            </wsp:Policy>
++                        </sp:Layout>
++                        <sp:IncludeTimestamp/>
++                        <sp:OnlySignEntireHeadersAndBody/>
++                        <sp:EncryptBeforeSigning/>
++                        <sp:AlgorithmSuite>
++                            <wsp:Policy>
++                                <sp:Basic128/>
++                            </wsp:Policy>
++                        </sp:AlgorithmSuite>
++                    </wsp:Policy>
++                </sp:SymmetricBinding>
++                <sp:EncryptedSupportingTokens>
++                    <wsp:Policy>
++                        <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
++                            <wsp:Policy>
++                                <sp:WssUsernameToken11/>
++                            </wsp:Policy>
++                        </sp:UsernameToken>
++                    </wsp:Policy>
++                </sp:EncryptedSupportingTokens>
++            </wsp:All>
++        </wsp:ExactlyOne>
++    </wsp:Policy>
+diff --git a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/client.xml b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/client.xml
+index f8d4441..a7a292b 100644
+--- a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/client.xml
++++ b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/client.xml
+@@ -232,0 +233,8 @@
++    <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItSymmetricUsernameTokenPort" createdFromAPI="true">
++        <jaxws:properties>
++            <entry key="ws-security.encryption.properties" value="bob.properties"/>
++            <entry key="ws-security.encryption.username" value="bob"/>
++            <entry key="ws-security.username" value="alice"/>
++            <entry key="ws-security.callback-handler" value="org.apache.cxf.systest.ws.common.KeystorePasswordCallback"/>
++        </jaxws:properties>
++    </jaxws:client>
+diff --git a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/server.xml b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/server.xml
+index 1f2e1b3..a5b968e 100644
+--- a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/server.xml
++++ b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/server.xml
+@@ -240,0 +241,6 @@
++    <jaxws:endpoint xmlns:s="http://www.example.org/contract/DoubleIt" id="SymmetricUsernameToken" address="http://localhost:${testutil.ports.Server}/DoubleItX509SymmetricUsernameToken" serviceName="s:DoubleItService" endpointName="s:DoubleItSymmetricUsernameTokenPort" implementor="org.apache.cxf.systest.ws.common.DoubleItImpl" wsdlLocation="org/apache/cxf/systest/ws/x509/DoubleItX509.wsdl">
++        <jaxws:properties>
++            <entry key="ws-security.callback-handler" value="org.apache.cxf.systest.ws.common.KeystorePasswordCallback"/>
++            <entry key="ws-security.signature.properties" value="bob.properties"/>
++        </jaxws:properties>
++    </jaxws:endpoint>
+diff --git a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/stax-server.xml b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/stax-server.xml
+index c4fd3df..f068c93 100644
+--- a/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/stax-server.xml
++++ b/systests/ws-security/src/test/resources/org/apache/cxf/systest/ws/x509/stax-server.xml
+@@ -265,0 +266,7 @@
++    <jaxws:endpoint xmlns:s="http://www.example.org/contract/DoubleIt" id="SymmetricUsernameToken" address="http://localhost:${testutil.ports.StaxServer}/DoubleItX509SymmetricUsernameToken" serviceName="s:DoubleItService" endpointName="s:DoubleItSymmetricUsernameTokenPort" implementor="org.apache.cxf.systest.ws.common.DoubleItImpl" wsdlLocation="org/apache/cxf/systest/ws/x509/DoubleItX509.wsdl">
++        <jaxws:properties>
++            <entry key="ws-security.callback-handler" value="org.apache.cxf.systest.ws.common.KeystorePasswordCallback"/>
++            <entry key="ws-security.signature.properties" value="bob.properties"/>
++            <entry key="ws-security.enable.streaming" value="true"/>
++        </jaxws:properties>
++    </jaxws:endpoint>
+

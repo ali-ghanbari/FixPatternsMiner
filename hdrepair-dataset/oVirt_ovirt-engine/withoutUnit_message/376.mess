@@ -1,0 +1,9 @@
+core: restapi fix
+
+Since the map's key type is String, the original code will always
+evaluate to false, because the map.containsKey is invoked with a
+TypeVariable.
+
+Change-Id: Ib790a9c64a0cc533ad36842903c7481531a8f5c7
+Signed-off-by: Laszlo Hornyak <lhornyak@redhat.com>
+

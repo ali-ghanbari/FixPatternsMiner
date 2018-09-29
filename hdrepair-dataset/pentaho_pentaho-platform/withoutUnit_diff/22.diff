@@ -1,0 +1,52 @@
+diff --git a/assembly/package-res-common/biserver/pentaho-solutions/system/pentahoServices.spring.xml b/assembly/package-res-common/biserver/pentaho-solutions/system/pentahoServices.spring.xml
+index 2ff5b5a..63e24ae 100644
+--- a/assembly/package-res-common/biserver/pentaho-solutions/system/pentahoServices.spring.xml
++++ b/assembly/package-res-common/biserver/pentaho-solutions/system/pentahoServices.spring.xml
+@@ -74 +74 @@
+-  	<constructor-arg ref="extraRoles"/>
++  	<constructor-arg ref="extraSystemAuthorities"/>
+diff --git a/assembly/package-res-common/biserver/pentaho-solutions/system/repository.spring.xml b/assembly/package-res-common/biserver/pentaho-solutions/system/repository.spring.xml
+index b8e978e..0fcf16c 100644
+--- a/assembly/package-res-common/biserver/pentaho-solutions/system/repository.spring.xml
++++ b/assembly/package-res-common/biserver/pentaho-solutions/system/repository.spring.xml
+@@ -456,0 +457,5 @@
++  <util:list id="extraSystemAuthorities" list-class="java.util.ArrayList" value-type="java.lang.String">
++     <ref bean="singleTenantAuthenticatedAuthorityName" />
++     <ref bean="singleTenantAnonymousUserName" />
++  </util:list>
++  
+diff --git a/assembly/package-res/biserver/pentaho-solutions/system/pentahoServices.spring.xml b/assembly/package-res/biserver/pentaho-solutions/system/pentahoServices.spring.xml
+index 2ff5b5a..63e24ae 100644
+--- a/assembly/package-res/biserver/pentaho-solutions/system/pentahoServices.spring.xml
++++ b/assembly/package-res/biserver/pentaho-solutions/system/pentahoServices.spring.xml
+@@ -74 +74 @@
+-  	<constructor-arg ref="extraRoles"/>
++  	<constructor-arg ref="extraSystemAuthorities"/>
+diff --git a/assembly/package-res/biserver/pentaho-solutions/system/repository.spring.xml b/assembly/package-res/biserver/pentaho-solutions/system/repository.spring.xml
+index 15323f8..115a2b5 100644
+--- a/assembly/package-res/biserver/pentaho-solutions/system/repository.spring.xml
++++ b/assembly/package-res/biserver/pentaho-solutions/system/repository.spring.xml
+@@ -457,0 +458,5 @@
++  <util:list id="extraSystemAuthorities" list-class="java.util.ArrayList" value-type="java.lang.String">
++     <ref bean="singleTenantAuthenticatedAuthorityName" />
++     <ref bean="singleTenantAnonymousUserName" />
++  </util:list>
++  
+diff --git a/extensions/src/org/pentaho/platform/web/http/api/resources/UserRoleResource.java b/extensions/src/org/pentaho/platform/web/http/api/resources/UserRoleResource.java
+index 81c2401..0d3284c 100644
+--- a/extensions/src/org/pentaho/platform/web/http/api/resources/UserRoleResource.java
++++ b/extensions/src/org/pentaho/platform/web/http/api/resources/UserRoleResource.java
+@@ -53 +53 @@
+-	  PentahoSystem.get(ArrayList.class, "extraRoles", PentahoSessionHolder.getSession()));
++	  PentahoSystem.get(ArrayList.class, "extraSystemAuthorities", PentahoSessionHolder.getSession()));
+diff --git a/extensions/test-res/solution1-no-config/system/repository.spring.xml b/extensions/test-res/solution1-no-config/system/repository.spring.xml
+index f2befe5..cb067ad 100644
+--- a/extensions/test-res/solution1-no-config/system/repository.spring.xml
++++ b/extensions/test-res/solution1-no-config/system/repository.spring.xml
+@@ -457,0 +458,5 @@
++  <util:list id="extraSystemAuthorities" list-class="java.util.ArrayList" value-type="java.lang.String">
++     <ref bean="singleTenantAuthenticatedAuthorityName" />
++     <ref bean="singleTenantAnonymousUserName" />
++  </util:list>
++  
+

@@ -1,0 +1,87 @@
+diff --git a/api/src/main/java/org/searchisko/api/util/SearchUtils.java b/api/src/main/java/org/searchisko/api/util/SearchUtils.java
+index a5bddb0..c39fe07 100644
+--- a/api/src/main/java/org/searchisko/api/util/SearchUtils.java
++++ b/api/src/main/java/org/searchisko/api/util/SearchUtils.java
+@@ -134 +134 @@
+-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
++		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXX");
+diff --git a/api/src/test/java/org/searchisko/api/util/SearchUtilsTest.java b/api/src/test/java/org/searchisko/api/util/SearchUtilsTest.java
+index f0811e5..98f8f12 100644
+--- a/api/src/test/java/org/searchisko/api/util/SearchUtilsTest.java
++++ b/api/src/test/java/org/searchisko/api/util/SearchUtilsTest.java
+@@ -8,0 +9 @@
++import java.text.DateFormat;
+@@ -9,0 +11 @@
++import java.text.SimpleDateFormat;
+@@ -14,0 +17,3 @@
++import java.util.TimeZone;
++
++import javax.ws.rs.core.MultivaluedMap;
+@@ -20,0 +26 @@
++import org.junit.Rule;
+@@ -21,0 +28 @@
++import org.junit.rules.ExpectedException;
+@@ -23,2 +29,0 @@
+-
+-import javax.ws.rs.core.MultivaluedMap;
+@@ -33 +38 @@
+-
++    
+@@ -62,0 +68,46 @@
++	}
++	
++	@Test
++	public void getISODateFormat() throws ParseException {
++	    
++	    DateFormat df = SearchUtils.getISODateFormat();
++	    
++	    // Previous date format initialized with yyyy-MM-dd'T'HH:mm:ss.SSSZ for comparison.
++	    SimpleDateFormat previousdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
++	    previousdf.setTimeZone(TimeZone.getTimeZone("GMT"));
++	    previousdf.setLenient(false);
++	    
++	    // This date format will work correctly for both formatters
++        Assert.assertEquals( 1361386810123l , df.parse("2013-02-20T20:00:10.123+0100").getTime() );
++        Assert.assertEquals( 1361386810123l , previousdf.parse("2013-02-20T20:00:10.123+0100").getTime() );
++        
++        // However this one with Z will work without an exception only with the new format.
++        Assert.assertEquals( 1361390410123l , df.parse("2013-02-20T20:00:10.123Z").getTime() );
++        
++        
++        // The following set of commands is expected to throw ParseException
++        
++        // The previous format won't parse date which timezone of +0000 difference is shortened to Z
++        try {
++            previousdf.parse("2013-02-20T20:00:10.123Z").getTime();
++            Assert.fail();
++        } catch (ParseException e) {
++            // If the exception is being thrown it means that we correctly expected the old format to fail.
++        }
++        
++        // Giving it a totally bad value to both formatters will correctly result in ParseException.
++        try {
++            df.parse("badvalue");
++            Assert.fail();
++        } catch (ParseException e) {
++            // It's all good, it should fail on such value.
++        }
++        
++        try {
++            previousdf.parse("badvalue");
++            Assert.fail();
++        } catch (ParseException e) {
++            // It's all good, it shoudl fail on such value.
++        }
++        
++        
+@@ -163 +214 @@
+-					+ "\"date\":\"1972-01-24T20:21:38.465+0000\"" + "}}", SearchUtils.convertJsonMapToString(data));
++					+ "\"date\":\"1972-01-24T20:21:38.465Z\"" + "}}", SearchUtils.convertJsonMapToString(data));
+diff --git a/api/src/test/java/org/searchisko/persistence/service/JdbcContentPersistenceServiceTest.java b/api/src/test/java/org/searchisko/persistence/service/JdbcContentPersistenceServiceTest.java
+index 6131c7c..07a951a 100644
+--- a/api/src/test/java/org/searchisko/persistence/service/JdbcContentPersistenceServiceTest.java
++++ b/api/src/test/java/org/searchisko/persistence/service/JdbcContentPersistenceServiceTest.java
+@@ -89 +89 @@
+-		TestUtils.assertJsonContent("{\"testkey\" : \"testvalue\", \"sys_updated\":\"1972-01-28T16:22:29.865+0000\"}",
++		TestUtils.assertJsonContent("{\"testkey\" : \"testvalue\", \"sys_updated\":\"1972-01-28T16:22:29.865Z\"}",
+

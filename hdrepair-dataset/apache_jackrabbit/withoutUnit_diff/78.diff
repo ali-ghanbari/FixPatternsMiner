@@ -1,0 +1,8 @@
+diff --git a/jackrabbit/src/main/java/org/apache/jackrabbit/core/NodeImpl.java b/jackrabbit/src/main/java/org/apache/jackrabbit/core/NodeImpl.java
+index 510bac5..26f6d11 100644
+--- a/jackrabbit/src/main/java/org/apache/jackrabbit/core/NodeImpl.java
++++ b/jackrabbit/src/main/java/org/apache/jackrabbit/core/NodeImpl.java
+@@ -1511 +1511 @@
+-        return internalAddChildNode(nodeName, nt, new NodeId(uuid));
++        return internalAddChildNode(nodeName, nt, uuid == null ? null : new NodeId(uuid));
+

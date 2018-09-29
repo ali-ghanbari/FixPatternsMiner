@@ -1,0 +1,126 @@
+diff --git a/src/soot/PackManager.java b/src/soot/PackManager.java
+index 81a4ac7..e7fbaed 100644
+--- a/src/soot/PackManager.java
++++ b/src/soot/PackManager.java
+@@ -426 +426 @@
+-        if( Options.v().whole_program() ) {
++        if( false && Options.v().whole_program() ) {
+diff --git a/src/soot/options/soot_options.xsl b/src/soot/options/soot_options.xsl
+index dc579c6..10a7248 100644
+--- a/src/soot/options/soot_options.xsl
++++ b/src/soot/options/soot_options.xsl
+@@ -65 +65 @@
+-<xsl:for-each select="options/section/phaseopt/phase">
++<xsl:for-each select="options/section/phaseopt/phase|options/section/phaseopt/radio_phase">
+diff --git a/tutorial/tutorial-phase.xsl b/tutorial/tutorial-phase.xsl
+index 4f90d9e..47425fd 100644
+--- a/tutorial/tutorial-phase.xsl
++++ b/tutorial/tutorial-phase.xsl
+@@ -26 +26 @@
+-Soot's execution is divided into a number of phases.  Building the
++Soot's execution is divided into a number of phases.  For example, building the
+@@ -28 +28 @@
+-subphases, like aggregation of stack variables ({\tt jb.asv}).
++subphases, like aggregation of stack variables ({\tt jb.a1}).
+@@ -36 +36,6 @@
+-[plam@cannanore test] java soot.Main foo -p jb use-original-names
++java soot.Main foo -p jb use-original-names:true
++\end{verbatim}
++Multiple option-value pairs may be specified in a single {\tt -p} option
++separated by commas. For example,
++\begin{verbatim}
++java soot.Main foo -p cg.spark verbose:true,on-fly-cg:true
+@@ -39,4 +44,6 @@
+-Unless specified otherwise, all options are boolean; allowed
+-values are ``true'' or ``false''.  When an option is omitted, the
+-default value is ``false''; specifying an option without a value
+-is the same as saying ``true''.
++There are five types of phase options. Boolean options take the values
++``true'' and ``false''; if no value is specified, ``true'' is assumed.
++Multi-valued options have a set of valid values. Integer options
++take a value that is an integer. Floating point options take a 
++floating point number as their value. String options take an arbitrary
++string as their value.
+@@ -44,2 +51,2 @@
+-All transformers accept the option ``{\tt disabled}'', which,
+-when set to {\tt true}, causes the given transformer to not execute.
++Each option has a default value which is used if the option is not
++specified on the command line.
+@@ -47 +54,8 @@
+-Soot transformers are expected to be classes extending either {\tt
++All phases and subphases accept the option ``{\tt enabled}'', which
++must be ``{\tt true}'' for the phase/subphase to execute. To save
++you some typing, the pseudo-options ``{\tt on}'' and ``{\tt off}''
++are equivalent to ``{\tt enabled:true}'' and ``{\tt enabled:false}'',
++respectively. In addition, specifying any options for a phase
++automatically enables that phase.
++
++Soot transfomers are expected to be classes extending either {\tt
+@@ -52 +66,2 @@
+-These transformers belong to a {\tt Pack}.  The {\tt Pack} keeps a 
++These transformers become the subphases of a phase, which is represented
++by a {\tt Pack}.  The {\tt Pack} keeps a 
+@@ -56 +71 @@
+-{\tt Packs} as needed and then calls {\tt soot.Main}.
++{\tt Pack}s as needed and then calls {\tt soot.Main}.
+@@ -59 +74 @@
+-belonging to the various Packs of Soot.
++belonging to the various Packs of Soot, and their corresponding phase options.
+diff --git a/tutorial/tutorial-usage.xsl b/tutorial/tutorial-usage.xsl
+index b6b915d..6cc4720 100644
+--- a/tutorial/tutorial-usage.xsl
++++ b/tutorial/tutorial-usage.xsl
+@@ -26 +26 @@
+-Soot can be invoked in the following ways:
++Soot can be invoked in the following way:
+@@ -30 +29,0 @@
+-soot --app [option]* classname
+@@ -35 +34 @@
+-This manual page documents the command line version of the {\tt soot}
++This manual page documents the command line options of the {\tt soot}
+@@ -37,44 +35,0 @@
+-
+-When given one or several {\em classname}s that refers to a Java type,
+-and no {\tt -}{\tt -app} option, {\tt soot} will attempt to resolve it by
+-finding a file containing the given type. Once {\tt soot} has located
+-such a file, it will read in its contents, perform transformations on
+-its bytecode and output the type in a specified output format. This
+-mode of operation is referred to as running {\tt soot} in {\em
+-single-file mode}. All types specified on the commandline are resolved
+-and processed.  In this mode, the last file specified on the command-line
+-serves as the main class, when such a notion is needed.
+-
+-The {\tt -}{\tt -app} argument can be used to activate {\tt soot}'s {\em
+-application mode}. In {\em application mode} {\tt soot} will perform a
+-transitive closure on the types listed in the constant pool of the
+-type provided on the command line. {\tt soot} will then proceed to
+-transform the types in this closure. The closure will contain Java
+-library types, as well as types particular to the application. By
+-default, only the application-specific types will be processed by {\tt
+-soot}. This can be overridden by command line options.  Clearly,
+-in this case, the file specified on the command-line is the main class.
+-
+-To resolve a type, {\tt soot} uses the same semantics as the {\tt java}
+-command; {\tt soot} looks for files containing
+-types in the directories specified by the {\tt soot.class.path}
+-system property. This property serves the same purpose as {\tt
+-java}'s {\tt CLASSPATH} environment variable. There is also a command
+-line option to override the {\tt soot.class.path} property.  If there
+-is no Soot classpath, then the external Java {\tt CLASSPATH} is used.
+-(There is a note for Windows users in the section describing the
+-soot-class-path entry).
+-
+-Once a type has been resolved and read into {\tt soot}, various
+-transformations can be applied to its code.  These are described in
+-the optimization section of the options below.
+-
+-The Soot framework has 3 different internal representations: {\em
+-Baf}, {\em Jimple} and {\em Grimp}. {\tt soot} allows one to output a
+-processed class either as a standard classfile or in the textual format
+-corresponding to one of the above internal representations. Thus a
+-class can be outputted as a {\tt .baf} file, a {\tt.jimple} file or a
+-{\tt .grimple} file that will contain textual representations for the
+-{\em Baf }, {\em Jimple} and {\em Grimp} internal representations
+-respectively. Additionally a processed type can be outputed in the
+-{\em Jasmin} assembler format, as a {\tt .jasmin} file.
+

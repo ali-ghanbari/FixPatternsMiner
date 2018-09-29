@@ -1,0 +1,19 @@
+diff --git a/plugins/spellchecker/src/com/intellij/spellchecker/inspections/IdentifierSplitter.java b/plugins/spellchecker/src/com/intellij/spellchecker/inspections/IdentifierSplitter.java
+index b0b6c2b..d51c932 100644
+--- a/plugins/spellchecker/src/com/intellij/spellchecker/inspections/IdentifierSplitter.java
++++ b/plugins/spellchecker/src/com/intellij/spellchecker/inspections/IdentifierSplitter.java
+@@ -36 +36 @@
+-  private static final Pattern WORD_EXT = Pattern.compile("(\\p{L}*?)[_$\\[\\]]");
++  private static final Pattern WORD_EXT = Pattern.compile("(\\p{L}*?)[-_$\\[\\]]");
+diff --git a/plugins/spellchecker/testSrc/com/intellij/spellchecker/inspector/SplitterTest.java b/plugins/spellchecker/testSrc/com/intellij/spellchecker/inspector/SplitterTest.java
+index ba43569..64bba76 100644
+--- a/plugins/spellchecker/testSrc/com/intellij/spellchecker/inspector/SplitterTest.java
++++ b/plugins/spellchecker/testSrc/com/intellij/spellchecker/inspector/SplitterTest.java
+@@ -74,0 +75,6 @@
++  public void testWords() {
++    String text = "first-last";
++    List<CheckArea> checkAreas = SplitterFactory.getInstance().getIdentifierSplitter().split(text);
++    correctListToCheck(checkAreas, text, new String[]{"first","last"});
++  }
++
+

@@ -1,0 +1,45 @@
+diff --git a/src/main/java/com/basho/riak/client/convert/reflect/RiakIndexMethod.java b/src/main/java/com/basho/riak/client/convert/reflect/RiakIndexMethod.java
+index cfd3d2d..ee35c90 100644
+--- a/src/main/java/com/basho/riak/client/convert/reflect/RiakIndexMethod.java
++++ b/src/main/java/com/basho/riak/client/convert/reflect/RiakIndexMethod.java
+@@ -60 +60 @@
+-                if (!genericType.equals(String.class) && !genericType.equals(Integer.class))
++                if (!genericType.equals(String.class) && !genericType.equals(Integer.class) && !genericType.equals(Long.class))
+diff --git a/src/test/java/com/basho/riak/client/convert/RiakIndexConverterTest.java b/src/test/java/com/basho/riak/client/convert/RiakIndexConverterTest.java
+index f72a206..86de964 100644
+--- a/src/test/java/com/basho/riak/client/convert/RiakIndexConverterTest.java
++++ b/src/test/java/com/basho/riak/client/convert/RiakIndexConverterTest.java
+@@ -69 +69,3 @@
+-                      rIndexes.getIntIndex("calculated_numbers"));
++                      rIndexes.getIntIndex("calculated_longs"));
++        assertNotNull("Expected Method RiakIndexes IntIndexes to be populated",
++                      rIndexes.getIntIndex("calculated_integers"));
+@@ -75 +77,2 @@
+-        assertEquals(DomainObject.CALCULATIONS_COUNT, rIndexes.getIntIndex("calculated_numbers").size());
++        assertEquals(DomainObject.CALCULATIONS_COUNT, rIndexes.getIntIndex("calculated_longs").size());
++        assertEquals(DomainObject.CALCULATIONS_COUNT, rIndexes.getIntIndex("calculated_integers").size());
+@@ -91,4 +94,13 @@
+-        
+-        @RiakIndex(name = "calculated_numbers") 
+-        public Set<Integer> getCalculatedNumbers() {
+-            final Set<Integer> calculatedNumbers = new HashSet<Integer>();
++
++        @RiakIndex(name = "calculated_longs")
++        public Set<Long> getCalculatedLongs() {
++          final Set<Long> calculatedLongs = new HashSet<Long>();
++          for (long i = 0; i < CALCULATIONS_COUNT; i++) {
++                calculatedLongs.add(i);
++          }
++          return calculatedLongs;
++        }
++
++        @RiakIndex(name = "calculated_integers")
++        public Set<Integer> getCalculatedIntegers() {
++            final Set<Integer> calculatedIntegers = new HashSet<Integer>();
+@@ -96 +108 @@
+-                calculatedNumbers.add(i);
++                calculatedIntegers.add(i);
+@@ -98 +110 @@
+-            return calculatedNumbers;
++            return calculatedIntegers;
+

@@ -1,0 +1,9 @@
+diff --git a/activemq-core/src/main/java/org/apache/activemq/ActiveMQConnection.java b/activemq-core/src/main/java/org/apache/activemq/ActiveMQConnection.java
+index 9d80b91..57ca8f1 100755
+--- a/activemq-core/src/main/java/org/apache/activemq/ActiveMQConnection.java
++++ b/activemq-core/src/main/java/org/apache/activemq/ActiveMQConnection.java
+@@ -214 +214,2 @@
+-                thread.setDaemon(true);
++                //Don't make these daemon threads - see https://issues.apache.org/jira/browse/AMQ-796
++                //thread.setDaemon(true);
+

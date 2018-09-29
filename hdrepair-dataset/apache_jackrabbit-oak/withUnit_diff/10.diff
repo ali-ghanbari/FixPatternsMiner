@@ -1,0 +1,68 @@
+diff --git a/oak-core/src/main/java/org/apache/jackrabbit/oak/query/ast/DescendantNodeJoinConditionImpl.java b/oak-core/src/main/java/org/apache/jackrabbit/oak/query/ast/DescendantNodeJoinConditionImpl.java
+index a091bd5..080050c 100644
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/query/ast/DescendantNodeJoinConditionImpl.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/query/ast/DescendantNodeJoinConditionImpl.java
+@@ -86 +86 @@
+-                f.restrictPath(a, Filter.PathRestriction.DIRECT_CHILDREN);
++                f.restrictPath(a, Filter.PathRestriction.ALL_CHILDREN);
+diff --git a/oak-core/src/test/java/org/apache/jackrabbit/oak/query/index/TraversingIndexQueryTest.java b/oak-core/src/test/java/org/apache/jackrabbit/oak/query/index/TraversingIndexQueryTest.java
+index 53b96fc..58b967f 100644
+--- a/oak-core/src/test/java/org/apache/jackrabbit/oak/query/index/TraversingIndexQueryTest.java
++++ b/oak-core/src/test/java/org/apache/jackrabbit/oak/query/index/TraversingIndexQueryTest.java
+@@ -158,0 +159,48 @@
++
++    @Test
++    public void testOak1301() throws Exception {
++        Tree t1 = root.getTree("/").addChild("home").addChild("users")
++                .addChild("testing").addChild("socialgraph_test_user_4");
++        t1.setProperty("jcr:primaryType", "rep:User");
++        t1.setProperty("rep:authorizableId", "socialgraph_test_user_4");
++
++        Tree s = t1.addChild("social");
++        s.setProperty("jcr:primaryType", "sling:Folder");
++
++        Tree r = s.addChild("relationships");
++        r.setProperty("jcr:primaryType", "sling:Folder");
++
++        Tree f = r.addChild("friend");
++        f.setProperty("jcr:primaryType", "sling:Folder");
++
++        Tree sg = f.addChild("socialgraph_test_group");
++        sg.setProperty("jcr:primaryType", "nt:unstructured");
++        sg.setProperty("id", "socialgraph_test_group");
++
++        Tree t2 = root.getTree("/").addChild("home").addChild("groups")
++                .addChild("testing").addChild("socialgraph_test_group");
++        root.commit();
++
++        // select [jcr:path], [jcr:score], * from [nt:base] as a where [id/*] =
++        // 'socialgraph_test_group' and isdescendantnode(a, '/home') /* xpath:
++        // /jcr:root/home//*[id='socialgraph_test_group'] */
++        assertQuery(
++                "/jcr:root/home//*[id='socialgraph_test_group']",
++                "xpath",
++                ImmutableList
++                        .of("/home/users/testing/socialgraph_test_user_4/social/relationships/friend/socialgraph_test_group"));
++
++        // sql2 select c.[jcr:path] as [jcr:path], c.[jcr:score] as [jcr:score],
++        // c.* from [nt:base] as a inner join [nt:base] as b on ischildnode(b,
++        // a) inner join [nt:base] as c on isdescendantnode(c, b) where name(a)
++        // = 'social' and isdescendantnode(a, '/home') and name(b) =
++        // 'relationships' and c.[id/*] = 'socialgraph_test_group' /* xpath:
++        // /jcr:root/home//social/relationships//*[id='socialgraph_test_group']
++        // */
++        assertQuery(
++                "/jcr:root/home//social/relationships//*[id='socialgraph_test_group']",
++                "xpath",
++                ImmutableList
++                        .of("/home/users/testing/socialgraph_test_user_4/social/relationships/friend/socialgraph_test_group"));
++
++    }
+diff --git a/oak-core/src/test/resources/org/apache/jackrabbit/oak/query/sql2_index.txt b/oak-core/src/test/resources/org/apache/jackrabbit/oak/query/sql2_index.txt
+index aaf1297..ed957c0 100644
+--- a/oak-core/src/test/resources/org/apache/jackrabbit/oak/query/sql2_index.txt
++++ b/oak-core/src/test/resources/org/apache/jackrabbit/oak/query/sql2_index.txt
+@@ -68 +68 @@
+-[nt:base] as [a] /* property jcr:uuid where [a].[jcr:uuid] is not null */ inner join [nt:base] as [b] /* traverse "/path/from/the/join/selector/*" where [b].[x] is not null */ on isdescendantnode([b], [a])
++[nt:base] as [a] /* property jcr:uuid where [a].[jcr:uuid] is not null */ inner join [nt:base] as [b] /* traverse "/path/from/the/join/selector//*" where [b].[x] is not null */ on isdescendantnode([b], [a])
+

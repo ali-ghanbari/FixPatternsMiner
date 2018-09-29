@@ -1,0 +1,28 @@
+diff --git a/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingSupport.java b/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingSupport.java
+index 4b53317..ee0abf1 100644
+--- a/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingSupport.java
++++ b/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingSupport.java
+@@ -1780 +1780 @@
+-        if (newGenerics == null || newGenerics.length == 0) return null;
++        if (newGenerics == null || newGenerics.length == 0) return current;
+diff --git a/src/test/groovy/transform/stc/GenericsSTCTest.groovy b/src/test/groovy/transform/stc/GenericsSTCTest.groovy
+index 5802645..773cd80 100644
+--- a/src/test/groovy/transform/stc/GenericsSTCTest.groovy
++++ b/src/test/groovy/transform/stc/GenericsSTCTest.groovy
+@@ -1629,0 +1630,15 @@
++    // GROOVY-6856
++    void testReturnTypeFitsInferredTypeWithBound() {
++        assertScript '''
++            class Wrapper {}
++
++            class Foo<W extends Wrapper> {
++                W doIt (List<W> l) {
++                    l.iterator().next()
++                }
++            }
++            Wrapper w = new Wrapper()
++            assert new Foo<Wrapper>().doIt([w]) == w
++        '''
++    }
++
+

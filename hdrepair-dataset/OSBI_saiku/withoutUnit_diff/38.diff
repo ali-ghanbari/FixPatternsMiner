@@ -1,0 +1,22 @@
+diff --git a/saiku-core/saiku-service/src/test/java/org/saiku/AbstractServiceUtils.java b/saiku-core/saiku-service/src/test/java/org/saiku/AbstractServiceUtils.java
+index 18a0723..c83298a 100644
+--- a/saiku-core/saiku-service/src/test/java/org/saiku/AbstractServiceUtils.java
++++ b/saiku-core/saiku-service/src/test/java/org/saiku/AbstractServiceUtils.java
+@@ -63 +63 @@
+-                Connection c = DriverManager.getConnection("jdbc:hsqldb:file:myunittests", "SA", "");
++                Connection c = DriverManager.getConnection("jdbc:hsqldb:file:target/test/myunittests", "SA", "");
+diff --git a/saiku-core/saiku-service/src/test/resources/org/saiku/connection.properties b/saiku-core/saiku-service/src/test/resources/org/saiku/connection.properties
+index 6cf5b95..238a72e 100644
+--- a/saiku-core/saiku-service/src/test/resources/org/saiku/connection.properties
++++ b/saiku-core/saiku-service/src/test/resources/org/saiku/connection.properties
+@@ -4 +4 @@
+-location=jdbc:mondrian:Jdbc=jdbc:hsqldb:file:myunittests;Catalog=res:org/saiku/olap/discover/FoodMart.xml;
++location=jdbc:mondrian:Jdbc=jdbc:hsqldb:file:target/test/myunittests;Catalog=res:org/saiku/olap/discover/FoodMart.xml;
+diff --git a/saiku-core/saiku-service/src/test/resources/org/saiku/olap/discover/connection.properties b/saiku-core/saiku-service/src/test/resources/org/saiku/olap/discover/connection.properties
+index 6cf5b95..238a72e 100644
+--- a/saiku-core/saiku-service/src/test/resources/org/saiku/olap/discover/connection.properties
++++ b/saiku-core/saiku-service/src/test/resources/org/saiku/olap/discover/connection.properties
+@@ -4 +4 @@
+-location=jdbc:mondrian:Jdbc=jdbc:hsqldb:file:myunittests;Catalog=res:org/saiku/olap/discover/FoodMart.xml;
++location=jdbc:mondrian:Jdbc=jdbc:hsqldb:file:target/test/myunittests;Catalog=res:org/saiku/olap/discover/FoodMart.xml;
+

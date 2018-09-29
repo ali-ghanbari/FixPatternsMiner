@@ -1,0 +1,101 @@
+diff --git a/astrid/plugin-src/com/todoroo/astrid/actfm/sync/messages/UserMigrated.java b/astrid/plugin-src/com/todoroo/astrid/actfm/sync/messages/UserMigrated.java
+index e60c98e..0e1425a 100644
+--- a/astrid/plugin-src/com/todoroo/astrid/actfm/sync/messages/UserMigrated.java
++++ b/astrid/plugin-src/com/todoroo/astrid/actfm/sync/messages/UserMigrated.java
+@@ -20 +20 @@
+-            new ConvertSelfUserIdsToZero();
++            new ConvertSelfUserIdsToZero().execute();
+diff --git a/tests/src/com/todoroo/astrid/sync/SyncMessageTest.java b/tests/src/com/todoroo/astrid/sync/SyncMessageTest.java
+index f7d14dc..01b2ab6 100644
+--- a/tests/src/com/todoroo/astrid/sync/SyncMessageTest.java
++++ b/tests/src/com/todoroo/astrid/sync/SyncMessageTest.java
+@@ -7,0 +8 @@
++import com.todoroo.astrid.actfm.sync.ActFmPreferenceService;
+@@ -12,0 +14 @@
++import com.todoroo.astrid.actfm.sync.messages.UserMigrated;
+@@ -14,0 +17 @@
++import com.todoroo.astrid.data.TagData;
+@@ -20 +23 @@
+-	
++
+@@ -33 +36 @@
+-	
++
+@@ -39 +42 @@
+-		
++
+@@ -41 +44 @@
+-		changes.put("title", MAKE_CHANGES_TITLE); 
++		changes.put("title", MAKE_CHANGES_TITLE);
+@@ -50 +53 @@
+-		
++
+@@ -54 +57 @@
+-	
++
+@@ -60 +63 @@
+-			
++
+@@ -63 +66 @@
+-			
++
+@@ -72 +75 @@
+-	
++
+@@ -79 +82 @@
+-			
++
+@@ -85 +88 @@
+-				
++
+@@ -92 +95 @@
+-			
++
+@@ -98 +101 @@
+-	
++
+@@ -108 +111 @@
+-			
++
+@@ -127 +130 @@
+-	
++
+@@ -130 +133 @@
+-		
++
+@@ -135 +138 @@
+-		
++
+@@ -137 +140 @@
+-		
++
+@@ -142 +145,27 @@
+-	
++
++	public void testUserMigratedUpdatesUserIds() {
++	    Task t = createTask("Someone else's", true);
++	    TagData td = createTagData("Someone else's tag", true);
++
++	    t.setValue(Task.USER_ID, "1");
++	    taskDao.save(t);
++	    td.setValue(TagData.USER_ID, "1");
++	    tagDataDao.saveExisting(td);
++
++	    JSONObject userMigrated = new JSONObject();
++	    try {
++	        userMigrated.put("type", ServerToClientMessage.TYPE_USER_MIGRATED);
++	        userMigrated.put("new_user_id", "1");
++	    } catch (JSONException e) {
++	        fail("JSONException");
++	    }
++
++	    new UserMigrated(userMigrated).processMessage(null);
++
++	    t = taskDao.fetch(t.getId(), Task.USER_ID);
++	    td = tagDataDao.fetch(td.getId(), TagData.USER_ID);
++	    assertEquals("1", ActFmPreferenceService.userId());
++	    assertEquals(Task.USER_ID_SELF, t.getValue(Task.USER_ID));
++	    assertEquals(Task.USER_ID_SELF, td.getValue(TagData.USER_ID));
++	}
++
+

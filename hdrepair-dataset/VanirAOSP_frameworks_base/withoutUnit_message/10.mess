@@ -1,0 +1,16 @@
+Fix another off-by-one error in computeEllipsis
+
+In the START case, we can iterate back before the start of the
+string.  A similar fix was previously applied to the MIDDLE
+case of computeEllipsis:
+
+commit 0e3c5e827235911d33312e431975533f046421e7
+Author: Raph Levien <raph@google.com>
+Date:   Thu Dec 4 13:26:07 2014 -0800
+
+    Fix off-by-one error in computeEllipsis
+
+Fixes JIRA: NIGHTLIES-1280.
+
+Change-Id: I081eaec9bce5a8989c8fc1b0d440848b40a66158
+

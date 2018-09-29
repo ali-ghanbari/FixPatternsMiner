@@ -1,0 +1,33 @@
+diff --git a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java
+index 79d44b5..05774d5 100644
+--- a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java
++++ b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java
+@@ -26 +25,0 @@
+-  @WidgetProperty(key = "heightInPercents", type= WidgetPropertyType.INTEGER, defaultValue = "50", description = "Height in percents of width"),
+diff --git a/plugins/sonar-core-plugin/src/main/resources/org/sonar/plugins/core/widgets/treemap.html.erb b/plugins/sonar-core-plugin/src/main/resources/org/sonar/plugins/core/widgets/treemap.html.erb
+index ac08223..75f765a 100644
+--- a/plugins/sonar-core-plugin/src/main/resources/org/sonar/plugins/core/widgets/treemap.html.erb
++++ b/plugins/sonar-core-plugin/src/main/resources/org/sonar/plugins/core/widgets/treemap.html.erb
+@@ -1,8 +1,12 @@
+-<%= render :partial => 'treemap/treemap_container', :locals => {
+-  :treemap_id => widget.id,
+-  :size_metric => widget_properties['sizeMetric'],
+-  :color_metric => widget_properties['colorMetric'],
+-  :height_in_percents => widget_properties['heightInPercents'],
+-  :context_type => 'resource',
+-  :context_id => @resource.id
+-  } -%>
+\ No newline at end of file
++<%
++   size_metric = widget_properties['sizeMetric']
++   color_metric = widget_properties['colorMetric']
++
++   filter = MeasureFilter.new
++   filter.set_criteria_value('baseId', @resource.id)
++   filter.set_criteria_value('display', 'treemap')
++   filter.set_criteria_value('tmSize', size_metric.key) if size_metric
++   filter.set_criteria_value('tmColor', color_metric.key) if color_metric
++   filter.execute(self, :user => current_user)
++%>
++<%= render :partial => "measures/display_treemap", :locals => {:edit_mode => false, :widget => widget, :filter => filter} %>
+

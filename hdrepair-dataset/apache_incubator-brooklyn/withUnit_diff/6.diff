@@ -1,0 +1,229 @@
+diff --git a/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsLocation.java b/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsLocation.java
+index 8a4dc32..2547422 100644
+--- a/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsLocation.java
++++ b/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsLocation.java
+@@ -1433 +1433 @@
+-                useKey = true;
++                if (privKey!=null) useKey = true;
+diff --git a/locations/jclouds/src/test/java/brooklyn/location/jclouds/AbstractJcloudsLiveTest.java b/locations/jclouds/src/test/java/brooklyn/location/jclouds/AbstractJcloudsLiveTest.java
+index 221df5f..eb65251 100644
+--- a/locations/jclouds/src/test/java/brooklyn/location/jclouds/AbstractJcloudsLiveTest.java
++++ b/locations/jclouds/src/test/java/brooklyn/location/jclouds/AbstractJcloudsLiveTest.java
+@@ -118,0 +119,2 @@
++        // remove all location properties except for identity and credential
++        // (so key, scripts, etc settings don't interfere with tests) 
+diff --git a/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLoginLiveTest.java b/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLoginLiveTest.java
+index 3cc3efe..ef0862f 100644
+--- a/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLoginLiveTest.java
++++ b/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLoginLiveTest.java
+@@ -27,0 +28 @@
++import org.testng.Assert;
+@@ -31,0 +33 @@
++import brooklyn.util.collections.MutableList;
+@@ -53,0 +56,4 @@
++    
++    // Image: {id=us-east-1/ami-5e008437, providerId=ami-5e008437, name=RightImage_Ubuntu_10.04_x64_v5.8.8.3, location={scope=REGION, id=us-east-1, description=us-east-1, parent=aws-ec2, iso3166Codes=[US-VA]}, os={family=ubuntu, arch=paravirtual, version=10.04, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, is64Bit=true}, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, version=5.8.8.3, status=AVAILABLE[available], loginUser=root, userMetadata={owner=411009282317, rootDeviceType=instance-store, virtualizationType=paravirtual, hypervisor=xen}}
++    // Uses "root" as loginUser
++    public static final String AWS_EC2_UBUNTU_10_IMAGE_ID = "us-east-1/ami-5e008437";
+@@ -191 +197 @@
+-    protected void testSpecifyingPasswordWhenDefaultSshKeysExistPrefersKeys() throws Exception {
++    protected void testSpecifyingPasswordIgnoresDefaultSshKeys() throws Exception {
+@@ -193,0 +200,23 @@
++        jcloudsLocation = (JcloudsLocation) managementContext.getLocationRegistry().resolve(RACKSPACE_LOCATION_SPEC);
++        
++        machine = createRackspaceMachine(ImmutableMap.of("imageNameRegex", RACKSPACE_DEBIAN_IMAGE_NAME_REGEX));
++        assertSshable(machine);
++        
++        assertSshable(ImmutableMap.builder()
++                .put("address", machine.getAddress())
++                .put("user", "myname")
++                .put(SshMachineLocation.PASSWORD, "mypassword")
++                .build());
++        
++        assertNotSshable(ImmutableMap.builder()
++            .put("address", machine.getAddress())
++            .put("user", "myname")
++            .put(SshMachineLocation.PRIVATE_KEY_FILE, Os.tidyPath("~/.ssh/id_rsa"))
++            .build());
++    }
++
++    @Test(groups = {"Live"})
++    protected void testSpecifyingPasswordWithPublicKeyAllowsKeyAccess() throws Exception {
++        brooklynProperties.put(BROOKLYN_PROPERTIES_PREFIX+JcloudsLocationConfig.USER.getName(), "myname");
++        brooklynProperties.put(BROOKLYN_PROPERTIES_PREFIX+JcloudsLocationConfig.PASSWORD.getName(), "mypassword");
++        brooklynProperties.put(BROOKLYN_PROPERTIES_PREFIX+JcloudsLocationConfig.PUBLIC_KEY_FILE.getName(), "~/.ssh/id_rsa.pub");
+@@ -237,4 +265,0 @@
+-        // Image: {id=us-east-1/ami-5e008437, providerId=ami-5e008437, name=RightImage_Ubuntu_10.04_x64_v5.8.8.3, location={scope=REGION, id=us-east-1, description=us-east-1, parent=aws-ec2, iso3166Codes=[US-VA]}, os={family=ubuntu, arch=paravirtual, version=10.04, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, is64Bit=true}, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, version=5.8.8.3, status=AVAILABLE[available], loginUser=root, userMetadata={owner=411009282317, rootDeviceType=instance-store, virtualizationType=paravirtual, hypervisor=xen}}
+-        // Uses "root" as loginUser
+-        String imageId = "us-east-1/ami-5e008437";
+-        
+@@ -246 +271 @@
+-        machine = createEc2Machine(ImmutableMap.<String,Object>of("imageId", imageId));
++        machine = createEc2Machine(ImmutableMap.<String,Object>of("imageId", AWS_EC2_UBUNTU_10_IMAGE_ID));
+@@ -258,4 +282,0 @@
+-        // Image: {id=us-east-1/ami-5e008437, providerId=ami-5e008437, name=RightImage_Ubuntu_10.04_x64_v5.8.8.3, location={scope=REGION, id=us-east-1, description=us-east-1, parent=aws-ec2, iso3166Codes=[US-VA]}, os={family=ubuntu, arch=paravirtual, version=10.04, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, is64Bit=true}, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, version=5.8.8.3, status=AVAILABLE[available], loginUser=root, userMetadata={owner=411009282317, rootDeviceType=instance-store, virtualizationType=paravirtual, hypervisor=xen}}
+-        // Uses "root" as loginUser
+-        String imageId = "us-east-1/ami-5e008437";
+-        
+@@ -267 +288 @@
+-        machine = createEc2Machine(ImmutableMap.<String,Object>of("imageId", imageId));
++        machine = createEc2Machine(ImmutableMap.<String,Object>of("imageId", AWS_EC2_UBUNTU_10_IMAGE_ID));
+@@ -281,4 +301,0 @@
+-        // Image: {id=us-east-1/ami-5e008437, providerId=ami-5e008437, name=RightImage_Ubuntu_10.04_x64_v5.8.8.3, location={scope=REGION, id=us-east-1, description=us-east-1, parent=aws-ec2, iso3166Codes=[US-VA]}, os={family=ubuntu, arch=paravirtual, version=10.04, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, is64Bit=true}, description=rightscale-us-east/RightImage_Ubuntu_10.04_x64_v5.8.8.3.manifest.xml, version=5.8.8.3, status=AVAILABLE[available], loginUser=root, userMetadata={owner=411009282317, rootDeviceType=instance-store, virtualizationType=paravirtual, hypervisor=xen}}
+-        // Uses "root" as loginUser
+-        String imageId = "us-east-1/ami-5e008437";
+-        
+@@ -290 +307 @@
+-        machine = createEc2Machine(ImmutableMap.<String,Object>of("imageId", imageId));
++        machine = createEc2Machine(ImmutableMap.<String,Object>of("imageId", AWS_EC2_UBUNTU_10_IMAGE_ID));
+@@ -322 +339 @@
+-        SshMachineLocation machineUsingPassword = managementContext.getLocationManager().createLocation(LocationSpec.create(SshMachineLocation.class)
++        SshMachineLocation machineWithThatConfig = managementContext.getLocationManager().createLocation(LocationSpec.create(SshMachineLocation.class)
+@@ -325 +342 @@
+-            assertSshable(machineUsingPassword);
++            assertSshable(machineWithThatConfig);
+@@ -327 +344,11 @@
+-            Streams.closeQuietly(machineUsingPassword);
++            Streams.closeQuietly(machineWithThatConfig);
++        }
++    }
++    
++    protected void assertNotSshable(Map<?,?> machineConfig) {
++        try {
++            assertSshable(machineConfig);
++            Assert.fail("ssh should not have succeeded "+machineConfig);
++        } catch (Exception e) {
++            // expected
++            LOG.debug("Exception as expected when testing sshable "+machineConfig);
+diff --git a/locations/jclouds/src/test/resources/brooklyn/location/jclouds/jclouds-location-test-various-login-credentials.yaml b/locations/jclouds/src/test/resources/brooklyn/location/jclouds/jclouds-location-test-various-login-credentials.yaml
+new file mode 100644
+index 0000000..9230c4e
+--- /dev/null
++++ b/locations/jclouds/src/test/resources/brooklyn/location/jclouds/jclouds-location-test-various-login-credentials.yaml
+@@ -0,0 +1,67 @@
++#
++# Licensed to the Apache Software Foundation (ASF) under one
++# or more contributor license agreements.  See the NOTICE file
++# distributed with this work for additional information
++# regarding copyright ownership.  The ASF licenses this file
++# to you under the Apache License, Version 2.0 (the
++# "License"); you may not use this file except in compliance
++# with the License.  You may obtain a copy of the License at
++#
++#  http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing,
++# software distributed under the License is distributed on an
++# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++# KIND, either express or implied.  See the License for the
++# specific language governing permissions and limitations
++# under the License.
++#
++
++name: various-login-credentials-test
++
++# not live tested, but useful for manual tests
++# assumes the keys listed here exist;
++# some children should pass, some should fail...
++
++services:
++
++- type: brooklyn.entity.basic.EmptySoftwareProcess
++  name: GOOD-default-should-use-id-rsa-or-create
++  location:
++    jclouds:aws-ec2
++    
++# passphrases
++- type: brooklyn.entity.basic.EmptySoftwareProcess
++  name: GOOD-key-w-passphrase-supplied
++  location:
++    jclouds:aws-ec2:
++      privateKeyFile: ~/.ssh/passphrase-id_rsa
++      privateKeyPassphrase: passphrase
++- type: brooklyn.entity.basic.EmptySoftwareProcess
++  name: FAIL-missing-passphrase
++  location:
++    jclouds:aws-ec2:
++      privateKeyFile: ~/.ssh/passphrase-id_rsa
++
++# creating a new key
++- type: brooklyn.entity.basic.EmptySoftwareProcess
++  name: GOOD-no-key-create-key
++  location:
++    jclouds:aws-ec2:
++      privateKeyFile: ""
++      
++# passwords - TODO need an image which doesn't have password-ssh disabled by default!
++- type: brooklyn.entity.basic.EmptySoftwareProcess
++  # depends if image allows password access
++  name: MAYBE-explicit-password
++  location:
++    jclouds:aws-ec2:
++      password: foo
++- type: brooklyn.entity.basic.EmptySoftwareProcess
++  # depends if image allows password access
++  name: MAYBE-explicit-password-used-and-public-key-authed
++  location:
++    jclouds:aws-ec2
++    password: foo
++    privateKeyFile: ""
++    publicKeyFile: "~/.ssh/id_rsa.pub"
+diff --git a/locations/jclouds/src/test/resources/brooklyn/location/jclouds/various-login-credentials.yaml b/locations/jclouds/src/test/resources/brooklyn/location/jclouds/various-login-credentials.yaml
+deleted file mode 100644
+index 1cfe09e..0000000
+--- a/locations/jclouds/src/test/resources/brooklyn/location/jclouds/various-login-credentials.yaml
++++ /dev/null
+@@ -1,52 +0,0 @@
+-#
+-# Licensed to the Apache Software Foundation (ASF) under one
+-# or more contributor license agreements.  See the NOTICE file
+-# distributed with this work for additional information
+-# regarding copyright ownership.  The ASF licenses this file
+-# to you under the Apache License, Version 2.0 (the
+-# "License"); you may not use this file except in compliance
+-# with the License.  You may obtain a copy of the License at
+-#
+-#  http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing,
+-# software distributed under the License is distributed on an
+-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+-# KIND, either express or implied.  See the License for the
+-# specific language governing permissions and limitations
+-# under the License.
+-#
+-
+-name: various-login-credentials-test
+-
+-# not live tested, but useful for manual tests
+-# assumes the keys listed here exist;
+-# some children should pass, some should fail...
+-
+-services:
+-- type: brooklyn.entity.basic.EmptySoftwareProcess
+-  name: FAIL-missing-passphrase
+-  location:
+-    jclouds:aws-ec2:
+-      privateKeyFile: ~/.ssh/passphrase-id_rsa
+-- type: brooklyn.entity.basic.EmptySoftwareProcess
+-  name: GOOD-key-w-passphrase-supplied
+-  location:
+-    jclouds:aws-ec2:
+-      privateKeyFile: ~/.ssh/passphrase-id_rsa
+-      privateKeyPassphrase: passphrase
+-- type: brooklyn.entity.basic.EmptySoftwareProcess
+-  name: GOOD-no-key-create-key
+-  location:
+-    jclouds:aws-ec2:
+-      privateKeyFile: ""
+-- type: brooklyn.entity.basic.EmptySoftwareProcess
+-  # depends if image allows password access
+-  name: MAYBE-explicit-password
+-  location:
+-    jclouds:aws-ec2:
+-      password: foo
+-- type: brooklyn.entity.basic.EmptySoftwareProcess
+-  name: GOOD-default-should-use-id-rsa-or-create
+-  location:
+-    jclouds:aws-ec2
+

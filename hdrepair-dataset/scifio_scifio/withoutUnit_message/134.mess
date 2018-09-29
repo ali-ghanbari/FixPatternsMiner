@@ -1,0 +1,6 @@
+Revert custom readers.txt bugfix. The readerClasses field is a static variable
+holding the default reader class list, and should never be overwritten with
+a custom list. Whatever bug this change was intended to fix, there must be a
+more proper way to do so.
+
+

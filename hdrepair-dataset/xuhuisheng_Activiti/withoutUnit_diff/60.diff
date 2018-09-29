@@ -1,0 +1,303 @@
+diff --git a/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/process/ProcessInstancePost.java b/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/process/ProcessInstancePost.java
+index c4ce025..7429dbe 100644
+--- a/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/process/ProcessInstancePost.java
++++ b/modules/activiti-webapp-rest/src/main/java/org/activiti/rest/api/process/ProcessInstancePost.java
+@@ -45 +45 @@
+-    model.put("instance", getRuntimeService().startProcessInstanceById(processDefinitionId, variables));
++    model.put("processInstance", getRuntimeService().startProcessInstanceById(processDefinitionId, variables));
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/activiti.lib.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/activiti.lib.ftl
+index 71b6912..e28b163 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/activiti.lib.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/activiti.lib.ftl
+@@ -0,0 +1,2 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
++
+@@ -7 +9,3 @@
+-</#macro>
+\ No newline at end of file
++</#macro>
++
++</#escape>
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/engine/engine.lib.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/engine/engine.lib.ftl
+new file mode 100644
+index 0000000..a067cd4
+--- /dev/null
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/engine/engine.lib.ftl
+@@ -0,0 +1,12 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
++
++<#macro printProcessEngineInfo processEngineInfo>
++{
++  "name": <#if processEngineInfo.name??>"${processEngineInfo.name}"<#else>null</#if>,
++  "resourceUrl": <#if processEngineInfo.resourceUrl??>"${processEngineInfo.resourceUrl}"<#else>null</#if>,
++  "exception": <#if processEngineInfo.exception??>"${processEngineInfo.exception}"<#else>null</#if>,
++  "version": "${version}"
++}
++</#macro>
++
++</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/engine/process-engine.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/engine/process-engine.get.json.ftl
+index 2c5e70e..5fb39a8 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/engine/process-engine.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/engine/process-engine.get.json.ftl
+@@ -1,8 +1,2 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+-{
+-  "name": <#if processEngineInfo.name??>"${processEngineInfo.name}"<#else>null</#if>,
+-  "resourceUrl": <#if processEngineInfo.resourceUrl??>"${processEngineInfo.resourceUrl}"<#else>null</#if>,
+-  "exception": <#if processEngineInfo.exception??>"${processEngineInfo.exception}"<#else>null</#if>,
+-  "version": "${version}"
+-}
+-</#escape>
+\ No newline at end of file
++<#import "engine.lib.ftl" as engineLib/>
++<@engineLib.printProcessEngineInfo processEngineInfo/>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group-users.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group-users.get.json.ftl
+index 08e58ac..22accac 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group-users.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group-users.get.json.ftl
+@@ -3 +2,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -8 +6,0 @@
+-</#escape>
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group.get.json.ftl
+index 8fcea9a..c1dd103 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/group.get.json.ftl
+@@ -2 +1,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -4 +2,0 @@
+-</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/identity.lib.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/identity.lib.ftl
+index 7563cc8..a12e33f 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/identity.lib.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/identity.lib.ftl
+@@ -0,0 +1,2 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
++
+@@ -28 +30,3 @@
+-</#macro>
+\ No newline at end of file
++</#macro>
++
++</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user-groups.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user-groups.get.json.ftl
+index 98f136d..69b412e 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user-groups.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user-groups.get.json.ftl
+@@ -3 +2,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -8 +7 @@
+-</#escape>
++
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user.get.json.ftl
+index b6dbc84..3bfe154 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/identity/user.get.json.ftl
+@@ -2 +1,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -4 +2,0 @@
+-</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/jobs.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/jobs.get.json.ftl
+index 6aaa44c..62daf38 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/jobs.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/jobs.get.json.ftl
+@@ -3 +2,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -8 +7 @@
+-</#escape>
++
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/management.lib.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/management.lib.ftl
+index 5071c21..c80f8a5 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/management.lib.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/management.lib.ftl
+@@ -0,0 +1,2 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
++
+@@ -19,0 +22,2 @@
++
++</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/table.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/table.get.json.ftl
+index 8e1f186..754f22d 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/table.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/management/table.get.json.ftl
+@@ -0,0 +1 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -5 +6,2 @@
+-}
+\ No newline at end of file
++}
++</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definition.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definition.get.json.ftl
+index 5371e24..6ea0ffc 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definition.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definition.get.json.ftl
+@@ -2 +1,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -4 +2,0 @@
+-</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definitions.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definitions.get.json.ftl
+index 2115cb5..a220733 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definitions.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-definitions.get.json.ftl
+@@ -3 +2,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -8 +6,0 @@
+-</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-instance.post.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-instance.post.json.ftl
+index f2a76e9..24df1f4 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-instance.post.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process-instance.post.json.ftl
+@@ -1,8 +1,2 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+-{
+-  "id": "${instance.id}",
+-  "processDefinitionId": "${instance.processDefinitionId}",
+-  "activityNames": [<#list instance.findActiveActivityIds() as name>"${name}"<#if name_has_next>, </#if></#list>],
+-  "ended": ${instance.ended?string}
+-}
+-</#escape>
+\ No newline at end of file
++<#import "process.lib.ftl" as processLib>
++<@processLib.printProcessInstance processInstance/>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process.lib.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process.lib.ftl
+index 41f4119..146d91e 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process.lib.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/process/process.lib.ftl
+@@ -0,0 +1,2 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
++
+@@ -17 +19,13 @@
+-</#macro>
+\ No newline at end of file
++</#macro>
++
++
++<#macro printProcessInstance processInstance>
++{
++  "id": "${processInstance.id}",
++  "processDefinitionId": "${processInstance.processDefinitionId}",
++  "activityNames": [<#list processInstance.findActiveActivityIds() as name>"${name}"<#if name_has_next>, </#if></#list>],
++  "ended": ${processInstance.ended?string}
++}
++</#macro>
++
++</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/deployments.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/deployments.get.json.ftl
+index 601808a..dcaa96a 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/deployments.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/deployments.get.json.ftl
+@@ -3 +2,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -8 +6,0 @@
+-</#escape>
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/repository.lib.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/repository.lib.ftl
+index 9b0d933..ab99d7f 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/repository.lib.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/repository/repository.lib.ftl
+@@ -0,0 +1,2 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
++
+@@ -15,0 +18,2 @@
++
++</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.get.json.ftl
+index 10c7367..d7c1243 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.get.json.ftl
+@@ -2 +1,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -4 +2,0 @@
+-</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.lib.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.lib.ftl
+index 847892e..a55fabb 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.lib.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/task.lib.ftl
+@@ -0,0 +1,2 @@
++<#escape x as jsonUtils.encodeJSONString(x)>
++
+@@ -20 +22,3 @@
+-</#macro>
+\ No newline at end of file
++</#macro>
++
++</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/tasks.get.json.ftl b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/tasks.get.json.ftl
+index 345de04..45e680d 100644
+--- a/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/tasks.get.json.ftl
++++ b/modules/activiti-webapp-rest/src/main/resources/webscripts/org/activiti/rest/api/task/tasks.get.json.ftl
+@@ -3 +2,0 @@
+-<#escape x as jsonUtils.encodeJSONString(x)>
+@@ -8 +6,0 @@
+-</#escape>
+\ No newline at end of file
+diff --git a/modules/activiti-webapp/src/main/webapp/js/activiti-widget.js b/modules/activiti-webapp/src/main/webapp/js/activiti-widget.js
+index 537551d..c11ddbc 100644
+--- a/modules/activiti-webapp/src/main/webapp/js/activiti-widget.js
++++ b/modules/activiti-webapp/src/main/webapp/js/activiti-widget.js
+@@ -596,10 +596 @@
+-        if (!listColumnDefs[i].formatter &&
+-            (YAHOO.lang.isFunction(me._callbackHandler["onDataTableRenderCell" + listColumnDefs[i].key.substring(0, 1).toUpperCase() + listColumnDefs[i].key.substring(1)]) ||
+-                YAHOO.lang.isFunction(me._callbackHandler["onDataTableRenderCell"]))) {
+-          listColumnDefs[i].formatter = function(el, oRecord, oColumn, oData)
+-          {
+-            // Apply widths on each cell so it actually works as given in the column definitions
+-            if (oColumn.width) {
+-              YUIDom.setStyle(el, "width", oColumn.width + "px");
+-              YUIDom.setStyle(el.parentNode, "width", oColumn.width + "px");
+-            }
++        if (!listColumnDefs[i].formatter) {
+@@ -607,10 +598,28 @@
+-            var fieldKey = oColumn.getField(),
+-              defaultMethodName = "onDataTableRenderCell",
+-              methodName = defaultMethodName + fieldKey.substring(0, 1).toUpperCase() + fieldKey.substring(1);
+-            if (YAHOO.lang.isFunction(me._callbackHandler[methodName])) {
+-              me._callbackHandler[methodName].call(me._callbackHandler, me, el, oRecord, oColumn, oData);
+-            }
+-            else if (YAHOO.lang.isFunction(me._callbackHandler[defaultMethodName])) {
+-              me._callbackHandler[defaultMethodName].call(me._callbackHandler, me, el, oRecord, oColumn, oData);
+-            }
+-          };
++          if (YAHOO.lang.isFunction(me._callbackHandler["onDataTableRenderCell" + listColumnDefs[i].key.substring(0, 1).toUpperCase() + listColumnDefs[i].key.substring(1)]) ||
++              YAHOO.lang.isFunction(me._callbackHandler["onDataTableRenderCell"])) {
++            listColumnDefs[i].formatter = function(el, oRecord, oColumn, oData)
++            {
++              // Apply widths on each cell so it actually works as given in the column definitions
++              if (oColumn.width) {
++                YUIDom.setStyle(el, "width", oColumn.width + "px");
++                YUIDom.setStyle(el.parentNode, "width", oColumn.width + "px");
++              }
++
++              var fieldKey = oColumn.getField(),
++                  defaultMethodName = "onDataTableRenderCell",
++                  methodName = defaultMethodName + fieldKey.substring(0, 1).toUpperCase() + fieldKey.substring(1);
++              if (YAHOO.lang.isFunction(me._callbackHandler[methodName])) {
++                me._callbackHandler[methodName].call(me._callbackHandler, me, el, oRecord, oColumn, oData);
++              }
++              else if (YAHOO.lang.isFunction(me._callbackHandler[defaultMethodName])) {
++                me._callbackHandler[defaultMethodName].call(me._callbackHandler, me, el, oRecord, oColumn, oData);
++              }
++            };
++          }
++          else {
++            listColumnDefs[i].formatter = function(el, oRecord, oColumn, oData)
++            {
++              // Make sure we encode data so no xss code can run
++              el.innerHTML = Activiti.util.encodeHTML(oData);
++            };
++          }
+

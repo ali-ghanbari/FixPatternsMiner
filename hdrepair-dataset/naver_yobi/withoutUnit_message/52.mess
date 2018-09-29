@@ -1,0 +1,18 @@
+mail: Fix incorrect mail address in From inputbox
+
+Problem: While writing a email in Send email page(/sites/mail), the From
+inputbox is automatically filled with an email address 'username@domain'
+but the postfixing of a domain part may be not necessary because the
+username may have already the domain part.
+
+Solution: Do not postfix a domain part if the username already has an
+'@' character.
+
+Note: It may not be a perfect solution because we are not sure the
+username can be the proper email address even if it has an '@'
+character. The another way to discover proper email address is VRFY
+command defined by SMTP specification but many of SMTP servers does not
+support the command because of spam issue.
+
+This bug is reported from https://github.com/naver/yobi/issues/750
+

@@ -1,0 +1,539 @@
+diff --git a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/BaseFileServiceTest.java b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/BaseFileServiceTest.java
+new file mode 100644
+index 0000000..1b20e9a
+--- /dev/null
++++ b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/BaseFileServiceTest.java
+@@ -0,0 +1,107 @@
++/*
++ * © Copyright IBM Corp. 2014
++ * 
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at:
++ * 
++ * http://www.apache.org/licenses/LICENSE-2.0
++ * 
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
++ * implied. See the License for the specific language governing
++ * permissions and limitations under the License.
++ */
++package com.ibm.sbt.services.client.connections.files;
++
++import java.io.ByteArrayInputStream;
++
++import org.junit.Assert;
++import org.junit.Before;
++
++import com.ibm.commons.util.StringUtil;
++import com.ibm.commons.xml.XMLException;
++import com.ibm.sbt.services.BaseUnitTest;
++import com.ibm.sbt.services.client.ClientServicesException;
++import com.ibm.sbt.services.client.connections.communities.CommunityService;
++import com.ibm.sbt.services.endpoints.BasicEndpoint;
++import com.ibm.sbt.services.endpoints.ConnectionsBasicEndpoint;
++
++/**
++ * 
++ * @author Carlos Manias
++ *
++ */
++public class BaseFileServiceTest extends BaseUnitTest {
++
++	protected FileService fileService;
++	protected CommunityService communityService;
++
++	@Before
++	public void createFileService() {
++		String url = System.getProperty("url");
++		String user = System.getProperty("user");
++		String password = System.getProperty("password");
++		if (StringUtil.isNotEmpty(url) && StringUtil.isNotEmpty(user) && StringUtil.isNotEmpty(password)) {
++			BasicEndpoint endpoint = new ConnectionsBasicEndpoint();
++			endpoint.setUrl(url);
++			endpoint.setUser(user);
++			endpoint.setPassword(password);
++			endpoint.setForceTrustSSLCertificate(true);
++			
++			fileService = new FileService(endpoint);
++			communityService = new CommunityService(endpoint);
++		} else {
++			fileService = new FileService();
++			communityService = new CommunityService();
++		}
++	}
++
++	protected String createCommunity(String baseName, String type) throws ClientServicesException {
++		String title = baseName + System.currentTimeMillis();
++		String content = baseName + " content";
++
++		return communityService.createCommunity(title, content, type);
++	}
++	
++	protected File uploadCommunityFile(String baseName, String communityUuid) throws ClientServicesException, XMLException {
++		String name = baseName + System.currentTimeMillis();
++
++		byte[] bytes = name.getBytes();
++		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
++
++		File file = fileService.uploadCommunityFile(bais, communityUuid, name, bytes.length);
++		Assert.assertNotNull("Error uploading file", file);
++		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
++		
++		return file;
++	}
++
++	protected File uploadFile(String baseName) throws ClientServicesException, XMLException {
++		String name = baseName + System.currentTimeMillis();
++
++		byte[] bytes = name.getBytes();
++		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
++
++		File file = fileService.uploadFile(bais, name, bytes.length);
++		Assert.assertNotNull("Error uploading file", file);
++		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
++		
++		return file;
++	}
++	
++	protected File updateFile(File file, String baseName) throws ClientServicesException, XMLException {
++		String name = baseName + System.currentTimeMillis();
++
++		byte[] bytes = name.getBytes();
++		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
++
++		file = fileService.updateFile(bais, file, null);
++		Assert.assertNotNull("Error updating file", file);
++		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
++		
++		return file;
++	}
++
++}
+diff --git a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileDownloadTest.java b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileDownloadTest.java
+index 1f715f6..b052740 100644
+--- a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileDownloadTest.java
++++ b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileDownloadTest.java
+@@ -18 +17,0 @@
+-import java.io.ByteArrayInputStream;
+@@ -22 +20,0 @@
+-import org.junit.Before;
+@@ -26,4 +23,0 @@
+-import com.ibm.commons.util.StringUtil;
+-import com.ibm.commons.xml.XMLException;
+-import com.ibm.sbt.services.BaseUnitTest;
+-import com.ibm.sbt.services.client.ClientServicesException;
+@@ -31,3 +24,0 @@
+-import com.ibm.sbt.services.client.connections.communities.CommunityService;
+-import com.ibm.sbt.services.endpoints.BasicEndpoint;
+-import com.ibm.sbt.services.endpoints.ConnectionsBasicEndpoint;
+@@ -39,25 +30 @@
+-public class FileDownloadTest extends BaseUnitTest {
+-	
+-	protected FileService fileService;
+-	protected CommunityService communityService;
+-	
+-	@Before
+-	public void createFileService() {
+-		String url = System.getProperty("url");
+-		String user = System.getProperty("user");
+-		String password = System.getProperty("password");
+-		if (StringUtil.isNotEmpty(url) && StringUtil.isNotEmpty(user) && StringUtil.isNotEmpty(password)) {
+-			BasicEndpoint endpoint = new ConnectionsBasicEndpoint();
+-			endpoint.setUrl(url);
+-			endpoint.setUser(user);
+-			endpoint.setPassword(password);
+-			endpoint.setForceTrustSSLCertificate(true);
+-			
+-			fileService = new FileService(endpoint);
+-			communityService = new CommunityService(endpoint);
+-		} else {
+-			fileService = new FileService();
+-			communityService = new CommunityService();
+-		}
+-	}
+-	
++public class FileDownloadTest extends BaseFileServiceTest {
+@@ -76 +42,0 @@
+-
+@@ -82 +48,2 @@
+-		file.save(null);
++		file.save();
++		String fileId = file.getFileId();
+@@ -84 +51 @@
+-		file = fileService.getFile(file.getFileId());
++		file = fileService.getFile(fileId);
+@@ -93 +60 @@
+-	
++
+@@ -148,36 +114,0 @@
+-	
+-	// Internals
+-	
+-	private String createCommunity(String baseName, String type) throws ClientServicesException {
+-		String title = baseName + System.currentTimeMillis();
+-		String content = baseName + " content";
+-
+-		return communityService.createCommunity(title, content, type);
+-	}
+-	
+-	private File uploadCommunityFile(String baseName, String communityUuid) throws ClientServicesException, XMLException {
+-		String name = baseName + System.currentTimeMillis();
+-
+-		byte[] bytes = name.getBytes();
+-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+-
+-		File file = fileService.uploadCommunityFile(bais, communityUuid, name, bytes.length);
+-		Assert.assertNotNull("Error uploading file", file);
+-		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
+-		
+-		return file;
+-	}
+-	
+-	private File uploadFile(String baseName) throws ClientServicesException, XMLException {
+-		String name = baseName + System.currentTimeMillis();
+-
+-		byte[] bytes = name.getBytes();
+-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+-
+-		File file = fileService.uploadFile(bais, name, bytes.length);
+-		Assert.assertNotNull("Error uploading file", file);
+-		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
+-		
+-		return file;
+-	}
+-	
+diff --git a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceSerializersTest.java b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceSerializersTest.java
+index 6ba59f7..959e31a 100644
+--- a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceSerializersTest.java
++++ b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceSerializersTest.java
+@@ -3 +3,2 @@
+-import static org.junit.Assert.*;
++import static org.junit.Assert.assertEquals;
++
+@@ -5,0 +7 @@
++
+@@ -7 +9 @@
+-import com.ibm.sbt.services.BaseUnitTest;
++
+@@ -32 +34 @@
+-public class FileServiceSerializersTest extends BaseUnitTest {
++public class FileServiceSerializersTest extends BaseFileServiceTest {
+diff --git a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTest.java b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTest.java
+index 7773c27..380b9d8 100644
+--- a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTest.java
++++ b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTest.java
+@@ -38 +37,0 @@
+-import com.ibm.sbt.services.BaseUnitTest;
+@@ -46 +45 @@
+-public class FileServiceTest extends BaseUnitTest {
++public class FileServiceTest extends BaseFileServiceTest {
+@@ -52 +51 @@
+-
++    
+@@ -55 +54 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testReadFile");
+@@ -60,0 +60 @@
++        fileService.deleteFile(file.getFileId());
+@@ -65 +65 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testReadFileWithLoadFalse");
+@@ -69,0 +70 @@
++        fileService.deleteFile(file.getFileId());
+@@ -74 +75 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testGetMyFiles");
+@@ -76,5 +77,3 @@
+-        if (fileEntries != null && !fileEntries.isEmpty()) {
+-            for (File fEntry : fileEntries) {
+-                assertEquals(fEntry.getCategory(), "document");
+-                assertEquals(fEntry.getAuthor().getName(), TestEnvironment.getCurrentUserDisplayName());
+-            }
++        for (File fEntry : fileEntries) {
++            assertEquals(fEntry.getCategory(), "document");
++            assertEquals(fEntry.getAuthor().getName(), TestEnvironment.getCurrentUserDisplayName());
+@@ -81,0 +81 @@
++        fileService.deleteFile(file.getFileId());
+@@ -83,0 +84 @@
++    @Ignore
+@@ -86 +86,0 @@
+-        FileService fileService = new FileService();
+@@ -94,0 +95 @@
++    @Ignore
+@@ -97 +97,0 @@
+-        FileService fileService = new FileService();
+@@ -110 +109,0 @@
+-        FileService fileService = new FileService();
+@@ -112,0 +112,3 @@
++    	File file = uploadFile("testGetPublicFiles");
++    	file.setVisibility("public");
++    	file.save();
+@@ -115,4 +117,2 @@
+-        if (fileEntries != null && !fileEntries.isEmpty()) {
+-            for (File fEntry : fileEntries) {
+-                assertEquals(fEntry.getCategory(), "document");
+-            }
++        for (File fEntry : fileEntries) {
++            assertEquals(fEntry.getCategory(), "document");
+@@ -120 +120 @@
+-
++        fileService.deleteFile(file.getFileId());
+@@ -125 +125,3 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testGetPinnedFiles");
++    	file.pin();
++    	file.save();
+@@ -127,4 +129,2 @@
+-        if (fileEntries != null && !fileEntries.isEmpty()) {
+-            for (File fEntry : fileEntries) {
+-                assertEquals(fEntry.getCategory(), "document");
+-            }
++        for (File fEntry : fileEntries) {
++            assertEquals(fEntry.getCategory(), "document");
+@@ -131,0 +132 @@
++        fileService.deleteFile(file.getFileId());
+@@ -134,0 +136 @@
++    @Ignore
+@@ -137 +138,0 @@
+-        FileService fileService = new FileService();
+@@ -149 +149,0 @@
+-        FileService fileService = new FileService();
+@@ -151,0 +152,3 @@
++        File aFolder = fileService.createFolder("testGetFilesInFolder");
++        aFolder.setVisibility("public");
++        fileService.updateFolder(aFolder);
+@@ -166,0 +170 @@
++        fileService.deleteFolder(aFolder.getFileId());
+@@ -171 +174,0 @@
+-        FileService fileService = new FileService();
+@@ -182 +184,0 @@
+-        FileService fileService = new FileService();
+@@ -184,4 +186,2 @@
+-        if (fileEntries != null && !fileEntries.isEmpty()) {
+-            for (File fEntry : fileEntries) {
+-                assertEquals(fEntry.getCategory(), "collection");
+-            }
++        for (File fEntry : fileEntries) {
++            assertEquals(fEntry.getCategory(), "collection");
+@@ -196 +196,3 @@
+-        FileService fileService = new FileService();
++        File aFolder = fileService.createFolder("testGetFilesInFolder");
++        aFolder.setVisibility("public");
++        fileService.updateFolder(aFolder);
+@@ -204,0 +207 @@
++        fileService.deleteFolder(aFolder.getFileId());
+@@ -206,0 +210 @@
++    @Ignore
+@@ -212 +216,2 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testGetAllUserFiles");
++    	file.save();
+@@ -218,0 +224 @@
++        fileService.deleteFile(file.getFileId());
+@@ -223 +229 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testGetAllFileComments");
+@@ -231,0 +238 @@
++        fileService.deleteFile(file.getFileId());
+@@ -239 +246,3 @@
+-        FileService fileService = new FileService();
++    	File afile = uploadFile("testGetAllUserFiles");
++    	afile.setVisibility("public");
++    	afile.save();
+@@ -256,0 +266 @@
++        fileService.deleteFile(afile.getFileId());
+@@ -261 +270,0 @@
+-        FileService fileService = new FileService();
+@@ -272 +281 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testUpdateFileMetadata");
+@@ -282,0 +292 @@
++        fileService.deleteFile(file.getFileId());
+@@ -290 +300 @@
+-        FileService fileService = new FileService();
++    	File afile = uploadFile("testLock");
+@@ -300,0 +311 @@
++        fileService.deleteFile(afile.getFileId());
+@@ -308 +319 @@
+-        FileService fileService = new FileService();
++    	File afile = uploadFile("testUnlock");
+@@ -318,0 +330 @@
++        fileService.deleteFile(afile.getFileId());
+@@ -326 +338 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testPinAndUnPin");
+@@ -340 +352 @@
+-
++        fileService.deleteFile(file.getFileId());
+@@ -345,4 +357,2 @@
+-        FileService fileService = new FileService();
+-        EntityList<File> listOfFiles = fileService.getMyFiles();
+-        String testDeleteFileId = listOfFiles.get(0).getFileId();
+-        fileService.deleteFile(testDeleteFileId);
++    	File file = uploadFile("testDelete");
++        fileService.deleteFile(file.getFileId());
+@@ -353 +363 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testAddCommentToFile");
+@@ -361,0 +372 @@
++        fileService.deleteFile(file.getFileId());
+@@ -366 +377 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testAddCommentToMyFile");
+@@ -372,0 +384 @@
++        fileService.deleteFile(file.getFileId());
+@@ -383 +394,0 @@
+-        FileService service = new FileService();
+@@ -385 +396 @@
+-        File entry = service.uploadFile(inputStream, t.getName(), TEST_CONTENT.length());
++        File entry = fileService.uploadFile(inputStream, t.getName(), TEST_CONTENT.length());
+@@ -387 +398 @@
+-        service.deleteFile(entry.getFileId());
++        fileService.deleteFile(entry.getFileId());
+@@ -392 +402,0 @@
+-        FileService fileService = new FileService();
+@@ -407 +416,0 @@
+-        FileService fileService = new FileService();
+@@ -429 +437,0 @@
+-        FileService fileService = new FileService();
+@@ -439 +447 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testCreateComment");
+@@ -444,0 +453 @@
++        fileService.deleteFile(file.getFileId());
+@@ -449 +457,0 @@
+-        FileService fileService = new FileService();
+@@ -462 +470 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testDeleteComment");
+@@ -469,0 +478 @@
++        fileService.deleteFile(file.getFileId());
+@@ -476 +484,0 @@
+-        FileService fileService = new FileService();
+@@ -501 +508,0 @@
+-        FileService fileService = new FileService();
+@@ -506,0 +514 @@
++    @Ignore
+@@ -509,2 +517 @@
+-        FileService fileService = new FileService();
+-        EntityList<File> listOfFiles = fileService.getFileShares();
++        //EntityList<File> listOfFiles = fileService.getFileShares();
+@@ -518 +525,3 @@
+-        FileService fileService = new FileService();
++        File aFolder = fileService.createFolder("testGetFolder");
++        aFolder.setVisibility("public");
++        fileService.updateFolder(aFolder);
+@@ -523,0 +533 @@
++        fileService.deleteFolder(aFolder.getFileId());
+@@ -528 +537,0 @@
+-        FileService fileService = new FileService();
+@@ -537 +546 @@
+-        FileService fileService = new FileService();
++    	File file = uploadFile("testUpdateComment");
+@@ -546,0 +556 @@
++        fileService.deleteFile(file.getFileId());
+@@ -551 +560,0 @@
+-
+@@ -567 +575,0 @@
+-
+diff --git a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTestSuite.java b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTestSuite.java
+index 4a6ba5a..7f4b81e 100644
+--- a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTestSuite.java
++++ b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileServiceTestSuite.java
+@@ -32 +31,0 @@
+-
+diff --git a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileUpdateTest.java b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileUpdateTest.java
+index aa15b8f..4e7a821 100644
+--- a/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileUpdateTest.java
++++ b/sdk/com.ibm.sbt.core.test/src/test/java/com/ibm/sbt/services/client/connections/files/FileUpdateTest.java
+@@ -21 +20,0 @@
+-import org.junit.Before;
+@@ -25 +23,0 @@
+-import com.ibm.commons.util.StringUtil;
+@@ -28 +25,0 @@
+-import com.ibm.sbt.services.BaseUnitTest;
+@@ -31,3 +27,0 @@
+-import com.ibm.sbt.services.client.connections.communities.CommunityService;
+-import com.ibm.sbt.services.endpoints.BasicEndpoint;
+-import com.ibm.sbt.services.endpoints.ConnectionsBasicEndpoint;
+@@ -39,26 +33 @@
+-public class FileUpdateTest extends BaseUnitTest {
+-	
+-	protected FileService fileService;
+-	protected CommunityService communityService;
+-	
+-	@Before
+-	public void createFileService() {
+-		String url = System.getProperty("url");
+-		String user = System.getProperty("user");
+-		String password = System.getProperty("password");
+-		if (StringUtil.isNotEmpty(url) && StringUtil.isNotEmpty(user) && StringUtil.isNotEmpty(password)) {
+-			BasicEndpoint endpoint = new ConnectionsBasicEndpoint();
+-			endpoint.setUrl(url);
+-			endpoint.setUser(user);
+-			endpoint.setPassword(password);
+-			endpoint.setForceTrustSSLCertificate(true);
+-			endpoint.setApiVersion("4.5");
+-			
+-			fileService = new FileService(endpoint);
+-			communityService = new CommunityService(endpoint);
+-		} else {
+-			fileService = new FileService();
+-			communityService = new CommunityService();
+-		}
+-	}
+-	
++public class FileUpdateTest extends BaseFileServiceTest {
+@@ -150,49 +118,0 @@
+-	
+-	// Internals
+-	
+-	private String createCommunity(String baseName, String type) throws ClientServicesException {
+-		String title = baseName + System.currentTimeMillis();
+-		String content = baseName + " content";
+-
+-		return communityService.createCommunity(title, content, type);
+-	}
+-	
+-	private File uploadCommunityFile(String baseName, String communityUuid) throws ClientServicesException, XMLException {
+-		String name = baseName + System.currentTimeMillis();
+-
+-		byte[] bytes = name.getBytes();
+-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+-
+-		File file = fileService.uploadCommunityFile(bais, communityUuid, name, bytes.length);
+-		Assert.assertNotNull("Error uploading file", file);
+-		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
+-		
+-		return file;
+-	}
+-	
+-	private File uploadFile(String baseName) throws ClientServicesException, XMLException {
+-		String name = baseName + System.currentTimeMillis();
+-
+-		byte[] bytes = name.getBytes();
+-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+-
+-		File file = fileService.uploadFile(bais, name, bytes.length);
+-		Assert.assertNotNull("Error uploading file", file);
+-		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
+-		
+-		return file;
+-	}
+-	
+-	private File updateFile(File file, String baseName) throws ClientServicesException, XMLException {
+-		String name = baseName + System.currentTimeMillis();
+-
+-		byte[] bytes = name.getBytes();
+-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+-
+-		file = fileService.updateFile(bais, file, null);
+-		Assert.assertNotNull("Error updating file", file);
+-		//System.out.println(DOMUtil.getXMLString(file.getDataHandler().getData()));
+-		
+-		return file;
+-	}
+-	
+

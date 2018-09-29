@@ -1,0 +1,31 @@
+diff --git a/driver-core/src/main/java/com/datastax/driver/core/Cluster.java b/driver-core/src/main/java/com/datastax/driver/core/Cluster.java
+index 56a6a73..97ac093 100644
+--- a/driver-core/src/main/java/com/datastax/driver/core/Cluster.java
++++ b/driver-core/src/main/java/com/datastax/driver/core/Cluster.java
+@@ -970,0 +971,2 @@
++                        if (connectionFactory.protocolVersion < 0)
++                            connectionFactory.protocolVersion = 2;
+diff --git a/driver-core/src/test/java/com/datastax/driver/core/SchemaTest.java b/driver-core/src/test/java/com/datastax/driver/core/SchemaTest.java
+index 6681cfe..ef78165 100644
+--- a/driver-core/src/test/java/com/datastax/driver/core/SchemaTest.java
++++ b/driver-core/src/test/java/com/datastax/driver/core/SchemaTest.java
+@@ -105,4 +105 @@
+-                    + "   AND compression = { 'sstable_compression' : 'org.apache.cassandra.io.compress.SnappyCompressor', 'chunk_length_kb' : 128 }\n"
+-                    + "   AND default_time_to_live = 0\n"
+-                    + "   AND speculative_retry = 'NONE'\n"
+-                    + "   AND index_interval = 128;";
++                    + "   AND compression = { 'sstable_compression' : 'org.apache.cassandra.io.compress.SnappyCompressor', 'chunk_length_kb' : 128 };";
+@@ -151 +148,11 @@
+-        assertEquals(metadata.exportAsString(), withOptions);
++
++        String withOpts = withOptions;
++        // With C* 2.0 we'll have a few additional options
++        if (cluster.getConfiguration().getProtocolOptions().getProtocolVersion() > 1) {
++            // Strip the last ';'
++            withOpts = withOpts.substring(0, withOpts.length() - 1) + "\n";
++            withOpts += "   AND default_time_to_live = 0\n"
++                     +  "   AND speculative_retry = '99.0PERCENTILE'\n"
++                     +  "   AND index_interval = 128;";
++        }
++        assertEquals(metadata.exportAsString(), withOpts);
+

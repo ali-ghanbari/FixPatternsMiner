@@ -1,0 +1,17 @@
+diff --git a/src/main/java/org/atlasapi/remotesite/btvod/TitleSanitiser.java b/src/main/java/org/atlasapi/remotesite/btvod/TitleSanitiser.java
+index a320da1..55cc7f3 100644
+--- a/src/main/java/org/atlasapi/remotesite/btvod/TitleSanitiser.java
++++ b/src/main/java/org/atlasapi/remotesite/btvod/TitleSanitiser.java
+@@ -14,0 +15 @@
++            .put(Pattern.compile(" \\(Curzon\\)$"), "")
+diff --git a/src/test/java/org/atlasapi/remotesite/btvod/TitleSanitiserTest.java b/src/test/java/org/atlasapi/remotesite/btvod/TitleSanitiserTest.java
+index bed3b52..0bbcb1b 100644
+--- a/src/test/java/org/atlasapi/remotesite/btvod/TitleSanitiserTest.java
++++ b/src/test/java/org/atlasapi/remotesite/btvod/TitleSanitiserTest.java
+@@ -25,0 +26,5 @@
++    @Test
++    public void testRemovesCurzonSuffixFromTitles() {
++        String titleWithCurzonSuffix = "Film (Curzon)";
++        assertThat(titleSanitiser.sanitiseTitle(titleWithCurzonSuffix), is("Film"));
++    }
+

@@ -1,0 +1,76 @@
+diff --git a/cdap-cli/src/main/java/co/cask/cdap/cli/util/table/AltStyleTableRenderer.java b/cdap-cli/src/main/java/co/cask/cdap/cli/util/table/AltStyleTableRenderer.java
+index 7f8a71f..8b69217 100644
+--- a/cdap-cli/src/main/java/co/cask/cdap/cli/util/table/AltStyleTableRenderer.java
++++ b/cdap-cli/src/main/java/co/cask/cdap/cli/util/table/AltStyleTableRenderer.java
+@@ -208 +208 @@
+-          if (startSplitIdx < splitFieldLine.length() - 1) {
++          if (startSplitIdx < splitFieldLine.length()) {
+diff --git a/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/AltStyleTableRendererTest.java b/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/AltStyleTableRendererTest.java
+index e63be22..cb180d0 100644
+--- a/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/AltStyleTableRendererTest.java
++++ b/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/AltStyleTableRendererTest.java
+@@ -17,0 +18,2 @@
++import com.google.common.base.Strings;
++import org.junit.FixMethodOrder;
+@@ -18,0 +21,2 @@
++import org.junit.Test;
++import org.junit.runners.MethodSorters;
+@@ -23,0 +28 @@
++@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@@ -30 +35,30 @@
+-  
++
++  @Test
++  public void testOneCharLongerThanWidth() {
++    Table table = Table.builder()
++      .setHeader("c1")
++      .setRows(Table.rows()
++                 .add(Strings.repeat("z", (LINE_WIDTH - 4)) + "a")
++                 .build())
++      .build();
++    getRenderer().render(TEST_CONFIG, OUTPUT, table);
++  }
++
++  @Test
++  public void testHeaderOneCharLongerThanWidth() {
++    Table table = Table.builder()
++      .setHeader(Strings.repeat("z", (LINE_WIDTH - 4)) + "a")
++      .setRows(Table.rows().add("abc").build())
++      .build();
++    getRenderer().render(TEST_CONFIG, OUTPUT, table);
++  }
++
++  @Test
++  public void testOneCharLongerThan2Width() {
++    Table table = Table.builder()
++      .setHeader("c1")
++      .setRows(Table.rows().add(Strings.repeat("z", (LINE_WIDTH - 4) * 2) + "a").build())
++      .build();
++    getRenderer().render(TEST_CONFIG, OUTPUT, table);
++  }
++
+diff --git a/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/TableRendererTest.java b/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/TableRendererTest.java
+index 612e455..316631a 100644
+--- a/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/TableRendererTest.java
++++ b/cdap-cli/src/test/java/co/cask/cdap/cli/util/table/TableRendererTest.java
+@@ -18,0 +19,2 @@
++import org.junit.Before;
++import org.junit.FixMethodOrder;
+@@ -20,0 +23 @@
++import org.junit.runners.MethodSorters;
+@@ -27,0 +31 @@
++@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@@ -30,3 +34,3 @@
+-  private static final int LINE_WIDTH = 80;
+-  private static final PrintStream OUTPUT = System.out;
+-  private static final TableRendererConfig TEST_CONFIG = new TableRendererConfig() {
++  protected static final int LINE_WIDTH = 80;
++  protected static final PrintStream OUTPUT = System.out;
++  protected static final TableRendererConfig TEST_CONFIG = new TableRendererConfig() {
+@@ -40,0 +45,5 @@
++  @Before
++  public void setUp() {
++    OUTPUT.flush();
++  }
++
+

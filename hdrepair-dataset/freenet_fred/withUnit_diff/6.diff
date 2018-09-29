@@ -1,0 +1,15 @@
+diff --git a/src/freenet/clients/http/filter/CSSTokenizerFilter.java b/src/freenet/clients/http/filter/CSSTokenizerFilter.java
+index 2319827..4fcee05 100644
+--- a/src/freenet/clients/http/filter/CSSTokenizerFilter.java
++++ b/src/freenet/clients/http/filter/CSSTokenizerFilter.java
+@@ -3516 +3516 @@
+-				if(ElementInfo.isGenericFontFamily(fontWords.get(0)))
++				if(ElementInfo.isGenericFontFamily(fontWords.get(0).toLowerCase()))
+diff --git a/test/freenet/clients/http/filter/CSSParserTest.java b/test/freenet/clients/http/filter/CSSParserTest.java
+index 1fa36c3..5c6d9e5 100644
+--- a/test/freenet/clients/http/filter/CSSParserTest.java
++++ b/test/freenet/clients/http/filter/CSSParserTest.java
+@@ -219,0 +220,2 @@
++		// Case in generic keywords
++		propertyTests.put("h2 { font-family: Verdana,Sans-Serif }", " h2 { font-family:Verdana,Sans-Serif;}\n");
+

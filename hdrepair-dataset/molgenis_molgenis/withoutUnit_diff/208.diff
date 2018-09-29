@@ -1,0 +1,52 @@
+diff --git a/molgenis-omx-protocolviewer/src/main/java/org/molgenis/omx/plugins/ProtocolViewerController.java b/molgenis-omx-protocolviewer/src/main/java/org/molgenis/omx/plugins/ProtocolViewerController.java
+index c1fdefa..2db0a11 100644
+--- a/molgenis-omx-protocolviewer/src/main/java/org/molgenis/omx/plugins/ProtocolViewerController.java
++++ b/molgenis-omx-protocolviewer/src/main/java/org/molgenis/omx/plugins/ProtocolViewerController.java
+@@ -77,0 +78 @@
++		s.append("<script type=\"text/javascript\" src=\"js/jquery.fileDownload-min.js\"></script>");
+diff --git a/molgenis-omx-protocolviewer/src/main/webapp/WEB-INF/classes/templates/org/molgenis/omx/plugins/ProtocolViewer.ftl b/molgenis-omx-protocolviewer/src/main/webapp/WEB-INF/classes/templates/org/molgenis/omx/plugins/ProtocolViewer.ftl
+index c4d72fa..78893a4 100644
+--- a/molgenis-omx-protocolviewer/src/main/webapp/WEB-INF/classes/templates/org/molgenis/omx/plugins/ProtocolViewer.ftl
++++ b/molgenis-omx-protocolviewer/src/main/webapp/WEB-INF/classes/templates/org/molgenis/omx/plugins/ProtocolViewer.ftl
+@@ -81,2 +81,2 @@
+-					    if(e.keyCode == 13) // enter
+-					        {$("#search-button").click(); console.log(e);}
++					    if(e.keyCode == 13 || e.which === '13') // enter
++					        {$("#search-button").click();}
+@@ -97 +97 @@
+- 						window.location = getSelectedFeaturesURL('xls');
++ 						$.fileDownload(getSelectedFeaturesURL('xls'));
+@@ -106,0 +107,5 @@
++						<#-- disable all form submission -->
++						$('form').submit(function() {
++							return false;
++						});
++						
+@@ -109 +114 @@
+-					      if(e.keyCode == 13) {
++					      if(e.keyCode === 13 || e.which === '13') {
+diff --git a/molgenis-omx-protocolviewer/src/main/webapp/js/protocolviewer.js b/molgenis-omx-protocolviewer/src/main/webapp/js/protocolviewer.js
+index a359993..6688aa7 100644
+--- a/molgenis-omx-protocolviewer/src/main/webapp/js/protocolviewer.js
++++ b/molgenis-omx-protocolviewer/src/main/webapp/js/protocolviewer.js
+@@ -172,0 +173 @@
++					
+@@ -296 +297 @@
+-			node.li.hidden = false;
++			$(node.li).show();
+@@ -298 +299 @@
+-			node.ul.hidden = false;
++			$(node.ul).show();
+@@ -383 +384 @@
+-			node.li.hidden = true;
++			$(node.li).hide();
+@@ -385 +386 @@
+-			node.ul.hidden = true;
++			$(node.ul).hide();
+@@ -388 +389 @@
+-			node.li.hidden = false;
++			$(node.li).show();
+@@ -390 +391 @@
+-			node.ul.hidden = false;
++			$(node.ul).show();
+

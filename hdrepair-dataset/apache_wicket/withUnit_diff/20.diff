@@ -1,0 +1,40 @@
+diff --git a/wicket-examples/src/java/wicket/examples/displaytag/ExampleSorting.java b/wicket-examples/src/java/wicket/examples/displaytag/ExampleSorting.java
+index 7998db1..5e9840d 100644
+--- a/wicket-examples/src/java/wicket/examples/displaytag/ExampleSorting.java
++++ b/wicket-examples/src/java/wicket/examples/displaytag/ExampleSorting.java
+@@ -23 +22,0 @@
+-import wicket.PageParameters;
+diff --git a/wicket-examples/src/java/wicket/examples/niceurl/Home.html b/wicket-examples/src/java/wicket/examples/niceurl/Home.html
+index cf53bad..1b37582 100644
+--- a/wicket-examples/src/java/wicket/examples/niceurl/Home.html
++++ b/wicket-examples/src/java/wicket/examples/niceurl/Home.html
+@@ -3,3 +3 @@
+-		<title>
+-			Wicket Examples - niceurl
+-		</title>
++		<title>Wicket Examples - niceurl</title>
+diff --git a/wicket-examples/src/test/wicket/examples/library/LibraryTest.java b/wicket-examples/src/test/wicket/examples/library/LibraryTest.java
+index 0175619..42b9aa2 100644
+--- a/wicket-examples/src/test/wicket/examples/library/LibraryTest.java
++++ b/wicket-examples/src/test/wicket/examples/library/LibraryTest.java
+@@ -55 +55 @@
+-        this.dumpResponse(System.out);
++//        this.dumpResponse(System.out);
+@@ -57 +57,8 @@
+-        assertWicketIdTagText("exampleTitle", "library");
++        assertTextPresent("Username and password are both");
++        
++        this.setFormElement("username", "wicket");
++        this.setFormElement("password", "wicket");
++        this.submit("submit");
++//        this.dumpResponse(System.out);
++        assertTitleEquals("Wicket Examples - library");
++        assertTextPresent("Effective Java (Joshua Bloch)");
+diff --git a/wicket-examples/src/test/wicket/examples/niceurl/NiceUrlTest.java b/wicket-examples/src/test/wicket/examples/niceurl/NiceUrlTest.java
+index bd58c2e..d75504f 100644
+--- a/wicket-examples/src/test/wicket/examples/niceurl/NiceUrlTest.java
++++ b/wicket-examples/src/test/wicket/examples/niceurl/NiceUrlTest.java
+@@ -57 +57 @@
+-        assertTextInElement("message", "Hello World!");
++        assertTextPresent("This example displays how you can work with 'nice' urls for bookmarkable pages.");
+

@@ -1,0 +1,39 @@
+diff --git a/collections/src/main/java/net/openhft/collections/HugeHashMap.java b/collections/src/main/java/net/openhft/collections/HugeHashMap.java
+index 668f9e6..6abd9e4 100644
+--- a/collections/src/main/java/net/openhft/collections/HugeHashMap.java
++++ b/collections/src/main/java/net/openhft/collections/HugeHashMap.java
+@@ -415 +415 @@
+-                return (K) sbKey;
++                return (K) sbKey.toString();
+diff --git a/collections/src/test/java/net/openhft/collections/HugeHashMapTest.java b/collections/src/test/java/net/openhft/collections/HugeHashMapTest.java
+index 78eafa7..47524ee 100755
+--- a/collections/src/test/java/net/openhft/collections/HugeHashMapTest.java
++++ b/collections/src/test/java/net/openhft/collections/HugeHashMapTest.java
+@@ -22 +21,0 @@
+-import java.io.File;
+@@ -474 +473,3 @@
+-    }@Test
++    }
++
++    @Test
+@@ -546,0 +548,19 @@
++    @Test
++    public void charSequenceMapIssue() {
++        int noOfElements = 16 * 1024;
++        HugeHashMap<CharSequence, CharSequence> map = new HugeHashMap<CharSequence, CharSequence>(
++                HugeConfig.DEFAULT.clone().setSegments(16),
++                CharSequence.class,
++                CharSequence.class
++        );
++
++        for (int i = 0; i < noOfElements; i++) {
++            String string = "string" + i;
++            map.put(string, string);
++        }
++
++        for (Map.Entry<CharSequence, CharSequence> entry : map.entrySet()) {
++            org.junit.Assert.assertEquals(entry.getKey(), entry.getValue());
++        }
++    }
++
+

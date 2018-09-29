@@ -1,0 +1,23 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/spi/Operation.java b/hazelcast/src/main/java/com/hazelcast/spi/Operation.java
+index 85af763..2a97acd 100644
+--- a/hazelcast/src/main/java/com/hazelcast/spi/Operation.java
++++ b/hazelcast/src/main/java/com/hazelcast/spi/Operation.java
+@@ -71,0 +72 @@
++        setFlag(true, BITMASK_VALIDATE_TARGET);
+diff --git a/hazelcast/src/test/java/com/hazelcast/spi/OperationSerializationTest.java b/hazelcast/src/test/java/com/hazelcast/spi/OperationSerializationTest.java
+index 2443831..3a132a1 100644
+--- a/hazelcast/src/test/java/com/hazelcast/spi/OperationSerializationTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/spi/OperationSerializationTest.java
+@@ -17,0 +18 @@
++import static org.junit.Assert.assertTrue;
+@@ -136,0 +138,9 @@
++
++    @Test
++    public void test_validateTarget_defaultValue() {
++        Operation op = new DummyOperation();
++
++        assertTrue("Default value of validate target should be TRUE", op.validatesTarget());
++        assertSerializationCloneEquals(op);
++    }
++
+

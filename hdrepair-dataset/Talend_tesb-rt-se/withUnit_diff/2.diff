@@ -1,0 +1,23 @@
+diff --git a/locator/.gitignore b/locator/.gitignore
+new file mode 100644
+index 0000000..5e56e04
+--- /dev/null
++++ b/locator/.gitignore
+@@ -0,0 +1 @@
++/bin
+diff --git a/locator/src/main/java/org/talend/esb/servicelocator/cxf/internal/DefaultSelectionStrategy.java b/locator/src/main/java/org/talend/esb/servicelocator/cxf/internal/DefaultSelectionStrategy.java
+index 11756d6..43d119a 100644
+--- a/locator/src/main/java/org/talend/esb/servicelocator/cxf/internal/DefaultSelectionStrategy.java
++++ b/locator/src/main/java/org/talend/esb/servicelocator/cxf/internal/DefaultSelectionStrategy.java
+@@ -39,2 +39 @@
+-    // This field is made static as fix for TESB-13146
+-    private static Map<QName, String> primaryAddresses = new HashMap<QName, String>();
++    private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
+diff --git a/locator/src/test/java/org/talend/esb/servicelocator/client/internal/LocatorSelectionStrategyTest.java b/locator/src/test/java/org/talend/esb/servicelocator/client/internal/LocatorSelectionStrategyTest.java
+index ed2ff71..55f8936 100644
+--- a/locator/src/test/java/org/talend/esb/servicelocator/client/internal/LocatorSelectionStrategyTest.java
++++ b/locator/src/test/java/org/talend/esb/servicelocator/client/internal/LocatorSelectionStrategyTest.java
+@@ -146 +146 @@
+-        //verifyAll();
++        verifyAll();
+

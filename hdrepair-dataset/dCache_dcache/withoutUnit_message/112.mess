@@ -1,0 +1,45 @@
+srm: Fix race condition in initialization
+
+The SRM class contains the two methods named getSRM. The first returns
+an existing instance or creates a new one if there is no existing
+instance. The second simply returns the existing instance or null if
+there is no existing instance.
+
+The first of these two methods is synchronized to avoid a race condition
+in which two threads call this method at the same time. However the
+second method is not synchronized. This leads to the following
+exception:
+
+05 Jan 2010 15:14:10 (jsrm) [] Unexpected exception during job timeout
+java.lang.NullPointerException
+	at org.dcache.srm.request.FileRequest.getConfiguration(FileRequest.java:385)
+	at org.dcache.srm.request.PutFileRequest.stateChanged(PutFileRequest.java:649)
+	at org.dcache.srm.scheduler.Job.setState(Job.java:549)
+	at org.dcache.srm.scheduler.Job.setState(Job.java:391)
+	at org.dcache.srm.scheduler.Job.expireJob(Job.java:959)
+	at org.dcache.srm.scheduler.Job$LifetimeExpiration.run(Job.java:937)
+	at java.util.TimerThread.mainLoop(Timer.java:512)
+	at java.util.TimerThread.run(Timer.java:462)
+
+(thanks to Tigran for providing this stack trace)
+
+I hypothesize this problem occurs when creating the SRM instance
+schedules a job expiration before the SRM.getSRM method has returned. At
+that point the second getSRM method will still return null, thus causing
+the above NPE.
+
+The fix is to make both getSRM methods synchronized. Thus the expiration
+task will block until the first getSRM call has returned.
+
+As it is hard to predict potential side effects, I have only marked this
+patch for inclusion on trunk.
+
+Comment from Timur: He is not convinced the patch will solve the 
+problem, but he doesn't think it will harm either.
+
+Target: trunk
+Acked-by: Timur Perelmutov <timur@fnal.gov>
+Patch: http://rb.dcache.org/r/1331/
+
+
+

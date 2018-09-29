@@ -1,0 +1,14 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index a12f91b..8e26f81 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -5,0 +6 @@
++ * snapshot_before_compaction directory name fix (CASSANDRA-2598)
+diff --git a/src/java/org/apache/cassandra/db/CompactionManager.java b/src/java/org/apache/cassandra/db/CompactionManager.java
+index 35d5276..fe6b62d 100644
+--- a/src/java/org/apache/cassandra/db/CompactionManager.java
++++ b/src/java/org/apache/cassandra/db/CompactionManager.java
+@@ -526 +526 @@
+-            table.snapshot("compact-" + cfs.columnFamily);
++            table.snapshot(System.currentTimeMillis() + "-" + "compact-" + cfs.columnFamily);
+

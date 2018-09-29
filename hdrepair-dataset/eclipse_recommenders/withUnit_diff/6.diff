@@ -1,0 +1,44 @@
+diff --git a/plugins/org.eclipse.recommenders.models.rcp/src/org/eclipse/recommenders/internal/models/rcp/Dependencies.java b/plugins/org.eclipse.recommenders.models.rcp/src/org/eclipse/recommenders/internal/models/rcp/Dependencies.java
+index fad05e4..db439ce 100644
+--- a/plugins/org.eclipse.recommenders.models.rcp/src/org/eclipse/recommenders/internal/models/rcp/Dependencies.java
++++ b/plugins/org.eclipse.recommenders.models.rcp/src/org/eclipse/recommenders/internal/models/rcp/Dependencies.java
+@@ -0,0 +1,10 @@
++/**
++ * Copyright (c) 2010, 2013 Darmstadt University of Technology.
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ *
++ * Contributors:
++ *     Olav Lenz - initial API and implementation
++ */
+diff --git a/tests/org.eclipse.recommenders.models.rcp.tests/src/org/eclipse/recommenders/models/rcp/ManualMappingStrategyTest.java b/tests/org.eclipse.recommenders.models.rcp.tests/src/org/eclipse/recommenders/models/rcp/ManualMappingStrategyTest.java
+index de9bd13..bd4a118 100644
+--- a/tests/org.eclipse.recommenders.models.rcp.tests/src/org/eclipse/recommenders/models/rcp/ManualMappingStrategyTest.java
++++ b/tests/org.eclipse.recommenders.models.rcp.tests/src/org/eclipse/recommenders/models/rcp/ManualMappingStrategyTest.java
+@@ -35 +35 @@
+-    private File createPersistanceFile() throws IOException {
++    private File createPersistenceFile() throws IOException {
+@@ -41 +41 @@
+-        ManualMappingStrategy sut = new ManualMappingStrategy(createPersistanceFile());
++        ManualMappingStrategy sut = new ManualMappingStrategy(createPersistenceFile());
+@@ -52 +52 @@
+-        ManualMappingStrategy sut = new ManualMappingStrategy(createPersistanceFile());
++        ManualMappingStrategy sut = new ManualMappingStrategy(createPersistenceFile());
+@@ -65 +65 @@
+-        ManualMappingStrategy sut = new ManualMappingStrategy(createPersistanceFile());
++        ManualMappingStrategy sut = new ManualMappingStrategy(createPersistenceFile());
+@@ -82 +82 @@
+-        File persistanceFile = createPersistanceFile();
++        File persistenceFile = createPersistenceFile();
+@@ -84,2 +84,2 @@
+-        ManualMappingStrategy sut = new ManualMappingStrategy(persistanceFile);
+-
++        ManualMappingStrategy sut = new ManualMappingStrategy(persistenceFile);
++        sut.open();
+@@ -91 +91,2 @@
+-        sut = new ManualMappingStrategy(persistanceFile);
++        sut = new ManualMappingStrategy(persistenceFile);
++        sut.open();
+

@@ -1,0 +1,66 @@
+diff --git a/apps/routerconsole/locale-news/messages_ar.po b/apps/routerconsole/locale-news/messages_ar.po
+index 255e8e8..fcfb9c8 100644
+--- a/apps/routerconsole/locale-news/messages_ar.po
++++ b/apps/routerconsole/locale-news/messages_ar.po
+@@ -30 +30 @@
+-msgstr "انتظر قليلا بينما يتم ربط الإتصال بباقي أعضاء الشبكة."
++msgstr "انتظر قليلا بينما يتم ربط الإتصال بباقي أعضاء الشبكة.{0}{1}"
+@@ -36 +36 @@
+-msgstr "بسنما يتم الإتصال <b>بتغير بيانات سرعة الشبكة في</b> قم <a href=\"config.jsp\">صفحة الخيارات</a>."
++msgstr "بسنما يتم الإتصال {0}بتغير بيانات سرعة الشبكة في{1} قم {2}صفحة الخيارات{3}."
+@@ -58 +58 @@
+-msgstr "عندما عندما تظهر عبارة \"shared clients\" على اليسار يمكنك حينها <b>زيارة</b> <a href=\"http://www.i2p2.i2p/faq.html\">الأسئلة الشائعة</a>."
++msgstr "عندما عندما تظهر عبارة \"shared clients\" على اليسار يمكنك حينها {0}زيارة{1} {2}الأسئلة الشائعة{3}."
+@@ -64 +64 @@
+-msgstr "IRC اتصل بخادم الدردشة الفورية  على <b>localhost:6668</b> <a href=\"irc://127.0.0.1:6668/i2p-help\">#i2p-help</a> or <a href=\"irc://127.0.0.1:6668/i2p\">#i2p</a>."
++msgstr "IRC اتصل بخادم الدردشة الفورية  على {0}localhost:6668{1} {2}#i2p-help{3} or {4}#i2p{5}."
+diff --git a/history.txt b/history.txt
+index 88cc03b..4a428bd 100644
+--- a/history.txt
++++ b/history.txt
+@@ -0,0 +1,37 @@
++2012-07-20 zzz
++ * DHSessionKeyBuilder: Fix for session and mac keys if DH key is between 32 and 63 bytes.
++   Was: NPE. Now: mac key is hash of session key. Won't ever happen. (Ticket #963)
++ * I2CP/I2PTunnel locking fixes (partial fixes for tickets 650. 722, 815, 946, 947, 953):
++   - I2PSocketManagerFactory: New createDisconnectedManager(), javadocs
++   - I2PSessionImpl: Rewrite state management and locking, prevent multiple
++     connect() calls, but allow disconnect() to interrupt connect()
++   - I2PSimpleSession: Changes to match I2PSessionImpl
++   - I2PTunnelServer: Don't connect in constructor, use createDisconnectedManager()
++     for a final manager, finals and cleanups
++ * ClientManager:
++   - Make classes extensible for router-side test stubs
++   - Add router-side local-only test implementation, no full router required.
++     Only tested with external clients, probably doesn't work in-JVM.
++   - Don't start threads in ClientManager constructor
++   - Remove unused Reader param in ClientMessageEventListener methods
++   - Cleanups, volatiles, finals, javadocs
++ * Translations:
++   - New varargs method in Translate
++   - New TranslateReader to translate static files on-the-fly using _("") tagging
++   - Tag proxy error pages for TranslateReader
++   - Drop static translated proxy error pages
++   - Add new i2ptunnel bundle for the proxy alone, shipped in the jar.
++   - Use TranslateReader in HTTP proxy for error pages
++   - Move HTTP proxy strings from the web (war) to proxy (jar) bundle so they will be loaded
++     Fixes translations for the lower half of the proxy pages that weren't accessible in the war.
++   - Initial translations created by msgmerge from i2ptunnel and routerconsole po files, un-fuzzied
++   - Tag initialNews.xml for TranslateReader
++   - Drop static translated initialNews pages
++   - Add new routerconsole bundle for the news alone, shipped in the jar
++   - Use TranslateReader in HTTP proxy for initial news
++   - Initial translations created manually from translated xml filesx
++   - Add translated proxy error pages and initial news to deletelist.txt
++ * Transports: Consolidate translation methods in TransportImpl;
++   ngettext fix for "peers" string
++
++
+diff --git a/router/java/src/net/i2p/router/RouterVersion.java b/router/java/src/net/i2p/router/RouterVersion.java
+index 87e5bff..282c18b 100644
+--- a/router/java/src/net/i2p/router/RouterVersion.java
++++ b/router/java/src/net/i2p/router/RouterVersion.java
+@@ -21 +21 @@
+-    public final static long BUILD = 1;
++    public final static long BUILD = 2;
+

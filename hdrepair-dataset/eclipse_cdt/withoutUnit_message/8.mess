@@ -1,0 +1,16 @@
+Bug 426784: Qt Codan checker uses wrong type
+
+    view.connect( view.engine(), SIGNAL( quit() ), ...
+
+The return type of view.engine() should be checked for the quit()
+signal.  The implementation was actually checking the type of view.
+
+I've fixed a copy/paste error in a utility function.
+
+Change-Id: Id483015214f04951fb30e3271d43499f31614446
+Signed-off-by: Andrew Eidsness <eclipse@jfront.com>
+Reviewed-on: https://git.eclipse.org/r/21189
+Reviewed-by: Doug Schaefer <dschaefer@qnx.com>
+IP-Clean: Doug Schaefer <dschaefer@qnx.com>
+Tested-by: Doug Schaefer <dschaefer@qnx.com>
+

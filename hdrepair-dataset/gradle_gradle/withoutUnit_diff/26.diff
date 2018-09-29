@@ -1,0 +1,14 @@
+diff --git a/subprojects/core/src/main/groovy/org/gradle/execution/TaskNameResolver.java b/subprojects/core/src/main/groovy/org/gradle/execution/TaskNameResolver.java
+index 866cbaf..8271ade 100644
+--- a/subprojects/core/src/main/groovy/org/gradle/execution/TaskNameResolver.java
++++ b/subprojects/core/src/main/groovy/org/gradle/execution/TaskNameResolver.java
+@@ -121 +121 @@
+-        return Sets.union(selfClosedTasksNode(project).getLinkNames(TASK_MODEL_TYPE), project.getTasks().getNames());
++        return selfClosedTasksNode(project).getLinkNames(TASK_MODEL_TYPE);
+diff --git a/subprojects/core/src/test/groovy/org/gradle/execution/TaskNameResolverTest.groovy b/subprojects/core/src/test/groovy/org/gradle/execution/TaskNameResolverTest.groovy
+index b2e75dc..aa1973f 100644
+--- a/subprojects/core/src/test/groovy/org/gradle/execution/TaskNameResolverTest.groovy
++++ b/subprojects/core/src/test/groovy/org/gradle/execution/TaskNameResolverTest.groovy
+@@ -39,0 +40 @@
++            _ * getNames() >> tasks.getNames()
+

@@ -1,0 +1,9 @@
+diff --git a/src/freenet/plugin/PluginManager.java b/src/freenet/plugin/PluginManager.java
+index 005cb34..b9666c5 100644
+--- a/src/freenet/plugin/PluginManager.java
++++ b/src/freenet/plugin/PluginManager.java
+@@ -83 +83,2 @@
+-				if(val == null || get().contains(val)) return;
++				if(val == null || get().indexOf(val) >= 0) return;
++				// it's probably silly as it won't allow more than 1 plugin to be loaded
+

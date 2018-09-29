@@ -1,0 +1,101 @@
+diff --git a/model/jpa/.gitignore b/model/jpa/.gitignore
+index 06c5b07..1298c5f 100644
+--- a/model/jpa/.gitignore
++++ b/model/jpa/.gitignore
+@@ -1 +0,0 @@
+-testData/testDB/*
+diff --git a/model/jpa/pom.xml b/model/jpa/pom.xml
+index 60b9b59..4ebebd8 100644
+--- a/model/jpa/pom.xml
++++ b/model/jpa/pom.xml
+@@ -84,6 +83,0 @@
+-                    <groupId>com.h2database</groupId>
+-                    <artifactId>h2</artifactId>
+-                    <scope>test</scope>
+-                </dependency>
+-
+-                <dependency>
+diff --git a/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/PushMessageInformationDaoTest.java b/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/PushMessageInformationDaoTest.java
+index 0583a30..b2530c6 100644
+--- a/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/PushMessageInformationDaoTest.java
++++ b/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/PushMessageInformationDaoTest.java
+@@ -38 +37,0 @@
+-import javax.persistence.RollbackException;
+diff --git a/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/utils/EntityFactory.java b/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/utils/EntityFactory.java
+index 9ba7ad3..ca412f9 100644
+--- a/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/utils/EntityFactory.java
++++ b/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/utils/EntityFactory.java
+@@ -0,0 +1,16 @@
++/**
++ * JBoss, Home of Professional Open Source
++ * Copyright Red Hat, Inc., and individual contributors.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
+diff --git a/model/jpa/src/test/resources/Categories.xml b/model/jpa/src/test/resources/Categories.xml
+index af89db7..76543af 100644
+--- a/model/jpa/src/test/resources/Categories.xml
++++ b/model/jpa/src/test/resources/Categories.xml
+@@ -34,0 +35 @@
++    <table name="SA.INSTALLATION_CATEGORY"/>
+diff --git a/model/jpa/src/test/resources/META-INF/persistence.xml b/model/jpa/src/test/resources/META-INF/persistence.xml
+index 3cd3968..efdef5e 100644
+--- a/model/jpa/src/test/resources/META-INF/persistence.xml
++++ b/model/jpa/src/test/resources/META-INF/persistence.xml
+@@ -30 +30 @@
+-            <property name="hibernate.connection.url" value="jdbc:derby:testData/testDB"/>
++            <property name="hibernate.connection.url" value="jdbc:derby:target/testDB"/>
+diff --git a/model/jpa/src/test/resources/MessageInformation.xml b/model/jpa/src/test/resources/MessageInformation.xml
+index 850ba88..bbb1e0e 100644
+--- a/model/jpa/src/test/resources/MessageInformation.xml
++++ b/model/jpa/src/test/resources/MessageInformation.xml
+@@ -66,0 +67 @@
++        <column>pushmessageinformation_id</column>
+@@ -71,0 +73 @@
++            <value>1</value>
+@@ -78,0 +81 @@
++            <value>2</value>
+@@ -86,0 +90 @@
++            <value>2</value>
+@@ -93,0 +98 @@
++            <value>2</value>
+@@ -100,0 +106 @@
++            <value>3</value>
+diff --git a/model/jpa/src/test/resources/PushApplications.xml b/model/jpa/src/test/resources/PushApplications.xml
+index b341d94..943d607 100644
+--- a/model/jpa/src/test/resources/PushApplications.xml
++++ b/model/jpa/src/test/resources/PushApplications.xml
+@@ -93 +93 @@
+-        <column>certificate</column>
++        <column>cert_data</column>
+diff --git a/model/jpa/src/test/resources/dbunit-express.properties b/model/jpa/src/test/resources/dbunit-express.properties
+index 17a9521..8dc6656 100644
+--- a/model/jpa/src/test/resources/dbunit-express.properties
++++ b/model/jpa/src/test/resources/dbunit-express.properties
+@@ -1,0 +2 @@
++dbunit.connectionUrl=jdbc:derby:target/testDB
+\ No newline at end of file
+diff --git a/model/jpa/testData/create_db_content.ddl b/model/jpa/testData/create_db_content.ddl
+index 7289be5..d8f9cf8 100644
+--- a/model/jpa/testData/create_db_content.ddl
++++ b/model/jpa/testData/create_db_content.ddl
+@@ -19,4 +19,4 @@
+-  certificate BLOB         NOT NULL,
+-  passphrase  VARCHAR(255) NOT NULL,
+-  production  BOOLEAN      NOT NULL,
+-  id          VARCHAR(255) NOT NULL,
++  cert_data  VARCHAR(1000) NOT NULL,
++  passphrase VARCHAR(255)  NOT NULL,
++  production BOOLEAN       NOT NULL,
++  id         VARCHAR(255)  NOT NULL,
+

@@ -1,0 +1,25 @@
+diff --git a/pom.xml b/pom.xml
+index b947fbb..b45cb7a 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -7 +7 @@
+-    <version>2.0.20</version>
++    <version>2.0.21</version>
+diff --git a/src/de/caluga/morphium/query/MongoFieldImpl.java b/src/de/caluga/morphium/query/MongoFieldImpl.java
+index 8454f8e..4ba867b 100644
+--- a/src/de/caluga/morphium/query/MongoFieldImpl.java
++++ b/src/de/caluga/morphium/query/MongoFieldImpl.java
+@@ -89 +89 @@
+-                    if (field.getType().isAssignableFrom(List.class)) {
++                    if (Collection.class.isAssignableFrom(field.getType())) {
+diff --git a/test/de/caluga/test/mongo/suite/ReferenceTest.java b/test/de/caluga/test/mongo/suite/ReferenceTest.java
+index 24d495c..b646930 100644
+--- a/test/de/caluga/test/mongo/suite/ReferenceTest.java
++++ b/test/de/caluga/test/mongo/suite/ReferenceTest.java
+@@ -128 +128 @@
+-        List<UncachedObject> lst;
++        ArrayList<UncachedObject> lst;
+@@ -173 +173 @@
+-            this.lst = lst;
++            this.lst = (ArrayList) lst;
+

@@ -1,0 +1,32 @@
+diff --git a/opennms-ackd/src/main/resources/META-INF/opennms/applicationContext-ackd.xml b/opennms-ackd/src/main/resources/META-INF/opennms/applicationContext-ackd.xml
+index 93dcbee..94e8aee 100644
+--- a/opennms-ackd/src/main/resources/META-INF/opennms/applicationContext-ackd.xml
++++ b/opennms-ackd/src/main/resources/META-INF/opennms/applicationContext-ackd.xml
+@@ -9,8 +8,0 @@
+-<!-- moved back to dao context for now
+-  <tx:annotation-driven/>
+-    
+-  <bean id="ackService" class="org.opennms.netmgt.dao.support.DefaultAckService" >
+-    <property name="ackDao" ref="acknowledgmentDao" />
+-  </bean>
+--->
+-  
+diff --git a/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/DefaultAckServiceTest.java b/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/DefaultAckServiceTest.java
+index 77258c3..b575f7a 100644
+--- a/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/DefaultAckServiceTest.java
++++ b/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/DefaultAckServiceTest.java
+@@ -92 +91,0 @@
+-        "classpath:ackdTest.xml",
+@@ -133 +132 @@
+-    @Transactional @Test(expected=IllegalStateException.class)
++    @Test(expected=IllegalStateException.class)
+@@ -170 +169 @@
+-    @Transactional @Test 
++    @Test 
+diff --git a/opennms-dao/src/main/java/org/opennms/netmgt/dao/support/DefaultAckService.java b/opennms-dao/src/main/java/org/opennms/netmgt/dao/support/DefaultAckService.java
+index 25c397d..a9e053d 100644
+--- a/opennms-dao/src/main/java/org/opennms/netmgt/dao/support/DefaultAckService.java
++++ b/opennms-dao/src/main/java/org/opennms/netmgt/dao/support/DefaultAckService.java
+@@ -57 +56,0 @@
+-    //@Autowired
+

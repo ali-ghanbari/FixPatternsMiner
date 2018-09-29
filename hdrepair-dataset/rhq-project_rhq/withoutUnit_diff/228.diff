@@ -1,0 +1,15 @@
+diff --git a/modules/core/dbutils/src/main/scripts/dbupgrade/db-upgrade.xml b/modules/core/dbutils/src/main/scripts/dbupgrade/db-upgrade.xml
+index 075a6c0..5e38e07 100644
+--- a/modules/core/dbutils/src/main/scripts/dbupgrade/db-upgrade.xml
++++ b/modules/core/dbutils/src/main/scripts/dbupgrade/db-upgrade.xml
+@@ -2706 +2706 @@
+-      	<schema-createSequence name="RHQ_ADVISORY_SEQ" initial="10001" />
++      	<schema-createSequence name="RHQ_ADVISORY_ID_SEQ" initial="10001" />
+diff --git a/modules/core/domain/src/main/java/org/rhq/core/domain/content/Advisory.java b/modules/core/domain/src/main/java/org/rhq/core/domain/content/Advisory.java
+index a0866ba..85dff0e 100644
+--- a/modules/core/domain/src/main/java/org/rhq/core/domain/content/Advisory.java
++++ b/modules/core/domain/src/main/java/org/rhq/core/domain/content/Advisory.java
+@@ -23 +23 @@
+-@SequenceGenerator(name = "SEQ", sequenceName = "RHQ_ADVISORY_SEQ")
++@SequenceGenerator(name = "SEQ", sequenceName = "RHQ_ADVISORY_ID_SEQ")
+

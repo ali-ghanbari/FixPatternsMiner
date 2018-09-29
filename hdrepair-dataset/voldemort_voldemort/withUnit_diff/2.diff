@@ -1,0 +1,28 @@
+diff --git a/src/java/voldemort/server/rebalance/async/DonorBasedRebalancePusherSlave.java b/src/java/voldemort/server/rebalance/async/DonorBasedRebalancePusherSlave.java
+index 7369819..bb5f3ca 100644
+--- a/src/java/voldemort/server/rebalance/async/DonorBasedRebalancePusherSlave.java
++++ b/src/java/voldemort/server/rebalance/async/DonorBasedRebalancePusherSlave.java
+@@ -43 +43 @@
+-        this.stopRequested.set(false);
++        this.stopRequested = new AtomicBoolean(false);
+diff --git a/test/unit/voldemort/client/rebalance/AbstractRebalanceTest.java b/test/unit/voldemort/client/rebalance/AbstractRebalanceTest.java
+index c051f3d..a807960 100644
+--- a/test/unit/voldemort/client/rebalance/AbstractRebalanceTest.java
++++ b/test/unit/voldemort/client/rebalance/AbstractRebalanceTest.java
+@@ -32 +31,0 @@
+-import java.util.Set;
+@@ -33,0 +33 @@
++import java.util.Set;
+@@ -691,2 +691 @@
+-            System.out.println(e.getMessage());
+-            e.printStackTrace();
++            fail(e.getMessage());
+@@ -994,3 +993,4 @@
+-                storeMap.put(node.getId(), getSocketStore(storeDef.getName(),
+-                                                          node.getHost(),
+-                                                          node.getSocketPort()));
++                storeMap.put(node.getId(),
++                             getSocketStore(storeDef.getName(),
++                                            node.getHost(),
++                                            node.getSocketPort()));
+

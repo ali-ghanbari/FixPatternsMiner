@@ -1,0 +1,8 @@
+diff --git a/community/kernel/src/main/java/org/neo4j/kernel/impl/util/ArrayQueueOutOfOrderSequence.java b/community/kernel/src/main/java/org/neo4j/kernel/impl/util/ArrayQueueOutOfOrderSequence.java
+index f7114f8..a3ea35d 100644
+--- a/community/kernel/src/main/java/org/neo4j/kernel/impl/util/ArrayQueueOutOfOrderSequence.java
++++ b/community/kernel/src/main/java/org/neo4j/kernel/impl/util/ArrayQueueOutOfOrderSequence.java
+@@ -72 +72 @@
+-            if ( versionBefore % 2 == 1 ) // TODO there must be a more efficient way of checking this
++            if ( (versionBefore & 1) == 1 )
+

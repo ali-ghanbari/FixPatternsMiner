@@ -1,0 +1,42 @@
+diff --git a/plugins/sonar-findbugs-plugin/src/main/java/org/sonar/plugins/findbugs/xml/FindBugsFilter.java b/plugins/sonar-findbugs-plugin/src/main/java/org/sonar/plugins/findbugs/xml/FindBugsFilter.java
+index 9790f18..31d721d 100644
+--- a/plugins/sonar-findbugs-plugin/src/main/java/org/sonar/plugins/findbugs/xml/FindBugsFilter.java
++++ b/plugins/sonar-findbugs-plugin/src/main/java/org/sonar/plugins/findbugs/xml/FindBugsFilter.java
+@@ -154 +154 @@
+-    if (prioritiesByRule.containsKey(key)) {
++    if (prioritiesByRule.containsKey(key) && prioritiesByRule.get(key) != null) {
+diff --git a/plugins/sonar-findbugs-plugin/src/test/java/org/sonar/plugins/findbugs/FindbugsProfileImporterTest.java b/plugins/sonar-findbugs-plugin/src/test/java/org/sonar/plugins/findbugs/FindbugsProfileImporterTest.java
+index b829ce9..b8ccd2e 100644
+--- a/plugins/sonar-findbugs-plugin/src/test/java/org/sonar/plugins/findbugs/FindbugsProfileImporterTest.java
++++ b/plugins/sonar-findbugs-plugin/src/test/java/org/sonar/plugins/findbugs/FindbugsProfileImporterTest.java
+@@ -111 +111 @@
+-  
++
+@@ -122 +122 @@
+-  
++
+@@ -133 +133 @@
+-  
++
+diff --git a/plugins/sonar-findbugs-plugin/src/test/resources/org/sonar/plugins/findbugs/shouldImportPatterns.xml b/plugins/sonar-findbugs-plugin/src/test/resources/org/sonar/plugins/findbugs/shouldImportPatterns.xml
+index b454f43..a07b9ca 100644
+--- a/plugins/sonar-findbugs-plugin/src/test/resources/org/sonar/plugins/findbugs/shouldImportPatterns.xml
++++ b/plugins/sonar-findbugs-plugin/src/test/resources/org/sonar/plugins/findbugs/shouldImportPatterns.xml
+@@ -2,7 +2,9 @@
+-  <Match>
+-    <Or>
+-      <Bug pattern="NP_CLOSING_NULL"/>
+-      <Bug pattern="RC_REF_COMPARISON_BAD_PRACTICE"/>
+-    </Or>
+-    <Priority value="2"/>
+-  </Match>
++	<Match>
++		<Bug pattern="NP_CLOSING_NULL" />
++	</Match>
++	<Match>
++		<Bug pattern="RC_REF_COMPARISON_BAD_PRACTICE" />
++	</Match>
++	<Match>
++		<Bug pattern="RC_REF_COMPARISON_BAD_PRACTICE" />
++	</Match>	
+

@@ -1,0 +1,46 @@
+diff --git a/javascript-checks/src/main/java/org/sonar/javascript/checks/NewOperatorMisusageCheck.java b/javascript-checks/src/main/java/org/sonar/javascript/checks/NewOperatorMisusageCheck.java
+index 2afa938..87a4640 100644
+--- a/javascript-checks/src/main/java/org/sonar/javascript/checks/NewOperatorMisusageCheck.java
++++ b/javascript-checks/src/main/java/org/sonar/javascript/checks/NewOperatorMisusageCheck.java
+@@ -1 +1,2 @@
+-package org.sonar.javascript.checks;/*
++package org.sonar.javascript.checks;
++/*
+diff --git a/javascript-checks/src/test/java/org/sonar/javascript/checks/NewOperatorMisusageCheckTest.java b/javascript-checks/src/test/java/org/sonar/javascript/checks/NewOperatorMisusageCheckTest.java
+index a4556f8..3cc9d37 100644
+--- a/javascript-checks/src/test/java/org/sonar/javascript/checks/NewOperatorMisusageCheckTest.java
++++ b/javascript-checks/src/test/java/org/sonar/javascript/checks/NewOperatorMisusageCheckTest.java
+@@ -58 +58 @@
+-      .next().atLine(57)
++      .next().atLine(57) // False-positive=>SONARJS-454
+diff --git a/javascript-checks/src/test/resources/checks/newOperatorMisusage.js b/javascript-checks/src/test/resources/checks/newOperatorMisusage.js
+index 1b461ae..945423c 100644
+--- a/javascript-checks/src/test/resources/checks/newOperatorMisusage.js
++++ b/javascript-checks/src/test/resources/checks/newOperatorMisusage.js
+@@ -25,5 +25,5 @@
+-var Number = 1;
+-var Boolean = true;
+-var String = "str";
+-var Object = { a:1 };
+-var Array = [1, 2, 3];
++var numeric = 1;
++var boolean = true;
++var string = "str";
++var object = { a:1 };
++var array = [1, 2, 3];
+@@ -36,3 +36,3 @@
+-new Number;    // NOK
+-new Boolean;   // NOK
+-new String;    // NOK
++new numeric;   // NOK
++new boolean;   // NOK
++new string;    // NOK
+@@ -43,2 +43,2 @@
+-new Object;    // NOK
+-new Array;     // NOK
++new object;    // NOK
++new array;     // NOK
+@@ -76 +76 @@
+- * Exclude when can be a function
++ * Exclude when has more than just function type
+

@@ -1,0 +1,28 @@
+diff --git a/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/CreateBigDocument.java b/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/CreateBigDocument.java
+index def2624..00c86d1 100644
+--- a/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/CreateBigDocument.java
++++ b/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/CreateBigDocument.java
+@@ -99 +99 @@
+-            Document doc = (Document) session.getObject(id);
++            Document doc = (Document) session.getObject(id, SELECT_ALL_NO_CACHE_OC);
+diff --git a/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/UpdateSmokeTest.java b/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/UpdateSmokeTest.java
+index f300ae8..f916196 100644
+--- a/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/UpdateSmokeTest.java
++++ b/chemistry-opencmis-test/chemistry-opencmis-test-tck/src/main/java/org/apache/chemistry/opencmis/tck/tests/crud/UpdateSmokeTest.java
+@@ -33,0 +34 @@
++import org.apache.chemistry.opencmis.commons.enums.Action;
+@@ -72 +73,3 @@
+-            if (namePropDef.getUpdatability() == Updatability.WHENCHECKEDOUT) {
++            if (namePropDef.getUpdatability() == Updatability.WHENCHECKEDOUT
++                    || (!doc1.getAllowableActions().getAllowableActions().contains(Action.CAN_UPDATE_PROPERTIES) && Boolean.TRUE
++                            .equals(type.isVersionable()))) {
+@@ -97,0 +101,5 @@
++            // delete
++            if (!workDoc.getId().equals(doc2.getId())) {
++                deleteObject(doc2);
++            }
++
+@@ -103,2 +110,0 @@
+-            // delete
+-            deleteObject(doc2);
+

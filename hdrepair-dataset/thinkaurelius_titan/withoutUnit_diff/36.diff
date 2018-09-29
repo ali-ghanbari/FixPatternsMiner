@@ -1,0 +1,8 @@
+diff --git a/titan-hbase/src/main/java/com/thinkaurelius/titan/diskstorage/hbase/HBaseStoreManager.java b/titan-hbase/src/main/java/com/thinkaurelius/titan/diskstorage/hbase/HBaseStoreManager.java
+index 521be6e..dc22823 100644
+--- a/titan-hbase/src/main/java/com/thinkaurelius/titan/diskstorage/hbase/HBaseStoreManager.java
++++ b/titan-hbase/src/main/java/com/thinkaurelius/titan/diskstorage/hbase/HBaseStoreManager.java
+@@ -233 +233 @@
+-            if (cf.getCompressionType() == null) {
++            if (cf.getCompressionType() == null || cf.getCompressionType() == Compression.Algorithm.NONE) {
+

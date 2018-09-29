@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/codeInsight/completion/CompletionUtil.java b/source/com/intellij/codeInsight/completion/CompletionUtil.java
+index 59abf1d..abc1c33 100644
+--- a/source/com/intellij/codeInsight/completion/CompletionUtil.java
++++ b/source/com/intellij/codeInsight/completion/CompletionUtil.java
+@@ -391 +391 @@
+-          else if(!referenceOnMethod && reference.resolve() == null) unresolvedRefs.add(reference.getReferenceName());
++          else if(!referenceOnMethod && reference.resolve() == null && reference.getReferenceName() != null) unresolvedRefs.add(reference.getReferenceName());
+

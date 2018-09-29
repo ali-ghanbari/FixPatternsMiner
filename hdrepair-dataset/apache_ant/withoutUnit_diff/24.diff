@@ -1,0 +1,17 @@
+diff --git a/WHATSNEW b/WHATSNEW
+index c6c27fc..b970db5 100644
+--- a/WHATSNEW
++++ b/WHATSNEW
+@@ -121,0 +122,4 @@
++ * If forked, after finished <java> was still reading the input stream
++   for a bunch of characters, then stealing them from a following <input>.
++   Bugzilla Report 49119.
++
+diff --git a/src/main/org/apache/tools/ant/taskdefs/PumpStreamHandler.java b/src/main/org/apache/tools/ant/taskdefs/PumpStreamHandler.java
+index 573f406..0490231 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/PumpStreamHandler.java
++++ b/src/main/org/apache/tools/ant/taskdefs/PumpStreamHandler.java
+@@ -260 +260 @@
+-                                               false);
++                                               true);
+

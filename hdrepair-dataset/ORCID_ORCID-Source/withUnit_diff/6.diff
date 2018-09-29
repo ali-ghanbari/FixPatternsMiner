@@ -1,0 +1,18 @@
+diff --git a/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jaxb2JpaAdapterImpl.java b/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jaxb2JpaAdapterImpl.java
+index da9d478..65f97f8 100644
+--- a/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jaxb2JpaAdapterImpl.java
++++ b/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jaxb2JpaAdapterImpl.java
+@@ -497 +497 @@
+-                externalIdentifierEntities = new HashSet<ExternalIdentifierEntity>();
++                externalIdentifierEntities = new TreeSet<ExternalIdentifierEntity>();
+diff --git a/orcid-persistence/src/test/java/org/orcid/persistence/adapter/JpaJaxbEntityAdapterToProfileEntityTest.java b/orcid-persistence/src/test/java/org/orcid/persistence/adapter/JpaJaxbEntityAdapterToProfileEntityTest.java
+index 9136491..e9c6ea5 100644
+--- a/orcid-persistence/src/test/java/org/orcid/persistence/adapter/JpaJaxbEntityAdapterToProfileEntityTest.java
++++ b/orcid-persistence/src/test/java/org/orcid/persistence/adapter/JpaJaxbEntityAdapterToProfileEntityTest.java
+@@ -173 +173 @@
+-        assertEquals("2012-11-10T13:18:51.000Z", DateUtils.convertToXMLGregorianCalendar(retrievedGivenPermissionToEntity.getApprovalDate()).toXMLFormat());
++        assertEquals(DateUtils.convertToDate("2012-11-10T13:18:51"), retrievedGivenPermissionToEntity.getApprovalDate());
+@@ -178 +178 @@
+-        assertEquals("2012-12-22T08:16:22.000Z", DateUtils.convertToXMLGregorianCalendar(retrievedGivenPermissionByEntity.getApprovalDate()).toXMLFormat());
++        assertEquals(DateUtils.convertToDate("2012-12-22T08:16:22"), retrievedGivenPermissionByEntity.getApprovalDate());
+

@@ -1,0 +1,24 @@
+diff --git a/src/java/org/apache/commons/math/util/MathUtils.java b/src/java/org/apache/commons/math/util/MathUtils.java
+index c5342ae..df71405 100644
+--- a/src/java/org/apache/commons/math/util/MathUtils.java
++++ b/src/java/org/apache/commons/math/util/MathUtils.java
+@@ -412 +412 @@
+-        if (u * v == 0) {
++        if ((u == 0) || (v == 0)) {
+diff --git a/src/site/xdoc/changes.xml b/src/site/xdoc/changes.xml
+index 8e0dc75..388df56 100644
+--- a/src/site/xdoc/changes.xml
++++ b/src/site/xdoc/changes.xml
+@@ -41,0 +42,3 @@
++      <action dev="luc" type="fix" issue="MATH-238" due-to="Chritian Semrau">
++        Fixed an error in gcd computation for large values.
++      </action>
+diff --git a/src/test/org/apache/commons/math/util/MathUtilsTest.java b/src/test/org/apache/commons/math/util/MathUtilsTest.java
+index 0aad8f5..dd99e91 100644
+--- a/src/test/org/apache/commons/math/util/MathUtilsTest.java
++++ b/src/test/org/apache/commons/math/util/MathUtilsTest.java
+@@ -293,0 +294,3 @@
++
++        assertEquals(3 * (1<<15), MathUtils.gcd(3 * (1<<20), 9 * (1<<15)));
++
+

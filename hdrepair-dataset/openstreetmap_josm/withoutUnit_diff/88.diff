@@ -1,0 +1,9 @@
+diff --git a/src/org/openstreetmap/josm/gui/MainApplication.java b/src/org/openstreetmap/josm/gui/MainApplication.java
+index b127b46..ee7fc0a 100644
+--- a/src/org/openstreetmap/josm/gui/MainApplication.java
++++ b/src/org/openstreetmap/josm/gui/MainApplication.java
+@@ -405 +405,2 @@
+-        GuiHelper.runInEDT(new Runnable() {
++        // Wait for splash disappearance (fix #9714)
++        GuiHelper.runInEDTAndWait(new Runnable() {
+

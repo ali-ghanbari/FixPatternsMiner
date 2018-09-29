@@ -1,0 +1,17 @@
+diff --git a/build.xml b/build.xml
+index 878a652..30e2745 100644
+--- a/build.xml
++++ b/build.xml
+@@ -162 +162 @@
+-    <junit fork="true" logfailedtests="false" printsummary="true">
++    <junit fork="true" forkmode="once" logfailedtests="false" printsummary="true">
+@@ -171,0 +172 @@
++      <formatter type="xml" usefile="true" />
+diff --git a/src/com/maddyhome/idea/vim/helper/PsiHelper.java b/src/com/maddyhome/idea/vim/helper/PsiHelper.java
+index f1dc24b..81721f5 100644
+--- a/src/com/maddyhome/idea/vim/helper/PsiHelper.java
++++ b/src/com/maddyhome/idea/vim/helper/PsiHelper.java
+@@ -55 +55 @@
+-    StructureViewModel model = builder.createStructureViewModel();
++    StructureViewModel model = builder.createStructureViewModel(editor);
+

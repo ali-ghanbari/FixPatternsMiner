@@ -1,0 +1,72 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine.services/src/com/google/dart/engine/services/internal/correction/CorrectionUtils.java b/dart/editor/tools/plugins/com.google.dart.engine.services/src/com/google/dart/engine/services/internal/correction/CorrectionUtils.java
+index 22dff6b..d50cd00 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine.services/src/com/google/dart/engine/services/internal/correction/CorrectionUtils.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine.services/src/com/google/dart/engine/services/internal/correction/CorrectionUtils.java
+@@ -652 +651,0 @@
+-      // TODO(scheglov) not implemented yet in Resolver 
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine.services_test/src/com/google/dart/engine/services/internal/correction/CorrectionUtilsTest.java b/dart/editor/tools/plugins/com.google.dart.engine.services_test/src/com/google/dart/engine/services/internal/correction/CorrectionUtilsTest.java
+index a164d5c..ad7e81a 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine.services_test/src/com/google/dart/engine/services/internal/correction/CorrectionUtilsTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine.services_test/src/com/google/dart/engine/services/internal/correction/CorrectionUtilsTest.java
+@@ -1254 +1254 @@
+-        "  foo(111, c: 333, b: 222);",
++        "  foo(a: 111, c: 333, b: 222);",
+@@ -1256,6 +1256,29 @@
+-    // TODO(scheglov) hopefully resolver will provide this information
+-//    assert_getVariableNameSuggestions(
+-//        null,
+-//        findTestNode("111", Expression.class),
+-//        ImmutableSet.of(""),
+-//        formatLines("a"));
++    assert_getVariableNameSuggestions(
++        null,
++        findNode("111", Expression.class),
++        ImmutableSet.of(""),
++        formatLines("a"));
++    assert_getVariableNameSuggestions(
++        null,
++        findNode("222", Expression.class),
++        ImmutableSet.of(""),
++        formatLines("b"));
++    assert_getVariableNameSuggestions(
++        null,
++        findNode("333", Expression.class),
++        ImmutableSet.of(""),
++        formatLines("c"));
++  }
++
++  public void test_getVariableNameSuggestions_invocationArgument_optional() throws Exception {
++    parseTestUnit(
++        "// filler filler filler filler filler filler filler filler filler filler",
++        "foo(a, [b = 2, c = 3]) {}",
++        "main() {",
++        "  foo(111, 222, 333);",
++        "}");
++    assert_getVariableNameSuggestions(
++        null,
++        findNode("111", Expression.class),
++        ImmutableSet.of(""),
++        formatLines("a"));
+@@ -1281,11 +1304,10 @@
+-    // TODO(scheglov) hopefully resolver will provide this information
+-//    assert_getVariableNameSuggestions(
+-//        null,
+-//        findTestNode("111", Expression.class),
+-//        ImmutableSet.of(""),
+-//        formatLines("a"));
+-//    assert_getVariableNameSuggestions(
+-//        null,
+-//        findTestNode("222", Expression.class),
+-//        ImmutableSet.of(""),
+-//        formatLines("b"));
++    assert_getVariableNameSuggestions(
++        null,
++        findNode("111", Expression.class),
++        ImmutableSet.of(""),
++        formatLines("a"));
++    assert_getVariableNameSuggestions(
++        null,
++        findNode("222", Expression.class),
++        ImmutableSet.of(""),
++        formatLines("b"));
+

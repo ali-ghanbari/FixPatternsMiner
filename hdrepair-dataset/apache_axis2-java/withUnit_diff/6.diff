@@ -1,0 +1,21 @@
+diff --git a/modules/core/src/org/apache/axis2/description/OutInAxisOperation.java b/modules/core/src/org/apache/axis2/description/OutInAxisOperation.java
+index 7bad810..2b322af 100644
+--- a/modules/core/src/org/apache/axis2/description/OutInAxisOperation.java
++++ b/modules/core/src/org/apache/axis2/description/OutInAxisOperation.java
+@@ -258,0 +259,3 @@
++            //if dont do this , this guy will wait till its gets HTTP 202 in the case
++            //HTTP
++            mc.setProperty(MessageContext.TRANSPORT_NON_BLOCKING, Boolean.TRUE);
+diff --git a/modules/integration/test/org/apache/axis2/engine/EchoRawXMLOnTwoChannelsTest.java b/modules/integration/test/org/apache/axis2/engine/EchoRawXMLOnTwoChannelsTest.java
+index 65139aa..0b36105 100644
+--- a/modules/integration/test/org/apache/axis2/engine/EchoRawXMLOnTwoChannelsTest.java
++++ b/modules/integration/test/org/apache/axis2/engine/EchoRawXMLOnTwoChannelsTest.java
+@@ -114 +113,0 @@
+-
+diff --git a/modules/integration/test/org/apache/axis2/engine/EchoRawXMLTest.java b/modules/integration/test/org/apache/axis2/engine/EchoRawXMLTest.java
+index 21db30b..1e69e48 100644
+--- a/modules/integration/test/org/apache/axis2/engine/EchoRawXMLTest.java
++++ b/modules/integration/test/org/apache/axis2/engine/EchoRawXMLTest.java
+@@ -108 +107,0 @@
+-
+

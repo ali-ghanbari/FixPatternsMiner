@@ -1,0 +1,8 @@
+diff --git a/orcid-persistence/src/main/java/org/orcid/persistence/dao/impl/SolrDaoImpl.java b/orcid-persistence/src/main/java/org/orcid/persistence/dao/impl/SolrDaoImpl.java
+index 6d852b2..5939bfb 100644
+--- a/orcid-persistence/src/main/java/org/orcid/persistence/dao/impl/SolrDaoImpl.java
++++ b/orcid-persistence/src/main/java/org/orcid/persistence/dao/impl/SolrDaoImpl.java
+@@ -79 +79 @@
+-        query.setQuery(ORCID + ":" + orcid).setFields(SCORE, ORCID, PUBLIC_PROFILE);
++        query.setQuery(ORCID + ":\"" + orcid + "\"").setFields(SCORE, ORCID, PUBLIC_PROFILE);
+

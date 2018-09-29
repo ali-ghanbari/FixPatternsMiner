@@ -1,0 +1,25 @@
+diff --git a/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/CoreServerServiceImpl.java b/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/CoreServerServiceImpl.java
+index 85aa364..e380b6e 100644
+--- a/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/CoreServerServiceImpl.java
++++ b/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/CoreServerServiceImpl.java
+@@ -128 +128 @@
+-                    if (agentByAddressPort != null) {
++                    if (agentByAddressPort != null && !agentByAddressPort.getName().equals(request.getName())) {
+diff --git a/modules/enterprise/server/jar/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java b/modules/enterprise/server/jar/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java
+index 0abbbeb..a3dda5e 100644
+--- a/modules/enterprise/server/jar/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java
++++ b/modules/enterprise/server/jar/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java
+@@ -121,0 +122,9 @@
++        // now don't change Z's host/port but re-register everything the same with its token
++        request = createRequest(zName, "hostZdoubleprime", 55552, results.getAgentToken());
++        results = service.registerAgent(request);
++        assert results != null;
++        agent = LookupUtil.getAgentManager().getAgentByAgentToken(results.getAgentToken());
++        assert agent.getName().equals(zName);
++        assert agent.getAddress().equals("hostZdoubleprime");
++        assert agent.getPort() == 55552;
++
+@@ -345,0 +355,2 @@
++        unprepareForTestAgents();
++
+

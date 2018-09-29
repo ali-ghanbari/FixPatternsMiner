@@ -1,0 +1,15 @@
+diff --git a/api-sdk/src/main/java/com/smartling/api/sdk/file/commandline/RetrieveFile.java b/api-sdk/src/main/java/com/smartling/api/sdk/file/commandline/RetrieveFile.java
+index ffdd919..129d597 100644
+--- a/api-sdk/src/main/java/com/smartling/api/sdk/file/commandline/RetrieveFile.java
++++ b/api-sdk/src/main/java/com/smartling/api/sdk/file/commandline/RetrieveFile.java
+@@ -69 +69 @@
+-        StringResponse response = smartlingFAPI.getFile(file.getName(), retrieveFileParams.getLocale(), null);
++        StringResponse response = smartlingFAPI.getFile(file.getName(), retrieveFileParams.getLocale(), null, null);
+diff --git a/api-sdk/src/test/java/com/smartling/api/sdk/file/FileApiClientAdapterTest.java b/api-sdk/src/test/java/com/smartling/api/sdk/file/FileApiClientAdapterTest.java
+index b4a18c3..e7ecd4d 100644
+--- a/api-sdk/src/test/java/com/smartling/api/sdk/file/FileApiClientAdapterTest.java
++++ b/api-sdk/src/test/java/com/smartling/api/sdk/file/FileApiClientAdapterTest.java
+@@ -119 +119 @@
+-        StringResponse fileContents = fileApiClientAdapter.getFile(originalFileUri, null, null);
++        StringResponse fileContents = fileApiClientAdapter.getFile(originalFileUri, null, null, null);
+

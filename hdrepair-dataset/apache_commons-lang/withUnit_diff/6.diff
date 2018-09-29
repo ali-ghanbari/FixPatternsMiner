@@ -1,0 +1,25 @@
+diff --git a/src/main/java/org/apache/commons/lang3/time/FastDateFormat.java b/src/main/java/org/apache/commons/lang3/time/FastDateFormat.java
+index e30da2a..95925fc 100644
+--- a/src/main/java/org/apache/commons/lang3/time/FastDateFormat.java
++++ b/src/main/java/org/apache/commons/lang3/time/FastDateFormat.java
+@@ -820 +820 @@
+-        Calendar c = new GregorianCalendar(mTimeZone);
++        Calendar c = new GregorianCalendar(mTimeZone, mLocale);
+diff --git a/src/test/java/org/apache/commons/lang3/time/FastDateFormatTest.java b/src/test/java/org/apache/commons/lang3/time/FastDateFormatTest.java
+index 45156e3..3853cdd 100644
+--- a/src/test/java/org/apache/commons/lang3/time/FastDateFormatTest.java
++++ b/src/test/java/org/apache/commons/lang3/time/FastDateFormatTest.java
+@@ -324,0 +325,12 @@
++
++    public void testLang645() {
++        Locale locale = new Locale("sv", "SE");
++
++        Calendar cal = Calendar.getInstance();
++        cal.set(2010, 0, 1, 12, 0, 0);
++        Date d = cal.getTime();
++
++        FastDateFormat fdf = FastDateFormat.getInstance("EEEE', week 'ww", locale);
++
++        assertEquals("fredag, week 53", fdf.format(d));
++    }
+

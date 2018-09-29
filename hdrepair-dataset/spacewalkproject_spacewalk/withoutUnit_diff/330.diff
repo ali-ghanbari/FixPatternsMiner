@@ -1,0 +1,16 @@
+diff --git a/java/code/src/com/redhat/rhn/frontend/action/errata/ChannelAction.java b/java/code/src/com/redhat/rhn/frontend/action/errata/ChannelAction.java
+index f7d5b7a..82bf52e 100644
+--- a/java/code/src/com/redhat/rhn/frontend/action/errata/ChannelAction.java
++++ b/java/code/src/com/redhat/rhn/frontend/action/errata/ChannelAction.java
+@@ -167 +167 @@
+-        return strutsDelegate.forwardParam(mapping.findForward("default"),
++        return strutsDelegate.forwardParam(mapping.findForward("push"),
+diff --git a/java/code/webapp/WEB-INF/struts-config.xml b/java/code/webapp/WEB-INF/struts-config.xml
+index 0a36bbf..8d59ab3 100644
+--- a/java/code/webapp/WEB-INF/struts-config.xml
++++ b/java/code/webapp/WEB-INF/struts-config.xml
+@@ -2077 +2077,2 @@
+-        <forward name="default" path="/errata/manage/AddChannelPackagePush.do" redirect="true"/>
++          <forward name="default" path="/errata/manage/Channels.do"/>
++        <forward name="push" path="/errata/manage/AddChannelPackagePush.do" redirect="true"/>
+

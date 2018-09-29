@@ -1,0 +1,69 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/map/record/ObjectRecordFactory.java b/hazelcast/src/main/java/com/hazelcast/map/record/ObjectRecordFactory.java
+index 36adc3e..9fb4c70 100644
+--- a/hazelcast/src/main/java/com/hazelcast/map/record/ObjectRecordFactory.java
++++ b/hazelcast/src/main/java/com/hazelcast/map/record/ObjectRecordFactory.java
+@@ -45 +45 @@
+-        return statisticsEnabled ? new ObjectRecordWithStats(key, value) : new ObjectRecord(key, v);
++        return statisticsEnabled ? new ObjectRecordWithStats(key, v) : new ObjectRecord(key, v);
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java b/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java
+index 7733137..bb85098 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java
+@@ -23,0 +24,3 @@
++import com.hazelcast.nio.ObjectDataInput;
++import com.hazelcast.nio.ObjectDataOutput;
++import com.hazelcast.nio.serialization.DataSerializable;
+@@ -25 +27,0 @@
+-import com.hazelcast.test.HazelcastSerialClassRunner;
+@@ -32,0 +35 @@
++import java.io.IOException;
+@@ -33,0 +37,2 @@
++import java.util.Map;
++import java.util.concurrent.atomic.AtomicInteger;
+@@ -34,0 +40 @@
++import static junit.framework.Assert.assertEquals;
+@@ -41,0 +48,26 @@
++
++    /**
++     * if statistics enabled InMemoryFormat.Object does not work
++     */
++    @Test
++    public void testIssue2622(){
++        final String mapName = randomString();
++        Config config = new Config();
++        final MapConfig mapConfig = new MapConfig(mapName);
++        mapConfig.setInMemoryFormat(InMemoryFormat.OBJECT);
++        mapConfig.setStatisticsEnabled(true);
++        config.addMapConfig(mapConfig);
++        final HazelcastInstance instance = createHazelcastInstance(config);
++        final IMap<String, SerializationValue> map = instance.getMap(mapName);
++        final SerializationValue serializationValue = new SerializationValue();
++        map.put("key", serializationValue);
++
++        //EntryProcessor should not trigger de-serialization
++        map.executeOnKey("key", new AbstractEntryProcessor<String, SerializationValue>() {
++            @Override
++            public Object process(final Map.Entry<String, SerializationValue> entry) {
++                return null;
++            }
++        });
++        assertEquals(1, SerializationValue.deSerializeCount.get());
++    }
+@@ -125,0 +158,16 @@
++    public static class SerializationValue implements DataSerializable {
++
++        public static AtomicInteger deSerializeCount = new AtomicInteger();
++
++        public SerializationValue() {
++        }
++
++        @Override
++        public void writeData(final ObjectDataOutput out) throws IOException {
++        }
++
++        @Override
++        public void readData(final ObjectDataInput in) throws IOException {
++            deSerializeCount.incrementAndGet();
++        }
++    }
+

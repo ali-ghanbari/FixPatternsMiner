@@ -1,0 +1,17 @@
+diff --git a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java
+index f2d940e..60e2f38 100644
+--- a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java
++++ b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/rules/en/AvsAnRule.java
+@@ -91 +91 @@
+-        token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
++        token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9\\.]", "");         // e.g. >>an "industry party"<<
+diff --git a/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java b/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java
+index 812bfcb..a80583d 100644
+--- a/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java
++++ b/trunk/JLanguageTool/src/test/de/danielnaber/languagetool/rules/en/AvsAnRuleTest.java
+@@ -96,0 +97,4 @@
++
++    //Test on acronyms/initials:
++    matches = rule.match(langTool.getAnalyzedSentence("A. R.J. Turgot"));
++    assertEquals(0, matches.length);
+

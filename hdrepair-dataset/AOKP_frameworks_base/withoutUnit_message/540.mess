@@ -1,0 +1,15 @@
+fix argument mismatches in Paint JNI
+
+Paint.getTextRunCursor() no longer has a "flags" argument on the Java
+side. The native side, however, still had the argument, and was being
+called with misaligned arguments, causing all manner of madcap fun.
+
+Also, the version of Paint.getTextRunCursor() that took String as an
+argument needed to lose the "flags" argument, as well, to prevent an
+infinite loop in the CharSequence version of the function, which was
+supposed to be calling the String version but was actually calling
+itself.
+
+Bug: 8201224
+Change-Id: Iad0dabaf81185f29a082566cc64590f2ba9bc31c
+

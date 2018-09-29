@@ -1,0 +1,30 @@
+diff --git a/src/main/java/com/taskadapter/redmineapi/internal/RedmineDateParser.java b/src/main/java/com/taskadapter/redmineapi/internal/RedmineDateParser.java
+index 1978f4b..2262d42 100644
+--- a/src/main/java/com/taskadapter/redmineapi/internal/RedmineDateParser.java
++++ b/src/main/java/com/taskadapter/redmineapi/internal/RedmineDateParser.java
+@@ -7 +7 @@
+-// side note... can you please STOP CHANGING FREAKING DATE FORMATS already? please?
++// side note... can you PLEASE stop changing date formats already? please?
+diff --git a/src/test/java/com/taskadapter/redmineapi/internal/RedmineDateParserTest.java b/src/test/java/com/taskadapter/redmineapi/internal/RedmineDateParserTest.java
+index febc5ef..6641ae8 100644
+--- a/src/test/java/com/taskadapter/redmineapi/internal/RedmineDateParserTest.java
++++ b/src/test/java/com/taskadapter/redmineapi/internal/RedmineDateParserTest.java
+@@ -17,5 +17 @@
+-        dateIsParsedTo("2015/03/11", "2015-03-11T00:00:00.000PDT");
+-
+-        // Redmine 2.x short format
+-        dateIsParsedTo("2015-03-11", "2015-03-11T00:00:00.000PDT");
+-
++        dateIsParsedTo("2015/03/11", new Date(115, 02, 11));
+@@ -24,0 +21,2 @@
++        // Redmine 2.x short format
++        dateIsParsedTo("2015-03-11", new Date(115, 02, 11));
+@@ -30,2 +27,0 @@
+-
+-        // side note... can you please STOP CHANGING FREAKING DATE FORMATS already? please?
+@@ -37,0 +34,4 @@
++    private void dateIsParsedTo(String originalDateString, Date expectedDate) throws ParseException {
++        assertThat(parse(originalDateString)).isEqualTo(expectedDate);
++    }
++
+

@@ -1,0 +1,34 @@
+diff --git a/conf/trusted-test-tsl.xml b/conf/trusted-test-tsl.xml
+index 4ac7e08..f85c30f 100644
+--- a/conf/trusted-test-tsl.xml
++++ b/conf/trusted-test-tsl.xml
+@@ -107 +107 @@
+-                <tsl:TSLLocation>http://ftp.id.eesti.ee/pub/id/tsl/trusted-test-tsl.xml
++              <tsl:TSLLocation>http://10.0.25.57/tsl/trusted-test-tsl.xml
+@@ -139 +139 @@
+-            <tsl:URI>http://ftp.id.eesti.ee/pub/id/tsl/trusted-test-tsl.xml</tsl:URI>
++          <tsl:URI>http://10.0.25.57/tsl/trusted-test-tsl.xml</tsl:URI>
+diff --git a/src/org/digidoc4j/api/Configuration.java b/src/org/digidoc4j/api/Configuration.java
+index 620148c..33bd3d6 100644
+--- a/src/org/digidoc4j/api/Configuration.java
++++ b/src/org/digidoc4j/api/Configuration.java
+@@ -123 +123 @@
+-      configuration.put("tslLocation", "http://10.0.25.57/tsl/trusted-test-mp.xml");
++      configuration.put("tslLocation", "file:conf/trusted-test-tsl.xml");
+diff --git a/test/org/digidoc4j/BDocContainerTest.java b/test/org/digidoc4j/BDocContainerTest.java
+index e2eb829..bae318e 100644
+--- a/test/org/digidoc4j/BDocContainerTest.java
++++ b/test/org/digidoc4j/BDocContainerTest.java
+@@ -147 +146,0 @@
+-
+diff --git a/test/org/digidoc4j/api/ConfigurationTest.java b/test/org/digidoc4j/api/ConfigurationTest.java
+index 029e874..54ab34c 100644
+--- a/test/org/digidoc4j/api/ConfigurationTest.java
++++ b/test/org/digidoc4j/api/ConfigurationTest.java
+@@ -73 +73 @@
+-    assertEquals("http://ftp.id.eesti.ee/pub/id/tsl/trusted-test-mp.xml", configuration.getTslLocation());
++    assertEquals("http://10.0.25.57/tsl/trusted-test-mp.xml", configuration.getTslLocation());
+@@ -94 +94 @@
+-    assertEquals("http://ftp.id.eesti.ee/pub/id/tsl/trusted-test-mp.xml", configuration.getTslLocation());
++    assertEquals("http://10.0.25.57/tsl/trusted-test-mp.xml", configuration.getTslLocation());
+

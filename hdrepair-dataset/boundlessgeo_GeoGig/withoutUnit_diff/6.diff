@@ -1,0 +1,8 @@
+diff --git a/src/web/api/src/main/java/org/geogit/rest/repository/MergeFeatureResource.java b/src/web/api/src/main/java/org/geogit/rest/repository/MergeFeatureResource.java
+index f0cf34e..9d4cec8 100644
+--- a/src/web/api/src/main/java/org/geogit/rest/repository/MergeFeatureResource.java
++++ b/src/web/api/src/main/java/org/geogit/rest/repository/MergeFeatureResource.java
+@@ -443 +443 @@
+-            return java.sql.Timestamp.valueOf(value);
++            return new java.sql.Timestamp(new SimpleDateFormat().parse(value).getTime());
+

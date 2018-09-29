@@ -1,0 +1,18 @@
+diff --git a/hydra-filters/src/test/java/com/addthis/hydra/data/filter/value/TestValueFilterJoin.java b/hydra-filters/src/test/java/com/addthis/hydra/data/filter/value/TestValueFilterJoin.java
+index 26ddd85..58a7ca7 100644
+--- a/hydra-filters/src/test/java/com/addthis/hydra/data/filter/value/TestValueFilterJoin.java
++++ b/hydra-filters/src/test/java/com/addthis/hydra/data/filter/value/TestValueFilterJoin.java
+@@ -56 +56 @@
+-        assertEquals("should correctly join map", "a=x,y,z;b=p,q;c=c,d,e", join.filter(map).toString());
++        assertEquals("should correctly join map", "a=[x, y, z];b=[p, q];c=[c, d, e]", join.filter(map).toString());
+diff --git a/pom.xml b/pom.xml
+index 7b9a06d..642c7bb 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1 +1,2 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+@@ -48,0 +50 @@
++    <project.build.targetJdk>1.8</project.build.targetJdk>
+

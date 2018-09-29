@@ -1,0 +1,55 @@
+diff --git a/nucleus/admin/rest/rest-service/src/main/java/org/glassfish/admin/rest/resources/PropertiesBagResource.java b/nucleus/admin/rest/rest-service/src/main/java/org/glassfish/admin/rest/resources/PropertiesBagResource.java
+index f3297c0..3eb8116 100644
+--- a/nucleus/admin/rest/rest-service/src/main/java/org/glassfish/admin/rest/resources/PropertiesBagResource.java
++++ b/nucleus/admin/rest/rest-service/src/main/java/org/glassfish/admin/rest/resources/PropertiesBagResource.java
+@@ -201 +201 @@
+-                    if (canSaveDesc) {
++                    if (canSaveDesc && (description != null)) {
+diff --git a/nucleus/admin/rest/rest-service/src/test/java/org/glassfish/admin/rest/PropertiesBagTest.java b/nucleus/admin/rest/rest-service/src/test/java/org/glassfish/admin/rest/PropertiesBagTest.java
+index 696ec16..c6d6282 100644
+--- a/nucleus/admin/rest/rest-service/src/test/java/org/glassfish/admin/rest/PropertiesBagTest.java
++++ b/nucleus/admin/rest/rest-service/src/test/java/org/glassfish/admin/rest/PropertiesBagTest.java
+@@ -175,0 +176,17 @@
++    // the prop name can not contain .
++    // need to remove the . test when http://java.net/jira/browse/GLASSFISH-15418  is fixed
++//    @Test
++    public void testPropertiesWithDots() {
++        List<Map<String, String>> properties = new ArrayList<Map<String, String>>();
++        final String prop = "some.property.with.dots." + generateRandomNumber();
++        final String description = "This is the description";
++        final String value = generateRandomString();
++        properties.add(createProperty(prop, value, description));
++        createProperties(URL_DERBYPOOL_PROPERTIES, properties);
++        List<Map<String, String>> newProperties = getProperties(get(URL_DERBYPOOL_PROPERTIES));
++        Map<String, String> newProp = getProperty(newProperties, prop);
++        assertTrue(newProp != null);
++        assertTrue(value.equals(newProp.get("value")));
++        assertTrue(description.equals(newProp.get("description")));
++    }
++    
+@@ -266 +283 @@
+-        return createProperty(name, value, "");
++        return createProperty(name, value, null);
+@@ -267,0 +285 @@
++    
+@@ -272 +290,3 @@
+-                put ("description", description);
++                if (description != null) {
++                    put ("description", description);
++                }
+@@ -319,2 +339,6 @@
+-        boolean propertyFound = false;
+-        for (Map property : properties) {
++        return getProperty(properties, name) != null;
++    }
++
++    protected Map<String, String> getProperty(List<Map<String, String>> properties, String name) {
++        Map<String, String> retval = null;
++        for (Map<String,String> property : properties) {
+@@ -322 +346 @@
+-                propertyFound = true;
++                retval = property;
+@@ -326 +350 @@
+-        return propertyFound;
++        return retval;
+

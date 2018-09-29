@@ -1,0 +1,33 @@
+diff --git a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java
+index 733e0a0..b7b6640 100644
+--- a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java
++++ b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/TreemapWidget.java
+@@ -42 +42 @@
+-    return "/Users/sbrandhof/projects/github/sonar/plugins/sonar-core-plugin/src/main/resources/org/sonar/plugins/core/widgets/treemap.html.erb";
++    return "/org/sonar/plugins/core/widgets/treemap.html.erb";
+diff --git a/sonar-server/src/main/webapp/WEB-INF/app/controllers/treemap_controller.rb b/sonar-server/src/main/webapp/WEB-INF/app/controllers/treemap_controller.rb
+index 9288782..1d12417 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/app/controllers/treemap_controller.rb
++++ b/sonar-server/src/main/webapp/WEB-INF/app/controllers/treemap_controller.rb
+@@ -42,6 +42,4 @@
+-    resource = nil
+-    if params[:resource]
+-      resource = Project.by_key(params[:resource])
+-      bad_request('Unknown resource: ' + params[:resource]) unless resource
+-      access_denied unless has_role?(:user, resource)
+-    end
++    resource = Project.by_key(params[:resource])
++    bad_request('Unknown resource: ' + params[:resource]) unless resource
++    bad_request('Data not available') unless resource.last_snapshot
++    access_denied unless has_role?(:user, resource)
+@@ -51 +49 @@
+-      :root_snapshot => (resource ? resource.last_snapshot : nil),
++      :root_snapshot => resource.last_snapshot,
+diff --git a/sonar-server/src/main/webapp/WEB-INF/app/models/sonar/treemap.rb b/sonar-server/src/main/webapp/WEB-INF/app/models/sonar/treemap.rb
+index 6352a9a..7571409 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/app/models/sonar/treemap.rb
++++ b/sonar-server/src/main/webapp/WEB-INF/app/models/sonar/treemap.rb
+@@ -151 +151 @@
+-    html += "<div id=\"node-#{node.id}\" style=\""
++    html += "<div style=\""
+

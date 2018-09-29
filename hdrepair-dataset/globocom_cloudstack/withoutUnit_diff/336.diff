@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/template/TemplateManagerImpl.java b/server/src/com/cloud/template/TemplateManagerImpl.java
+index ff7952d..ba17165 100755
+--- a/server/src/com/cloud/template/TemplateManagerImpl.java
++++ b/server/src/com/cloud/template/TemplateManagerImpl.java
+@@ -283 +283 @@
+-        if (!template.isExtractable()) {
++        if (!_accountMgr.isRootAdmin(caller.getType()) && !template.isExtractable()) {
+

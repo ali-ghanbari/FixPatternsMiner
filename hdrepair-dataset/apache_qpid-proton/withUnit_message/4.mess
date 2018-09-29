@@ -1,0 +1,10 @@
+PROTON-834: further UTF-8 encoder fixes
+
+After commit c65e897 it turned out there were still some issues with
+strings containing a codepoint >0xDBFF which was being incorrectly
+treated as a surrogate pair in the calculateUTF8Length method.
+
+Fixed this up and added some more test coverage.
+
+Closes #13
+

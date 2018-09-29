@@ -1,0 +1,8 @@
+diff --git a/enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryAsynchClient.java b/enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryAsynchClient.java
+index 7287c0b..ecafa88 100755
+--- a/enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryAsynchClient.java
++++ b/enterprise/src/main/java/com/orientechnologies/orient/enterprise/channel/binary/OChannelBinaryAsynchClient.java
+@@ -318 +318 @@
+-    return s != null && s.isConnected() && !s.isInputShutdown() && !s.isOutputShutdown();
++    return s != null && !s.isClosed() && s.isConnected() && !s.isInputShutdown() && !s.isOutputShutdown();
+

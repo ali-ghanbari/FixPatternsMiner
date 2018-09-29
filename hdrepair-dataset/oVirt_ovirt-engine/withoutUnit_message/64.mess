@@ -1,0 +1,11 @@
+core: fix interfaces initialization for VM object
+
+In the constructor of VM object we always set the interfaces to empty
+list. It is redundant as we get VmStatic object which is initialized
+with empty list. The problem with the redundant setting is that even if
+passing VmStatic instance initialized with interfaces, we were override
+it. Thus, this setting is removed.
+
+Change-Id: I4537f48ecfd7f3a42e96e345c24f085105361e02
+Signed-off-by: Arik Hadas <ahadas@redhat.com>
+

@@ -1,0 +1,15 @@
+diff --git a/opennms-daemon/src/main/filtered/etc/opennms.properties b/opennms-daemon/src/main/filtered/etc/opennms.properties
+index 8ba5493..d69b9db 100644
+--- a/opennms-daemon/src/main/filtered/etc/opennms.properties
++++ b/opennms-daemon/src/main/filtered/etc/opennms.properties
+@@ -76 +76 @@
+-# org.opennms.netmgt.collectd.OnmsSnmpCollection.loadResourcesTypesInInit=false
++# org.opennms.netmgt.collectd.OnmsSnmpCollection.loadResourceTypesInInit=false
+diff --git a/opennms-services/src/main/java/org/opennms/netmgt/collectd/OnmsSnmpCollection.java b/opennms-services/src/main/java/org/opennms/netmgt/collectd/OnmsSnmpCollection.java
+index 02f3595..e2c2cca 100644
+--- a/opennms-services/src/main/java/org/opennms/netmgt/collectd/OnmsSnmpCollection.java
++++ b/opennms-services/src/main/java/org/opennms/netmgt/collectd/OnmsSnmpCollection.java
+@@ -80 +80 @@
+-        if (Boolean.getBoolean("org.opennms.netmgt.collectd.OnmsSnmpCollection.loadResourcesTypesInInit")) {
++        if (Boolean.getBoolean("org.opennms.netmgt.collectd.OnmsSnmpCollection.loadResourceTypesInInit")) {
+

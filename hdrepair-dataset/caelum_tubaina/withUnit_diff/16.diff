@@ -1,0 +1,18 @@
+diff --git a/src/main/java/br/com/caelum/tubaina/parser/CodeHighlightTag.java b/src/main/java/br/com/caelum/tubaina/parser/CodeHighlightTag.java
+index 050bd16..9747b81 100644
+--- a/src/main/java/br/com/caelum/tubaina/parser/CodeHighlightTag.java
++++ b/src/main/java/br/com/caelum/tubaina/parser/CodeHighlightTag.java
+@@ -26 +26 @@
+-		return parse(text, highlights, start, "{\\bf ", "}");
++		return parse(text, highlights, start, "\\colorbox{yellow}{", "}\\");
+diff --git a/src/test/java/br/com/caelum/tubaina/parser/latex/CodeHighlightTagTest.java b/src/test/java/br/com/caelum/tubaina/parser/latex/CodeHighlightTagTest.java
+index 17b6e32..f042d44 100644
+--- a/src/test/java/br/com/caelum/tubaina/parser/latex/CodeHighlightTagTest.java
++++ b/src/test/java/br/com/caelum/tubaina/parser/latex/CodeHighlightTagTest.java
+@@ -22 +22 @@
+-		Assert.assertEquals("{\\bf Primeira linha}\n" +
++		Assert.assertEquals("\\colorbox{yellow}{Primeira linha}\\\n" +
+@@ -24 +24 @@
+-				"{\\bf Terceira linha}\n" +
++				"\\colorbox{yellow}{Terceira linha}\\\n" +
+

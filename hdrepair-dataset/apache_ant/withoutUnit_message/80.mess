@@ -1,0 +1,15 @@
+synchonize ComponentHelper#checkNamespace()
+This fixes a bug with use of <parallel> and xmlns:prefix="antlib:package
+<project default="bug" xmlns:ac="antlib:net.sf.antcontrib">
+  <target name="t2">
+    <parallel>
+      <ac:shellscript shell="bash">echo hello</ac:shellscript>
+      <ac:shellscript shell="bash">echo hello</ac:shellscript>
+    </parallel>
+  </target>
+</project>
+- need a unit test for this
+
+
+git-svn-id: https://svn.apache.org/repos/asf/ant/core/trunk@275522 13f79535-47bb-0310-9956-ffa450edef68
+

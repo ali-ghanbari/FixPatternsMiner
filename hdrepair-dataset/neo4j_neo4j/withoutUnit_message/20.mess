@@ -1,0 +1,8 @@
+Improve error logging when sending HTTP error response.
+
+Ensure that we include the underlying exception as a root cause so
+that our server-side logging includes it. Without this fix we just get
+a WebApplicationException and its stacktrace with a null message, the
+original exception was being returned to the client but thrown away on
+the server side.
+

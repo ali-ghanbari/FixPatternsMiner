@@ -1,0 +1,25 @@
+diff --git a/drools-compiler/src/test/java/org/drools/integrationtests/UnmarshallingTest.java b/drools-compiler/src/test/java/org/drools/integrationtests/UnmarshallingTest.java
+index c297ff8..f23bac4 100644
+--- a/drools-compiler/src/test/java/org/drools/integrationtests/UnmarshallingTest.java
++++ b/drools-compiler/src/test/java/org/drools/integrationtests/UnmarshallingTest.java
+@@ -60 +60 @@
+-        knowledgeBase = SerializationHelper.serializeObject( knowledgeBase );
++        knowledgeBase = initializeKnowledgeBase( whenBenNotVilgaxRule );
+diff --git a/drools-compiler/src/test/java/org/drools/integrationtests/marshalling/MarshallingTest.java b/drools-compiler/src/test/java/org/drools/integrationtests/marshalling/MarshallingTest.java
+index c721eb9..a99cdf4 100644
+--- a/drools-compiler/src/test/java/org/drools/integrationtests/marshalling/MarshallingTest.java
++++ b/drools-compiler/src/test/java/org/drools/integrationtests/marshalling/MarshallingTest.java
+@@ -1339 +1339 @@
+-        assertEquals( "InitialFactImpl",
++        assertEquals( "InitialFact",
+@@ -1391 +1391 @@
+-        assertEquals( "InitialFactImpl",
++        assertEquals( "InitialFact",
+diff --git a/drools-core/src/main/java/org/drools/base/ClassObjectType.java b/drools-core/src/main/java/org/drools/base/ClassObjectType.java
+index 0d5cf3b..cd266c7 100644
+--- a/drools-core/src/main/java/org/drools/base/ClassObjectType.java
++++ b/drools-core/src/main/java/org/drools/base/ClassObjectType.java
+@@ -43 +43 @@
+-    public static final ClassObjectType InitialFact_ObjectType = new ClassObjectType( InitialFactImpl.class );
++    public static final ClassObjectType InitialFact_ObjectType = new ClassObjectType( InitialFact.class );
+

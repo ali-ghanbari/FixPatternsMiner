@@ -1,0 +1,67 @@
+diff --git a/solr/src/test/org/apache/solr/client/solrj/response/TermsResponseTest.java b/solr/src/test/org/apache/solr/client/solrj/response/TermsResponseTest.java
+index 1625841..5e0eed5 100644
+--- a/solr/src/test/org/apache/solr/client/solrj/response/TermsResponseTest.java
++++ b/solr/src/test/org/apache/solr/client/solrj/response/TermsResponseTest.java
+@@ -26,0 +27 @@
++import org.junit.Before;
+@@ -38,0 +40,9 @@
++  
++  @Before
++  @Override
++  public void setUp() throws Exception{
++    super.setUp();
++    clearIndex();
++    assertU(commit());
++    assertU(optimize());
++  }
+diff --git a/solr/src/test/org/apache/solr/core/RAMDirectoryFactoryTest.java b/solr/src/test/org/apache/solr/core/RAMDirectoryFactoryTest.java
+index 6e480a6..9ca8583 100644
+--- a/solr/src/test/org/apache/solr/core/RAMDirectoryFactoryTest.java
++++ b/solr/src/test/org/apache/solr/core/RAMDirectoryFactoryTest.java
+@@ -20,0 +21 @@
++import org.apache.lucene.store.SingleInstanceLockFactory;
+@@ -30 +31 @@
+-    RAMDirectoryFactory factory = new RAMDirectoryFactory() {
++    RAMDirectoryFactory factory = new RAMDirectoryFactory()  {
+@@ -42,0 +44,2 @@
++    dir1.close();
++    dir2.close();
+diff --git a/solr/src/test/org/apache/solr/handler/TestCSVLoader.java b/solr/src/test/org/apache/solr/handler/TestCSVLoader.java
+index c6415c5..1339a85 100755
+--- a/solr/src/test/org/apache/solr/handler/TestCSVLoader.java
++++ b/solr/src/test/org/apache/solr/handler/TestCSVLoader.java
+@@ -79 +79 @@
+-    assertU(delQ("id:[100 TO 110]"));
++    assertU(delQ("*:*"));
+diff --git a/solr/src/test/org/apache/solr/handler/component/QueryElevationComponentTest.java b/solr/src/test/org/apache/solr/handler/component/QueryElevationComponentTest.java
+index dac3e91..349521d 100644
+--- a/solr/src/test/org/apache/solr/handler/component/QueryElevationComponentTest.java
++++ b/solr/src/test/org/apache/solr/handler/component/QueryElevationComponentTest.java
+@@ -57,0 +58,8 @@
++    // make sure this component is initialized correctly for each test
++    QueryElevationComponent comp = (QueryElevationComponent)h.getCore().getSearchComponent("elevate");
++    NamedList<String> args = new NamedList<String>();
++    args.add( QueryElevationComponent.CONFIG_FILE, "elevate.xml" );
++    args.add( QueryElevationComponent.FIELD_TYPE, "string" );
++    comp.init( args );
++    comp.inform( h.getCore() );
++    comp.forceElevation = false; 
+diff --git a/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java b/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java
+index 66f353e..257aef3 100644
+--- a/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java
++++ b/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java
+@@ -42,0 +43,4 @@
++  }
++  
++  public void setUp() throws Exception {
++    super.setUp();
+@@ -57,0 +62,8 @@
++  public void tearDown() throws Exception {
++    super.tearDown();
++    assertU(delQ("*:*"));
++    optimize();
++    assertU((commit()));
++
++  }
++  
+

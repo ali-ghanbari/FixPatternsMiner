@@ -1,0 +1,14 @@
+diff --git a/topcat/src/docs/sun253.xml b/topcat/src/docs/sun253.xml
+index 44e31a4..9626107 100644
+--- a/topcat/src/docs/sun253.xml
++++ b/topcat/src/docs/sun253.xml
+@@ -15462,0 +15463 @@
++    <li>Fixed bug when attempting to explode a hidden array column.</li>
+diff --git a/topcat/src/main/uk/ac/starlink/topcat/TopcatModel.java b/topcat/src/main/uk/ac/starlink/topcat/TopcatModel.java
+index 42ec78b..07ccd2e 100644
+--- a/topcat/src/main/uk/ac/starlink/topcat/TopcatModel.java
++++ b/topcat/src/main/uk/ac/starlink/topcat/TopcatModel.java
+@@ -703 +703 @@
+-        if ( colIndex >= 0 ) {
++        if ( colIndex >= 0 && colIndex < columnModel_.getColumnCount() - 1 ) {
+

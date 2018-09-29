@@ -1,0 +1,14 @@
+diff --git a/gremlin-test/src/main/java/com/tinkerpop/gremlin/process/CoreTraversalTest.java b/gremlin-test/src/main/java/com/tinkerpop/gremlin/process/CoreTraversalTest.java
+index 4c0ac96..5a3f68e 100644
+--- a/gremlin-test/src/main/java/com/tinkerpop/gremlin/process/CoreTraversalTest.java
++++ b/gremlin-test/src/main/java/com/tinkerpop/gremlin/process/CoreTraversalTest.java
+@@ -36 +36 @@
+-            fail("Should throw: " + Traversal.Exceptions.traversalIsLocked());
++            fail("Should throw: " + Traversal.Exceptions.traversalIsLocked() + " not " + e + ":" + e.getMessage());
+diff --git a/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java b/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java
+index 5023b32..32336bb 100644
+--- a/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java
++++ b/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java
+@@ -26,0 +27 @@
++        if (this.strategies.complete()) throw Exceptions.traversalIsLocked();
+

@@ -1,0 +1,15 @@
+webadmin Add UI Error handling in rebalance start
+
+This patch adds error handling to UI action rebalance
+start by utilising the Frontend#runMultipleAction
+that takes showErrorDialog flag.
+It is just a UI fix for this bug because, gluster also
+errors out under the circumstances reported by the bug.
+If this is a gluster bug and it is actually supposed to
+allow rebalance as I see in the bug description, then
+the fix might need to go to GlusterTaskUtils#hasTaskCompleted
+
+Change-Id: I3854d77ef8e50f88a0b64ab6a0e39e86123f8569
+Bug-Url: https://bugzilla.redhat.com/show_bug.cgi?id=1042808
+Signed-off-by: Anmol Babu <anbabu@redhat.com>
+

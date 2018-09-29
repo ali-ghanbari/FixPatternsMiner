@@ -1,0 +1,562 @@
+diff --git a/app/assets/stylesheets/less/_page.less b/app/assets/stylesheets/less/_page.less
+index 7db4371..3ed67db 100644
+--- a/app/assets/stylesheets/less/_page.less
++++ b/app/assets/stylesheets/less/_page.less
+@@ -1964 +1964 @@
+-        vertical-align: top;
++        vertical-align: middle;
+@@ -1968 +1968 @@
+-        line-height:20px;
++        line-height:22px;
+@@ -1976 +1976 @@
+-        line-height: 16px;
++        line-height: 22px;
+@@ -1981 +1981 @@
+-        color: #999; line-height:20px;
++        color: #999; line-height:22px;
+@@ -1987 +1987 @@
+-
++/*
+@@ -1996 +1996 @@
+-
++*/
+@@ -2025,5 +2025,4 @@
+-
+-    .attachments {
+-        ul { list-style-type:none; margin:0; }
+-        i { float:left; margin-right:5px; }
+-    }
++}
++.attachments {
++    ul { list-style-type:none; margin:0; }
++    i { float:left; margin-right:5px; }
+@@ -2095 +2093,0 @@
+-        font-size: 0;
+@@ -2109 +2107 @@
+-        margin: 0; margin-bottom:9px;
++        margin: 0;
+@@ -2119 +2117 @@
+-        padding:15px;
++        padding:10px; margin-bottom:10px;
+@@ -2121,0 +2120 @@
++    .actrow { margin-top:10px; }
+@@ -2154 +2153 @@
+-    padding:20px 10px !important;
++    padding:10px !important;
+@@ -2179 +2178 @@
+-            width: 280px;
++            width: 360px;
+@@ -2189,0 +2189 @@
++            &:hover { border:1px solid @primary; }
+@@ -2191 +2191 @@
+-            .icon-question-sign { display:none; }
++            .icon-question-sign { display:none; margin-right:3px; color:@secondary; }
+@@ -2215,0 +2216,7 @@
++                &:hover { color:@primary; }
++            }
++            .btn-insert { 
++                display:none; 
++                line-height: 20px; 
++                margin-top: 2px; margin-right: 10px;
++                &:hover { background:#fff; color:@primary; }
+@@ -2221,0 +2229 @@
++               .btn-insert  { display:block; }
+@@ -2577,2 +2585,3 @@
+-    .branches {
+-        text-align:left;
++}
++.branches {
++    text-align:left;
+@@ -2580,5 +2589,3 @@
+-        .label {
+-            margin:0; padding:0 5px; margin-right:3px;
+-
+-            &.branch { background-color:@orange; }
+-        }
++    .label {
++        margin:0; padding:0 5px; margin-right:3px;
++        &.branch { background-color:@orange; }
+diff --git a/app/controllers/PullRequestApp.java b/app/controllers/PullRequestApp.java
+index 21da21e..4bb370b 100644
+--- a/app/controllers/PullRequestApp.java
++++ b/app/controllers/PullRequestApp.java
+@@ -232,0 +233,2 @@
++        
++        Attachment.moveAll(UserApp.currentUser().asResource(), pullRequest.asResource());
+diff --git a/app/views/commentForm.scala.html b/app/views/commentForm.scala.html
+index baf6764..9a71e70 100644
+--- a/app/views/commentForm.scala.html
++++ b/app/views/commentForm.scala.html
+@@ -11,0 +12,5 @@
++                @** fileUploader **@
++                @if(!UserApp.currentUser.isAnonymous) {
++                    @fileUploader(resourceType, null)
++                }
++                @** end of fileUploader **@
+@@ -16,6 +20,0 @@
+-
+-            @** fileUploader **@
+-            @if(!UserApp.currentUser.isAnonymous) {
+-                @fileUploader(resourceType, null)
+-            }
+-            @** end of fileUploader **@
+diff --git a/app/views/fileUploader.scala.html b/app/views/fileUploader.scala.html
+index 4ac4112..c9a5413 100644
+--- a/app/views/fileUploader.scala.html
++++ b/app/views/fileUploader.scala.html
+@@ -9 +9 @@
+-             --> <input type="file" class="file" name="filePath">
++             --> <input type="file" class="file" name="filePath" multiple="multiple">
+@@ -12,0 +13 @@
++        <span class="help-pastable">@Messages("attach.pastehere")</span>
+@@ -18,2 +18,0 @@
+-
+-        <i class="icon-question-sign"></i> @Messages("attach.clickToPost")
+@@ -31,0 +31 @@
++        <span class="pull-right nbtn small white btn-insert">@Messages("attach.clickToPost")</span>        
+diff --git a/app/views/git/create.scala.html b/app/views/git/create.scala.html
+index 68aee44..3795f76 100644
+--- a/app/views/git/create.scala.html
++++ b/app/views/git/create.scala.html
+@@ -5,0 +6,25 @@
++@branchItemType(itemType:String) = @{
++    if(itemType == "heads"){
++        "branch"
++    } else if(itemType == "tags") {
++        "tag"
++    } else {
++        itemType
++    }
++}
++
++@makeBranchItem(branch:String) = {
++    @defining(branch.split('/')){ names =>
++        @if(names(0).equals("refs")){
++            <li data-value="@branch">
++                <a href="#">
++                    <span class="label @branchItemType(names(1))">@branchItemType(names(1))</span>
++                    @branch.replace("refs/" + names(1) + "/", "")
++                </a>
++            </li>
++        } else {
++            <li data-value="@branch"><a href="#">@branch</a></li>
++        }
++    }
++}
++
+@@ -8,0 +34 @@
++    
+@@ -40,2 +66,2 @@
+-	                    <div class="btn-group" data-name="fromBranch">
+-	                        <button class="btn dropdown-toggle large" data-toggle="dropdown">
++	                    <div class="btn-group branches" data-name="fromBranch">
++	                        <button class="btn dropdown-toggle auto" data-toggle="dropdown">
+@@ -48 +74 @@
+-	                                    <li data-value="@branch"><a href="javascript:void(0)">@branch</a></li>
++	                                    @makeBranchItem(branch)
+@@ -65,2 +91,2 @@
+-	                    <div class="btn-group" data-name="toBranch">
+-	                        <button class="btn dropdown-toggle large" data-toggle="dropdown">
++	                    <div class="btn-group branches" data-name="toBranch">
++	                        <button class="btn dropdown-toggle auto" data-toggle="dropdown">
+@@ -73 +99 @@
+-	                                    <li data-value="@branch"><a href="javascript:void(0)">@branch</a></li>
++	                                    @makeBranchItem(branch)
+@@ -84,0 +111,2 @@
++            @fileUploader(ResourceType.PULL_REQUEST, null)
++            
+@@ -101,0 +130,7 @@
++
++        yobi.FileUploader.init({
++            "elContainer" : $("#upload"),
++            "elTextarea"  : $("#body"),
++            "sTplFileItem": $('#tplAttachedFile').text(),
++            "sAction": "@routes.AttachmentApp.uploadFile"
++        });
+@@ -103 +138 @@
+-</script>
++	</script>
+diff --git a/app/views/git/view.scala.html b/app/views/git/view.scala.html
+index b0b3b34..0c7d80e 100644
+--- a/app/views/git/view.scala.html
++++ b/app/views/git/view.scala.html
+@@ -89,0 +90,2 @@
++                
++                <div id="attachments" class="attachments" resourceType="@ResourceType.PULL_REQUEST" resourceId="@pull.id"></div>
+@@ -140 +142 @@
+-                    <a href="@routes.PullRequestApp.reject(project.owner, project.name, pull.id)" class="nbtn orange medium">@Messages("pullRequest.reject")</a>
++                    <a href="@routes.PullRequestApp.reject(project.owner, project.name, pull.id)" class="nbtn black medium">@Messages("pullRequest.reject")</a>
+@@ -184 +186 @@
+-                    <div class="right-txt">
++                    <div class="actrow right-txt">
+@@ -204,0 +207,5 @@
++        
++        new yobi.FileDownloader({
++            "elTarget": $("#attachments"), 
++            "sAction": "@routes.AttachmentApp.uploadFile" 
++        });
+diff --git a/app/views/user/info.scala.html b/app/views/user/info.scala.html
+index cec4556..45a32d6 100644
+--- a/app/views/user/info.scala.html
++++ b/app/views/user/info.scala.html
+@@ -70 +70 @@
+-            <ul class="nav nav-tabs">
++            <ul id="user-stream-tabs" class="nav nav-tabs">
+@@ -227 +227 @@
+-<script type="text/javascript" src='@getJSLink("lib/parseuri")'></script>
+\ No newline at end of file
++<script type="text/javascript" src='@getJSLink("lib/parseuri")'></script>
+diff --git a/conf/evolutions/default/24.sql b/conf/evolutions/default/24.sql
+new file mode 100755
+index 0000000..45f54dd
+--- /dev/null
++++ b/conf/evolutions/default/24.sql
+@@ -0,0 +1,9 @@
++# --- !Ups
++
++ALTER TABLE attachment DROP CONSTRAINT IF EXISTS ck_attachment_container_type;
++ALTER TABLE attachment ADD CONSTRAINT ck_attachment_container_type check (container_type in ('ISSUE_POST','ISSUE_ASSIGNEE','ISSUE_STATE','ISSUE_CATEGORY','ISSUE_MILESTONE','ISSUE_LABEL','BOARD_POST','BOARD_CATEGORY','BOARD_NOTICE','CODE','MILESTONE','WIKI_PAGE','PROJECT_SETTING','SITE_SETTING','USER','USER_AVATAR','PROJECT','ATTACHMENT','ISSUE_COMMENT','NONISSUE_COMMENT','CODE_COMMENT', 'PULL_REQUEST'));
++
++# --- !Downs
++
++ALTER TABLE attachment DROP CONSTRAINT IF EXISTS ck_attachment_container_type;
++ALTER TABLE attachment ADD CONSTRAINT ck_attachment_container_type check (container_type in ('ISSUE_POST','ISSUE_ASSIGNEE','ISSUE_STATE','ISSUE_CATEGORY','ISSUE_MILESTONE','ISSUE_LABEL','BOARD_POST','BOARD_CATEGORY','BOARD_NOTICE','CODE','MILESTONE','WIKI_PAGE','PROJECT_SETTING','SITE_SETTING','USER','USER_AVATAR','PROJECT','ATTACHMENT','ISSUE_COMMENT','NONISSUE_COMMENT','CODE_COMMENT'));
+diff --git a/conf/messages.en b/conf/messages.en
+index af3bee9..9717b4a 100644
+--- a/conf/messages.en
++++ b/conf/messages.en
+@@ -521 +521 @@
+-attach.clickToPost = click to post
++attach.clickToPost = Click to post
+@@ -525 +525 @@
+-attach.multipleNotYet = Multiple upload does not supported yet
++attach.pastehere = , or pasting from the clipboard. 
+diff --git a/conf/messages.ko b/conf/messages.ko
+index 1e7fdaa..700463d 100644
+--- a/conf/messages.ko
++++ b/conf/messages.ko
+@@ -520,2 +520,2 @@
+-attach.attachIfYouSave = 글을 저장하면 표시된 파일을 첨부합니다.
+-attach.clickToPost = 표시된 파일을 클릭하면 본문에 추가합니다.
++attach.attachIfYouSave = 표시된 파일은 글을 저장하면 첨부됩니다.
++attach.clickToPost = 본문에 넣기
+@@ -523 +523 @@
+-attach.drophere = 첨부할 파일을 이 곳에 끌어다 놓거나
++attach.drophere = 첨부할 파일을 끌어다 놓거나
+@@ -525 +525 @@
+-attach.multipleNotYet = 여러 파일 전송은<br>아직 지원되지 않습니다
++attach.pastehere = . 클립보드 이미지를 붙여 넣을 수도 있습니다
+diff --git a/public/javascripts/common/yobi.FileUploader.js b/public/javascripts/common/yobi.FileUploader.js
+index 4b76f93..d544c46 100644
+--- a/public/javascripts/common/yobi.FileUploader.js
++++ b/public/javascripts/common/yobi.FileUploader.js
+@@ -10 +9,0 @@
+-	
+@@ -27,3 +26 @@
+-		_initVar(htOptions);
+-		_initDroppable();
+-		
++		_initVar(htOptions);	
+@@ -30,0 +28 @@
++		
+@@ -49 +47,3 @@
+-		htVar.bDroppable = false;
++        htVar.bXHR2 = (typeof FormData != "undefined");
++		htVar.bDroppable = (typeof window.ondrop != "undefined");
++		htVar.bPastable = (typeof document.onpaste != "undefined");
+@@ -66,11 +66,8 @@
+-	}
+-	
+-	/**
+-	 * 드래그앤드롭 설정
+-	 * initialize drag&drop upload 
+-	 */
+-	function _initDroppable(){
+-	    if(window.File && window.FileList){
+-	        htVar.bDroppable = true;
+-	        htElements.welHelpDroppable.show();
+-	    }
++		htElements.welHelpPastable  = htElements.welContainer.find(".help-pastable");
++		
++		if(htVar.bDroppable){
++		    htElements.welHelpDroppable.show();
++		}
++		if(htVar.bPastable){
++		    htElements.welHelpPastable.show();
++		}
+@@ -85 +82,2 @@
+-		
++
++        // Upload by Drag & Drop
+@@ -88 +86,2 @@
+-		        weEvt.preventDefault(); 
++		        weEvt.preventDefault();
++		        return false;
+@@ -89,0 +89 @@
++		    htElements.welTextarea.bind("drop", _onDropFile);
+@@ -92,31 +92,5 @@
+-	}
+-	
+-	/**
+-	 * 파일을 드래그앤드롭해서 가져왔을 때 이벤트 핸들러
+-	 * @param {Wrapped Event} weEvt
+-	 */
+-	function _onDropFile(weEvt){
+-	    var oFiles = weEvt.originalEvent.dataTransfer.files;
+-	    if(!oFiles || oFiles.length === 0){
+-	        return;
+-	    }
+-	    
+-	    var welForm = _getAjaxForm(oFiles);
+-        var oFile = welForm.data("file");
+-        _appendFileItem(oFile, true);
+-	    
+-        try {
+-            welForm.submit();
+-        } finally {
+-            welForm.remove();
+-            welForm = null;
+-        }
+-        
+-        // TODO: 여러 파일 전송 지원
+-        if(oFiles.length > 1){
+-            $yobi.notify(Messages("attach.multipleNotYet"));
+-        }
+-        
+-	    weEvt.stopPropagation();
+-	    weEvt.preventDefault();
+-	    return false;
++		
++		// Upload by paste
++		if(htVar.bPastable){
++		    htElements.welTextarea.bind("paste", _onPasteFile);
++		}
+@@ -154,2 +128,37 @@
+-        _appendFileItem(oRes.attachments, false); // 이미 첨부되어 있는 파일
+-        _appendFileItem(oRes.tempFiles, true);    // 임시 파일 (저장하면 첨부됨)
++	    // 이미 첨부되어 있는 파일
++        _appendFileItem({
++            "vFile"     : oRes.attachments, // Array
++            "bTemporary": false
++        });
++        
++        // 임시 파일 (저장하면 첨부됨)
++        _appendFileItem({
++            "vFile"     : oRes.tempFiles,   // Array 
++            "bTemporary": true
++        });
++	}
++	
++	/**
++	 * 이미지 데이터를 클립보드에서 붙여넣었을 때 이벤트 핸들러
++	 * @param {Wrapped Event} weEvt
++	 */
++	function _onPasteFile(weEvt){
++	    if(!weEvt.originalEvent.clipboardData || !weEvt.originalEvent.clipboardData.items){
++	        return;
++	    }
++	    
++        var oItem = weEvt.originalEvent.clipboardData.items[0];
++
++        if(typeof oItem === "undefined"){
++            return;
++        }
++
++        var nSubmitId = _getSubmitId();
++        var oFile = oItem.getAsFile();
++        
++        if(!oFile || oFile.type.indexOf("image/") !== 0){
++            return;
++        }
++        
++        oFile.name = nSubmitId + ".png";
++        _uploadFile(nSubmitId, oFile);
+@@ -157,0 +167,16 @@
++    /**
++     * 파일을 드래그앤드롭해서 가져왔을 때 이벤트 핸들러
++     * @param {Wrapped Event} weEvt
++     */
++    function _onDropFile(weEvt){
++        var oFiles = weEvt.originalEvent.dataTransfer.files;
++        if(!oFiles || oFiles.length === 0){
++            return;
++        }
++        _uploadFiles(oFiles);
++
++        weEvt.stopPropagation();
++        weEvt.preventDefault();
++        return false;
++    }
++    
+@@ -168,11 +193 @@
+-		// AjaxForm 생성하고 파일 첨부 목록에 항목 추가
+-        var welForm = _getAjaxForm();
+-        var oFile = welForm.data("file");
+-		_appendFileItem(oFile, true);
+-
+-		try {
+-			welForm.submit();
+-		} finally {
+-			welForm.remove();
+-			welForm = null;
+-		}
++		_uploadFiles(htElements.welInputFile[0].files);
+@@ -181,16 +196,45 @@
+-	/**
+-	 * 파일 전송을 위한 ajaxForm 객체를 반환하는 함수
+-     * 전송 상태 표시를 위한 이벤트 핸들러를 설정하고
+-     * 선택한 파일 정보는 welForm.data("files") 로 제공한다 
+-	 * 
+-	 * - _onChangeFile 에서 호출하는 경우:
+-	 *    파일을 선택한 <input type="file">을 복제하여 사용한다
+-	 * 
+-	 * - _onDropFile 에서 호출하는 경우:
+-	 *    파일 목록(FileList) 객체를 인자로 받아 사용한다
+-	 * 
+-	 * @param {FileList} oFiles FileList 객체 (Optional)
+-	 * @return {Wrapped Element}
+-	 */
+-	function _getAjaxForm(oFiles){
+-	    var nSubmitId = parseInt(Math.random() * new Date().getTime());
++    /**
++     * Upload files
++     * 
++     * @param {FileList} oFiles
++     */
++    function _uploadFiles(oFiles){
++        var nSubmitId, oFile;
++        var oFiles = oFiles || htElements.welInputFile[0].files;
++        
++        for(var i = 0; i < oFiles.length; i++){
++            nSubmitId = _getSubmitId();
++            _uploadFile(nSubmitId, oFiles[i]);
++        }
++    }
++    
++    function _getSubmitId(){
++        return parseInt(Math.random() * new Date().getTime());
++    }
++    
++    /**
++     * Upload single file
++     * 
++     * @param {Number} nSubmitId
++     * @param {File} oFile
++     */
++    function _uploadFile(nSubmitId, oFile){
++        // append file on list
++        oFile.nSubmitId = nSubmitId;
++        _appendFileItem({
++            "vFile"     : oFile, // Object
++            "bTemporary": true
++        });
++        
++        return htVar.bXHR2 ? _uploadFileXHR(nSubmitId, oFile) : _uploadFileForm(nSubmitId, oFile);
++    }
++
++    /**
++     * Upload file with $.ajaxForm
++     * available in almost browsers, except Safari on OSX.
++     * http://malsup.com/jquery/form/
++     * 
++     * @param {Number} nSubmitId
++     * @param {File} oFile
++     */
++    function _uploadFileForm(nSubmitId, oFile){
+@@ -199,8 +243,2 @@
+-        welInputFile[0].files = oFiles || htElements.welInputFile[0].files;
+-        
+-        // TODO: 여러 파일 전송
+-        
+-        // 전송 상태 표시를 위한 submitId 값
+-        var oFile = welInputFile[0].files[0];
+-        oFile.nSubmitId = nSubmitId;
+-        
++        welInputFile[0].files[0] = oFile;
++
+@@ -208 +245,0 @@
+-        welForm.data('file', oFile);
+@@ -217 +254 @@
+-            _onUploadProgress(nSubmitId, oEvent, nPos, nTotal, nPercentComplete);
++            _onUploadProgress(nSubmitId, nPercentComplete);
+@@ -224,4 +261,35 @@
+-        
+-        return welForm;
+-	}
+-	
++    }
++    
++    /**
++     * Upload file with XHR2
++     * available in IE 10+, FF4+, Chrome7+, Safari5+
++     * http://caniuse.com/xhr2
++     * 
++     * @param {Number} nSubmitId
++     * @param {File} oFile
++     */
++    function _uploadFileXHR(nSubmitId, oFile){
++        var oData = new FormData();
++        oData.append("filePath", oFile, oFile.name);
++
++        $.ajax({
++            "type" : "post",
++            "url"  : htVar.sAction,
++            "data" : oData,
++            "cache": false,
++            "processData": false,
++            "contentType": false,
++            "success": function(oRes){
++                _onSuccessSubmit(nSubmitId, oRes);
++            },
++            "error": function(){
++                _onErrorSubmit(nSubmitId, oRes);
++            },
++            "xhrFields": {"onprogress": function(weEvt){
++                if(weEvt.lengthComputable){
++                    _onUploadProgress(nSubmitId, Math.ceil(weEvt.loaded / weEvt.total));
++                }
++            }}
++        });
++    }
++
+@@ -229,0 +298 @@
++	 * 
+@@ -231 +300 @@
+-	 * 아직 전송전 임시 파일은 _onChangeFile  에서 호출한다
++	 * 아직 전송전 임시 파일은 _uploadFile    에서 호출한다
+@@ -236,2 +305,4 @@
+-	 * @param {Variant} vFile 하나의 파일 항목 객체(Object) 또는 여러 파일 항목을 담고 있는 배열(Array)
+-	 * @param {Boolean} bTemp 임시 저장 여부
++	 * @param {Hash Table} htData
++	 * @param {Variant} htData.vFile      하나의 파일 항목 객체(Object) 또는 여러 파일 항목을 담고 있는 배열(Array)
++	 * @param {Boolean} htData.bTemporary 임시 저장 여부
++	 * 
+@@ -240,2 +311,2 @@
+-	function _appendFileItem(vFile, bTemp){
+-	    if(typeof vFile === "undefined"){
++	function _appendFileItem(htData){
++	    if(typeof htData.vFile === "undefined"){
+@@ -244 +315 @@
+-	    
++
+@@ -247,2 +318,2 @@
+-	    var aFiles = (vFile instanceof Array) ? vFile : [vFile]; // 배열 변수로 단일화
+-	    var aWelItems = [];
++        var aWelItems = [];
++	    var aFiles = (htData.vFile instanceof Array) ? htData.vFile : [htData.vFile]; // 배열 변수로 단일화
+@@ -251 +322 @@
+-            welItem = _getFileItem(oFile, bTemp);
++            welItem = _getFileItem(oFile, htData.bTemporary);
+@@ -281,0 +353 @@
++     * 
+@@ -325,2 +396,0 @@
+-     * @param {Number} nPos
+-     * @param {Number} nTotal
+@@ -329 +399 @@
+-    function _onUploadProgress(nSubmitId, oEvent, nPos, nTotal, nPercentComplete){
++    function _onUploadProgress(nSubmitId, nPercentComplete){
+@@ -506 +576 @@
+-})();
++})();
+\ No newline at end of file
+

@@ -1,0 +1,20 @@
+diff --git a/src/com/dotmarketing/business/PermissionBitFactoryImpl.java b/src/com/dotmarketing/business/PermissionBitFactoryImpl.java
+index d5a1ece..601d169 100644
+--- a/src/com/dotmarketing/business/PermissionBitFactoryImpl.java
++++ b/src/com/dotmarketing/business/PermissionBitFactoryImpl.java
+@@ -753 +753 @@
+-		"and permission_type = 'com.dotmarketing.portlets.folders.model.Folder' " +
++		"and permission_type = '"+Contentlet.class.getCanonicalName()+"' " +
+diff --git a/test/com/dotmarketing/business/PermissionAPITest.java b/test/com/dotmarketing/business/PermissionAPITest.java
+index 88984eb..1714953 100644
+--- a/test/com/dotmarketing/business/PermissionAPITest.java
++++ b/test/com/dotmarketing/business/PermissionAPITest.java
+@@ -578,2 +578,2 @@
+-            perm.permissionIndividually(hh, f1, sysuser, false);
+-            perm.permissionIndividually(hh, f2, sysuser, false);
++            perm.permissionIndividually(perm.findParentPermissionable(f1), f1, sysuser, false);
++            assertTrue(perm.findParentPermissionable(cont1).equals(f1));
+@@ -580,0 +581,2 @@
++            perm.permissionIndividually(perm.findParentPermissionable(f2), f2, sysuser, false);
++            CacheLocator.getPermissionCache().clearCache();
+

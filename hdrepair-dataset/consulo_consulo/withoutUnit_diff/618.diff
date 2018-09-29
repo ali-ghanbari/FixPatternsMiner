@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/execution/impl/ConsoleViewImpl.java b/platform/lang-impl/src/com/intellij/execution/impl/ConsoleViewImpl.java
+index 2410241..e9c60bb 100644
+--- a/platform/lang-impl/src/com/intellij/execution/impl/ConsoleViewImpl.java
++++ b/platform/lang-impl/src/com/intellij/execution/impl/ConsoleViewImpl.java
+@@ -503 +503 @@
+-    return null;//myStateForUpdate != null ? myStateForUpdate.compute() : ModalityState.stateForComponent(this);
++    return myStateForUpdate != null ? myStateForUpdate.compute() : ModalityState.stateForComponent(this);
+

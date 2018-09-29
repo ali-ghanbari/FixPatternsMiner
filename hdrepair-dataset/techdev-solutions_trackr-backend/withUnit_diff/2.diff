@@ -1,0 +1,23 @@
+diff --git a/src/main/java/de/techdev/trackr/domain/employee/expenses/reports/ReportController.java b/src/main/java/de/techdev/trackr/domain/employee/expenses/reports/ReportController.java
+index 9650889..b39e197 100644
+--- a/src/main/java/de/techdev/trackr/domain/employee/expenses/reports/ReportController.java
++++ b/src/main/java/de/techdev/trackr/domain/employee/expenses/reports/ReportController.java
+@@ -59 +59 @@
+-    @PreAuthorize("hasRole('ROLE_SUPERVISOR')")
++    @PreAuthorize("hasRole('ROLE_SUPERVISOR') or #travelExpenseReport.employee.id == principal?.id")
+diff --git a/src/test/java/de/techdev/trackr/domain/employee/expenses/report/ReportResourceTest.java b/src/test/java/de/techdev/trackr/domain/employee/expenses/report/ReportResourceTest.java
+index ad0ea42..2c61cac 100644
+--- a/src/test/java/de/techdev/trackr/domain/employee/expenses/report/ReportResourceTest.java
++++ b/src/test/java/de/techdev/trackr/domain/employee/expenses/report/ReportResourceTest.java
+@@ -208,0 +209,10 @@
++    @Test
++    public void pdfExportAsEmployee() throws Exception {
++        Report report = dataOnDemand.getRandomObject();
++        mockMvc.perform(
++                get("/travelExpenseReports/" + report.getId() + "/pdf")
++                        .session(employeeSession(report.getEmployee().getId()))
++        )
++                .andExpect(status().isOk());
++    }
++
+

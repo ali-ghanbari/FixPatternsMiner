@@ -1,0 +1,2172 @@
+diff --git a/hazelcast-documentation/documentation.index b/hazelcast-documentation/documentation.index
+index 53674ae..a15f9bd 100644
+--- a/hazelcast-documentation/documentation.index
++++ b/hazelcast-documentation/documentation.index
+@@ -10,0 +11 @@
++		src/DeployingOnAmazonEC2.md
+@@ -41 +42 @@
+-	src/RingBuffer.md
++#	src/RingBuffer.md
+@@ -209 +210 @@
+-	src/HazelcastConfiguration/RingBufferConfiguration.md
++#	src/HazelcastConfiguration/RingBufferConfiguration.md
+diff --git a/hazelcast-documentation/src/CSharpClient.md b/hazelcast-documentation/src/CSharpClient.md
+index d12aaf5..6c3b830 100644
+--- a/hazelcast-documentation/src/CSharpClient.md
++++ b/hazelcast-documentation/src/CSharpClient.md
+@@ -135 +135 @@
+-![image](images/NoteSmall.jpg) ***NOTE***: *.NET and Java clients are similar in terms of configuration. Therefore, you can refer to [Java Client](#java-client) section for configuration aspects. For information on .NET API documentation, please refer to the API document provided along with the Hazelcast Enterprise license*.
++![image](images/NoteSmall.jpg) ***NOTE***: *.NET and Java clients are similar in terms of configuration. Therefore, you can refer to [Java Client](#hazelcast-java-client) section for configuration aspects. For information on .NET API documentation, please refer to the API document provided along with the Hazelcast Enterprise license*.
+diff --git a/hazelcast-documentation/src/ContinuousQuery.md b/hazelcast-documentation/src/ContinuousQuery.md
+index d5a1698..c81d1d2 100644
+--- a/hazelcast-documentation/src/ContinuousQuery.md
++++ b/hazelcast-documentation/src/ContinuousQuery.md
+@@ -7 +7 @@
+-Continuous query enables you to listen to the modifications performed on specific map entries. It is an entry listener with predicates. Please see the [Entry Listener section](#entry-listener) for information on how to add entry listeners to a map.
++Continuous query enables you to listen to the modifications performed on specific map entries. It is an entry listener with predicates. Please see the [Map Listener section](#map-listener) for information on how to add entry listeners to a map.
+diff --git a/hazelcast-documentation/src/DeployingOnAmazonEC2.md b/hazelcast-documentation/src/DeployingOnAmazonEC2.md
+new file mode 100644
+index 0000000..a62ba41
+--- /dev/null
++++ b/hazelcast-documentation/src/DeployingOnAmazonEC2.md
+@@ -0,0 +1,6 @@
++
++### Deploying On Amazon EC2
++
++You can deploy your Hazelcast project onto Amazon EC2 environment using Third Party tools such as [Vagrant](https://www.vagrantup.com) and [Chef](https://www.chef.io/chef/).
++
++You can find a sample deployment project (`amazon-ec2-vagrant-chef`) with step by step instructions in the `hazelcast-integration` folder of the [`hazelcast-code-samples`](http://hazelcast.org/download/) package. Please refer to this sample project for more information.
+\ No newline at end of file
+diff --git a/hazelcast-documentation/src/DocumentRevisionHistory.md b/hazelcast-documentation/src/DocumentRevisionHistory.md
+index 0cb114f..0f1076b 100644
+--- a/hazelcast-documentation/src/DocumentRevisionHistory.md
++++ b/hazelcast-documentation/src/DocumentRevisionHistory.md
+@@ -8,0 +9 @@
++|[Chapter 3 - Getting Started](#getting-started)|[Deploying On Amazon EC2](#deploying-on-amazon-ec2)|Added as a new section to provide a sample deployment project.|
+@@ -23,0 +25 @@
++|||Added an important note related to the new Java Client library in the chapter introduction.
+@@ -34,0 +37 @@
++||[Configuration Overview](#configuration-overview)|Added a note related to the invalid configurations.
+diff --git a/hazelcast-documentation/src/FAQ.md b/hazelcast-documentation/src/FAQ.md
+index 98d22b3..7238856 100644
+--- a/hazelcast-documentation/src/FAQ.md
++++ b/hazelcast-documentation/src/FAQ.md
+@@ -183 +183 @@
+-Also, you should configure the clients attentively. Please refer to the [Java Client section](#java-client) section for configuration notes.
++Also, you should configure the clients attentively. Please refer to the [Java Client section](#hazelcast-java-client) section for configuration notes.
+diff --git a/hazelcast-documentation/src/HazelcastClustersTCP.md b/hazelcast-documentation/src/HazelcastClustersTCP.md
+index 2d94eb1..c547b5c 100644
+--- a/hazelcast-documentation/src/HazelcastClustersTCP.md
++++ b/hazelcast-documentation/src/HazelcastClustersTCP.md
+@@ -40 +40 @@
+-By default, Hazelcast binds to all local network interfaces to accept incoming traffic. You can change this behavior using the system property `hazelcast.socket.bind.any`. If you set this property to `false`, Hazelcast uses the interfaces specified in the `interfaces` element (please refer to [Specifying Network Interfaces](#specifying-network-interfaces)). If no interfaces are provided, then it will try to resolve one interface to bind from the `member` elements.
++By default, Hazelcast binds to all local network interfaces to accept incoming traffic. You can change this behavior using the system property `hazelcast.socket.bind.any`. If you set this property to `false`, Hazelcast uses the interfaces specified in the `interfaces` element (please refer to the [Interfaces Configuration section](#interfaces)). If no interfaces are provided, then it will try to resolve one interface to bind from the `member` elements.
+diff --git a/hazelcast-documentation/src/HazelcastConfiguration/ConfigurationOverview.md b/hazelcast-documentation/src/HazelcastConfiguration/ConfigurationOverview.md
+index 2e57d0b..699716c 100644
+--- a/hazelcast-documentation/src/HazelcastConfiguration/ConfigurationOverview.md
++++ b/hazelcast-documentation/src/HazelcastConfiguration/ConfigurationOverview.md
+@@ -82,0 +83,4 @@
++<br><br>
++![image](images/NoteSmall.jpg) ***NOTE:*** *Hazelcast performs the schema validation through the `hazelcast-config-<version>.xsd` file. It throws a meaningful exception if there is an error in the declarative or programmatic configuration.*
++
++<br><br>
+diff --git a/hazelcast-documentation/src/HazelcastConfiguration/ReliableTopicConfiguration.md b/hazelcast-documentation/src/HazelcastConfiguration/ReliableTopicConfiguration.md
+new file mode 100644
+index 0000000..20465a6
+--- /dev/null
++++ b/hazelcast-documentation/src/HazelcastConfiguration/ReliableTopicConfiguration.md
+@@ -0,0 +1,39 @@
++
++## Reliable Topic Configuration
++
++
++The following are example Reliable Topic configurations.
++
++
++**Declarative:**
++
++```xml
++<reliable-topic name="default">
++    <statistics-enabled>true</statistics-enabled>
++    <message-listeners>
++        <message-listener>
++        
++        </message-listener>
++    </message-listeners>
++    <read-batch-size>10</read-batch-size>
++    <topic-overload-policy>BLOCK</topic-overload-policy>
++</reliable-topic>
++```
++
++**Programmatic:**
++
++```java
++Config config = new Config();
++ReliableTopicConfig rtConfig = config.getReliableTopicConfig();
++rtConfig.setTopicOverloadPolicy( "BLOCK" )
++        .setReadBatchSize( 10 )
++        .setStatisticsEnabled( "true" );
++```
++
++Reliable Topic configuration has the following elements.
++
++- `statistics-enabled`: Enables or disables the statistics collection for the Reliable Topic. The default value is `true`.
++- `message-listener`: Message listener class that listens to the messages when they are added or removed.
++- `read-batch-size`: Minimum number of messages that Reliable Topic will try to read in batches. The default value is 10.
++- `topic-overload-policy`: Policy to handle an overloaded topic. Available values are `DISCARD_OLDEST`, `DISCARD_NEWEST`, `BLOCK` and `ERROR`. The default value is `BLOCK.
++
+diff --git a/hazelcast-documentation/src/HazelcastConfiguration/SystemProperties.md b/hazelcast-documentation/src/HazelcastConfiguration/SystemProperties.md
+index 1714d55..5334100 100644
+--- a/hazelcast-documentation/src/HazelcastConfiguration/SystemProperties.md
++++ b/hazelcast-documentation/src/HazelcastConfiguration/SystemProperties.md
+@@ -81 +81 @@
+-`hazelcast.map.load.chunk.size` | 1000 | int |   Chunk size for [MapLoader](#persistence)'s map initialization process (MapLoader.loadAllKeys()).
++`hazelcast.map.load.chunk.size` | 1000 | int |   Chunk size for [MapLoader](#map-persistence)'s map initialization process (MapLoader.loadAllKeys()).
+diff --git a/hazelcast-documentation/src/HazelcastJavaClient/JavaClient.md b/hazelcast-documentation/src/HazelcastJavaClient/JavaClient.md
+index 03351a2..d89a48a 100644
+--- a/hazelcast-documentation/src/HazelcastJavaClient/JavaClient.md
++++ b/hazelcast-documentation/src/HazelcastJavaClient/JavaClient.md
+@@ -15 +15,6 @@
+-Currently, Hazelcast has Native Java, C++ and .NET Clients available. This chapter describes the Java Client.
+\ No newline at end of file
++Currently, Hazelcast has Native Java, C++ and .NET Clients available. This chapter describes the Java Client.
++
++<br><br>
++![image](images/NoteSmall.jpg) ***IMPORTANT:*** *Starting with the Hazelcast 3.5. release, a new client library is introduced in the release package: `hazelcast-client-new-<version>.jar`. This new Java native client library has the support for different versions of clients in a Hazelcast cluster. This support is not valid for the releases before 3.5.*
++
++<br><br>
+\ No newline at end of file
+diff --git a/hazelcast-documentation/src/HazelcastJavaClient/Overview.md b/hazelcast-documentation/src/HazelcastJavaClient/Overview.md
+index 2b6c1a8..6b2e2ae 100644
+--- a/hazelcast-documentation/src/HazelcastJavaClient/Overview.md
++++ b/hazelcast-documentation/src/HazelcastJavaClient/Overview.md
+@@ -29 +29 @@
+-The first step is configuration. You can configure the Java client declaratively or programmatically. We will use the programmatic approach throughout this tutorial. Please refer to the [Java Client Declarative Configuration section](#java-client-declarative-configuration) for details.
++The first step is configuration. You can configure the Java client declaratively or programmatically. We will use the programmatic approach throughout this tutorial. Please refer to the [Java Client Declarative Configuration section](#java-client-configuration) for details.
+@@ -92 +92 @@
+-The number of retries is given with the property `hazelcast.client.request.retry.count` in `ClientProperties`. The client will resend the request as many as RETRY-COUNT, then it will throw an exception. Please see the [Client Properties section](#client-properties).
++The number of retries is given with the property `hazelcast.client.request.retry.count` in `ClientProperties`. The client will resend the request as many as RETRY-COUNT, then it will throw an exception. Please see the [Client System Properties section](#client-system-properties).
+@@ -242 +242 @@
+-You can configure listeners to listen to various event types on the client side. You can configure global events not relating to any distributed object through [Client ListenerConfig](#client-listenerconfig). You should configure distributed object listeners like map entry listeners or list item listeners through their proxies. You can refer to the related sections under each distributed data structure in this reference manual.
++You can configure listeners to listen to various event types on the client side. You can configure global events not relating to any distributed object through [Client ListenerConfig](#client-listener-configuration). You should configure distributed object listeners like map entry listeners or list item listeners through their proxies. You can refer to the related sections under each distributed data structure in this reference manual.
+diff --git a/hazelcast-documentation/src/HazelcastSimulator/ExecutingASimulatorTest.md b/hazelcast-documentation/src/HazelcastSimulator/ExecutingASimulatorTest.md
+index 67d3bd5..7b72f0a 100644
+--- a/hazelcast-documentation/src/HazelcastSimulator/ExecutingASimulatorTest.md
++++ b/hazelcast-documentation/src/HazelcastSimulator/ExecutingASimulatorTest.md
+@@ -376 +376 @@
+-    -DarchetypeVersion=0.3 \
++    -DarchetypeVersion=0.5 \
+diff --git a/hazelcast-documentation/src/Hibernate.md b/hazelcast-documentation/src/Hibernate.md
+index e0c0a4a..af37101 100644
+--- a/hazelcast-documentation/src/Hibernate.md
++++ b/hazelcast-documentation/src/Hibernate.md
+@@ -88 +88 @@
+-- [Eviction And TTL Configuration](#eviction)
++- [Eviction And TTL Configuration](#map-eviction)
+diff --git a/hazelcast-documentation/src/RestClient.md b/hazelcast-documentation/src/RestClient.md
+index 23808b9..1e3211a 100644
+--- a/hazelcast-documentation/src/RestClient.md
++++ b/hazelcast-documentation/src/RestClient.md
+@@ -30 +30 @@
+-![image](images/NoteSmall.jpg) ***NOTE***: *All of the requests below can return one of the following responses in case of a failure*
++![image](images/NoteSmall.jpg) ***NOTE***: *All of the requests below can return one of the following responses in case of a failure.*
+diff --git a/hazelcast-documentation/src/RingBuffer.md b/hazelcast-documentation/src/RingBuffer.md
+index 4874878..fe2c9f1 100644
+--- a/hazelcast-documentation/src/RingBuffer.md
++++ b/hazelcast-documentation/src/RingBuffer.md
+@@ -6 +6 @@
+-The RingBuffer can be used in applications where queue's are used.  Unlike the queues, the RingBuffer does not remove the items, it only reads the items at their locations. By this way, you can read the same item multiple times.
++The RingBuffer can be used in the applications where queue's are used.  Unlike the queues, the RingBuffer does not remove the items, it only reads the items at their locations. By this way, you can read the same item multiple times.
+@@ -30,0 +31 @@
++***RELATED INFORMATION***
+@@ -31,0 +33 @@
++*Please refer to the [RingBuffer Configuration section](#ringbuffer-configuration) for more information on configuring the RingBuffer.*
+diff --git a/hazelcast-documentation/src/Security.md b/hazelcast-documentation/src/Security.md
+index 4f1b740..ab135da 100644
+--- a/hazelcast-documentation/src/Security.md
++++ b/hazelcast-documentation/src/Security.md
+@@ -39 +39 @@
+-Also, see [Setting License Key](#setting-the-license-key-for-hazelcast-enterprise).
++Also, see [Setting License Key](#setting-the-license-key).
+diff --git a/hazelcast-documentation/src/StartingInstanceClient.md b/hazelcast-documentation/src/StartingInstanceClient.md
+index 44912c7..9657178 100644
+--- a/hazelcast-documentation/src/StartingInstanceClient.md
++++ b/hazelcast-documentation/src/StartingInstanceClient.md
+@@ -93 +93 @@
+-network when using Multicast. Please see the FAQ item [How do I create separate clusters](#how-do-i-create-separate-clusters) 
++network when using Multicast. Please see the [Creating Cluster Groups](#creating-cluster-groups) 
+@@ -96 +96 @@
+-the [Configuring TCP/IP Cluster section](#network-configuration) for more information.
++the [Join Configuration section](#join) for more information.
+diff --git a/hazelcast-documentation/src/WhatsNew.md b/hazelcast-documentation/src/WhatsNew.md
+index 11b7a54..3f11fb0 100644
+--- a/hazelcast-documentation/src/WhatsNew.md
++++ b/hazelcast-documentation/src/WhatsNew.md
+@@ -14 +14 @@
+-- **Hazelcast Client Protocol**: Starting with 3.5, Hazelcast introduces the support for different versions of clients in a cluster. Please keep in mind that this support is not valid for the releases before 3.5.
++- **Hazelcast Client Protocol**: Starting with 3.5, Hazelcast introduces the support for different versions of clients in a cluster. Please keep in mind that this support is not valid for the releases before 3.5. Please see the important note at the last paragraph of the [Hazelcast Java Client chapter's](#hazelcast-java-client) introduction.
+@@ -17 +17 @@
+-- **Enterprise WAN Replication**: Hazelcast Enterprise implementation of the WAN Replication. Please see the [Enterprise WAN Replication section](#eneterprise-wan-replication).
++- **Enterprise WAN Replication**: Hazelcast Enterprise implementation of the WAN Replication. Please see the [Enterprise WAN Replication section](#enterprise-wan-replication).
+@@ -20,0 +21 @@
++- **Fail Fast on Invalid Configuration**: With this feature, Hazelcast throws a meaningful exception if there is an error in the declarative or programmatic configuration. Please see the note at the end of the [Configuration Overview section](#configuration-overview).
+@@ -23 +23,0 @@
+-- Fail Fast on Invalid Configuration
+diff --git a/hazelcast-documentation/src/WhatsNewFixes.md b/hazelcast-documentation/src/WhatsNewFixes.md
+index c58ce27..39e2f69 100644
+--- a/hazelcast-documentation/src/WhatsNewFixes.md
++++ b/hazelcast-documentation/src/WhatsNewFixes.md
+@@ -7,0 +8,3 @@
++- Replicated Map documentation page does not mention that it is in the beta stage [[#5424]](https://github.com/hazelcast/hazelcast/issues/5424).
++- The method `XAResource.rollback()` should not need the transaction to be in the prepared state when called from another member/client [[#5401]](https://github.com/hazelcast/hazelcast/issues/5401).
++- The method `XAResource.end()` should not need to check `threadId` [[#5400]](https://github.com/hazelcast/hazelcast/issues/5400).
+diff --git a/hazelcast-documentation/src/WhatsNewImprovements.md b/hazelcast-documentation/src/WhatsNewImprovements.md
+index fc5bc54..47d9c3a 100644
+--- a/hazelcast-documentation/src/WhatsNewImprovements.md
++++ b/hazelcast-documentation/src/WhatsNewImprovements.md
+@@ -6 +6 @@
+-- **Eventing System Improvements**: ???. For more information, please see [???](#???).
++- **Eventing System Improvements**: RingBuffer and Reliable Topic structures are introduced.
+diff --git a/hazelcast-documentation/src/replicatedmap/ReplicatedMap.md b/hazelcast-documentation/src/replicatedmap/ReplicatedMap.md
+index 1e4172b..840e518 100644
+--- a/hazelcast-documentation/src/replicatedmap/ReplicatedMap.md
++++ b/hazelcast-documentation/src/replicatedmap/ReplicatedMap.md
+@@ -40,0 +41,2 @@
++
++![image](images/NoteSmall.jpg) ***NOTE***: *Replicated Map is in the beta stage.*
+\ No newline at end of file
+diff --git a/hazelcast-wm/src/test/java/com/hazelcast/wm/test/WebFilterSessionCleanupTest.java b/hazelcast-wm/src/test/java/com/hazelcast/wm/test/WebFilterSessionCleanupTest.java
+index 7141b7a..9805e18 100644
+--- a/hazelcast-wm/src/test/java/com/hazelcast/wm/test/WebFilterSessionCleanupTest.java
++++ b/hazelcast-wm/src/test/java/com/hazelcast/wm/test/WebFilterSessionCleanupTest.java
+@@ -85 +85 @@
+-        //Thread.sleep(TimeUnit.SECONDS.toMillis(30L));
++        Thread.sleep(TimeUnit.SECONDS.toMillis(30L));
+diff --git a/hazelcast/src/main/resources/changelog.txt b/hazelcast/src/main/resources/changelog.txt
+index 61b3e66..8d1f5b9 100644
+--- a/hazelcast/src/main/resources/changelog.txt
++++ b/hazelcast/src/main/resources/changelog.txt
+@@ -75 +75,2 @@
+-- Improved by adding missing configuration elements and attributes. Added introduction paragraphs to the chapter.|
++- Improved by adding missing configuration elements and attributes. Added introduction paragraphs to the chapter.
++- Configuration Overview: Added a note related to the invalid configurations.
+diff --git a/hazelcast/src/main/resources/hazelcast-config-3.5.xsd b/hazelcast/src/main/resources/hazelcast-config-3.5.xsd
+index cc1af75..11a8155 100644
+--- a/hazelcast/src/main/resources/hazelcast-config-3.5.xsd
++++ b/hazelcast/src/main/resources/hazelcast-config-3.5.xsd
+@@ -71,3 +71,26 @@
+-            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="BINARY"/>
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true"/>
+-            <xs:element name="optimize-queries" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false"/>
++            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="BINARY">
++                <xs:annotation>
++                    <xs:documentation>
++                        Data type used to store entries.
++                        Possible values:
++                        BINARY (default): keys and values are stored as binary data.
++                        OBJECT: values are stored in their object forms.
++                        NATIVE: keys and values are stored in native memory.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the map, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="optimize-queries" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false">
++                <xs:annotation>
++                    <xs:documentation>
++                        If true, increases the speed of query processes in the map. It only works when in-memory-format
++                        is set as BINARY and performs a pre-caching on the entries queried. Default value is false.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -186 +209,7 @@
+-            <xs:element name="read-backup-data" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false"/>
++            <xs:element name="read-backup-data" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false">
++                <xs:annotation>
++                    <xs:documentation>
++                        True if reading local backup entries is enabled, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -203,0 +233,5 @@
++        <xs:annotation>
++            <xs:documentation>
++                Name of the map.
++            </xs:documentation>
++        </xs:annotation>
+@@ -227,2 +261,17 @@
+-        <xs:attribute name="old-value-required" type="xs:boolean" use="optional" default="false"/>
+-        <xs:attribute name="synchronous" type="xs:boolean" use="optional" default="false"/>
++        <xs:attribute name="old-value-required" type="xs:boolean" use="optional" default="false">
++            <xs:annotation>
++                <xs:documentation>
++                    If true, previously assigned values for the affected keys will be sent to this 
++                    cache-entry-listener implementation. Setting this attribute to true 
++                    creates additional traffic. Default value is false.
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
++        <xs:attribute name="synchronous" type="xs:boolean" use="optional" default="false">
++            <xs:annotation>
++                <xs:documentation>
++                    If true, this cache-entry-listener implementation will be called 
++                    in a synchronous manner. Default value is false.
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
+@@ -262 +311 @@
+-                        True if management is enabled on the cache, false (default) othewise.
++                        True if management is enabled on the cache, false (default) otherwise.
+@@ -269 +318 @@
+-                        True if read-through caching is used, false (default) othewise.
++                        True if read-through caching is used, false (default) otherwise.
+@@ -402,2 +451,7 @@
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1"
+-                        default="true"/>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the queue, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -412,2 +466,18 @@
+-            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1"/>
+-            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0"/>
++            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of synchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the queue are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of asynchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the queue are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -432 +502,7 @@
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true"/>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the list, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -441,2 +517,18 @@
+-            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1"/>
+-            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0"/>
++            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of synchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the list are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of asynchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the list will be copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -459 +551,7 @@
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true"/>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the set, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -468,2 +566,18 @@
+-            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1"/>
+-            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0"/>
++            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of synchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the set are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of asynchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the set will be copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -486,3 +600,25 @@
+-            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1"/>
+-            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0"/>
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true"/>
++            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of synchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the multimap are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of asynchronous backups. For example, if 1 is set as the backup-count,
++                        then all entries of the multimap are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the multimap, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -518 +654,11 @@
+-            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="OBJECT"/>
++            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="OBJECT">
++                <xs:annotation>
++                    <xs:documentation>
++                        Data type used to store entries.
++                        Possible values:
++                        BINARY: keys and values are stored as binary data.
++                        OBJECT (default): values are stored in their object forms.
++                        NATIVE: keys and values are stored in native memory.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -549 +695,7 @@
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true"/>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the replicated map, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -560,2 +712,7 @@
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1"
+-                        default="true"/>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the topic, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -580,2 +737,7 @@
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1"
+-                        default="true"/>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the reliable topic, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -636,2 +798,2 @@
+-                        If your emitted values are big, you might want to change this to a lower value. If you want to better balance your work, you might want to
+-                        change this to a higher value.
++                        If your emitted values are big, you might want to change this to a lower value. If you want 
++                        to better balance your work, you might want to change this to a higher value.
+@@ -676,3 +838,26 @@
+-            <xs:element name="initial-permits" type="xs:unsignedInt" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1"/>
+-            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0"/>
++            <xs:element name="initial-permits" type="xs:unsignedInt" minOccurs="0" maxOccurs="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        The thread count to which the concurrent access is limited. For example, if you set
++                        it to "3", concurrent access to the object is limited to 3 threads.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of synchronous backups. For example, if 1 is set as the backup-count,
++                        then all permits of the semaphore are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of asynchronous backups. For example, if 1 is set as the backup-count,
++                        then all permits of the semaphore are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++	        </xs:element>
+@@ -688,5 +873,48 @@
+-            <xs:element name="capacity" type="xs:unsignedInt" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="time-to-live-seconds" type="xs:unsignedInt" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1"/>
+-            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0"/>
+-            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="BINARY"/>
++            <xs:element name="capacity" type="xs:unsignedInt" minOccurs="0" maxOccurs="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of items in the ringbuffer. If no time-to-live-seconds is set, the size will always 
++                        be equal to capacity after the head completed the first loop around the ring. This is 
++                        because no items are getting retired.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="time-to-live-seconds" type="xs:unsignedInt" minOccurs="0" maxOccurs="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Maximum number of seconds for each entry to stay in the ringbuffer. Entries that are
++                        older than &lt;time-to-live-seconds&gt; and are not updated for &lt;time-to-live-seconds&gt;
++                        are automatically evicted from the map.
++                        Any integer between 0 and Integer.MAX_VALUE. 0 means infinite. Default is 0.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of synchronous backups. For example, if 1 is set as the backup-count,
++                        then the items in the ringbuffer are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="async-backup-count" type="backup-count" minOccurs="0" maxOccurs="1" default="0">
++                <xs:annotation>
++                    <xs:documentation>
++                        Number of asynchronous backups. For example, if 1 is set as the backup-count,
++                        then the items in the ringbuffer are copied to one other JVM for
++                        fail-safety.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="BINARY">
++                <xs:annotation>
++                    <xs:documentation>
++                        Data type used to store entries.
++                        Possible values:
++                        BINARY (default): keys and values are stored as binary data.
++                        OBJECT: values are stored in their object forms.
++                        NATIVE: keys and values are stored in native memory.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -702,4 +930,50 @@
+-            <xs:element name="public-address" type="xs:string" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="port" type="port" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="reuse-address" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false"/>
+-            <xs:element name="outbound-ports" type="outbound-ports" minOccurs="0" maxOccurs="1"/>
++            <xs:element name="public-address" type="xs:string" minOccurs="0" maxOccurs="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Overrides the public address of a node. By default, a node selects its socket address 
++                        as its public address. But behind a network address translation (NAT), two endpoints (nodes)
++                        may not be able to see/access each other. If both nodes set their public addresses to their 
++                        defined addresses on NAT, then they can communicate with each other. In this case, their 
++                        public addresses are not an address of a local network interface but a virtual address defined by NAT. 
++                        This is optional to set and useful when you have a private cloud.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="port" type="port" minOccurs="0" maxOccurs="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        The ports which Hazelcast will use to communicate between cluster members. Its default value is 5701.
++						It has the following attributes.
++                            port-count: The default value is 100, meaning that Hazelcast will try to bind 100 ports. 
++                                If you set the value of port as 5701, as members join the cluster, Hazelcast tries to find 
++                                ports between 5701 and 5801. You can change the port count in cases like having large 
++                                instances on a single machine or you are willing to have only a few ports assigned.
++                            auto-increment: Default value is true. If port is set to 5701, Hazelcast will try to find free 
++                                ports between 5701 and 5801. Normally, you will not need to change this value, but it comes 
++                                in handy when needed. You may also want to choose to use only one port. In that case, you can 
++                                disable the auto-increment feature of port by setting its value as false.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="reuse-address" type="xs:boolean" minOccurs="0" maxOccurs="1" default="false">
++               <xs:annotation>
++                    <xs:documentation>
++                        When you shutdown a cluster member, the server socket port will be in the TIME_WAIT 
++                        state for the next couple of minutes. If you start the member right after shutting it down, 
++                        you may not be able to bind it to the same port because it is in the TIME_WAIT state. If you 
++                        set reuse-address to true, the TIME_WAIT state is ignored and you can bind the member to the 
++                        same port again. Default value is false.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="outbound-ports" type="outbound-ports" minOccurs="0" maxOccurs="1">
++               <xs:annotation>
++                    <xs:documentation>
++                        By default, Hazelcast lets the system pick up an ephemeral port during socket bind operation.
++                        But security policies/firewalls may require to restrict outbound ports to be used by 
++                        Hazelcast-enabled applications. To fulfill this requirement, you can configure Hazelcast to use 
++                        only defined outbound ports.
++                        outbound-ports has the ports attribute to allow you to define outbound ports.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -726 +1000,8 @@
+-            <xs:element name="required-member" type="xs:string" minOccurs="0" maxOccurs="1"/>
++            <xs:element name="required-member" type="xs:string" minOccurs="0" maxOccurs="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        IP address of the required member. Cluster will form only if the member with this IP 
++                        address is found.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -728 +1009,8 @@
+-                <xs:element name="member" type="xs:string" minOccurs="0" maxOccurs="unbounded" default="127.0.0.1"/>
++                <xs:element name="member" type="xs:string" minOccurs="0" maxOccurs="unbounded" default="127.0.0.1">
++	                <xs:annotation>
++	                    <xs:documentation>
++	                        IP address(es) of one or more well known members. Once members are connected to these
++                            well known ones, all member addresses will be communicated with each other.
++	                    </xs:documentation>
++	                </xs:annotation>
++	            </xs:element>
+@@ -732 +1020,7 @@
+-            <xs:element name="members" type="xs:string" minOccurs="0" maxOccurs="1"/>
++            <xs:element name="members" type="xs:string" minOccurs="0" maxOccurs="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        Comma separated IP addresses of one or more well known members.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -742,2 +1036,19 @@
+-        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="false"/>
+-        <xs:attribute name="connection-timeout-seconds" type="xs:int" use="optional" default="5"/>
++        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="false">
++            <xs:annotation>
++                <xs:documentation>
++                    Specifies whether the TCP/IP discovery is enabled or not. Default value is false.
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
++        <xs:attribute name="connection-timeout-seconds" type="xs:int" use="optional" default="5">
++            <xs:annotation>
++                <xs:documentation>
++                    The maximum amount of time Hazelcast is going to try to connect to a well known member
++                    before giving up. Setting it to a too low value could mean that a member is not able 
++                    to connect to a cluster. Setting it to a too high value means that member startup could 
++                    slow down because of longer timeouts (e.g. when a well known member is not up). Increasing 
++                    this value is recommended if you have many IPs listed and the members cannot properly 
++                    build up the cluster. Its default value is 5.
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
+@@ -760,4 +1071,33 @@
+-            <xs:element name="multicast-group" type="xs:string" minOccurs="0" maxOccurs="1" default="224.2.2.3"/>
+-            <xs:element name="multicast-port" type="xs:unsignedShort" minOccurs="0" maxOccurs="1" default="54327"/>
+-            <xs:element name="multicast-timeout-seconds" type="xs:int" minOccurs="0" maxOccurs="1" default="2"/>
+-            <xs:element name="multicast-time-to-live" type="xs:int" minOccurs="0" maxOccurs="1" default="32"/>
++            <xs:element name="multicast-group" type="xs:string" minOccurs="0" maxOccurs="1" default="224.2.2.3">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    The multicast group IP address. Specify it when you want to create clusters within the 
++	                    same network. Values can be between 224.0.0.0 and 239.255.255.255. Default value is 224.2.2.3.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="multicast-port" type="xs:unsignedShort" minOccurs="0" maxOccurs="1" default="54327">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    The multicast socket port through which the Hazelcast member listens and sends discovery messages. 
++	                    Default value is 54327.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="multicast-timeout-seconds" type="xs:int" minOccurs="0" maxOccurs="1" default="2">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    Only when the nodes are starting up, this timeout (in seconds) specifies the period during 
++	                    which a node waits for a multicast response from another node. For example, if you set it 
++	                    to 60 seconds, each node will wait for 60 seconds until a leader node is selected. 
++	                    Its default value is 2 seconds.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="multicast-time-to-live" type="xs:int" minOccurs="0" maxOccurs="1" default="32">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    Time-to-live value for multicast packets sent out to control the scope of multicasts.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
+@@ -764,0 +1105,8 @@
++                <xs:annotation>
++                    <xs:documentation>
++                        Includes IP addresses of trusted members. When a node wants to join to the cluster, 
++                        its join request will be rejected if it is not a trusted member. You can give an IP 
++                        addresses range using the wildcard (*) on the last digit of the IP address
++                        (e.g. 192.168.1.* or 192.168.1.100-110).
++                    </xs:documentation>
++                </xs:annotation>
+@@ -772 +1120,7 @@
+-        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
++        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
++            <xs:annotation>
++                <xs:documentation>
++                    Specifies whether the multicast discovery is enabled or not. Values can be true or false.
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
+@@ -777,7 +1131,54 @@
+-            <xs:element name="access-key" type="xs:string" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="secret-key" type="xs:string" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="region" type="xs:string" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="host-header" type="xs:string" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="security-group-name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="tag-key" type="xs:string" minOccurs="0" maxOccurs="1"/>
+-            <xs:element name="tag-value" type="xs:string" minOccurs="0" maxOccurs="1"/>
++            <xs:element name="access-key" type="xs:string" minOccurs="0" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    Access key of your account on EC2.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="secret-key" type="xs:string" minOccurs="0" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    Secret key of your account on EC2.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="region" type="xs:string" minOccurs="0" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    The region where your nodes are running. Default value is us-east-1. 
++	                    Needs to be specified if the region is other than the default one.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="host-header" type="xs:string" minOccurs="0" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    The URL that is the entry point for a web service. It is optional.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="security-group-name" type="xs:string" minOccurs="0" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    Name of the security group you specified at the EC2 management console. 
++	                    It is used to narrow the Hazelcast nodes to be within this group. 
++	                    It is optional.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="tag-key" type="xs:string" minOccurs="0" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    To narrow the members in the cloud down to only Hazelcast nodes, you can set
++	                    this to the one you specified in the EC2 console. It is optional.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="tag-value" type="xs:string" minOccurs="0" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    To narrow the members in the cloud down to only Hazelcast nodes, you can set
++	                    this to the one you specified in the EC2 console. It is optional.
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
+@@ -785,2 +1186,19 @@
+-        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
+-        <xs:attribute name="connection-timeout-seconds" type="xs:int" use="optional" default="5"/>
++        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
++            <xs:annotation>
++                <xs:documentation>
++                    Specifies whether the EC2 discovery is enabled or not. Value can be true or false.
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
++        <xs:attribute name="connection-timeout-seconds" type="xs:int" use="optional" default="5">
++            <xs:annotation>
++                <xs:documentation>
++                    The maximum amount of time Hazelcast is going to try to connect to a well known member 
++                    before giving up. Setting its value too low value could mean that a member is not able 
++                    to connect to a cluster. Setting it too high value means that member startup could slow 
++                    down because of longer timeouts (e.g. when a well known member is not up). Increasing 
++                    this value is recommended if you have many IPs listed and the members cannot properly 
++                    build up the cluster. Its default value is 5.
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
+@@ -803,3 +1221,14 @@
+-            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1"
+-                        default="true"/>
+-            <xs:element name="pool-size" type="xs:unsignedShort" minOccurs="0" maxOccurs="1" default="8"/>
++            <xs:element name="statistics-enabled" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        True (default) if statistics gathering is enabled on the executor task, false otherwise.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="pool-size" type="xs:unsignedShort" minOccurs="0" maxOccurs="1" default="8">
++                <xs:annotation>
++                    <xs:documentation>
++                        The number of executor threads per member for the executor.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -846,3 +1275,23 @@
+-            <xs:element name="write-delay-seconds" type="xs:unsignedInt" minOccurs="0" maxOccurs="1" default="0"/>
+-            <xs:element name="write-batch-size" type="xs:unsignedInt" minOccurs="0" maxOccurs="1" default="1"/>
+-            <xs:element name="write-coalescing" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true"/>
++            <xs:element name="write-delay-seconds" type="xs:unsignedInt" minOccurs="0" maxOccurs="1" default="0">
++                <xs:annotation>
++                    <xs:documentation>
++                        The number of seconds to delay the store writes. Default value is 0.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="write-batch-size" type="xs:unsignedInt" minOccurs="0" maxOccurs="1" default="1">
++                <xs:annotation>
++                    <xs:documentation>
++                        The number of operations to be included in each batch processing round. Default value is 1.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
++            <xs:element name="write-coalescing" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++                <xs:annotation>
++                    <xs:documentation>
++                        Setting this is meaningful if you are using write behind in MapStore. When write-coalescing is true, 
++                        only the latest store operation on a key in the write-delay-seconds time-window will be 
++                        reflected to MapStore. Default value is true.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+@@ -851 +1300,7 @@
+-        <xs:attribute name="enabled" default="true" type="xs:boolean"/>
++        <xs:attribute name="enabled" default="true" type="xs:boolean">
++            <xs:annotation>
++                <xs:documentation>
++                    True to enable this map-store, false to disable. 
++                </xs:documentation>
++            </xs:annotation>
++        </xs:attribute>
+@@ -852,0 +1308,7 @@
++            <xs:annotation>
++                <xs:documentation>
++                    Sets the initial load mode.
++		    	    LAZY: default load mode, where load is asynchronous.
++			        EAGER: load is blocked till all partitions are loaded.
++                </xs:documentation>
++            </xs:annotation>
+@@ -869,2 +1331,14 @@
+-            <xs:element name="include-value" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true"/>
+-            <xs:element name="predicate" type="predicate" minOccurs="1" maxOccurs="1"/>
++            <xs:element name="include-value" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    True to enable value caching, false to disable. 
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
++            <xs:element name="predicate" type="predicate" minOccurs="1" maxOccurs="1">
++	            <xs:annotation>
++	                <xs:documentation>
++	                    The predicate to filter events which will be applied to the QueryCache. 
++	                </xs:documentation>
++	            </xs:annotation>
++	        </xs:element>
+@@ -872 +1346,11 @@
+-            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="BINARY"/>
++            <xs:element name="in-memory-format" type="in-memory-format" minOccurs="0" maxOccurs="1" default="BINARY">
++                <xs:annotation>
++                    <xs:documentation>
++                        Data type used to store entries.
++                        Possible values:
++                        BINARY (default): keys and values are stored as binary data.
++                        OBJECT: values are stored in their object forms.
++                        NATIVE: keys and values are stored in native memory.
++                    </xs:documentation>
++                </xs:annotation>
++            </xs:element>
+diff --git a/hazelcast/src/main/resources/release_notes.txt b/hazelcast/src/main/resources/release_notes.txt
+index 21146ac..1975216 100644
+--- a/hazelcast/src/main/resources/release_notes.txt
++++ b/hazelcast/src/main/resources/release_notes.txt
+@@ -28,0 +29,2 @@
++- Fail Fast on Invalid Configuration: With this feature, Hazelcast throws a meaningful exception if there is an error in the declarative or programmatic configuration.
++
+@@ -43 +45 @@
+-- Eventing System Improvements: ???. For more information, please see [???](#???).
++- Eventing System Improvements: RingBuffer and Reliable Topic structures are introduced.
+@@ -86,0 +89,6 @@
++- Replicated Map documentation page does not mention that it is in the beta stage [#5424].
++
++- The method `XAResource.rollback()` should not need the transaction to be in the prepared state when called from another member/client [#5401].
++
++- The method `XAResource.end()` should not need to check `threadId` [#5400].
++
+diff --git a/hazelcast/src/test/java/com/hazelcast/mapreduce/MapReduceTest.java b/hazelcast/src/test/java/com/hazelcast/mapreduce/MapReduceTest.java
+index 4127427..2c2b4f2 100644
+--- a/hazelcast/src/test/java/com/hazelcast/mapreduce/MapReduceTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/mapreduce/MapReduceTest.java
+@@ -17,8 +17 @@
+-import com.hazelcast.core.ExecutionCallback;
+-import com.hazelcast.core.HazelcastInstance;
+-import com.hazelcast.core.ICompletableFuture;
+-import com.hazelcast.core.IList;
+-import com.hazelcast.core.IMap;
+-import com.hazelcast.core.ISet;
+-import com.hazelcast.core.MultiMap;
+-import com.hazelcast.mapreduce.ListSetMapReduceTest.ListSetReducerFactory;
++import com.hazelcast.core.*;
+@@ -41,7 +34 @@
+-import java.util.ArrayList;
+-import java.util.Collection;
+-import java.util.HashMap;
+-import java.util.HashSet;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Set;
++import java.util.*;
+@@ -50,0 +38 @@
++import java.util.logging.Logger;
+@@ -52,3 +40 @@
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertTrue;
+-import static org.junit.Assert.fail;
++import static org.junit.Assert.*;
+@@ -61 +47,2 @@
+-
++    final static Logger logger = Logger.getLogger("test");
++    
+@@ -64,32 +51,9 @@
+-    @Test(timeout = 60000)
+-    public void test_early_finalization_combiner_github_5283() throws Exception {
+-        TestHazelcastInstanceFactory nodeFactory = createHazelcastInstanceFactory(3);
+-
+-        final HazelcastInstance h1 = nodeFactory.newHazelcastInstance();
+-        final HazelcastInstance h2 = nodeFactory.newHazelcastInstance();
+-        final HazelcastInstance h3 = nodeFactory.newHazelcastInstance();
+-
+-        assertClusterSizeEventually(3, h1);
+-        assertClusterSizeEventually(3, h2);
+-        assertClusterSizeEventually(3, h3);
+-
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
+-
+-        JobTracker tracker = h1.getJobTracker("default");
+-        KeyValueSource<Integer, Integer> kvs = KeyValueSource.fromMap(m1);
+-        KeyValueSource<Integer, Integer> wrapper = new MapKeyValueSourceAdapter<Integer, Integer>(kvs);
+-        Job<Integer, Integer> job = tracker.newJob(wrapper);
+-
+-        ICompletableFuture<Map<String, List<Integer>>> future =
+-                job.mapper(new TestMapper())
+-                   .combiner(new FinalizingCombinerFactory())
+-                   .reducer(new ListBasedReducerFactory()).submit();
+-
+-        Map<String, List<Integer>> result = future.get();
+-
+-        assertEquals(100, result.size());
+-        for (List<Integer> value : result.values()) {
+-            assertEquals(1, value.size());
++    private void tripshutdown(HazelcastInstance h1, HazelcastInstance h2, HazelcastInstance h3) {
++        try {
++            h1.shutdown();
++        } finally {
++            try {
++                h2.shutdown();
++            } finally {
++                h3.shutdown();
++            }
+@@ -100 +64,2 @@
+-    public void test_collide_user_provided_combiner_list_result_github_3614() throws Exception {
++    public void test_early_finalization_combiner_github_5283() throws Exception {
++        logger.info(String.valueOf(Math.max(Runtime.getRuntime().availableProcessors(), 8)));
+@@ -111,4 +76,5 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -116,8 +82,4 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        KeyValueSource<Integer, Integer> kvs = KeyValueSource.fromMap(m1);
+-        KeyValueSource<Integer, Integer> wrapper = new MapKeyValueSourceAdapter<Integer, Integer>(kvs);
+-        Job<Integer, Integer> job = tracker.newJob(wrapper);
+-        ICompletableFuture<Map<String, List<Integer>>> future =
+-                job.mapper(new TestMapper())
+-                   .combiner(new ListResultingCombinerFactory())
+-                   .reducer(new ListBasedReducerFactory()).submit();
++            JobTracker tracker = h1.getJobTracker("default");
++            KeyValueSource<Integer, Integer> kvs = KeyValueSource.fromMap(m1);
++            KeyValueSource<Integer, Integer> wrapper = new MapKeyValueSourceAdapter<Integer, Integer>(kvs);
++            Job<Integer, Integer> job = tracker.newJob(wrapper);
+@@ -125 +87,4 @@
+-        Map<String, List<Integer>> result = future.get();
++            ICompletableFuture<Map<String, List<Integer>>> future =
++                    job.mapper(new TestMapper())
++                            .combiner(new FinalizingCombinerFactory())
++                            .reducer(new ListBasedReducerFactory()).submit();
+@@ -127,3 +92,8 @@
+-        assertEquals(100, result.size());
+-        for (List<Integer> value : result.values()) {
+-            assertEquals(1, value.size());
++            Map<String, List<Integer>> result = future.get();
++
++            assertEquals(100, result.size());
++            for (List<Integer> value : result.values()) {
++                assertEquals(1, value.size());
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -146,3 +116,20 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
++
++            JobTracker tracker = h1.getJobTracker("default");
++            KeyValueSource<Integer, Integer> kvs = KeyValueSource.fromMap(m1);
++            KeyValueSource<Integer, Integer> wrapper = new MapKeyValueSourceAdapter<Integer, Integer>(kvs);
++            Job<Integer, Integer> job = tracker.newJob(wrapper);
++            ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TestMapper()).submit();
++
++            Map<String, List<Integer>> result = future.get();
++
++            assertEquals(100, result.size());
++            for (List<Integer> value : result.values()) {
++                assertEquals(1, value.size());
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -149,0 +137 @@
++    }
+@@ -151,5 +139,3 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        KeyValueSource<Integer, Integer> kvs = KeyValueSource.fromMap(m1);
+-        KeyValueSource<Integer, Integer> wrapper = new MapKeyValueSourceAdapter<Integer, Integer>(kvs);
+-        Job<Integer, Integer> job = tracker.newJob(wrapper);
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TestMapper()).submit();
++    @Test(timeout = 60000)
++    public void test_collide_user_provided_combiner_list_result_github_3614() throws Exception {
++        TestHazelcastInstanceFactory nodeFactory = createHazelcastInstanceFactory(3);
+@@ -157 +143,3 @@
+-        Map<String, List<Integer>> result = future.get();
++        final HazelcastInstance h1 = nodeFactory.newHazelcastInstance();
++        final HazelcastInstance h2 = nodeFactory.newHazelcastInstance();
++        final HazelcastInstance h3 = nodeFactory.newHazelcastInstance();
+@@ -159,3 +147,27 @@
+-        assertEquals(100, result.size());
+-        for (List<Integer> value : result.values()) {
+-            assertEquals(1, value.size());
++        assertClusterSizeEventually(3, h1);
++        assertClusterSizeEventually(3, h2);
++        assertClusterSizeEventually(3, h3);
++
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
++
++            JobTracker tracker = h1.getJobTracker("default");
++            KeyValueSource<Integer, Integer> kvs = KeyValueSource.fromMap(m1);
++            KeyValueSource<Integer, Integer> wrapper = new MapKeyValueSourceAdapter<Integer, Integer>(kvs);
++            Job<Integer, Integer> job = tracker.newJob(wrapper);
++            ICompletableFuture<Map<String, List<Integer>>> future =
++                    job.mapper(new TestMapper())
++                            .combiner(new ListResultingCombinerFactory())
++                            .reducer(new ListBasedReducerFactory()).submit();
++
++            Map<String, List<Integer>> result = future.get();
++
++            assertEquals(100, result.size());
++            for (List<Integer> value : result.values()) {
++                assertEquals(1, value.size());
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -178,16 +189,0 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
+-
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new ExceptionThrowingMapper())
+-                                                                   .submit(new Collator<Map.Entry<String, List<Integer>>, Map<String, List<Integer>>>() {
+-                                                                       @Override
+-                                                                       public Map<String, List<Integer>> collate(
+-                                                                               Iterable<Map.Entry<String, List<Integer>>> values) {
+-                                                                           return null;
+-                                                                       }
+-                                                                   });
+-
+@@ -195,2 +191,4 @@
+-            Map<String, List<Integer>> result = future.get();
+-            fail();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -198,4 +196,22 @@
+-        } catch (Exception e) {
+-            e.printStackTrace();
+-            assertTrue(e.getCause() instanceof NullPointerException);
+-            throw e;
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new ExceptionThrowingMapper())
++                    .submit(new Collator<Map.Entry<String, List<Integer>>, Map<String, List<Integer>>>() {
++                        @Override
++                        public Map<String, List<Integer>> collate(
++                                Iterable<Map.Entry<String, List<Integer>>> values) {
++                            return null;
++                        }
++                    });
++
++            try {
++                Map<String, List<Integer>> result = future.get();
++                fail();
++
++            } catch (Exception e) {
++                e.printStackTrace();
++                assertTrue(e.getCause() instanceof NullPointerException);
++                throw e;
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -218,9 +233,0 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
+-
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new ExceptionThrowingMapper()).submit();
+-
+@@ -228,2 +235,4 @@
+-            Map<String, List<Integer>> result = future.get();
+-            fail();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -231,4 +240,15 @@
+-        } catch (Exception e) {
+-            e.printStackTrace();
+-            assertTrue(e.getCause() instanceof NullPointerException);
+-            throw e;
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new ExceptionThrowingMapper()).submit();
++
++            try {
++                Map<String, List<Integer>> result = future.get();
++                fail();
++
++            } catch (Exception e) {
++                e.printStackTrace();
++                assertTrue(e.getCause() instanceof NullPointerException);
++                throw e;
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -242,0 +263 @@
++        logger.info("testInProcessCancellation 1");
+@@ -245,0 +267,2 @@
++
++        logger.info("testInProcessCancellation 2");
+@@ -251,10 +274 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
+-
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TimeConsumingMapper()).submit();
+-
+-        future.cancel(true);
++        logger.info("testInProcessCancellation 3");
+@@ -263,2 +277,5 @@
+-            Map<String, List<Integer>> result = future.get();
+-            fail();
++            logger.info("testInProcessCancellation 4");
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -266,3 +283,22 @@
+-        } catch (Exception e) {
+-            e.printStackTrace();
+-            throw e;
++            logger.info("testInProcessCancellation 5");
++
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TimeConsumingMapper()).submit();
++
++            logger.info("testInProcessCancellation 6");
++            future.cancel(true);
++
++            logger.info("testInProcessCancellation 7");
++
++            try {
++                Map<String, List<Integer>> result = future.get();
++                fail();
++
++            } catch (Exception e) {
++                e.printStackTrace();
++                throw e;
++            }
++            logger.info("testInProcessCancellation 8");
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -285,4 +321 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
+@@ -290,3 +323,4 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TestMapper()).submit();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -294 +328,3 @@
+-        Map<String, List<Integer>> result = future.get();
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TestMapper()).submit();
+@@ -296,3 +332,8 @@
+-        assertEquals(100, result.size());
+-        for (List<Integer> value : result.values()) {
+-            assertEquals(1, value.size());
++            Map<String, List<Integer>> result = future.get();
++
++            assertEquals(100, result.size());
++            for (List<Integer> value : result.values()) {
++                assertEquals(1, value.size());
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -315,3 +356,16 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 10000; i++) {
+-            m1.put(i, i);
++        try {
++
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 10000; i++) {
++                m1.put(i, i);
++            }
++
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Integer> future = job.onKeys(50).mapper(new TestMapper()).submit(new GroupingTestCollator());
++
++            int result = future.get();
++
++            assertEquals(50, result);
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -319,8 +372,0 @@
+-
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Integer> future = job.onKeys(50).mapper(new TestMapper()).submit(new GroupingTestCollator());
+-
+-        int result = future.get();
+-
+-        assertEquals(50, result);
+@@ -342,3 +388,16 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 10000; i++) {
+-            m1.put(i, i);
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 10000; i++) {
++                m1.put(i, i);
++            }
++
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Integer> future = job.keyPredicate(new TestKeyPredicate()).mapper(new TestMapper())
++                    .submit(new GroupingTestCollator());
++
++            int result = future.get();
++
++            assertEquals(50, result);
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -346,9 +404,0 @@
+-
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Integer> future = job.keyPredicate(new TestKeyPredicate()).mapper(new TestMapper())
+-                                                .submit(new GroupingTestCollator());
+-
+-        int result = future.get();
+-
+-        assertEquals(50, result);
+@@ -370,3 +420,16 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
++
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new GroupingTestMapper(2)).submit();
++
++            Map<String, List<Integer>> result = future.get();
++
++            assertEquals(1, result.size());
++            assertEquals(25, result.values().iterator().next().size());
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -374,9 +436,0 @@
+-
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new GroupingTestMapper(2)).submit();
+-
+-        Map<String, List<Integer>> result = future.get();
+-
+-        assertEquals(1, result.size());
+-        assertEquals(25, result.values().iterator().next().size());
+@@ -398,4 +452 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
+@@ -403,4 +454,4 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, Integer>> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())
+-                                                             .submit();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -408 +459,4 @@
+-        Map<String, Integer> result = future.get();
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, Integer>> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())
++                    .submit();
+@@ -410,6 +464 @@
+-        // Precalculate results
+-        int[] expectedResults = new int[4];
+-        for (int i = 0; i < 100; i++) {
+-            int index = i % 4;
+-            expectedResults[index] += i;
+-        }
++            Map<String, Integer> result = future.get();
+@@ -417,2 +466,12 @@
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(expectedResults[i], (int) result.get(String.valueOf(i)));
++            // Precalculate results
++            int[] expectedResults = new int[4];
++            for (int i = 0; i < 100; i++) {
++                int index = i % 4;
++                expectedResults[index] += i;
++            }
++
++            for (int i = 0; i < 4; i++) {
++                assertEquals(expectedResults[i], (int) result.get(String.valueOf(i)));
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -435,4 +494 @@
+-        final IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 10000; i++) {
+-            m1.put(i, i);
+-        }
++        try {
+@@ -440,27 +496,3 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        JobCompletableFuture<Map<String, Integer>> future = job.chunkSize(10).mapper(new GroupingTestMapper())
+-                                                               .reducer(new TestReducerFactory()).submit();
+-
+-        final TrackableJob trackableJob = tracker.getTrackableJob(future.getJobId());
+-        final JobProcessInformation processInformation = trackableJob.getJobProcessInformation();
+-        Map<String, Integer> result = future.get();
+-
+-        // Precalculate results
+-        int[] expectedResults = new int[4];
+-        for (int i = 0; i < 10000; i++) {
+-            int index = i % 4;
+-            expectedResults[index] += i;
+-        }
+-
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(expectedResults[i], (int) result.get(String.valueOf(i)));
+-        }
+-
+-        assertTrueEventually(new AssertTask() {
+-            @Override
+-            public void run() {
+-                if (processInformation.getProcessedRecords() < 10000) {
+-                    System.err.println(processInformation.getProcessedRecords());
+-                }
+-                assertEquals(10000, processInformation.getProcessedRecords());
++            final IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 10000; i++) {
++                m1.put(i, i);
+@@ -468 +500,33 @@
+-        });
++
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            JobCompletableFuture<Map<String, Integer>> future = job.chunkSize(10).mapper(new GroupingTestMapper())
++                    .reducer(new TestReducerFactory()).submit();
++
++            final TrackableJob trackableJob = tracker.getTrackableJob(future.getJobId());
++            final JobProcessInformation processInformation = trackableJob.getJobProcessInformation();
++            Map<String, Integer> result = future.get();
++
++            // Precalculate results
++            int[] expectedResults = new int[4];
++            for (int i = 0; i < 10000; i++) {
++                int index = i % 4;
++                expectedResults[index] += i;
++            }
++
++            for (int i = 0; i < 4; i++) {
++                assertEquals(expectedResults[i], (int) result.get(String.valueOf(i)));
++            }
++
++            assertTrueEventually(new AssertTask() {
++                @Override
++                public void run() {
++                    if (processInformation.getProcessedRecords() < 10000) {
++                        System.err.println(processInformation.getProcessedRecords());
++                    }
++                    assertEquals(10000, processInformation.getProcessedRecords());
++                }
++            });
++        } finally {
++            tripshutdown(h1, h2, h3);
++        }
+@@ -484,4 +548 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
+@@ -489,3 +550,4 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).submit(new GroupingTestCollator());
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -493 +555,3 @@
+-        int result = future.get();
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).submit(new GroupingTestCollator());
+@@ -495,5 +559 @@
+-        // Precalculate result
+-        int expectedResult = 0;
+-        for (int i = 0; i < 100; i++) {
+-            expectedResult += i;
+-        }
++            int result = future.get();
+@@ -501,2 +561,11 @@
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(expectedResult, result);
++            // Precalculate result
++            int expectedResult = 0;
++            for (int i = 0; i < 100; i++) {
++                expectedResult += i;
++            }
++
++            for (int i = 0; i < 4; i++) {
++                assertEquals(expectedResult, result);
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -519,4 +588,5 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -524,4 +594,4 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())
+-                                                .submit(new TestCollator());
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())
++                    .submit(new TestCollator());
+@@ -529 +599 @@
+-        int result = future.get();
++            int result = future.get();
+@@ -531,5 +601,5 @@
+-        // Precalculate result
+-        int expectedResult = 0;
+-        for (int i = 0; i < 100; i++) {
+-            expectedResult += i;
+-        }
++            // Precalculate result
++            int expectedResult = 0;
++            for (int i = 0; i < 100; i++) {
++                expectedResult += i;
++            }
+@@ -537,2 +607,5 @@
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(expectedResult, result);
++            for (int i = 0; i < 4; i++) {
++                assertEquals(expectedResult, result);
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -544,0 +618 @@
++        logger.info("testAsyncMapper.1");
+@@ -546 +620 @@
+-
++        logger.info("testAsyncMapper.2");
+@@ -555,4 +629,2 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        logger.info("testAsyncMapper.3");
++        try {
+@@ -560,3 +632,4 @@
+-        final Map<String, List<Integer>> listenerResults = new HashMap<String, List<Integer>>();
+-        final Semaphore semaphore = new Semaphore(1);
+-        semaphore.acquire();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -564,3 +637 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TestMapper()).submit();
++            logger.info("testAsyncMapper.4");
+@@ -568,6 +639,22 @@
+-        future.andThen(new ExecutionCallback<Map<String, List<Integer>>>() {
+-            @Override
+-            public void onResponse(Map<String, List<Integer>> response) {
+-                try {
+-                    listenerResults.putAll(response);
+-                } finally {
++            final Map<String, List<Integer>> listenerResults = new HashMap<String, List<Integer>>();
++            final Semaphore semaphore = new Semaphore(1);
++            semaphore.acquire();
++
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, List<Integer>>> future = job.mapper(new TestMapper()).submit();
++
++            logger.info("testAsyncMapper.5");
++
++            future.andThen(new ExecutionCallback<Map<String, List<Integer>>>() {
++                @Override
++                public void onResponse(Map<String, List<Integer>> response) {
++                    try {
++                        listenerResults.putAll(response);
++                    } finally {
++                        semaphore.release();
++                    }
++                }
++
++                @Override
++                public void onFailure(Throwable t) {
+@@ -575,0 +663,12 @@
++            });
++
++
++            logger.info("testAsyncMapper.6");
++
++            semaphore.acquire();
++
++            logger.info("testAsyncMapper.7");
++
++            assertEquals(100, listenerResults.size());
++            for (List<Integer> value : listenerResults.values()) {
++                assertEquals(1, value.size());
+@@ -578,11 +677,3 @@
+-            @Override
+-            public void onFailure(Throwable t) {
+-                semaphore.release();
+-            }
+-        });
+-
+-        semaphore.acquire();
+-
+-        assertEquals(100, listenerResults.size());
+-        for (List<Integer> value : listenerResults.values()) {
+-            assertEquals(1, value.size());
++            logger.info("testAsyncMapper.8");
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -605,4 +695,0 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
+@@ -610,3 +697,5 @@
+-        final Map<String, List<Integer>> listenerResults = new HashMap<String, List<Integer>>();
+-        final Semaphore semaphore = new Semaphore(1);
+-        semaphore.acquire();
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -614,3 +703,3 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, List<Integer>>> future = job.onKeys(50).mapper(new TestMapper()).submit();
++            final Map<String, List<Integer>> listenerResults = new HashMap<String, List<Integer>>();
++            final Semaphore semaphore = new Semaphore(1);
++            semaphore.acquire();
+@@ -618,6 +707,16 @@
+-        future.andThen(new ExecutionCallback<Map<String, List<Integer>>>() {
+-            @Override
+-            public void onResponse(Map<String, List<Integer>> response) {
+-                try {
+-                    listenerResults.putAll(response);
+-                } finally {
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, List<Integer>>> future = job.onKeys(50).mapper(new TestMapper()).submit();
++
++            future.andThen(new ExecutionCallback<Map<String, List<Integer>>>() {
++                @Override
++                public void onResponse(Map<String, List<Integer>> response) {
++                    try {
++                        listenerResults.putAll(response);
++                    } finally {
++                        semaphore.release();
++                    }
++                }
++
++                @Override
++                public void onFailure(Throwable t) {
+@@ -625,0 +725,7 @@
++            });
++
++            semaphore.acquire();
++
++            assertEquals(1, listenerResults.size());
++            for (List<Integer> value : listenerResults.values()) {
++                assertEquals(1, value.size());
+@@ -627,12 +733,2 @@
+-
+-            @Override
+-            public void onFailure(Throwable t) {
+-                semaphore.release();
+-            }
+-        });
+-
+-        semaphore.acquire();
+-
+-        assertEquals(1, listenerResults.size());
+-        for (List<Integer> value : listenerResults.values()) {
+-            assertEquals(1, value.size());
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -655,4 +751 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
+@@ -660,3 +753,4 @@
+-        final Map<String, Integer> listenerResults = new HashMap<String, Integer>();
+-        final Semaphore semaphore = new Semaphore(1);
+-        semaphore.acquire();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -664,4 +758,3 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Map<String, Integer>> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())//
+-                .submit();
++            final Map<String, Integer> listenerResults = new HashMap<String, Integer>();
++            final Semaphore semaphore = new Semaphore(1);
++            semaphore.acquire();
+@@ -669,6 +762,17 @@
+-        future.andThen(new ExecutionCallback<Map<String, Integer>>() {
+-            @Override
+-            public void onResponse(Map<String, Integer> response) {
+-                try {
+-                    listenerResults.putAll(response);
+-                } finally {
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Map<String, Integer>> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())//
++                    .submit();
++
++            future.andThen(new ExecutionCallback<Map<String, Integer>>() {
++                @Override
++                public void onResponse(Map<String, Integer> response) {
++                    try {
++                        listenerResults.putAll(response);
++                    } finally {
++                        semaphore.release();
++                    }
++                }
++
++                @Override
++                public void onFailure(Throwable t) {
+@@ -676,0 +781,7 @@
++            });
++
++            // Precalculate results
++            int[] expectedResults = new int[4];
++            for (int i = 0; i < 100; i++) {
++                int index = i % 4;
++                expectedResults[index] += i;
+@@ -679,3 +790,4 @@
+-            @Override
+-            public void onFailure(Throwable t) {
+-                semaphore.release();
++            semaphore.acquire();
++
++            for (int i = 0; i < 4; i++) {
++                assertEquals(expectedResults[i], (int) listenerResults.get(String.valueOf(i)));
+@@ -683,13 +795,2 @@
+-        });
+-
+-        // Precalculate results
+-        int[] expectedResults = new int[4];
+-        for (int i = 0; i < 100; i++) {
+-            int index = i % 4;
+-            expectedResults[index] += i;
+-        }
+-
+-        semaphore.acquire();
+-
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(expectedResults[i], (int) listenerResults.get(String.valueOf(i)));
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -712,4 +813 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
+@@ -717,3 +815,4 @@
+-        final int[] result = new int[1];
+-        final Semaphore semaphore = new Semaphore(1);
+-        semaphore.acquire();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -721,3 +820,3 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).submit(new GroupingTestCollator());
++            final int[] result = new int[1];
++            final Semaphore semaphore = new Semaphore(1);
++            semaphore.acquire();
+@@ -725,6 +824,16 @@
+-        future.andThen(new ExecutionCallback<Integer>() {
+-            @Override
+-            public void onResponse(Integer response) {
+-                try {
+-                    result[0] = response.intValue();
+-                } finally {
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).submit(new GroupingTestCollator());
++
++            future.andThen(new ExecutionCallback<Integer>() {
++                @Override
++                public void onResponse(Integer response) {
++                    try {
++                        result[0] = response.intValue();
++                    } finally {
++                        semaphore.release();
++                    }
++                }
++
++                @Override
++                public void onFailure(Throwable t) {
+@@ -732,0 +842,6 @@
++            });
++
++            // Precalculate result
++            int expectedResult = 0;
++            for (int i = 0; i < 100; i++) {
++                expectedResult += i;
+@@ -735,3 +850,4 @@
+-            @Override
+-            public void onFailure(Throwable t) {
+-                semaphore.release();
++            semaphore.acquire();
++
++            for (int i = 0; i < 4; i++) {
++                assertEquals(expectedResult, result[0]);
+@@ -739,12 +855,2 @@
+-        });
+-
+-        // Precalculate result
+-        int expectedResult = 0;
+-        for (int i = 0; i < 100; i++) {
+-            expectedResult += i;
+-        }
+-
+-        semaphore.acquire();
+-
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(expectedResult, result[0]);
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -767,4 +873 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
+@@ -772,3 +875,4 @@
+-        final int[] result = new int[1];
+-        final Semaphore semaphore = new Semaphore(1);
+-        semaphore.acquire();
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -776,4 +880,3 @@
+-        JobTracker tracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
+-        ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())
+-                                                .submit(new TestCollator());
++            final int[] result = new int[1];
++            final Semaphore semaphore = new Semaphore(1);
++            semaphore.acquire();
+@@ -781,6 +884,17 @@
+-        future.andThen(new ExecutionCallback<Integer>() {
+-            @Override
+-            public void onResponse(Integer response) {
+-                try {
+-                    result[0] = response.intValue();
+-                } finally {
++            JobTracker tracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = tracker.newJob(KeyValueSource.fromMap(m1));
++            ICompletableFuture<Integer> future = job.mapper(new GroupingTestMapper()).reducer(new TestReducerFactory())
++                    .submit(new TestCollator());
++
++            future.andThen(new ExecutionCallback<Integer>() {
++                @Override
++                public void onResponse(Integer response) {
++                    try {
++                        result[0] = response.intValue();
++                    } finally {
++                        semaphore.release();
++                    }
++                }
++
++                @Override
++                public void onFailure(Throwable t) {
+@@ -788,0 +903,6 @@
++            });
++
++            // Precalculate result
++            int expectedResult = 0;
++            for (int i = 0; i < 100; i++) {
++                expectedResult += i;
+@@ -791,3 +911,4 @@
+-            @Override
+-            public void onFailure(Throwable t) {
+-                semaphore.release();
++            semaphore.acquire();
++
++            for (int i = 0; i < 4; i++) {
++                assertEquals(expectedResult, result[0]);
+@@ -795,12 +916,2 @@
+-        });
+-
+-        // Precalculate result
+-        int expectedResult = 0;
+-        for (int i = 0; i < 100; i++) {
+-            expectedResult += i;
+-        }
+-
+-        semaphore.acquire();
+-
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(expectedResult, result[0]);
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -823,4 +934,5 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
+-        }
++        try {
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
+@@ -828,5 +940,5 @@
+-        JobTracker jobTracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = jobTracker.newJob(KeyValueSource.fromMap(m1));
+-        JobCompletableFuture<Map<String, BigInteger>> future = job.chunkSize(10).mapper(new GroupingTestMapper())
+-                                                                  .combiner(new ObjectCombinerFactory())
+-                                                                  .reducer(new ObjectReducerFactory()).submit();
++            JobTracker jobTracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = jobTracker.newJob(KeyValueSource.fromMap(m1));
++            JobCompletableFuture<Map<String, BigInteger>> future = job.chunkSize(10).mapper(new GroupingTestMapper())
++                    .combiner(new ObjectCombinerFactory())
++                    .reducer(new ObjectReducerFactory()).submit();
+@@ -834,5 +946,5 @@
+-        int[] expectedResults = new int[4];
+-        for (int i = 0; i < 100; i++) {
+-            int index = i % 4;
+-            expectedResults[index] += i;
+-        }
++            int[] expectedResults = new int[4];
++            for (int i = 0; i < 100; i++) {
++                int index = i % 4;
++                expectedResults[index] += i;
++            }
+@@ -840,3 +952,6 @@
+-        Map<String, BigInteger> map = future.get();
+-        for (int i = 0; i < 4; i++) {
+-            assertEquals(BigInteger.valueOf(expectedResults[i]), map.get(String.valueOf(i)));
++            Map<String, BigInteger> map = future.get();
++            for (int i = 0; i < 4; i++) {
++                assertEquals(BigInteger.valueOf(expectedResults[i]), map.get(String.valueOf(i)));
++            }
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -855,3 +970 @@
+-        assertClusterSizeEventually(3, h1);
+-        assertClusterSizeEventually(3, h2);
+-        assertClusterSizeEventually(3, h3);
++        try {
+@@ -859,3 +972,19 @@
+-        IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
+-        for (int i = 0; i < 100; i++) {
+-            m1.put(i, i);
++            assertClusterSizeEventually(3, h1);
++            assertClusterSizeEventually(3, h2);
++            assertClusterSizeEventually(3, h3);
++
++            IMap<Integer, Integer> m1 = h1.getMap(MAP_NAME);
++            for (int i = 0; i < 100; i++) {
++                m1.put(i, i);
++            }
++
++            JobTracker jobTracker = h1.getJobTracker("default");
++            Job<Integer, Integer> job = jobTracker.newJob(KeyValueSource.fromMap(m1));
++            JobCompletableFuture<Map<String, BigInteger>> future = job.chunkSize(10).mapper(new GroupingTestMapper())
++                    .combiner(new ObjectCombinerFactory())
++                    .reducer(new NullReducerFactory()).submit();
++
++            Map<String, BigInteger> map = future.get();
++            assertEquals(0, map.size());
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -863,9 +991,0 @@
+-
+-        JobTracker jobTracker = h1.getJobTracker("default");
+-        Job<Integer, Integer> job = jobTracker.newJob(KeyValueSource.fromMap(m1));
+-        JobCompletableFuture<Map<String, BigInteger>> future = job.chunkSize(10).mapper(new GroupingTestMapper())
+-                                                                  .combiner(new ObjectCombinerFactory())
+-                                                                  .reducer(new NullReducerFactory()).submit();
+-
+-        Map<String, BigInteger> map = future.get();
+-        assertEquals(0, map.size());
+@@ -895,3 +1015,3 @@
+-                                                .combiner(new DataSerializableIntermediateCombinerFactory())
+-                                                .reducer(new DataSerializableIntermediateReducerFactory())
+-                                                .submit(new DataSerializableIntermediateCollator());
++                .combiner(new DataSerializableIntermediateCombinerFactory())
++                .reducer(new DataSerializableIntermediateReducerFactory())
++                .submit(new DataSerializableIntermediateCollator());
+@@ -910 +1030 @@
+-    public void employeeMapReduceTest() throws Exception{
++    public void employeeMapReduceTest() throws Exception {
+@@ -916 +1035,0 @@
+-        final IMap map = h1.getMap(randomString());
+@@ -918,3 +1037,22 @@
+-        final int keyCount=100;
+-        for (int id = 0; id < keyCount; id++) {
+-            map.put(id, new Employee(id));
++        try {
++            final IMap map = h1.getMap(randomString());
++
++            final int keyCount = 100;
++            for (int id = 0; id < keyCount; id++) {
++                map.put(id, new Employee(id));
++            }
++
++            JobTracker tracker = h1.getJobTracker(randomString());
++            Job<Integer, Employee> job = tracker.newJob(KeyValueSource.fromMap(map));
++
++            ICompletableFuture<Map<Integer, Set<Employee>>> future = job
++                    .mapper(new ModIdMapper(2))
++                    .combiner(new RangeIdCombinerFactory(10, 30))
++                    .reducer(new IdReducerFactory(10, 20, 30))
++                    .submit();
++
++            Map<Integer, Set<Employee>> result = future.get();
++
++            assertEquals("expected 8 Employees with id's ending 2, 4, 6, 8", 8, result.size());
++        } finally {
++            tripshutdown(h1, h2, h3);
+@@ -922,13 +1059,0 @@
+-
+-        JobTracker tracker = h1.getJobTracker(randomString());
+-        Job<Integer, Employee> job = tracker.newJob(KeyValueSource.fromMap(map));
+-
+-        ICompletableFuture< Map< Integer, Set<Employee>> > future = job
+-                .mapper( new ModIdMapper(2) )
+-                .combiner(new RangeIdCombinerFactory(10, 30))
+-                .reducer(new IdReducerFactory(10, 20, 30))
+-                .submit();
+-
+-        Map<Integer, Set<Employee>> result = future.get();
+-
+-        assertEquals("expected 8 Employees with id's ending 2, 4, 6, 8", 8, result.size());
+@@ -936 +1060,0 @@
+-
+@@ -941 +1065 @@
+-        private int mod=0;
++        private int mod = 0;
+@@ -943,2 +1067,2 @@
+-        public ModIdMapper(int mod){
+-            this.mod=mod;
++        public ModIdMapper(int mod) {
++            this.mod = mod;
+@@ -948 +1072 @@
+-            if(e.getId()%mod==0){
++            if (e.getId() % mod == 0) {
+@@ -956 +1080 @@
+-        private int min=0, max=0;
++        private int min = 0, max = 0;
+@@ -958,3 +1082,3 @@
+-        public RangeIdCombinerFactory(int min, int max){
+-            this.min=min;
+-            this.max=max;
++        public RangeIdCombinerFactory(int min, int max) {
++            this.min = min;
++            this.max = max;
+@@ -964 +1088 @@
+-            return new  EmployeeCombiner();
++            return new EmployeeCombiner();
+@@ -967 +1091 @@
+-        private class  EmployeeCombiner extends Combiner<Employee, Set<Employee> >{
++        private class EmployeeCombiner extends Combiner<Employee, Set<Employee>> {
+@@ -971 +1095 @@
+-                if(e.getId() >= min && e.getId() <= max){
++                if (e.getId() >= min && e.getId() <= max) {
+@@ -977 +1101 @@
+-                if(passed.isEmpty()){
++                if (passed.isEmpty()) {
+@@ -990 +1113,0 @@
+-
+@@ -993 +1116 @@
+-        private int[] removeIds=null;
++        private int[] removeIds = null;
+@@ -995,2 +1118,2 @@
+-        public IdReducerFactory(int... removeIds){
+-            this.removeIds=removeIds;
++        public IdReducerFactory(int... removeIds) {
++            this.removeIds = removeIds;
+@@ -1003 +1126 @@
+-        private class EmployeeReducer extends Reducer<Set<Employee>, Set<Employee> >{
++        private class EmployeeReducer extends Reducer<Set<Employee>, Set<Employee>> {
+@@ -1008,5 +1131,5 @@
+-                for(Employee e : set){
+-                    boolean add=true;
+-                    for(int id : removeIds){
+-                        if(e.getId()==id){
+-                            add=false;
++                for (Employee e : set) {
++                    boolean add = true;
++                    for (int id : removeIds) {
++                        if (e.getId() == id) {
++                            add = false;
+@@ -1016 +1139 @@
+-                    if(add){
++                    if (add) {
+@@ -1023 +1146 @@
+-                if(passed.isEmpty()){
++                if (passed.isEmpty()) {
+@@ -1032 +1155 @@
+-    public static class EmployeeCollator implements Collator<Map.Entry<Integer, Set<Employee>>, Map<Integer, Set<Employee>> > {
++    public static class EmployeeCollator implements Collator<Map.Entry<Integer, Set<Employee>>, Map<Integer, Set<Employee>>> {
+@@ -1034 +1157 @@
+-        public Map<Integer, Set<Employee>> collate( Iterable< Map.Entry<Integer, Set<Employee>> > values) {
++        public Map<Integer, Set<Employee>> collate(Iterable<Map.Entry<Integer, Set<Employee>>> values) {
+@@ -1446 +1569 @@
+-        private class ListResultingCombiner extends Combiner<Integer,List<Integer>> {
++        private class ListResultingCombiner extends Combiner<Integer, List<Integer>> {
+diff --git a/hazelcast/src/test/java/com/hazelcast/test/HazelcastParallelClassRunner.java b/hazelcast/src/test/java/com/hazelcast/test/HazelcastParallelClassRunner.java
+index e9b42c8..ee4829d 100644
+--- a/hazelcast/src/test/java/com/hazelcast/test/HazelcastParallelClassRunner.java
++++ b/hazelcast/src/test/java/com/hazelcast/test/HazelcastParallelClassRunner.java
+@@ -32 +32 @@
+-                : Math.max(Runtime.getRuntime().availableProcessors(), 8);
++                : Math.max(Runtime.getRuntime().availableProcessors()/2, 1);
+

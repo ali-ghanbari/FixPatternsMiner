@@ -1,0 +1,8 @@
+diff --git a/oak-pojosr/src/main/java/org/apache/jackrabbit/oak/run/osgi/BundleDescriptorComparator.java b/oak-pojosr/src/main/java/org/apache/jackrabbit/oak/run/osgi/BundleDescriptorComparator.java
+index f95c8d0..00a99cb 100644
+--- a/oak-pojosr/src/main/java/org/apache/jackrabbit/oak/run/osgi/BundleDescriptorComparator.java
++++ b/oak-pojosr/src/main/java/org/apache/jackrabbit/oak/run/osgi/BundleDescriptorComparator.java
+@@ -66 +66 @@
+-        String symbolicName = bd.getHeaders().get(Constants.BUNDLE_SYMBOLICNAME);
++        String symbolicName = ((Map<String, String>) bd.getHeaders()).get(Constants.BUNDLE_SYMBOLICNAME);
+

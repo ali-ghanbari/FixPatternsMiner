@@ -1,0 +1,10 @@
+diff --git a/web/ext/wunderboss-rack/org/projectodd/wunderboss/rack/UndertowRackAdapter.java b/web/ext/wunderboss-rack/org/projectodd/wunderboss/rack/UndertowRackAdapter.java
+index a1313e8..8b1127e 100644
+--- a/web/ext/wunderboss-rack/org/projectodd/wunderboss/rack/UndertowRackAdapter.java
++++ b/web/ext/wunderboss-rack/org/projectodd/wunderboss/rack/UndertowRackAdapter.java
+@@ -119,3 +119 @@
+-        // this HttpString ctor has misleading variable names -
+-        // it's a copy from/to, not offset/length
+-        HttpString httpString = new HttpString(httpBytes, from, to);
++        HttpString httpString = new HttpString(httpBytes, from, to - from);
+

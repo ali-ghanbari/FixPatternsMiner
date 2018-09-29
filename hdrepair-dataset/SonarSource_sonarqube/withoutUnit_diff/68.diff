@@ -1,0 +1,8 @@
+diff --git a/sonar-server/src/main/java/org/sonar/server/db/migrations/v44/MeasureDataMigration.java b/sonar-server/src/main/java/org/sonar/server/db/migrations/v44/MeasureDataMigration.java
+index 9b94ae6..10bae82 100644
+--- a/sonar-server/src/main/java/org/sonar/server/db/migrations/v44/MeasureDataMigration.java
++++ b/sonar-server/src/main/java/org/sonar/server/db/migrations/v44/MeasureDataMigration.java
+@@ -73 +73 @@
+-          return "UPDATE project_measures m SET m.measure_data = (SELECT md.data FROM measure_data md WHERE md.id = ?) WHERE m.id=?";
++          return "UPDATE project_measures SET measure_data = (SELECT md.data FROM measure_data md WHERE md.id = ?) WHERE id=?";
+

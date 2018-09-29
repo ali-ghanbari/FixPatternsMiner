@@ -1,0 +1,8 @@
+diff --git a/core/java/android/widget/GridLayout.java b/core/java/android/widget/GridLayout.java
+index cb10d0a..4d9ff0f 100644
+--- a/core/java/android/widget/GridLayout.java
++++ b/core/java/android/widget/GridLayout.java
+@@ -661 +661 @@
+-        final int count = (axis.definedCount != UNDEFINED) ? axis.definedCount : 0;
++        final int count = max(0, axis.getCount()); // Handle negative values, including UNDEFINED
+

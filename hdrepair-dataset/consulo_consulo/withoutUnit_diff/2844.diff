@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/psi/impl/source/xml/XmlTagImpl.java b/source/com/intellij/psi/impl/source/xml/XmlTagImpl.java
+index 45576cf..bb75ae7 100644
+--- a/source/com/intellij/psi/impl/source/xml/XmlTagImpl.java
++++ b/source/com/intellij/psi/impl/source/xml/XmlTagImpl.java
+@@ -749 +749 @@
+-        if ((declaration != null && declaration.getContainingFile().isPhysical()) // filtring out generated dtds
++        if ((declaration != null && declaration.getContainingFile() != null && declaration.getContainingFile().isPhysical()) // filtring out generated dtds
+

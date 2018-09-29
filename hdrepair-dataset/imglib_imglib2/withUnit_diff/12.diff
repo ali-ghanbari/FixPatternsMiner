@@ -1,0 +1,28 @@
+diff --git a/imglib2/algorithms/src/main/java/net/imglib2/algorithm/labeling/AllConnectedComponents.java b/imglib2/algorithms/src/main/java/net/imglib2/algorithm/labeling/AllConnectedComponents.java
+index 93ca645..663a0fb 100644
+--- a/imglib2/algorithms/src/main/java/net/imglib2/algorithm/labeling/AllConnectedComponents.java
++++ b/imglib2/algorithms/src/main/java/net/imglib2/algorithm/labeling/AllConnectedComponents.java
+@@ -52 +52 @@
+-				long [] newStorage = new long [storage.length * 3 / 2];
++				long [] newStorage = new long [(this.position * 3 / 2) * dimensions];
+diff --git a/imglib2/algorithms/src/test/java/tests/labeling/AllConnectedComponentsTest.java b/imglib2/algorithms/src/test/java/tests/labeling/AllConnectedComponentsTest.java
+index e16a5a4..f590add 100644
+--- a/imglib2/algorithms/src/test/java/tests/labeling/AllConnectedComponentsTest.java
++++ b/imglib2/algorithms/src/test/java/tests/labeling/AllConnectedComponentsTest.java
+@@ -166,0 +167,15 @@
++	public void testBigBigObject() {
++		/*
++		 * This is a regression test of a bug reported
++		 * by Jean-Yves Tinevez. The code should fail on a
++		 * 2-d array that needs to push more than 675 / 2 elements.
++		 */
++		boolean [][] input = new boolean [100][100];
++		int [][] expected = new int [100][100];
++		for (int i=0;i<input.length; i++) {
++			Arrays.fill(input[i], true);
++			Arrays.fill(expected[i], 1);
++		}
++		test2D(input, expected, null, 1, 0);
++	}
++	@Test
+

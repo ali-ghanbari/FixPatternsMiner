@@ -1,0 +1,31 @@
+diff --git a/modules/core/util/src/main/java/org/rhq/core/util/stream/StreamUtil.java b/modules/core/util/src/main/java/org/rhq/core/util/stream/StreamUtil.java
+index 6210fbf..a3170e5 100644
+--- a/modules/core/util/src/main/java/org/rhq/core/util/stream/StreamUtil.java
++++ b/modules/core/util/src/main/java/org/rhq/core/util/stream/StreamUtil.java
+@@ -254 +254 @@
+-                    String htmlEncodedStr = forHTMLTag(new String(buffer));
++                    String htmlEncodedStr = forHTMLTag(new String(buffer, 0, bytesRead));
+diff --git a/modules/core/util/src/test/java/org/rhq/core/util/stream/StreamUtilTest.java b/modules/core/util/src/test/java/org/rhq/core/util/stream/StreamUtilTest.java
+index 071ea23..bceecce 100644
+--- a/modules/core/util/src/test/java/org/rhq/core/util/stream/StreamUtilTest.java
++++ b/modules/core/util/src/test/java/org/rhq/core/util/stream/StreamUtilTest.java
+@@ -38,0 +39,18 @@
++    public void testEscapeHtml() {
++        String dataString = "string with chars to be HTML-escaped: <>&|,'\"\\";
++        String escapedString = "string with chars to be HTML-escaped: &lt;&gt;&amp;&#124;&#44;&#039;&quot;&#092;";
++
++        // baseline check - see that not escaping works as usual
++        ByteArrayInputStream in = new ByteArrayInputStream(dataString.getBytes());
++        ByteArrayOutputStream out = new ByteArrayOutputStream();
++        assert StreamUtil.copy(in, out, true, false) == dataString.length();
++        assert out.toString().equals(dataString);
++
++        // now see that escaping works making sure copy() returns the proper count, too
++        in = new ByteArrayInputStream(dataString.getBytes());
++        out = new ByteArrayOutputStream();
++        long bytesRead = StreamUtil.copy(in, out, true, true);
++        assert bytesRead == escapedString.length() : "bad count: " + bytesRead + "<->" + escapedString.length();
++        assert out.toString().equals(escapedString);
++    }
++
+

@@ -1,0 +1,49 @@
+diff --git a/rultor-web/src/main/java/com/rultor/web/StandRs.java b/rultor-web/src/main/java/com/rultor/web/StandRs.java
+index 802ead4..698fd16 100644
+--- a/rultor-web/src/main/java/com/rultor/web/StandRs.java
++++ b/rultor-web/src/main/java/com/rultor/web/StandRs.java
+@@ -175 +175 @@
+-                        new JaxbBundle("container"),
++                        new JaxbBundle("div"),
+diff --git a/rultor-web/src/main/resources/com/rultor/web/fetch.xsl b/rultor-web/src/main/resources/com/rultor/web/fetch.xsl
+index 6780006..eeb4d85 100644
+--- a/rultor-web/src/main/resources/com/rultor/web/fetch.xsl
++++ b/rultor-web/src/main/resources/com/rultor/web/fetch.xsl
+@@ -31,6 +31,2 @@
+-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+-    version="2.0"
+-    xmlns="http://www.w3.org/1999/xhtml"
+-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+-    exclude-result-prefixes="xs">
+-    <xsl:output method="xml" indent="yes"/>
++<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xmlns="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs">
++    <xsl:output method="xml" indent="no"/>
+@@ -38,0 +35,5 @@
++    <xsl:template match="@*|node()">
++        <xsl:copy>
++            <xsl:apply-templates select="@*|node()"/>
++        </xsl:copy>
++    </xsl:template>
+@@ -41 +42 @@
+-            <xsl:apply-templates select="//snapshot" />
++            <xsl:apply-templates select="node()" />
+diff --git a/rultor-web/src/test/java/com/rultor/web/StandRsTest.java b/rultor-web/src/test/java/com/rultor/web/StandRsTest.java
+index a5d06a6..96b74eb 100644
+--- a/rultor-web/src/test/java/com/rultor/web/StandRsTest.java
++++ b/rultor-web/src/test/java/com/rultor/web/StandRsTest.java
+@@ -53,0 +54 @@
++ * @checkstyle ClassDataAbstractionCoupling (500 lines)
+@@ -94 +95 @@
+-            XhtmlMatchers.hasXPath("//xhtml:div")
++            XhtmlMatchers.hasXPath("/div//xhtml:ul")
+@@ -109,3 +110,3 @@
+-                            .xpath("/snapshot")
+-                            .add("start")
+-                            .set("2012-08-23T15:00:00Z")
++                            .add("start").set("2012-08-23T15:00:00Z").up()
++                            .add("products").add("product")
++                            .add("markdown").set("hello!")
+@@ -118 +119 @@
+-                "/xhtml:div/xhtml:ul"
++                "//xhtml:ul"
+

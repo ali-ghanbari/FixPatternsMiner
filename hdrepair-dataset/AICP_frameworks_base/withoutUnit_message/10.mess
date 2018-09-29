@@ -1,0 +1,11 @@
+fix CTS DisplayTest.testGetMetrics()
+
+The test asserts the second display's DPI settings are what they should
+be that it creates. However, DisplayInfo.getMetricsWithSize() method was
+calling updateDensity() which actually resets internal members to the
+primary screen's current setup (which is persisted via a build.prop
+setting).
+
+Change-Id: I589d56e98fd76f091e3105df099e5d7efd8b853e
+Signed-off-by: Roman Birg <roman@cyngn.com>
+

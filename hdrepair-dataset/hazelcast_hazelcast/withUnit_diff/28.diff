@@ -1,0 +1,83 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/topic/impl/TopicService.java b/hazelcast/src/main/java/com/hazelcast/topic/impl/TopicService.java
+index 2173186..a9f1f8f 100644
+--- a/hazelcast/src/main/java/com/hazelcast/topic/impl/TopicService.java
++++ b/hazelcast/src/main/java/com/hazelcast/topic/impl/TopicService.java
+@@ -117,0 +118 @@
++        nodeEngine.getEventService().deregisterAllListeners(SERVICE_NAME, objectId);
+diff --git a/hazelcast/src/test/java/com/hazelcast/topic/TopicDestroyTest.java b/hazelcast/src/test/java/com/hazelcast/topic/TopicDestroyTest.java
+new file mode 100644
+index 0000000..cc94b1f
+--- /dev/null
++++ b/hazelcast/src/test/java/com/hazelcast/topic/TopicDestroyTest.java
+@@ -0,0 +1,69 @@
++package com.hazelcast.topic;
++
++import com.hazelcast.core.HazelcastInstance;
++import com.hazelcast.core.ITopic;
++import com.hazelcast.core.Message;
++import com.hazelcast.core.MessageListener;
++import com.hazelcast.spi.EventRegistration;
++import com.hazelcast.spi.EventService;
++import com.hazelcast.test.HazelcastSerialClassRunner;
++import com.hazelcast.test.HazelcastTestSupport;
++import com.hazelcast.test.annotation.QuickTest;
++import com.hazelcast.topic.impl.TopicService;
++import org.junit.Before;
++import org.junit.Test;
++import org.junit.experimental.categories.Category;
++import org.junit.runner.RunWith;
++
++import java.util.Collection;
++
++import static org.junit.Assert.assertEquals;
++
++
++@RunWith(HazelcastSerialClassRunner.class)
++@Category(QuickTest.class)
++public class TopicDestroyTest extends HazelcastTestSupport {
++
++    HazelcastInstance instance;
++    ITopic topic;
++    String name;
++
++    @Before
++    public void setup() {
++        instance = createHazelcastInstance();
++        name = randomString();
++        topic = instance.getTopic(name);
++
++    }
++
++    @Test
++    public void testDestroyTopicRemovesListeners() {
++
++        topic.addMessageListener(new EmptyListener());
++
++        topic.destroy();
++
++        assertRegistrationSize(0);
++    }
++
++    @Test
++    public void testRemovingListenersRemovesRegistrations() {
++
++        String registrationId = topic.addMessageListener(new EmptyListener());
++        topic.removeMessageListener(registrationId);
++
++        assertRegistrationSize(0);
++    }
++
++    void assertRegistrationSize(int size) {
++        final EventService eventService = getNode(instance).getNodeEngine().getEventService();
++        Collection<EventRegistration> regs = eventService.getRegistrations(TopicService.SERVICE_NAME, name);
++        assertEquals(size, regs.size());
++    }
++
++    static class EmptyListener implements MessageListener {
++        @Override
++        public void onMessage(Message message) {
++        }
++    }
++}
+\ No newline at end of file
+

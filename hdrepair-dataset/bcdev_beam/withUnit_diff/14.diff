@@ -1,0 +1,30 @@
+diff --git a/beam-obpg-reader/src/main/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn.java b/beam-obpg-reader/src/main/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn.java
+index 0785d99..a63a658 100644
+--- a/beam-obpg-reader/src/main/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn.java
++++ b/beam-obpg-reader/src/main/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn.java
+@@ -31 +31 @@
+-    private static final String DEFAULT_FILE_EXTENSION_L2_LAC_SST = DEFAULT_FILE_EXTENSION_L2_LAC + "SST";
++    private static final String DEFAULT_FILE_EXTENSION_L2_LAC_SST = DEFAULT_FILE_EXTENSION_L2_LAC + "_SST";
+diff --git a/beam-obpg-reader/src/test/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn_Test.java b/beam-obpg-reader/src/test/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn_Test.java
+index 56ed644..36fe0aa 100644
+--- a/beam-obpg-reader/src/test/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn_Test.java
++++ b/beam-obpg-reader/src/test/java/org/esa/beam/dataio/obpg/ObpgProductReaderPlugIn_Test.java
+@@ -37 +37 @@
+-        assertEquals(3, fileExtensions.length);
++        assertEquals(6, fileExtensions.length);
+@@ -40 +40,4 @@
+-        assertEquals(".L2_MLAC", fileExtensions[2]);
++        assertEquals(".L2_LAC_OC", fileExtensions[2]);
++        assertEquals(".L2_LAC_SST", fileExtensions[3]);
++        assertEquals(".L2_LAC_SST4", fileExtensions[4]);
++        assertEquals(".L2_MLAC", fileExtensions[5]);
+@@ -74 +77 @@
+-        assertEquals(3, extensions.length);
++        assertEquals(6, extensions.length);
+@@ -77 +80,4 @@
+-        assertEquals(".L2_MLAC", extensions[2]);
++        assertEquals(".L2_LAC_OC", extensions[2]);
++        assertEquals(".L2_LAC_SST", extensions[3]);
++        assertEquals(".L2_LAC_SST4", extensions[4]);
++        assertEquals(".L2_MLAC", extensions[5]);
+

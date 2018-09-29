@@ -1,0 +1,72 @@
+diff --git a/app/com/baasbox/db/DbHelper.java b/app/com/baasbox/db/DbHelper.java
+index b14c48d..211b0df 100644
+--- a/app/com/baasbox/db/DbHelper.java
++++ b/app/com/baasbox/db/DbHelper.java
+@@ -202 +202 @@
+-		UserService.signUp(username, password, null,null,null,null);
++		UserService.signUp(username, password,DefaultRoles.ANONYMOUS_USER.toString(), null,null,null,null);
+diff --git a/app/views/admin/login.scala.html b/app/views/admin/login.scala.html
+index b114e64..6bb38d2 100644
+--- a/app/views/admin/login.scala.html
++++ b/app/views/admin/login.scala.html
+@@ -12 +12 @@
+-					<h2>v.@version<br>Admin Panel</h2>
++					<h2>v.@version<br>Admin Console</h2>
+diff --git a/app/views/admin/main_/content_/users_/adduser.scala.html b/app/views/admin/main_/content_/users_/adduser.scala.html
+index af350b2..8aca630 100644
+--- a/app/views/admin/main_/content_/users_/adduser.scala.html
++++ b/app/views/admin/main_/content_/users_/adduser.scala.html
+@@ -48 +48 @@
+-								<label class="control-label" for="txtVisibleByTheUser">Visible By The User</label>
++								<label class="control-label" for="txtVisibleByTheUser">Private profile fields(visible only by the user itself)</label>
+@@ -54 +54 @@
+-								<label class="control-label" for="txtVisibleByFriend">Visible By Friend</label>
++								<label class="control-label" for="txtVisibleByFriend">Fields visibles also by friends</label>
+@@ -60 +60 @@
+-								<label class="control-label" for="txtVisibleByRegisteredUsers">Visible By Registered Users</label>
++								<label class="control-label" for="txtVisibleByRegisteredUsers">Fields visible by all the registered users</label>
+@@ -66 +66 @@
+-								<label class="control-label" for="txtVisibleByAnonymousUsers">Visible By Anonymous Users</label>
++								<label class="control-label" for="txtVisibleByAnonymousUsers">Fields visible anyone(even by the anonymous users)</label>
+diff --git a/app/views/admin/main_/topbar.scala.html b/app/views/admin/main_/topbar.scala.html
+index 77af2c0..63d7440 100644
+--- a/app/views/admin/main_/topbar.scala.html
++++ b/app/views/admin/main_/topbar.scala.html
+@@ -56 +56 @@
+-								<input placeholder="Search" class="search-query span2" name="query" type="text">
++								<!-- <input placeholder="Search" class="search-query span2" name="query" type="text">  -->
+diff --git a/project/Build.scala b/project/Build.scala
+index 559418a..b2fdd7c 100644
+--- a/project/Build.scala
++++ b/project/Build.scala
+@@ -12 +12 @@
+-    			"commons-io" % "commons-io" % "2.4",
++    			
+diff --git a/public/console/css/charisma-app.css b/public/console/css/charisma-app.css
+index 0da4941..43fc0cc 100644
+--- a/public/console/css/charisma-app.css
++++ b/public/console/css/charisma-app.css
+@@ -397 +397 @@
+-width: 50px;
++width: 77px;
+diff --git a/public/console/js/charisma.js b/public/console/js/charisma.js
+index 0e88575..8ee42c6 100644
+--- a/public/console/js/charisma.js
++++ b/public/console/js/charisma.js
+@@ -106 +106 @@
+-	$('textarea.autogrow').autogrow();
++	$('.autogrow').autogrow();
+@@ -110,5 +109,0 @@
+-
+-	//file manager
+-	var elf = $('.file-manager').elfinder({
+-		url : 'misc/elfinder-connector/connector.php'  // connector URL (REQUIRED)
+-	}).elfinder('instance');
+@@ -124,6 +118,0 @@
+-	//uploadify - multiple uploads
+-	$('#file_upload').uploadify({
+-		'swf'      : 'misc/uploadify.swf',
+-		'uploader' : 'misc/uploadify.php'
+-		// Put your options here
+-	});
+

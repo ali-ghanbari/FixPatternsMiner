@@ -1,0 +1,15 @@
+diff --git a/src/main/java/com/twilio/sdk/verbs/Sip.java b/src/main/java/com/twilio/sdk/verbs/Sip.java
+index 9f713ac..027e2d8 100644
+--- a/src/main/java/com/twilio/sdk/verbs/Sip.java
++++ b/src/main/java/com/twilio/sdk/verbs/Sip.java
+@@ -86 +86 @@
+-		this.set("statusCallbackEvents", events);
++		this.set("statusCallbackEvent", events);
+diff --git a/src/test/java/com/twilio/sdk/verbs/SipTest.java b/src/test/java/com/twilio/sdk/verbs/SipTest.java
+index f0f5d2d..1ad4a9d 100644
+--- a/src/test/java/com/twilio/sdk/verbs/SipTest.java
++++ b/src/test/java/com/twilio/sdk/verbs/SipTest.java
+@@ -44 +44 @@
+-		assertEquals("<Sip statusCallback=\"http://example.com\" statusCallbackMethod=\"POST\" statusCallbackEvents=\"ringing completed\"><Uri>sip:alice@twilio.com;transport=udp</Uri></Sip>",
++		assertEquals("<Sip statusCallback=\"http://example.com\" statusCallbackMethod=\"POST\" statusCallbackEvent=\"ringing completed\"><Uri>sip:alice@twilio.com;transport=udp</Uri></Sip>",
+

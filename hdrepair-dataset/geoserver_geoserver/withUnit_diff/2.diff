@@ -1,0 +1,44 @@
+diff --git a/src/web/demo/src/main/java/org/geoserver/web/demo/PreviewLayer.java b/src/web/demo/src/main/java/org/geoserver/web/demo/PreviewLayer.java
+index 36f7910..5a1253d 100644
+--- a/src/web/demo/src/main/java/org/geoserver/web/demo/PreviewLayer.java
++++ b/src/web/demo/src/main/java/org/geoserver/web/demo/PreviewLayer.java
+@@ -61 +61 @@
+-            return groupInfo.getName();
++            return groupInfo.prefixedName();
+diff --git a/src/web/demo/src/test/java/org/geoserver/web/demo/PreviewLayerProviderTest.java b/src/web/demo/src/test/java/org/geoserver/web/demo/PreviewLayerProviderTest.java
+index 75dcd98..d49e7ec 100644
+--- a/src/web/demo/src/test/java/org/geoserver/web/demo/PreviewLayerProviderTest.java
++++ b/src/web/demo/src/test/java/org/geoserver/web/demo/PreviewLayerProviderTest.java
+@@ -11,0 +12 @@
++import org.geoserver.catalog.WorkspaceInfo;
+@@ -48 +49 @@
+-        group.setMode(LayerGroupInfo.Mode.SINGLE);        
++        group.setMode(LayerGroupInfo.Mode.SINGLE);
+@@ -61,2 +62,24 @@
+-        }        
+-    }    
++        }
++    }
++    
++    @Test
++    public void testWorkspacedLayerGroup() throws Exception {
++        String layerId = getLayerId(MockData.BUILDINGS);
++        LayerInfo layer = getCatalog().getLayerByName(layerId);
++        WorkspaceInfo ws = getCatalog().getWorkspaceByName("cite");
++        
++        LayerGroupInfo group = getCatalog().getFactory().createLayerGroup();
++        group.setName("testWorkspacedLayerGroup");
++        group.setMode(LayerGroupInfo.Mode.SINGLE);
++        group.setWorkspace(ws);
++        group.getLayers().add(layer);
++        getCatalog().add(group);
++        try {
++            PreviewLayerProvider provider = new PreviewLayerProvider();
++            PreviewLayer pl = getPreviewLayer(provider, group.prefixedName());
++            assertNotNull(pl);
++            assertEquals("cite:testWorkspacedLayerGroup", pl.getName());
++        } finally {
++            getCatalog().remove(group);
++        }
++    }
+

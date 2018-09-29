@@ -1,0 +1,61 @@
+diff --git a/src/main/java/org/rythmengine/template/TemplateBase.java b/src/main/java/org/rythmengine/template/TemplateBase.java
+index 1cf78e1..80d1f75 100755
+--- a/src/main/java/org/rythmengine/template/TemplateBase.java
++++ b/src/main/java/org/rythmengine/template/TemplateBase.java
+@@ -468,0 +469 @@
++        tmpl.layoutSections0 = new HashMap<String, String>();
+diff --git a/src/test/java/org/rythmengine/issue/GHIssueTest.java b/src/test/java/org/rythmengine/issue/GHIssueTest.java
+index 3c036e5..4d960e7 100755
+--- a/src/test/java/org/rythmengine/issue/GHIssueTest.java
++++ b/src/test/java/org/rythmengine/issue/GHIssueTest.java
+@@ -355 +355,11 @@
+-    
++
++    @Test
++    public void test237() {
++        t = "gh237/tmpl1.html";
++        s = r(t);
++        assertTrue(s.contains("tmpl1"));
++
++        t = "gh237/tmpl2.html";
++        s = r(t);
++        assertTrue(s.contains("tmpl2"));
++    }
+diff --git a/src/test/resources/root/gh237/base0.html b/src/test/resources/root/gh237/base0.html
+new file mode 100644
+index 0000000..1009a3b
+--- /dev/null
++++ b/src/test/resources/root/gh237/base0.html
+@@ -0,0 +1 @@
++@render()
+\ No newline at end of file
+diff --git a/src/test/resources/root/gh237/base1.html b/src/test/resources/root/gh237/base1.html
+new file mode 100644
+index 0000000..e6cff43
+--- /dev/null
++++ b/src/test/resources/root/gh237/base1.html
+@@ -0,0 +1,6 @@
++@extends(base0)
++@args String title
++@render(pageHeader) {
++@title
++}
++@render()
+\ No newline at end of file
+diff --git a/src/test/resources/root/gh237/tmpl1.html b/src/test/resources/root/gh237/tmpl1.html
+new file mode 100644
+index 0000000..3650b34
+--- /dev/null
++++ b/src/test/resources/root/gh237/tmpl1.html
+@@ -0,0 +1 @@
++@extends(base1, title: "tmpl1")
+\ No newline at end of file
+diff --git a/src/test/resources/root/gh237/tmpl2.html b/src/test/resources/root/gh237/tmpl2.html
+new file mode 100644
+index 0000000..7ac6dfd
+--- /dev/null
++++ b/src/test/resources/root/gh237/tmpl2.html
+@@ -0,0 +1 @@
++@extends(base1, title: "tmpl2")
+\ No newline at end of file
+

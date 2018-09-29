@@ -1,0 +1,89 @@
+diff --git a/services/java/com/android/server/ServiceWatcher.java b/services/java/com/android/server/ServiceWatcher.java
+index 67f926a..2e7c6d1 100644
+--- a/services/java/com/android/server/ServiceWatcher.java
++++ b/services/java/com/android/server/ServiceWatcher.java
+@@ -180 +180 @@
+-                | Context.BIND_NOT_VISIBLE, mCurrentUserId);
++                | Context.BIND_ALLOW_OOM_MANAGEMENT | Context.BIND_NOT_VISIBLE, mCurrentUserId);
+diff --git a/tools/aapt/Bundle.h b/tools/aapt/Bundle.h
+index 5089b9d..fde3bd6 100644
+--- a/tools/aapt/Bundle.h
++++ b/tools/aapt/Bundle.h
+@@ -41 +40,0 @@
+-    kCommandSingleCrunch,
+@@ -66 +64,0 @@
+-          mSingleCrunchInputFile(NULL), mSingleCrunchOutputFile(NULL),
+@@ -181,4 +178,0 @@
+-    const char* getSingleCrunchInputFile() const { return mSingleCrunchInputFile; }
+-    void setSingleCrunchInputFile(const char* val) { mSingleCrunchInputFile = val; }
+-    const char* getSingleCrunchOutputFile() const { return mSingleCrunchOutputFile; }
+-    void setSingleCrunchOutputFile(const char* val) { mSingleCrunchOutputFile = val; }
+@@ -292,2 +285,0 @@
+-    const char* mSingleCrunchInputFile;
+-    const char* mSingleCrunchOutputFile;
+diff --git a/tools/aapt/Command.cpp b/tools/aapt/Command.cpp
+index c3a0930..08d6554 100644
+--- a/tools/aapt/Command.cpp
++++ b/tools/aapt/Command.cpp
+@@ -10 +9,0 @@
+-#include "Images.h"
+diff --git a/tools/aapt/Main.cpp b/tools/aapt/Main.cpp
+index 32fecb2..f398de0 100644
+--- a/tools/aapt/Main.cpp
++++ b/tools/aapt/Main.cpp
+@@ -88,5 +88 @@
+-        "   Do PNG preprocessing on one or several resource folders\n"
+-        "   and store the results in the output folder.\n\n", gProgName);
+-    fprintf(stderr,
+-        " %s s[ingleCrunch] [-v] -i input-file -o outputfile\n"
+-        "   Do PNG preprocessing on a single file.\n\n", gProgName);
++        "   Do PNG preprocessing and store the results in output folder.\n\n", gProgName);
+@@ -210,8 +206,7 @@
+-    case kCommandVersion:      return doVersion(bundle);
+-    case kCommandList:         return doList(bundle);
+-    case kCommandDump:         return doDump(bundle);
+-    case kCommandAdd:          return doAdd(bundle);
+-    case kCommandRemove:       return doRemove(bundle);
+-    case kCommandPackage:      return doPackage(bundle);
+-    case kCommandCrunch:       return doCrunch(bundle);
+-    case kCommandSingleCrunch: return doSingleCrunch(bundle);
++    case kCommandVersion:   return doVersion(bundle);
++    case kCommandList:      return doList(bundle);
++    case kCommandDump:      return doDump(bundle);
++    case kCommandAdd:       return doAdd(bundle);
++    case kCommandRemove:    return doRemove(bundle);
++    case kCommandPackage:   return doPackage(bundle);
++    case kCommandCrunch:    return doCrunch(bundle);
+@@ -257,2 +251,0 @@
+-    else if (argv[1][0] == 's')
+-        bundle.setCommand(kCommandSingleCrunch);
+@@ -436,22 +428,0 @@
+-                break;
+-            case 'i':
+-                argc--;
+-                argv++;
+-                if (!argc) {
+-                    fprintf(stderr, "ERROR: No argument supplied for '-i' option\n");
+-                    wantUsage = true;
+-                    goto bail;
+-                }
+-                convertPath(argv[0]);
+-                bundle.setSingleCrunchInputFile(argv[0]);
+-                break;
+-            case 'o':
+-                argc--;
+-                argv++;
+-                if (!argc) {
+-                    fprintf(stderr, "ERROR: No argument supplied for '-o' option\n");
+-                    wantUsage = true;
+-                    goto bail;
+-                }
+-                convertPath(argv[0]);
+-                bundle.setSingleCrunchOutputFile(argv[0]);
+diff --git a/tools/aapt/Main.h b/tools/aapt/Main.h
+index a6b39ac..d20c601 100644
+--- a/tools/aapt/Main.h
++++ b/tools/aapt/Main.h
+@@ -32 +31,0 @@
+-extern int doSingleCrunch(Bundle* bundle);
+

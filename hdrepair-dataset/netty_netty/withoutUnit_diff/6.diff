@@ -1,0 +1,8 @@
+diff --git a/buffer/src/main/java/io/netty/buffer/PoolThreadCache.java b/buffer/src/main/java/io/netty/buffer/PoolThreadCache.java
+index 755f157..fbcfaaf 100644
+--- a/buffer/src/main/java/io/netty/buffer/PoolThreadCache.java
++++ b/buffer/src/main/java/io/netty/buffer/PoolThreadCache.java
+@@ -132 +132 @@
+-            int arraySize = Math.max(1, max / area.pageSize);
++            int arraySize = Math.max(1, log2(max / area.pageSize) + 1);
+

@@ -1,0 +1,15 @@
+Fix issue 2604270  Device auto connects to Car Dock (Media profile) after undocking.
+
+There was a regression introduced by change 4c637b9e34f4c8db69a64ad21a4e2bcfa7485b5f
+fixing issue 2578813. As the A2DP device disconnection is notified to the audio policy manager
+after a delay, there is a period during which the A2DP device is actually not connected but the
+A2DP output is considered present by audio framework. If a playback is started during this period,
+The A2DP output requests the activation of the A2DP sink which in turn triggers a reconnection
+of the A2DP sink.
+
+The fix consists in suspending the A2DP output immediately when receiving the A2DP disconnection
+intent so that any activity on A2DP output is ignored until the output is actually closed by the
+audio policy manager.
+
+Change-Id: I16eaace45e12bfc970f50836b46a73b756b493f0
+

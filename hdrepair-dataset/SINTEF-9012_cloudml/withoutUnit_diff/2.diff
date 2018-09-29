@@ -1,0 +1,50 @@
+diff --git a/codecs/kmf/metamodel/CloudML-2.0.ecore b/codecs/kmf/metamodel/CloudML-2.0.ecore
+index 081a600..5df4cb6 100644
+--- a/codecs/kmf/metamodel/CloudML-2.0.ecore
++++ b/codecs/kmf/metamodel/CloudML-2.0.ecore
+@@ -77,0 +78,2 @@
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="providerSpecificName"
++          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+diff --git a/connectors/pom.xml b/connectors/pom.xml
+index 12112fa..9cbfcd6 100644
+--- a/connectors/pom.xml
++++ b/connectors/pom.xml
+@@ -59,0 +60,6 @@
++            <groupId>org.apache.httpcomponents</groupId>
++            <artifactId>httpcore</artifactId>
++            <version>4.3</version>
++        </dependency>
++
++        <dependency>
+@@ -144,6 +149,0 @@
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>org.apache.httpcomponents</groupId>
+-            <artifactId>httpcore</artifactId>
+-            <version>4.3</version>
+diff --git a/connectors/src/main/java/org/cloudml/connectors/CloudFoundryConnector.java b/connectors/src/main/java/org/cloudml/connectors/CloudFoundryConnector.java
+index 829982e..6ed23a6 100644
+--- a/connectors/src/main/java/org/cloudml/connectors/CloudFoundryConnector.java
++++ b/connectors/src/main/java/org/cloudml/connectors/CloudFoundryConnector.java
+@@ -80 +80 @@
+-        return appName + "." + (domainName.equals("")? defaultDomainName : domainName);
++        return appName + "." + ((domainName.equals("") || domainName.equals(appName))? defaultDomainName : domainName);
+diff --git a/deployer/pom.xml b/deployer/pom.xml
+index 53c61b9..cc46be8 100644
+--- a/deployer/pom.xml
++++ b/deployer/pom.xml
+@@ -83 +83 @@
+-            <version>4.2</version>
++            <version>4.3</version>
+@@ -95 +95 @@
+-            <version>3.0.4.RELEASE</version>
++            <version>4.0.5.RELEASE</version>
+diff --git a/monitoring/pom.xml b/monitoring/pom.xml
+index e776a8b..73adc3f 100644
+--- a/monitoring/pom.xml
++++ b/monitoring/pom.xml
+@@ -65 +65 @@
+-            <version>4.2</version>
++            <version>4.3</version>
+

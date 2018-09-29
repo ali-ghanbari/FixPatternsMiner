@@ -1,0 +1,15 @@
+diff --git a/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java b/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java
+index d421360..73c4023 100644
+--- a/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java
++++ b/src/main/java/org/atlasapi/remotesite/channel4/epg/C4EpgEntryProcessor.java
+@@ -184 +184 @@
+-        	if (!version.getManifestedAs().contains(encoding)) {
++        	if (!encoding.getAvailableAt().isEmpty() && !version.getManifestedAs().contains(encoding)) {
+diff --git a/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgBrandlessEntryProcessorTest.java b/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgBrandlessEntryProcessorTest.java
+index 6902ba3..d96ef37 100644
+--- a/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgBrandlessEntryProcessorTest.java
++++ b/src/test/java/org/atlasapi/remotesite/channel4/epg/C4EpgBrandlessEntryProcessorTest.java
+@@ -88 +88 @@
+-                assertThat(version.getManifestedAs().isEmpty(), is(true));
++                assertEquals(ImmutableSet.of(), version.getManifestedAs());
+

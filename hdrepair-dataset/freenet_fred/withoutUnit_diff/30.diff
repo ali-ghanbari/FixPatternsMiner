@@ -1,0 +1,14 @@
+diff --git a/src/freenet/node/fcp/FCPPluginClient.java b/src/freenet/node/fcp/FCPPluginClient.java
+index 2d634db..d7190d3 100644
+--- a/src/freenet/node/fcp/FCPPluginClient.java
++++ b/src/freenet/node/fcp/FCPPluginClient.java
+@@ -534,3 +534,5 @@
+-     * The messages sent by this function will be delivered to the message handler
+-     * {@link FredPluginFCPMessageHandler#handlePluginFCPMessage(FCPPluginClient, FCPPluginMessage)}
+-     * of the remote side.<br><br>
++     * The messages sent by this function will be delivered to the remote side at either:
++     * - the message handler {@link FredPluginFCPMessageHandler#
++     *   handlePluginFCPMessage(FCPPluginClient, FCPPluginMessage)}.<br>
++     * - or, if existing, a thread waiting for a reply message in
++     *   {@link #sendSynchronous(SendDirection, FCPPluginMessage, long)}.<br><br>
+

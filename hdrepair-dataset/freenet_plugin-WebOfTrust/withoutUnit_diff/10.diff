@@ -1,0 +1,20 @@
+diff --git a/src/plugins/WebOfTrust/IdentityFetcher.java b/src/plugins/WebOfTrust/IdentityFetcher.java
+index b3b5d30..c63e377 100644
+--- a/src/plugins/WebOfTrust/IdentityFetcher.java
++++ b/src/plugins/WebOfTrust/IdentityFetcher.java
+@@ -320 +320,13 @@
+-	
++
++    /**
++     * Synchronization:<br>
++     * This function does neither lock the database nor commit the transaction. You have to surround
++     * it with:<br><code>
++     * synchronized(instance of WebOfTrust) {
++     * synchronized(instance of IdentityFetcher) {
++     * synchronized(Persistent.transactionLock(mDB)) {
++     *     try { ... storeAbortFetchCommandWithoutCommit(id); Persistent.checkedCommit(mDB, this); }
++     *     catch(RuntimeException e) { Persistent.checkedRollbackAndThrow(mDB, this, e); }
++     * }}}
++     * </code>
++     */
+

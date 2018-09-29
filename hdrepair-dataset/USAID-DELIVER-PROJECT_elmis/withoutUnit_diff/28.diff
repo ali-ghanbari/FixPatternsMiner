@@ -1,0 +1,24 @@
+diff --git a/modules/openlmis-web/src/main/webapp/public/js/reports/shared/directives/filters.js b/modules/openlmis-web/src/main/webapp/public/js/reports/shared/directives/filters.js
+index a9cd0d7..9947917 100644
+--- a/modules/openlmis-web/src/main/webapp/public/js/reports/shared/directives/filters.js
++++ b/modules/openlmis-web/src/main/webapp/public/js/reports/shared/directives/filters.js
+@@ -206 +206,3 @@
+-        scope.filter.zone = $routeParams.zone;
++        //scope.filter.zone = $routeParams.zone;
++
++        scope.filter.zone = (isUndefined($routeParams.zone) || $routeParams.zone === '')? 0: $routeParams.zone;
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/reports/shared/filters.html b/modules/openlmis-web/src/main/webapp/public/pages/reports/shared/filters.html
+index b48dea0..4318f91 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/reports/shared/filters.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/reports/shared/filters.html
+@@ -60 +60 @@
+-        <option selected="selected" value="">-- National --</option>
++        <option ng-selected="filter.zone == 0" value="0">-- National --</option>
+diff --git a/modules/report/src/main/java/org/openlmis/report/service/lookup/ReportLookupService.java b/modules/report/src/main/java/org/openlmis/report/service/lookup/ReportLookupService.java
+index fb399cd..0ed3696 100644
+--- a/modules/report/src/main/java/org/openlmis/report/service/lookup/ReportLookupService.java
++++ b/modules/report/src/main/java/org/openlmis/report/service/lookup/ReportLookupService.java
+@@ -305 +305 @@
+-      facilityReportMapper.getFacilitiesByPrgraomScheduleType(program, schedule, type, zone, userId);
++      return facilityReportMapper.getFacilitiesByPrgraomScheduleType(program, schedule, type, zone, userId);
+

@@ -1,0 +1,27 @@
+diff --git a/dropwizard-logging/src/main/java/io/dropwizard/logging/FileAppenderFactory.java b/dropwizard-logging/src/main/java/io/dropwizard/logging/FileAppenderFactory.java
+index 3f7106e..f41c421 100644
+--- a/dropwizard-logging/src/main/java/io/dropwizard/logging/FileAppenderFactory.java
++++ b/dropwizard-logging/src/main/java/io/dropwizard/logging/FileAppenderFactory.java
+@@ -194,0 +195 @@
++            return appender;
+diff --git a/dropwizard-logging/src/test/java/io/dropwizard/logging/FileAppenderFactoryTest.java b/dropwizard-logging/src/test/java/io/dropwizard/logging/FileAppenderFactoryTest.java
+index 83628ce..e7fb8ed 100644
+--- a/dropwizard-logging/src/test/java/io/dropwizard/logging/FileAppenderFactoryTest.java
++++ b/dropwizard-logging/src/test/java/io/dropwizard/logging/FileAppenderFactoryTest.java
+@@ -2,0 +3,3 @@
++import java.lang.reflect.Method;
++import ch.qos.logback.classic.LoggerContext;
++import ch.qos.logback.core.rolling.RollingFileAppender;
+@@ -13,0 +17,11 @@
++
++    @Test
++    public void isRolling() throws Exception {
++        FileAppenderFactory fileAppenderFactory = new FileAppenderFactory ();
++        fileAppenderFactory.setCurrentLogFilename("logfile.log");
++        fileAppenderFactory.setArchive(true);
++        fileAppenderFactory.setArchivedLogFilenamePattern("example-%d.log.gz");
++        Method method = FileAppenderFactory.class.getDeclaredMethod("buildAppender", LoggerContext.class);
++        method.setAccessible (true);
++        assertThat (RollingFileAppender.class.isAssignableFrom (method.invoke (fileAppenderFactory, new LoggerContext ()).getClass ()));
++    }
+

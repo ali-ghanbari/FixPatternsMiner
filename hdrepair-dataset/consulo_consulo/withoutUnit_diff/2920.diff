@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/psi/controlFlow/ControlFlowUtil.java b/source/com/intellij/psi/controlFlow/ControlFlowUtil.java
+index c920d5d..e92cb3d 100644
+--- a/source/com/intellij/psi/controlFlow/ControlFlowUtil.java
++++ b/source/com/intellij/psi/controlFlow/ControlFlowUtil.java
+@@ -1177 +1177 @@
+-      if (!(variable instanceof PsiParameter) && readVars != null) {
++      if (readVars != null && (!(variable instanceof PsiParameter) || ((PsiParameter)variable).getDeclarationScope() instanceof PsiForeachStatement)) {
+

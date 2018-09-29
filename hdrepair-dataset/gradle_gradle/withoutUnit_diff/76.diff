@@ -1,0 +1,46 @@
+diff --git a/subprojects/ide/src/integTest/groovy/org/gradle/plugins/ide/AbstractSourcesAndJavadocJarsIntegrationTest.groovy b/subprojects/ide/src/integTest/groovy/org/gradle/plugins/ide/AbstractSourcesAndJavadocJarsIntegrationTest.groovy
+index ac9c745..8d4548f 100644
+--- a/subprojects/ide/src/integTest/groovy/org/gradle/plugins/ide/AbstractSourcesAndJavadocJarsIntegrationTest.groovy
++++ b/subprojects/ide/src/integTest/groovy/org/gradle/plugins/ide/AbstractSourcesAndJavadocJarsIntegrationTest.groovy
+@@ -203,2 +203,2 @@
+-        module.getArtifact(classifier: "sources", ext: "jar").file << "content"
+-        module.getArtifact(classifier: "javadoc", ext: "jar").file << "content"
++        module.undeclaredArtifact(classifier: "sources", ext: "jar")
++        module.undeclaredArtifact(classifier: "javadoc", ext: "jar")
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
+index 17fd297..fad1431 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
+@@ -76,0 +77,5 @@
++    IvyFileModule undeclaredArtifact(Map<String, ?> options) {
++        artifact(options + [undeclared: true])
++        return this
++    }
++
+@@ -196 +201,2 @@
+-                ivyFileWriter << """<artifact name="${artifact.name}" type="${artifact.type}" ext="${artifact.ext}" conf="${artifact.conf}" m:classifier="${artifact.classifier ?: ''}"/>
++                if (!artifact.undeclared) {
++                    ivyFileWriter << """<artifact name="${artifact.name}" type="${artifact.type}" ext="${artifact.ext}" conf="${artifact.conf}" m:classifier="${artifact.classifier ?: ''}"/>
+@@ -197,0 +204 @@
++                }
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
+index d290b23..eb9bae7 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
+@@ -87,0 +88,5 @@
++    IvyHttpModule undeclaredArtifact(Map<String, ?> options = [:]) {
++        backingModule.undeclaredArtifact(options)
++        return this
++    }
++
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
+index 7ba4fb7..76e43f7 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
+@@ -48,0 +49,5 @@
++    /**
++     * Adds an artifact that is not declared in the ivy.xml file.
++     */
++    IvyModule undeclaredArtifact(Map<String, ?> options);
++
+

@@ -1,0 +1,18 @@
+diff --git a/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/CodeSelectCategoriesTest.java b/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/CodeSelectCategoriesTest.java
+index aac8f0a..327f77b 100644
+--- a/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/CodeSelectCategoriesTest.java
++++ b/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/CodeSelectCategoriesTest.java
+@@ -33 +33 @@
+-        String contents = "each { }";
++        String contents = "this.each { }";
+@@ -41 +41 @@
+-        assertEquals("Should have found local variable 'each'", "each", elt[0].getElementName());
++        assertEquals("Should have found local variable 'each'.  Why is this still aproblem?", "each", elt[0].getElementName());
+diff --git a/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/FindSurroundingNodeTests.java b/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/FindSurroundingNodeTests.java
+index b2c30ad..23ed03c 100644
+--- a/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/FindSurroundingNodeTests.java
++++ b/ide-test/org.codehaus.groovy.eclipse.codebrowsing.test/src/org/codehaus/groovy/eclipse/codebrowsing/tests/FindSurroundingNodeTests.java
+@@ -94 +94 @@
+-        String contents = "foo().foo()";
++        String contents = "foo() .foo()";
+

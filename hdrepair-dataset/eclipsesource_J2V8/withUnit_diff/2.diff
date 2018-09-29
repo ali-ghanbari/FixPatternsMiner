@@ -1,0 +1,23 @@
+diff --git a/src/main/java/com/eclipsesource/v8/V8Array.java b/src/main/java/com/eclipsesource/v8/V8Array.java
+index b5d3a3e..f41090b 100644
+--- a/src/main/java/com/eclipsesource/v8/V8Array.java
++++ b/src/main/java/com/eclipsesource/v8/V8Array.java
+@@ -165,0 +166 @@
++            case V8_FUNCTION:
+diff --git a/src/test/java/com/eclipsesource/v8/V8ArrayTest.java b/src/test/java/com/eclipsesource/v8/V8ArrayTest.java
+index c1532b9..a5bbe62 100644
+--- a/src/test/java/com/eclipsesource/v8/V8ArrayTest.java
++++ b/src/test/java/com/eclipsesource/v8/V8ArrayTest.java
+@@ -566,0 +567,11 @@
++    @Test
++    public void testGetFunctionAtIndex() {
++        V8Array array = v8.executeArrayScript("x = [function() {}]; x;");
++
++        Object function = array.get(0);
++
++        assertTrue(function instanceof V8Function);
++        ((V8Function) function).release();
++        array.release();
++    }
++
+

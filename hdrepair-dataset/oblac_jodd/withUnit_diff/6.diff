@@ -1,0 +1,18 @@
+diff --git a/jodd-http/src/test/java/jodd/http/EchoTestServer.java b/jodd-http/src/test/java/jodd/http/EchoTestServer.java
+index 3596b3f..53eefd3 100644
+--- a/jodd-http/src/test/java/jodd/http/EchoTestServer.java
++++ b/jodd-http/src/test/java/jodd/http/EchoTestServer.java
+@@ -12 +12 @@
+-		super(80, new File("."));
++		super(8081, new File("."));
+diff --git a/jodd-http/src/test/java/jodd/http/HttpConnectionTest.java b/jodd-http/src/test/java/jodd/http/HttpConnectionTest.java
+index e778a69..11000e5 100644
+--- a/jodd-http/src/test/java/jodd/http/HttpConnectionTest.java
++++ b/jodd-http/src/test/java/jodd/http/HttpConnectionTest.java
+@@ -20 +20 @@
+-		HttpResponse response = HttpRequest.get("http://localhost:80/hello?id=12").send();
++		HttpResponse response = HttpRequest.get("http://localhost:8081/hello?id=12").send();
+@@ -45 +45 @@
+-				.post("http://localhost:80/hello")
++				.post("http://localhost:8081/hello")
+

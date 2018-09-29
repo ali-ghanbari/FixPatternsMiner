@@ -1,0 +1,8 @@
+diff --git a/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/DefaultQueueRegistry.java b/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/DefaultQueueRegistry.java
+index 513bbea..7d091db 100644
+--- a/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/DefaultQueueRegistry.java
++++ b/qpid/java/broker/src/main/java/org/apache/qpid/server/queue/DefaultQueueRegistry.java
+@@ -84 +84 @@
+-        return _queueMap.get(queue);
++        return queue == null ? null : _queueMap.get(queue);
+

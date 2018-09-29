@@ -1,0 +1,61 @@
+diff --git a/policy/src/test/java/brooklyn/policy/autoscaling/AutoScalerPolicyTest.java b/policy/src/test/java/brooklyn/policy/autoscaling/AutoScalerPolicyTest.java
+index 1fc4342..49ace60 100644
+--- a/policy/src/test/java/brooklyn/policy/autoscaling/AutoScalerPolicyTest.java
++++ b/policy/src/test/java/brooklyn/policy/autoscaling/AutoScalerPolicyTest.java
+@@ -53,0 +54,10 @@
++    @BeforeMethod(groups="Integration")
++    public void setUpIntegration() throws Exception {
++        // In jenkins for things like testRepeatedResizeUpStabilizationDelayTakesMaxSustainedDesired, which runs
++        // a time-sensitive test 100 times, it fails periodically due to things taking too long. This is most
++        // likely caused by a full (slow) GC kicking in during the test.
++        //
++        // By GC'ing here, we attempt to avoid a GC in the middle of the time-sensitive test
++        System.gc(); System.gc();
++    }
++    
+diff --git a/pom.xml b/pom.xml
+index 4cff9a8..a5adedb 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -101,0 +102 @@
++        <osgi-core.version>4.3.0</osgi-core.version>
+diff --git a/software/base/src/test/java/brooklyn/entity/basic/lifecycle/StartStopSshDriverTest.groovy b/software/base/src/test/java/brooklyn/entity/basic/lifecycle/StartStopSshDriverTest.groovy
+index 48c8f6e..e1b9d69 100644
+--- a/software/base/src/test/java/brooklyn/entity/basic/lifecycle/StartStopSshDriverTest.groovy
++++ b/software/base/src/test/java/brooklyn/entity/basic/lifecycle/StartStopSshDriverTest.groovy
+@@ -45,0 +46 @@
++        app.startManagement();
+@@ -48 +48,0 @@
+-        app.startManagement();
+diff --git a/software/messaging/src/main/java/brooklyn/entity/messaging/qpid/QpidBroker.java b/software/messaging/src/main/java/brooklyn/entity/messaging/qpid/QpidBroker.java
+index 77927d5..bcaefb1 100644
+--- a/software/messaging/src/main/java/brooklyn/entity/messaging/qpid/QpidBroker.java
++++ b/software/messaging/src/main/java/brooklyn/entity/messaging/qpid/QpidBroker.java
+@@ -54 +54 @@
+-    public static final BasicConfigKey<String> SUGGESTED_VERSION = new BasicConfigKey<String>(SoftwareProcessEntity.SUGGESTED_VERSION, "0.18");
++    public static final BasicConfigKey<String> SUGGESTED_VERSION = new BasicConfigKey<String>(SoftwareProcessEntity.SUGGESTED_VERSION, "0.20");
+diff --git a/software/messaging/src/test/java/brooklyn/entity/messaging/qpid/QpidIntegrationTest.groovy b/software/messaging/src/test/java/brooklyn/entity/messaging/qpid/QpidIntegrationTest.groovy
+index 9bc0aa5..20b13ef 100644
+--- a/software/messaging/src/test/java/brooklyn/entity/messaging/qpid/QpidIntegrationTest.groovy
++++ b/software/messaging/src/test/java/brooklyn/entity/messaging/qpid/QpidIntegrationTest.groovy
+@@ -72,2 +72,3 @@
+-     * TODO the custom plugin was written against qpid 0.14, so that's the version we need to run
+-     * this test against. We should update this plugin.
++     * FIXME the custom plugin was written against qpid 0.14, so that's the version we need to run
++     * this test against. However, v0.14 is no longer available from the download site.
++     * We should update this plugin so it works with the latest qpid.
+@@ -75 +76 @@
+-    @Test(groups = "Integration")
++    @Test(enabled=false, groups = "Integration")
+diff --git a/software/osgi/pom.xml b/software/osgi/pom.xml
+index 8e42118..93fe10b 100644
+--- a/software/osgi/pom.xml
++++ b/software/osgi/pom.xml
+@@ -25,0 +26,6 @@
++            <groupId>org.osgi</groupId>
++            <artifactId>core</artifactId>
++            <version>${osgi-core.version}</version>
++        </dependency>
++        
++        <dependency>
+

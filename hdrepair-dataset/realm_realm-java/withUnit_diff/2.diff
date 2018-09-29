@@ -1,0 +1,51 @@
+diff --git a/changelog.txt b/changelog.txt
+index 7e5038e..deea6c5 100644
+--- a/changelog.txt
++++ b/changelog.txt
+@@ -4,0 +5 @@
++* Fixed problem occurring when opening an encrypted Realm with two different instances of the same key.
+diff --git a/realm/src/androidTest/java/io/realm/RealmTest.java b/realm/src/androidTest/java/io/realm/RealmTest.java
+index 0ea6cc1..7d00046 100644
+--- a/realm/src/androidTest/java/io/realm/RealmTest.java
++++ b/realm/src/androidTest/java/io/realm/RealmTest.java
+@@ -1318,0 +1319,32 @@
++    public void testOpeningOfEncryptedRealmWithDifferentKeyInstances() {
++        byte[] key1 = new byte[64];
++        byte[] key2 = new byte[64];
++        new Random(42).nextBytes(key1);
++        new Random(42).nextBytes(key2);
++
++        // Make sure the key is the same, but in two different instances
++        assertArrayEquals(key1, key2);
++        assertTrue(key1 != key2);
++
++        final String ENCRYPTED_REALM = "differentKeys.realm";
++
++        Realm realm1 = null;
++        Realm realm2 = null;
++        try {
++            realm1 = Realm.getInstance(getContext(), ENCRYPTED_REALM, key1);
++            try {
++                realm2 = Realm.getInstance(getContext(), ENCRYPTED_REALM, key2);
++            } catch (Exception e) {
++                fail();
++            } finally {
++                if (realm2 != null) {
++                    realm2.close();
++                }
++            }
++        } finally {
++            if (realm1 != null) {
++                realm1.close();
++            }
++        }
++    }
++
+diff --git a/realm/src/main/java/io/realm/Realm.java b/realm/src/main/java/io/realm/Realm.java
+index 5ab36dd..7fc47de 100644
+--- a/realm/src/main/java/io/realm/Realm.java
++++ b/realm/src/main/java/io/realm/Realm.java
+@@ -507 +507 @@
+-            if (realm.key != key) {
++            if (!Arrays.equals(realm.key, key)) {
+

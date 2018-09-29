@@ -1,0 +1,8 @@
+diff --git a/cdm/src/main/java/ucar/nc2/dataset/NetcdfDataset.java b/cdm/src/main/java/ucar/nc2/dataset/NetcdfDataset.java
+index c554661..e27b875 100644
+--- a/cdm/src/main/java/ucar/nc2/dataset/NetcdfDataset.java
++++ b/cdm/src/main/java/ucar/nc2/dataset/NetcdfDataset.java
+@@ -435 +435 @@
+-      this.enhanceMode = enhanceMode;
++      this.enhanceMode = (enhanceMode == null) ? EnumSet.noneOf(Enhance.class) : EnumSet.copyOf(enhanceMode);
+

@@ -1,0 +1,16 @@
+Remove Jersey GZip Encoder
+
+Resolve #774, fix #821
+
+Jersey GZipEncoder conflicts with Jetty BiDiGzipFilter and breaks
+breaks backwards compatibility of Dropwizard configuration.
+
+It always compresses responses if a client accepts gzip encoding,
+which is not the same behaviour as in BiDiGzipFilter. The latter
+is configured through a YML file, has more configuration options
+and could be disabled externally. As a result users can't disable
+response compressing even if they want to.
+
+Also it conflicts with Jersey LoggingFilter, which is useful
+for debug purposes.
+

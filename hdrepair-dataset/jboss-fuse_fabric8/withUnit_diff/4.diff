@@ -1,0 +1,48 @@
+diff --git a/fabric/fabric-agent/src/test/java/io/fabric8/agent/resolver/ResolverTest.java b/fabric/fabric-agent/src/test/java/io/fabric8/agent/resolver/ResolverTest.java
+index 822e863..8473820 100644
+--- a/fabric/fabric-agent/src/test/java/io/fabric8/agent/resolver/ResolverTest.java
++++ b/fabric/fabric-agent/src/test/java/io/fabric8/agent/resolver/ResolverTest.java
+@@ -79 +79 @@
+-        properties.setProperty("org.osgi.framework.system.packages.extra", "org.apache.karaf.jaas.boot;version=\"2.3.0.redhat-610-SNAPSHOT\",org.apache.karaf.jaas.boot.principal;version=\"2.3.0.redhat-610-SNAPSHOT\"");
++        properties.setProperty("org.osgi.framework.system.packages.extra", "org.apache.karaf.jaas.boot;version=\"2.4.0.SNAPSHOT\",org.apache.karaf.jaas.boot.principal;version=\"2.4.0.SNAPSHOT\",org.apache.karaf.management.boot;version=\"2.4.0.SNAPSHOT\"");
+diff --git a/fabric/fabric-zookeeper/src/main/java/io/fabric8/zookeeper/bootstrap/BootstrapConfiguration.java b/fabric/fabric-zookeeper/src/main/java/io/fabric8/zookeeper/bootstrap/BootstrapConfiguration.java
+index 8249518..84b9803 100644
+--- a/fabric/fabric-zookeeper/src/main/java/io/fabric8/zookeeper/bootstrap/BootstrapConfiguration.java
++++ b/fabric/fabric-zookeeper/src/main/java/io/fabric8/zookeeper/bootstrap/BootstrapConfiguration.java
+@@ -89 +89 @@
+-    public static final String DEFAULT_ADMIN_ROLE = "admin";
++    public static final String DEFAULT_ADMIN_ROLE = "admin,manager,viewer";
+diff --git a/fabric/fabric8-karaf/pom.xml b/fabric/fabric8-karaf/pom.xml
+index e0967e0..f2a0d05 100644
+--- a/fabric/fabric8-karaf/pom.xml
++++ b/fabric/fabric8-karaf/pom.xml
+@@ -708,0 +709,5 @@
++		<repository>
++	        <id>shibboleth-public</id>
++	        <name>Shibboleth Public</name>
++			<url>http://build.shibboleth.net/nexus/content/repositories/public/</url>
++		</repository>
+diff --git a/fabric/fabric8-karaf/src/main/append-resources/common/etc/config.properties b/fabric/fabric8-karaf/src/main/append-resources/common/etc/config.properties
+index 8a6f55e..9a35d36 100644
+--- a/fabric/fabric8-karaf/src/main/append-resources/common/etc/config.properties
++++ b/fabric/fabric8-karaf/src/main/append-resources/common/etc/config.properties
+@@ -33,4 +32,0 @@
+-services-felix= \
+- service-reference;effective:=active;objectClass=org.apache.felix.framework.monitor.MonitoringService
+-
+-
+diff --git a/fabric/fabric8-karaf/src/main/resources/distro/fabric/import/fabric/profiles/default.profile/io.fabric8.version.properties b/fabric/fabric8-karaf/src/main/resources/distro/fabric/import/fabric/profiles/default.profile/io.fabric8.version.properties
+index 5c5a160..aca9cb8 100644
+--- a/fabric/fabric8-karaf/src/main/resources/distro/fabric/import/fabric/profiles/default.profile/io.fabric8.version.properties
++++ b/fabric/fabric8-karaf/src/main/resources/distro/fabric/import/fabric/profiles/default.profile/io.fabric8.version.properties
+@@ -25 +25 @@
+-karaf          = 2.3.0.redhat-610${version:perfectus}
++karaf          = ${karaf-version}
+diff --git a/fabric/fabric8-karaf/src/main/resources/etc/users.properties b/fabric/fabric8-karaf/src/main/resources/etc/users.properties
+index 1f16994..5736058 100644
+--- a/fabric/fabric8-karaf/src/main/resources/etc/users.properties
++++ b/fabric/fabric8-karaf/src/main/resources/etc/users.properties
+@@ -32 +32 @@
+-admin=admin,admin
++admin=admin,admin,manager,viewer
+

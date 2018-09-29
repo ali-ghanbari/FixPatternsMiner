@@ -1,0 +1,9 @@
+core: fix ArithmeticException when adding host with no swap space
+
+stat.getswap_total() will be divisor in checkVdsSwapThreshold(),
+But when adding host which doesn't have swap space, it will return
+zero
+
+Change-Id: If4ad3d8b13cf2a784fcbb714434a676aba971102
+Signed-off-by: plysan <plysab@gmail.com>
+

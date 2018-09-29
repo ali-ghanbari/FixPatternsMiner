@@ -1,0 +1,15 @@
+diff --git a/core/carrot2-util-text/src-test/org/carrot2/text/preprocessing/filter/NumericLabelFilterTest.java b/core/carrot2-util-text/src-test/org/carrot2/text/preprocessing/filter/NumericLabelFilterTest.java
+index ef75643..f936dc0 100644
+--- a/core/carrot2-util-text/src-test/org/carrot2/text/preprocessing/filter/NumericLabelFilterTest.java
++++ b/core/carrot2-util-text/src-test/org/carrot2/text/preprocessing/filter/NumericLabelFilterTest.java
+@@ -41 +41 @@
+-        createDocuments("aa . aa", "bb . bb");
++        createDocuments("aa . aa", "bb.com.pl . bb.com.pl");
+diff --git a/core/carrot2-util-text/src/org/carrot2/text/preprocessing/filter/NumericLabelFilter.java b/core/carrot2-util-text/src/org/carrot2/text/preprocessing/filter/NumericLabelFilter.java
+index b522cce..e6a39df 100644
+--- a/core/carrot2-util-text/src/org/carrot2/text/preprocessing/filter/NumericLabelFilter.java
++++ b/core/carrot2-util-text/src/org/carrot2/text/preprocessing/filter/NumericLabelFilter.java
+@@ -56 +56 @@
+-        return (type & ITokenType.TT_NUMERIC) != 0;
++        return (type & ITokenType.TYPE_MASK) == ITokenType.TT_NUMERIC;
+

@@ -1,0 +1,2 @@
+[BZ 1146266] - Metric graph is empty if high, low, and avg values are all the same for every time bucket within the selected time range - if global min and global max of the graph were the same, but low enough that Math.round(max * 0.2) would equal to zero, the fix didn't work. Therefore I am adding this piece of code (making the reserve (using the domain d3 feature) from both top and bottom of the graph at least 1, if percentage based calculation gives 0).
+

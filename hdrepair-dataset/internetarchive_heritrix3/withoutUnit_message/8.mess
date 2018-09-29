@@ -1,0 +1,5 @@
+Patch from Kenji to fix "weird 'NoSuchElement' exception retrieving XML response from H3 web interface. It appeared to be concurrency related.... Probably Histotable was accessed concurrently from my JMX interface and web interface and it left Histotable in an inconsistent state. Much less likely without JMX monitoring, but it could also happen with H3 without JMX" (Kenji)
+* Histotable.java
+    make tally(K,long) synchronized
+
+

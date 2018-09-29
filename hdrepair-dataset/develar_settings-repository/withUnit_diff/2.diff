@@ -1,0 +1,23 @@
+diff --git a/src/org/jetbrains/plugins/settingsRepository/IcsManager.java b/src/org/jetbrains/plugins/settingsRepository/IcsManager.java
+index 8000df9..ade05fc 100644
+--- a/src/org/jetbrains/plugins/settingsRepository/IcsManager.java
++++ b/src/org/jetbrains/plugins/settingsRepository/IcsManager.java
+@@ -344 +344 @@
+-      return true;
++      return repositoryManager != null;
+diff --git a/testSrc/GitTest.java b/testSrc/GitTest.java
+index 072a070..c9fce90 100644
+--- a/testSrc/GitTest.java
++++ b/testSrc/GitTest.java
+@@ -136 +136 @@
+-    getProvider().saveContent(addedFile, data, data.length, RoamingType.GLOBAL, false);
++    getProvider().saveContent(addedFile, data, data.length, RoamingType.PER_USER, false);
+@@ -158,2 +158,2 @@
+-    getProvider().saveContent(addedFile, data, data.length, RoamingType.GLOBAL, true);
+-    getProvider().delete(directory ? "$APP_CONFIG$" : addedFile, RoamingType.GLOBAL);
++    getProvider().saveContent(addedFile, data, data.length, RoamingType.PER_USER, true);
++    getProvider().delete(directory ? "$APP_CONFIG$" : addedFile, RoamingType.PER_USER);
+@@ -221 +221 @@
+-    getProvider().saveContent(addedFile, data, data.length, RoamingType.GLOBAL, false);
++    getProvider().saveContent(addedFile, data, data.length, RoamingType.PER_USER, false);
+

@@ -1,0 +1,62 @@
+diff --git a/activemq-client/src/main/java/org/apache/activemq/transport/discovery/simple/SimpleDiscoveryAgent.java b/activemq-client/src/main/java/org/apache/activemq/transport/discovery/simple/SimpleDiscoveryAgent.java
+index 726352b..1d05273 100755
+--- a/activemq-client/src/main/java/org/apache/activemq/transport/discovery/simple/SimpleDiscoveryAgent.java
++++ b/activemq-client/src/main/java/org/apache/activemq/transport/discovery/simple/SimpleDiscoveryAgent.java
+@@ -134 +134 @@
+-        if (sevent.failed.compareAndSet(false, true)) {
++        if (running.get() && sevent.failed.compareAndSet(false, true)) {
+diff --git a/activemq-unit-tests/src/test/java/org/apache/activemq/transport/vm/VmTransportNetworkBrokerTest.java b/activemq-unit-tests/src/test/java/org/apache/activemq/transport/vm/VmTransportNetworkBrokerTest.java
+index e29c078..e837e05 100644
+--- a/activemq-unit-tests/src/test/java/org/apache/activemq/transport/vm/VmTransportNetworkBrokerTest.java
++++ b/activemq-unit-tests/src/test/java/org/apache/activemq/transport/vm/VmTransportNetworkBrokerTest.java
+@@ -23 +22,0 @@
+-import java.util.concurrent.CountDownLatch;
+@@ -24,0 +24 @@
++import java.util.concurrent.atomic.AtomicInteger;
+@@ -33,0 +34 @@
++import org.apache.activemq.util.Wait;
+@@ -45,3 +45,0 @@
+-    CountDownLatch started = new CountDownLatch(1);
+-    CountDownLatch gotConnection = new CountDownLatch(1);
+-
+@@ -51 +49,3 @@
+-        int originalThreadCount = Thread.activeCount();
++        Thread[] threads = filterDaemonThreads(ThreadExplorer.listThreads());
++        final int originalThreadCount = threads.length;
++
+@@ -70 +70 @@
+-        TimeUnit.SECONDS.sleep(30);
++        TimeUnit.SECONDS.sleep(20);
+@@ -74 +74 @@
+-                threadCountAfterSleep < threadCountAfterStart + 8);
++                threadCountAfterSleep < 2 * threadCountAfterStart);
+@@ -95,2 +95,11 @@
+-        // let it settle
+-        TimeUnit.SECONDS.sleep(5);        
++        final AtomicInteger threadCountAfterStop = new AtomicInteger();
++        boolean ok = Wait.waitFor(new Wait.Condition() {
++            @Override
++            public boolean isSatisified() throws Exception {
++                LOG.info(ThreadExplorer.show("active after stop"));
++                // get final threads but filter out any daemon threads that the JVM may have created.
++                Thread[] threads = filterDaemonThreads(ThreadExplorer.listThreads());
++                threadCountAfterStop.set(threads.length);
++                return threadCountAfterStop.get() <= originalThreadCount;
++            }
++        });
+@@ -98,6 +106,0 @@
+-        // get final threads but filter out any daemon threads that the JVM may have created.
+-        Thread[] threads = filterDaemonThreads(ThreadExplorer.listThreads());
+-        int threadCountAfterStop = threads.length;
+-
+-        // lets see the thread counts at INFO level so they are always in the test log
+-        LOG.info(ThreadExplorer.show("active after stop"));
+@@ -111,2 +114,2 @@
+-        		threadCountAfterStop,
+-            threadCountAfterStop <= originalThreadCount);
++        		threadCountAfterStop.get(),
++            ok);
+@@ -145 +148 @@
+-    		if (thread.isDaemon()) {
++    		if (thread.isDaemon() && !thread.getName().contains("ActiveMQ")) {
+

@@ -1,0 +1,84 @@
+diff --git a/src/main/java/com/github/t1/log/Parameter.java b/src/main/java/com/github/t1/log/Parameter.java
+index 3a09c42..eb5e6b4 100644
+--- a/src/main/java/com/github/t1/log/Parameter.java
++++ b/src/main/java/com/github/t1/log/Parameter.java
+@@ -14 +14 @@
+-        final List<Parameter> list = new ArrayList<Parameter>();
++        final List<Parameter> list = new ArrayList<>();
+diff --git a/src/test/java/com/github/t1/log/AbstractLoggedTest.java b/src/test/java/com/github/t1/log/AbstractLoggedTest.java
+index 3f9d0de..b6aaeba 100644
+--- a/src/test/java/com/github/t1/log/AbstractLoggedTest.java
++++ b/src/test/java/com/github/t1/log/AbstractLoggedTest.java
+@@ -53 +53 @@
+-        };
++        }
+diff --git a/src/test/java/com/github/t1/log/LogConvertersTest.java b/src/test/java/com/github/t1/log/LogConvertersTest.java
+index 1f46b11..40495be 100644
+--- a/src/test/java/com/github/t1/log/LogConvertersTest.java
++++ b/src/test/java/com/github/t1/log/LogConvertersTest.java
+@@ -41 +41 @@
+-    public void shouldConvertNull() throws Exception {
++    public void shouldConvertNull() {
+@@ -48 +48 @@
+-    public void shouldConvertString() throws Exception {
++    public void shouldConvertString() {
+@@ -55 +55 @@
+-    public void shouldConvertBoolean() throws Exception {
++    public void shouldConvertBoolean() {
+@@ -62 +62 @@
+-    public void shouldConvertPojo() throws Exception {
++    public void shouldConvertPojo() {
+@@ -83 +83 @@
+-    public void shouldFailToLoadUnannotatedConverter() throws Exception {
++    public void shouldFailToLoadUnannotatedConverter() {
+@@ -104 +104 @@
+-    public void shouldPickOneDuplicateConverter() throws Exception {
++    public void shouldPickOneDuplicateConverter() {
+@@ -133 +133 @@
+-    public void shouldConvertSuperClass() throws Exception {
++    public void shouldConvertSuperClass() {
+@@ -155 +155 @@
+-    public void shouldConvertSuperInterface() throws Exception {
++    public void shouldConvertSuperInterface() {
+diff --git a/src/test/java/com/github/t1/log/LoggedConvertingTest.java b/src/test/java/com/github/t1/log/LoggedConvertingTest.java
+index 06ab2eb..3717620 100644
+--- a/src/test/java/com/github/t1/log/LoggedConvertingTest.java
++++ b/src/test/java/com/github/t1/log/LoggedConvertingTest.java
+@@ -24 +24 @@
+-            public Object answer(InvocationOnMock invocation) throws Throwable {
++            public Object answer(InvocationOnMock invocation) {
+@@ -34 +34 @@
+-            public void foo(Pojo pojo) {}
++            public void foo(@SuppressWarnings("unused") Pojo pojo) {}
+@@ -63 +63 @@
+-            public void foo(@LogContext(value = "foobar") Pojo pojo) {}
++            public void foo(@SuppressWarnings("unused") @LogContext(value = "foobar") Pojo pojo) {}
+diff --git a/src/test/java/com/github/t1/log/LoggedTest.java b/src/test/java/com/github/t1/log/LoggedTest.java
+index 49fa74d..9a79255 100644
+--- a/src/test/java/com/github/t1/log/LoggedTest.java
++++ b/src/test/java/com/github/t1/log/LoggedTest.java
+@@ -119 +119 @@
+-            public void methodWithIntArgument(int i) {}
++            public void methodWithIntArgument(@SuppressWarnings("unused") int i) {}
+@@ -133 +133 @@
+-            public void methodWithIntegerArgument(Integer i) {}
++            public void methodWithIntegerArgument(@SuppressWarnings("unused") Integer i) {}
+@@ -145,0 +146 @@
++            @SuppressWarnings("unused")
+@@ -158,0 +160 @@
++            @SuppressWarnings("unused")
+@@ -347,0 +350 @@
++            @SuppressWarnings("unused")
+@@ -365,0 +369 @@
++            @SuppressWarnings("unused")
+@@ -394,0 +399 @@
++            @SuppressWarnings("unused")
+@@ -410 +415 @@
+-            public void methodWithLogContextParameter(@LogContext("foo") String foo) {}
++            public void methodWithLogContextParameter(@SuppressWarnings("unused") @LogContext("foo") String foo) {}
+@@ -422,0 +428 @@
++            @SuppressWarnings("unused")
+@@ -474 +480 @@
+-    public void shouldProduceVersionLogContextVariable() throws Exception {
++    public void shouldProduceVersionLogContextVariable() {
+

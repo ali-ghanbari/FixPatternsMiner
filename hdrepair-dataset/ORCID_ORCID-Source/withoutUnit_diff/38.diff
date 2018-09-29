@@ -1,0 +1,64 @@
+diff --git a/orcid-core/src/main/resources/i18n/messages_en.properties b/orcid-core/src/main/resources/i18n/messages_en.properties
+index ff4da1f..9f8c351 100644
+--- a/orcid-core/src/main/resources/i18n/messages_en.properties
++++ b/orcid-core/src/main/resources/i18n/messages_en.properties
+@@ -1571 +1571 @@
+-manage.developer_tools.generate.website=Your website URL (if applicable. Shown to users)
++manage.developer_tools.generate.website=Your website URL
+diff --git a/orcid-core/src/main/resources/i18n/messages_fr.properties b/orcid-core/src/main/resources/i18n/messages_fr.properties
+index 701e7ba..cf072a6 100755
+--- a/orcid-core/src/main/resources/i18n/messages_fr.properties
++++ b/orcid-core/src/main/resources/i18n/messages_fr.properties
+@@ -1597 +1597 @@
+-manage.developer_tools.generate.website=L'URL de votre site Web (le cas échéant. Montré aux utilisateurs)
++manage.developer_tools.generate.website=L'URL de votre site Web
+diff --git a/orcid-core/src/main/resources/i18n/messages_ko.properties b/orcid-core/src/main/resources/i18n/messages_ko.properties
+index 3978aaf..2293034 100755
+--- a/orcid-core/src/main/resources/i18n/messages_ko.properties
++++ b/orcid-core/src/main/resources/i18n/messages_ko.properties
+@@ -1594 +1594 @@
+-manage.developer_tools.generate.website=귀하의 웹사이트 URL(있는 경우. 사용자들에게 공개됩니다)
++manage.developer_tools.generate.website=귀하의 웹사이트 URL
+diff --git a/orcid-core/src/main/resources/i18n/messages_orc.properties b/orcid-core/src/main/resources/i18n/messages_orc.properties
+index d4efca7..18d6666 100644
+--- a/orcid-core/src/main/resources/i18n/messages_orc.properties
++++ b/orcid-core/src/main/resources/i18n/messages_orc.properties
+@@ -2059 +2059 @@
+-manage.developer_tools.generate.website=Your website URL (if applicable. Shown to users)
++manage.developer_tools.generate.website=Your website URL
+diff --git a/orcid-core/src/main/resources/i18n/messages_pt.properties b/orcid-core/src/main/resources/i18n/messages_pt.properties
+index 7e3eeed..db2a103 100755
+--- a/orcid-core/src/main/resources/i18n/messages_pt.properties
++++ b/orcid-core/src/main/resources/i18n/messages_pt.properties
+@@ -1580 +1580 @@
+-manage.developer_tools.generate.website=O URL de seu website (se aplicável. Exibido aos usuários)
++manage.developer_tools.generate.website=O URL de seu website
+diff --git a/orcid-core/src/main/resources/i18n/messages_ru.properties b/orcid-core/src/main/resources/i18n/messages_ru.properties
+index 9f3f34f..eda3e70 100644
+--- a/orcid-core/src/main/resources/i18n/messages_ru.properties
++++ b/orcid-core/src/main/resources/i18n/messages_ru.properties
+@@ -1578 +1578 @@
+-manage.developer_tools.generate.website=Ваш URL для веб-сайта (если необходимо, Отображается пользователям)
++manage.developer_tools.generate.website=Ваш URL для веб-сайта
+diff --git a/orcid-core/src/main/resources/i18n/messages_zh_CN.properties b/orcid-core/src/main/resources/i18n/messages_zh_CN.properties
+index 5242f54..eacf10c 100755
+--- a/orcid-core/src/main/resources/i18n/messages_zh_CN.properties
++++ b/orcid-core/src/main/resources/i18n/messages_zh_CN.properties
+@@ -1578 +1578 @@
+-manage.developer_tools.generate.website=您的网站 URL（如果适用。 向用户显示）
++manage.developer_tools.generate.website=您的网站 URL
+diff --git a/orcid-core/src/main/resources/i18n/messages_zh_TW.properties b/orcid-core/src/main/resources/i18n/messages_zh_TW.properties
+index 1b35343..73ba2f6 100755
+--- a/orcid-core/src/main/resources/i18n/messages_zh_TW.properties
++++ b/orcid-core/src/main/resources/i18n/messages_zh_TW.properties
+@@ -1570 +1570 @@
+-manage.developer_tools.generate.website=您的網站 URL（如果適用。 向使用者顯示）
++manage.developer_tools.generate.website=您的網站 URL
+diff --git a/orcid-web/src/main/java/org/orcid/frontend/web/forms/validate/OrcidUrlValidator.java b/orcid-web/src/main/java/org/orcid/frontend/web/forms/validate/OrcidUrlValidator.java
+index 33e23ba..5d15e23 100644
+--- a/orcid-web/src/main/java/org/orcid/frontend/web/forms/validate/OrcidUrlValidator.java
++++ b/orcid-web/src/main/java/org/orcid/frontend/web/forms/validate/OrcidUrlValidator.java
+@@ -49 +49 @@
+-        super(urlValschemes);
++        super(urlValschemes,UrlValidator.ALLOW_2_SLASHES);
+

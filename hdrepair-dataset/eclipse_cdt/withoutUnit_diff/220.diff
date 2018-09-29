@@ -1,0 +1,8 @@
+diff --git a/build/org.eclipse.cdt.make.core/src/org/eclipse/cdt/make/internal/core/MakeTarget.java b/build/org.eclipse.cdt.make.core/src/org/eclipse/cdt/make/internal/core/MakeTarget.java
+index be4db6f..f8b8b95 100644
+--- a/build/org.eclipse.cdt.make.core/src/org/eclipse/cdt/make/internal/core/MakeTarget.java
++++ b/build/org.eclipse.cdt.make.core/src/org/eclipse/cdt/make/internal/core/MakeTarget.java
+@@ -157 +157 @@
+-							project.build(IncrementalProjectBuilder.FULL_BUILD, builderID, infoMap, monitor);
++							project.build(IncrementalProjectBuilder.FULL_BUILD, builderID, infoMap, new SubProgressMonitor(monitor, 1));
+

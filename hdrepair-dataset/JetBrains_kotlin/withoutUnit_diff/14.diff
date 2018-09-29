@@ -1,0 +1,17 @@
+diff --git a/compiler/frontend/src/org/jetbrains/kotlin/kdoc/lexer/KDocTokens.java b/compiler/frontend/src/org/jetbrains/kotlin/kdoc/lexer/KDocTokens.java
+index f8d918d..327e5c0 100644
+--- a/compiler/frontend/src/org/jetbrains/kotlin/kdoc/lexer/KDocTokens.java
++++ b/compiler/frontend/src/org/jetbrains/kotlin/kdoc/lexer/KDocTokens.java
+@@ -70 +70 @@
+-    TokenSet CONTENT_TOKENS = TokenSet.create(TEXT, TAG_NAME, MARKDOWN_LINK, MARKDOWN_ESCAPED_CHAR);
++    TokenSet CONTENT_TOKENS = TokenSet.create(TEXT, TAG_NAME, MARKDOWN_LINK, MARKDOWN_ESCAPED_CHAR, TEXT_OR_LINK);
+diff --git a/idea/testData/editor/quickDoc/OnMethodUsageWithReturnAndThrows.kt b/idea/testData/editor/quickDoc/OnMethodUsageWithReturnAndThrows.kt
+index 6d7cd5f..caedc42 100644
+--- a/idea/testData/editor/quickDoc/OnMethodUsageWithReturnAndThrows.kt
++++ b/idea/testData/editor/quickDoc/OnMethodUsageWithReturnAndThrows.kt
+@@ -17 +17 @@
+-// INFO: <b>internal</b> <b>fun</b> testMethod(a: Int, b: String): Unit<br/><p>Some documentation<br/><br/><dl><dt><b>Parameters:</b></dt><dd><code>a</code> - Some int</dd><dd><code>b</code> - String</dd></dl><dl><dt><b>Returns:</b></dt><dd> value</dd></dl><dl><dt><b>Throws:</b></dt><dd><code>IllegalArgumentException</code> - if the weather is bad</dd></dl></p>
+\ No newline at end of file
++// INFO: <b>internal</b> <b>fun</b> testMethod(a: Int, b: String): Unit<br/><p>Some documentation<br/><br/><dl><dt><b>Parameters:</b></dt><dd><code>a</code> - Some int</dd><dd><code>b</code> - String</dd></dl><dl><dt><b>Returns:</b></dt><dd>Return value</dd></dl><dl><dt><b>Throws:</b></dt><dd><code>IllegalArgumentException</code> - if the weather is bad</dd></dl></p>
+\ No newline at end of file
+

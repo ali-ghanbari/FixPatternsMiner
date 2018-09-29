@@ -1,0 +1,46 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 0a040fb..d30a3d3 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -2 +2,9 @@
+- 
++
++## Version 1.0.1
++
++### Bug fixes
++
++* ServiceInfo now always uses /services instead of the Service's default
++  namespace for its HTTP requests, to work around a bug in Splunk that
++  returns a 403 when server/info is accessed via certain namespaces.
++
+diff --git a/splunk/com/splunk/ServiceInfo.java b/splunk/com/splunk/ServiceInfo.java
+index 10a1002..45d74cc 100644
+--- a/splunk/com/splunk/ServiceInfo.java
++++ b/splunk/com/splunk/ServiceInfo.java
+@@ -25 +25,5 @@
+-        super(service, "server/info");
++        // We have to use an absolute path here, since
++        // server/info returns HTTP code 403 if it is
++        // used with any namespace specifier besides
++        // /services (i.e., don't use of servicesNS).
++        super(service, "/services/server/info");
+diff --git a/tests/com/splunk/ServiceTest.java b/tests/com/splunk/ServiceTest.java
+index 30ca3ac..e3a0a42 100644
+--- a/tests/com/splunk/ServiceTest.java
++++ b/tests/com/splunk/ServiceTest.java
+@@ -671,0 +672,14 @@
++
++    @Test
++    public void testLoginWithNamespace() {
++        Args loginArgs = new Args();
++        loginArgs.add("username", command.opts.get("username"));
++        loginArgs.add("password", command.opts.get("password"));
++        loginArgs.add("sharing", "user");
++        loginArgs.add("owner", "admin");
++        loginArgs.add("app", "search");
++        loginArgs.add("host", command.opts.get("host"));
++        loginArgs.add("port", command.opts.get("port"));
++
++        Service.connect(loginArgs);
++    }
+

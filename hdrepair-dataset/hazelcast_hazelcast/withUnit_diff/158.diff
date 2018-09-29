@@ -1,0 +1,48 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java b/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java
+index eb3d42d..def80a3 100644
+--- a/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java
++++ b/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java
+@@ -138 +138,2 @@
+-                        return val;
++                        // this serialization step is needed not to expose the object, see issue 1292
++                        return mapService.toData(val);
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java b/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java
+index 72cd037..a803d5e 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/InMemoryFormatTest.java
+@@ -33,0 +34 @@
++import static junit.framework.Assert.assertNotSame;
+@@ -66,0 +68,32 @@
++    @Test
++    public void equalsReadLocalBackup() {
++        TestHazelcastInstanceFactory factory = createHazelcastInstanceFactory(2);
++
++        Config config = new Config();
++        config.addMapConfig(new MapConfig("objectMap").setInMemoryFormat(InMemoryFormat.OBJECT).setReadBackupData(true));
++
++        HazelcastInstance hz1 = factory.newHazelcastInstance(config);
++        HazelcastInstance hz2 = factory.newHazelcastInstance(config);
++
++        Pair pair = new Pair("a", "1");
++
++        IMap<String, Pair> objectMap1 = hz1.getMap("objectMap");
++        IMap<String, Pair> objectMap2 = hz2.getMap("objectMap");
++
++        objectMap1.put("1", pair);
++        Pair v1 = objectMap1.get("1");
++        Pair v2 = objectMap1.get("1");
++
++        Pair rv1 = objectMap2.get("1");
++        Pair rv2 = objectMap2.get("1");
++        assertNotSame(pair, v1);
++        assertNotSame(pair, v2);
++        assertNotSame(v1, v2);
++
++        assertNotSame(pair, rv1);
++        assertNotSame(pair, rv2);
++        assertNotSame(rv1, rv2);
++
++        assertTrue(objectMap2.containsValue(v1));
++    }
++
+

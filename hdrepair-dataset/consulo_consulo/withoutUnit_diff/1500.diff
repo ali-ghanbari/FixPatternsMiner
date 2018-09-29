@@ -1,0 +1,8 @@
+diff --git a/java/compiler/impl/src/com/intellij/compiler/make/JavaDependencyProcessor.java b/java/compiler/impl/src/com/intellij/compiler/make/JavaDependencyProcessor.java
+index 4b60ae0..b3566a4 100644
+--- a/java/compiler/impl/src/com/intellij/compiler/make/JavaDependencyProcessor.java
++++ b/java/compiler/impl/src/com/intellij/compiler/make/JavaDependencyProcessor.java
+@@ -373 +373 @@
+-          markAnnotationDependenciesRecursively(oldCache.getBackDependencies(depQName), LOG.isDebugEnabled()? "; reason: cascade semantics change for " + myDependencyCache.resolve(depQName) : "", new TIntHashSet());
++          markAnnotationDependenciesRecursively(oldCache.getBackDependencies(depQName), LOG.isDebugEnabled()? "; reason: cascade semantics change for " + myDependencyCache.resolve(depQName) : "", visitedAnnotations);
+

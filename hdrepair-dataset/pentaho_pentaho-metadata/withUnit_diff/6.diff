@@ -1,0 +1,32 @@
+diff --git a/src/org/pentaho/metadata/model/concept/types/LocalizedString.java b/src/org/pentaho/metadata/model/concept/types/LocalizedString.java
+index 5d661a1..5da6445 100644
+--- a/src/org/pentaho/metadata/model/concept/types/LocalizedString.java
++++ b/src/org/pentaho/metadata/model/concept/types/LocalizedString.java
+@@ -67 +67 @@
+-    if (str == null || str.trim().length() == 0) {
++    if ((str == null || str.trim().length() == 0) && !DEFAULT_LOCALE.startsWith(locale)) {
+diff --git a/test/org/pentaho/metadata/ThinModelTest.java b/test/org/pentaho/metadata/ThinModelTest.java
+index bb79286..711f27b 100644
+--- a/test/org/pentaho/metadata/ThinModelTest.java
++++ b/test/org/pentaho/metadata/ThinModelTest.java
+@@ -249,0 +250,19 @@
++  public void testLocalizedString() {
++    LocalizedString ls = new LocalizedString();
++    ls.setString("en_US", "Test 1");
++    ls.setString("es", "Test 2");
++    
++    String result = ls.getString("nl_BE.UTF-8");
++    Assert.assertNull(result);
++    result = ls.getLocalizedString("nl_BE.UTF-8");
++    Assert.assertEquals("Test 1", result);
++    result = ls.getLocalizedString("en_US");
++    Assert.assertEquals("Test 1", result);
++    
++    ls = new LocalizedString();
++    ls.setString("es", "Test 2");
++    result = ls.getLocalizedString("en_US");
++    Assert.assertNull(result);
++  }
++  
++  @Test
+

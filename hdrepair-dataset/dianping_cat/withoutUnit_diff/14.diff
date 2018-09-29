@@ -1,0 +1,67 @@
+diff --git a/cat-home/src/main/webapp/jsp/report/event/eventGroup.jsp b/cat-home/src/main/webapp/jsp/report/event/eventGroup.jsp
+index 29a58ea..b0ac9a4 100644
+--- a/cat-home/src/main/webapp/jsp/report/event/eventGroup.jsp
++++ b/cat-home/src/main/webapp/jsp/report/event/eventGroup.jsp
+@@ -13,2 +13,2 @@
+-	title="Event Report${empty payload.type ? '' : ' :: '}<a href='?op=groupReport&domain=${model.domain}&date=${model.date}&group=${payload.group}&type=${payload.type}'>${payload.type}</a>"
+-	navUrlPrefix="op=groupReport&op=groupReport&domain=${model.domain}${empty payload.type ? '' : '&type='}${payload.type}"
++	title="Event Report${empty payload.type ? '' : ' :: '}<a href='?op=groupReport&domain=${model.domain}&date=${model.date}&group=${payload.group}&type=${payload.encodedType}'>${payload.type}</a>"
++	navUrlPrefix="op=groupReport&op=groupReport&domain=${model.domain}${empty payload.type ? '' : '&type='}${payload.encodedType}"
+@@ -24 +24 @@
+-					<a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&type=${payload.type}" >All</a>
++					<a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&type=${payload.encodedType}" >All</a>
+@@ -28 +28 @@
+-					<a href="?domain=${model.domain}&ip=${ip}&date=${model.date}&group=${payload.group}&type=${payload.type}">${ip}</a>
++					<a href="?domain=${model.domain}&ip=${ip}&date=${model.date}&group=${payload.group}&type=${payload.encodedType}">${ip}</a>
+@@ -86 +86 @@
+-						&nbsp;&nbsp;<a href="?domain=${report.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${item.type}">${item.type}</a>
++						&nbsp;&nbsp;<a href="?domain=${report.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${item.type}">${item.detail.id}</a>
+@@ -101,5 +101,5 @@
+-			<th class="left"><a href="?op=groupGraphs&domain=${model.domain}&date=${model.date}&group=${payload.group}&type=${payload.type}&op=groupReport" class="graph_link" data-status="-1">[:: show ::]</a>
+-			<a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.type}&sort=type"> Name</a></th>
+-			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.type}&sort=total">Total</a></th>
+-			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.type}&sort=failure">Failure</a></th>
+-			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.type}&sort=failurePercent">Failure%</a></th>
++			<th class="left"><a href="?op=groupGraphs&domain=${model.domain}&date=${model.date}&group=${payload.group}&type=${payload.encodedType}&op=groupReport" class="graph_link" data-status="-1">[:: show ::]</a>
++			<a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.encodedType}&sort=type"> Name</a></th>
++			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.encodedType}&sort=total">Total</a></th>
++			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.encodedType}&sort=failure">Failure</a></th>
++			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.encodedType}&sort=failurePercent">Failure%</a></th>
+@@ -107,2 +107,2 @@
+-			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.type}&sort=total">QPS</a></th>
+-			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.type}&sort=total">Percent%</a></th>
++			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.encodedType}&sort=total">QPS</a></th>
++			<th><a href="?domain=${model.domain}&date=${model.date}&group=${payload.group}&op=groupReport&type=${payload.encodedType}&sort=total">Percent%</a></th>
+@@ -118 +118 @@
+-						<a	href="?op=groupGraphs&domain=${report.domain}&op=groupReport&date=${model.date}&group=${payload.group}&type=${payload.type}&name=${item.name}" class="graph_link" data-status="${status.index}">[:: show ::]</a>
++						<a	href="?op=groupGraphs&domain=${report.domain}&op=groupReport&date=${model.date}&group=${payload.group}&type=${payload.encodedType}&name=${item.name}" class="graph_link" data-status="${status.index}">[:: show ::]</a>
+diff --git a/cat-home/src/main/webapp/jsp/report/event/eventHistoryGroupReport.jsp b/cat-home/src/main/webapp/jsp/report/event/eventHistoryGroupReport.jsp
+index b261e19..d6ca320 100644
+--- a/cat-home/src/main/webapp/jsp/report/event/eventHistoryGroupReport.jsp
++++ b/cat-home/src/main/webapp/jsp/report/event/eventHistoryGroupReport.jsp
+@@ -78 +78 @@
+-					&nbsp;&nbsp;&nbsp;<a href="?op=historyGroupReport&domain=${model.domain}&date=${model.date}&group=${payload.group}&reportType=${model.reportType}&type=${item.type}${model.customDate}">${item.type}</a></td>
++					&nbsp;&nbsp;&nbsp;<a href="?op=historyGroupReport&domain=${model.domain}&date=${model.date}&group=${payload.group}&reportType=${model.reportType}&type=${item.type}${model.customDate}">${e.id}</a></td>
+diff --git a/cat-home/src/main/webapp/jsp/report/transaction/transactionGroup.jsp b/cat-home/src/main/webapp/jsp/report/transaction/transactionGroup.jsp
+index 9eb6174..b2d41ee 100755
+--- a/cat-home/src/main/webapp/jsp/report/transaction/transactionGroup.jsp
++++ b/cat-home/src/main/webapp/jsp/report/transaction/transactionGroup.jsp
+@@ -164,2 +164 @@
+-							<a
+-										href="?op=groupGraphs&domain=${report.domain}&date=${model.date}&group=${payload.group}&type=${payload.encodedType}&name=${item.name}"
++							<a href="?op=groupGraphs&domain=${report.domain}&date=${model.date}&group=${payload.group}&type=${payload.encodedType}&name=${item.name}"
+diff --git a/cat-home/src/main/webapp/jsp/report/transaction/transactionHistoryGroupReport.jsp b/cat-home/src/main/webapp/jsp/report/transaction/transactionHistoryGroupReport.jsp
+index aa3325c..68286a1 100644
+--- a/cat-home/src/main/webapp/jsp/report/transaction/transactionHistoryGroupReport.jsp
++++ b/cat-home/src/main/webapp/jsp/report/transaction/transactionHistoryGroupReport.jsp
+@@ -93 +93 @@
+-								href="?op=historyGroupReport&domain=${model.domain}&date=${model.date}&group=${payload.group}&reportType=${model.reportType}&type=${item.type}${model.customDate}">${item.type}</a>
++								href="?op=historyGroupReport&domain=${model.domain}&date=${model.date}&group=${payload.group}&reportType=${model.reportType}&type=${item.type}${model.customDate}">${e.id}</a>
+diff --git a/cat-home/src/test/java/com/dianping/cat/demo/TestCrashLog.java b/cat-home/src/test/java/com/dianping/cat/demo/TestCrashLog.java
+index fbd8da1..cf00bdb 100644
+--- a/cat-home/src/test/java/com/dianping/cat/demo/TestCrashLog.java
++++ b/cat-home/src/test/java/com/dianping/cat/demo/TestCrashLog.java
+@@ -18 +18 @@
+-				Transaction t = Cat.newTransaction("AndroidCrashLog#123", "crashLog#123");
++				Transaction t = Cat.newTransaction("AndroidCrashLog", "crashLog");
+

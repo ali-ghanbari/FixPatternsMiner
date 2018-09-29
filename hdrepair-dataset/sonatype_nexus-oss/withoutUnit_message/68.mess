@@ -1,0 +1,13 @@
+NEXUS-5472: NEXUS-5552: Fixing a bug wrt Error sensing
+
+If remote content discoverer detected an error, it was not
+signaling it properly (it depended on which strategy reported)
+it, causing that NEXUS-5552 gets into wrong state (soft
+failure not hard failure), hence retry did not happen either.
+
+This fixes it, by putting the remote discovery into hard failure
+state, but also somewhat fixes NEXUS-5552 (at least for me locally)
+as the "hourly update job" is started with slight delay from boot,
+and successfully updates the WL of Secure Central as async
+setup of secure access already happens.
+

@@ -1,0 +1,25 @@
+diff --git a/src/main/org/openscience/cdk/charges/Electronegativity.java b/src/main/org/openscience/cdk/charges/Electronegativity.java
+index ff50b45..1d3becd 100644
+--- a/src/main/org/openscience/cdk/charges/Electronegativity.java
++++ b/src/main/org/openscience/cdk/charges/Electronegativity.java
+@@ -48 +48 @@
+-	private IMolecule molSigma;
++	private IAtomContainer molSigma;
+diff --git a/src/test/org/openscience/cdk/qsar/descriptors/molecular/MolecularDescriptorTest.java b/src/test/org/openscience/cdk/qsar/descriptors/molecular/MolecularDescriptorTest.java
+index df7b320..44f85a3 100644
+--- a/src/test/org/openscience/cdk/qsar/descriptors/molecular/MolecularDescriptorTest.java
++++ b/src/test/org/openscience/cdk/qsar/descriptors/molecular/MolecularDescriptorTest.java
+@@ -328,2 +328,2 @@
+-        IMolecule water1 = someoneBringMeSomeWater(DefaultChemObjectBuilder.getInstance());
+-        IMolecule water2 = someoneBringMeSomeWater(SilentChemObjectBuilder.getInstance());
++        IAtomContainer water1 = someoneBringMeSomeWater(DefaultChemObjectBuilder.getInstance());
++        IAtomContainer water2 = someoneBringMeSomeWater(SilentChemObjectBuilder.getInstance());
+@@ -342 +342 @@
+-        IMolecule water1 = someoneBringMeSomeWater(
++        IAtomContainer water1 = someoneBringMeSomeWater(
+@@ -400,2 +400,2 @@
+-    private IMolecule someoneBringMeSomeWater(IChemObjectBuilder builder) throws Exception {
+-        IMolecule mol = builder.newInstance(IMolecule.class);
++    private IAtomContainer someoneBringMeSomeWater(IChemObjectBuilder builder) throws Exception {
++        IAtomContainer mol = builder.newInstance(IAtomContainer.class);
+

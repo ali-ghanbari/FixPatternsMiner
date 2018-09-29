@@ -1,0 +1,2 @@
+Further to faec9f807882d7739a2327afa97c6902d3fbfae8, fix it by making the ceylon methods return 'Object' not 'void' (so we can call '.string' on the result of 'common()', 'foo()' and 'bar()'). Stef's 'WTF' moment is explained thusly: Without the @model, the generated Java methods (which returned Object because ceylon methods were "refinable void") were treated by the model loader as returning Object, so the typechecker didn't complain
+

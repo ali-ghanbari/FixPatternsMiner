@@ -1,0 +1,21 @@
+diff --git a/core/src/main/java/brooklyn/entity/basic/BasicStartableImpl.java b/core/src/main/java/brooklyn/entity/basic/BasicStartableImpl.java
+index 47ca7a7..44e4244 100644
+--- a/core/src/main/java/brooklyn/entity/basic/BasicStartableImpl.java
++++ b/core/src/main/java/brooklyn/entity/basic/BasicStartableImpl.java
+@@ -30,0 +31 @@
++        addLocations(locations);
+diff --git a/core/src/test/java/brooklyn/entity/basic/BasicStartableTest.java b/core/src/test/java/brooklyn/entity/basic/BasicStartableTest.java
+index acdc59f..23e68ce 100644
+--- a/core/src/test/java/brooklyn/entity/basic/BasicStartableTest.java
++++ b/core/src/test/java/brooklyn/entity/basic/BasicStartableTest.java
+@@ -52,0 +53,9 @@
++    public void testSetsLocations() throws Exception {
++        startable = app.addChild(EntitySpec.create(BasicStartable.class));
++        Entities.startManagement(startable);
++        app.start(ImmutableList.of(loc1, loc2));
++        
++        assertEqualsIgnoringOrder(startable.getLocations(), ImmutableSet.of(loc1, loc2));
++    }
++    
++    @Test
+

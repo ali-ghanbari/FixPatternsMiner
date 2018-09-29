@@ -1,0 +1,19 @@
+diff --git a/java/org/apache/coyote/ajp/AjpAprProcessor.java b/java/org/apache/coyote/ajp/AjpAprProcessor.java
+index eca67e1..2e758f3 100644
+--- a/java/org/apache/coyote/ajp/AjpAprProcessor.java
++++ b/java/org/apache/coyote/ajp/AjpAprProcessor.java
+@@ -290,0 +291,3 @@
++                // There are no re-tries so clear the buffer to prevent a
++                // possible overflow if the buffer is used again. BZ53119.
++                outputBuffer.clear();
+diff --git a/webapps/docs/changelog.xml b/webapps/docs/changelog.xml
+index e1ea9e9..637898e 100644
+--- a/webapps/docs/changelog.xml
++++ b/webapps/docs/changelog.xml
+@@ -178,0 +179,5 @@
++        <bug>53119</bug>: Prevent buffer overflow errors being reported when a
++        client disconnects before the response has been fully written from an
++        AJP connection using the APR/native connector. (markt)
++      </fix>
++      <fix>
+

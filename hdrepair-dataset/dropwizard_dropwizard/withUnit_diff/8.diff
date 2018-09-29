@@ -1,0 +1,21 @@
+diff --git a/dropwizard-core/src/main/java/com/yammer/dropwizard/config/LoggingConfiguration.java b/dropwizard-core/src/main/java/com/yammer/dropwizard/config/LoggingConfiguration.java
+index 8bd8366..3fb4ee4 100644
+--- a/dropwizard-core/src/main/java/com/yammer/dropwizard/config/LoggingConfiguration.java
++++ b/dropwizard-core/src/main/java/com/yammer/dropwizard/config/LoggingConfiguration.java
+@@ -96 +96 @@
+-            return !archive || archivedLogFilenamePattern != null;
++            return !enabled || !archive || archivedLogFilenamePattern != null;
+diff --git a/dropwizard-core/src/test/java/com/yammer/dropwizard/config/tests/LoggingConfigurationTest.java b/dropwizard-core/src/test/java/com/yammer/dropwizard/config/tests/LoggingConfigurationTest.java
+index 9c97e2d..575a5a2 100644
+--- a/dropwizard-core/src/test/java/com/yammer/dropwizard/config/tests/LoggingConfigurationTest.java
++++ b/dropwizard-core/src/test/java/com/yammer/dropwizard/config/tests/LoggingConfigurationTest.java
+@@ -74,0 +75,8 @@
++    
++    @Test
++    public void defaultFileConfigurationIsValid() throws Exception {
++        final FileConfiguration file = new FileConfiguration();
++        
++        assertThat(file.isValidArchiveConfiguration(),
++                   is(true));
++    }
+

@@ -1,0 +1,45 @@
+diff --git a/config/config-api/src/com/thoughtworks/go/config/pluggabletask/PluggableTask.java b/config/config-api/src/com/thoughtworks/go/config/pluggabletask/PluggableTask.java
+index d2ac757..8c0412c 100644
+--- a/config/config-api/src/com/thoughtworks/go/config/pluggabletask/PluggableTask.java
++++ b/config/config-api/src/com/thoughtworks/go/config/pluggabletask/PluggableTask.java
+@@ -113,0 +114 @@
++                if(configuredProperty == null) continue;
+diff --git a/config/config-api/test/com/thoughtworks/go/config/pluggabletask/PluggableTaskTest.java b/config/config-api/test/com/thoughtworks/go/config/pluggabletask/PluggableTaskTest.java
+index 66c1f04..a012510 100644
+--- a/config/config-api/test/com/thoughtworks/go/config/pluggabletask/PluggableTaskTest.java
++++ b/config/config-api/test/com/thoughtworks/go/config/pluggabletask/PluggableTaskTest.java
+@@ -160,0 +161,27 @@
++    @Test
++    public void shouldGetOnlyConfiguredPropertiesIfACertainPropertyDefinedByPluginIsNotConfiguredByUser() throws Exception {
++        Task taskDetails = mock(Task.class);
++        TaskConfig taskConfig = new TaskConfig();
++        addProperty(taskConfig, "KEY2", "Key 2", 1);
++        addProperty(taskConfig, "KEY1", "Key 1", 0);
++        addProperty(taskConfig, "KEY3", "Key 3", 2);
++        when(taskDetails.config()).thenReturn(taskConfig);
++        when(taskDetails.view()).thenReturn(mock(TaskView.class));
++
++        String pluginId = "plugin_with_all_details";
++        PluggableTaskConfigStore.store().setPreferenceFor(pluginId, new TaskPreference(taskDetails));
++
++        Configuration configuration = new Configuration(
++                ConfigurationPropertyMother.create("KEY1", false, "value1"),
++                ConfigurationPropertyMother.create("KEY2", false, "value2")
++        );
++
++        PluggableTask task = new PluggableTask("abc", new PluginConfiguration(pluginId, "1"), configuration);
++
++        List<TaskProperty> propertiesForDisplay = task.getPropertiesForDisplay();
++
++        assertThat(propertiesForDisplay.size(), is(2));
++        assertProperty(propertiesForDisplay.get(0), "Key 1", "value1", "key1");
++        assertProperty(propertiesForDisplay.get(1), "Key 2", "value2", "key2");
++    }
++
+diff --git a/plugin-infra/sample-plugins/pom.xml b/plugin-infra/sample-plugins/pom.xml
+index ae7fcc7..578c9b0 100644
+--- a/plugin-infra/sample-plugins/pom.xml
++++ b/plugin-infra/sample-plugins/pom.xml
+@@ -52,0 +53 @@
++        <module>curl-plugin-old-api-based</module>
+

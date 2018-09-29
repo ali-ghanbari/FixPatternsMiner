@@ -1,0 +1,39 @@
+diff --git a/assemble/run_2.bat b/assemble/run_2.bat
+index bf3c100..266ecef 100644
+--- a/assemble/run_2.bat
++++ b/assemble/run_2.bat
+@@ -1 +1 @@
+-start java -Dcom.sun.management.jmxremote.port=9998 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -DassetsMode=dev -Dts.node.custom.name="node2" -Ddw.http.port=8821 -Ddw.http.adminPort=8822 -Ddw.logging.file.currentLogFilename="./target/logs/service2.log" -jar target/assemble-0.3.0-SNAPSHOT.jar server src/main/resources/hz-ora-mongo.yml
+\ No newline at end of file
++start java -Dcom.sun.management.jmxremote.port=9998 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -DassetsMode=dev -Dts.node.custom.name="node2" -Ddw.http.port=8821 -Ddw.http.adminPort=8822 -Ddw.logging.file.currentLogFilename="./target/logs/service2.log" -jar target/assemble-0.4.0-SNAPSHOT.jar server src/main/resources/hz-ora-mongo.yml
+\ No newline at end of file
+diff --git a/backend-hz/src/main/java/ru/taskurotta/backend/hz/recovery/HzQueueBackendStatistics.java b/backend-hz/src/main/java/ru/taskurotta/backend/hz/recovery/HzQueueBackendStatistics.java
+index 2279d07..07dd845 100644
+--- a/backend-hz/src/main/java/ru/taskurotta/backend/hz/recovery/HzQueueBackendStatistics.java
++++ b/backend-hz/src/main/java/ru/taskurotta/backend/hz/recovery/HzQueueBackendStatistics.java
+@@ -84,0 +85 @@
++                        continue;
+diff --git a/recipes/src/main/resources/logback.xml b/recipes/src/main/resources/logback.xml
+index 220cda4..7fa7ffe 100644
+--- a/recipes/src/main/resources/logback.xml
++++ b/recipes/src/main/resources/logback.xml
+@@ -19,0 +20 @@
++    <!--<logger name="ru.taskurotta.bootstrap" level="TRACE" />-->
+diff --git a/recipes/src/main/resources/ru/taskurotta/recipes/calculate/wf-config-jersey.yml b/recipes/src/main/resources/ru/taskurotta/recipes/calculate/wf-config-jersey.yml
+index ba827e0..64426d3 100644
+--- a/recipes/src/main/resources/ru/taskurotta/recipes/calculate/wf-config-jersey.yml
++++ b/recipes/src/main/resources/ru/taskurotta/recipes/calculate/wf-config-jersey.yml
+@@ -7,3 +7,3 @@
+-          sleep: -1
+-          workerFailChance: -1
+-          deciderFailChance: -1
++          sleep: 100 #-1 = disabled
++          workerFailChance: -1 #-1 = disabled
++          deciderFailChance: -1 #-1 = disabled
+@@ -18 +18 @@
+-          count: 100
++          count: 80
+@@ -21 +21 @@
+-          startTaskPeriodSeconds: 10
++          startTaskPeriodSeconds: -1 #-1 = disabled
+

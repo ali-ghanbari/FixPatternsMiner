@@ -1,0 +1,52 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/replicatedmap/record/AbstractReplicatedRecordStore.java b/hazelcast/src/main/java/com/hazelcast/replicatedmap/record/AbstractReplicatedRecordStore.java
+index 497c956..d56a333 100644
+--- a/hazelcast/src/main/java/com/hazelcast/replicatedmap/record/AbstractReplicatedRecordStore.java
++++ b/hazelcast/src/main/java/com/hazelcast/replicatedmap/record/AbstractReplicatedRecordStore.java
+@@ -96 +96 @@
+-        if (ttlMillis > 0 && System.currentTimeMillis() - replicatedRecord.getUpdateTime() > ttlMillis) {
++        if (ttlMillis > 0 && System.currentTimeMillis() - replicatedRecord.getUpdateTime() >= ttlMillis) {
+diff --git a/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java b/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java
+index f56724d..803e160 100644
+--- a/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/replicatedmap/ReplicatedMapTest.java
+@@ -26,0 +27 @@
++import com.hazelcast.replicatedmap.record.ReplicationPublisher;
+@@ -51 +51,0 @@
+-import static org.junit.Assert.assertNull;
+@@ -257,0 +258,7 @@
++        // Prevent further updates
++        getReplicationPublisher(map2).emptyReplicationQueue();
++        getReplicationPublisher(map1).emptyReplicationQueue();
++
++        // Give a bit of time to process last batch of updates
++        TimeUnit.SECONDS.sleep(2);
++
+@@ -282,2 +289 @@
+-        Thread.sleep(2000);
+-
++        int map2Updated = 0;
+@@ -285 +291,3 @@
+-            assertNull(map2.get(entry.getKey()));
++            if (map2.get(entry.getKey()) == null) {
++                map2Updated++;
++            }
+@@ -287,0 +296 @@
++        int map1Updated = 0;
+@@ -289 +298,3 @@
+-            assertNull(map1.get(entry.getKey()));
++            if (map1.get(entry.getKey()) == null) {
++                map1Updated++;
++            }
+@@ -290,0 +302,3 @@
++
++        assertMatchSuccessfulOperationQuota(0.75, map2entries.size(), map2Updated);
++        assertMatchSuccessfulOperationQuota(0.75, map1entries.size(), map1Updated);
+@@ -1054,0 +1069,7 @@
++    private <K, V> ReplicationPublisher<K, V> getReplicationPublisher(ReplicatedMap<K, V> map)
++            throws Exception {
++        ReplicatedMapProxy proxy = (ReplicatedMapProxy) map;
++        AbstractReplicatedRecordStore store = (AbstractReplicatedRecordStore) REPLICATED_RECORD_STORE.get(proxy);
++        return store.getReplicationPublisher();
++    }
++
+

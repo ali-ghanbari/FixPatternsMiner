@@ -1,0 +1,8 @@
+diff --git a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AddDiskCommand.java b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AddDiskCommand.java
+index 6c24c40..4b3b4c8 100644
+--- a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AddDiskCommand.java
++++ b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AddDiskCommand.java
+@@ -252 +252 @@
+-        if (getParameters().getVmId() == null) {
++        if (getParameters().getVmId() == null || Guid.Empty.equals(getParameters().getVmId())) {
+

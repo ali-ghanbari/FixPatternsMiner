@@ -1,0 +1,8 @@
+diff --git a/src/org/nutz/dao/jdbc/JdbcExpertConfigFile.java b/src/org/nutz/dao/jdbc/JdbcExpertConfigFile.java
+index 0a45ec5..d62b6eb 100644
+--- a/src/org/nutz/dao/jdbc/JdbcExpertConfigFile.java
++++ b/src/org/nutz/dao/jdbc/JdbcExpertConfigFile.java
+@@ -37 +37 @@
+-            long max = ((Number) config.get("pool-max")).longValue();
++            long max = config.containsKey("pool-max") ? ((Number) config.get("pool-max")).longValue() : 2000;
+

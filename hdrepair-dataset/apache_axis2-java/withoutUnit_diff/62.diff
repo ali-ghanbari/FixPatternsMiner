@@ -1,0 +1,62 @@
+diff --git a/modules/codegen/src/org/apache/axis2/wsdl/WSDL2Code.java b/modules/codegen/src/org/apache/axis2/wsdl/WSDL2Code.java
+index 561fdd5..6f340c7 100644
+--- a/modules/codegen/src/org/apache/axis2/wsdl/WSDL2Code.java
++++ b/modules/codegen/src/org/apache/axis2/wsdl/WSDL2Code.java
+@@ -43 +43 @@
+-        for (int i = 2; i <= 37; i++) {
++        for (int i = 2; i <= 40; i++) {
+diff --git a/modules/codegen/src/org/apache/axis2/wsdl/i18n/resource.properties b/modules/codegen/src/org/apache/axis2/wsdl/i18n/resource.properties
+index f1d05a3..297b772 100644
+--- a/modules/codegen/src/org/apache/axis2/wsdl/i18n/resource.properties
++++ b/modules/codegen/src/org/apache/axis2/wsdl/i18n/resource.properties
+@@ -71,3 +71,6 @@
+-wsdl2code.arg35=  --noBuildXML             Don't generate the build.xml in the output directory
+-wsdl2code.arg36=  --noWSDL                 Don't generate WSDL's in the resources directory
+-wsdl2code.arg37=  --noMessageReceiver      Don't generate a MessageReceiver in the generated sources
++wsdl2code.arg35=                           \t\t\t   -Ewdc (for xmlbeans) - Generate code with a dummy schema. if someone use this option
++wsdl2code.arg36=                           \t\t\t      they have to generate the xmlbeans code seperately with the scomp command comes with the
++wsdl2code.arg37=                           \t\t\t      xmlbeans distribution and replace the Axis2 generated classes with correct classes
++wsdl2code.arg38=  --noBuildXML             Don't generate the build.xml in the output directory
++wsdl2code.arg39=  --noWSDL                 Don't generate WSDL's in the resources directory
++wsdl2code.arg40=  --noMessageReceiver      Don't generate a MessageReceiver in the generated sources
+diff --git a/modules/codegen/src/org/apache/axis2/wsdl/template/java/InterfaceImplementationTemplate.xsl b/modules/codegen/src/org/apache/axis2/wsdl/template/java/InterfaceImplementationTemplate.xsl
+index 807100b..e93bdb9 100644
+--- a/modules/codegen/src/org/apache/axis2/wsdl/template/java/InterfaceImplementationTemplate.xsl
++++ b/modules/codegen/src/org/apache/axis2/wsdl/template/java/InterfaceImplementationTemplate.xsl
+@@ -317 +317 @@
+-
++              org.apache.axis2.context.MessageContext _messageContext = null;
+@@ -329 +329 @@
+-              org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
++              _messageContext = new org.apache.axis2.context.MessageContext();
+@@ -498 +498 @@
+-                                _messageContext.getTransportOut().getSender().cleanup(_messageContext);
++
+@@ -571 +571,3 @@
+-        }
++            } finally {
++                _messageContext.getTransportOut().getSender().cleanup(_messageContext);
++            }
+@@ -628 +630 @@
+-              org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
++              final org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
+@@ -859 +861,5 @@
+-                                // Do nothing by default
++                                try {
++                                    _messageContext.getTransportOut().getSender().cleanup(_messageContext);
++                                } catch (org.apache.axis2.AxisFault axisFault) {
++                                    callback.receiveError<xsl:value-of select="@name"/>(axisFault);
++                                }
+@@ -928,0 +935 @@
++                org.apache.axis2.context.MessageContext _messageContext = null;
+@@ -942 +949 @@
+-                org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
++                 _messageContext = new org.apache.axis2.context.MessageContext();
+@@ -1094,0 +1102,2 @@
++              } finally {
++                _messageContext.getTransportOut().getSender().cleanup(_messageContext);
+@@ -1096,0 +1106,3 @@
++           <xsl:if test="not($mep='11')">
++              _messageContext.getTransportOut().getSender().cleanup(_messageContext); 
++           </xsl:if>
+

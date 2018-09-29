@@ -1,0 +1,47 @@
+diff --git a/interfaces/taverna/t2-webdav/pom.xml b/interfaces/taverna/t2-webdav/pom.xml
+index d68794a..db433eb 100644
+--- a/interfaces/taverna/t2-webdav/pom.xml
++++ b/interfaces/taverna/t2-webdav/pom.xml
+@@ -20 +20 @@
+-			<version>2.7.5</version>
++			<version>2.3.3</version>
+@@ -25 +25 @@
+-			<version>1.1.3</version>
++			<version>1.1</version>
+@@ -76 +76 @@
+-			<version>8.1.7.v20120910</version>
++			<version>7.2.2.v20101205</version>
+@@ -82 +82 @@
+-			<version>8.1.7.v20120910</version>
++			<version>7.2.2.v20101205</version>
+@@ -167,2 +167,2 @@
+-					<source>1.7</source>
+-					<target>1.7</target>
++					<source>1.6</source>
++					<target>1.6</target>
+diff --git a/interfaces/taverna/t2-webdav/src/main/java/eu/impact_project/resultsrepository/DavHandler.java b/interfaces/taverna/t2-webdav/src/main/java/eu/impact_project/resultsrepository/DavHandler.java
+index 4aeb15f..c88ea61 100644
+--- a/interfaces/taverna/t2-webdav/src/main/java/eu/impact_project/resultsrepository/DavHandler.java
++++ b/interfaces/taverna/t2-webdav/src/main/java/eu/impact_project/resultsrepository/DavHandler.java
+@@ -52,2 +52,2 @@
+-	/** Make seperator os dependant **/
+-	private final String separator = File.separator;
++//	/** Make separator os dependant **/
++	private final String separator = "/";
+diff --git a/interfaces/taverna/t2-webdav/src/main/resources/dav.properties b/interfaces/taverna/t2-webdav/src/main/resources/dav.properties
+index 0be2e3c..84a6147 100644
+--- a/interfaces/taverna/t2-webdav/src/main/resources/dav.properties
++++ b/interfaces/taverna/t2-webdav/src/main/resources/dav.properties
+@@ -4 +4 @@
+-fileEndingsToStore=gif,tif,tiff,jpg,jpeg,evx,xml,alto,png,ini,htm,html,pmb,txt
+\ No newline at end of file
++fileEndingsToStore=gif,tif,tiff,jpg,jpeg,evx,xml,alto,png,ini,htm,html,pmb,txt,gz
+\ No newline at end of file
+diff --git a/interfaces/taverna/t2-webdav/src/test/java/eu/impact_project/resultsrepository/ServiceImplTest.java b/interfaces/taverna/t2-webdav/src/test/java/eu/impact_project/resultsrepository/ServiceImplTest.java
+index c6913b5..859229e 100644
+--- a/interfaces/taverna/t2-webdav/src/test/java/eu/impact_project/resultsrepository/ServiceImplTest.java
++++ b/interfaces/taverna/t2-webdav/src/test/java/eu/impact_project/resultsrepository/ServiceImplTest.java
+@@ -91 +91 @@
+-		assertFalse(message.indexOf("warnings or errors") >= 0);
++		assertTrue(message.indexOf("warnings or errors") >= 0);
+

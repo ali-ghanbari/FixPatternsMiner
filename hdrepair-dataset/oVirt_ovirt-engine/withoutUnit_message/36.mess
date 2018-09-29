@@ -1,0 +1,13 @@
+core: Could not clear external job
+
+This patch fixes two problems when attempting to clear an external job
+from the API
+
+1) The parameters in the UpdateJob SP did not match the parameters sent
+from the DAO
+2) The command did not set the return value when succeeded, causing the
+whole command to rollback
+
+Change-Id: Ie838897d389ad9bf253cfe3edc8a363f73d584bb
+Bug-Url: https://bugzilla.redhat.com/show_bug.cgi?id=1156055
+Signed-off-by: emesika <emesika@redhat.com>

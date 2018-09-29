@@ -1,0 +1,16 @@
+diff --git a/scripts/misc/dual_table.hive b/scripts/misc/dual_table.hive
+index 982dd19..4081461 100644
+--- a/scripts/misc/dual_table.hive
++++ b/scripts/misc/dual_table.hive
+@@ -5 +5 @@
+-INSERT INTO TABLE dual SELECT count(*) FROM dual;
+\ No newline at end of file
++INSERT INTO TABLE dual SELECT count(*)+1 FROM dual;
+diff --git a/src/main/hivemall/dataset/LogisticRegressionDataGeneratorUDTF.java b/src/main/hivemall/dataset/LogisticRegressionDataGeneratorUDTF.java
+index cdd431d..e7535a7 100644
+--- a/src/main/hivemall/dataset/LogisticRegressionDataGeneratorUDTF.java
++++ b/src/main/hivemall/dataset/LogisticRegressionDataGeneratorUDTF.java
+@@ -79 +79 @@
+-        this.sort = cl.hasOption("ordered");
++        this.sort = cl.hasOption("sort");
+

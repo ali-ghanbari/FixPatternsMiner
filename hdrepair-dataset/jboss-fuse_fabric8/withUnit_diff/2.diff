@@ -1,0 +1,25 @@
+diff --git a/fabric/dynamic-jaxb/src/main/java/io/fabric8/jaxb/dynamic/DynamicXJC.java b/fabric/dynamic-jaxb/src/main/java/io/fabric8/jaxb/dynamic/DynamicXJC.java
+index b7e96f1..e919a49 100644
+--- a/fabric/dynamic-jaxb/src/main/java/io/fabric8/jaxb/dynamic/DynamicXJC.java
++++ b/fabric/dynamic-jaxb/src/main/java/io/fabric8/jaxb/dynamic/DynamicXJC.java
+@@ -80 +80 @@
+-        String stem = toString() + "-" + System.currentTimeMillis();
++        String stem = toString().replaceAll("@", "_") + "-" + System.currentTimeMillis();
+diff --git a/fabric/watcher-core/src/test/java/io/fabric8/watcher/FileWatcherTest.java b/fabric/watcher-core/src/test/java/io/fabric8/watcher/FileWatcherTest.java
+index f35379d..bcab113 100644
+--- a/fabric/watcher-core/src/test/java/io/fabric8/watcher/FileWatcherTest.java
++++ b/fabric/watcher-core/src/test/java/io/fabric8/watcher/FileWatcherTest.java
+@@ -30 +29,0 @@
+-import org.junit.Ignore;
+@@ -35,2 +33,0 @@
+-
+-@Ignore("[FABRIC-904] Fix watcher-core FileWatcherTest")
+diff --git a/fabric/watcher-dynamic-jaxb/src/test/java/io/fabric8/jaxb/dynamic/watcher/camel/CamelSpringXjcTest.java b/fabric/watcher-dynamic-jaxb/src/test/java/io/fabric8/jaxb/dynamic/watcher/camel/CamelSpringXjcTest.java
+index a3ef7c6..3a41a1e 100644
+--- a/fabric/watcher-dynamic-jaxb/src/test/java/io/fabric8/jaxb/dynamic/watcher/camel/CamelSpringXjcTest.java
++++ b/fabric/watcher-dynamic-jaxb/src/test/java/io/fabric8/jaxb/dynamic/watcher/camel/CamelSpringXjcTest.java
+@@ -26 +25,0 @@
+-import org.junit.Ignore;
+@@ -37 +35,0 @@
+-@Ignore("[FABRIC-938] Fix watcher-dynamic-jaxb CamelSpringXjcTest")
+

@@ -1,0 +1,8 @@
+diff --git a/nuxeo-platform-oauth/src/main/java/org/nuxeo/ecm/platform/ui/web/auth/oauth/NuxeoOAuthFilter.java b/nuxeo-platform-oauth/src/main/java/org/nuxeo/ecm/platform/ui/web/auth/oauth/NuxeoOAuthFilter.java
+index b7117ed..254d7be 100644
+--- a/nuxeo-platform-oauth/src/main/java/org/nuxeo/ecm/platform/ui/web/auth/oauth/NuxeoOAuthFilter.java
++++ b/nuxeo-platform-oauth/src/main/java/org/nuxeo/ecm/platform/ui/web/auth/oauth/NuxeoOAuthFilter.java
+@@ -227 +227 @@
+-            sb.append("?");
++            sb.append(cbUrl.charAt('?') == -1 ? "?" : "&");
+

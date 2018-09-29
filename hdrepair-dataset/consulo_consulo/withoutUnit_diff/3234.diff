@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/codeInsight/javadoc/JavaDocManager.java b/source/com/intellij/codeInsight/javadoc/JavaDocManager.java
+index bc94cad..c00ff21 100644
+--- a/source/com/intellij/codeInsight/javadoc/JavaDocManager.java
++++ b/source/com/intellij/codeInsight/javadoc/JavaDocManager.java
+@@ -592 +592 @@
+-    PsiFile containingFile = (originalElement!=null)?originalElement.getContainingFile() : element.getContainingFile();
++    PsiFile containingFile = (originalElement!=null)?originalElement.getContainingFile() : (element!=null)?element.getContainingFile():null;
+

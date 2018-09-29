@@ -1,0 +1,18 @@
+diff --git a/src/main/java/org/perfcake/message/sender/GroovySender.java b/src/main/java/org/perfcake/message/sender/GroovySender.java
+index 9d9a50e..71f0ea4 100644
+--- a/src/main/java/org/perfcake/message/sender/GroovySender.java
++++ b/src/main/java/org/perfcake/message/sender/GroovySender.java
+@@ -57 +57 @@
+-         groovyExecutable = System.getenv("GROOVY_HOME") + File.separator + "groovy";
++         groovyExecutable = System.getenv("GROOVY_HOME") + File.separator + "bin" + File.separator + "groovy";
+diff --git a/src/main/resources/scenarios/basic_groovy.xml b/src/main/resources/scenarios/basic_groovy.xml
+index ea72477..421d071 100644
+--- a/src/main/resources/scenarios/basic_groovy.xml
++++ b/src/main/resources/scenarios/basic_groovy.xml
+@@ -6 +6 @@
+-   <generator class="DefaultMessageGenerator" threads="${perfcake.performance.thread.count:100}">
++   <generator class="DefaultMessageGenerator" threads="${perfcake.performance.thread.count:1}">
+@@ -16 +16 @@
+-            <property name="path" value="${scenario}-response-time.csv"/>
++            <property name="path" value="${perfcake.scenario}-response-time.csv"/>
+

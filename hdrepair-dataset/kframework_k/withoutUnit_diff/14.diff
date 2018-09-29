@@ -1,0 +1,33 @@
+diff --git a/k-distribution/src/test/java/org/kframework/kore/convertors/TstBackendOnKORE_IT.java b/k-distribution/src/test/java/org/kframework/kore/convertors/TstBackendOnKORE_IT.java
+index b75b66a..16a68ce 100644
+--- a/k-distribution/src/test/java/org/kframework/kore/convertors/TstBackendOnKORE_IT.java
++++ b/k-distribution/src/test/java/org/kframework/kore/convertors/TstBackendOnKORE_IT.java
+@@ -65 +65 @@
+-            BiFunction<String, Source, K> programParser = compiledDef.getProgramParser(kem);
++            BiFunction<String, Source, K> programParser = compiledDef.getGroundParser(kem, "IMP-SYNTAX");
+diff --git a/k-distribution/src/test/resources/convertor-tests/kapp-expected.k b/k-distribution/src/test/resources/convertor-tests/kapp-expected.k
+index 52857fc..603dadc 100644
+--- a/k-distribution/src/test/resources/convertor-tests/kapp-expected.k
++++ b/k-distribution/src/test/resources/convertor-tests/kapp-expected.k
+@@ -3 +2,0 @@
+-  syntax Bools ::= Bools "," Bools [Location(#token("15",Int),#token("20",Int),#token("15",Int),#token("34",Int)) Source(#token("src/test/resources/convertor-tests/kapp.k",KString)) klabel(#token("_,_",KString)) userList(#token("Bools",KString))]
+@@ -4,0 +4 @@
++  syntax Bools ::= Bool "," Bools [Location(#token("15",Int),#token("20",Int),#token("15",Int),#token("34",Int)) Source(#token("src/test/resources/convertor-tests/kapp.k",KString)) klabel(#token("_,_",KString)) userList(#token("Bools",KString))]
+diff --git a/k-distribution/src/test/resources/convertor-tests/userList-expected.k b/k-distribution/src/test/resources/convertor-tests/userList-expected.k
+index 6cc44fd..f9debc0 100644
+--- a/k-distribution/src/test/resources/convertor-tests/userList-expected.k
++++ b/k-distribution/src/test/resources/convertor-tests/userList-expected.k
+@@ -3 +2,0 @@
+-  syntax Stxs ::= Stxs "," Stxs [Location(#token("5",Int),#token("21",Int),#token("5",Int),#token("42",Int)) Source(#token("src/test/resources/convertor-tests/userList.k",KString)) foo(#token("",AttributeValue)) klabel(#token("_,_",KString)) userList(#token("Stxs",KString))]
+@@ -4,0 +4 @@
++  syntax Stxs ::= Stx "," Stxs [Location(#token("5",Int),#token("21",Int),#token("5",Int),#token("42",Int)) Source(#token("src/test/resources/convertor-tests/userList.k",KString)) foo(#token("",AttributeValue)) klabel(#token("_,_",KString)) userList(#token("Stxs",KString))]
+diff --git a/k-distribution/src/test/resources/convertor-tests/userListNonEmpty-expected.k b/k-distribution/src/test/resources/convertor-tests/userListNonEmpty-expected.k
+index 8a264d9..c038a1a 100644
+--- a/k-distribution/src/test/resources/convertor-tests/userListNonEmpty-expected.k
++++ b/k-distribution/src/test/resources/convertor-tests/userListNonEmpty-expected.k
+@@ -3 +2,0 @@
+-  syntax Stxs ::= Stxs "," Stxs [Location(#token("5",Int),#token("19",Int),#token("5",Int),#token("33",Int)) Source(#token("src/test/resources/convertor-tests/userListNonEmpty.k",KString)) klabel(#token("_,_",KString)) userList(#token("Stxs",KString))]
+@@ -4,0 +4,2 @@
++  syntax Stxs ::= Stx "," Stxs [Location(#token("5",Int),#token("19",Int),#token("5",Int),#token("33",Int)) Source(#token("src/test/resources/convertor-tests/userListNonEmpty.k",KString)) klabel(#token("_,_",KString)) userList(#token("Stxs",KString))]
++  syntax Stxs ::= ".Stxs" [Location(#token("5",Int),#token("19",Int),#token("5",Int),#token("33",Int)) Source(#token("src/test/resources/convertor-tests/userListNonEmpty.k",KString)) userList(#token("Stxs",KString))]
+

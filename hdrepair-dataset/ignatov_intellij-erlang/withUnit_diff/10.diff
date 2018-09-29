@@ -1,0 +1,31 @@
+diff --git a/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java b/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java
+index fe270c9..ccba571 100644
+--- a/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java
++++ b/src/org/intellij/erlang/formatter/ErlangFormattingModelBuilder.java
+@@ -127,0 +128 @@
++      .aroundInside(ERL_OP_AR_DIV, ERL_FUNCTION_WITH_ARITY).none()
+diff --git a/testData/formatter/191-after.erl b/testData/formatter/191-after.erl
+new file mode 100644
+index 0000000..0e7d3cc
+--- /dev/null
++++ b/testData/formatter/191-after.erl
+@@ -0,0 +1,2 @@
++foo() ->
++  F = fun country_index/1.
+\ No newline at end of file
+diff --git a/testData/formatter/191.erl b/testData/formatter/191.erl
+new file mode 100644
+index 0000000..9ce8e34
+--- /dev/null
++++ b/testData/formatter/191.erl
+@@ -0,0 +1,2 @@
++foo() ->
++  F = fun country_index         /         1.
+\ No newline at end of file
+diff --git a/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java b/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java
+index 7afd93c..76b9a0d 100644
+--- a/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java
++++ b/tests/org/intellij/erlang/formatting/ErlangFormattingTest.java
+@@ -62,0 +63 @@
++  public void test191()    throws Exception { doTest(); }
+

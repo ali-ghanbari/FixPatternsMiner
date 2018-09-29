@@ -1,0 +1,12 @@
+NEXUS-5654 fixed race between offer/revoke and initializePrefixFile
+
+The race was only possible if a new repository was provisioned and
+deploys to the new repository happened very close in time. Extremely
+unlikely unless repository provisioning and deployment are executed
+by the same script.
+
+The fix is to remove redundant 'unpublish' call during
+initializePrefixFile.
+
+Signed-off-by: Igor Fedorenko <igor@ifedorenko.com>
+

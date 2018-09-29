@@ -1,0 +1,47 @@
+diff --git a/molgenis-model-registry/src/main/java/org/molgenis/standardsregistry/utils/PackageTreeNode.java b/molgenis-model-registry/src/main/java/org/molgenis/standardsregistry/utils/PackageTreeNode.java
+index 40f0a51..0c9303d 100644
+--- a/molgenis-model-registry/src/main/java/org/molgenis/standardsregistry/utils/PackageTreeNode.java
++++ b/molgenis-model-registry/src/main/java/org/molgenis/standardsregistry/utils/PackageTreeNode.java
+@@ -28 +28 @@
+-		this.key = key;
++		this.key = key.replace(' ', '_');
+diff --git a/molgenis-model-registry/src/main/resources/templates/view-standardsregistry_docs-macros.ftl b/molgenis-model-registry/src/main/resources/templates/view-standardsregistry_docs-macros.ftl
+index cf96b82..36b040d 100644
+--- a/molgenis-model-registry/src/main/resources/templates/view-standardsregistry_docs-macros.ftl
++++ b/molgenis-model-registry/src/main/resources/templates/view-standardsregistry_docs-macros.ftl
+@@ -2 +2 @@
+-    <h2 id="package-${package.name}" class="page-header">${package.simpleName} <small>(${package.name})</small></h2>
++    <h2 id="package-${package.name?replace(" ", "_")}" class="page-header">${package.simpleName} <small>(${package.name})</small></h2>
+@@ -7 +7 @@
+-        		<span class="label label-primary"><a href='${tag.object.label}' target="_blank">${tag.object.label}</a></span>
++        		<span class="label label-primary"><a href='${tag.object.iri}' target="_blank">${tag.object.label}</a></span>
+@@ -18 +18 @@
+-                    <li class="list-group-item"><a href="#package-${subPackage.name}">${subPackage.name}</a></li>
++                    <li class="list-group-item"><a href="#package-${subPackage.name?replace(" ", "_")}">${subPackage.name}</a></li>
+@@ -25 +25 @@
+-            <h4 id="entities-${package.name}">Entities</h4>
++            <h4 id="entities-${package.name?replace(" ", "_")}">Entities</h4>
+@@ -30 +30 @@
+-                        <li class="list-group-item"><a href="#entity-${entity.name}">${entity.label}</a></li>
++                        <li class="list-group-item"><a href="#entity-${entity.name?replace(" ", "_")}">${entity.label}</a></li>
+@@ -32,0 +33 @@
++		            <a href="#package-index"><small>back to top</small></a>
+@@ -38 +39 @@
+-            <div class="panel" id="entity-${entity.name}">
++            <div class="panel" id="entity-${entity.name?replace(" ", "_")}">
+@@ -40 +41 @@
+-                    <h3 id="entity-${entity.name}" class="panel-title">${entity.label}<small class="panel-title"><#if entity.extends?has_content> extends ${entity.extends.label}</#if><#if entity.abstract> (abstract)</#if></small></h3>
++                    <h3 class="panel-title">${entity.label}<small class="panel-title"><#if entity.extends?has_content> extends ${entity.extends.label}</#if><#if entity.abstract> (abstract)</#if></small></h3>
+@@ -64 +65 @@
+-                    <a href="#entities-${package.name}"><small>back to entities</small></a>
++                    <a href="#entities-${package.name?replace(" ", "_")}"><small>back to entities</small></a>
+@@ -82 +83 @@
+-	<tr id="attribute-${entity.name}${attribute.name}">
++	<tr id="attribute-${entity.name?replace(" ", "_")}${attribute.name?replace(" ", "_")}">
+@@ -85 +86 @@
+-    	<td>${dataType}<#if dataType == "CATEGORICAL" || dataType == "MREF" || dataType == "XREF"> (<a href="#entity-${attribute.refEntity.name}">${attribute.refEntity.label}</a>)</#if></td>
++    	<td>${dataType}<#if dataType == "CATEGORICAL" || dataType == "MREF" || dataType == "XREF"> (<a href="#entity-${attribute.refEntity.name?replace(" ", "_")}">${attribute.refEntity.label}</a>)</#if></td>
+@@ -118 +119 @@
+-    <li><a href="#package-${package.name}">${package.name}</a></li>
++    <li><a href="#package-${package.name?replace(" ", "_")}">${package.name}</a></li>
+

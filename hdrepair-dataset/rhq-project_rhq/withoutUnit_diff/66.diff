@@ -1,0 +1,401 @@
+diff --git a/modules/enterprise/gui/coregui/src/main/java/org/rhq/enterprise/gui/coregui/client/alert/definitions/NewConditionEditor.java b/modules/enterprise/gui/coregui/src/main/java/org/rhq/enterprise/gui/coregui/client/alert/definitions/NewConditionEditor.java
+index 2687a87..d90aba7 100644
+--- a/modules/enterprise/gui/coregui/src/main/java/org/rhq/enterprise/gui/coregui/client/alert/definitions/NewConditionEditor.java
++++ b/modules/enterprise/gui/coregui/src/main/java/org/rhq/enterprise/gui/coregui/client/alert/definitions/NewConditionEditor.java
+@@ -818 +818 @@
+-            MSG.view_alert_definition_condition_editor_availabilityDuration());
++            MSG.view_alert_definition_condition_editor_availabilityDuration_state());
+diff --git a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages.properties b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages.properties
+index dc05c46..ee61a32 100644
+--- a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages.properties
++++ b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages.properties
+@@ -537 +536,0 @@
+-view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -539,0 +539 @@
++view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -545 +545,5 @@
+-view_adminTopology_agents = Agents
++view_adminTopology_agentDetail_address = Address
++view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
++view_adminTopology_agentDetail_currentServer = Current Server
++view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++view_adminTopology_agentDetail_token = Token
+@@ -551,5 +555 @@
+-view_adminTopology_agentDetail_address = Address
+-view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
+-view_adminTopology_agentDetail_currentServer = Current Server
+-view_adminTopology_agentDetail_token = Token
+-view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++view_adminTopology_agents = Agents
+@@ -564 +563,0 @@
+-view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -565,0 +565 @@
++view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -572 +571,0 @@
+-view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -573,0 +573 @@
++view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -577 +576,0 @@
+-view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -578,0 +578 @@
++view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -590 +589,0 @@
+-view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -591,0 +591 @@
++view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -595,0 +596,5 @@
++view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
++view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
++view_adminTopology_partitionEventsDetail_eventDetails = Event Details
++view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
++view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -606,5 +610,0 @@
+-view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
+-view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
+-view_adminTopology_partitionEventsDetail_eventDetails = Event Details
+-view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
+-view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -611,0 +612,3 @@
++view_adminTopology_serverDetail_connectedAgents = Connected Agents
++view_adminTopology_serverDetail_installationDate = Installation Date
++view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -622,3 +624,0 @@
+-view_adminTopology_serverDetail_connectedAgents = Connected Agents
+-view_adminTopology_serverDetail_installationDate = Installation Date
+-view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -859,2 +859,3 @@
+-view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration is in minutes and should be long enough, several minutes, to give the agent time to detect another  availability state change that may correct the problem.
+-view_alert_definition_condition_editor_availabilityDuration_tooltip_duration = The number of minutes the resource must be at the given availability before the condition is met.
++view_alert_definition_condition_editor_availabilityDuration_state = Availability State
++view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration should be long enough (several minutes) to give the agent time to detect another  availability state change that may correct the problem.
++view_alert_definition_condition_editor_availabilityDuration_tooltip_duration = The amount of time the resource must be at the given availability state before the condition is met.
+diff --git a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_cs.properties b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_cs.properties
+index 6978427..42733b7 100644
+--- a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_cs.properties
++++ b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_cs.properties
+@@ -556 +555,0 @@
+-view_adminTopology_affinityGroups_agetnMembers = Členští agenti
+@@ -558,0 +558 @@
++view_adminTopology_affinityGroups_agetnMembers = Členští agenti
+@@ -564 +564,5 @@
+-view_adminTopology_agents = Agenti
++view_adminTopology_agentDetail_address = Adresa
++view_adminTopology_agentDetail_agentFailoverList = Agentův failover list
++view_adminTopology_agentDetail_currentServer = Současný server
++view_adminTopology_agentDetail_remoteEndpoint = Přípojný bod
++view_adminTopology_agentDetail_token = Token
+@@ -570,5 +574 @@
+-view_adminTopology_agentDetail_address = Adresa
+-view_adminTopology_agentDetail_agentFailoverList = Agentův failover list
+-view_adminTopology_agentDetail_currentServer = Současný server
+-view_adminTopology_agentDetail_token = Token
+-view_adminTopology_agentDetail_remoteEndpoint = Přípojný bod
++view_adminTopology_agents = Agenti
+@@ -583 +582,0 @@
+-view_adminTopology_message_fetchAgentsFail = Nepodařilo se agenty pro afinitní skupinu s id {0}.
+@@ -584,0 +584 @@
++view_adminTopology_message_fetchAgentsFail = Nepodařilo se agenty pro afinitní skupinu s id {0}.
+@@ -591 +590,0 @@
+-view_adminTopology_message_fetchServersFail = Nepodařilo se získat servery pro afinitní skupinu s id {0}.
+@@ -592,0 +592 @@
++view_adminTopology_message_fetchServersFail = Nepodařilo se získat servery pro afinitní skupinu s id {0}.
+@@ -596 +595,0 @@
+-view_adminTopology_message_removeAGroupsFail = Nepodařilo se odstranit následující afinitní skupiny {0}.
+@@ -597,0 +597 @@
++view_adminTopology_message_removeAGroupsFail = Nepodařilo se odstranit následující afinitní skupiny {0}.
+@@ -607 +607 @@
+-view_adminTopology_message_removedServer =Odstraněno {0} serverů.
++view_adminTopology_message_removedServer = Odstraněno {0} serverů.
+@@ -609 +608,0 @@
+-view_adminTopology_message_serverUpdated = Server {0} byl úspěšně změněn.
+@@ -611 +610,2 @@
+-view_adminTopology_message_setMode =Nastaveno {0} serverů do {1} módu.
++view_adminTopology_message_serverUpdated = Server {0} byl úspěšně změněn.
++view_adminTopology_message_setMode = Nastaveno {0} serverů do {1} módu.
+@@ -614,0 +615,5 @@
++view_adminTopology_partitionEventsDetail_agentAssignments = Přiřazení agenta
++view_adminTopology_partitionEventsDetail_agentAssignments_nothing = Tato událost nezpůsobila přiřazení žádného agenta
++view_adminTopology_partitionEventsDetail_eventDetails = Detaily události
++view_adminTopology_partitionEventsDetail_eventExecutionTime = Doba provedení události
++view_adminTopology_partitionEventsDetail_eventType = Typ události
+@@ -625,5 +629,0 @@
+-view_adminTopology_partitionEventsDetail_agentAssignments = Přiřazení agenta
+-view_adminTopology_partitionEventsDetail_agentAssignments_nothing = Tato událost nezpůsobila přiřazení žádného agenta
+-view_adminTopology_partitionEventsDetail_eventDetails = Detaily události
+-view_adminTopology_partitionEventsDetail_eventExecutionTime = Doba provedení události
+-view_adminTopology_partitionEventsDetail_eventType = Typ události
+@@ -630,0 +631,3 @@
++view_adminTopology_serverDetail_connectedAgents = Připojení agenti
++view_adminTopology_serverDetail_installationDate = Datum instalace
++view_adminTopology_serverDetail_operationMode = Mód provozu
+@@ -641,3 +643,0 @@
+-view_adminTopology_serverDetail_connectedAgents = Připojení agenti
+-view_adminTopology_serverDetail_installationDate = Datum instalace
+-view_adminTopology_serverDetail_operationMode = Mód provozu
+@@ -878 +878,2 @@
+-##view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration is in minutes and should be long enough, several minutes, to give the agent time to detect another  availability state change that may correct the problem.
++##view_alert_definition_condition_editor_availabilityDuration_state = Availability State
++##view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration should be long enough (several minutes) to give the agent time to detect another  availability state change that may correct the problem.
+diff --git a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_de.properties b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_de.properties
+index b0f72d4..31c4f0a 100644
+--- a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_de.properties
++++ b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_de.properties
+@@ -504 +503,0 @@
+-##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -506,0 +506 @@
++##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -512 +512,4 @@
+-view_adminTopology_agents = Agenten
++##view_adminTopology_agentDetail_address = Address
++##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
++##view_adminTopology_agentDetail_currentServer = Current Server
++##view_adminTopology_agentDetail_token = Token
+@@ -518,4 +521 @@
+-##view_adminTopology_agentDetail_address = Address
+-##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
+-##view_adminTopology_agentDetail_currentServer = Current Server
+-##view_adminTopology_agentDetail_token = Token
++view_adminTopology_agents = Agenten
+@@ -530 +529,0 @@
+-##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -531,0 +531 @@
++##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -538 +537,0 @@
+-##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -539,0 +539 @@
++##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -543 +542,0 @@
+-##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -544,0 +544 @@
++##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -556 +555,0 @@
+-##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -557,0 +557 @@
++##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -561,0 +562,5 @@
++##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
++##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
++##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
++##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
++##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -572,5 +576,0 @@
+-##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
+-##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
+-##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
+-##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
+-##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -577,0 +578,3 @@
++##view_adminTopology_serverDetail_connectedAgents = Connected Agents
++##view_adminTopology_serverDetail_installationDate = Installation Date
++##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -588,3 +590,0 @@
+-##view_adminTopology_serverDetail_connectedAgents = Connected Agents
+-##view_adminTopology_serverDetail_installationDate = Installation Date
+-##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -769,0 +770 @@
++##view_alert_definition_condition_editor_availabilityDuration_state = Availability State
+@@ -1481 +1481,0 @@
+-view_measure_nan = --keine Daten verfügbar--
+@@ -1482,0 +1483 @@
++view_measure_nan = --keine Daten verfügbar--
+diff --git a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ja.properties b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ja.properties
+index 318e2b3..8c84707 100644
+--- a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ja.properties
++++ b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ja.properties
+@@ -535 +534,0 @@
+-##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -537,0 +537 @@
++##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -543 +543,5 @@
+-view_adminTopology_agents = エージェント
++##view_adminTopology_agentDetail_address = Address
++##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
++##view_adminTopology_agentDetail_currentServer = Current Server
++##view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++##view_adminTopology_agentDetail_token = Token
+@@ -549,5 +553 @@
+-##view_adminTopology_agentDetail_address = Address
+-##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
+-##view_adminTopology_agentDetail_currentServer = Current Server
+-##view_adminTopology_agentDetail_token = Token
+-##view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++view_adminTopology_agents = エージェント
+@@ -562 +561,0 @@
+-##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -563,0 +563 @@
++##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -570 +569,0 @@
+-##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -571,0 +571 @@
++##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -575 +574,0 @@
+-##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -576,0 +576 @@
++##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -588 +587,0 @@
+-##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -589,0 +589 @@
++##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -593,0 +594,5 @@
++##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
++##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
++##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
++##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
++##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -604,5 +608,0 @@
+-##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
+-##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
+-##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
+-##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
+-##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -609,0 +610,3 @@
++##view_adminTopology_serverDetail_connectedAgents = Connected Agents
++##view_adminTopology_serverDetail_installationDate = Installation Date
++##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -620,3 +622,0 @@
+-##view_adminTopology_serverDetail_connectedAgents = Connected Agents
+-##view_adminTopology_serverDetail_installationDate = Installation Date
+-##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -852,0 +853 @@
++##view_alert_definition_condition_editor_availabilityDuration_state = Availability State
+@@ -1681 +1681,0 @@
+-view_measure_nan = --データは存在しません--
+@@ -1682,0 +1683 @@
++view_measure_nan = --データは存在しません--
+diff --git a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_pt.properties b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_pt.properties
+index 6e2413c..3472c92 100644
+--- a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_pt.properties
++++ b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_pt.properties
+@@ -540 +539,0 @@
+-##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -542,0 +542 @@
++##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -548 +548,5 @@
+-view_adminTopology_agents = Agentes
++##view_adminTopology_agentDetail_address = Address
++##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
++##view_adminTopology_agentDetail_currentServer = Current Server
++##view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++##view_adminTopology_agentDetail_token = Token
+@@ -554,5 +558 @@
+-##view_adminTopology_agentDetail_address = Address
+-##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
+-##view_adminTopology_agentDetail_currentServer = Current Server
+-##view_adminTopology_agentDetail_token = Token
+-##view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++view_adminTopology_agents = Agentes
+@@ -567 +566,0 @@
+-##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -568,0 +568 @@
++##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -575 +574,0 @@
+-##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -576,0 +576 @@
++##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -580 +579,0 @@
+-##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -581,0 +581 @@
++##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -593 +592,0 @@
+-##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -594,0 +594 @@
++##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -598,0 +599,5 @@
++##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
++##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
++##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
++##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
++##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -609,5 +613,0 @@
+-##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
+-##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
+-##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
+-##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
+-##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -614,0 +615,3 @@
++##view_adminTopology_serverDetail_connectedAgents = Connected Agents
++##view_adminTopology_serverDetail_installationDate = Installation Date
++##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -625,3 +627,0 @@
+-##view_adminTopology_serverDetail_connectedAgents = Connected Agents
+-##view_adminTopology_serverDetail_installationDate = Installation Date
+-##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -861,2 +861,3 @@
+-view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration is in minutes and should be long enough, several minutes, to give the agent time to detect another  availability state change that may correct the problem.
+-##view_alert_definition_condition_editor_availabilityDuration_tooltip_duration = The number of minutes the resource must be at the given availability before the condition is met.
++##view_alert_definition_condition_editor_availabilityDuration_state = Availability State
++##view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration should be long enough (several minutes) to give the agent time to detect another  availability state change that may correct the problem.
++##view_alert_definition_condition_editor_availabilityDuration_tooltip_duration = The amount of time the resource must be at the given availability state before the condition is met.
+diff --git a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ru.properties b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ru.properties
+index 2a48c2b..e4a4564 100644
+--- a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ru.properties
++++ b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_ru.properties
+@@ -2559,0 +2560,3 @@
++##view_alert_definition_condition_editor_availabilityDuration_state = Availability State
++##view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration should be long enough (several minutes) to give the agent time to detect another  availability state change that may correct the problem.
++##view_alert_definition_condition_editor_availabilityDuration_tooltip_duration = The amount of time the resource must be at the given availability state before the condition is met.
+diff --git a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_zh.properties b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_zh.properties
+index 69a255b..07d2730 100644
+--- a/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_zh.properties
++++ b/modules/enterprise/gui/coregui/src/main/resources/org/rhq/enterprise/gui/coregui/client/Messages_zh.properties
+@@ -527 +526,0 @@
+-##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -529,0 +529 @@
++##view_adminTopology_affinityGroups_agetnMembers = Agent Members
+@@ -535 +535,5 @@
+-view_adminTopology_agents = \u4ee3\u7406
++##view_adminTopology_agentDetail_address = Address
++##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
++##view_adminTopology_agentDetail_currentServer = Current Server
++##view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++##view_adminTopology_agentDetail_token = Token
+@@ -541,5 +545 @@
+-##view_adminTopology_agentDetail_address = Address
+-##view_adminTopology_agentDetail_agentFailoverList = Agent Failover List
+-##view_adminTopology_agentDetail_currentServer = Current Server
+-##view_adminTopology_agentDetail_token = Token
+-##view_adminTopology_agentDetail_remoteEndpoint = Remote Endpoint
++view_adminTopology_agents = \u4ee3\u7406
+@@ -554 +553,0 @@
+-##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -555,0 +555 @@
++##view_adminTopology_message_fetchAgentsFail = Unable to fetch agent(s) for affinity group with id {0}.
+@@ -562 +561,0 @@
+-##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -563,0 +563 @@
++##view_adminTopology_message_fetchServersFail = Unable to fetch server(s) for affinity group with id {0}.
+@@ -567 +566,0 @@
+-##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -568,0 +568 @@
++##view_adminTopology_message_removeAGroupsFail = Unable to remove following affinity groups(s) {0}.
+@@ -580 +579,0 @@
+-##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -581,0 +581 @@
++##view_adminTopology_message_serverUpdated = The server {0} was successfully updated.
+@@ -585,0 +586,5 @@
++##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
++##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
++##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
++##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
++##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -596,5 +600,0 @@
+-##view_adminTopology_partitionEventsDetail_agentAssignments = Agent Assignments
+-##view_adminTopology_partitionEventsDetail_agentAssignments_nothing = No agents were reassigned as a result of this partition event
+-##view_adminTopology_partitionEventsDetail_eventDetails = Event Details
+-##view_adminTopology_partitionEventsDetail_eventExecutionTime = Event Execution Time
+-##view_adminTopology_partitionEventsDetail_eventType = Event Type
+@@ -601,0 +602,3 @@
++##view_adminTopology_serverDetail_connectedAgents = Connected Agents
++##view_adminTopology_serverDetail_installationDate = Installation Date
++##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -612,3 +614,0 @@
+-##view_adminTopology_serverDetail_connectedAgents = Connected Agents
+-##view_adminTopology_serverDetail_installationDate = Installation Date
+-##view_adminTopology_serverDetail_operationMode = Operation Mode
+@@ -847,2 +847,3 @@
+-view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration is in minutes and should be long enough, several minutes, to give the agent time to detect another  availability state change that may correct the problem.
+-##view_alert_definition_condition_editor_availabilityDuration_tooltip_duration = The number of minutes the resource must be at the given availability before the condition is met.
++##view_alert_definition_condition_editor_availabilityDuration_state = Availability State
++##view_alert_definition_condition_editor_availabilityDuration_tooltip = Specify the availability state change and the duration that state must persist in order to trigger the condition.  The duration should be long enough (several minutes) to give the agent time to detect another  availability state change that may correct the problem.
++##view_alert_definition_condition_editor_availabilityDuration_tooltip_duration = The amount of time the resource must be at the given availability state before the condition is met.
+

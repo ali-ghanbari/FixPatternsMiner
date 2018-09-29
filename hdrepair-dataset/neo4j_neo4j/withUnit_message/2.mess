@@ -1,0 +1,14 @@
+Fixes leak of file mapping from count store on error during file open
+
+It is possible for the count store files to be perceived as
+ unusable in case the header information or some key data is not
+ consistent. While not a fatal error, this is communicated by
+ throwing an IOException which is caught and the paged portion
+ of the opened file will be unmapped. However, before this
+ fix it was that IOException would be ignored by the responsible
+ catch clause, leading to the leak of the file map and the
+ inability of the database to shutdown since that file was
+ mapped.
+This patch fixes the issue by catching all possible Exceptions
+ thrown during open and not only RuntimeExceptions as before.
+

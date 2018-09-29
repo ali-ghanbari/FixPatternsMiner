@@ -1,0 +1,40 @@
+diff --git a/asta4d-core/src/main/java/com/astamuse/asta4d/data/InjectUtil.java b/asta4d-core/src/main/java/com/astamuse/asta4d/data/InjectUtil.java
+index 1c7d3f6..1157d9c 100644
+--- a/asta4d-core/src/main/java/com/astamuse/asta4d/data/InjectUtil.java
++++ b/asta4d-core/src/main/java/com/astamuse/asta4d/data/InjectUtil.java
+@@ -502 +502 @@
+-            target.typeUnMatch = cd == null ? TypeUnMacthPolicy.DEFAULT_VALUE : cd.typeUnMatch();
++            target.typeUnMatch = cd == null ? TypeUnMacthPolicy.EXCEPTION : cd.typeUnMatch();
+diff --git a/asta4d-core/src/test/java/com/astamuse/asta4d/test/unit/InjectUtilForTypeUnMatchTest.java b/asta4d-core/src/test/java/com/astamuse/asta4d/test/unit/InjectUtilForTypeUnMatchTest.java
+index 3290401..f080b14 100644
+--- a/asta4d-core/src/test/java/com/astamuse/asta4d/test/unit/InjectUtilForTypeUnMatchTest.java
++++ b/asta4d-core/src/test/java/com/astamuse/asta4d/test/unit/InjectUtilForTypeUnMatchTest.java
+@@ -66,0 +67,18 @@
++    public void exceptionWhenInjectableOnMethodParam2() throws Exception {
++        Context ctx = Context.getCurrentThreadContext();
++        ctx.setData("holder", "xx77");
++
++        Object[] params = InjectUtil.getMethodInjectParams(getMethod("requestHolderForException2", int.class));
++
++    }
++
++    @Test(expectedExceptions = DataOperationException.class, expectedExceptionsMessageRegExp = ".*cannot be coverted from.*")
++    public void exceptionWhenInjectableOnMethodParam3() throws Exception {
++        Context ctx = Context.getCurrentThreadContext();
++        ctx.setData("holder", "xx77");
++
++        Object[] params = InjectUtil.getMethodInjectParams(getMethod("requestHolderForException3", int.class));
++
++    }
++
++    @Test(expectedExceptions = DataOperationException.class, expectedExceptionsMessageRegExp = ".*cannot be coverted from.*")
+@@ -82,0 +101,8 @@
++    @Test(enabled = false)
++    public void requestHolderForException2(@ContextData int holder) {
++    }
++
++    @Test(enabled = false)
++    public void requestHolderForException3(int holder) {
++    }
++
+

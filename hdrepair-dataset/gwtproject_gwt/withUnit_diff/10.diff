@@ -1,0 +1,43 @@
+diff --git a/dev/core/src/com/google/gwt/core/linker/IFrameLinker.java b/dev/core/src/com/google/gwt/core/linker/IFrameLinker.java
+index ccc283c..bde9dd6 100644
+--- a/dev/core/src/com/google/gwt/core/linker/IFrameLinker.java
++++ b/dev/core/src/com/google/gwt/core/linker/IFrameLinker.java
+@@ -61 +61 @@
+-   * somewhere other than {@link #FRAGMENT_SUBDIR}
++   * somewhere other than {@link #FRAGMENT_SUBDIR}.
+diff --git a/user/test/com/google/gwt/precompress/linker/PrecompressLinkerTest.java b/user/test/com/google/gwt/precompress/linker/PrecompressLinkerTest.java
+index 2c96f21..ddd9a53 100644
+--- a/user/test/com/google/gwt/precompress/linker/PrecompressLinkerTest.java
++++ b/user/test/com/google/gwt/precompress/linker/PrecompressLinkerTest.java
+@@ -33 +33 @@
+-import java.nio.charset.Charset;
++import java.io.UnsupportedEncodingException;
+@@ -115,2 +114,0 @@
+-  private static final Charset UTF_8 = Charset.forName("UTF-8");
+-
+@@ -176 +174,5 @@
+-    return emit(path, contents.getBytes(UTF_8));
++    try {
++      return emit(path, contents.getBytes("UTF-8"));
++    } catch (UnsupportedEncodingException e) {
++      throw new RuntimeException(e.getMessage());
++    }
+@@ -207,5 +209,8 @@
+-    byte[] content = fooFileContents().getBytes(UTF_8);
+-    while (true) {
+-      byte[] updated = compress(content);
+-      if (updated.length >= content.length) {
+-        return content;
++    try {
++      byte[] content = fooFileContents().getBytes("UTF-8");
++      while (true) {
++        byte[] updated = compress(content);
++        if (updated.length >= content.length) {
++          return content;
++        }
++        content = updated;
+@@ -213 +218,2 @@
+-      content = updated;
++    } catch (UnsupportedEncodingException e) {
++      throw new RuntimeException(e.getMessage());
+

@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/template/TemplateManagerImpl.java b/server/src/com/cloud/template/TemplateManagerImpl.java
+index e3911c1..24eea09 100755
+--- a/server/src/com/cloud/template/TemplateManagerImpl.java
++++ b/server/src/com/cloud/template/TemplateManagerImpl.java
+@@ -392 +392 @@
+-        List<StoragePoolHostVO> vos = _poolHostDao.listByPoolId(poolId);
++        List<StoragePoolHostVO> vos = _poolHostDao.listByHostStatus(poolId, com.cloud.host.Status.Up);
+

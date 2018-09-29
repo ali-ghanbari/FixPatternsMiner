@@ -1,0 +1,27 @@
+diff --git a/idea/src/org/jetbrains/jet/plugin/completion/JetKeywordCompletionContributor.java b/idea/src/org/jetbrains/jet/plugin/completion/JetKeywordCompletionContributor.java
+index 0f2a87b..e8332db 100644
+--- a/idea/src/org/jetbrains/jet/plugin/completion/JetKeywordCompletionContributor.java
++++ b/idea/src/org/jetbrains/jet/plugin/completion/JetKeywordCompletionContributor.java
+@@ -224 +224 @@
+-            return StringUtil.startsWithIgnoreCase(name, getPrefix());
++            return StringUtil.startsWith(name, getPrefix());
+diff --git a/idea/testData/completion/keywords/NoCompletionForCapitalPrefix.kt b/idea/testData/completion/keywords/NoCompletionForCapitalPrefix.kt
+new file mode 100644
+index 0000000..ca982f7
+--- /dev/null
++++ b/idea/testData/completion/keywords/NoCompletionForCapitalPrefix.kt
+@@ -0,0 +1,3 @@
++P<caret>
++
++// ABSENT: public, private, protected
+\ No newline at end of file
+diff --git a/idea/tests/org/jetbrains/jet/completion/KeywordsCompletionTest.java b/idea/tests/org/jetbrains/jet/completion/KeywordsCompletionTest.java
+index e90a03d..a40079f 100644
+--- a/idea/tests/org/jetbrains/jet/completion/KeywordsCompletionTest.java
++++ b/idea/tests/org/jetbrains/jet/completion/KeywordsCompletionTest.java
+@@ -121,0 +122,4 @@
++    public void testNoCompletionForCapitalPrefix() {
++        doTest();
++    }
++
+

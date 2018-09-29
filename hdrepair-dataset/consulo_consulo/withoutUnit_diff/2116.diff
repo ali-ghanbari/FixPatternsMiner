@@ -1,0 +1,8 @@
+diff --git a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/MethodReturnBooleanFix.java b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/MethodReturnBooleanFix.java
+index e139274..e99832b 100644
+--- a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/MethodReturnBooleanFix.java
++++ b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/MethodReturnBooleanFix.java
+@@ -136 +136 @@
+-      if (modifiers.hasModifierProperty(PsiModifier.ABSTRACT)) {
++      if ((modifiers.hasModifierProperty(PsiModifier.ABSTRACT)) || (method.getBody() == null)) {
+

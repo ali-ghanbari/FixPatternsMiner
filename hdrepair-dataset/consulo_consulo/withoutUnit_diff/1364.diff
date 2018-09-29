@@ -1,0 +1,10 @@
+diff --git a/platform/lang-api/src/com/intellij/lang/documentation/CompositeDocumentationProvider.java b/platform/lang-api/src/com/intellij/lang/documentation/CompositeDocumentationProvider.java
+index 0cdf910..74fcefb 100644
+--- a/platform/lang-api/src/com/intellij/lang/documentation/CompositeDocumentationProvider.java
++++ b/platform/lang-api/src/com/intellij/lang/documentation/CompositeDocumentationProvider.java
+@@ -41 +41,3 @@
+-    return list.size() == 1 ? list.get(0) : new CompositeDocumentationProvider(Collections.unmodifiableList(list));
++    // CompositeDocumentationProvider should be returned anyway because it
++    // handles DocumentationProvider.EP as well as providers from the list
++    return new CompositeDocumentationProvider(Collections.unmodifiableList(list));
+

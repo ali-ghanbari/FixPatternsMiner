@@ -1,0 +1,69 @@
+diff --git a/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/main/java/org/apache/maven/archiva/consumers/core/repository/CleanupReleasedSnapshotsRepositoryPurge.java b/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/main/java/org/apache/maven/archiva/consumers/core/repository/CleanupReleasedSnapshotsRepositoryPurge.java
+index 9179dfc..e120874 100644
+--- a/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/main/java/org/apache/maven/archiva/consumers/core/repository/CleanupReleasedSnapshotsRepositoryPurge.java
++++ b/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/main/java/org/apache/maven/archiva/consumers/core/repository/CleanupReleasedSnapshotsRepositoryPurge.java
+@@ -201 +201 @@
+-            log.debug( "Not processing file that is not an artifact: " + e.getMessage() );
++            log.debug( "Not processing file that is not an artifact: {}", e.getMessage() );
+diff --git a/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/test/java/org/apache/maven/archiva/consumers/core/repository/RepositoryPurgeConsumerTest.java b/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/test/java/org/apache/maven/archiva/consumers/core/repository/RepositoryPurgeConsumerTest.java
+index 16f2c9e..9da04bc 100644
+--- a/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/test/java/org/apache/maven/archiva/consumers/core/repository/RepositoryPurgeConsumerTest.java
++++ b/archiva-modules/archiva-base/archiva-consumers/archiva-core-consumers/src/test/java/org/apache/maven/archiva/consumers/core/repository/RepositoryPurgeConsumerTest.java
+@@ -50,0 +51 @@
++        cleanupFileTypes();
+@@ -57,0 +59,10 @@
++        cleanupFileTypes();
++    }
++
++    private void cleanupFileTypes()
++    {
++        ArchivaConfiguration archivaConfiguration =
++            applicationContext.getBean( "archivaConfiguration#default", ArchivaConfiguration.class );
++
++        FileType fileType = archivaConfiguration.getConfiguration().getRepositoryScanning().getFileTypes().get( 0 );
++        fileType.removePattern( "**/*.xml" );
+@@ -71,3 +82,5 @@
+-        FileTypes fileTypes = applicationContext.getBean( FileTypes.class );
+-        fileTypes.afterConfigurationChange( null, "repositoryScanning.fileTypes", null );
+-
++        //FileTypes fileTypes = applicationContext.getBean( FileTypes.class );
++        for ( FileTypes fileTypes : applicationContext.getBeansOfType( FileTypes.class ).values() )
++        {
++            fileTypes.afterConfigurationChange( null, "repositoryScanning.fileTypes", null );
++        }
+@@ -148,0 +162,2 @@
++
++        removeRepoFromConfiguration( "retention-count", repoConfiguration );
+@@ -157 +172,6 @@
+-        configuration.removeManagedRepository( configuration.findManagedRepositoryById( repoConfiguration.getId() ) );
++        ManagedRepositoryConfiguration managedRepositoryConfiguration =
++            configuration.findManagedRepositoryById( repoConfiguration.getId() );
++        if ( managedRepositoryConfiguration != null )
++        {
++            configuration.removeManagedRepository( managedRepositoryConfiguration );
++        }
+@@ -158,0 +179,14 @@
++    }
++
++    private void removeRepoFromConfiguration( String configHint, ManagedRepositoryConfiguration repoConfiguration )
++        throws Exception
++    {
++        ArchivaConfiguration archivaConfiguration =
++            applicationContext.getBean( "archivaConfiguration#" + configHint, ArchivaConfiguration.class );
++        Configuration configuration = archivaConfiguration.getConfiguration();
++        ManagedRepositoryConfiguration managedRepositoryConfiguration =
++            configuration.findManagedRepositoryById( repoConfiguration.getId() );
++        if ( managedRepositoryConfiguration != null )
++        {
++            configuration.removeManagedRepository( managedRepositoryConfiguration );
++        }
+@@ -209,0 +244,2 @@
++
++        removeRepoFromConfiguration( "days-old", repoConfiguration );
+@@ -257,0 +294,2 @@
++
++        removeRepoFromConfiguration( "retention-count", repoConfiguration );
+@@ -301,0 +340,2 @@
++
++        removeRepoFromConfiguration( "days-old", repoConfiguration );
+

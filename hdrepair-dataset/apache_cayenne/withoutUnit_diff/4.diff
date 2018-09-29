@@ -1,0 +1,61 @@
+diff --git a/cayenne-tools/src/main/java/org/apache/cayenne/tools/dbimport/DbImportAction.java b/cayenne-tools/src/main/java/org/apache/cayenne/tools/dbimport/DbImportAction.java
+index c795e34..ea4c459 100644
+--- a/cayenne-tools/src/main/java/org/apache/cayenne/tools/dbimport/DbImportAction.java
++++ b/cayenne-tools/src/main/java/org/apache/cayenne/tools/dbimport/DbImportAction.java
+@@ -0,0 +1,18 @@
++/*
++ * Licensed to the Apache Software Foundation (ASF) under one
++ *    or more contributor license agreements.  See the NOTICE file
++ *    distributed with this work for additional information
++ *    regarding copyright ownership.  The ASF licenses this file
++ *    to you under the Apache License, Version 2.0 (the
++ *    "License"); you may not use this file except in compliance
++ *    with the License.  You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ *    Unless required by applicable law or agreed to in writing,
++ *    software distributed under the License is distributed on an
++ *    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
++ *    KIND, either express or implied.  See the License for the
++ *    specific language governing permissions and limitations
++ *    under the License.
++ */
+diff --git a/pom.xml b/pom.xml
+index d6cdbdd..f63f1df 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -925,0 +926 @@
++                <!-- TOOD move to release plugin -->
+@@ -931,8 +932,22 @@
+-						<exclude>**/MANIFEST.MF</exclude>
+-						<exclude>**/*.plist</exclude>
+-						<exclude>**/*.graffle</exclude>
+-						<exclude>**/.*</exclude>
+-						<exclude>**/.*/**</exclude>
+-						<exclude>**/*.map.xml</exclude>
+-						<exclude>**/*.css</exclude>
+-						<exclude>**/*.properties</exclude>
++                        <exclude>**/.*</exclude>
++                        <exclude>**/.*/**</exclude>
++
++                        <exclude>**/cayenne-*.xml</exclude>
++                        <exclude>**/cayenne.xml</exclude>
++                        <exclude>**/*.map.xml</exclude>
++                        <exclude>**/_*.java</exclude>
++                        <exclude>**/*.html</exclude>
++                        <exclude>**/*.css</exclude>
++                        <exclude>**/*.driver.xml</exclude>
++                        <exclude>**/testdo/**</exclude>
++                        <exclude>**/test/**/*.sql</exclude>
++
++                        <exclude>**/test/**/ks1.jceks</exclude>
++                        <exclude>**/test/**/plain.txt</exclude>
++
++                        <exclude>**/DiagramLayout</exclude>
++                        <exclude>**/*.plist</exclude>
++                        <exclude>**/*.eomodeld</exclude>
++                        <exclude>**/*.fspec</exclude>
++
++                        <exclude>derby.log</exclude>
+

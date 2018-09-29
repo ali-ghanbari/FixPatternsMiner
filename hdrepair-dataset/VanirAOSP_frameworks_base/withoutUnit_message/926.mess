@@ -1,0 +1,15 @@
+increase the rate at which we dispatch events.
+
+Previously, the input dispatch rate was capped by default to 55.
+This worked fine for systems with a refresh rate of 55 or lower. But on
+devices with a higher frame rate (such as stingray at 60 fps), we do not
+receive events as fast as the rendering system wants to redraw the frames, so
+we would occasionally miss events between frames, resulting in a visual
+stutter during drag operations where the dragged object would essentially
+stay still for a frame.
+
+This fix increases the default rate to 90, or 1.5 times the highest typical
+refresh rate of our devices.
+
+Change-Id: Id8622185b3da93f9f6505157d2e6f3f33e36bd04
+

@@ -1,0 +1,61 @@
+diff --git a/js/js.tests/test/org/jetbrains/k2js/test/semantics/EvaluationOrderTest.java b/js/js.tests/test/org/jetbrains/k2js/test/semantics/EvaluationOrderTest.java
+index 54c22e4..3663a41 100644
+--- a/js/js.tests/test/org/jetbrains/k2js/test/semantics/EvaluationOrderTest.java
++++ b/js/js.tests/test/org/jetbrains/k2js/test/semantics/EvaluationOrderTest.java
+@@ -114,0 +115,4 @@
++
++    public void testWhenJsLiteralWithSideEffect() throws Exception {
++        checkFooBoxIsOk();
++    }
+diff --git a/js/js.translator/src/org/jetbrains/k2js/translate/utils/TranslationUtils.java b/js/js.translator/src/org/jetbrains/k2js/translate/utils/TranslationUtils.java
+index 7dc8f4c..6986d50 100644
+--- a/js/js.translator/src/org/jetbrains/k2js/translate/utils/TranslationUtils.java
++++ b/js/js.translator/src/org/jetbrains/k2js/translate/utils/TranslationUtils.java
+@@ -400 +400 @@
+-        return !(expression instanceof JsLiteral) &&
++        return !(expression instanceof JsLiteral.JsValueLiteral) &&
+diff --git a/js/js.translator/testData/expression/evaluationOrder/cases/whenJsLiteralWithSideEffect.kt b/js/js.translator/testData/expression/evaluationOrder/cases/whenJsLiteralWithSideEffect.kt
+new file mode 100644
+index 0000000..4bbe173
+--- /dev/null
++++ b/js/js.translator/testData/expression/evaluationOrder/cases/whenJsLiteralWithSideEffect.kt
+@@ -0,0 +1,38 @@
++package foo
++
++var global: String = ""
++
++fun bar(s: String): Int {
++    global += s
++    return 1
++}
++fun testWhen() {
++    global = ""
++    when(array(bar("A"),2,3)) {
++        array(1) -> println("1")
++        array(2) -> println("2")
++        else  -> println("else")
++    }
++    assertEquals("A", global)
++
++}
++
++fun testIntrinsic() {
++    global = ""
++    val x = array(bar("A")) == try { array(bar("B")) } finally {}
++    assertEquals("AB", global)
++}
++
++fun testElvis() {
++    global = ""
++    var x = array(bar("A")) ?: 10
++    assertEquals("A", global)
++}
++
++fun box(): String {
++    testWhen()
++    testIntrinsic()
++    testElvis()
++
++    return "OK"
++}
+

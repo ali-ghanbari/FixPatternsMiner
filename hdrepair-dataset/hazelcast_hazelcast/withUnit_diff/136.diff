@@ -1,0 +1,125 @@
+diff --git a/hazelcast-ra/src/test/java/com/hazelcast/jca/ClientXaTest.java b/hazelcast-ra/src/test/java/com/hazelcast/jca/ClientXaTest.java
+index 9803d10..97cc363 100644
+--- a/hazelcast-ra/src/test/java/com/hazelcast/jca/ClientXaTest.java
++++ b/hazelcast-ra/src/test/java/com/hazelcast/jca/ClientXaTest.java
+@@ -29 +29,3 @@
+-import org.junit.*;
++import org.junit.After;
++import org.junit.Before;
++import org.junit.Test;
+@@ -32,0 +35,2 @@
++import javax.transaction.NotSupportedException;
++import javax.transaction.SystemException;
+@@ -34 +37,0 @@
+-import javax.transaction.TransactionManager;
+@@ -56,3 +59,3 @@
+-    @BeforeClass
+-    @AfterClass
+-    public static void cleanAtomikosLogs() {
++    private UserTransactionManager tm = null;
++
++    public void cleanAtomikosLogs() {
+@@ -77,0 +81,8 @@
++    public void init() throws SystemException, NotSupportedException {
++        cleanAtomikosLogs();
++        HazelcastClient.shutdownAll();
++        Hazelcast.shutdownAll();
++        tm = new UserTransactionManager();
++        tm.setTransactionTimeout(60);
++    }
++
+@@ -79,0 +91,2 @@
++        tm.close();
++        cleanAtomikosLogs();
+@@ -111,0 +125,2 @@
++
++        context1.rollbackTransaction(); //For setting ThreadLocal of unfinished transaction
+@@ -170,4 +184,0 @@
+-        final TransactionManager tm = new UserTransactionManager();
+-        tm.setTransactionTimeout(60);
+-        tm.begin();
+-
+@@ -175,0 +187 @@
++        tm.begin();
+@@ -194,2 +205,0 @@
+-        // retrieve or construct a TM handle
+-        TransactionManager tm = new UserTransactionManager();
+diff --git a/hazelcast-ra/src/test/java/com/hazelcast/jca/HazelcastXaTest.java b/hazelcast-ra/src/test/java/com/hazelcast/jca/HazelcastXaTest.java
+index a65aba3..0f3f467 100644
+--- a/hazelcast-ra/src/test/java/com/hazelcast/jca/HazelcastXaTest.java
++++ b/hazelcast-ra/src/test/java/com/hazelcast/jca/HazelcastXaTest.java
+@@ -29 +29,3 @@
+-import org.junit.*;
++import org.junit.After;
++import org.junit.Before;
++import org.junit.Test;
+@@ -32,0 +35,2 @@
++import javax.transaction.NotSupportedException;
++import javax.transaction.SystemException;
+@@ -34 +37,0 @@
+-import javax.transaction.TransactionManager;
+@@ -56,3 +59,3 @@
+-    @BeforeClass
+-    @AfterClass
+-    public static void cleanAtomikosLogs(){
++    private UserTransactionManager tm = null;
++
++    public void cleanAtomikosLogs() {
+@@ -77,0 +81,7 @@
++    public void init() throws SystemException, NotSupportedException {
++        cleanAtomikosLogs();
++        Hazelcast.shutdownAll();
++        tm = new UserTransactionManager();
++        tm.setTransactionTimeout(60);
++    }
++
+@@ -80 +90,2 @@
+-        Hazelcast.shutdownAll();
++        cleanAtomikosLogs();
++        tm.close();
+@@ -81,0 +93 @@
++
+@@ -97,0 +110,5 @@
++
++        try {
++            transaction.rollback(); //For setting ThreadLocal of unfinished transaction
++        } catch (Throwable ignored) {
++        }
+@@ -106,2 +123,2 @@
+-        TransactionContext context = instance1.newTransactionContext(TransactionOptions.getDefault().setDurability(2));
+-        XAResource xaResource = context.getXaResource();
++        TransactionContext context1 = instance1.newTransactionContext(TransactionOptions.getDefault().setDurability(2));
++        XAResource xaResource = context1.getXaResource();
+@@ -110 +127 @@
+-        final TransactionalMap<Object, Object> map = context.getMap("map");
++        final TransactionalMap<Object, Object> map = context1.getMap("map");
+@@ -118,2 +135,2 @@
+-        context = instance1.newTransactionContext();
+-        xaResource = context.getXaResource();
++        TransactionContext context2 = instance1.newTransactionContext();
++        xaResource = context2.getXaResource();
+@@ -125,0 +143,6 @@
++
++        try {
++            context1.rollbackTransaction(); //For setting ThreadLocal of unfinished transaction
++        } catch (Exception ignored) {
++        }
++
+@@ -181,4 +203,0 @@
+-        final TransactionManager tm = new UserTransactionManager();
+-        tm.setTransactionTimeout(60);
+-        tm.begin();
+-
+@@ -186,0 +206 @@
++        tm.begin();
+@@ -205,2 +224,0 @@
+-        // retrieve or construct a TM handle
+-        TransactionManager tm = new UserTransactionManager();
+diff --git a/hazelcast/src/main/java/com/hazelcast/transaction/impl/TransactionManagerServiceImpl.java b/hazelcast/src/main/java/com/hazelcast/transaction/impl/TransactionManagerServiceImpl.java
+index 538906b..f336f0f 100644
+--- a/hazelcast/src/main/java/com/hazelcast/transaction/impl/TransactionManagerServiceImpl.java
++++ b/hazelcast/src/main/java/com/hazelcast/transaction/impl/TransactionManagerServiceImpl.java
+@@ -232 +232 @@
+-        TxBackupLog log = new TxBackupLog(txLogs, callerUuid, State.NO_TXN, timeoutMillis, startTime, xid);
++        TxBackupLog log = new TxBackupLog(txLogs, callerUuid, State.COMMITTING, timeoutMillis, startTime, xid);
+

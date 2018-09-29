@@ -1,0 +1,195 @@
+diff --git a/sandbox-apis/virtualbox/src/main/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMedia.java b/sandbox-apis/virtualbox/src/main/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMedia.java
+index b586d7e..682302b 100644
+--- a/sandbox-apis/virtualbox/src/main/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMedia.java
++++ b/sandbox-apis/virtualbox/src/main/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMedia.java
+@@ -2 +2 @@
+- * Licensed to jclouds, Inc. (jclouds) under one or more
++U * Licensed to jclouds, Inc. (jclouds) under one or more
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/GetIPAddressFromGuestAdditionsTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/GetIPAddressFromGuestAdditionsTest.java
+deleted file mode 100644
+index a87791c..0000000
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/GetIPAddressFromGuestAdditionsTest.java
++++ /dev/null
+@@ -1,58 +0,0 @@
+-/**
+- * Licensed to jclouds, Inc. (jclouds) under one or more
+- * contributor license agreements.  See the NOTICE file
+- * distributed with this work for additional information
+- * regarding copyright ownership.  jclouds licenses this file
+- * to you under the Apache License, Version 2.0 (the
+- * "License"); you may not use this file except in compliance
+- * with the License.  You may obtain a copy of the License at
+- *
+- *   http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing,
+- * software distributed under the License is distributed on an
+- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+- * KIND, either express or implied.  See the License for the
+- * specific language governing permissions and limitations
+- * under the License.
+- */
+-package org.jclouds.virtualbox.domain;
+-
+-import static org.jclouds.scriptbuilder.domain.Statements.interpret;
+-import static org.jclouds.virtualbox.domain.Statements.exportIpAddressFromVmNamed;
+-import static org.testng.Assert.assertEquals;
+-
+-import java.io.IOException;
+-
+-import org.jclouds.scriptbuilder.ScriptBuilder;
+-import org.jclouds.scriptbuilder.domain.OsFamily;
+-import org.jclouds.scriptbuilder.domain.ShellToken;
+-import org.testng.annotations.Test;
+-
+-import com.google.common.base.Charsets;
+-import com.google.common.io.CharStreams;
+-import com.google.common.io.Resources;
+-
+-/**
+- * @author Andrea Turli
+- */
+-@Test(groups = "unit")
+-public class GetIPAddressFromGuestAdditionsTest {
+-   
+-   ScriptBuilder getIpAddressBuilder = new ScriptBuilder()
+-	.addStatement(exportIpAddressFromVmNamed("{args}"))
+-	.addStatement(interpret("echo {varl}FOUND_IP_ADDRESS{varr}{lf}"));
+-   	
+-   public void testUNIX() throws IOException {  	
+-      assertEquals(getIpAddressBuilder.render(OsFamily.UNIX), CharStreams.toString(Resources.newReaderSupplier(Resources
+-               .getResource("test_get_ip_address." + ShellToken.SH.to(OsFamily.UNIX)), Charsets.UTF_8)));
+-   }
+-
+-   // TODO
+-   /*
+-   public void testWINDOWS() throws IOException {
+-      assertEquals(getIpAddressBuilder.render(OsFamily.WINDOWS), CharStreams.toString(Resources.newReaderSupplier(Resources
+-               .getResource("test_get_ip_address." + ShellToken.SH.to(OsFamily.WINDOWS)), Charsets.UTF_8)));
+-   }
+-   */
+-}
+\ No newline at end of file
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/GetIPAddressFromMACTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/GetIPAddressFromMACTest.java
+deleted file mode 100644
+index 98820e6..0000000
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/GetIPAddressFromMACTest.java
++++ /dev/null
+@@ -1,53 +0,0 @@
+-/**
+- * Licensed to jclouds, Inc. (jclouds) under one or more
+- * contributor license agreements.  See the NOTICE file
+- * distributed with this work for additional information
+- * regarding copyright ownership.  jclouds licenses this file
+- * to you under the Apache License, Version 2.0 (the
+- * "License"); you may not use this file except in compliance
+- * with the License.  You may obtain a copy of the License at
+- *
+- *   http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing,
+- * software distributed under the License is distributed on an
+- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+- * KIND, either express or implied.  See the License for the
+- * specific language governing permissions and limitations
+- * under the License.
+- */
+-package org.jclouds.virtualbox.domain;
+-
+-import static org.testng.Assert.assertEquals;
+-
+-import org.jclouds.scriptbuilder.domain.OsFamily;
+-import org.testng.annotations.Test;
+-
+-/**
+- * @author Andrea Turli
+- */
+-@Test(groups = "unit")
+-public class GetIPAddressFromMACTest {
+-
+-   private static final String macAddressWith00 = "0800271A9806";
+-   private static final String unixMacAddressWith00 = "08:00:27:1a:98:06";
+-   private static final String bsdMacAddressWith00 = "8:0:27:1a:98:6";
+-   private static final String macAddressWith0c = "0811271A9806";
+-   private static final String unixMacAddressWith0c = "08:11:27:1a:98:06";
+-   private static final String bsdMacAddressWith0c = "8:11:27:1a:98:6";
+-
+-   public void testGetIPAdressFromMacAddressUnix() {
+-      GetIPAddressFromMAC statement = new GetIPAddressFromMAC(macAddressWith00);
+-      assertEquals(statement.render(OsFamily.UNIX), "MAC="
+-            + unixMacAddressWith00
+-            + " && [[ `uname -s` = \"Darwin\" ]] && MAC=" + bsdMacAddressWith00
+-            + "\n arp -an | grep $MAC\n");
+-
+-      statement = new GetIPAddressFromMAC(macAddressWith0c);
+-      assertEquals(statement.render(OsFamily.UNIX), "MAC="
+-            + unixMacAddressWith0c
+-            + " && [[ `uname -s` = \"Darwin\" ]] && MAC=" + bsdMacAddressWith0c
+-            + "\n arp -an | grep $MAC\n");
+-   }
+-
+-}
+\ No newline at end of file
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/VmSpecTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/VmSpecTest.java
+index 4871ab2..412ecb6 100644
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/VmSpecTest.java
++++ b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/domain/VmSpecTest.java
+@@ -22,0 +23 @@
++import org.virtualbox_4_1.CleanupMode;
+@@ -66 +67 @@
+-      return VmSpec.builder()
++		return VmSpec.builder()
+@@ -70,0 +72 @@
++              .cleanUpMode(CleanupMode.Full)
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CloneAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CloneAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java
+index 83911f2..d65bdaa 100644
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CloneAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java
++++ b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CloneAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java
+@@ -38,0 +39 @@
++import org.virtualbox_4_1.CleanupMode;
+@@ -95,2 +96,4 @@
+-                 .controller(ideController)
+-                 .forceOverwrite(true).build();
++         		.memoryMB(512)
++         		.cleanUpMode(CleanupMode.Full)
++               .controller(ideController)
++               .forceOverwrite(true).build();
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java
+index 8511f97..79fe550 100644
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java
++++ b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsLiveTest.java
+@@ -61 +61 @@
+-      VmSpec launchSpecification = VmSpec.builder().id(vmName).name(vmName).controller(ideController).cleanUpMode(mode)
++      VmSpec launchSpecification = VmSpec.builder().id(vmName).name(vmName).memoryMB(512).controller(ideController).cleanUpMode(mode)
+@@ -73 +73 @@
+-      VmSpec launchSpecification = VmSpec.builder().id(vmName).name(vmName).controller(ideController).cleanUpMode(mode)
++      VmSpec launchSpecification = VmSpec.builder().id(vmName).name(vmName).memoryMB(512).controller(ideController).cleanUpMode(mode)
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsTest.java
+index 0e39408..c2b7d2f 100644
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsTest.java
++++ b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/CreateAndRegisterMachineFromIsoIfNotAlreadyExistsTest.java
+@@ -33,0 +34 @@
++import org.virtualbox_4_1.CleanupMode;
+@@ -52 +53 @@
+-      VmSpec launchSpecification = VmSpec.builder().id(vmName).name(vmName).osTypeId("").memoryMB(1024).build();
++      VmSpec launchSpecification = VmSpec.builder().id(vmName).name(vmName).osTypeId("").memoryMB(1024).cleanUpMode(CleanupMode.Full).build();
+@@ -93 +94 @@
+-      VmSpec launchSpecification = VmSpec.builder().id("").name(vmName).osTypeId("").memoryMB(1024).build();
++      VmSpec launchSpecification = VmSpec.builder().id("").name(vmName).osTypeId("").memoryMB(1024).cleanUpMode(CleanupMode.Full).build();
+@@ -114 +115 @@
+-      VmSpec launchSpecification = VmSpec.builder().id("").name(vmName).osTypeId("").memoryMB(1024).build();
++      VmSpec launchSpecification = VmSpec.builder().id("").name(vmName).osTypeId("").cleanUpMode(CleanupMode.Full).memoryMB(1024).build();
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMediaTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMediaTest.java
+index 77d2469..e8611be 100644
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMediaTest.java
++++ b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/functions/admin/UnregisterMachineIfExistsAndDeleteItsMediaTest.java
+@@ -71 +71 @@
+-              .cleanUpMode(CleanupMode.DetachAllReturnHardDisksOnly)
++              .cleanUpMode(CleanupMode.Full)
+diff --git a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/predicates/SshAvailableLiveTest.java b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/predicates/SshAvailableLiveTest.java
+index 18127f6..fad5e05 100644
+--- a/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/predicates/SshAvailableLiveTest.java
++++ b/sandbox-apis/virtualbox/src/test/java/org/jclouds/virtualbox/predicates/SshAvailableLiveTest.java
+@@ -73,0 +74 @@
++         		  .memoryMB(512)
+

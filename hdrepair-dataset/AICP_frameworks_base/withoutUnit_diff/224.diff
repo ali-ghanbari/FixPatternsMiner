@@ -1,0 +1,41 @@
+diff --git a/packages/SystemUI/res/drawable/notification_header_bg.xml b/packages/SystemUI/res/drawable/notification_header_bg.xml
+index b6b2e9a..09d0d7d 100644
+--- a/packages/SystemUI/res/drawable/notification_header_bg.xml
++++ b/packages/SystemUI/res/drawable/notification_header_bg.xml
+@@ -21 +21 @@
+-            <solid android:color="#ff54656e" />
++            <solid android:color="@color/background_color_1_press" />
+@@ -27 +27 @@
+-            <solid android:color="#ff384248" />
++            <solid android:color="@color/background_color_1" />
+diff --git a/packages/SystemUI/res/layout/status_bar_toggle_slider.xml b/packages/SystemUI/res/layout/status_bar_toggle_slider.xml
+index e6d7c93..0e84762 100644
+--- a/packages/SystemUI/res/layout/status_bar_toggle_slider.xml
++++ b/packages/SystemUI/res/layout/status_bar_toggle_slider.xml
+@@ -30,0 +31 @@
++        android:background="@*android:drawable/switch_track_quantum"
+diff --git a/packages/SystemUI/res/values/colors.xml b/packages/SystemUI/res/values/colors.xml
+index d23a3dc..c1a4e26 100644
+--- a/packages/SystemUI/res/values/colors.xml
++++ b/packages/SystemUI/res/values/colors.xml
+@@ -64,0 +65,4 @@
++    <!-- Our quantum color palette (deep teal) -->
++    <color name="primary_color">#ff7fcac3</color>
++    <color name="background_color_1">#ff384248</color>
++    <color name="background_color_1_press">#ff54656e</color>
+diff --git a/packages/SystemUI/res/values/styles.xml b/packages/SystemUI/res/values/styles.xml
+index acf1f11..4f52870 100644
+--- a/packages/SystemUI/res/values/styles.xml
++++ b/packages/SystemUI/res/values/styles.xml
+@@ -171 +171,3 @@
+-    <style name="systemui_theme" parent="@android:style/Theme.DeviceDefault" />
++    <style name="systemui_theme" parent="@android:style/Theme.DeviceDefault">
++        <item name="android:colorPrimary">@color/primary_color</item>
++    </style>
+diff --git a/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java b/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java
+index 7d38058..4b78072 100644
+--- a/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java
++++ b/packages/SystemUI/src/com/android/systemui/settings/ToggleSlider.java
+@@ -65 +64,0 @@
+-        mToggle.setBackground(res.getDrawable(R.drawable.status_bar_toggle_button));
+

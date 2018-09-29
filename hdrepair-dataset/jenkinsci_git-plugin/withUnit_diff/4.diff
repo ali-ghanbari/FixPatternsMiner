@@ -1,0 +1,48 @@
+diff --git a/src/main/java/hudson/plugins/git/GitSCM.java b/src/main/java/hudson/plugins/git/GitSCM.java
+index 54f304a..17c72ba 100644
+--- a/src/main/java/hudson/plugins/git/GitSCM.java
++++ b/src/main/java/hudson/plugins/git/GitSCM.java
+@@ -405 +405 @@
+-     * return that branch specifier (in the form of something like "origin/master"
++     * return that branch specifier (in the form of something like "origin/master" or a SHA1-hash
+diff --git a/src/main/resources/hudson/plugins/git/BranchSpec/help-name.html b/src/main/resources/hudson/plugins/git/BranchSpec/help-name.html
+index 06f9566..7c6720f 100644
+--- a/src/main/resources/hudson/plugins/git/BranchSpec/help-name.html
++++ b/src/main/resources/hudson/plugins/git/BranchSpec/help-name.html
+@@ -13,0 +14,2 @@
++  <br/>
++  A specific revision can be checked out by specifying the SHA1 hash of that revision in this field.
+diff --git a/src/test/java/hudson/plugins/git/util/DefaultBuildChooserTest.java b/src/test/java/hudson/plugins/git/util/DefaultBuildChooserTest.java
+new file mode 100644
+index 0000000..d8aa1c9
+--- /dev/null
++++ b/src/test/java/hudson/plugins/git/util/DefaultBuildChooserTest.java
+@@ -0,0 +1,27 @@
++package hudson.plugins.git.util;
++
++import java.util.Collection;
++
++import hudson.plugins.git.AbstractGitTestCase;
++import hudson.plugins.git.GitSCM;
++import hudson.plugins.git.Revision;
++
++/**
++ * @author Arnout Engelen
++ */
++public class DefaultBuildChooserTest extends AbstractGitTestCase {
++    public void testChooseGitRevisionToBuildByShaHash() throws Exception {
++        git.commit("Commit 1");
++        String shaHashCommit1 = git.getBranches().iterator().next().getSHA1String();
++        git.commit("Commit 2");
++        String shaHashCommit2 = git.getBranches().iterator().next().getSHA1String();
++        assertNotSame(shaHashCommit1, shaHashCommit2);
++
++        DefaultBuildChooser buildChooser = (DefaultBuildChooser) new GitSCM("foo").getBuildChooser();
++
++        Collection<Revision> candidateRevisions = buildChooser.getCandidateRevisions(false, shaHashCommit1, git, null, null, null);
++
++        assertEquals(1, candidateRevisions.size());
++        assertEquals(shaHashCommit1, candidateRevisions.iterator().next().getSha1String());
++    }
++}
+

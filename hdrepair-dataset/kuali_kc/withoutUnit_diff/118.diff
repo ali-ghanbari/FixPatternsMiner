@@ -1,0 +1,15 @@
+diff --git a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwardPeriodDetail.java b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwardPeriodDetail.java
+index 761e77d..ff55d27 100644
+--- a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwardPeriodDetail.java
++++ b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwardPeriodDetail.java
+@@ -41 +41 @@
+-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
++    @ManyToOne(cascade = { CascadeType.REFRESH })
+diff --git a/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/subaward/ProposalBudgetSubawardsPage.xml b/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/subaward/ProposalBudgetSubawardsPage.xml
+index 919eb26..7f79d77 100644
+--- a/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/subaward/ProposalBudgetSubawardsPage.xml
++++ b/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/subaward/ProposalBudgetSubawardsPage.xml
+@@ -54 +54 @@
+-	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward">
++	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward" p:retrieveViaAjax="true">
+

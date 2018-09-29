@@ -1,0 +1,19 @@
+diff --git a/compiler/frontend/src/org/jetbrains/jet/lang/resolve/OverrideResolver.java b/compiler/frontend/src/org/jetbrains/jet/lang/resolve/OverrideResolver.java
+index a59a66a..dfd60ff 100644
+--- a/compiler/frontend/src/org/jetbrains/jet/lang/resolve/OverrideResolver.java
++++ b/compiler/frontend/src/org/jetbrains/jet/lang/resolve/OverrideResolver.java
+@@ -264 +264 @@
+-                        typeMismatchError = true;
++                        kindMismatchError = true;
+diff --git a/idea/testData/checkerWithErrorTypes/quick/OverridingVarByVal.jet b/idea/testData/checkerWithErrorTypes/quick/OverridingVarByVal.jet
+index d77e857..e14eef6 100644
+--- a/idea/testData/checkerWithErrorTypes/quick/OverridingVarByVal.jet
++++ b/idea/testData/checkerWithErrorTypes/quick/OverridingVarByVal.jet
+@@ -5 +5,5 @@
+-class Val() : Var() {
++trait VarT {
++  var v : Int
++}
++
++class Val() : Var(), VarT {
+

@@ -1,0 +1,13 @@
+diff --git a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/folding/DefaultJavaFoldingStructureProvider.java b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/folding/DefaultJavaFoldingStructureProvider.java
+index 0eda91b..28be99b 100644
+--- a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/folding/DefaultJavaFoldingStructureProvider.java
++++ b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/folding/DefaultJavaFoldingStructureProvider.java
+@@ -176,0 +177,7 @@
++		// http://home.ott.oti.com/teams/wswb/anon/out/vms/index.html
++		// projectionEnabled messages are not always paired with projectionDisabled
++		// i.e. multiple enabled messages may be sent out.
++		// we have to make sure that we disable first when getting an enable
++		// message.
++		projectionDisabled();
++		
+

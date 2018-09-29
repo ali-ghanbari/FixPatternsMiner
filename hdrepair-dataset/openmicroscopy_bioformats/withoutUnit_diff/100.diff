@@ -1,0 +1,8 @@
+diff --git a/components/scifio/src/loci/formats/in/AVIReader.java b/components/scifio/src/loci/formats/in/AVIReader.java
+index 9e1bed1..04104ce 100644
+--- a/components/scifio/src/loci/formats/in/AVIReader.java
++++ b/components/scifio/src/loci/formats/in/AVIReader.java
+@@ -245 +245 @@
+-    in.skipBytes((getSizeX() + pad) * bytes * (getSizeY() - h - y));
++    in.skipBytes((getSizeX() + pad) * (bmpBitsPerPixel / 8) * (getSizeY() - h - y));
+

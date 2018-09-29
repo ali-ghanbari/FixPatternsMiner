@@ -1,0 +1,37 @@
+diff --git a/CHANGELOG.txt b/CHANGELOG.txt
+index 16fd498..d73c9c9 100644
+--- a/CHANGELOG.txt
++++ b/CHANGELOG.txt
+@@ -50,0 +51 @@
++[BEAM-1569] Documentation for 'statistical accuracy' missing
+diff --git a/beam-help/src/main/resources/doc/help/visat/StatisticsDialog.html b/beam-help/src/main/resources/doc/help/visat/StatisticsDialog.html
+index f7d1a33..fe51b4d 100644
+--- a/beam-help/src/main/resources/doc/help/visat/StatisticsDialog.html
++++ b/beam-help/src/main/resources/doc/help/visat/StatisticsDialog.html
+@@ -64,0 +65,13 @@
++<p>
++    The section "Statistical accuracy" allows the user to specify the accuracy with which the statistics shall be
++    computed. Higher numbers indicate a higher accuracy but may lead to a considerably longer computation time. More
++    precisely, this parameter determines the number of bin cells used for computing the histogram: the number of bin
++    cells is computed by <b>10^a</b> with <b>a</b> the parameter.
++</p>
++
++<p>
++    The export button below allows to export the statistics as CSV file. In case the statistics have been
++    computed for ROI mask(s) which come from a shapefile, they also can be export to this original shapefile, thus
++    enrich that shapefile by the statistical information.
++</p>
++
+diff --git a/beam-visat-rcp/src/main/java/org/esa/beam/visat/toolviews/stat/StatisticsPanel.java b/beam-visat-rcp/src/main/java/org/esa/beam/visat/toolviews/stat/StatisticsPanel.java
+index 6d2b567..941086d 100644
+--- a/beam-visat-rcp/src/main/java/org/esa/beam/visat/toolviews/stat/StatisticsPanel.java
++++ b/beam-visat-rcp/src/main/java/org/esa/beam/visat/toolviews/stat/StatisticsPanel.java
+@@ -191 +190,0 @@
+-
+diff --git a/beam-visat-rcp/src/main/resources/module.xml b/beam-visat-rcp/src/main/resources/module.xml
+index f68771f..9e833b5 100644
+--- a/beam-visat-rcp/src/main/resources/module.xml
++++ b/beam-visat-rcp/src/main/resources/module.xml
+@@ -30,0 +31 @@
++          [BEAM-1569] Documentation for 'statistical accuracy' missing</br>
+

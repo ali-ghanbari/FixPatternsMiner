@@ -1,0 +1,25 @@
+diff --git a/src/org/intellij/erlang/inspection/ErlangHeadMismatchInspection.java b/src/org/intellij/erlang/inspection/ErlangHeadMismatchInspection.java
+index a89f6f2..fab4091 100644
+--- a/src/org/intellij/erlang/inspection/ErlangHeadMismatchInspection.java
++++ b/src/org/intellij/erlang/inspection/ErlangHeadMismatchInspection.java
+@@ -50,0 +51 @@
++          if (clauseHead.getMacros() != null) return;
+diff --git a/testData/highlighting/MismatchedHead.erl b/testData/highlighting/MismatchedHead.erl
+index a9d2fd2..427db3f 100644
+--- a/testData/highlighting/MismatchedHead.erl
++++ b/testData/highlighting/MismatchedHead.erl
+@@ -1 +1 @@
+--export([foo/0]).
++-export([foo/0, ?foo/1]).
+@@ -5 +5,7 @@
+-<error>bar</error>() -> ok.
+\ No newline at end of file
++<error>bar</error>() -> ok.
++
++-define(foo, fun1).
++-define(bar, fun1).
++
++?foo(1) -> ok;
++?bar(2) -> ok.
+\ No newline at end of file
+

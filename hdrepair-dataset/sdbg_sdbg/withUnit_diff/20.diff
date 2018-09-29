@@ -1,0 +1,21 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.tools.core/src/com/google/dart/tools/core/internal/analysis/model/ProjectImpl.java b/dart/editor/tools/plugins/com.google.dart.tools.core/src/com/google/dart/tools/core/internal/analysis/model/ProjectImpl.java
+index 7cad2ef..581a014 100644
+--- a/dart/editor/tools/plugins/com.google.dart.tools.core/src/com/google/dart/tools/core/internal/analysis/model/ProjectImpl.java
++++ b/dart/editor/tools/plugins/com.google.dart.tools.core/src/com/google/dart/tools/core/internal/analysis/model/ProjectImpl.java
+@@ -103 +103 @@
+-        File root = new File(packOverrideDir, container.getLocation().toString());
++        File root = new File(packOverrideDir, container.getLocation().toOSString());
+diff --git a/dart/editor/tools/plugins/com.google.dart.tools.core_test/src/com/google/dart/tools/core/internal/analysis/model/ProjectImplTest.java b/dart/editor/tools/plugins/com.google.dart.tools.core_test/src/com/google/dart/tools/core/internal/analysis/model/ProjectImplTest.java
+index fa6e8cf..8b516b9 100644
+--- a/dart/editor/tools/plugins/com.google.dart.tools.core_test/src/com/google/dart/tools/core/internal/analysis/model/ProjectImplTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.tools.core_test/src/com/google/dart/tools/core/internal/analysis/model/ProjectImplTest.java
+@@ -235 +235,2 @@
+-    CmdLineOptions options = CmdLineOptions.parseCmdLine(new String[] {"--package-root", "foo"});
++    CmdLineOptions options = CmdLineOptions.parseCmdLine(new String[] {
++        "--package-root", "foo", "bar"});
+@@ -240 +241 @@
+-    assertEquals(1, roots.length);
++    assertEquals(2, roots.length);
+@@ -241,0 +243 @@
++    assertEquals("bar", roots[1].getName());
+

@@ -1,0 +1,20 @@
+DO NOT MERGE: fix wallpaper restore
+
+Following a restore of the wallpaper data files, the settingsRestored()
+method was binding the new wallpaper by passing null as the component,
+because once upon a time that meant just use the configuration that had
+just been loaded from the [newly restored] settings filed.  However, at
+some point this broke when the load from settings was made a staging
+operation, not also the commitment of the changes.
+
+This CL passes the newly-determined component configuration explicitly
+to the bind, overriding the product default that may already have been
+emplaced by the time the restore happens.
+
+Will not merge cleanly downstream; the parallel (small) change will
+be made explicitly there.
+
+Bug 5416839
+
+Change-Id: I50b5d57fafd176529ac7a90cac8116bbc9f696fd
+

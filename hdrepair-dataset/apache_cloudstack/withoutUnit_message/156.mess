@@ -1,0 +1,9 @@
+Look for null pointer on account id before trying to update usage when releasing
+an IP. This seems to be possible if expunge fails at some point after freeing
+an IP, on subsequent expunge tries the IP is freed already and gets null pointer
+when looking for account id.
+
+BUG-ID: CLOUDSTACK-2279
+Bugfix-for: 4.1,4.2
+Signed-off-by: Marcus Sorensen <marcus@betterservers.com> 1367251304 -0600
+

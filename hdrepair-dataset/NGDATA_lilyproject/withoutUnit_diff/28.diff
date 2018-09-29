@@ -1,0 +1,8 @@
+diff --git a/cr/indexer/engine/src/main/java/org/lilyproject/indexer/engine/SolrDocumentBuilder.java b/cr/indexer/engine/src/main/java/org/lilyproject/indexer/engine/SolrDocumentBuilder.java
+index 272e634..cd2db3a 100644
+--- a/cr/indexer/engine/src/main/java/org/lilyproject/indexer/engine/SolrDocumentBuilder.java
++++ b/cr/indexer/engine/src/main/java/org/lilyproject/indexer/engine/SolrDocumentBuilder.java
+@@ -167 +167 @@
+-            if (!ctx.dep.id.equals(recordId)) { // avoid adding unnecesary self-references
++            if (!ctx.dep.vprops.isEmpty() || !ctx.dep.id.equals(recordId)) { // avoid adding unnecesary self-references
+

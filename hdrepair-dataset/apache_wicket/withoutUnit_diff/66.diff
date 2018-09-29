@@ -1,0 +1,8 @@
+diff --git a/wicket/src/main/java/org/apache/wicket/protocol/http/servlet/ServletWebResponse.java b/wicket/src/main/java/org/apache/wicket/protocol/http/servlet/ServletWebResponse.java
+index d216a64..144ace8 100644
+--- a/wicket/src/main/java/org/apache/wicket/protocol/http/servlet/ServletWebResponse.java
++++ b/wicket/src/main/java/org/apache/wicket/protocol/http/servlet/ServletWebResponse.java
+@@ -85 +85 @@
+-		httpServletResponse.setContentLength((int)length);
++		httpServletResponse.addHeader("Content-Length", Long.toString(length));
+

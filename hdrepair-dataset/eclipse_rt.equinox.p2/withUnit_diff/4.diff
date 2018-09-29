@@ -1,0 +1,56 @@
+diff --git a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/AbstractProvisioningTest.java b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/AbstractProvisioningTest.java
+index 1cb2f76..e274e1d 100644
+--- a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/AbstractProvisioningTest.java
++++ b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/AbstractProvisioningTest.java
+@@ -58,0 +59,3 @@
++	//flag used to disable currently failing (invalid) tests. This should always be set to true
++	protected boolean DISABLED = true;
++
+diff --git a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/generator/EclipseSDK33Test.java b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/generator/EclipseSDK33Test.java
+index f55f4b7..292f19f 100644
+--- a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/generator/EclipseSDK33Test.java
++++ b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/generator/EclipseSDK33Test.java
+@@ -31,0 +32 @@
++
+@@ -48 +49 @@
+-		if (true)
++		if (DISABLED)
+diff --git a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/ActionTest.java b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/ActionTest.java
+index cca028e..8c40820 100644
+--- a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/ActionTest.java
++++ b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/ActionTest.java
+@@ -17 +16,0 @@
+-import junit.framework.TestCase;
+@@ -22,0 +22 @@
++import org.eclipse.equinox.p2.tests.AbstractProvisioningTest;
+@@ -27 +27 @@
+-public abstract class ActionTest extends TestCase {
++public abstract class ActionTest extends AbstractProvisioningTest {
+diff --git a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/JREActionTest.java b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/JREActionTest.java
+index 8c39e0d..cbe7b9e 100644
+--- a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/JREActionTest.java
++++ b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/publisher/actions/JREActionTest.java
+@@ -47 +47 @@
+-		if (true)
++		if (DISABLED)
+@@ -57 +57 @@
+-		if (true)
++		if (DISABLED)
+diff --git a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/BasicTests.java b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/BasicTests.java
+index 74753f5..56e8c52 100644
+--- a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/BasicTests.java
++++ b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/BasicTests.java
+@@ -119 +119 @@
+-		if (false)
++		if (!DISABLED)
+diff --git a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/FeaturePatchTest.java b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/FeaturePatchTest.java
+index 39c3041..75ac679 100644
+--- a/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/FeaturePatchTest.java
++++ b/bundles/org.eclipse.equinox.p2.tests/src/org/eclipse/equinox/p2/tests/reconciler/dropins/FeaturePatchTest.java
+@@ -43 +43 @@
+-		if (true)
++		if (DISABLED)
+@@ -81 +81 @@
+-		if (true)
++		if (DISABLED)
+

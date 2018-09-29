@@ -1,0 +1,10 @@
+diff --git a/src/plugins/WebOfTrust/WebOfTrust.java b/src/plugins/WebOfTrust/WebOfTrust.java
+index 7e86ac8..16ce057 100644
+--- a/src/plugins/WebOfTrust/WebOfTrust.java
++++ b/src/plugins/WebOfTrust/WebOfTrust.java
+@@ -733 +733,3 @@
+-				uri.removeFrom(mDB);
++                // A FreenetURI currently only contains db4o primitive types (String, arrays, etc.)
++                // and thus we can delete it having to delete its member variables explicitly.
++                mDB.delete(uri);
+

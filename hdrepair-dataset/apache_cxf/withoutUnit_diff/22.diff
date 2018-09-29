@@ -1,0 +1,8 @@
+diff --git a/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/provider/ProviderFactory.java b/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/provider/ProviderFactory.java
+index 82bc874..7de75a3 100644
+--- a/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/provider/ProviderFactory.java
++++ b/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/provider/ProviderFactory.java
+@@ -310 +310 @@
+-                    if (expectedType.isArray()) {
++                    if (expectedType.isArray() && !actualClass.isArray()) {
+

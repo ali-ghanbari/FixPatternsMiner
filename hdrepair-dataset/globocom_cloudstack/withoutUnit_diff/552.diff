@@ -1,0 +1,35 @@
+diff --git a/scripts/vm/hypervisor/xenserver/ovsgre b/scripts/vm/hypervisor/xenserver/ovsgre
+index f0a3bf6..45d70b8 100755
+--- a/scripts/vm/hypervisor/xenserver/ovsgre
++++ b/scripts/vm/hypervisor/xenserver/ovsgre
+@@ -266 +266 @@
+-		result = errors["COMMAND_FAILED"]
++		result = "COMMAND_FAILED_NO_BRIDGE"
+@@ -273 +273,2 @@
+-		result = errors["COMMAND_FAILED"];
++		pr("create interface failed, %s is not UUID" % ifaceUUID)
++		result = "COMMAND_FAILED_CREATE_INTERFACE_FAILED"
+@@ -280 +281,2 @@
+-		result = errors["COMMAND_FAILED"];
++		pr("create port failed, %s is not UUID" % portUUID)
++		result = "COMMAND_FAILED_CREATE_PORT_FAILED"
+@@ -296 +298,2 @@
+-		result = errors["COMMAND_FAILED"]
++		pr("create gre tunnel failed")
++		result = "COMMAND_FAILED_CREATE_TUNNEL_FAILED"
+@@ -424,4 +427,3 @@
+-def add_drop_flow(bridge, inPorts):
+-	for i in inPorts:
+-		flow = format_drop_flow(i)
+-		add_flow(bridge, flow)
++def add_drop_flow(bridge, port):
++	flow = format_drop_flow(port)
++	add_flow(bridge, flow)
+diff --git a/server/src/com/cloud/servlet/ConsoleProxyServlet.java b/server/src/com/cloud/servlet/ConsoleProxyServlet.java
+index cf65143..e5696b8 100644
+--- a/server/src/com/cloud/servlet/ConsoleProxyServlet.java
++++ b/server/src/com/cloud/servlet/ConsoleProxyServlet.java
+@@ -378 +378 @@
+-        
++
+

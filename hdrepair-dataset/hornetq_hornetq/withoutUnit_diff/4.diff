@@ -1,0 +1,112 @@
+diff --git a/examples/jms/colocated-failover-scale-down/pom.xml b/examples/jms/colocated-failover-scale-down/pom.xml
+index 565e060..5faf069 100644
+--- a/examples/jms/colocated-failover-scale-down/pom.xml
++++ b/examples/jms/colocated-failover-scale-down/pom.xml
+@@ -11 +11 @@
+-   <artifactId>colocated-failover-recover-only</artifactId>
++   <artifactId>colocated-failover-scale-down</artifactId>
+@@ -72 +72 @@
+-                     <clientClass>org.hornetq.jms.example.ColocatedFailoverRecoverOnlyExample</clientClass>
++                     <clientClass>org.hornetq.jms.example.ColocatedFailoverScaleDownExample</clientClass>
+diff --git a/examples/jms/colocated-failover-scale-down/readme.html b/examples/jms/colocated-failover-scale-down/readme.html
+index 33e0a81..f5e3909 100644
+--- a/examples/jms/colocated-failover-scale-down/readme.html
++++ b/examples/jms/colocated-failover-scale-down/readme.html
+@@ -3 +3 @@
+-    <title>HornetQ JMS Colocated Failover Recover Only Example</title>
++    <title>HornetQ JMS Colocated Failover Scale Down Example</title>
+@@ -11,2 +11,4 @@
+-     <p>This example demonstrates how you can colocate live and backup servers in the same VM and have the backup recover
+-     the journal to the live server in its same VM.
++     <p>This example demonstrates how you can colocate live and backup servers in the same VM. We do this by creating an
++         HA Policy that is colocated. colocated means that backup servers can be created and maintained by live servers on behalf
++         of other requesting live servers. In this example we create a colocated shared store server that will scale down.
++         That is it will not become live but scale down the journal to the colocated live server.
+@@ -21,10 +23 @@
+-     <code>&lt;backup-servers>
+-         &lt;backup-server name="backup2" backup-strategy="SCALE_DOWN">
+-             &lt;configuration>
+-                 &lt;bindings-directory>target/server1/data/messaging/bindings&lt;/bindings-directory>
+-                 &lt;journal-directory>target/server1/data/messaging/journal&lt;/journal-directory>
+-                 &lt;large-messages-directory>target/server1/data/messaging/largemessages&lt;/large-messages-directory>
+-                 &lt;paging-directory>target/server1/data/messaging/paging&lt;/paging-directory>
+-             &lt;/configuration>
+-         &lt;/backup-server>
+-     &lt;/backup-servers>
++     <code>&lt;ha-policy template="COLOCATED_SHARED_STORE"/>
+@@ -32,0 +26,5 @@
++     <p>note that for this HA policy we use a template that will use some sensibe settings, in this case this includes
++     setting scale down to true. Also note that since we dont specify a scale down connector it will use most appropriate
++     from the list of available connectors which in  this case is the first INVM connector</p>
++     <p> One other thing to notice is that the cluster connection has its reconnect attempts set to 5, this is so it will
++         disconnect instead of trying to reconnect to a backup that doesn't exist.</p>
+diff --git a/examples/jms/colocated-failover-scale-down/src/main/java/org/hornetq/jms/example/ColocatedFailoverScaleDownExample.java b/examples/jms/colocated-failover-scale-down/src/main/java/org/hornetq/jms/example/ColocatedFailoverScaleDownExample.java
+index 602a028..e576271 100644
+--- a/examples/jms/colocated-failover-scale-down/src/main/java/org/hornetq/jms/example/ColocatedFailoverScaleDownExample.java
++++ b/examples/jms/colocated-failover-scale-down/src/main/java/org/hornetq/jms/example/ColocatedFailoverScaleDownExample.java
+@@ -36 +36 @@
+-      new ColocatedFailoverRecoverOnlyExample().run(args);
++      new ColocatedFailoverScaleDownExample().run(args);
+diff --git a/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server0/hornetq-configuration.xml b/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server0/hornetq-configuration.xml
+index 8df2579..5563ffe 100644
+--- a/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server0/hornetq-configuration.xml
++++ b/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server0/hornetq-configuration.xml
+@@ -15,0 +16,3 @@
++      <connector name="invm-connector">
++         <factory-class>org.hornetq.core.remoting.impl.invm.InVMConnectorFactory</factory-class>
++      </connector>
+@@ -23,0 +27,3 @@
++      <acceptor name="invm-acceptor">
++         <factory-class>org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory</factory-class>
++      </acceptor>
+@@ -52,0 +59,2 @@
++         <!-- since the backup servers scale down we need a sensible setting here so the bridge will stop -->
++         <reconnect-attempts>5</reconnect-attempts>
+@@ -58,0 +67,3 @@
++
++   <!-- a colocated server that will allow shared store backups to be requested, the default for this template is to scale down-->
++   <ha-policy template="COLOCATED_SHARED_STORE"/>
+@@ -73,11 +83,0 @@
+-
+-   <backup-servers>
+-       <backup-server name="backup2" backup-strategy="SCALE_DOWN">
+-           <configuration>
+-               <bindings-directory>target/server1/data/messaging/bindings</bindings-directory>
+-               <journal-directory>target/server1/data/messaging/journal</journal-directory>
+-               <large-messages-directory>target/server1/data/messaging/largemessages</large-messages-directory>
+-               <paging-directory>target/server1/data/messaging/paging</paging-directory>
+-           </configuration>
+-       </backup-server>
+-   </backup-servers>
+diff --git a/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server1/hornetq-configuration.xml b/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server1/hornetq-configuration.xml
+index 2e8e05a..2da9ca8 100644
+--- a/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server1/hornetq-configuration.xml
++++ b/examples/jms/colocated-failover-scale-down/src/main/resources/hornetq/server1/hornetq-configuration.xml
+@@ -16,0 +17,3 @@
++      <connector name="invm-connector">
++         <factory-class>org.hornetq.core.remoting.impl.invm.InVMConnectorFactory</factory-class>
++      </connector>
+@@ -24,0 +28,3 @@
++      <acceptor name="invm-acceptor">
++         <factory-class>org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory</factory-class>
++      </acceptor>
+@@ -53,0 +60,2 @@
++         <!-- since the backup servers scale down we need a sensible setting here so the bridge will stop -->
++         <reconnect-attempts>5</reconnect-attempts>
+@@ -59,0 +68,3 @@
++
++   <!-- a colocated server that will allow shared store backups to be requested, the default for this template is to scale down-->
++   <ha-policy template="COLOCATED_SHARED_STORE"/>
+@@ -74,11 +84,0 @@
+-
+-   <backup-servers>
+-      <backup-server name="backup1" backup-strategy="SCALE_DOWN">
+-          <configuration>
+-              <bindings-directory>target/server0/data/messaging/bindings</bindings-directory>
+-              <journal-directory>target/server0/data/messaging/journal</journal-directory>
+-              <large-messages-directory>target/server0/data/messaging/largemessages</large-messages-directory>
+-              <paging-directory>target/server0/data/messaging/paging</paging-directory>
+-          </configuration>
+-      </backup-server>
+-   </backup-servers>
+

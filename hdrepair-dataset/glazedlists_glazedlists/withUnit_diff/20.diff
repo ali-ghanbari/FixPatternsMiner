@@ -1,0 +1,14 @@
+diff --git a/source/ca/odell/glazedlists/impl/ctp/CTPConnectionManager.java b/source/ca/odell/glazedlists/impl/ctp/CTPConnectionManager.java
+index 13ff74f..fd91b6f 100644
+--- a/source/ca/odell/glazedlists/impl/ctp/CTPConnectionManager.java
++++ b/source/ca/odell/glazedlists/impl/ctp/CTPConnectionManager.java
+@@ -81,0 +82 @@
++        serverSocket.setReuseAddress(false); // fix for Apple JVM bug 3922515
+diff --git a/test/ca/odell/glazedlists/net/NetworkListTest.java b/test/ca/odell/glazedlists/net/NetworkListTest.java
+index 46d7424..d26467b 100644
+--- a/test/ca/odell/glazedlists/net/NetworkListTest.java
++++ b/test/ca/odell/glazedlists/net/NetworkListTest.java
+@@ -33 +33 @@
+-    private static int serverPort = 5000;
++    private static int serverPort = 5100;
+

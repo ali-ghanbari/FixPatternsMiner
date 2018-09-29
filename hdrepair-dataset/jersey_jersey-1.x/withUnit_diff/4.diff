@@ -1,0 +1,77 @@
+diff --git a/jersey-json/src/test/java/com/sun/jersey/json/impl/JSONJAXBRoudtripTest.java b/jersey-json/src/test/java/com/sun/jersey/json/impl/JSONJAXBRoudtripTest.java
+index 8d5ebba..2b74c1f 100644
+--- a/jersey-json/src/test/java/com/sun/jersey/json/impl/JSONJAXBRoudtripTest.java
++++ b/jersey-json/src/test/java/com/sun/jersey/json/impl/JSONJAXBRoudtripTest.java
+@@ -43 +42,0 @@
+-import java.io.Reader;
+@@ -53 +52,2 @@
+-import javax.xml.bind.JAXBElement;
++import javax.xml.bind.JAXBContext;
++import javax.xml.bind.JAXBException;
+@@ -55 +55 @@
+-import javax.xml.transform.stream.StreamSource;
++import javax.xml.bind.PropertyException;
+@@ -148,8 +148,7 @@
+-//    TODO: Jettison gets stuck on the following :-(
+-//    public void testJettisonMappedNotation() throws Exception {
+-//        System.out.println("MAPPED (JETTISON) NOTATION");
+-//        Map<String, Object> props = new HashMap<String, Object>();
+-//        props.put(JSONJAXBContext.JSON_NOTATION, "MAPPED_JETTISON");
+-//        props.put(JSONJAXBContext.JSON_ROOT_UNWRAPPING, Boolean.TRUE);
+-//        allBeansTest(new JSONJAXBContext(classes, props), beans);
+-//    }
++    public void testJettisonMappedNotation() throws Exception {
++        System.out.println("MAPPED (JETTISON) NOTATION");
++        Map<String, Object> props = new HashMap<String, Object>();
++        props.put(JSONJAXBContext.JSON_NOTATION, "MAPPED_JETTISON");
++        props.put(JSONJAXBContext.JSON_ROOT_UNWRAPPING, Boolean.TRUE);
++        allBeansTest(new JSONJAXBContext(classes, props), beans);
++    }
+@@ -157,0 +157 @@
++
+@@ -159,0 +160 @@
++
+@@ -161,5 +162,2 @@
+-//            System.out.println("Checking " + originalBean.toString());
+-//            JAXBContext ctx = JAXBContext.newInstance(originalBean.getClass());
+-//            Marshaller m = ctx.createMarshaller();
+-//            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+-//            m.marshal(originalBean, System.out);
++            printAsXml(originalBean);
++
+@@ -167,0 +166 @@
++
+@@ -169,2 +168 @@
+-            assertEquals(originalBean, unmarshall(unmarshaller, originalBean.getClass(), new StringReader(sWriter.toString())));
+-//            System.out.println("OK");
++            assertEquals(originalBean, unmarshaller.unmarshalFromJSON(new StringReader(sWriter.toString()), originalBean.getClass()));
+@@ -174,4 +172,6 @@
+-    private <T> T unmarshall(JSONUnmarshaller unmarshaller, Class<T> type, Reader r) throws Exception {
+-        assert null != unmarshaller;
+-        JAXBElement<T> jaxbElem  = unmarshaller.unmarshalJAXBElementFromJSON(r, type);
+-        return jaxbElem.getValue();
++    private void printAsXml(Object originalBean) throws JAXBException, PropertyException {
++        System.out.println("Checking " + originalBean.toString());
++        JAXBContext ctx = JAXBContext.newInstance(originalBean.getClass());
++        Marshaller m = ctx.createMarshaller();
++        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
++        m.marshal(originalBean, System.out);
+@@ -179 +178,0 @@
+-    
+diff --git a/jersey-json/src/test/java/com/sun/jersey/json/impl/TwoListsWrapperBean.java b/jersey-json/src/test/java/com/sun/jersey/json/impl/TwoListsWrapperBean.java
+index a41147d..55e391c 100644
+--- a/jersey-json/src/test/java/com/sun/jersey/json/impl/TwoListsWrapperBean.java
++++ b/jersey-json/src/test/java/com/sun/jersey/json/impl/TwoListsWrapperBean.java
+@@ -49 +49 @@
+-@XmlRootElement(name = "item")
++@XmlRootElement(name = "item2")
+diff --git a/jersey-json/src/test/resources/com/sun/jersey/json/impl/twoListsWrapper.json b/jersey-json/src/test/resources/com/sun/jersey/json/impl/twoListsWrapper.json
+index 550a21a..13e7a73 100644
+--- a/jersey-json/src/test/resources/com/sun/jersey/json/impl/twoListsWrapper.json
++++ b/jersey-json/src/test/resources/com/sun/jersey/json/impl/twoListsWrapper.json
+@@ -1 +1 @@
+-{"item":{"property1":["a1","a1"],"property2":["b1"]}}
+\ No newline at end of file
++{"item2":{"property1":["a1","a1"],"property2":["b1"]}}
+\ No newline at end of file
+

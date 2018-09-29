@@ -1,0 +1,14 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 71df1eb..d43db8a 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -16,0 +17 @@
++ * cfId counter got out of sync when CFs were added (CASSANDRA-1403)
+diff --git a/src/java/org/apache/cassandra/db/migration/AddColumnFamily.java b/src/java/org/apache/cassandra/db/migration/AddColumnFamily.java
+index f93ce5a..6c6f0a9 100644
+--- a/src/java/org/apache/cassandra/db/migration/AddColumnFamily.java
++++ b/src/java/org/apache/cassandra/db/migration/AddColumnFamily.java
+@@ -85,0 +86,2 @@
++        // these definitions could have come from somewhere else.
++        CFMetaData.fixMaxId();
+

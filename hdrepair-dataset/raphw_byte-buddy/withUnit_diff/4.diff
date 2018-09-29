@@ -1,0 +1,15 @@
+diff --git a/src/main/java/com/blogspot/mydailyjava/bytebuddy/instrumentation/method/bytecode/stack/constant/DoubleConstant.java b/src/main/java/com/blogspot/mydailyjava/bytebuddy/instrumentation/method/bytecode/stack/constant/DoubleConstant.java
+index e73378b..909f5a3 100644
+--- a/src/main/java/com/blogspot/mydailyjava/bytebuddy/instrumentation/method/bytecode/stack/constant/DoubleConstant.java
++++ b/src/main/java/com/blogspot/mydailyjava/bytebuddy/instrumentation/method/bytecode/stack/constant/DoubleConstant.java
+@@ -14 +14 @@
+-    private static final StackManipulation.Size SIZE = StackSize.SINGLE.toIncreasingSize();
++    private static final StackManipulation.Size SIZE = StackSize.DOUBLE.toIncreasingSize();
+diff --git a/src/test/java/com/blogspot/mydailyjava/bytebuddy/ByteBuddyTest.java b/src/test/java/com/blogspot/mydailyjava/bytebuddy/ByteBuddyTest.java
+index bc773c1..fb2b900 100644
+--- a/src/test/java/com/blogspot/mydailyjava/bytebuddy/ByteBuddyTest.java
++++ b/src/test/java/com/blogspot/mydailyjava/bytebuddy/ByteBuddyTest.java
+@@ -62 +62 @@
+-        Bar object = ByteBuddy.make()
++        Bar object = new ByteBuddy()
+

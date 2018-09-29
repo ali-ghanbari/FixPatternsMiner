@@ -1,0 +1,9 @@
+core: fix canDoAction check in RemoveStoragePoolCommand
+
+After change 60cbca3 (core: Detach storage domain when remove Storage
+Pool) trying to remove a datacenter without any storage domain resulted
+in a IndexOutOfBoundsException.
+
+Change-Id: I209fea6f4a8c9da74a3725ef539442446914de9c
+Signed-off-by: Federico Simoncelli <fsimonce@redhat.com>
+

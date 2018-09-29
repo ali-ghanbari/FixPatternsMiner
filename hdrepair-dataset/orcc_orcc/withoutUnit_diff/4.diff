@@ -1,0 +1,30 @@
+diff --git a/eclipse/plugins/net.sf.orcc.cal.tests/src/net/sf/orcc/tests/main/CalParserTests.xtend b/eclipse/plugins/net.sf.orcc.cal.tests/src/net/sf/orcc/tests/main/CalParserTests.xtend
+index fdfbd75..27ec602 100644
+--- a/eclipse/plugins/net.sf.orcc.cal.tests/src/net/sf/orcc/tests/main/CalParserTests.xtend
++++ b/eclipse/plugins/net.sf.orcc.cal.tests/src/net/sf/orcc/tests/main/CalParserTests.xtend
+@@ -97,0 +98,10 @@
++	def testBigIntegers() {
++		val entity = '''
++			actor TypeInt() ==> :
++				uint(size=64) bigint := 9223372036854775808;
++			end
++		'''.parse
++		entity.assertNoErrors
++	}
++
++	@Test
+diff --git a/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/Cal.xtext b/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/Cal.xtext
+index 8ffa51d..7338499 100644
+--- a/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/Cal.xtext
++++ b/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/Cal.xtext
+@@ -352 +352 @@
+-terminal HEX returns ecore:: EBigInteger : '0' ('x'|'X') ('0'..'9' | 'a'..'f' | 'A'..'F')+ ;
++terminal HEX returns ecore::EBigInteger : '0' ('x'|'X') ('0'..'9' | 'a'..'f' | 'A'..'F')+ ;
+diff --git a/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/conversion/DECIMALValueConverter.java b/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/conversion/DECIMALValueConverter.java
+index e806950..6508c60 100644
+--- a/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/conversion/DECIMALValueConverter.java
++++ b/eclipse/plugins/net.sf.orcc.cal/src/net/sf/orcc/cal/conversion/DECIMALValueConverter.java
+@@ -31 +31 @@
+-		if(value.compareTo(BigInteger.ZERO) <0)
++		if (value.compareTo(BigInteger.ZERO) < 0)
+

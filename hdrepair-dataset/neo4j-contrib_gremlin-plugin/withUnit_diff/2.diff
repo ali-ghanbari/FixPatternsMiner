@@ -1,0 +1,15 @@
+diff --git a/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java b/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java
+index 173482b..a79f975 100755
+--- a/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java
++++ b/src/main/java/org/neo4j/server/plugin/gremlin/GremlinPlugin.java
+@@ -79 +79 @@
+-            neo4jGraph.autoStartTransaction();
++            neo4jGraph.autoStartTransaction(true);
+diff --git a/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginFunctionalTest.java b/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginFunctionalTest.java
+index 250e88c..aee7490 100644
+--- a/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginFunctionalTest.java
++++ b/src/test/java/org/neo4j/server/plugin/gremlin/GremlinPluginFunctionalTest.java
+@@ -187 +187 @@
+-                "g.autoStartTransaction();g.getIndex('node_auto_index', Vertex.class).get('name','you').toList();";
++                "g.autoStartTransaction(false);g.getIndex('node_auto_index', Vertex.class).get('name','you').toList();";
+

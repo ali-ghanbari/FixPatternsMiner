@@ -1,0 +1,24 @@
+diff --git a/modules/distribution/src/main/java/org/openlmis/distribution/domain/ChildCoverageLineItem.java b/modules/distribution/src/main/java/org/openlmis/distribution/domain/ChildCoverageLineItem.java
+index 1dde91d..e7dc872 100644
+--- a/modules/distribution/src/main/java/org/openlmis/distribution/domain/ChildCoverageLineItem.java
++++ b/modules/distribution/src/main/java/org/openlmis/distribution/domain/ChildCoverageLineItem.java
+@@ -45 +45 @@
+-      targetGroup = (int) round(catchmentPopulation * whoRatio);
++      targetGroup = (int) round(catchmentPopulation * whoRatio / 100);
+diff --git a/modules/distribution/src/test/java/org/openlmis/distribution/domain/ChildCoverageLineItemTest.java b/modules/distribution/src/test/java/org/openlmis/distribution/domain/ChildCoverageLineItemTest.java
+index 51fd4cc..5fe0809 100644
+--- a/modules/distribution/src/test/java/org/openlmis/distribution/domain/ChildCoverageLineItemTest.java
++++ b/modules/distribution/src/test/java/org/openlmis/distribution/domain/ChildCoverageLineItemTest.java
+@@ -38 +38 @@
+-    when(facility.getCatchmentPopulation()).thenReturn((long) 8);
++    when(facility.getCatchmentPopulation()).thenReturn((long) 80);
+@@ -43 +43 @@
+-    assertThat(childCoverageLineItem.getTargetGroup(), is(19));
++    assertThat(childCoverageLineItem.getTargetGroup(), is(2));
+@@ -55 +55 @@
+-    when(facility.getCatchmentPopulation()).thenReturn((long) 8);
++    when(facility.getCatchmentPopulation()).thenReturn((long) 80);
+@@ -60 +60 @@
+-    assertThat(childCoverageLineItem.getTargetGroup(), is(21));
++    assertThat(childCoverageLineItem.getTargetGroup(), is(2));
+

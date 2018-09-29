@@ -1,0 +1,150 @@
+diff --git a/activemq-core/pom.xml b/activemq-core/pom.xml
+index b423a86..5428470 100755
+--- a/activemq-core/pom.xml
++++ b/activemq-core/pom.xml
+@@ -508,0 +509,3 @@
++            <!-- exclude until implemented -->
++            <exclude>**/JDBCMessagePriorityTest.*</exclude>
++            
+diff --git a/activemq-core/src/main/java/org/apache/activemq/broker/region/cursors/PrioritizedPendingList.java b/activemq-core/src/main/java/org/apache/activemq/broker/region/cursors/PrioritizedPendingList.java
+index 075160c..4d3c331 100644
+--- a/activemq-core/src/main/java/org/apache/activemq/broker/region/cursors/PrioritizedPendingList.java
++++ b/activemq-core/src/main/java/org/apache/activemq/broker/region/cursors/PrioritizedPendingList.java
+@@ -85 +85 @@
+-            Math.max(message.getMessage().getPriority(), 0);
++            priority = Math.max(message.getMessage().getPriority(), 0);
+diff --git a/activemq-core/src/test/java/org/apache/activemq/store/MessagePriorityTest.java b/activemq-core/src/test/java/org/apache/activemq/store/MessagePriorityTest.java
+index 735a47d..c5fedd2 100644
+--- a/activemq-core/src/test/java/org/apache/activemq/store/MessagePriorityTest.java
++++ b/activemq-core/src/test/java/org/apache/activemq/store/MessagePriorityTest.java
+@@ -20,0 +21,2 @@
++import javax.jms.Message;
++import javax.jms.MessageConsumer;
+@@ -25,2 +27 @@
+-
+-import junit.framework.TestCase;
++import javax.jms.TopicSubscriber;
+@@ -28,0 +30 @@
++import org.apache.activemq.CombinationTestSupport;
+@@ -31,0 +34,5 @@
++import org.apache.activemq.command.ActiveMQDestination;
++import org.apache.activemq.command.ActiveMQQueue;
++import org.apache.activemq.command.ActiveMQTopic;
++import org.apache.commons.logging.Log;
++import org.apache.commons.logging.LogFactory;
+@@ -33 +40,3 @@
+-abstract public class MessagePriorityTest extends TestCase {
++abstract public class MessagePriorityTest extends CombinationTestSupport {
++    
++    private static final Log LOG = LogFactory.getLog(MessagePriorityTest.class);
+@@ -40,0 +50,6 @@
++    
++    public boolean useCache;
++    
++    int MSG_NUM = 1000;
++    int HIGH_PRI = 7;
++    int LOW_PRI = 3;
+@@ -50,0 +66 @@
++        policy.setUseCache(useCache);
+@@ -58,0 +75,2 @@
++        conn.setClientID("priority");
++        conn.start();
+@@ -78 +96 @@
+-        Thread.sleep(100); // get it all propagated
++        Thread.sleep(500); // get it all propagated
+@@ -87,0 +106,80 @@
++    class ProducerThread extends Thread {
++
++        int priority;
++        int messageCount;
++        ActiveMQDestination dest;
++        
++        public ProducerThread(ActiveMQDestination dest, int messageCount, int priority) {
++            this.messageCount = messageCount;
++            this.priority = priority;
++            this.dest = dest;
++        }
++        
++        public void run() {
++            try {
++                MessageProducer producer = sess.createProducer(dest);
++                producer.setPriority(priority);
++                for (int i = 0; i < messageCount; i++) {
++                    producer.send(sess.createTextMessage("message priority: " + priority));
++                }
++            } catch (Exception e) {
++                e.printStackTrace();
++            }
++        }
++        
++    }
++    
++    public void initCombosForTestQueues() {
++        addCombinationValues("useCache", new Object[] {new Boolean(true), new Boolean(false)});
++    }
++    
++    public void testQueues() throws Exception {
++        ActiveMQQueue queue = (ActiveMQQueue)sess.createQueue("TEST");
++
++        ProducerThread lowPri = new ProducerThread(queue, MSG_NUM, LOW_PRI);
++        ProducerThread highPri = new ProducerThread(queue, MSG_NUM, HIGH_PRI);
++        
++        lowPri.start();
++        highPri.start();
++        
++        lowPri.join();
++        highPri.join();
++        
++        MessageConsumer queueConsumer = sess.createConsumer(queue);
++        for (int i = 0; i < MSG_NUM * 2; i++) {
++            Message msg = queueConsumer.receive(1000);
++            assertNotNull(msg);
++            assertEquals("Message " + i + " has wrong priority", i < MSG_NUM ? HIGH_PRI : LOW_PRI, msg.getJMSPriority());
++        }
++    }
++    
++    protected Message createMessage(int priority) throws Exception {
++        final String text = "Message with priority " + priority;
++        Message msg = sess.createTextMessage(text);
++        LOG.info("Sending  " + text);
++        return msg;
++    }
++    
++    public void testDurableSubs() throws Exception {
++        ActiveMQTopic topic = (ActiveMQTopic)sess.createTopic("TEST");
++        TopicSubscriber sub = sess.createDurableSubscriber(topic, "priority");
++        sub.close();
++        
++        ProducerThread lowPri = new ProducerThread(topic, MSG_NUM, LOW_PRI);
++        ProducerThread highPri = new ProducerThread(topic, MSG_NUM, HIGH_PRI);
++        
++        lowPri.start();
++        highPri.start();
++        
++        lowPri.join();
++        highPri.join();
++        
++        sub = sess.createDurableSubscriber(topic, "priority");
++        for (int i = 0; i < MSG_NUM * 2; i++) {
++            Message msg = sub.receive(1000);
++            assertNotNull(msg);
++            assertEquals("Message " + i + " has wrong priority", i < MSG_NUM ? HIGH_PRI : LOW_PRI, msg.getJMSPriority());
++        }
++        
++    }
++    
+diff --git a/activemq-core/src/test/java/org/apache/activemq/store/jdbc/JDBCMessagePriorityTest.java b/activemq-core/src/test/java/org/apache/activemq/store/jdbc/JDBCMessagePriorityTest.java
+index 6dceb76..8f55505 100644
+--- a/activemq-core/src/test/java/org/apache/activemq/store/jdbc/JDBCMessagePriorityTest.java
++++ b/activemq-core/src/test/java/org/apache/activemq/store/jdbc/JDBCMessagePriorityTest.java
+@@ -19,0 +20,2 @@
++import junit.framework.Test;
++
+@@ -32,0 +35 @@
++        jdbc.deleteAllMessages();
+@@ -34,0 +38,4 @@
++    
++    public static Test suite() {
++        return suite(JDBCMessagePriorityTest.class);
++    }
+

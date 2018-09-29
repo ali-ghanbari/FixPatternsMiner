@@ -1,0 +1,619 @@
+diff --git a/Docs/reference/api.md b/Docs/reference/api.md
+index 92aae86..4090890 100644
+--- a/Docs/reference/api.md
++++ b/Docs/reference/api.md
+@@ -1,2 +1 @@
+-#Singularity REST API
+-Singularity Mesos Framework API
++# Singularity REST API
+@@ -3,0 +3 @@
++Version: 0.4.0-SNAPSHOT
+@@ -4,0 +5,12 @@
++Endpoints:
++- `/api/deploys` - Manages Singularity deploys for existing requests.
++- `/api/history` - Manages historical data for tasks, requests, and deploys.
++- `/api/logs` - Manages Singularity task logs stored in S3.
++- `/api/racks` - Manages Singularity racks.
++- `/api/requests` - Manages Singularity requests.
++- `/api/sandbox` - Provides a proxy to Mesos sandboxes.
++- `/api/slaves` - Manages Singularity slaves.
++- `/api/state` - Provides information about the current state of Singularity.
++- `/api/tasks` - Manages Singularity tasks.
++- `/api/test` - Misc testing endpoints.
++- `/api/webhooks` - Manages Singularity webhooks.
+@@ -6 +18,17 @@
+-Api Version: 0.4.0-SNAPSHOT
++Models:
++- `EmbeddedArtifact`
++- `ExecutorData`
++- `ExternalArtifact`
++- `S3Artifact`
++- `SingularityContainerInfo`
++- `SingularityDeploy`
++- `SingularityDeployRequest`
++- `SingularityDockerInfo`
++- `SingularityDockerPortMapping`
++- `SingularityPauseRequest`
++- `SingularityRequest`
++- `SingularityRequestInstances`
++- `SingularityVolume`
++- `SingularityWebhook`
++
++- - -
+@@ -8,0 +37 @@
++<a name="#api-0"></a>
+@@ -9,0 +39,2 @@
++#### Overview
++Manages Singularity deploys for existing requests.
+@@ -46 +76,0 @@
+-| deployId | true | The Singularity Deploy Id that should be removed. | string |
+@@ -47,0 +78 @@
++| deployId | true | The Singularity Deploy Id that should be removed. | string |
+@@ -52 +83 @@
+-| user | false | The user which executes the delete request. | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | The user which executes the delete request. | string |
+@@ -71,0 +103 @@
++- No parameters
+@@ -83,0 +116 @@
++<a name="#api-1"></a>
+@@ -84,0 +118,2 @@
++#### Overview
++Manages historical data for tasks, requests, and deploys.
+@@ -96 +130,0 @@
+-| deployId | true | Deploy ID | string |
+@@ -97,0 +132 @@
++| deployId | true | Deploy ID | string |
+@@ -229,0 +265 @@
++| requestIdLike | false | Request ID prefix to search for | string |
+@@ -232 +267,0 @@
+-| requestIdLike | false | Request ID prefix to search for | string |
+@@ -267,0 +303 @@
++<a name="#api-2"></a>
+@@ -268,0 +305,2 @@
++#### Overview
++Manages Singularity task logs stored in S3.
+@@ -303 +340,0 @@
+-| deployId | true | The deploy ID to search for | string |
+@@ -304,0 +342 @@
++| deployId | true | The deploy ID to search for | string |
+@@ -339,0 +378 @@
++<a name="#api-3"></a>
+@@ -340,0 +380,2 @@
++#### Overview
++Manages Singularity racks.
+@@ -347,0 +389 @@
++- No parameters
+@@ -365,0 +408 @@
++- No parameters
+@@ -383,0 +427 @@
++- No parameters
+@@ -434 +478 @@
+-| user | false | Username of person requestin the decommisioning. | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of person requestin the decommisioning. | string |
+@@ -469,0 +514 @@
++<a name="#api-4"></a>
+@@ -470,0 +516,2 @@
++#### Overview
++Manages Singularity requests.
+@@ -477,0 +525 @@
++- No parameters
+@@ -500 +548 @@
+-| user | false | Username of the person requesting to create or update. | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of the person requesting to create or update. | string |
+@@ -523,0 +572 @@
++- No parameters
+@@ -541,0 +591 @@
++- No parameters
+@@ -559,0 +610 @@
++- No parameters
+@@ -577,0 +629 @@
++- No parameters
+@@ -595,0 +648 @@
++- No parameters
+@@ -613,0 +667 @@
++- No parameters
+@@ -664 +718 @@
+-| user | false | Username of the person requesting the delete. | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of the person requesting the delete. | string |
+@@ -692 +746 @@
+-| user | false | Username of the person requesting the bounce | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of the person requesting the bounce | string |
+@@ -720 +774 @@
+-| user | false | Username of the person requesting the scale. | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of the person requesting the scale. | string |
+@@ -753 +807 @@
+-| user | false | Username of the person requesting the pause. | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of the person requesting the pause. | string |
+@@ -758 +812 @@
+-| body | false | Additional pause options. | <a href="#UNKNOWN[SingularityPauseRequest]">UNKNOWN[SingularityPauseRequest]</a> |
++| body | false | Additional pause options. | <a href="#SingularityPauseRequest">SingularityPauseRequest</a> |
+@@ -786 +840 @@
+-| user | false | Username of the person requesting the execution | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of the person requesting the execution | string |
+@@ -819 +873 @@
+-| user | false | Username of the person requesting the unpause | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false | Username of the person requesting the unpause | string |
+@@ -831,0 +886 @@
++<a name="#api-5"></a>
+@@ -832,0 +888,2 @@
++#### Overview
++Provides a proxy to Mesos sandboxes.
+@@ -877,3 +933,0 @@
+-| grep | false | Optional string to grep for | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
+-| length | false | Maximum number of bytes to read | <a href="#UNKNOWN[long]">UNKNOWN[long]</a> |
+-| offset | false | Byte offset to start reading from | <a href="#UNKNOWN[long]">UNKNOWN[long]</a> |
+@@ -880,0 +935,3 @@
++| grep | false | Optional string to grep for | string |
++| offset | false | Byte offset to start reading from | long |
++| length | false | Maximum number of bytes to read | long |
+@@ -892,0 +950 @@
++<a name="#api-6"></a>
+@@ -893,0 +952,2 @@
++#### Overview
++Manages Singularity slaves.
+@@ -900,0 +961 @@
++- No parameters
+@@ -918,0 +980 @@
++- No parameters
+@@ -936,0 +999 @@
++- No parameters
+@@ -987 +1050 @@
+-| user | false |  | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false |  | string |
+@@ -1022,0 +1086 @@
++<a name="#api-7"></a>
+@@ -1023,0 +1088,2 @@
++#### Overview
++Provides information about the current state of Singularity.
+@@ -1035 +1100,0 @@
+-| includeRequestIds | false |  | boolean |
+@@ -1036,0 +1102 @@
++| includeRequestIds | false |  | boolean |
+@@ -1094,0 +1161 @@
++<a name="#api-8"></a>
+@@ -1095,0 +1163,2 @@
++#### Overview
++Manages Singularity tasks.
+@@ -1102,0 +1172 @@
++- No parameters
+@@ -1143,0 +1214 @@
++- No parameters
+@@ -1161,0 +1233 @@
++- No parameters
+@@ -1179,0 +1252 @@
++- No parameters
+@@ -1197,0 +1271 @@
++- No parameters
+@@ -1294 +1368 @@
+-| user | false |  | <a href="#UNKNOWN[string]">UNKNOWN[string]</a> |
++| user | false |  | string |
+@@ -1329,0 +1404 @@
++<a name="#api-9"></a>
+@@ -1330,0 +1406,2 @@
++#### Overview
++Misc testing endpoints.
+@@ -1337,0 +1415 @@
++- No parameters
+@@ -1355,0 +1434 @@
++- No parameters
+@@ -1373,0 +1453 @@
++- No parameters
+@@ -1415,0 +1496 @@
++- No parameters
+@@ -1433,0 +1515 @@
++- No parameters
+@@ -1445,0 +1528 @@
++<a name="#api-10"></a>
+@@ -1446,0 +1530,2 @@
++#### Overview
++Manages Singularity webhooks.
+@@ -1453,0 +1539 @@
++- No parameters
+@@ -1583,0 +1670,2 @@
++<a name="#model-EmbeddedArtifact"></a>
++## EmbeddedArtifact
+@@ -1585,28 +1673,6 @@
+-## <a name="SingularityDeploy">SingularityDeploy</a>
+-
+-| type | required | description |
+-|------|----------|-------------|
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | Custom Mesos executor id. |
+-| <a href="#com.hubspot.mesos.Resources">com.hubspot.mesos.Resources</a> | optional | Resources required for this deploy. |
+-| <a href="#com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;">com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</a> | optional | List of URIs to download before executing the deploy command. |
+-| <a href="#SingularityContainerInfo">SingularityContainerInfo</a> | optional | Container information for deployment into a container. |
+-| <a href="#com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;">com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</a> | optional | Command arguments. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | The base path for the API exposed by the deploy. Used in conjunction with the Load balancer API. |
+-| <a href="#com.google.common.base.Optional&lt;java.util.Map&lt;java.lang.String, java.lang.String&gt;&gt;">com.google.common.base.Optional&lt;java.util.Map&lt;java.lang.String, java.lang.String&gt;&gt;</a> | optional | Map of metadata key/value pairs associated with the deployment. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | Custom Mesos executor source. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Long&gt;">com.google.common.base.Optional&lt;java.lang.Long&gt;</a> | optional | Health check timeout in seconds. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | Deployment Healthcheck URI. |
+-| string | required | Singularity Request Id which is associated with this deploy. |
+-| <a href="#com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;">com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</a> | optional | List of load balancer groups associated with this deployment. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Boolean&gt;">com.google.common.base.Optional&lt;java.lang.Boolean&gt;</a> | optional | Allows skipping of health checks when deploying. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Long&gt;">com.google.common.base.Optional&lt;java.lang.Long&gt;</a> | optional | Health check interval in seconds. |
+-| <a href="#com.google.common.base.Optional&lt;com.hubspot.deploy.ExecutorData&gt;">com.google.common.base.Optional&lt;com.hubspot.deploy.ExecutorData&gt;</a> | optional | Executor specific information |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | Command to execute for this deployment. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Long&gt;">com.google.common.base.Optional&lt;java.lang.Long&gt;</a> | optional | Number of seconds that a service must be healthy to consider the deployment to be successful. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Long&gt;">com.google.common.base.Optional&lt;java.lang.Long&gt;</a> | optional | Deploy timestamp. |
+-| <a href="#com.google.common.base.Optional&lt;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&gt;">com.google.common.base.Optional&lt;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&gt;</a> | optional | Map (Key/Value) of options for the load balancer. |
+-| string | optional | Custom Mesos executor |
+-| <a href="#com.google.common.base.Optional&lt;java.util.Map&lt;java.lang.String, java.lang.String&gt;&gt;">com.google.common.base.Optional&lt;java.util.Map&lt;java.lang.String, java.lang.String&gt;&gt;</a> | optional | Map of environment variable definitions. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | Deploy version |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Long&gt;">com.google.common.base.Optional&lt;java.lang.Long&gt;</a> | optional | Number of seconds that singularity waits for this service to become healthy. |
+-| string | required | Singularity deploy id. |
++| name | type | required | description |
++|------|------|----------|-------------|
++| md5sum | string | optional |  |
++| filename | string | optional |  |
++| name | string | optional |  |
++| content | <a href="#byte">Array[byte]</a> | optional |  |
+@@ -1614,0 +1681,2 @@
++<a name="#model-ExecutorData"></a>
++## ExecutorData
+@@ -1616,7 +1684,14 @@
+-## <a name="SingularityDeployRequest">SingularityDeployRequest</a>
+-
+-| type | required | description |
+-|------|----------|-------------|
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Boolean&gt;">com.google.common.base.Optional&lt;java.lang.Boolean&gt;</a> | optional | If deploy is successful, also unpause the request. |
+-| <a href="#SingularityDeploy">SingularityDeploy</a> | required | The Singularity deploy object |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | User owning this deploy. |
++| name | type | required | description |
++|------|------|----------|-------------|
++| loggingExtraFields | <a href="#Map[string,string]">Map[string,string]</a> | optional |  |
++| successfulExitCodes | Array[int] | optional |  |
++| s3Artifacts | <a href="#S3Artifact">Array[S3Artifact]</a> | optional |  |
++| embeddedArtifacts | <a href="#EmbeddedArtifact">Array[EmbeddedArtifact]</a> | optional |  |
++| runningSentinel | string | optional |  |
++| externalArtifacts | <a href="#ExternalArtifact">Array[ExternalArtifact]</a> | optional |  |
++| user | string | optional |  |
++| extraCmdLineArgs | Array[string] | optional |  |
++| loggingTag | string | optional |  |
++| sigKillProcessesAfterMillis | long | optional |  |
++| maxTaskThreads | int | optional |  |
++| cmd | string | optional |  |
+@@ -1624,0 +1700,2 @@
++<a name="#model-ExternalArtifact"></a>
++## ExternalArtifact
+@@ -1626,17 +1703,7 @@
+-## <a name="SingularityRequest">SingularityRequest</a>
+-
+-| type | required | description |
+-|------|----------|-------------|
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;">com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Boolean&gt;">com.google.common.base.Optional&lt;java.lang.Boolean&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;com.hubspot.singularity.SlavePlacement&gt;">com.google.common.base.Optional&lt;com.hubspot.singularity.SlavePlacement&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Boolean&gt;">com.google.common.base.Optional&lt;java.lang.Boolean&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;">com.google.common.base.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Integer&gt;">com.google.common.base.Optional&lt;java.lang.Integer&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Boolean&gt;">com.google.common.base.Optional&lt;java.lang.Boolean&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Long&gt;">com.google.common.base.Optional&lt;java.lang.Long&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Integer&gt;">com.google.common.base.Optional&lt;java.lang.Integer&gt;</a> | optional | - |
+-| <a href="#com.google.common.base.Optional&lt;com.hubspot.singularity.ScheduleType&gt;">com.google.common.base.Optional&lt;com.hubspot.singularity.ScheduleType&gt;</a> | optional | - |
+-| string | optional | - |
++| name | type | required | description |
++|------|------|----------|-------------|
++| md5sum | string | optional |  |
++| url | string | optional |  |
++| filename | string | optional |  |
++| filesize | long | optional |  |
++| name | string | optional |  |
+@@ -1644,0 +1712,2 @@
++<a name="#model-S3Artifact"></a>
++## S3Artifact
+@@ -1646,6 +1715,8 @@
+-## <a name="SingularityRequestInstances">SingularityRequestInstances</a>
+-
+-| type | required | description |
+-|------|----------|-------------|
+-| <a href="#com.google.common.base.Optional&lt;java.lang.Integer&gt;">com.google.common.base.Optional&lt;java.lang.Integer&gt;</a> | optional | - |
+-| string | optional | - |
++| name | type | required | description |
++|------|------|----------|-------------|
++| s3Bucket | string | optional |  |
++| md5sum | string | optional |  |
++| filename | string | optional |  |
++| filesize | long | optional |  |
++| s3ObjectKey | string | optional |  |
++| name | string | optional |  |
+@@ -1653,0 +1725,2 @@
++<a name="#model-SingularityContainerInfo"></a>
++## SingularityContainerInfo
+@@ -1655 +1728,5 @@
+-## <a name="SingularityWebhook">SingularityWebhook</a>
++| name | type | required | description |
++|------|------|----------|-------------|
++| type | <a href="#Type">Type</a> | optional |  Allowable values: DOCKER |
++| volumes | <a href="#SingularityVolume">Array[SingularityVolume]</a> | optional |  |
++| docker | <a href="#SingularityDockerInfo">SingularityDockerInfo</a> | optional |  |
+@@ -1657,8 +1734,122 @@
+-| type | required | description |
+-|------|----------|-------------|
+-| <a href="#WebhookType">WebhookType</a> | optional | Webhook type (TASK, REQUEST, DEPLOY). Allowable
+-        values:TASK, REQUEST, DEPLOY |
+-| string | optional | URI to POST to. |
+-| <a href="#com.google.common.base.Optional&lt;java.lang.String&gt;">com.google.common.base.Optional&lt;java.lang.String&gt;</a> | optional | User that created webhook. |
+-| long | optional | - |
+-| string | optional | Unique ID for webhook. |
++
++<a name="#model-SingularityDeploy"></a>
++## SingularityDeploy
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| customExecutorId | string | optional | Custom Mesos executor id. |
++| resources | <a href="#com.hubspot.mesos.Resources">com.hubspot.mesos.Resources</a> | optional | Resources required for this deploy. |
++| uris | Array[string] | optional | List of URIs to download before executing the deploy command. |
++| containerInfo | <a href="#SingularityContainerInfo">SingularityContainerInfo</a> | optional | Container information for deployment into a container. |
++| arguments | Array[string] | optional | Command arguments. |
++| serviceBasePath | string | optional | The base path for the API exposed by the deploy. Used in conjunction with the Load balancer API. |
++| metadata | <a href="#Map[string,string]">Map[string,string]</a> | optional | Map of metadata key/value pairs associated with the deployment. |
++| customExecutorSource | string | optional | Custom Mesos executor source. |
++| healthcheckTimeoutSeconds | long | optional | Health check timeout in seconds. |
++| healthcheckUri | string | optional | Deployment Healthcheck URI. |
++| requestId | string | required | Singularity Request Id which is associated with this deploy. |
++| loadBalancerGroups | Array[string] | optional | List of load balancer groups associated with this deployment. |
++| skipHealthchecksOnDeploy | boolean | optional | Allows skipping of health checks when deploying. |
++| healthcheckIntervalSeconds | long | optional | Health check interval in seconds. |
++| executorData | <a href="#ExecutorData">ExecutorData</a> | optional | Executor specific information |
++| command | string | optional | Command to execute for this deployment. |
++| considerHealthyAfterRunningForSeconds | long | optional | Number of seconds that a service must be healthy to consider the deployment to be successful. |
++| timestamp | long | optional | Deploy timestamp. |
++| loadBalancerOptions | <a href="#Map[string,Object]">Map[string,Object]</a> | optional | Map (Key/Value) of options for the load balancer. |
++| customExecutorCmd | string | optional | Custom Mesos executor |
++| env | <a href="#Map[string,string]">Map[string,string]</a> | optional | Map of environment variable definitions. |
++| version | string | optional | Deploy version |
++| deployHealthTimeoutSeconds | long | optional | Number of seconds that singularity waits for this service to become healthy. |
++| id | string | required | Singularity deploy id. |
++
++
++<a name="#model-SingularityDeployRequest"></a>
++## SingularityDeployRequest
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| unpauseOnSuccessfulDeploy | boolean | optional | If deploy is successful, also unpause the request. |
++| deploy | <a href="#SingularityDeploy">SingularityDeploy</a> | required | The Singularity deploy object |
++| user | string | optional | User owning this deploy. |
++
++
++<a name="#model-SingularityDockerInfo"></a>
++## SingularityDockerInfo
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| network | <a href="#Network">Network</a> | optional |  |
++| portMappings | <a href="#SingularityDockerPortMapping">Array[SingularityDockerPortMapping]</a> | optional |  |
++| image | string | optional |  |
++
++
++<a name="#model-SingularityDockerPortMapping"></a>
++## SingularityDockerPortMapping
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| hostPort | int | optional |  |
++| containerPort | int | optional |  |
++| containerPortType | <a href="#SingularityPortMappingType">SingularityPortMappingType</a> | optional |  Allowable values: LITERAL, FROM_OFFER |
++| protocol | string | optional |  |
++| hostPortType | <a href="#SingularityPortMappingType">SingularityPortMappingType</a> | optional |  Allowable values: LITERAL, FROM_OFFER |
++
++
++<a name="#model-SingularityPauseRequest"></a>
++## SingularityPauseRequest
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| user | string | optional |  |
++| killTasks | boolean | optional |  |
++
++
++<a name="#model-SingularityRequest"></a>
++## SingularityRequest
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| schedule | string | optional |  |
++| rackAffinity | Array[string] | optional |  |
++| daemon | boolean | optional |  |
++| slavePlacement | <a href="#SlavePlacement">SlavePlacement</a> | optional |  |
++| rackSensitive | boolean | optional |  |
++| owners | Array[string] | optional |  |
++| quartzSchedule | string | optional |  |
++| numRetriesOnFailure | int | optional |  |
++| loadBalanced | boolean | optional |  |
++| killOldNonLongRunningTasksAfterMillis | long | optional |  |
++| instances | int | optional |  |
++| scheduleType | <a href="#ScheduleType">ScheduleType</a> | optional |  |
++| id | string | optional |  |
++
++
++<a name="#model-SingularityRequestInstances"></a>
++## SingularityRequestInstances
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| instances | int | optional |  |
++| id | string | optional |  |
++
++
++<a name="#model-SingularityVolume"></a>
++## SingularityVolume
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| hostPath | string | optional |  |
++| containerPath | string | optional |  |
++| mode | <a href="#Mode">Mode</a> | optional |  Allowable values: RW, RO |
++
++
++<a name="#model-SingularityWebhook"></a>
++## SingularityWebhook
++
++| name | type | required | description |
++|------|------|----------|-------------|
++| type | <a href="#WebhookType">WebhookType</a> | optional | Webhook type. Allowable values: TASK, REQUEST, DEPLOY |
++| uri | string | optional | URI to POST to. |
++| user | string | optional | User that created webhook. |
++| timestamp | long | optional |  |
++| id | string | optional | Unique ID for webhook. |
+diff --git a/SingularityBase/src/main/java/com/hubspot/singularity/SingularityWebhook.java b/SingularityBase/src/main/java/com/hubspot/singularity/SingularityWebhook.java
+index dafc7f3..fd189a7 100644
+--- a/SingularityBase/src/main/java/com/hubspot/singularity/SingularityWebhook.java
++++ b/SingularityBase/src/main/java/com/hubspot/singularity/SingularityWebhook.java
+@@ -59 +59 @@
+-  @ApiModelProperty("Webhook type (TASK, REQUEST, DEPLOY).")
++  @ApiModelProperty("Webhook type.")
+diff --git a/SingularityService/pom.xml b/SingularityService/pom.xml
+index 33ac705..7c62866 100644
+--- a/SingularityService/pom.xml
++++ b/SingularityService/pom.xml
+@@ -344 +344 @@
+-        <groupId>com.github.kongchen</groupId>
++        <groupId>com.hubspot</groupId>
+@@ -346,31 +346 @@
+-        <version>2.3</version>
+-        <configuration>
+-          <apiSources>
+-            <apiSource>
+-              <locations>com.hubspot.singularity.resources</locations>
+-              <apiVersion>${project.version}</apiVersion>
+-
+-              <apiInfo>
+-                <title>Singularity REST API</title>
+-                <description>Singularity Mesos Framework API</description>
+-              </apiInfo>
+-
+-              <outputTemplate>${basedir}/../SingularityUI/app/assets/api-docs/index.html.mustache</outputTemplate>
+-              <mustacheFileRoot>${basedir}/../SingularityUI/app/assets/api-docs</mustacheFileRoot>
+-              <outputPath>${project.build.directory}/classes/static/api-docs/index.html</outputPath>
+-            </apiSource>
+-          </apiSources>
+-        </configuration>
+-        <executions>
+-          <execution>
+-            <phase>compile</phase>
+-            <goals>
+-              <goal>generate</goal>
+-            </goals>
+-          </execution>
+-        </executions>
+-      </plugin>
+-      <plugin>
+-        <groupId>com.github.kongchen</groupId>
+-        <artifactId>swagger-maven-plugin</artifactId>
+-        <version>2.3</version>
++        <version>2.3.3-HUBSPOT</version>
+@@ -390,0 +361,29 @@
++              <sortApis>true</sortApis>
++            </apiSource>
++            <apiSource>
++              <locations>com.hubspot.singularity.config</locations>
++              <apiVersion>${project.version}</apiVersion>
++
++              <apiInfo>
++                  <title>Singularity Configuration</title>
++                  <description>Singularity Configuration</description>
++              </apiInfo>
++
++              <outputTemplate>${basedir}/../SingularityUI/app/assets/api-docs/markdown.mustache</outputTemplate>
++              <mustacheFileRoot>${basedir}/../SingularityUI/app/assets/api-docs</mustacheFileRoot>
++              <outputPath>${basedir}/../Docs/reference/config.md</outputPath>
++              <sortApis>true</sortApis>
++            </apiSource>
++            <apiSource>
++              <locations>com.hubspot.singularity.resources</locations>
++              <apiVersion>${project.version}</apiVersion>
++
++              <apiInfo>
++                  <title>Singularity REST API</title>
++                  <description>Singularity Mesos Framework API</description>
++              </apiInfo>
++
++              <outputTemplate>${basedir}/../SingularityUI/app/assets/api-docs/index.html.mustache</outputTemplate>
++              <mustacheFileRoot>${basedir}/../SingularityUI/app/assets/api-docs</mustacheFileRoot>
++              <outputPath>${project.build.directory}/classes/static/api-docs/index.html</outputPath>
++              <sortApis>true</sortApis>
+@@ -401,0 +401,29 @@
++        <dependencies>
++            <dependency>
++                <groupId>com.wordnik</groupId>
++                <artifactId>swagger-jaxrs_2.10</artifactId>
++                <version>1.3.10</version>
++                <exclusions>
++                    <exclusion>
++                        <groupId>com.wordnik</groupId>
++                        <artifactId>swagger-core_2.10</artifactId>
++                    </exclusion>
++                </exclusions>
++            </dependency>
++            <dependency>
++                <groupId>com.wordnik</groupId>
++                <artifactId>swagger-jersey-jaxrs_2.10</artifactId>
++                <version>1.3.10</version>
++                <exclusions>
++                    <exclusion>
++                        <groupId>com.wordnik</groupId>
++                        <artifactId>swagger-core_2.10</artifactId>
++                    </exclusion>
++                </exclusions>
++            </dependency>
++            <dependency>
++                <groupId>com.hubspot</groupId>
++                <artifactId>swagger-core_2.10</artifactId>
++                <version>1.3.11-HUBSPOT-SNAPSHOT</version> <!-- TODO: finish release of HubSpot-flavored swagger -->
++            </dependency>
++        </dependencies>
+diff --git a/SingularityUI/app/assets/api-docs/markdown.mustache b/SingularityUI/app/assets/api-docs/markdown.mustache
+index 2b43d82..d3eb82a 100644
+--- a/SingularityUI/app/assets/api-docs/markdown.mustache
++++ b/SingularityUI/app/assets/api-docs/markdown.mustache
+@@ -1 +1 @@
+-#{{#apiInfo}}{{title}}
++# {{apiInfo.title}}
+@@ -3 +3 @@
+-{{description}}
++Version: {{apiVersion}}
+@@ -5 +5,4 @@
+-{{/apiInfo}}
++Endpoints:
++{{#apiDocuments}}
++- `{{resourcePath}}` - {{description}}
++{{/apiDocuments}}
+@@ -7 +10,9 @@
+-Api Version: {{apiVersion}}
++Models:
++{{#dataTypes}}
++- `{{name}}`
++{{/dataTypes}}
++{{^dataTypes}}
++- *none*
++{{/dataTypes}}
++
++- - -
+@@ -10 +21 @@
+-{{#apiDocuments}}
++{{#apiDocuments}}<a name="#api-{{index}}"></a>
+@@ -32,0 +44,3 @@
++{{/parameters}}
++{{^parameters}}
++- No parameters
+@@ -78,0 +93,2 @@
++<a name="#model-{{name}}"></a>
++## {{name}}
+@@ -80,4 +96,2 @@
+-## <a name="{{name}}">{{name}}</a>
+-
+-| type | required | description |
+-|------|----------|-------------|
++| name | type | required | description |
++|------|------|----------|-------------|
+@@ -85,2 +99 @@
+-| {{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}{{type}}{{/linkType}} | {{#required}}required{{/required}}{{^required}}optional{{/required}} | {{#description}}{{{description}}}{{/description}}{{^description}}-{{/description}}{{#allowableValue}} Allowable
+-        values:{{.}}{{/allowableValue}} |
++| {{name}} | {{#linkType}}<a href="#{{linkType}}">{{type}}</a>{{/linkType}}{{^linkType}}{{type}}{{/linkType}} | {{#required}}required{{/required}}{{^required}}optional{{/required}} | {{#description}}{{{description}}}{{/description}}{{#allowableValue}} Allowable values: {{.}}{{/allowableValue}} |
+@@ -91,0 +105 @@
++<a name="#enum-{{name}}"></a>
+

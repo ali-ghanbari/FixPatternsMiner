@@ -1,0 +1,96 @@
+diff --git a/v7/recyclerview/src/android/support/v7/widget/LinearLayoutManager.java b/v7/recyclerview/src/android/support/v7/widget/LinearLayoutManager.java
+index 148952b..4a6cd52 100644
+--- a/v7/recyclerview/src/android/support/v7/widget/LinearLayoutManager.java
++++ b/v7/recyclerview/src/android/support/v7/widget/LinearLayoutManager.java
+@@ -680 +680 @@
+-                    anchorInfo.mCoordinate = mShouldReverseLayout
++                    anchorInfo.mCoordinate = anchorInfo.mLayoutFromEnd
+diff --git a/v7/recyclerview/tests/src/android/support/v7/widget/AdapterHelperTest.java b/v7/recyclerview/tests/src/android/support/v7/widget/AdapterHelperTest.java
+index 12ac57e..675a94f 100644
+--- a/v7/recyclerview/tests/src/android/support/v7/widget/AdapterHelperTest.java
++++ b/v7/recyclerview/tests/src/android/support/v7/widget/AdapterHelperTest.java
+@@ -18,0 +19,3 @@
++import junit.framework.AssertionFailedError;
++import junit.framework.TestResult;
++
+@@ -35,0 +39,2 @@
++    private boolean mCollectLogs = false;
++
+@@ -49,0 +55,2 @@
++    private StringBuilder mLog = new StringBuilder();
++
+@@ -54,0 +62,8 @@
++    @Override
++    public void run(TestResult result) {
++        super.run(result);
++        if (!result.wasSuccessful()) {
++            result.addFailure(this, new AssertionFailedError(mLog.toString()));
++        }
++    }
++
+@@ -55,0 +71 @@
++        mLog.setLength(0);
+@@ -111 +127 @@
+-                    Log.d(TAG, "first pass:" + updateOp.toString());
++                    log("first pass:" + updateOp.toString());
+@@ -126 +142 @@
+-                    Log.d(TAG, "second pass:" + updateOp.toString());
++                    log("second pass:" + updateOp.toString());
+@@ -174,0 +191,8 @@
++    void log(String msg) {
++        if (mCollectLogs) {
++            mLog.append(msg).append("\n");
++        } else {
++            Log.d(TAG, msg);
++        }
++    }
++
+@@ -177 +201 @@
+-            Log.d(TAG, "setupBasic(" + count + "," + visibleStart + "," + visibleCount + ");");
++            log("setupBasic(" + count + "," + visibleStart + "," + visibleCount + ");");
+@@ -517,0 +542,10 @@
++    public void testScenerio28() {
++        setupBasic(10,4,1);
++        mv(8,6);
++        rm(8,1);
++        mv(7,5);
++        rm(3,3);
++        rm(1,4);
++        preProcess();
++    }
++
+@@ -525 +559,2 @@
+-    public void testRandom() {
++    public void testRandom() throws Throwable {
++        mCollectLogs = true;
+@@ -527,2 +562,6 @@
+-        for (int i = 0; i < 100; i++) {
+-            randomTest(random, i + 10);
++        for (int i = 0; i < 1000; i++) {
++            try {
++                randomTest(random, i + 10);
++            } catch (Throwable t) {
++                throw new Throwable(t.getMessage() + "\n" + mLog.toString(), t);
++            }
+@@ -535 +574 @@
+-            Log.d(TAG, "randomTest");
++            log("randomTest");
+@@ -632 +671 @@
+-            Log.d(TAG, "add(" + start + "," + count + ");");
++            log("add(" + start + "," + count + ");");
+@@ -648 +687 @@
+-            Log.d(TAG, "mv(" + from + "," + to + ");");
++            log("mv(" + from + "," + to + ");");
+@@ -655 +694 @@
+-            Log.d(TAG, "rm(" + start + "," + count + ");");
++            log("rm(" + start + "," + count + ");");
+diff --git a/v7/recyclerview/tests/src/android/support/v7/widget/LinearLayoutManagerTest.java b/v7/recyclerview/tests/src/android/support/v7/widget/LinearLayoutManagerTest.java
+index 911bfaf..d5be0bd 100644
+--- a/v7/recyclerview/tests/src/android/support/v7/widget/LinearLayoutManagerTest.java
++++ b/v7/recyclerview/tests/src/android/support/v7/widget/LinearLayoutManagerTest.java
+@@ -131 +131 @@
+-    public void testStackFromEnd() throws Throwable {
++    public void testResize() throws Throwable {
+@@ -273 +272,0 @@
+-
+

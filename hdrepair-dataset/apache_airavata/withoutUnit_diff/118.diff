@@ -1,0 +1,10 @@
+diff --git a/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/MsgBoxWsaResponsesCorrelator.java b/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/MsgBoxWsaResponsesCorrelator.java
+index 17dcca3..77d0874 100644
+--- a/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/MsgBoxWsaResponsesCorrelator.java
++++ b/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/MsgBoxWsaResponsesCorrelator.java
+@@ -108,0 +109,4 @@
++                        //ideally there are no multiple messages, so we can return from this thread at this point
++                        //otherwise this thread will keep running forever for each worfklow node, so there can be large
++                        // number of waiting threads in an airavata deployment
++                        return;
+

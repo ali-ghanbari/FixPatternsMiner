@@ -1,0 +1,9 @@
+diff --git a/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java b/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java
+index 360fee7..27af7ae 100644
+--- a/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java
++++ b/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java
+@@ -545 +545,2 @@
+-          if (kmeliaScc.isVersionControlled()) {
++          // Can be a shortcut. Must check attachment mode according to publication source.
++          if (kmeliaScc.isVersionControlled(pub.getPK().getInstanceId())) {
+

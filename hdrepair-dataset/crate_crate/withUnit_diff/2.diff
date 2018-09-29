@@ -1,0 +1,54 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index f5f21c6..235caf2 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -7,0 +8,3 @@
++ - Fixed bulk delete for partitioned tables where partition column was part
++   of the where clause
++
+diff --git a/sql/src/main/java/io/crate/planner/Planner.java b/sql/src/main/java/io/crate/planner/Planner.java
+index c4ce1f5..cecbc5b 100644
+--- a/sql/src/main/java/io/crate/planner/Planner.java
++++ b/sql/src/main/java/io/crate/planner/Planner.java
+@@ -498 +498 @@
+-            String[] indices = indices(tableInfo, whereClauses.get(0));
++            String[] indices = indices(tableInfo, whereClause);
+diff --git a/sql/src/test/java/io/crate/analyze/DeleteAnalyzerTest.java b/sql/src/test/java/io/crate/analyze/DeleteAnalyzerTest.java
+index 452ea8e..c641ab5 100644
+--- a/sql/src/test/java/io/crate/analyze/DeleteAnalyzerTest.java
++++ b/sql/src/test/java/io/crate/analyze/DeleteAnalyzerTest.java
+@@ -125 +124,0 @@
+-
+diff --git a/sql/src/test/java/io/crate/planner/PlannerTest.java b/sql/src/test/java/io/crate/planner/PlannerTest.java
+index 849bcdc..3ecd827 100644
+--- a/sql/src/test/java/io/crate/planner/PlannerTest.java
++++ b/sql/src/test/java/io/crate/planner/PlannerTest.java
+@@ -33,0 +34 @@
++import io.crate.planner.node.ddl.ESDeletePartitionNode;
+@@ -286,0 +288,10 @@
++    private Plan plan(String statement, Object[] args) {
++        return planner.plan(analyzer.analyze(SqlParser.createStatement(statement),
++                new ParameterContext(args, new Object[0][], ReferenceInfos.DEFAULT_SCHEMA_NAME)), UUID.randomUUID());
++    }
++
++    private Plan plan(String statement, Object[][] bulkArgs) {
++        return planner.plan(analyzer.analyze(SqlParser.createStatement(statement),
++                new ParameterContext(new Object[0], bulkArgs, ReferenceInfos.DEFAULT_SCHEMA_NAME)), UUID.randomUUID());
++    }
++
+@@ -410,0 +422,14 @@
++    public void testBulkDeletePartitionedTable() throws Exception {
++        IterablePlan plan = (IterablePlan) plan("delete from parted where date = ?", new Object[][]{
++                new Object[]{"0"},
++                new Object[]{"123"},
++        });
++        Iterator<PlanNode> iterator = plan.iterator();
++        ESDeletePartitionNode node1 = (ESDeletePartitionNode) iterator.next();
++        assertThat(node1.indices(), is(new String[]{".partitioned.parted.04130"}));
++        ESDeletePartitionNode node2 = (ESDeletePartitionNode) iterator.next();
++        assertThat(node2.indices(), is(new String[]{ ".partitioned.parted.04232chj" }));
++        assertFalse(iterator.hasNext());
++    }
++
++    @Test
+

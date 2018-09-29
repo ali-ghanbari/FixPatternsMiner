@@ -1,0 +1,21 @@
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/ScheduleInfoPrinter.xtend b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/ScheduleInfoPrinter.xtend
+index 6e43bb2..60b0f9d 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/ScheduleInfoPrinter.xtend
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/ScheduleInfoPrinter.xtend
+@@ -120 +120 @@
+-			<schedule initstate="«sched.initStateName»" action="«sched.enablingActionName»">
++			<schedule initstate="«sched.initStateName»" action="«sched.initStateName»_«sched.enablingActionName»">
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaAbstractInterpreter.java b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaAbstractInterpreter.java
+index ea47d29..32fd6c8 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaAbstractInterpreter.java
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaAbstractInterpreter.java
+@@ -108 +108 @@
+-				if (!ValueUtil.isBool(condition)||timeout<1000) {
++				if (!ValueUtil.isBool(condition)||timeout>1000) {
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaSchedulabilityTest.java b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaSchedulabilityTest.java
+index eb9bbf8..f75ae33 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaSchedulabilityTest.java
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/promela/transform/PromelaSchedulabilityTest.java
+@@ -226,0 +227 @@
++							System.out.println("Actor "+this.actor.getName()+" experienced a loop time-out!!\n\n");
+

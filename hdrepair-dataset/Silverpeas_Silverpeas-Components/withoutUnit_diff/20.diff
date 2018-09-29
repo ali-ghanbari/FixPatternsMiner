@@ -1,0 +1,25 @@
+diff --git a/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java b/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java
+index b861bbc..a8467f7 100644
+--- a/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java
++++ b/kmelia/kmelia-war/src/main/java/com/stratelia/webactiv/kmelia/servlets/AjaxPublicationsListServlet.java
+@@ -633 +633 @@
+-        out.write("<span class=\"jstree-draggable\" id=\""+pub.getPK().getId()+"\">");
++        out.write("<span class=\"jstree-draggable\" id=\"pub-"+pub.getPK().getId()+"\">");
+diff --git a/kmelia/kmelia-war/src/main/webapp/kmelia/jsp/treeview.jsp b/kmelia/kmelia-war/src/main/webapp/kmelia/jsp/treeview.jsp
+index e753106..efba60f 100644
+--- a/kmelia/kmelia-war/src/main/webapp/kmelia/jsp/treeview.jsp
++++ b/kmelia/kmelia-war/src/main/webapp/kmelia/jsp/treeview.jsp
+@@ -722 +722,5 @@
+-	return $("#pubList #"+id).html();
++	return $("#pubList #pub-"+id).html();
++}
++
++function extractPublicationId(id) {
++	return id.substring(4, id.length);
+@@ -771 +775 @@
+-	$("#pubList #"+id).closest("li").fadeOut('500', function() {
++	$("#pubList #pub-"+id).closest("li").fadeOut('500', function() {
+@@ -927 +931 @@
+-				var pubId = data.o.id;
++				var pubId = extractPublicationId(data.o.id);
+

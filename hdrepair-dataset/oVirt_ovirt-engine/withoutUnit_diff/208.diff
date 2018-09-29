@@ -1,0 +1,11 @@
+diff --git a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/gluster/GlusterSyncJob.java b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/gluster/GlusterSyncJob.java
+index 3cf7a6e..119bb89 100644
+--- a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/gluster/GlusterSyncJob.java
++++ b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/gluster/GlusterSyncJob.java
+@@ -460,0 +461,5 @@
++
++            // Set initial brick status as similar to volume status.
++            // As actual brick status is updated by another sync job,
++            // till it happens, this gives better UI experience
++            brick.setStatus(volume.getStatus());
+

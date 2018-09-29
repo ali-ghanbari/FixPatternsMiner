@@ -1,0 +1,9 @@
+diff --git a/server/src/main/java/io/druid/client/CachingClusteredClient.java b/server/src/main/java/io/druid/client/CachingClusteredClient.java
+index 28135a8..ff374c3 100644
+--- a/server/src/main/java/io/druid/client/CachingClusteredClient.java
++++ b/server/src/main/java/io/druid/client/CachingClusteredClient.java
+@@ -186 +186,2 @@
+-      Map<Pair<ServerSelector, SegmentDescriptor>, Cache.NamedKey> cacheKeys = Maps.newHashMap();
++      // cache keys must preserve segment ordering, in order for shards to always be combined in the same order
++      Map<Pair<ServerSelector, SegmentDescriptor>, Cache.NamedKey> cacheKeys = Maps.newLinkedHashMap();
+

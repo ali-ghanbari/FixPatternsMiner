@@ -1,0 +1,45 @@
+diff --git a/idea/testData/codegen/regressions/kt259.jet b/idea/testData/codegen/regressions/kt259.jet
+new file mode 100644
+index 0000000..d2ca498
+--- /dev/null
++++ b/idea/testData/codegen/regressions/kt259.jet
+@@ -0,0 +1,20 @@
++class A() {}
++class B<T>() {}
++
++fun box() : String {
++    val a = A()
++    System.out?.println(a is A)   //true
++    System.out?.println(a is A?)  //true
++
++    val b = B<String>()
++    System.out?.println(b is B<String>)   //true
++    System.out?.println(b is B<String>?)  //false !!!
++
++    val v = b as B<String>   //ok
++    val u = b as B<String>?  //TypeCastException
++
++    val w : B<String>? = b as B<String>   //ok
++    val x = w as B<String>?  //TypeCastException
++
++    return "OK"
++}
+\ No newline at end of file
+diff --git a/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java b/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java
+index d440c3a..d484361 100644
+--- a/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java
++++ b/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java
+@@ -130,0 +131,5 @@
++
++    public void testKt259() throws Exception {
++        blackBoxFile("regressions/kt259.jet");
++    }
++
+diff --git a/stdlib/src/jet/typeinfo/TypeInfo.java b/stdlib/src/jet/typeinfo/TypeInfo.java
+index 56607c8..ec93f48 100644
+--- a/stdlib/src/jet/typeinfo/TypeInfo.java
++++ b/stdlib/src/jet/typeinfo/TypeInfo.java
+@@ -52 +52 @@
+-        if (nullable && !other.nullable) {
++        if (!nullable && other.nullable) {
+

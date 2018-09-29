@@ -1,0 +1,18 @@
+diff --git a/docs/user_manual.md b/docs/user_manual.md
+index 9962731..aadf1a7 100644
+--- a/docs/user_manual.md
++++ b/docs/user_manual.md
+@@ -148 +148 @@
+-    "/etc/foo/moar-config.yaml:ro" : "/etc/bar/moar-config.yaml"
++    "/destination/path/in/container.yaml:ro" : "/source/path/in/host.yaml"
+@@ -185 +185 @@
+-  Format: `[host-path]:[rw|ro]:[container-path]`. (default: {}).
++  Format: `"[container-path]:[rw|ro]":[host-path]`. (default: {}).
+diff --git a/helios-client/src/main/java/com/spotify/helios/common/descriptors/Job.java b/helios-client/src/main/java/com/spotify/helios/common/descriptors/Job.java
+index 8370905..d0c999f 100644
+--- a/helios-client/src/main/java/com/spotify/helios/common/descriptors/Job.java
++++ b/helios-client/src/main/java/com/spotify/helios/common/descriptors/Job.java
+@@ -91 +91 @@
+- *     "/path/to/mysecretconfig.yaml:ro" : "/path/to/mysecretconfig.yaml"
++ *     "/destination/path/in/container.yaml:ro" : "/source/path/in/host.yaml"
+

@@ -1,0 +1,8 @@
+ObjectValidator: fix regex bug with patternProperties, and curse java.util.regex
+
+Unfortunately, oro has copied java.util.regex's vocabulary mistakes, and the
+.matches() method tries to match the whole string, therefore making it a
+misnomer the same way as java.util.regex's .matches() is.
+
+Use .contains() instead.
+

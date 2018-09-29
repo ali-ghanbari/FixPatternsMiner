@@ -1,0 +1,147 @@
+diff --git a/api/src/main/java/org/asynchttpclient/uri/UriParser.java b/api/src/main/java/org/asynchttpclient/uri/UriParser.java
+index 505bf78..a480a96 100644
+--- a/api/src/main/java/org/asynchttpclient/uri/UriParser.java
++++ b/api/src/main/java/org/asynchttpclient/uri/UriParser.java
+@@ -214,0 +215,2 @@
++                } else if (end == 0) {
++                    break;
+diff --git a/api/src/test/java/org/asynchttpclient/uri/UriTest.java b/api/src/test/java/org/asynchttpclient/uri/UriTest.java
+index c54c1f8..3f798ed 100644
+--- a/api/src/test/java/org/asynchttpclient/uri/UriTest.java
++++ b/api/src/test/java/org/asynchttpclient/uri/UriTest.java
+@@ -17,0 +18 @@
++import static org.testng.Assert.assertNull;
+@@ -86 +86,0 @@
+-}
+@@ -87,0 +88,130 @@
++    @Test
++    public void testRelativeUriWithDots() {
++        Uri context = Uri.create("https://hello.com/level1/level2/");
++
++        Uri url = Uri.create(context, "../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/level1/other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithDotsAboveRoot() {
++        Uri context = Uri.create("https://hello.com/level1");
++
++        Uri url = Uri.create(context, "../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithAbsoluteDots() {
++        Uri context = Uri.create("https://hello.com/level1/");
++
++        Uri url = Uri.create(context, "/../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithConsecutiveDots() {
++        Uri context = Uri.create("https://hello.com/level1/level2/");
++
++        Uri url = Uri.create(context, "../../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithConsecutiveDotsAboveRoot() {
++        Uri context = Uri.create("https://hello.com/level1/level2");
++
++        Uri url = Uri.create(context, "../../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithAbsoluteConsecutiveDots() {
++        Uri context = Uri.create("https://hello.com/level1/level2/");
++
++        Uri url = Uri.create(context, "/../../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithConsecutiveDotsFromRoot() {
++        Uri context = Uri.create("https://hello.com/");
++
++        Uri url = Uri.create(context, "../../../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../../../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithConsecutiveDotsFromRootResource() {
++        Uri context = Uri.create("https://hello.com/level1");
++
++        Uri url = Uri.create(context, "../../../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../../../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithConsecutiveDotsFromSubrootResource() {
++        Uri context = Uri.create("https://hello.com/level1/level2");
++
++        Uri url = Uri.create(context, "../../../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++
++    @Test
++    public void testRelativeUriWithConsecutiveDotsFromLevel3Resource() {
++        Uri context = Uri.create("https://hello.com/level1/level2/level3");
++
++        Uri url = Uri.create(context, "../../../other/content/img.png");
++
++        assertEquals(url.getScheme(), "https");
++        assertEquals(url.getHost(), "hello.com");
++        assertEquals(url.getPort(), -1);
++        assertEquals(url.getPath(), "/../other/content/img.png");
++        assertNull(url.getQuery());
++    }
++}
+

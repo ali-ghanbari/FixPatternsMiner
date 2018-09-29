@@ -1,0 +1,9 @@
+diff --git a/kundera-cassandra/src/main/java/com/impetus/client/cassandra/CassandraClientBase.java b/kundera-cassandra/src/main/java/com/impetus/client/cassandra/CassandraClientBase.java
+index 9369bcd..1961afb 100644
+--- a/kundera-cassandra/src/main/java/com/impetus/client/cassandra/CassandraClientBase.java
++++ b/kundera-cassandra/src/main/java/com/impetus/client/cassandra/CassandraClientBase.java
+@@ -622 +622,2 @@
+-                    String rowKey = Bytes.toUTF8(row.getKey());
++                    Object rowKey = PropertyAccessorHelper.getObject(entityMetadata.getIdAttribute().getBindableJavaType(),row.getKey());
++                 ///   String rowKey = Bytes.toUTF8(row.getKey());
+

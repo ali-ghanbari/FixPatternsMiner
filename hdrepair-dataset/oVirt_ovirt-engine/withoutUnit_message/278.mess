@@ -1,0 +1,11 @@
+core: Event should log disk alias instead UNKNOWN.
+
+When removing a disk, we should indicate the disk name instead <UNKNOWN>
+string.
+The <UNKNOWN> is presented since engine tries to get the disk
+alias after the disk was already deleted.
+The fix is to initialize the disk parameter before the deletion.
+
+Change-Id: Id111a067819cd881ee6fd22b588562028087fee8
+Signed-off-by: Maor Lipchuk <mlipchuk@redhat.com>
+

@@ -1,0 +1,155 @@
+diff --git a/robe-convert/src/test/java/io/robe/convert/SamplePojo.java b/robe-convert/src/test/java/io/robe/convert/SamplePojo.java
+index ef30531..2f4b92a 100644
+--- a/robe-convert/src/test/java/io/robe/convert/SamplePojo.java
++++ b/robe-convert/src/test/java/io/robe/convert/SamplePojo.java
+@@ -30 +30 @@
+-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy", timezone = "CET")
++    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy", timezone = "EET")
+diff --git a/robe-convert/src/test/java/io/robe/convert/json/JSONExporterTest.java b/robe-convert/src/test/java/io/robe/convert/json/JSONExporterTest.java
+index f838117..6cbe54e 100644
+--- a/robe-convert/src/test/java/io/robe/convert/json/JSONExporterTest.java
++++ b/robe-convert/src/test/java/io/robe/convert/json/JSONExporterTest.java
+@@ -2,0 +3 @@
++import io.robe.convert.FileUtil;
+@@ -7,0 +9 @@
++import java.io.FileInputStream;
+@@ -9,0 +12 @@
++import java.util.List;
+@@ -12,2 +14,0 @@
+-
+-    private String SAMPLE = JSONExporterTest.class.getClassLoader().getResource("sample.json").getFile();
+@@ -17,0 +19,4 @@
++
++        // Write to temp file
++        File outputFile = FileUtil.getRandomTempFile();
++        OutputStream outputStream = new FileOutputStream(outputFile);
+@@ -19,3 +23,0 @@
+-
+-        OutputStream outputStream = new FileOutputStream(new File(SAMPLE));
+-
+@@ -23 +24,0 @@
+-
+@@ -24,0 +26,18 @@
++        outputStream.close();
++
++
++        JSONImporter<SamplePojo> importer = new JSONImporter(SamplePojo.class);
++        List<SamplePojo> list = importer.importStream(new FileInputStream(outputFile.getPath()));
++        assert list.size() == TestData.getData().size();
++        int index = 0;
++
++        for (SamplePojo item : list) {
++            SamplePojo ref = TestData.getData().get(index++);
++            assert item.equals(ref);
++            System.out.println(ref);
++        }
++
++
++        outputFile.delete();
++
++
+diff --git a/robe-convert/src/test/java/io/robe/convert/json/JSONImporterTest.java b/robe-convert/src/test/java/io/robe/convert/json/JSONImporterTest.java
+index 79428ed..cb3fe11 100644
+--- a/robe-convert/src/test/java/io/robe/convert/json/JSONImporterTest.java
++++ b/robe-convert/src/test/java/io/robe/convert/json/JSONImporterTest.java
+@@ -4 +4 @@
+-import io.robe.convert.common.OnItemHandler;
++import io.robe.convert.TestData;
+@@ -13 +12,0 @@
+-
+@@ -17,2 +16,6 @@
+-        for (SamplePojo pojo : list) {
+-            System.out.println(pojo.toString());
++        assert list.size() == TestData.getData().size();
++        int index = 0;
++        for (SamplePojo importedPojo : list) {
++            SamplePojo ref = TestData.getData().get(index++);
++            assert importedPojo.equals(ref);
++            System.out.println(ref);
+@@ -20,14 +22,0 @@
+-
+-    }
+-
+-    @Test
+-    public void testImportStreamByItem() throws Exception {
+-        JSONImporter<SamplePojo> importer = new JSONImporter(SamplePojo.class);
+-        OnItemHandler<SamplePojo> handler = new OnItemHandler<SamplePojo>() {
+-            @Override
+-            public void onItem(SamplePojo samplePojo) {
+-                System.out.println(samplePojo.toString());
+-            }
+-        };
+-        importer.importStream(JSONImporterTest.class.getClassLoader().getResourceAsStream("sample.json"), handler);
+-
+diff --git a/robe-convert/src/test/resources/sample.json b/robe-convert/src/test/resources/sample.json
+index ba3f8ee..a11dbbc 100644
+--- a/robe-convert/src/test/resources/sample.json
++++ b/robe-convert/src/test/resources/sample.json
+@@ -2,19 +2,46 @@
+-    {
+-        "id": 1,
+-        "name": "Guner Kaan ALKIM",
+-        "surname": "Computer Engineer",
+-        "longid": 1,
+-        "doubleid": 2,
+-        "big": 3,
+-        "date2": "12.12.2312"
+-    },
+-    {
+-        "id": 2,
+-        "name": "Sinan Selimoğlu",
+-        "surname": "Computer",
+-        "longid": 4,
+-        "doubleid": 3,
+-        "big": 4,
+-        "date2": "16.12.2312"
+-    }
+-]
++  {
++    "id": 1,
++    "name": "Seray",
++    "surname": "Uzgur",
++    "longid": 11,
++    "doubleid": 111.0,
++    "big": 1111,
++    "date2": "31.12.2013"
++  },
++  {
++    "id": 2,
++    "name": "Kaan",
++    "surname": "Alkim",
++    "longid": 12,
++    "doubleid": 112.0,
++    "big": 1112,
++    "date2": "01.01.2014"
++  },
++  {
++    "id": 3,
++    "name": "Sinan",
++    "surname": "Selimogli",
++    "longid": 13,
++    "doubleid": 113.0,
++    "big": 1113,
++    "date2": "02.01.2014"
++  },
++  {
++    "id": 4,
++    "name": "Kamil",
++    "surname": "Bukum",
++    "longid": 14,
++    "doubleid": 114.0,
++    "big": 1114,
++    "date2": "03.01.2014"
++  },
++  {
++    "id": 5,
++    "name": "Hasan",
++    "surname": "Mumin",
++    "longid": 15,
++    "doubleid": 115.0,
++    "big": 1115,
++    "date2": "04.01.2014"
++  }
++]
+\ No newline at end of file
+

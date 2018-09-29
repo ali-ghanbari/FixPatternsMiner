@@ -1,0 +1,17 @@
+diff --git a/debug/org.eclipse.cdt.debug.mi.core/ChangeLog b/debug/org.eclipse.cdt.debug.mi.core/ChangeLog
+index 07447f7..436b6db 100644
+--- a/debug/org.eclipse.cdt.debug.mi.core/ChangeLog
++++ b/debug/org.eclipse.cdt.debug.mi.core/ChangeLog
+@@ -0,0 +1,4 @@
++2004-10-20 David Inglis
++	Fixed terminated delay for corefile
++	* mi/org/eclipse/cdt/debug/mi/core/MIInferior.java
++	
+diff --git a/debug/org.eclipse.cdt.debug.mi.core/mi/org/eclipse/cdt/debug/mi/core/MIInferior.java b/debug/org.eclipse.cdt.debug.mi.core/mi/org/eclipse/cdt/debug/mi/core/MIInferior.java
+index 57d3d38..a35b9ad 100644
+--- a/debug/org.eclipse.cdt.debug.mi.core/mi/org/eclipse/cdt/debug/mi/core/MIInferior.java
++++ b/debug/org.eclipse.cdt.debug.mi.core/mi/org/eclipse/cdt/debug/mi/core/MIInferior.java
+@@ -179 +179 @@
+-		} else if (session.isCoreSession()){
++		} else if (session.isCoreSession() && !isTerminated()){
+

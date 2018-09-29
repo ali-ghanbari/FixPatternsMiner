@@ -1,0 +1,19 @@
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/reports/facilitylist/partials/list.html b/modules/openlmis-web/src/main/webapp/public/pages/reports/facilitylist/partials/list.html
+index b407217..ee09878 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/reports/facilitylist/partials/list.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/reports/facilitylist/partials/list.html
+@@ -58,3 +58,3 @@
+-             <div class="box-icon pull-right">
+-                  <a href="/reports/download/facilities/pdf" class='btn-small btn-info right'>pdf</a>
+-                  <a href="/reports/download/facilities/xls" class='btn-small btn-info right'>xls</a>
++             <div class="box-icon">
++                  <a href="/reports/download/facilities/pdf" class='btn-small btn-info'>pdf</a>
++                  <a href="/reports/download/facilities/xls" class='btn-small btn-info'>xls</a>
+diff --git a/modules/report/src/main/java/org/openlmis/report/dataprovider/FacilityReportDataProvider.java b/modules/report/src/main/java/org/openlmis/report/dataprovider/FacilityReportDataProvider.java
+index 75e5139..2b04bb5 100644
+--- a/modules/report/src/main/java/org/openlmis/report/dataprovider/FacilityReportDataProvider.java
++++ b/modules/report/src/main/java/org/openlmis/report/dataprovider/FacilityReportDataProvider.java
+@@ -66 +66 @@
+-            List<Facility> facilities = facilityService.getAll();
++            List<Facility> facilities = facilityService.getAllFacilitiesDetail();
+

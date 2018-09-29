@@ -1,0 +1,38 @@
+diff --git a/changelog.html b/changelog.html
+index f181991..b894232 100644
+--- a/changelog.html
++++ b/changelog.html
+@@ -90,0 +91,3 @@
++  <li class=bug>
++    Revisited fix to be compatible for plugins.
++    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-18119">issue 18119</a>)
+diff --git a/core/src/main/java/jenkins/util/ProgressiveRendering.java b/core/src/main/java/jenkins/util/ProgressiveRendering.java
+index d659d0b..238cab0 100644
+--- a/core/src/main/java/jenkins/util/ProgressiveRendering.java
++++ b/core/src/main/java/jenkins/util/ProgressiveRendering.java
+@@ -47 +47 @@
+- *     (Call {@code var t = document.getElementById('someid'); if (t.sortable != null) t.sortable.refresh()} if using a {@code sortable} table.)
++ *     (Call {@code ts_refresh($('someid'))} if using a {@code sortable} table.)
+diff --git a/core/src/main/resources/hudson/model/View/AsynchPeople/index.jelly b/core/src/main/resources/hudson/model/View/AsynchPeople/index.jelly
+index 109b129..2119cce 100644
+--- a/core/src/main/resources/hudson/model/View/AsynchPeople/index.jelly
++++ b/core/src/main/resources/hudson/model/View/AsynchPeople/index.jelly
+@@ -96,3 +96 @@
+-                  if (p.sortable != null) {
+-                      p.sortable.refresh();
+-                  }
++                  ts_refresh(p);
+diff --git a/war/src/main/webapp/scripts/sortable.js b/war/src/main/webapp/scripts/sortable.js
+index e92e617..a162597 100644
+--- a/war/src/main/webapp/scripts/sortable.js
++++ b/war/src/main/webapp/scripts/sortable.js
+@@ -367,2 +367,6 @@
+-function ts_refresh(table) { // backward compatibility
+-    return table.sortable.refresh();
++/** Calls table.sortable.refresh() in case the sortable has been initialized; otherwise does nothing. */
++function ts_refresh(table) {
++    var s = table.sortable;
++    if (s != null) {
++        s.refresh();
++    }
+

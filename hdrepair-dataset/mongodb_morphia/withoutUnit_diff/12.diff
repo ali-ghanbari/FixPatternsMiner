@@ -1,0 +1,37 @@
+diff --git a/build.gradle b/build.gradle
+index fd88dff..191155b 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -151 +150,0 @@
+-        println "java version = " + System.getProperty('java.version')
+diff --git a/config/findbugs-exclude.xml b/config/findbugs-exclude.xml
+index 01e143b..337217e 100644
+--- a/config/findbugs-exclude.xml
++++ b/config/findbugs-exclude.xml
+@@ -21,0 +22,18 @@
++    <Match>
++        <Class name="relocated.morphia.org.apache.commons.collections.ReferenceMap"/>
++        <Not>
++            <Bug code="VO_VOLATILE_INCREMENT, URF_UNREAD_FIELD, WMI_WRONG_MAP_ITERATOR"/>
++        </Not>
++    </Match>
++    <Match>
++        <Class name="relocated.morphia.org.apache.commons.collections.ReferenceMap$EntryIterator"/>
++        <Not>
++            <Bug code="VO_VOLATILE_INCREMENT, URF_UNREAD_FIELD, WMI_WRONG_MAP_ITERATOR"/>
++        </Not>
++    </Match>
++    <Match>
++        <Class name="org.mongodb.morphia.mapping.MappedClass"/>
++        <Not>
++            <Bug code="WMI_WRONG_MAP_ITERATOR"/>
++        </Not>
++    </Match>
+diff --git a/morphia/src/main/java/org/mongodb/morphia/mapping/MappedClass.java b/morphia/src/main/java/org/mongodb/morphia/mapping/MappedClass.java
+index 91fef83..cf2056c 100644
+--- a/morphia/src/main/java/org/mongodb/morphia/mapping/MappedClass.java
++++ b/morphia/src/main/java/org/mongodb/morphia/mapping/MappedClass.java
+@@ -374 +374 @@
+-    @SuppressWarnings("WMI_WRONG_MAP_ITERATOR")
++    @SuppressWarnings("WMI")
+

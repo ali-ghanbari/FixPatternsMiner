@@ -1,0 +1,8 @@
+diff --git a/components/bio-formats/src/loci/formats/in/FitsReader.java b/components/bio-formats/src/loci/formats/in/FitsReader.java
+index 97de0fe..feb1c48 100644
+--- a/components/bio-formats/src/loci/formats/in/FitsReader.java
++++ b/components/bio-formats/src/loci/formats/in/FitsReader.java
+@@ -74 +74 @@
+-    in.seek(pixelOffset);
++    in.seek(pixelOffset + no * FormatTools.getPlaneSize(this));
+

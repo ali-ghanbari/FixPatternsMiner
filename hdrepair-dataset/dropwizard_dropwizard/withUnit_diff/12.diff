@@ -1,0 +1,24 @@
+diff --git a/dropwizard-core/src/main/java/com/yammer/dropwizard/tasks/TaskServlet.java b/dropwizard-core/src/main/java/com/yammer/dropwizard/tasks/TaskServlet.java
+index da3b8f8..d8650ba 100644
+--- a/dropwizard-core/src/main/java/com/yammer/dropwizard/tasks/TaskServlet.java
++++ b/dropwizard-core/src/main/java/com/yammer/dropwizard/tasks/TaskServlet.java
+@@ -44 +44 @@
+-        final Task task = tasks.get(req.getRequestURI());
++        final Task task = tasks.get(req.getServletPath());
+diff --git a/dropwizard-core/src/test/java/com/yammer/dropwizard/tasks/tests/TaskServletTest.java b/dropwizard-core/src/test/java/com/yammer/dropwizard/tasks/tests/TaskServletTest.java
+index 411786b..3c6ad40 100644
+--- a/dropwizard-core/src/test/java/com/yammer/dropwizard/tasks/tests/TaskServletTest.java
++++ b/dropwizard-core/src/test/java/com/yammer/dropwizard/tasks/tests/TaskServletTest.java
+@@ -38 +38 @@
+-        when(request.getRequestURI()).thenReturn("/tasks/test");
++        when(request.getServletPath()).thenReturn("/tasks/test");
+@@ -50 +50 @@
+-        when(request.getRequestURI()).thenReturn("/tasks/gc");
++        when(request.getServletPath()).thenReturn("/tasks/gc");
+@@ -64 +64 @@
+-        when(request.getRequestURI()).thenReturn("/tasks/gc");
++        when(request.getServletPath()).thenReturn("/tasks/gc");
+@@ -78 +78 @@
+-        when(request.getRequestURI()).thenReturn("/tasks/gc");
++        when(request.getServletPath()).thenReturn("/tasks/gc");
+

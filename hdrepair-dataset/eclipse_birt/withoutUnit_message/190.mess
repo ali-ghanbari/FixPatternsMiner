@@ -1,0 +1,5 @@
+Fix Bugzilla Bug 192570: Italic style doesn't take effect in ppt.
+
+The italic bug is fixed before. Current check-in fixes another bug that a text will be wrapped incorrectly. This bug is caused by PPT's wrapping logic. In PPT, if the width of text box equals to the width of text exactly, the text will be wrapped.
+The solution is, in PPT emitter, enlarge the width of text area by 1 point so that the text won't be wrapped.
+

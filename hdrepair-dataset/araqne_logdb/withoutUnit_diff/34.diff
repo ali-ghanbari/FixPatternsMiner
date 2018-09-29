@@ -1,0 +1,8 @@
+diff --git a/araqne-logdb/src/main/java/org/araqne/logdb/query/expr/Substr.java b/araqne-logdb/src/main/java/org/araqne/logdb/query/expr/Substr.java
+index 93739b2..8a6643f 100644
+--- a/araqne-logdb/src/main/java/org/araqne/logdb/query/expr/Substr.java
++++ b/araqne-logdb/src/main/java/org/araqne/logdb/query/expr/Substr.java
+@@ -55 +55 @@
+-			end = Integer.parseInt(endExpr.eval(map).toString());
++			end = Math.min(len, Integer.parseInt(endExpr.eval(map).toString()));
+

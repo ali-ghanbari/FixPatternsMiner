@@ -1,0 +1,27 @@
+diff --git a/jogl2/src/geogebra3D/euclidian3D/opengl/Component3D.java b/jogl2/src/geogebra3D/euclidian3D/opengl/Component3D.java
+index 95bb53d..37467af 100644
+--- a/jogl2/src/geogebra3D/euclidian3D/opengl/Component3D.java
++++ b/jogl2/src/geogebra3D/euclidian3D/opengl/Component3D.java
+@@ -29 +29 @@
+-		super(null);
++		super();
+diff --git a/jogl2/src/test/Test.java b/jogl2/src/test/Test.java
+index 6c6f673..73d8c67 100644
+--- a/jogl2/src/test/Test.java
++++ b/jogl2/src/test/Test.java
+@@ -3,0 +4 @@
++
+@@ -85,2 +86 @@
+-	public void init(GLAutoDrawable arg0) {
+-		// TODO Auto-generated method stub
++	public void init(GLAutoDrawable drawable) {
+@@ -87,0 +88,8 @@
++		GL gl = drawable.getGL(); 
++		
++		System.out.println("Init on "+Thread.currentThread()
++				+"\nChosen GLCapabilities: " + drawable.getChosenGLCapabilities()
++				+"\nINIT GL IS: " + gl.getClass().getName()
++				+"\nGL_VENDOR: " + gl.glGetString(GL.GL_VENDOR)
++				+"\nGL_RENDERER: " + gl.glGetString(GL.GL_RENDERER)
++				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION)); 
+

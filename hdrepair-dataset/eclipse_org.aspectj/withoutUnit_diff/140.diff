@@ -1,0 +1,24 @@
+diff --git a/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java b/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java
+index bbecd10..5ca0b57 100644
+--- a/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java
++++ b/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java
+@@ -99,0 +100,2 @@
++  public void testPerTypeWithin_pr106554() {runTest("Problem in staticinitialization with pertypewithin aspect");}
++  
+diff --git a/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml b/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml
+index 1014ea6..85257f8 100644
+--- a/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml
++++ b/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml
+@@ -556,0 +557,11 @@
++    
++    <ajc-test dir="bugs150/pr106554" pr="106554" title="Problem in staticinitialization with pertypewithin aspect">
++        <compile files="A.aj" options="-showWeaveInfo">
++          <message kind="weave" text="Join point 'staticinitialization(void A.&lt;clinit&gt;())' in Type 'A' (A.aj:1) advised by before advice from 'StopsInit' (A.aj:21)"/>
++        </compile>
++        <run class="A">
++          <stdout>
++            <line text="test = 1"/>
++          </stdout>
++        </run>
++    </ajc-test> 
+

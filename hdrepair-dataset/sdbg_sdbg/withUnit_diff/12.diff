@@ -1,0 +1,35 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/parser/Parser.java b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/parser/Parser.java
+index ba3cd83..be14d1e 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/parser/Parser.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/parser/Parser.java
+@@ -4267 +4267 @@
+-    if (operand instanceof FunctionExpressionInvocation) {
++    if (operand instanceof Literal || operand instanceof FunctionExpressionInvocation) {
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/parser/ErrorParserTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/parser/ErrorParserTest.java
+index ce589f3..6d62cab 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/parser/ErrorParserTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/parser/ErrorParserTest.java
+@@ -765,0 +766,16 @@
++  public void test_missingAssignableSelector_postfix_minusMinus_literal() throws Exception {
++    parseExpression("0--", ParserErrorCode.MISSING_ASSIGNABLE_SELECTOR);
++  }
++
++  public void test_missingAssignableSelector_postfix_plusPlus_literal() throws Exception {
++    parseExpression("0++", ParserErrorCode.MISSING_ASSIGNABLE_SELECTOR);
++  }
++
++  public void test_missingAssignableSelector_prefix_minusMinus_literal() throws Exception {
++    parseExpression("--0", ParserErrorCode.MISSING_ASSIGNABLE_SELECTOR);
++  }
++
++  public void test_missingAssignableSelector_prefix_plusPlus_literal() throws Exception {
++    parseExpression("++0", ParserErrorCode.MISSING_ASSIGNABLE_SELECTOR);
++  }
++
+diff --git a/dart/tests/co19/co19-analyzer.status b/dart/tests/co19/co19-analyzer.status
+index 2d151cc..3d70b34 100644
+--- a/dart/tests/co19/co19-analyzer.status
++++ b/dart/tests/co19/co19-analyzer.status
+@@ -39 +38,0 @@
+-Language/11_Expressions/28_Postfix_Expressions_A01_t06: fail
+

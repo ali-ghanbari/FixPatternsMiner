@@ -1,0 +1,8 @@
+diff --git a/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java b/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java
+index 98eaec3..d0fddc6 100644
+--- a/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java
++++ b/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java
+@@ -120 +120 @@
+-    return handleRemoteResult(value, Object.class, requestor.getClass().getClassLoader(), false);
++    return RemoteUtil.<T>handleRemoteResult(value, Object.class, requestor.getClass().getClassLoader(), false);
+

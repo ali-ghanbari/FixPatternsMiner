@@ -1,0 +1,42 @@
+diff --git a/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/main/java/org/deegree/metadata/iso/persistence/ISOMetadataStore.java b/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/main/java/org/deegree/metadata/iso/persistence/ISOMetadataStore.java
+index 81fd603..f50ce52 100644
+--- a/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/main/java/org/deegree/metadata/iso/persistence/ISOMetadataStore.java
++++ b/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/main/java/org/deegree/metadata/iso/persistence/ISOMetadataStore.java
+@@ -128,0 +129 @@
++        this.workspace = workspace;
+diff --git a/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/AbstractISOTest.java b/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/AbstractISOTest.java
+index 4ee85f1..5819358 100644
+--- a/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/AbstractISOTest.java
++++ b/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/AbstractISOTest.java
+@@ -52 +51,0 @@
+-import org.deegree.commons.utils.JDBCUtils;
+@@ -91,2 +89,0 @@
+-    protected Connection conn;
+-
+@@ -116 +113 @@
+-        conn = prov.getConnection();
++        Connection conn = prov.getConnection();
+@@ -126,0 +124 @@
++
+@@ -138 +135,0 @@
+-
+@@ -149 +145,0 @@
+-
+@@ -152,0 +149 @@
++            conn.commit();
+@@ -169 +165,0 @@
+-        JDBCUtils.close( conn );
+diff --git a/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/ISOMetadatStoreTransactionTest.java b/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/ISOMetadatStoreTransactionTest.java
+index db988f2..8201a87 100644
+--- a/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/ISOMetadatStoreTransactionTest.java
++++ b/deegree-datastores/deegree-mdstores/deegree-mdstore-iso/src/test/java/org/deegree/metadata/iso/persistence/ISOMetadatStoreTransactionTest.java
+@@ -338,0 +339,2 @@
++        
++
+@@ -363,0 +366 @@
++
+@@ -371,0 +375,3 @@
++        
++        resultSet.close();
++        
+

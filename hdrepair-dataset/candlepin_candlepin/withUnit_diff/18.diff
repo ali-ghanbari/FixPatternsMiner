@@ -1,0 +1,22 @@
+diff --git a/proxy/src/main/java/org/fedoraproject/candlepin/configuration/JPAConfiguration.java b/proxy/src/main/java/org/fedoraproject/candlepin/configuration/JPAConfiguration.java
+index 79f3509..24a8745 100644
+--- a/proxy/src/main/java/org/fedoraproject/candlepin/configuration/JPAConfiguration.java
++++ b/proxy/src/main/java/org/fedoraproject/candlepin/configuration/JPAConfiguration.java
+@@ -40 +40 @@
+-            toReturn.put(key.substring(PREFIX_LENGTH), inputConfiguration.get(key));
++            toReturn.put(key.substring(PREFIX_LENGTH + 1), inputConfiguration.get(key));
+diff --git a/proxy/src/test/java/org/fedoraproject/candlepin/configuration/JPAConfigurationTest.java b/proxy/src/test/java/org/fedoraproject/candlepin/configuration/JPAConfigurationTest.java
+index bf8fe4d..6376362 100644
+--- a/proxy/src/test/java/org/fedoraproject/candlepin/configuration/JPAConfigurationTest.java
++++ b/proxy/src/test/java/org/fedoraproject/candlepin/configuration/JPAConfigurationTest.java
+@@ -14,2 +14,2 @@
+-        final String key1 = ".key1";
+-        final String key2 = ".key1.key2";
++        final String key1 = "key1";
++        final String key2 = "key1.key2";
+@@ -18,2 +18,2 @@
+-            put(JPAConfiguration.JPA_CONFIG_PREFIX + key1, "value");
+-            put(JPAConfiguration.JPA_CONFIG_PREFIX + key2, "value");
++            put(JPAConfiguration.JPA_CONFIG_PREFIX + "." + key1, "value");
++            put(JPAConfiguration.JPA_CONFIG_PREFIX + "." + key2, "value");
+

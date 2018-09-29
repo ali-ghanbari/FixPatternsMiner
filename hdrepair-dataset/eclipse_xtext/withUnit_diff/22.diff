@@ -1,0 +1,59 @@
+diff --git a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/internal/AbstractNullLinkingCandidate.java b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/internal/AbstractNullLinkingCandidate.java
+index ea44350..1856379 100644
+--- a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/internal/AbstractNullLinkingCandidate.java
++++ b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/typesystem/internal/AbstractNullLinkingCandidate.java
+@@ -47 +47 @@
+-		throw new UnsupportedOperationException();
++		return null;
+diff --git a/releng/org.eclipse.xtext.releng/releng/mirroring/xpand-mwe-orbit.b3aggrcon b/releng/org.eclipse.xtext.releng/releng/mirroring/xpand-mwe-orbit.b3aggrcon
+index 4a98c98..7e38fcb 100644
+--- a/releng/org.eclipse.xtext.releng/releng/mirroring/xpand-mwe-orbit.b3aggrcon
++++ b/releng/org.eclipse.xtext.releng/releng/mirroring/xpand-mwe-orbit.b3aggrcon
+@@ -17 +17 @@
+-    <bundles name="org.apache.ant" versionRange="[1.8.4,1.9.0)"/>
++    <bundles name="org.apache.ant" versionRange="[1.8.4.v201404171501]"/>
+diff --git a/tests/org.eclipse.xtend.core.tests/batch-compiler-data/ant/test.ant b/tests/org.eclipse.xtend.core.tests/batch-compiler-data/ant/test.ant
+index 3818c07..b0493f0 100644
+--- a/tests/org.eclipse.xtend.core.tests/batch-compiler-data/ant/test.ant
++++ b/tests/org.eclipse.xtend.core.tests/batch-compiler-data/ant/test.ant
+@@ -37 +37 @@
+-			<include name="com.google.guava_10*.jar" />
++			<include name="com.google.guava_*.jar" />
+diff --git a/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend b/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend
+index 6982869..f3ecd2a 100644
+--- a/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend
++++ b/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend
+@@ -1498,0 +1499,10 @@
++	@Test
++	def void testErrorModel_102() throws Exception {
++		fireproof('''
++			package x class Y {def String rawListGet(java.util.List elements) {
++			  if (elements.(0) instanceof String) {
++			    'string'
++			  } else {    'no string'  }}}
++		''')
++	}
++	
+diff --git a/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java b/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java
+index a338162..8835b2e 100644
+--- a/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java
++++ b/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java
+@@ -2819,0 +2820,17 @@
++  @Test
++  public void testErrorModel_102() throws Exception {
++    StringConcatenation _builder = new StringConcatenation();
++    _builder.append("package x class Y {def String rawListGet(java.util.List elements) {");
++    _builder.newLine();
++    _builder.append("  ");
++    _builder.append("if (elements.(0) instanceof String) {");
++    _builder.newLine();
++    _builder.append("    ");
++    _builder.append("\'string\'");
++    _builder.newLine();
++    _builder.append("  ");
++    _builder.append("} else {    \'no string\'  }}}");
++    _builder.newLine();
++    this._oven.fireproof(_builder.toString());
++  }
++  
+

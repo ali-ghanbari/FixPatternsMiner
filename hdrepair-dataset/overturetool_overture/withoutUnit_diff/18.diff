@@ -1,0 +1,40 @@
+diff --git a/core/codegen/src/main/java/org/overture/codegen/trans/conc/MainClassConcTransformation.java b/core/codegen/src/main/java/org/overture/codegen/trans/conc/MainClassConcTransformation.java
+index 6636db9..b066b35 100644
+--- a/core/codegen/src/main/java/org/overture/codegen/trans/conc/MainClassConcTransformation.java
++++ b/core/codegen/src/main/java/org/overture/codegen/trans/conc/MainClassConcTransformation.java
+@@ -60 +60 @@
+-				if (x.getName().equals("toString()")){//x.getName() != "toString"){
++				if (!x.getName().equals("toString")){//x.getName() != "toString"){
+diff --git a/core/codegen/src/test/resources/concurrency/ThreadIdSingleThread.result b/core/codegen/src/test/resources/concurrency/ThreadIdSingleThread.result
+index a8f6bdf..b706b1b 100644
+--- a/core/codegen/src/test/resources/concurrency/ThreadIdSingleThread.result
++++ b/core/codegen/src/test/resources/concurrency/ThreadIdSingleThread.result
+@@ -12,0 +13,2 @@
++        Sentinel.entering();
++
+@@ -13,0 +16,2 @@
++
++        Sentinel.leaving();
+@@ -16,0 +21,2 @@
++        Sentinel.entering();
++
+@@ -17,0 +24,2 @@
++
++        Sentinel.leaving();
+diff --git a/core/codegen/src/test/resources/concurrency/ThreadStart.result b/core/codegen/src/test/resources/concurrency/ThreadStart.result
+index b85bb7a..ba55dc2 100644
+--- a/core/codegen/src/test/resources/concurrency/ThreadStart.result
++++ b/core/codegen/src/test/resources/concurrency/ThreadStart.result
+@@ -13,0 +14,2 @@
++        Sentinel.entering();
++
+@@ -14,0 +17,2 @@
++
++        Sentinel.leaving();
+@@ -53,0 +58,2 @@
++        Sentinel.entering();
++
+@@ -69,0 +76,2 @@
++
++        Sentinel.leaving();
+

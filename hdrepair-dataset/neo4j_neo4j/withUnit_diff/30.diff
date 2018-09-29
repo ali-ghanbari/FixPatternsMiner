@@ -1,0 +1,3263 @@
+diff --git a/community/cypher/CHANGES.txt b/community/cypher/CHANGES.txt
+index 12e93e5..dcbe9d7 100644
+--- a/community/cypher/CHANGES.txt
++++ b/community/cypher/CHANGES.txt
+@@ -2,0 +3,3 @@
++o Added HEAD, TAIL, LAST and FILTER
++o Added comments
++o Added HAVING - Cypher can now filter on aggregated data
+diff --git a/community/cypher/src/docs/dev/comments.txt b/community/cypher/src/docs/dev/comments.txt
+new file mode 100644
+index 0000000..468a4f0
+--- /dev/null
++++ b/community/cypher/src/docs/dev/comments.txt
+@@ -0,0 +1,13 @@
++[[cypher-comments]]
++Comments
++========
++
++To add comments to your queries, use double slash. Examples:
++
+++START n=node(1) RETURN b //This is a end of line comment +
++
+++START n=node(1)
++//This is a whole line comment
++RETURN b+
++
+++START n=node(1) WHERE n.property = "//This is NOT a comment" RETURN b+
+diff --git a/community/cypher/src/docs/dev/identifiers.txt b/community/cypher/src/docs/dev/identifiers.txt
+index 49b2f73..29edbd1 100644
+--- a/community/cypher/src/docs/dev/identifiers.txt
++++ b/community/cypher/src/docs/dev/identifiers.txt
+@@ -9 +9,2 @@
+-+START n=node(1) MATCH n-->b RETURN b+
++
+++START n=node(1) MATCH n`-->`b RETURN b+
+diff --git a/community/cypher/src/docs/dev/index.txt b/community/cypher/src/docs/dev/index.txt
+index 5b18635..7970b00 100644
+--- a/community/cypher/src/docs/dev/index.txt
++++ b/community/cypher/src/docs/dev/index.txt
+@@ -14,0 +15,2 @@
++include::comments.txt[]
++
+diff --git a/community/cypher/src/docs/dev/ql/functions/index.txt b/community/cypher/src/docs/dev/ql/functions/index.txt
+index 24cf072..1778f20 100644
+--- a/community/cypher/src/docs/dev/ql/functions/index.txt
++++ b/community/cypher/src/docs/dev/ql/functions/index.txt
+@@ -3,0 +4 @@
++Most functions in Cypher will return null if the input parameter is null.
+@@ -32,0 +34,2 @@
++include::head.txt[]
++include::last.txt[]
+@@ -43,0 +47,2 @@
++include::filter.txt[]
++include::tail.txt[]
+diff --git a/community/cypher/src/docs/dev/ql/operators/index.txt b/community/cypher/src/docs/dev/ql/operators/index.txt
+index bc7cb19..7354efb 100644
+--- a/community/cypher/src/docs/dev/ql/operators/index.txt
++++ b/community/cypher/src/docs/dev/ql/operators/index.txt
+@@ -32 +31,0 @@
+-+WHERE n.prop! = "foo"+  => +WHERE (has(n.prop) AND n.prop = "foo")+
+@@ -34,2 +33 @@
+-
+-has(n.prop) OR (has(n.prop) AND n.prop = "foo")
+\ No newline at end of file
+++WHERE n.prop! = "foo"+  => +WHERE (has(n.prop) AND n.prop = "foo")+
+\ No newline at end of file
+diff --git a/community/cypher/src/docs/dev/ql/where/index.txt b/community/cypher/src/docs/dev/ql/where/index.txt
+index e259911..6ff2590 100644
+--- a/community/cypher/src/docs/dev/ql/where/index.txt
++++ b/community/cypher/src/docs/dev/ql/where/index.txt
+@@ -20 +20,2 @@
+-include::filter-on-relationships.txt[]
+\ No newline at end of file
++include::filter-on-relationships.txt[]
++include::filter-on-aggregates.txt[]
+\ No newline at end of file
+diff --git a/community/cypher/src/main/java/org/neo4j/cypher/javacompat/CypherParser.java b/community/cypher/src/main/java/org/neo4j/cypher/javacompat/CypherParser.java
+index be61fd9..8f34157 100644
+--- a/community/cypher/src/main/java/org/neo4j/cypher/javacompat/CypherParser.java
++++ b/community/cypher/src/main/java/org/neo4j/cypher/javacompat/CypherParser.java
+@@ -27 +27 @@
+- * end the string directly to the execution engine
++ * send the string directly to the execution engine
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/CypherException.scala b/community/cypher/src/main/scala/org/neo4j/cypher/CypherException.scala
+index 67db1b7..d665e10 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/CypherException.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/CypherException.scala
+@@ -45 +45 @@
+-class PatternException(message:String) extends CypherException(message, null)
+\ No newline at end of file
++class PatternException(message:String) extends CypherException(message, null)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/ExecutionPlanImpl.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/ExecutionPlanImpl.scala
+index e82f6e8..1d714d7 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/ExecutionPlanImpl.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/ExecutionPlanImpl.scala
+@@ -42 +42 @@
+-      case Query(returns, start, matching, where, aggregation, sort, slice, namedPaths, queryText) => {
++      case Query(returns, start, matching, where, aggregation, sort, slice, namedPaths, having, queryText) => {
+@@ -104,0 +105,2 @@
++        
++        context = addHavingFilter(context, having)
+@@ -131,0 +134,8 @@
++  
++  private def addHavingFilter(current:CurrentContext, having:Option[Predicate]):CurrentContext = having match {
++    case None => current
++    case Some(pred) => {
++      val p = new FilterPipe(current.pipe, pred)
++      new CurrentContext(p, current.predicates)
++    }
++  }
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/OrderByRewriter.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/OrderByRewriter.scala
+index 8f02831..fe36257 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/OrderByRewriter.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/OrderByRewriter.scala
+@@ -44 +44 @@
+-      Query(q.returns, q.start, q.matching, q.where, q.aggregation, Some(Sort(newSort:_*)), q.slice, q.namedPaths, q.queryString)
++      Query(q.returns, q.start, q.matching, q.where, q.aggregation, Some(Sort(newSort:_*)), q.slice, q.namedPaths, q.having, q.queryString)
+@@ -48 +48 @@
+-  private def cleanUpSortItem(x: (SortItem, Option[AggregationItem], Option[ReturnItem])): SortItem = x match {
++  private def cleanUpSortItem(x: (SortItem, Option[ReturnItem], Option[ReturnItem])): SortItem = x match {
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/AggregationExpression.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/AggregationExpression.scala
+index 0710541..43e58d0 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/AggregationExpression.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/AggregationExpression.scala
+@@ -24,0 +25,2 @@
++import org.neo4j.helpers.ThisShouldNotHappenError
++import org.neo4j.cypher.SyntaxException
+@@ -26,2 +28,2 @@
+-abstract class AggregationExpression(inner: Expression) extends Expression {
+-  def apply(m: Map[String, Any]) = m(identifier.name)
++abstract class AggregationExpression extends Expression {
++  def apply(m: Map[String, Any]) = if(m.contains(name)) m(name) else null
+@@ -36,4 +37,0 @@
+-
+-  def expectedInnerType: AnyType
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = inner.dependencies(expectedInnerType)
+@@ -42 +40,35 @@
+-case class Distinct(innerAggregator: AggregationExpression, expression: Expression, name: String) extends AggregationExpression(expression) {
++case class CountStar() extends AggregationExpression {
++  def name = "count(*)"
++
++  def typ = LongType()
++
++  def declareDependencies(extectedType: AnyType) = Seq()
++
++  def rewrite(f: (Expression) => Expression) = f(CountStar())
++
++  def createAggregationFunction = new CountStarFunction
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) 
++  else
++    Seq()
++
++  override def toString() = "count(*)"
++}
++
++abstract class AggregationWithInnerExpression(inner:Expression) extends AggregationExpression {
++  if(inner.containsAggregate)
++    throw new SyntaxException("Can't use aggregate functions inside of aggregate functions.")
++  
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = inner.dependencies(expectedInnerType)
++  def expectedInnerType: AnyType
++  
++  override def identifier = Identifier("%s(%s)".format(name, inner.identifier.name), typ)
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ inner.filter(f)
++  else
++    inner.filter(f)
++}
++
++case class Distinct(innerAggregator: AggregationExpression, expression: Expression) extends AggregationWithInnerExpression(expression) {
+@@ -45 +77,5 @@
+-  def expectedInnerType: AnyType = innerAggregator.expectedInnerType
++  override def identifier = Identifier("%s(distinct %s)".format(innerAggregator.name, expression.identifier.name), innerAggregator.identifier.typ)
++
++  def expectedInnerType: AnyType = AnyType()
++
++  def name = "distinct"
+@@ -49,3 +85 @@
+-  override def declareDependencies(extectedType: AnyType): Seq[Identifier] = {
+-    expression.dependencies(innerAggregator.expectedInnerType) ++ innerAggregator.dependencies(extectedType)
+-  }
++  override def declareDependencies(extectedType: AnyType): Seq[Identifier] = innerAggregator.dependencies(extectedType) ++ expression.dependencies(AnyType())
+@@ -53 +87,4 @@
+-  def rewrite(f: (Expression) => Expression) = Distinct(innerAggregator, f(expression.rewrite(f)), name)
++  def rewrite(f: (Expression) => Expression) = innerAggregator.rewrite(f) match {
++    case inner: AggregationExpression => f(Distinct(inner, expression.rewrite(f)))
++    case _ => throw new ThisShouldNotHappenError("Andrés", "An aggregate expression cannot be rewritten to a non-aggregate expression")
++  }
+@@ -56 +93 @@
+-case class Count(anInner: Expression, name:String) extends AggregationExpression(anInner) {
++case class Count(anInner: Expression) extends AggregationWithInnerExpression(anInner) {
+@@ -57,0 +95,2 @@
++
++  def name = "count"
+@@ -63 +102 @@
+-  def rewrite(f: (Expression) => Expression) = Count(f(anInner.rewrite(f)), name)
++  def rewrite(f: (Expression) => Expression) = f(Count(anInner.rewrite(f)))
+@@ -66 +105 @@
+-case class Sum(anInner: Expression, name:String) extends AggregationExpression(anInner) {
++case class Sum(anInner: Expression) extends AggregationWithInnerExpression(anInner) {
+@@ -67,0 +107,2 @@
++
++  def name = "sum"
+@@ -73 +114 @@
+-  def rewrite(f: (Expression) => Expression) = Sum(f(anInner.rewrite(f)), name)
++  def rewrite(f: (Expression) => Expression) = f(Sum(anInner.rewrite(f)))
+@@ -76 +117 @@
+-case class Min(anInner: Expression, name:String) extends AggregationExpression(anInner) {
++case class Min(anInner: Expression) extends AggregationWithInnerExpression(anInner) {
+@@ -77,0 +119,2 @@
++
++  def name = "min"
+@@ -83 +126 @@
+-  def rewrite(f: (Expression) => Expression) = Min(f(anInner.rewrite(f)), name)
++  def rewrite(f: (Expression) => Expression) = f(Min(anInner.rewrite(f)))
+@@ -86 +129 @@
+-case class Max(anInner: Expression, name:String) extends AggregationExpression(anInner) {
++case class Max(anInner: Expression) extends AggregationWithInnerExpression(anInner) {
+@@ -87,0 +131,2 @@
++
++  def name = "max"
+@@ -93 +138 @@
+-  def rewrite(f: (Expression) => Expression) = Max(f(anInner.rewrite(f)), name)
++  def rewrite(f: (Expression) => Expression) = f(Max(anInner.rewrite(f)))
+@@ -96 +141 @@
+-case class Avg(anInner: Expression, name:String) extends AggregationExpression(anInner) {
++case class Avg(anInner: Expression) extends AggregationWithInnerExpression(anInner) {
+@@ -97,0 +143,2 @@
++
++  def name = "avg"
+@@ -103 +150 @@
+-  def rewrite(f: (Expression) => Expression) = Avg(f(anInner.rewrite(f)), name)
++  def rewrite(f: (Expression) => Expression) = f(Avg(anInner.rewrite(f)))
+@@ -106 +153 @@
+-case class Collect(anInner: Expression, name:String) extends AggregationExpression(anInner) {
++case class Collect(anInner: Expression) extends AggregationWithInnerExpression(anInner) {
+@@ -107,0 +155,2 @@
++
++  def name = "collect"
+@@ -113 +162 @@
+-  def rewrite(f: (Expression) => Expression) = Collect(f(anInner.rewrite(f)), name)
++  def rewrite(f: (Expression) => Expression) = f(Collect(anInner.rewrite(f)))
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ComparablePredicate.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ComparablePredicate.scala
+index f1ce4df..91c5d11 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ComparablePredicate.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ComparablePredicate.scala
+@@ -47 +47,3 @@
+-  def containsIsNull: Boolean = false
++  def exists(f: (Expression) => Boolean) = a.exists(f) || b.exists(f)
++
++  def containsIsNull = false
+@@ -51 +53,6 @@
+-  def isMatch(m: Map[String, Any]): Boolean = a(m) == b(m)
++  def isMatch(m: Map[String, Any]): Boolean = {
++    val x = a(m)
++    val z = b(m)
++    val r = x == z
++    r
++  }
+@@ -55 +62 @@
+-  def containsIsNull = false
++  def exists(f: (Expression) => Boolean) = a.exists(f) || b.exists(f)
+@@ -59,0 +67,2 @@
++
++  def containsIsNull = false
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Expression.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Expression.scala
+index abf2246..8f664db 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Expression.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Expression.scala
+@@ -22 +21,0 @@
+-import scala.collection.JavaConverters._
+@@ -26 +25 @@
+-import org.neo4j.graphdb.{Path, Relationship, NotFoundException, PropertyContainer, Node}
++import org.neo4j.graphdb.{NotFoundException, PropertyContainer}
+@@ -41,0 +41,6 @@
++
++  def exists(f: Expression => Boolean) = filter(f).nonEmpty
++
++  def filter(f: Expression => Boolean): Seq[Expression]
++
++  def containsAggregate = exists(_.isInstanceOf[AggregationExpression])
+@@ -61,0 +67,5 @@
++
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this) ++ a.filter(f) ++ b.filter(f)
++  else
++    a.filter(f) ++ b.filter(f)
+@@ -64,2 +74,2 @@
+-case class Subtract(a: Expression, b: Expression) extends Expression {
+-  def identifier = Identifier(a.identifier.name + " + " + b.identifier.name, NumberType())
++case class Subtract(a: Expression, b: Expression) extends Arithmetics(a, b) {
++  def operand = "-"
+@@ -67,3 +77 @@
+-  def apply(m: Map[String, Any]) = {
+-    val aVal = a(m)
+-    val bVal = b(m)
++  def verb = "subtract"
+@@ -71,4 +79 @@
+-    (aVal, bVal) match {
+-      case (x: Number, y: Number) => x.doubleValue() - y.doubleValue()
+-      case _ => throw new CypherTypeException("Don't know how to subtract `" + bVal.toString + "` from `" + aVal.toString + "`")
+-    }
++  def stringWithString(a: String, b: String) = throwTypeError(a, b)
+@@ -76 +81 @@
+-  }
++  def numberWithNumber(a: Number, b: Number) = a.doubleValue() - b.doubleValue()
+@@ -78,3 +83,3 @@
+-  def declareDependencies(extectedType: AnyType) = a.declareDependencies(extectedType) ++ b.declareDependencies(extectedType)
+-
+-  def rewrite(f: (Expression) => Expression) = f(Subtract(a.rewrite(f), b.rewrite(f)))
++  def rewrite(f: (Expression) => Expression) = f(Modulo(a.rewrite(f), b.rewrite(f)))
++  
++  
+@@ -131,2 +136,2 @@
+-abstract class Arithmetics(a: Expression, b: Expression) extends Expression {
+-  def identifier = Identifier("%s %s %s".format(a.identifier.name, operand, b.identifier.name), ScalarType())
++abstract class Arithmetics(left: Expression, right: Expression) extends Expression {
++  def identifier = Identifier("%s %s %s".format(left.identifier.name, operand, right.identifier.name), ScalarType())
+@@ -141,2 +146,2 @@
+-    val aVal = a(m)
+-    val bVal = b(m)
++    val aVal = left(m)
++    val bVal = right(m)
+@@ -158 +163,6 @@
+-  def declareDependencies(extectedType: AnyType) = a.declareDependencies(extectedType) ++ b.declareDependencies(extectedType)
++  def declareDependencies(extectedType: AnyType) = left.declareDependencies(extectedType) ++ right.declareDependencies(extectedType)
++
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this) ++ left.filter(f) ++ right.filter(f)
++  else
++    left.filter(f) ++ right.filter(f)
+@@ -170,0 +181,5 @@
++
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this)
++  else
++    Seq()
+@@ -190,0 +206,8 @@
++
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this) ++ expression.filter(f)
++  else
++    expression.filter(f)
++
++
++  override def toString() = expression.toString() + "?"
+@@ -212 +234,0 @@
+-}
+@@ -214,106 +236,4 @@
+-case class RelationshipTypeFunction(relationship: Expression) extends Expression {
+-  def apply(m: Map[String, Any]): Any = relationship(m).asInstanceOf[Relationship].getType.name()
+-
+-  def identifier = Identifier("TYPE(" + relationship.identifier.name + ")", StringType())
+-
+-  override def toString() = "type(" + relationship + ")"
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = relationship.dependencies(RelationshipType())
+-
+-  def rewrite(f: (Expression) => Expression) = f(RelationshipTypeFunction(relationship.rewrite(f)))
+-}
+-
+-case class CoalesceFunction(expressions: Expression*) extends Expression {
+-  def apply(m: Map[String, Any]): Any = expressions.map(expression => expression(m)).find(value => value != null) match {
+-    case None => null
+-    case Some(x) => x
+-  }
+-
+-  def innerExpectedType: Option[AnyType] = null
+-
+-  def argumentsString: String = expressions.map(_.identifier.name).mkString(",")
+-
+-  //TODO: Find out the closest matching return type
+-  def identifier = Identifier("COALESCE(" + argumentsString + ")", AnyType())
+-
+-  override def toString() = "coalesce(" + argumentsString + ")"
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = expressions.flatMap(_.dependencies(AnyType()))
+-
+-  def rewrite(f: (Expression) => Expression) = f(CoalesceFunction(expressions.map(e => e.rewrite(f)): _*))
+-}
+-
+-case class LengthFunction(inner: Expression) extends Expression {
+-  def apply(m: Map[String, Any]): Any = inner(m) match {
+-    case path: Path => path.length()
+-    case iter: Traversable[_] => iter.toList.length
+-    case s: String => s.length()
+-    case x => throw new IterableRequiredException(inner)
+-  }
+-
+-  def identifier = Identifier("LENGTH(" + inner.identifier.name + ")", IntegerType())
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = {
+-    val seq = inner.dependencies(AnyIterableType()).toList
+-    seq
+-  }
+-
+-  def rewrite(f: (Expression) => Expression) = f(LengthFunction(inner.rewrite(f)))
+-}
+-
+-case class IdFunction(inner: Expression) extends Expression {
+-  def apply(m: Map[String, Any]): Any = inner(m) match {
+-    case node: Node => node.getId
+-    case rel: Relationship => rel.getId
+-  }
+-
+-  def identifier = Identifier("ID(" + inner.identifier.name + ")", LongType())
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = inner.dependencies(MapType())
+-
+-  def rewrite(f: (Expression) => Expression) = f(IdFunction(inner.rewrite(f)))
+-}
+-
+-case class NodesFunction(path: Expression) extends Expression {
+-  def apply(m: Map[String, Any]): Any = path(m) match {
+-    case p: Path => p.nodes().asScala.toSeq
+-    case x => throw new SyntaxException("Expected " + path.identifier.name + " to be a path.")
+-  }
+-
+-  def identifier = Identifier("NODES(" + path.identifier.name + ")", new IterableType(NodeType()))
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = path.dependencies(PathType())
+-
+-  def rewrite(f: (Expression) => Expression) = f(NodesFunction(path.rewrite(f)))
+-}
+-
+-case class ExtractFunction(iterable: Expression, id: String, expression: Expression) extends Expression {
+-  def apply(m: Map[String, Any]): Any = iterable(m) match {
+-    case x: Iterable[Any] => x.map(iterValue => {
+-      val innerMap = m + (id -> iterValue)
+-      expression(innerMap)
+-    }).toList
+-    case _ => throw new IterableRequiredException(iterable)
+-  }
+-
+-  def identifier = Identifier("extract(" + id + " in " + iterable.identifier.name + " : " + expression.identifier.name + ")", new IterableType(expression.identifier.typ))
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] =
+-  // Extract depends on everything that the iterable and the expression depends on, except
+-  // the new identifier inserted into the expression context, named with id
+-    iterable.dependencies(AnyIterableType()) ++ expression.dependencies(AnyType()).filterNot(_.name == id)
+-
+-  def rewrite(f: (Expression) => Expression) = f(ExtractFunction(iterable.rewrite(f), id, expression.rewrite(f)))
+-}
+-
+-case class RelationshipFunction(path: Expression) extends Expression {
+-  def apply(m: Map[String, Any]): Any = path(m) match {
+-    case p: Path => p.relationships().asScala.toSeq
+-    case x => throw new SyntaxException("Expected " + path.identifier.name + " to be a path.")
+-  }
+-
+-  def identifier = Identifier("RELATIONSHIPS(" + path.identifier.name + ")", new IterableType(RelationshipType()))
+-
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = path.dependencies(PathType())
+-
+-  def rewrite(f: (Expression) => Expression) = f(RelationshipFunction(path.rewrite(f)))
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this)
++  else
++    Seq()
+@@ -331,0 +252,5 @@
++
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this)
++  else
++    Seq()
+@@ -346,0 +272,5 @@
++
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this)
++  else
++    Seq()
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Functions.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Functions.scala
+new file mode 100644
+index 0000000..d521881
+--- /dev/null
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Functions.scala
+@@ -0,0 +1,275 @@
++/**
++ * Copyright (c) 2002-2012 "Neo Technology,"
++ * Network Engine for Objects in Lund AB [http://neotechnology.com]
++ *
++ * This file is part of Neo4j.
++ *
++ * Neo4j is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++package org.neo4j.cypher.internal.commands
++
++import org.neo4j.cypher.{SyntaxException, IterableRequiredException}
++import scala.collection.JavaConverters._
++import org.neo4j.cypher.internal.symbols._
++import org.neo4j.graphdb.{Node, Relationship, Path}
++
++trait Functions
++
++abstract class NullInNullOutExpression(argument: Expression) extends Expression {
++  def inner_apply(value: Any, m: Map[String, Any]): Any
++
++  def apply(m: Map[String, Any]): Any = argument(m) match {
++    case null => null
++    case x => inner_apply(x, m)
++  }
++}
++
++case class ExtractFunction(iterable: Expression, id: String, expression: Expression) extends NullInNullOutExpression(iterable) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case x: Iterable[Any] => x.map(iterValue => {
++      val innerMap = m + (id -> iterValue)
++      expression(innerMap)
++    }).toList
++    case _ => throw new IterableRequiredException(iterable)
++  }
++
++  def identifier = Identifier("extract(" + id + " in " + iterable.identifier.name + " : " + expression.identifier.name + ")", new IterableType(expression.identifier.typ))
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] =
++  // Extract depends on everything that the iterable and the expression depends on, except
++  // the new identifier inserted into the expression context, named with id
++    iterable.dependencies(AnyIterableType()) ++ expression.dependencies(AnyType()).filterNot(_.name == id)
++
++  def rewrite(f: (Expression) => Expression) = f(ExtractFunction(iterable.rewrite(f), id, expression.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ iterable.filter(f) ++ expression.filter(f)
++  else
++    iterable.filter(f) ++ expression.filter(f)
++}
++
++case class RelationshipFunction(path: Expression) extends NullInNullOutExpression(path) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case p: Path => p.relationships().asScala.toSeq
++    case x => throw new SyntaxException("Expected " + path.identifier.name + " to be a path.")
++  }
++
++  def identifier = Identifier("RELATIONSHIPS(" + path.identifier.name + ")", new IterableType(RelationshipType()))
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = path.dependencies(PathType())
++
++  def rewrite(f: (Expression) => Expression) = f(RelationshipFunction(path.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ path.filter(f)
++  else
++    path.filter(f)
++}
++
++case class CoalesceFunction(expressions: Expression*) extends Expression {
++  def apply(m: Map[String, Any]): Any = expressions.map(expression => expression(m)).find(value => value != null) match {
++    case None => null
++    case Some(x) => x
++  }
++
++  def innerExpectedType: Option[AnyType] = None
++
++  def argumentsString: String = expressions.map(_.identifier.name).mkString(",")
++
++  //TODO: Find out the closest matching return type
++  def identifier = Identifier("COALESCE(" + argumentsString + ")", AnyType())
++
++  override def toString() = "coalesce(" + argumentsString + ")"
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = expressions.flatMap(_.dependencies(AnyType()))
++
++  def rewrite(f: (Expression) => Expression) = f(CoalesceFunction(expressions.map(e => e.rewrite(f)): _*))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ expressions.flatMap(_.filter(f))
++  else
++    expressions.flatMap(_.filter(f))
++}
++
++case class RelationshipTypeFunction(relationship: Expression) extends NullInNullOutExpression(relationship) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value.asInstanceOf[Relationship].getType.name()
++
++  def identifier = Identifier("TYPE(" + relationship.identifier.name + ")", StringType())
++
++  override def toString() = "type(" + relationship + ")"
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = relationship.dependencies(RelationshipType())
++
++  def rewrite(f: (Expression) => Expression) = f(RelationshipTypeFunction(relationship.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ relationship.filter(f)
++  else
++    relationship.filter(f)
++}
++
++case class LengthFunction(inner: Expression) extends NullInNullOutExpression(inner) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case path: Path => path.length()
++    case iter: Traversable[_] => iter.toList.length
++    case s: String => s.length()
++    case x => throw new IterableRequiredException(inner)
++  }
++
++  def identifier = Identifier("LENGTH(" + inner.identifier.name + ")", IntegerType())
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = {
++    val seq = inner.dependencies(AnyIterableType()).toList
++    seq
++  }
++
++  def rewrite(f: (Expression) => Expression) = f(LengthFunction(inner.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ inner.filter(f)
++  else
++    inner.filter(f)
++}
++
++case class IdFunction(inner: Expression) extends NullInNullOutExpression(inner) {
++
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case node: Node => node.getId
++    case rel: Relationship => rel.getId
++  }
++
++  def identifier = Identifier("ID(" + inner.identifier.name + ")", LongType())
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = inner.dependencies(MapType())
++
++  def rewrite(f: (Expression) => Expression) = f(IdFunction(inner.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ inner.filter(f)
++  else
++    inner.filter(f)
++}
++
++case class HeadFunction(collection: Expression) extends NullInNullOutExpression(collection) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case path: Path => path.startNode()
++    case iter: Traversable[_] => iter.head
++    case array: Array[_] => array.head
++    case x => throw new IterableRequiredException(collection)
++  }
++
++  private def myType = collection.identifier.typ match {
++    case x: IterableType => x.iteratedType
++    case _ => ScalarType()
++  }
++
++  def identifier = Identifier("head(" + collection.identifier.name + ")", myType)
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = collection.dependencies(AnyIterableType())
++
++  def rewrite(f: (Expression) => Expression) = f(HeadFunction(collection.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ collection.filter(f)
++  else
++    collection.filter(f)
++}
++
++case class LastFunction(collection: Expression) extends NullInNullOutExpression(collection) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case path: Path => path.endNode()
++    case iter: Traversable[_] => iter.last
++    case array: Array[_] => array.last
++    case x => throw new IterableRequiredException(collection)
++  }
++
++  def identifier = Identifier("last(" + collection.identifier.name + ")", ScalarType())
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = collection.dependencies(AnyIterableType())
++
++  def rewrite(f: (Expression) => Expression) = f(HeadFunction(collection.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ collection.filter(f)
++  else
++    collection.filter(f)
++}
++
++case class TailFunction(collection: Expression) extends NullInNullOutExpression(collection) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case path: Path => path.iterator().asScala.toSeq.tail
++    case iter: Traversable[_] => iter.tail
++    case array: Array[_] => array.tail
++    case x => throw new IterableRequiredException(collection)
++  }
++
++  def identifier = Identifier("tail(" + collection.identifier.name + ")", collection.identifier.typ)
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = collection.dependencies(AnyIterableType())
++
++  def rewrite(f: (Expression) => Expression) = f(HeadFunction(collection.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ collection.filter(f)
++  else
++    collection.filter(f)
++}
++
++case class NodesFunction(path: Expression) extends NullInNullOutExpression(path) {
++  def inner_apply(value: Any, m: Map[String, Any]) = value match {
++    case p: Path => p.nodes().asScala.toSeq
++    case x => throw new SyntaxException("Expected " + path.identifier.name + " to be a path.")
++  }
++
++  def identifier = Identifier("NODES(" + path.identifier.name + ")", new IterableType(NodeType()))
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = path.dependencies(PathType())
++
++  def rewrite(f: (Expression) => Expression) = f(NodesFunction(path.rewrite(f)))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ path.filter(f)
++  else
++    path.filter(f)
++}
++
++case class FilterFunction(collection: Expression, symbol: String, predicate: Predicate) extends NullInNullOutExpression(collection) {
++  def inner_apply(value: Any, m: Map[String, Any]) = {
++    val seq = value match {
++      case path: Path => path.iterator().asScala.toSeq
++      case iter: Traversable[_] => iter.toSeq
++      case array: Array[_] => array.toSeq
++      case x => throw new IterableRequiredException(collection)
++    }
++
++    val result = seq.filter {
++      case element => predicate.isMatch(m + (symbol -> element))
++    }
++
++    result
++
++  }
++
++  def identifier = Identifier("filter(%s in %s : %s)".format(symbol, collection, predicate), collection.identifier.typ)
++
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = (collection.dependencies(PathType()) ++ predicate.dependencies).filterNot(_.name == symbol)
++
++  //TODO: Uh oh. Predicates don't do rewriting. Revisit while making predicates full on expressions
++  def rewrite(f: (Expression) => Expression) = f(FilterFunction(collection.rewrite(f), symbol, predicate))
++
++  def filter(f: (Expression) => Boolean) = if (f(this))
++    Seq(this) ++ collection.filter(f)
++  else
++    collection.filter(f)
++}
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/InIterable.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/InIterable.scala
+index 14e0e92..34dac4e 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/InIterable.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/InIterable.scala
+@@ -25 +25 @@
+-abstract class InIterable(iterable: Expression, symbolName: String, inner: Predicate) extends Predicate {
++abstract class InIterable(expression: Expression, symbol: String, closure: Predicate) extends Predicate {
+@@ -29 +29 @@
+-    val seq = iterable(m) match {
++    val seq = expression(m) match {
+@@ -35,2 +35,2 @@
+-      val innerMap = m ++ Map(symbolName -> item)
+-      inner.isMatch(innerMap)
++      val innerMap = m ++ Map(symbol -> item)
++      closure.isMatch(innerMap)
+@@ -40 +40 @@
+-  def dependencies: Seq[Identifier] = iterable.dependencies(AnyIterableType()) ++ inner.dependencies.filterNot(_.name == symbolName)
++  def dependencies: Seq[Identifier] = expression.dependencies(AnyIterableType()) ++ closure.dependencies.filterNot(_.name == symbol)
+@@ -44 +44,2 @@
+-  def containsIsNull: Boolean = false
++  def exists(f: (Expression) => Boolean) = expression.exists(f)||closure.exists(f)
++
+@@ -47 +48,3 @@
+-  override def toString = name + "(" + symbolName + " in " + iterable + " where " + inner + ")"
++  override def toString = name + "(" + symbol + " in " + expression + " where " + closure + ")"
++
++  def containsIsNull = closure.containsIsNull
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/MathFunction.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/MathFunction.scala
+index 8e1e8c6..3618cc6 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/MathFunction.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/MathFunction.scala
+@@ -26 +26 @@
+-abstract class MathFunction(arguments: Expression*) extends Expression {
++abstract class MathFunction(arg: Expression) extends Expression {
+@@ -40 +40 @@
+-  def declareDependencies(extectedType: AnyType): Seq[Identifier] = arguments.flatMap(_.dependencies(AnyType()))
++  def declareDependencies(extectedType: AnyType): Seq[Identifier] = arg.dependencies(AnyType())
+@@ -44 +44 @@
+-  private def argumentsString: String = arguments.map(_.toString()).mkString(",")
++  private def argumentsString: String = arg.identifier.name
+@@ -46,0 +47,5 @@
++
++  def filter(f: (Expression) => Boolean) = if(f(this))
++    Seq(this) ++ arg.filter(f)
++  else
++    arg.filter(f)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Predicate.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Predicate.scala
+index f55a063..acb3468 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Predicate.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Predicate.scala
+@@ -38 +38,3 @@
+-  def containsIsNull: Boolean
++  def exists(f:Expression=>Boolean):Boolean
++
++  def containsIsNull:Boolean
+@@ -55,2 +56,0 @@
+-  def containsIsNull = inner.containsIsNull
+-
+@@ -59 +59,5 @@
+-  override def toString = inner.toString
++  override def toString = "nullable([" + exp.mkString(",") +"],["  +inner.toString+"])"
++
++  def exists(f: (Expression) => Boolean) = inner.exists(f)
++
++  def containsIsNull = inner.containsIsNull
+@@ -72 +76,3 @@
+-  def containsIsNull: Boolean = a.containsIsNull || b.containsIsNull
++  def exists(f: (Expression) => Boolean) = a.exists(f) || b.exists(f)
++
++  def containsIsNull = a.containsIsNull||b.containsIsNull
+@@ -84 +90,2 @@
+-  def containsIsNull: Boolean = a.containsIsNull || b.containsIsNull
++  def exists(f: (Expression) => Boolean) = a.exists(f) || b.exists(f)
++  def containsIsNull = a.containsIsNull||b.containsIsNull
+@@ -96 +103,2 @@
+-  def containsIsNull: Boolean = a.containsIsNull
++  def exists(f: (Expression) => Boolean) = a.exists(f)
++  def containsIsNull = a.containsIsNull
+@@ -111 +119 @@
+-  def containsIsNull: Boolean = false
++  def exists(f: (Expression) => Boolean) = from.exists(f) || to.exists(f)
+@@ -113,0 +122,2 @@
++
++  def containsIsNull = false
+@@ -127 +137 @@
+-  def containsIsNull: Boolean = false
++  def exists(f: (Expression) => Boolean) = from.exists(f)
+@@ -129,0 +140,2 @@
++
++  def containsIsNull = false
+@@ -132,2 +144,2 @@
+-case class IsNull(value: Expression) extends Predicate {
+-  def isMatch(m: Map[String, Any]): Boolean = value(m) == null
++case class IsNull(expression: Expression) extends Predicate {
++  def isMatch(m: Map[String, Any]): Boolean = expression(m) == null
+@@ -135 +147 @@
+-  def dependencies: Seq[Identifier] = value.dependencies(AnyType())
++  def dependencies: Seq[Identifier] = expression.dependencies(AnyType())
+@@ -139 +151 @@
+-  override def toString: String = value + " IS NULL"
++  override def toString: String = expression + " IS NULL"
+@@ -141 +153,3 @@
+-  def containsIsNull: Boolean = true
++  def exists(f: (Expression) => Boolean) = expression.exists(f)
++
++  def containsIsNull = true
+@@ -153 +167,3 @@
+-  def containsIsNull: Boolean = false
++  def exists(f: (Expression) => Boolean) = false
++
++  def containsIsNull = false
+@@ -170 +186,3 @@
+-  def containsIsNull: Boolean = false
++  def containsIsNull = false
++
++  def exists(f: (Expression) => Boolean) = false
+@@ -180 +198 @@
+-  def containsIsNull = false
++  def exists(f: (Expression) => Boolean) = a.exists(f) || regex.exists(f)
+@@ -182,0 +201,2 @@
++
++  def containsIsNull = false
+@@ -199 +219,3 @@
+-  def containsIsNull: Boolean = false
++  def exists(f: (Expression) => Boolean) = a.exists(f)||regex.exists(f)
++
++  def containsIsNull = false
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Query.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Query.scala
+index 2030164..4d2dd76 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Query.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/Query.scala
+@@ -34,0 +35 @@
++                 having: Option[Predicate],
+@@ -62 +63 @@
+-case class Aggregation(aggregationItems: AggregationItem*)
++case class Aggregation(aggregationItems: ReturnItem*)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/QueryBuilder.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/QueryBuilder.scala
+index 8dfdb3a..ef5c2de 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/QueryBuilder.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/QueryBuilder.scala
+@@ -22,9 +22,10 @@
+-class QueryBuilder(startItems: Seq[ StartItem ]) {
+-  var matching: Option[ Match ] = None
+-  var where: Option[ Predicate ] = None
+-  var aggregation: Option[ Aggregation ] = None
+-  var orderBy: Option[ Sort ] = None
+-  var skip: Option[ Expression ] = None
+-  var limit: Option[ Expression ] = None
+-  var namedPaths: Option[ NamedPaths ] = None
+-  var columns: Seq[ ReturnItem ] => List[ String ] = (returnItems) => returnItems.map(_.identifier.name).toList
++class QueryBuilder(startItems: Seq[StartItem]) {
++  var matching: Option[Match] = None
++  var where: Option[Predicate] = None
++  var having: Option[Predicate] = None
++  var aggregation: Option[Aggregation] = None
++  var orderBy: Option[Sort] = None
++  var skip: Option[Expression] = None
++  var limit: Option[Expression] = None
++  var namedPaths: Option[NamedPaths] = None
++  var columns: Seq[ReturnItem] => List[String] = (returnItems) => returnItems.map(_.identifier.name).toList
+@@ -36 +37,3 @@
+-  def aggregation(aggregationItems: AggregationItem*): QueryBuilder =
++  def having(predicate: Predicate): QueryBuilder = store(() => having = Some(predicate))
++
++  def aggregation(aggregationItems: ReturnItem*): QueryBuilder =
+@@ -51 +54 @@
+-  def columns(columnList: String*): QueryBuilder = store(() => columns = (x) => columnList.toList  )
++  def columns(columnList: String*): QueryBuilder = store(() => columns = (x) => columnList.toList)
+@@ -53 +56 @@
+-  def slice: Option[ Slice ] = (skip, limit) match {
++  def slice: Option[Slice] = (skip, limit) match {
+@@ -55 +58 @@
+-    case (s, l)       => Some(Slice(skip, limit))
++    case (s, l) => Some(Slice(skip, limit))
+@@ -65 +68 @@
+-          orderBy, slice, namedPaths)
++      orderBy, slice, namedPaths, having)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ReturnItem.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ReturnItem.scala
+index b7cd6a2..347c4bb 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ReturnItem.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/commands/ReturnItem.scala
+@@ -23,3 +23,2 @@
+-import collection.Seq
+-import org.neo4j.cypher.internal.symbols.{AnyType, IntegerType, Identifier}
+-import org.neo4j.cypher.internal.pipes.aggregation._
++import org.neo4j.cypher.internal.symbols.{AnyType, Identifier}
++import org.neo4j.cypher.internal.pipes.aggregation.AggregationFunction
+@@ -27 +26,10 @@
+-abstract sealed class ReturnItem(val identifier: Identifier) extends (Map[String, Any] => Any) with Dependant {
++case class ReturnItem(expression: Expression, name: String) extends (Map[String, Any] => Any) with Dependant {
++  def apply(m: Map[String, Any]): Any = m.get(expression.identifier.name) match {
++    case None => expression(m)
++    case Some(x) => x
++  }
++  
++  def dependencies = expression.dependencies(AnyType())
++
++  def identifier = Identifier(name, expression.identifier.typ)
++
+@@ -34,6 +42 @@
+-  def rename(newName:String):ReturnItem
+-  
+-  def equalsWithoutName(other:ReturnItem):Boolean = if(!compareWith.isDefinedAt(other))
+-    false
+-  else
+-    compareWith(other)
++  def rename(newName: String) = ReturnItem(expression, newName)
+@@ -41,2 +44 @@
+-  protected def compareWith:PartialFunction[ReturnItem, Boolean]
+-}
++  def equalsWithoutName(other: ReturnItem): Boolean = this.expression == other.expression
+@@ -44,8 +46,3 @@
+-object ExpressionReturnItem {
+-  def apply(value: Expression) = new ExpressionReturnItem(value, value.identifier.name)
+-}
+-
+-case class ExpressionReturnItem(value: Expression, name: String) extends ReturnItem(Identifier(name, value.identifier.typ)  ) {
+-  def apply(m: Map[String, Any]): Any = m.get(value.identifier.name) match {
+-    case None => value(m)
+-    case Some(x) => x
++  def createAggregationFunction: AggregationFunction = {
++    val aggregation = expression.filter(_.isInstanceOf[AggregationExpression]).head
++    aggregation.asInstanceOf[AggregationExpression].createAggregationFunction
+@@ -53,42 +49,0 @@
+-
+-  protected def compareWith = { case other:ExpressionReturnItem => this.value == other.value }
+-
+-  def rename(newName: String) = ExpressionReturnItem(value, newName)
+-
+-  def dependencies: Seq[Identifier] = value.dependencies(AnyType())
+-}
+-
+-abstract sealed class AggregationItem(typ: AnyType, name: String) extends ReturnItem(Identifier(name, typ)) {
+-  def apply(m: Map[String, Any]): Map[String, Any] = m
+-
+-  def createAggregationFunction: AggregationFunction
+-
+-  override def toString() = identifier.name
+-}
+-
+-object ValueAggregationItem {
+-  def apply(value: AggregationExpression) = new ValueAggregationItem(value, value.identifier.name)
+-}
+-
+-case class ValueAggregationItem(value: AggregationExpression, name:String) extends AggregationItem(value.identifier.typ, name) {
+-  def rename(newName: String) = ValueAggregationItem(value, newName)
+-
+-  def dependencies: Seq[Identifier] = value.dependencies(AnyType())
+-
+-  def createAggregationFunction = value.createAggregationFunction
+-
+-  protected def compareWith = { case other:ValueAggregationItem => this.value == other.value }
+-}
+-
+-object CountStar {
+-  def apply() = new CountStar("count(*)")
+-}
+-
+-case class CountStar(name:String) extends AggregationItem(IntegerType(), name) {
+-  def rename(newName: String) = CountStar(newName)
+-
+-  def createAggregationFunction = new CountStarFunction
+-
+-  def dependencies: Seq[Identifier] = Seq()
+-
+-  protected def compareWith = { case other:CountStar => true }
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/Clauses.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/Clauses.scala
+index 7a0a214..cb5f966 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/Clauses.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/Clauses.scala
+@@ -51 +51,6 @@
+-    case l ~ "=" ~ r => Equals(l, r)
++    case l ~ "=" ~ r => (l, r) match {
++      case (a:Nullable, b:Nullable) => NullablePredicate(Equals(a,b), Seq((a,true), (b,true)))
++      case (a:Nullable, b) =>  NullablePredicate(Equals(a,b), Seq((a,true)))
++      case (a,b:Nullable)=>  NullablePredicate(Equals(a,b), Seq((b,true)))
++      case (a,b)=> Equals(l, r)
++    }
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/CypherParserImpl.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/CypherParserImpl.scala
+index 327d159..d7d62fe 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/CypherParserImpl.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/CypherParserImpl.scala
+@@ -53 +53 @@
+-      Query(returns._1, start, pattern, where, returns._2, order, slice, namedPaths)
++      Query(returns._1, start, pattern, where, returns._2, order, slice, namedPaths, None)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/OrderByClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/OrderByClause.scala
+index cdb670c..6864e90 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/OrderByClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/OrderByClause.scala
+@@ -24 +24 @@
+-import internal.commands.{Sort, Entity, ExpressionReturnItem, SortItem}
++import internal.commands.{Sort, Entity, ReturnItem, SortItem}
+@@ -39 +39 @@
+-        case ExpressionReturnItem(Entity(_), _) => throw new SyntaxException("Cannot ORDER BY on nodes or relationships")
++        case ReturnItem(Entity(_), _) => throw new SyntaxException("Cannot ORDER BY on nodes or relationships")
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnClause.scala
+index ebdb953..cada5c6 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnClause.scala
+@@ -29,3 +29,3 @@
+-  def returns: Parser[(Return, Option[Aggregation])] = ignoreCase("return") ~> opt("distinct") ~ rep1sep((aggregate | returnItem), ",") ^^
+-    { case distinct ~ items => {
+-      val list = items.filter(_.isInstanceOf[AggregationItem]).map(_.asInstanceOf[AggregationItem])
++  def returns: Parser[(Return, Option[Aggregation])] = ignoreCase("return") ~> opt(ignoreCase("distinct")) ~ rep1sep((aggregate | returnItem), ",") ^^ {
++    case distinct ~ items => {
++      val (aggregationItems, returnItems) = items.partition(_.expression.exists(_.isInstanceOf[AggregationExpression]))
+@@ -33,3 +33,8 @@
+-      val none: Option[Aggregation] = distinct match {
+-        case Some(x) => Some(Aggregation())
+-        case None => None
++      /*
++      An DISTINCT is created by using a normal aggregation with no aggregate functions.
++      The key columns is a set, and so a DISTINCT is produced.
++       */
++      val aggregation = (aggregationItems, distinct) match {
++        case (List(), Some(_)) => Some(Aggregation())
++        case (List(), None) => None
++        case _ => Some(Aggregation(aggregationItems: _*))
+@@ -38,8 +43,3 @@
+-      (
+-        Return(items.map(_.columnName).toList, items.filter(!_.isInstanceOf[AggregationItem]): _*),
+-        list match {
+-          case List() => none
+-          case _ => Some(Aggregation(list : _*))
+-        }
+-      )
+-    }}
++      (Return(items.map(_.columnName).toList, returnItems: _*), aggregation)
++    }
++  }
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnItems.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnItems.scala
+index d1b94e0..30d3eb7 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnItems.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_5/ReturnItems.scala
+@@ -28 +28 @@
+-    case value => ExpressionReturnItem(value)
++    case value => ReturnItem(value, value.identifier.name)
+@@ -35 +35 @@
+-  def aggregationFunction: Parser[AggregationItem] = functionNames ~ parens(opt(ignoreCase("distinct")) ~ returnValues) ^^ {
++  def aggregationFunction: Parser[ReturnItem] = functionNames ~ parens(opt(ignoreCase("distinct")) ~ returnValues) ^^ {
+@@ -37,7 +37,7 @@
+-      val aggregate = name match {
+-        case "count" => Count(inner, "count(" + inner.identifier.name + ")")
+-        case "sum" => Sum(inner, "sum(" + inner.identifier.name + ")")
+-        case "min" => Min(inner, "min(" + inner.identifier.name + ")")
+-        case "max" => Max(inner, "max(" + inner.identifier.name + ")")
+-        case "avg" => Avg(inner, "avg(" + inner.identifier.name + ")")
+-        case "collect" => Collect(inner, "collect(" + inner.identifier.name + ")")
++      val (aggregate,columnName) = name match {
++        case "count" => (Count(inner), "count(" + inner.identifier.name + ")")
++        case "sum" => (Sum(inner), "sum(" + inner.identifier.name + ")")
++        case "min" => (Min(inner), "min(" + inner.identifier.name + ")")
++        case "max" => (Max(inner), "max(" + inner.identifier.name + ")")
++        case "avg" => (Avg(inner), "avg(" + inner.identifier.name + ")")
++        case "collect" => (Collect(inner), "collect(" + inner.identifier.name + ")")
+@@ -47 +47 @@
+-        ValueAggregationItem(aggregate)
++        ReturnItem(aggregate, columnName)
+@@ -53 +53 @@
+-        ValueAggregationItem(Distinct(aggregate, inner, name))
++        ReturnItem(Distinct(aggregate, inner), name)
+@@ -58,2 +58,2 @@
+-  def countStar: Parser[AggregationItem] = ignoreCase("count") ~> parens("*") ^^ {
+-    case "*" => CountStar()
++  def countStar: Parser[ReturnItem] = ignoreCase("count") ~> parens("*") ^^ {
++    case "*" => ReturnItem(CountStar(), "count(*)")
+@@ -62 +62 @@
+-  def aggregate: Parser[AggregationItem] = (countStar | aggregationFunction)
++  def aggregate: Parser[ReturnItem] = (countStar | aggregationFunction)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/CypherParserImpl.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/CypherParserImpl.scala
+index 7e3a1ef..905cb81 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/CypherParserImpl.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/CypherParserImpl.scala
+@@ -54 +54 @@
+-      (queryText: String) => Query(returns._1, start, pattern, where, returns._2, order, slice, namedPaths, queryText)
++      (queryText: String) => Query(returns._1, start, pattern, where, returns._2, order, slice, namedPaths, None, queryText)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/Predicates.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/Predicates.scala
+index c722335..4ba1773 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/Predicates.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/Predicates.scala
+@@ -72 +72,8 @@
+-  def equals: Parser[Predicate] = expression ~ "=" ~ expression ^^ { case l ~ "=" ~ r => Equals(l, r)  }
++  def equals: Parser[Predicate] = expression ~ "=" ~ expression ^^ {
++    case l ~ "=" ~ r => (l, r) match {
++      case (a:Nullable, b:Nullable) => NullablePredicate(Equals(a,b), Seq((a,true), (b,true)))
++      case (a:Nullable, b) =>  NullablePredicate(Equals(a,b), Seq((a,true)))
++      case (a,b:Nullable)=>  NullablePredicate(Equals(a,b), Seq((b,true)))
++      case (a,b)=> Equals(l, r)
++    }
++  }
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnClause.scala
+index ecf0db1..de16565 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnClause.scala
+@@ -46 +46 @@
+-  def returnsClause: Parser[(Return, Option[Aggregation])] = ignoreCase("return") ~> opt("distinct") ~ comaList(column) ^^ {
++  def returnsClause: Parser[(Return, Option[Aggregation])] = ignoreCase("return") ~> opt(ignoreCase("distinct")) ~ comaList(column) ^^ {
+@@ -48 +48,2 @@
+-      val aggregationItems = items.filter(_.isInstanceOf[AggregationItem]).map(_.asInstanceOf[AggregationItem])
++      val (aggregationItems, returnItems) = items.partition(_.expression.exists(_.isInstanceOf[AggregationExpression]))
++      val columnName = items.map(_.columnName).toList
+@@ -57 +58 @@
+-        case _ => Some(Aggregation(aggregationItems: _*))
++        case _ => Some(Aggregation(aggregationItems.map(_.asInstanceOf[ReturnItem]): _*))
+@@ -60 +60,0 @@
+-      val returnItems = Return(items.map(_.columnName).toList, items.filter(!_.isInstanceOf[AggregationItem]): _*)
+@@ -62 +62 @@
+-      (returnItems, aggregation)
++      (Return(columnName, returnItems:_*), aggregation)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnItems.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnItems.scala
+index 49096ab..1b3fc80 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnItems.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_6/ReturnItems.scala
+@@ -27 +27 @@
+-    case expression => ExpressionReturnItem(expression)
++    case expression => ReturnItem(expression, expression.identifier.name)
+@@ -34 +34 @@
+-  def aggregationFunction: Parser[AggregationItem] = aggregateFunctionNames ~ parens(opt(ignoreCase("distinct")) ~ returnExpressions) ^^ {
++  def aggregationFunction: Parser[ReturnItem] = aggregateFunctionNames ~ parens(opt(ignoreCase("distinct")) ~ returnExpressions) ^^ {
+@@ -36,7 +36,7 @@
+-      val aggregate = name match {
+-        case "count" => Count(inner, "count(" + inner.identifier.name + ")")
+-        case "sum" => Sum(inner, "sum(" + inner.identifier.name + ")")
+-        case "min" => Min(inner, "min(" + inner.identifier.name + ")")
+-        case "max" => Max(inner, "max(" + inner.identifier.name + ")")
+-        case "avg" => Avg(inner, "avg(" + inner.identifier.name + ")")
+-        case "collect" => Collect(inner, "collect(" + inner.identifier.name + ")")
++      val (aggregate,columnName) = name match {
++        case "count" => (Count(inner), "count(" + inner.identifier.name + ")")
++        case "sum" => (Sum(inner), "sum(" + inner.identifier.name + ")")
++        case "min" => (Min(inner), "min(" + inner.identifier.name + ")")
++        case "max" => (Max(inner), "max(" + inner.identifier.name + ")")
++        case "avg" => (Avg(inner), "avg(" + inner.identifier.name + ")")
++        case "collect" => (Collect(inner), "collect(" + inner.identifier.name + ")")
+@@ -46 +46 @@
+-        ValueAggregationItem(aggregate)
++        ReturnItem(aggregate, columnName)
+@@ -52 +52 @@
+-        ValueAggregationItem(Distinct(aggregate, inner, name))
++        ReturnItem(Distinct(aggregate, inner), name)
+@@ -57,2 +57,2 @@
+-  def countStar: Parser[AggregationItem] = ignoreCase("count") ~> parens("*") ^^ {
+-    case "*" => CountStar()
++  def countStar: Parser[ReturnItem] = ignoreCase("count") ~> parens("*") ^^ {
++    case "*" => ReturnItem(CountStar(), "count(*)")
+@@ -61 +61 @@
+-  def aggregate: Parser[AggregationItem] = countStar | aggregationFunction
++  def aggregate: Parser[ReturnItem] = countStar | aggregationFunction
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/CypherParserImpl.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/CypherParserImpl.scala
+index d5e5a52..3de23ae 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/CypherParserImpl.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/CypherParserImpl.scala
+@@ -33,0 +34 @@
++with HavingClause
+@@ -36,3 +37 @@
+-  def query: Parser[String => Query] =
+-    (correctQuery
+-      | start ~> opt(matching) ~> opt(where) ~> returns ~> failure("ABD"))
++  def query: Parser[String => Query] = start ~ opt(matching) ~ opt(where) ~ returns ~ opt(having) ~ opt(order) ~ opt(skip) ~ opt(limit) ^^ {
+@@ -40,3 +39 @@
+-  def correctQuery: Parser[String => Query] = start ~ opt(matching) ~ opt(where) ~ returns ~ opt(order) ~ opt(skip) ~ opt(limit) ^^ {
+-
+-    case start ~ matching ~ where ~ returns ~ order ~ skip ~ limit => {
++    case start ~ matching ~ where ~ returns ~ having ~ order ~ skip ~ limit => {
+@@ -54,2 +51,6 @@
+-
+-      (queryText: String) => Query(returns._1, start, pattern, where, returns._2, order, slice, namedPaths, queryText)
++      
++      where match {
++        case Some(w) => if(w.exists(_.isInstanceOf[AggregationExpression])) throw new SyntaxException("Can't use aggregate functions in the WHERE clause. Move it to the HAVING clause.")
++        case _ =>
++      }
++      (queryText: String) => Query(returns._1, start, pattern, where, returns._2, order, slice, namedPaths, having, queryText)
+@@ -65 +66 @@
+-      if(message.startsWith("INNER"))
++      if (message.startsWith("INNER"))
+@@ -75,0 +77,27 @@
++
++  override def handleWhiteSpace(source: CharSequence, offset: Int): Int = {
++    if (offset >= source.length())
++      return offset
++
++    val a = source.charAt(offset)
++
++    if ((a == ' ') || (a == '\r') || (a == '\t') || (a == '\n'))
++      handleWhiteSpace(source, offset + 1)
++    else if ((offset+1) >= source.length())
++      offset
++    else {
++      val b = source.charAt(offset + 1)
++
++      if ((a == '/') && (b == '/')) {
++
++        var loop = 0
++        while ((offset + loop) < source.length() && !(source.charAt(offset + loop) == '\n')) {
++          loop = loop + 1
++        }
++
++        handleWhiteSpace(source, loop + offset)
++      } else {
++        offset
++      }
++    }
++  }
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/Expressions.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/Expressions.scala
+index 6c9e2a8..1a251a2 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/Expressions.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/Expressions.scala
+@@ -22,0 +23,2 @@
++import org.neo4j.graphdb.Direction
++import org.neo4j.cypher.SyntaxException
+@@ -40 +42 @@
+-  
++
+@@ -57,0 +60 @@
++      | aggregateExpression
+@@ -59,0 +63 @@
++      | filterFunc
+@@ -67 +71 @@
+-      | failure("illegal start of value") ) 
++      | failure("illegal start of value") )
+@@ -75 +79 @@
+-  
++
+@@ -92,0 +97,6 @@
++  def filterFunc: Parser[Expression] = ignoreCase("filter") ~> parens(identity ~ ignoreCase("in") ~ expression ~ (ignoreCase("where") | ":") ~ predicate) ^^ {
++    case symbol ~ in ~ collection ~ where ~ pred => FilterFunction(collection, symbol, pred)
++  }
++
++  def functionNames = ignoreCases("type", "id", "length", "nodes", "rels", "relationships",
++    "abs", "round", "sqrt", "sign", "head", "last", "tail")
+@@ -104,0 +115,3 @@
++      case "head" => HeadFunction(inner)
++      case "last" => LastFunction(inner)
++      case "tail" => TailFunction(inner)
+@@ -108 +121,96 @@
+-  def functionNames = ignoreCases("type", "id", "length", "nodes", "rels", "relationships", "abs", "round", "sqrt", "sign")
++  def aggregateExpression: Parser[Expression] = countStar | aggregationFunction
++
++  def aggregateFunctionNames = ignoreCases("count", "sum", "min", "max", "avg", "collect")
++  def aggregationFunction: Parser[Expression] = aggregateFunctionNames ~ parens(opt(ignoreCase("distinct")) ~ expression) ^^ {
++    case function ~ (distinct ~ inner) => {
++
++      val aggregateExpression = function match {
++        case "count" => Count(inner)
++        case "sum" => Sum(inner)
++        case "min" => Min(inner)
++        case "max" => Max(inner)
++        case "avg" => Avg(inner)
++        case "collect" => Collect(inner)
++      }
++
++      if (distinct.isEmpty) {
++        aggregateExpression
++      }
++      else {
++        Distinct(aggregateExpression, inner)
++      }
++    }
++  }
++
++  def countStar: Parser[Expression] = ignoreCase("count") ~> parens("*") ^^^ CountStar()
++
++  def predicate: Parser[Predicate] = (
++    expressionOrEntity <~ ignoreCase("is null") ^^ (x => IsNull(x))
++      | expressionOrEntity <~ ignoreCase("is not null") ^^ (x => Not(IsNull(x)))
++      | operators
++      | ignoreCase("not") ~> predicate ^^ ( inner => Not(inner) )
++      | ignoreCase("has") ~> parens(property) ^^ ( prop => Has(prop.asInstanceOf[Property]))
++      | parens(predicate)
++      | sequencePredicate
++      | hasRelationshipTo
++      | hasRelationship
++      | aggregateFunctionNames ~> parens(expression) ~> failure("aggregate functions can not be used in the WHERE clause")
++    ) * (
++    ignoreCase("and") ^^^ {
++      (a: Predicate, b: Predicate) => And(a, b)
++    } |
++      ignoreCase("or") ^^^ {
++        (a: Predicate, b: Predicate) => Or(a, b)
++      }
++    )
++
++  def sequencePredicate: Parser[Predicate] = allInSeq | anyInSeq | noneInSeq | singleInSeq
++
++  def symbolIterablePredicate: Parser[(Expression, String, Predicate)] =
++    (identity ~ ignoreCase("in") ~ expression ~ ignoreCase("where")  ~ predicate ^^ {    case symbol ~ in ~ iterable ~ where ~ klas => (iterable, symbol, klas)  }
++      |identity ~> ignoreCase("in") ~ expression ~> failure("expected where"))
++
++
++  def allInSeq: Parser[Predicate] = ignoreCase("all") ~> parens(symbolIterablePredicate) ^^ (x => AllInIterable(x._1, x._2, x._3))
++
++  def anyInSeq: Parser[Predicate] = ignoreCase("any") ~> parens(symbolIterablePredicate) ^^ (x => AnyInIterable(x._1, x._2, x._3))
++
++  def noneInSeq: Parser[Predicate] = ignoreCase("none") ~> parens(symbolIterablePredicate) ^^ (x => NoneInIterable(x._1, x._2, x._3))
++
++  def singleInSeq: Parser[Predicate] = ignoreCase("single") ~> parens(symbolIterablePredicate) ^^ (x => SingleInIterable(x._1, x._2, x._3))
++
++  def operators:Parser[Predicate] =
++    (expression ~ "=" ~ expression ^^ { case l ~ "=" ~ r => nullable(Equals(l, r),l,r)  } |
++      expression ~ ("<"~">") ~ expression ^^ { case l ~ wut ~ r => nullable(Not(Equals(l, r)),l,r) } |
++      expression ~ "<" ~ expression ^^ { case l ~ "<" ~ r => nullable(LessThan(l, r),l,r) } |
++      expression ~ ">" ~ expression ^^ { case l ~ ">" ~ r => nullable(GreaterThan(l, r),l,r) } |
++      expression ~ "<=" ~ expression ^^ { case l ~ "<=" ~ r => nullable(LessThanOrEqual(l, r),l,r) } |
++      expression ~ ">=" ~ expression ^^ { case l ~ ">=" ~ r => nullable(GreaterThanOrEqual(l, r),l,r) } |
++      expression ~ "=~" ~ regularLiteral ^^ { case a ~ "=~" ~ b => nullable(LiteralRegularExpression(a, b),a,b) } |
++      expression ~ "=~" ~ expression ^^ { case a ~ "=~" ~ b => nullable(RegularExpression(a, b),a,b) } |
++      expression ~> "!" ~> failure("The exclamation symbol is used as a nullable property operator in Cypher. The 'not equal to' operator is <>"))
++
++  private def nullable(pred:Predicate, e:Expression*):Predicate = if(!e.exists(_.isInstanceOf[Nullable]))
++    pred
++  else
++  {
++    val map = e.filter(x => x.isInstanceOf[Nullable]).
++      map( x => (x, x.isInstanceOf[DefaultTrue]))
++
++    NullablePredicate(pred, map  )
++  }
++
++
++  def expressionOrEntity = expression | entity
++
++  def hasRelationshipTo: Parser[Predicate] = expressionOrEntity ~ relInfo ~ expressionOrEntity ^^ { case a ~ rel ~ b => HasRelationshipTo(a, b, rel._1, rel._2) }
++
++  def hasRelationship: Parser[Predicate] = expressionOrEntity ~ relInfo <~ "()" ^^ { case a ~ rel  => HasRelationship(a, rel._1, rel._2) }
++
++  def relInfo: Parser[(Direction, Option[String])] = opt("<") ~ "-" ~ opt("[:" ~> identity <~ "]") ~ "-" ~ opt(">") ^^ {
++    case Some("<") ~ "-" ~ relType ~ "-" ~ Some(">") => throw new SyntaxException("Can't be connected both ways.", "query", 666)
++    case Some("<") ~ "-" ~ relType ~ "-" ~ None => (Direction.INCOMING, relType)
++    case None ~ "-" ~ relType ~ "-" ~ Some(">") => (Direction.OUTGOING, relType)
++    case None ~ "-" ~ relType ~ "-" ~ None => (Direction.BOTH, relType)
++  }
++
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/HavingClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/HavingClause.scala
+new file mode 100644
+index 0000000..ac0185f
+--- /dev/null
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/HavingClause.scala
+@@ -0,0 +1,39 @@
++package org.neo4j.cypher.internal.parser.v1_7
++
++/**
++ * Copyright (c) 2002-2012 "Neo Technology,"
++ * Network Engine for Objects in Lund AB [http://neotechnology.com]
++ *
++ * This file is part of Neo4j.
++ *
++ * Neo4j is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++import org.neo4j.cypher.internal.commands.Predicate
++
++
++trait HavingClause extends Base with Expressions {
++  def having: Parser[Predicate] = ignoreCase("having") ~> predicate
++}
++
++
++
++
++
++
++
++
++
++
++
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/MatchClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/MatchClause.scala
+index e10ee28..f40b04f 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/MatchClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/MatchClause.scala
+@@ -26 +26 @@
+-trait MatchClause extends Base with Predicates {
++trait MatchClause extends Base with Expressions {
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/OrderByClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/OrderByClause.scala
+index 9ee0671..a344eaa 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/OrderByClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/OrderByClause.scala
+@@ -25 +25 @@
+-trait OrderByClause extends Base with ReturnItems  {
++trait OrderByClause extends Base with ReturnClause  {
+@@ -35 +35 @@
+-  def sortItem :Parser[SortItem] = (aggregate | returnItem) ~ ascOrDesc ^^ { case returnItem ~ reverse => SortItem(returnItem, reverse)  }
++  def sortItem :Parser[SortItem] = returnItem ~ ascOrDesc ^^ { case returnItem ~ reverse => SortItem(returnItem, reverse)  }
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/Predicates.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/Predicates.scala
+deleted file mode 100644
+index 3119b65..0000000
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/Predicates.scala
++++ /dev/null
+@@ -1,110 +0,0 @@
+-/**
+- * Copyright (c) 2002-2012 "Neo Technology,"
+- * Network Engine for Objects in Lund AB [http://neotechnology.com]
+- *
+- * This file is part of Neo4j.
+- *
+- * Neo4j is free software: you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation, either version 3 of the License, or
+- * (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+- */
+-package org.neo4j.cypher.internal.parser.v1_7
+-
+-import org.neo4j.graphdb.Direction
+-import org.neo4j.cypher.SyntaxException
+-import org.neo4j.cypher.internal.commands._
+-
+-trait Predicates extends Base with Expressions with ReturnItems {
+-  def predicate: Parser[Predicate] = (
+-    expressionOrEntity <~ ignoreCase("is null") ^^ (x => IsNull(x))
+-      | expressionOrEntity <~ ignoreCase("is not null") ^^ (x => Not(IsNull(x)))
+-      | operators
+-      | ignoreCase("not") ~> predicate ^^ ( inner => Not(inner) )
+-      | ignoreCase("has") ~> parens(property) ^^ ( prop => Has(prop.asInstanceOf[Property]))
+-      | parens(predicate)
+-      | sequencePredicate
+-      | hasRelationshipTo
+-      | hasRelationship
+-      | aggregateFunctionNames ~> parens(expression) ~> failure("aggregate functions can not be used in the WHERE clause")
+-
+-    ) * (
+-    ignoreCase("and") ^^^ {
+-      (a: Predicate, b: Predicate) => And(a, b)
+-    } |
+-      ignoreCase("or") ^^^ {
+-        (a: Predicate, b: Predicate) => Or(a, b)
+-      }
+-    )
+-
+-  def sequencePredicate: Parser[Predicate] = allInSeq | anyInSeq | noneInSeq | singleInSeq
+-
+-  def symbolIterablePredicate: Parser[(Expression, String, Predicate)] =
+-    (identity ~ ignoreCase("in") ~ expression ~ ignoreCase("where")  ~ predicate ^^ {    case symbol ~ in ~ iterable ~ where ~ klas => (iterable, symbol, klas)  }
+-      |identity ~> ignoreCase("in") ~ expression ~> failure("expected where"))
+-
+-
+-  def allInSeq: Parser[Predicate] = ignoreCase("all") ~> parens(symbolIterablePredicate) ^^ (x => AllInIterable(x._1, x._2, x._3))
+-
+-  def anyInSeq: Parser[Predicate] = ignoreCase("any") ~> parens(symbolIterablePredicate) ^^ (x => AnyInIterable(x._1, x._2, x._3))
+-
+-  def noneInSeq: Parser[Predicate] = ignoreCase("none") ~> parens(symbolIterablePredicate) ^^ (x => NoneInIterable(x._1, x._2, x._3))
+-
+-  def singleInSeq: Parser[Predicate] = ignoreCase("single") ~> parens(symbolIterablePredicate) ^^ (x => SingleInIterable(x._1, x._2, x._3))
+-
+-  def operators:Parser[Predicate] =
+-    (expression ~ "=" ~ expression ^^ { case l ~ "=" ~ r => nullable(Equals(l, r),l,r)  } |
+-      expression ~ ("<"~">") ~ expression ^^ { case l ~ wut ~ r => nullable(Not(Equals(l, r)),l,r) } |
+-      expression ~ "<" ~ expression ^^ { case l ~ "<" ~ r => nullable(LessThan(l, r),l,r) } |
+-      expression ~ ">" ~ expression ^^ { case l ~ ">" ~ r => nullable(GreaterThan(l, r),l,r) } |
+-      expression ~ "<=" ~ expression ^^ { case l ~ "<=" ~ r => nullable(LessThanOrEqual(l, r),l,r) } |
+-      expression ~ ">=" ~ expression ^^ { case l ~ ">=" ~ r => nullable(GreaterThanOrEqual(l, r),l,r) } |
+-      expression ~ "=~" ~ regularLiteral ^^ { case a ~ "=~" ~ b => nullable(LiteralRegularExpression(a, b),a,b) } |
+-      expression ~ "=~" ~ expression ^^ { case a ~ "=~" ~ b => nullable(RegularExpression(a, b),a,b) } |
+-      expression ~> "!" ~> failure("The exclamation symbol is used as a nullable property operator in Cypher. The 'not equal to' operator is <>"))
+-
+-  private def nullable(pred:Predicate, e:Expression*):Predicate = if(!e.exists(_.isInstanceOf[Nullable]))
+-    pred
+-  else
+-  {
+-    val map = e.filter(x => x.isInstanceOf[Nullable]).
+-      map( x => (x, x.isInstanceOf[DefaultTrue]))
+-
+-    NullablePredicate(pred, map  )
+-  }
+-
+-
+-  def expressionOrEntity = expression | entity
+-
+-  def hasRelationshipTo: Parser[Predicate] = expressionOrEntity ~ relInfo ~ expressionOrEntity ^^ { case a ~ rel ~ b => HasRelationshipTo(a, b, rel._1, rel._2) }
+-
+-  def hasRelationship: Parser[Predicate] = expressionOrEntity ~ relInfo <~ "()" ^^ { case a ~ rel  => HasRelationship(a, rel._1, rel._2) }
+-
+-  def relInfo: Parser[(Direction, Option[String])] = opt("<") ~ "-" ~ opt("[:" ~> identity <~ "]") ~ "-" ~ opt(">") ^^ {
+-    case Some("<") ~ "-" ~ relType ~ "-" ~ Some(">") => throw new SyntaxException("Can't be connected both ways.", "query", 666)
+-    case Some("<") ~ "-" ~ relType ~ "-" ~ None => (Direction.INCOMING, relType)
+-    case None ~ "-" ~ relType ~ "-" ~ Some(">") => (Direction.OUTGOING, relType)
+-    case None ~ "-" ~ relType ~ "-" ~ None => (Direction.BOTH, relType)
+-  }
+-}
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/ReturnClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/ReturnClause.scala
+index ab41530..980ff6f 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/ReturnClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/ReturnClause.scala
+@@ -25,2 +25,2 @@
+-trait ReturnClause extends Base with ReturnItems {
+-  def column = aggregationColumn | expressionColumn
++trait ReturnClause extends Base with Expressions {
++  def column = expressionColumn
+@@ -28 +28,5 @@
+-  def returns = 
++  def returnItem: Parser[ReturnItem] = trap(expression) ^^ {
++    case (expression, name) => ReturnItem(expression, name.replace("`", ""))
++  }
++
++  def returns =
+@@ -36,6 +40 @@
+-  def aggregationColumn = aggregate ~ alias ^^ {
+-    case agg ~ Some(newName) => agg.rename(newName)
+-    case agg ~ None => agg
+-  }
+-
+-  def expressionColumn = returnItem ~ alias ^^ {
++  def expressionColumn: Parser[ReturnItem] = returnItem ~ alias ^^ {
+@@ -48 +47,2 @@
+-      val aggregationItems = items.filter(_.isInstanceOf[AggregationItem]).map(_.asInstanceOf[AggregationItem])
++      val (aggregationItems, returnItems) = items.partition(_.expression.containsAggregate)
++      val columnName = items.map(_.columnName).toList
+@@ -57 +57 @@
+-        case _ => Some(Aggregation(aggregationItems: _*))
++        case _ => Some(Aggregation(aggregationItems.map(_.asInstanceOf[ReturnItem]): _*))
+@@ -60 +59,0 @@
+-      val returnItems = Return(items.map(_.columnName).toList, items.filter(!_.isInstanceOf[AggregationItem]): _*)
+@@ -62 +61 @@
+-      (returnItems, aggregation)
++      (Return(columnName, returnItems: _*), aggregation)
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/ReturnItems.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/ReturnItems.scala
+deleted file mode 100644
+index 30a4d67..0000000
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/ReturnItems.scala
++++ /dev/null
+@@ -1,66 +0,0 @@
+-/**
+- * Copyright (c) 2002-2012 "Neo Technology,"
+- * Network Engine for Objects in Lund AB [http://neotechnology.com]
+- *
+- * This file is part of Neo4j.
+- *
+- * Neo4j is free software: you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation, either version 3 of the License, or
+- * (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+- */
+-package org.neo4j.cypher.internal.parser.v1_7
+-
+-import org.neo4j.cypher.internal.commands._
+-
+-
+-trait ReturnItems extends Base with Expressions {
+-  def returnItem: Parser[ReturnItem] = trap(returnExpressions) ^^ {
+-    case (expression, name) => ExpressionReturnItem(expression, name.replace("`", ""))
+-  }
+-
+-  def returnExpressions: Parser[Expression] = nullableProperty | expression | entity
+-
+-  def aggregateFunctionNames = ignoreCases("count", "sum", "min", "max", "avg", "collect")
+-
+-  def aggregationFunction: Parser[AggregationItem] = trap(aggregateFunctionNames ~ parens(opt(ignoreCase("distinct")) ~ returnExpressions)) ^^ {
+-    case (function ~ (distinct ~ inner), unescapedName) => {
+-      val name = unescapedName.replace("`", "")
+-
+-      val aggregate = function match {
+-        case "count" => Count(inner, name)
+-        case "sum" => Sum(inner, name)
+-        case "min" => Min(inner, name)
+-        case "max" => Max(inner, name)
+-        case "avg" => Avg(inner, name)
+-        case "collect" => Collect(inner, name)
+-      }
+-
+-      if (distinct.isEmpty) {
+-        ValueAggregationItem(aggregate)
+-      }
+-      else {
+-        ValueAggregationItem(Distinct(aggregate, inner, name))
+-      }
+-    }
+-  }
+-
+-  def countStar: Parser[AggregationItem] = trap(ignoreCase("count") ~> parens("*")) ^^ {
+-    case (x, name) => CountStar(name)
+-  }
+-
+-  def aggregate: Parser[AggregationItem] = countStar | aggregationFunction
+-}
+-
+-
+-
+-
+-
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/WhereClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/WhereClause.scala
+index 3dbf2fd..0b0d03a 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/WhereClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_7/WhereClause.scala
+@@ -25 +25 @@
+-trait WhereClause extends Base with Predicates {
++trait WhereClause extends Base with Expressions {
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipe.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipe.scala
+index c0c395a..6c0448b 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipe.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipe.scala
+@@ -35,3 +35,2 @@
+-  override def executionPlan(): String = {
+-    source.executionPlan() + "\r\n" + "ColumnFilter([" + source.symbols.keys + "] => [" + returnItemNames.mkString(",") + "])"
+-  }
++  override def executionPlan(): String =
++    "%s\r\nColumnFilter([%s] => [%s])".format(source.executionPlan(),source.symbols.keys, returnItemNames.mkString(","))
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipe.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipe.scala
+index d866740..6f440da 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipe.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipe.scala
+@@ -24 +24 @@
+-import org.neo4j.cypher.internal.commands.{AggregationItem, ReturnItem}
++import org.neo4j.cypher.internal.commands.ReturnItem
+@@ -31 +31 @@
+-class EagerAggregationPipe(source: Pipe, val returnItems: Seq[ReturnItem], aggregations: Seq[AggregationItem]) extends PipeWithSource(source) {
++class EagerAggregationPipe(source: Pipe, val returnItems: Seq[ReturnItem], aggregations: Seq[ReturnItem]) extends PipeWithSource(source) {
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipe.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipe.scala
+index 78b5af9..8cb6d27 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipe.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipe.scala
+@@ -24 +24 @@
+-import org.neo4j.cypher.internal.commands.{AggregationItem, ReturnItem}
++import org.neo4j.cypher.internal.commands.ReturnItem
+@@ -30 +30 @@
+-class OrderedAggregationPipe(source: Pipe, val returnItems: Seq[ReturnItem], aggregations: Seq[AggregationItem]) extends PipeWithSource(source) {
++class OrderedAggregationPipe(source: Pipe, val returnItems: Seq[ReturnItem], aggregations: Seq[ReturnItem]) extends PipeWithSource(source) {
+@@ -53 +53 @@
+-                                aggregations: Seq[AggregationItem]) extends Traversable[Map[String, Any]] {
++                                aggregations: Seq[ReturnItem]) extends Traversable[Map[String, Any]] {
+diff --git a/community/cypher/src/test/java/org/neo4j/cypher/javacompat/IntroExamplesTest.java b/community/cypher/src/test/java/org/neo4j/cypher/javacompat/IntroExamplesTest.java
+index b457aa8..b21429b 100644
+--- a/community/cypher/src/test/java/org/neo4j/cypher/javacompat/IntroExamplesTest.java
++++ b/community/cypher/src/test/java/org/neo4j/cypher/javacompat/IntroExamplesTest.java
+@@ -22,7 +21,0 @@
+-import static org.neo4j.visualization.asciidoc.AsciidocHelper.createCypherSnippet;
+-import static org.neo4j.visualization.asciidoc.AsciidocHelper.createQueryResultSnippet;
+-
+-import java.io.IOException;
+-import java.io.Writer;
+-import java.util.Map;
+-
+@@ -35 +28 @@
+-import org.neo4j.test.GraphDescription;
++import org.neo4j.test.*;
+@@ -37,4 +29,0 @@
+-import org.neo4j.test.GraphHolder;
+-import org.neo4j.test.ImpermanentGraphDatabase;
+-import org.neo4j.test.JavaTestDocsGenerator;
+-import org.neo4j.test.TestData;
+@@ -41,0 +31,7 @@
++
++import java.io.IOException;
++import java.io.Writer;
++import java.util.Map;
++
++import static org.neo4j.visualization.asciidoc.AsciidocHelper.createCypherSnippet;
++import static org.neo4j.visualization.asciidoc.AsciidocHelper.createQueryResultSnippet;
+@@ -52 +47,0 @@
+-    private static CypherParser parser;
+@@ -71,2 +66 @@
+-        fw.append( createQueryResultSnippet( engine.execute(
+-                parser.parse( query ) ).toString() ) );
++        fw.append( createQueryResultSnippet( engine.execute( query  ).toString() ) );
+@@ -93,2 +87 @@
+-        fw.append( createQueryResultSnippet( engine.execute(
+-                parser.parse( query ) ).toString() ) );
++        fw.append( createQueryResultSnippet( engine.execute( query ).toString() ) );
+@@ -104 +96,0 @@
+-        parser = new CypherParser();
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala
+index 14b888a..077aeb7 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala
+@@ -29,0 +30 @@
++import org.hamcrest.CoreMatchers.equalTo
+@@ -33 +34 @@
+-    testQuery("start s = NODE(1) return s",
++    testAll("start s = NODE(1) return s",
+@@ -36 +37 @@
+-        returns(ExpressionReturnItem(Entity("s"))))
++        returns(ReturnItem(Entity("s"), "s")))
+@@ -40 +41 @@
+-    testQuery("start s = NODE(*) return s",
++    testFrom_1_7("start s = NODE(*) return s",
+@@ -43 +44 @@
+-        returns(ExpressionReturnItem(Entity("s"))))
++        returns(ReturnItem(Entity("s"), "s")))
+@@ -47 +48 @@
+-    testQuery("start r = relationship(*) return r",
++    testFrom_1_7("start r = relationship(*) return r",
+@@ -50 +51 @@
+-        returns(ExpressionReturnItem(Entity("r"))))
++        returns(ReturnItem(Entity("r"), "r")))
+@@ -54 +55 @@
+-    testQuery("start s = NODE(1) return s as somethingElse",
++    testFrom_1_6("start s = NODE(1) return s as somethingElse",
+@@ -57 +58 @@
+-        returns(ExpressionReturnItem(Entity("s"), "somethingElse")))
++        returns(ReturnItem(Entity("s"), "somethingElse")))
+@@ -61 +62 @@
+-    testQuery(
++    testAll(
+@@ -65 +66 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -69 +70 @@
+-    testQuery(
++    testAll(
+@@ -73 +74 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -78 +79 @@
+-    testQuery(
++    testAll(
+@@ -82 +83 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -87 +88 @@
+-    testQuery(
++    testAll(
+@@ -91 +92 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -95 +96 @@
+-    testQuery(
++    testAll(
+@@ -99 +100 @@
+-        returns(ExpressionReturnItem(Entity("s"))))
++        returns(ReturnItem(Entity("s"), "s")))
+@@ -103 +104 @@
+-    testQuery(
++    testAll(
+@@ -107 +108 @@
+-        returns(ExpressionReturnItem(Entity("s"))))
++        returns(ReturnItem(Entity("s"), "s")))
+@@ -111 +112 @@
+-    testQuery(
++    testAll(
+@@ -115 +116 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -119 +120 @@
+-    testQuery(
++    testAll(
+@@ -123 +124 @@
+-        returns(ExpressionReturnItem(Entity("a a"), "a a")))
++        returns(ReturnItem(Entity("a a"), "a a")))
+@@ -127 +128 @@
+-    testQuery(
++    testAll(
+@@ -131 +132 @@
+-        returns(ExpressionReturnItem(Entity("s"))))
++        returns(ReturnItem(Entity("s"), "s")))
+@@ -135 +136 @@
+-    testQuery(
++    testAll(
+@@ -139 +140 @@
+-        returns(ExpressionReturnItem(Entity("s"))))
++        returns(ReturnItem(Entity("s"), "s")))
+@@ -143 +144 @@
+-    testQuery(
++    testAll(
+@@ -147 +148 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -151 +152 @@
+-    testQuery(
++    testAll(
+@@ -156 +157 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -159,2 +160,2 @@
+-  @Test def shouldReturnLiterals() {
+-    testQuery(
++  @Test def shouldReturnLiterals1_6() {
++    test_1_6(
+@@ -164 +165,9 @@
+-        returns(ExpressionReturnItem(Literal(12))))
++        returns(ReturnItem(Literal(12L), "12.0")))
++  }
++
++  @Test def shouldReturnLiterals() {
++    testFrom_1_7(
++      "start a = NODE(1) return 12",
++      Query.
++        start(NodeById("a", 1)).
++        returns(ReturnItem(Literal(12), "12")))
+@@ -168 +177 @@
+-    testQuery(
++    testFrom_1_7(
+@@ -172 +181 @@
+-        returns(ExpressionReturnItem(Add(Literal(12), Literal(2)), "12+2")))
++        returns(ReturnItem(Add(Literal(12), Literal(2)), "12+2")))
+@@ -176 +185 @@
+-    testQuery(
++    testFrom_1_7(
+@@ -180 +189 @@
+-        returns(ExpressionReturnItem(
++        returns(ReturnItem(
+@@ -194 +203 @@
+-    testQuery(
++    testAll(
+@@ -199 +208 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -203 +212 @@
+-    testQuery(
++    testAll(
+@@ -208 +217 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -212 +221 @@
+-    testQuery(
++    testAll(
+@@ -217 +226 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -221 +230 @@
+-    testQuery(
++    testAll(
+@@ -226 +235 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -230 +239 @@
+-    testQuery(
++    testAll(
+@@ -235 +244 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -239 +248 @@
+-    testQuery(
++    testAll(
+@@ -244 +253,10 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
++  }
++
++  @Test def shouldHandleRegularComparisonOlder() {
++    testOlderParsers(
++      "start a = node(1) where \"Andres\" =~ /And.*/ return a",
++      Query.
++        start(NodeById("a", 1)).
++        where(RegularExpression(Literal("Andres"), Literal("And.*"))).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -248 +266 @@
+-    testQuery(
++    testFrom_1_7(
+@@ -253 +271,11 @@
+-        returns(ExpressionReturnItem(Entity("a")))
++        returns(ReturnItem(Entity("a"), "a"))
++    )
++  }
++
++  @Test def shouldHandleMultipleRegularComparison1_6() {
++    testFrom_1_7(
++      """start a = node(1) where a.name =~ /And.*/ AnD a.name =~ /And.*/ return a""",
++      Query.
++        start(NodeById("a", 1)).
++        where(And(LiteralRegularExpression(Property("a", "name"), Literal("And.*")), LiteralRegularExpression(Property("a", "name"), Literal("And.*")))).
++        returns(ReturnItem(Entity("a"), "a"))
+@@ -258,2 +286,2 @@
+-    testQuery(
+-      """start a = node(1) where a.name =~ /And.*/ AND a.name =~ /And.*/ return a""",
++    test_1_6(
++      """start a = node(1) where a.name =~ /And.*/ AnD a.name =~ /And.*/ return a""",
+@@ -262,2 +290,12 @@
+-        where(And(LiteralRegularExpression(Property("a", "name"), Literal("And.*")), LiteralRegularExpression(Property("a", "name"), Literal("And.*")))).
+-        returns(ExpressionReturnItem(Entity("a")))
++        where(And(RegularExpression(Property("a", "name"), Literal("And.*")), RegularExpression(Property("a", "name"), Literal("And.*")))).
++        returns(ReturnItem(Entity("a"), "a"))
++    )
++  }
++
++  @Test def shouldHandleEscapedRegexs_older() {
++    testOlderParsers(
++      """start a = node(1) where a.name =~ /And\/.*/ return a""",
++      Query.
++        start(NodeById("a", 1)).
++        where(RegularExpression(Property("a", "name"), Literal("And\\/.*"))).
++        returns(ReturnItem(Entity("a"), "a"))
+@@ -268 +306 @@
+-    testQuery(
++    testFrom_1_7(
+@@ -273 +311 @@
+-        returns(ExpressionReturnItem(Entity("a")))
++        returns(ReturnItem(Entity("a"), "a"))
+@@ -278 +316 @@
+-    testQuery(
++    testAll(
+@@ -283 +321 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -288 +326 @@
+-    testQuery(
++    testAll(
+@@ -293 +331 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -297 +335 @@
+-    testQuery(
++    testAll(
+@@ -302 +340 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -307 +345 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -315 +353 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -319 +357 @@
+-    testQuery(
++    testAll(
+@@ -324 +362 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -328 +366 @@
+-    testQuery(
++    testAll(
+@@ -335 +373 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -339 +377 @@
+-    testQuery(
++    testAll(
+@@ -344 +382 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -348 +386 @@
+-    testQuery(
++    testAll(
+@@ -353 +391 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -357 +395 @@
+-    testQuery(
++    testAll(
+@@ -362 +400 @@
+-        returns(ExpressionReturnItem(Entity("r"))))
++        returns(ReturnItem(Entity("r"), "r")))
+@@ -366 +404 @@
+-    testQuery(
++    testAll(
+@@ -371 +409 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -375 +413 @@
+-    testQuery(
++    testAll(
+@@ -379 +417 @@
+-        returns(ExpressionReturnItem(Property("a", "name"))))
++        returns(ReturnItem(Property("a", "name"), "a.name")))
+@@ -383 +421 @@
+-    testQuery(
++    testAll(
+@@ -390 +428 @@
+-        returns(ExpressionReturnItem(Property("a", "name"))))
++        returns(ReturnItem(Property("a", "name"), "a.name")))
+@@ -394 +432 @@
+-    testQuery(
++    testAll(
+@@ -399 +437 @@
+-        returns(ExpressionReturnItem(Entity("rel"))))
++        returns(ReturnItem(Entity("rel"), "rel")))
+@@ -403 +441 @@
+-    testQuery(
++    testAll(
+@@ -408 +446 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -412 +450 @@
+-    testQuery(
++    testAll(
+@@ -419 +457 @@
+-        returns(ExpressionReturnItem(Entity("c")))
++        returns(ReturnItem(Entity("c"), "c"))
+@@ -424 +462 @@
+-    testQuery(
++    testAll(
+@@ -429 +467 @@
+-        returns(ExpressionReturnItem(Entity("c"))))
++        returns(ReturnItem(Entity("c"), "c")))
+@@ -433 +471 @@
+-    testQuery(
++    testAll(
+@@ -438 +476 @@
+-        aggregation(CountStar()).
++        aggregation(ReturnItem(CountStar(), "count(*)")).
+@@ -440 +478 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -444 +482 @@
+-    testQuery(
++    testAll(
+@@ -448 +486 @@
+-        aggregation(CountStar()).
++        aggregation(ReturnItem(CountStar(), "count(*)")).
+@@ -450 +488 @@
+-        orderBy(SortItem(CountStar(), true)).
++        orderBy(SortItem(ReturnItem(CountStar(), "count(*)"), true)).
+@@ -455 +493 @@
+-    testQuery(
++    testAll(
+@@ -461 +499 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -465 +503 @@
+-    testQuery(
++    testAll(
+@@ -470 +508 @@
+-        aggregation(ValueAggregationItem(Sum(Property("a", "age"), "sum(a.age)"))).
++        aggregation(ReturnItem(Sum(Property("a", "age")), "sum(a.age)")).
+@@ -472 +510 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -476 +514 @@
+-    testQuery(
++    testAll(
+@@ -481 +519 @@
+-        aggregation(ValueAggregationItem(Avg(Property("a", "age"), "avg(a.age)"))).
++        aggregation(ReturnItem(Avg(Property("a", "age")), "avg(a.age)")).
+@@ -483 +521 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -487 +525 @@
+-    testQuery(
++    testAll(
+@@ -492 +530 @@
+-        aggregation(ValueAggregationItem(Min(Property("a", "age"), "min(a.age)"))).
++        aggregation(ReturnItem(Min(Property("a", "age")), "min(a.age)")).
+@@ -494 +532 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -498 +536 @@
+-    testQuery(
++    testAll(
+@@ -503 +541 @@
+-        aggregation(ValueAggregationItem(Max((Property("a", "age")), "max(a.age)"))).
++        aggregation(ReturnItem(Max((Property("a", "age"))), "max(a.age)")).
+@@ -505 +543 @@
+-        returns(ExpressionReturnItem(Entity("a")), ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("a"), "a"), ReturnItem(Entity("b"), "b")))
+@@ -509 +547 @@
+-    testQuery(
++    testAll(
+@@ -513,2 +551,2 @@
+-        orderBy(SortItem(ExpressionReturnItem(Property("a", "name")), true)).
+-        returns(ExpressionReturnItem(Entity("a"))))
++        orderBy(SortItem(ReturnItem(Property("a", "name"), "a.name"), true)).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -518 +556 @@
+-    testQuery(
++    testAll(
+@@ -522,2 +560,2 @@
+-        orderBy(SortItem(ValueAggregationItem(Avg(Property("a", "name"), "avg(a.name)")), true)).
+-        returns(ExpressionReturnItem(Entity("a"))))
++        orderBy(SortItem(ReturnItem(Avg(Property("a", "name")), "avg(a.name)"), true)).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -527 +565 @@
+-    testQuery(
++    testAll(
+@@ -532,3 +570,3 @@
+-        SortItem(ExpressionReturnItem(Property("a", "name")), true),
+-        SortItem(ExpressionReturnItem(Property("a", "age")), true)).
+-        returns(ExpressionReturnItem(Entity("a"))))
++        SortItem(ReturnItem(Property("a", "name"), "a.name"), true),
++        SortItem(ReturnItem(Property("a", "age"), "a.age"), true)).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -538 +576 @@
+-    testQuery(
++    testAll(
+@@ -543,3 +581,3 @@
+-        SortItem(ExpressionReturnItem(Property("a", "name")), true),
+-        SortItem(ExpressionReturnItem(Property("a", "age")), true)).
+-        returns(ExpressionReturnItem(Entity("a"))))
++        SortItem(ReturnItem(Property("a", "name"), "a.name"), true),
++        SortItem(ReturnItem(Property("a", "age"), "a.age"), true)).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -550 +588 @@
+-    testQuery(
++    testAll(
+@@ -554,2 +592,2 @@
+-        orderBy(SortItem(ExpressionReturnItem(Property("a", "name")), false)).
+-        returns(ExpressionReturnItem(Entity("a"))))
++        orderBy(SortItem(ReturnItem(Property("a", "name"), "a.name"), false)).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -560 +598 @@
+-    testQuery(
++    testAll(
+@@ -564,2 +602,2 @@
+-        orderBy(SortItem(ExpressionReturnItem(Property("a", "name")), false)).
+-        returns(ExpressionReturnItem(Entity("a"))))
++        orderBy(SortItem(ReturnItem(Property("a", "name"), "a.name"), false)).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -569 +607 @@
+-    testQuery(
++    testAll(
+@@ -573 +611 @@
+-        returns(ExpressionReturnItem(Nullable(Property("a", "name")), "a.name?")))
++        returns(ReturnItem(Nullable(Property("a", "name")), "a.name?")))
+@@ -577 +615 @@
+-    testQuery(
++    testAll(
+@@ -589 +627 @@
+-        returns(ExpressionReturnItem(Entity("n"))))
++        returns(ReturnItem(Entity("n"), "n")))
+@@ -593 +631 @@
+-    testQuery(
++    testAll(
+@@ -598 +636 @@
+-        returns(ExpressionReturnItem(Entity("n"))))
++        returns(ReturnItem(Entity("n"), "n")))
+@@ -602 +640 @@
+-    testQuery(
++    testAll(
+@@ -607 +645 @@
+-        returns(ExpressionReturnItem(Entity("n"))))
++        returns(ReturnItem(Entity("n"), "n")))
+@@ -611 +649 @@
+-    testQuery(
++    testAll(
+@@ -617 +655 @@
+-        returns(ExpressionReturnItem(Entity("n"))))
++        returns(ReturnItem(Entity("n"), "n")))
+@@ -621 +659 @@
+-    testQuery(
++    testAll(
+@@ -627 +665 @@
+-        returns(ExpressionReturnItem(Entity("r"))))
++        returns(ReturnItem(Entity("r"), "r")))
+@@ -631 +669 @@
+-    testQuery(
++    testAll(
+@@ -637 +675 @@
+-        returns(ExpressionReturnItem(Entity("p"))))
++        returns(ReturnItem(Entity("p"), "p")))
+@@ -641 +679 @@
+-    testQuery(
++    testAll(
+@@ -647 +685 @@
+-        returns(ExpressionReturnItem(RelationshipTypeFunction(Entity("r")))))
++        returns(ReturnItem(RelationshipTypeFunction(Entity("r")), "TYPE(r)")))
+@@ -652 +690 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -654 +691,0 @@
+-
+@@ -658 +695 @@
+-        returns(ExpressionReturnItem(CoalesceFunction(Property("r", "name"), Property("x", "name")))))
++        returns(ReturnItem(CoalesceFunction(Property("r", "name"), Property("x", "name")), "COALESCE(r.name,x.name)")))
+@@ -662 +699 @@
+-    testQuery(
++    testAll(
+@@ -668 +705 @@
+-        returns(ExpressionReturnItem(RelationshipFunction(Entity("p")))))
++        returns(ReturnItem(RelationshipFunction(Entity("p")), "RELATIONSHIPS(p)")))
+@@ -672 +709 @@
+-    testQuery(
++    testAll(
+@@ -679 +716 @@
+-        returns (ExpressionReturnItem(Entity("p"))))
++        returns (ReturnItem(Entity("p"), "p")))
+@@ -683 +720 @@
+-    testQuery(
++    testAll(
+@@ -687 +724 @@
+-        aggregation(ValueAggregationItem(Count(Entity("a"), "count(a)"))).
++        aggregation(ReturnItem(Count(Entity("a")), "count(a)")).
+@@ -689 +726 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -693 +730 @@
+-    testQuery(
++    testAll(
+@@ -698 +735 @@
+-        returns (ExpressionReturnItem(IdFunction(Entity("a")))))
++        returns (ReturnItem(IdFunction(Entity("a")), "ID(a)")))
+@@ -702 +739 @@
+-    testQuery(
++    testAll(
+@@ -706 +743 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -710 +747 @@
+-    testQuery(
++    testAll(
+@@ -714 +751 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -718 +755 @@
+-    testQuery(
++    testAll(
+@@ -723 +760 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -727 +764 @@
+-    testQuery(
++    testAll(
+@@ -735 +772 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -739 +776 @@
+-    testQuery(
++    testAll(
+@@ -744 +781 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -748 +785 @@
+-    testQuery("start a=node(0) match a -[:knows*1..3]-> x return x",
++    testAll("start a=node(0) match a -[:knows*1..3]-> x return x",
+@@ -752 +789 @@
+-        returns(ExpressionReturnItem(Entity("x")))
++        returns(ReturnItem(Entity("x"), "x"))
+@@ -757 +794 @@
+-    testQuery("start a=node(0) match a -[r:knows*1..3]-> x return x",
++    testAll("start a=node(0) match a -[r:knows*1..3]-> x return x",
+@@ -761 +798 @@
+-        returns(ExpressionReturnItem(Entity("x")))
++        returns(ReturnItem(Entity("x"), "x"))
+@@ -766 +803 @@
+-    testQuery("start a=node(0) match a -[*3]-> x return x",
++    testAll("start a=node(0) match a -[*3]-> x return x",
+@@ -770 +807 @@
+-        returns(ExpressionReturnItem(Entity("x")))
++        returns(ReturnItem(Entity("x"), "x"))
+@@ -775 +812 @@
+-    testQuery("start a=node(0) match a -[:knows*..3]-> x return x",
++    testAll("start a=node(0) match a -[:knows*..3]-> x return x",
+@@ -779 +816 @@
+-        returns(ExpressionReturnItem(Entity("x")))
++        returns(ReturnItem(Entity("x"), "x"))
+@@ -784 +821 @@
+-    testQuery("start a=node(0) match a -[r:knows*2..]-> x return x",
++    testAll("start a=node(0) match a -[r:knows*2..]-> x return x",
+@@ -788 +825 @@
+-        returns(ExpressionReturnItem(Entity("x")))
++        returns(ReturnItem(Entity("x"), "x"))
+@@ -793 +830 @@
+-    testQuery("start a=node(0) match a -[:knows*2..]-> x return x",
++    testAll("start a=node(0) match a -[:knows*2..]-> x return x",
+@@ -797 +834 @@
+-        returns(ExpressionReturnItem(Entity("x")))
++        returns(ReturnItem(Entity("x"), "x"))
+@@ -802 +839 @@
+-    testQuery("start a=node(0) match a -[:knows*]-> x return x",
++    testAll("start a=node(0) match a -[:knows*]-> x return x",
+@@ -806 +843 @@
+-        returns(ExpressionReturnItem(Entity("x")))
++        returns(ReturnItem(Entity("x"), "x"))
+@@ -811 +848 @@
+-    testQuery(
++    testAll(
+@@ -816 +853 @@
+-        returns(ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("b"), "b")))
+@@ -820 +857 @@
+-    testQuery(
++    testAll(
+@@ -824,2 +861,2 @@
+-        where(NullablePredicate(Equals(Nullable(Property("a", "prop")), Literal(42)), Seq((Nullable(Property("a", "prop")), true)))).
+-        returns(ExpressionReturnItem(Entity("a"))))
++        where(NullablePredicate(Equals(Nullable(Property("a", "prop")), Literal(42.0)), Seq((Nullable(Property("a", "prop")), true)))).
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -829 +866 @@
+-    testQuery(
++    testFrom_1_7(
+@@ -834 +871 @@
+-        returns(ExpressionReturnItem(Entity("a"))))
++        returns(ReturnItem(Entity("a"), "a")))
+@@ -838 +875 @@
+-    testQuery(
++    testAll(
+@@ -843 +880 @@
+-        returns(ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("b"), "b")))
+@@ -847 +884 @@
+-    testQuery(
++    testAll(
+@@ -852 +889 @@
+-        returns(ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("b"), "b")))
+@@ -856 +893 @@
+-    testQuery(
++    testAll(
+@@ -861 +898 @@
+-        returns(ExpressionReturnItem(Entity("b"))))
++        returns(ReturnItem(Entity("b"), "b")))
+@@ -865 +902 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -874 +911 @@
+-        returns (ExpressionReturnItem(Entity("b"))))
++        returns (ReturnItem(Entity("b"), "b")))
+@@ -878 +915 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -886 +923 @@
+-        returns(ExpressionReturnItem(ExtractFunction(NodesFunction(Entity("p")), "n", Property("n", "name")))))
++        returns(ReturnItem(ExtractFunction(NodesFunction(Entity("p")), "n", Property("n", "name")), "extract(n in NODES(p) : n.name)")))
+@@ -891 +928 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -896 +933 @@
+-        returns (ExpressionReturnItem(Entity("b"))))
++        returns (ReturnItem(Entity("b"), "b")))
+@@ -900 +937 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -905 +942 @@
+-        returns (ExpressionReturnItem(Entity("b"))))
++        returns (ReturnItem(Entity("b"), "b")))
+@@ -909 +946 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -915 +952 @@
+-        returns (ExpressionReturnItem(Entity("b"))))
++        returns (ReturnItem(Entity("b"), "b")))
+@@ -919 +956 @@
+-    testQuery(
++    testAll(
+@@ -923 +960 @@
+-        returns(ExpressionReturnItem(Entity("pA"))))
++        returns(ReturnItem(Entity("pA"), "pA")))
+@@ -927 +964 @@
+-    testQuery(
++    testAll(
+@@ -931 +968 @@
+-        returns(ExpressionReturnItem(Entity("pA"))))
++        returns(ReturnItem(Entity("pA"), "pA")))
+@@ -935 +972 @@
+-    testQuery(
++    testAll(
+@@ -940 +977 @@
+-        returns (ExpressionReturnItem(Entity("pA"))))
++        returns (ReturnItem(Entity("pA"), "pA")))
+@@ -944 +981 @@
+-    testQuery(
++    testAll(
+@@ -948 +985 @@
+-        returns(ExpressionReturnItem(Entity("pA"))))
++        returns(ReturnItem(Entity("pA"), "pA")))
+@@ -952 +989 @@
+-    testQuery(
++    testAll(
+@@ -956 +993 @@
+-        returns(ExpressionReturnItem(Entity("pA"))))
++        returns(ReturnItem(Entity("pA"), "pA")))
+@@ -960 +997 @@
+-    testQuery(
++    testAll(
+@@ -964 +1001 @@
+-        returns(ExpressionReturnItem(Entity("pA"))))
++        returns(ReturnItem(Entity("pA"), "pA")))
+@@ -968 +1005 @@
+-    testQuery(
++    testAll(
+@@ -973 +1010 @@
+-        returns (ExpressionReturnItem(Entity("pA"))))
++        returns (ReturnItem(Entity("pA"), "pA")))
+@@ -977 +1014 @@
+-    testQuery(
++    testAll(
+@@ -982 +1019 @@
+-        returns (ExpressionReturnItem(Entity("pA"))))
++        returns (ReturnItem(Entity("pA"), "pA")))
+@@ -986 +1023 @@
+-    testQuery(
++    testAll(
+@@ -992 +1029 @@
+-        returns (ExpressionReturnItem(Entity("pA"))))
++        returns (ReturnItem(Entity("pA"), "pA")))
+@@ -996 +1033 @@
+-    testQuery(
++    testAll(
+@@ -1001 +1038 @@
+-        returns (ExpressionReturnItem(Entity("pA"))))
++        returns (ReturnItem(Entity("pA"), "pA")))
+@@ -1005 +1042 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1010 +1047 @@
+-        returns (ExpressionReturnItem(Entity("p"))))
++        returns (ReturnItem(Entity("p"), "p")))
+@@ -1014 +1051 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1019 +1056 @@
+-        returns(ExpressionReturnItem(Entity("p"))))
++        returns(ReturnItem(Entity("p"), "p")))
+@@ -1023 +1060 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1028 +1065 @@
+-        returns(ExpressionReturnItem(Entity("p"))))
++        returns(ReturnItem(Entity("p"), "p")))
+@@ -1032 +1069 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1037 +1074 @@
+-        returns(ExpressionReturnItem(Entity("p"))))
++        returns(ReturnItem(Entity("p"), "p")))
+@@ -1041 +1078 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1046 +1083 @@
+-        returns(ExpressionReturnItem(Entity("p"))))
++        returns(ReturnItem(Entity("p"), "p")))
+@@ -1050 +1087 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1055 +1092 @@
+-        returns(ExpressionReturnItem(Entity("p"))))
++        returns(ReturnItem(Entity("p"), "p")))
+@@ -1059 +1096 @@
+-    testQuery(
++    testAll(
+@@ -1064 +1101 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -1068 +1105 @@
+-    testQuery(
++    testAll(
+@@ -1073 +1110 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -1077 +1114 @@
+-    testQuery(
++    testAll(
+@@ -1081 +1118 @@
+-        aggregation(ValueAggregationItem(Distinct(Count(Entity("a"), "count(distinct a)"), Entity("a"), "count(distinct a)"))).
++        aggregation(ReturnItem(Distinct(Count(Entity("a")), Entity("a")), "count(distinct a)")).
+@@ -1094 +1131 @@
+-        returns(ExpressionReturnItem(Nullable(Property("a", "name")))),
++        returns(ReturnItem(Nullable(Property("a", "name")), "a.name?")),
+@@ -1099 +1136 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1104 +1141 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -1109 +1146 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1114 +1151 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -1118 +1155 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1123 +1160 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -1127 +1164 @@
+-    testQuery(
++    testFrom_1_6(
+@@ -1132 +1169 @@
+-        returns (ExpressionReturnItem(Entity("a"))))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -1136,2 +1173,2 @@
+-    testQuery(
+-      "start\na=node(0)\nwhere\na-->()\nreturn\na",
++    testAll(
++      "start\na=node(0)\nwhere\na.prop=12\nreturn\na",
+@@ -1140,11 +1177,2 @@
+-        where(HasRelationship(Entity("a"), Direction.OUTGOING, None))
+-        returns (ExpressionReturnItem(Entity("a"))))
+-  }
+-
+-  @Test def shouldBeAbleToParseThingsLikeIts15AllOverAgain() {
+-    testQuery(
+-      "cypher 1.5 start a = node(1) where ANY(x in NODES(p) : x.name = 'Andres') return b",
+-      Query.
+-        start(NodeById("a", 1)).
+-        where(AnyInIterable(NodesFunction(Entity("p")), "x", Equals(Property("x", "name"), Literal("Andres"))))
+-        returns (ExpressionReturnItem(Entity("b"))))
++        where(Equals(Property("a", "prop"), Literal(12)))
++        returns (ReturnItem(Entity("a"), "a")))
+@@ -1154 +1182 @@
+-    testQuery(
++    testFrom_1_7(
+@@ -1159 +1187 @@
+-        returns (ExpressionReturnItem(Entity("b"))))
++        returns (ReturnItem(Entity("b"), "b")))
+@@ -1163 +1191 @@
+-    testQuery("start s = NODE(1) return DISTINCT s",
++    testAll("start s = NODE(1) return DISTINCT s",
+@@ -1167 +1195,11 @@
+-        returns(ExpressionReturnItem(Entity("s"))))
++        returns(ReturnItem(Entity("s"), "s")))
++  }
++  
++  @Test def shouldHandleHaving() {
++    testFrom_1_7("start s = NODE(1) return s, count(*) having count(*) = 1",
++      Query.
++        start(NodeById("s", 1)).
++        aggregation(ReturnItem(CountStar(), "count(*)")).
++        having(Equals(CountStar(), Literal(1.0))).
++        columns("s", "count(*)").
++        returns(ReturnItem(Entity("s"), "s")))
+@@ -1171 +1209 @@
+-    testQuery("start s = NODE(0) return 5 % 4, abs(-1), round(3.1415), 2 ^ 8, sqrt(16), sign(1)",
++    testFrom_1_7("start s = NODE(0) return 5 % 4, abs(-1), round(3.1415), 2 ^ 8, sqrt(16), sign(1)",
+@@ -1175,6 +1213,6 @@
+-        ExpressionReturnItem(Modulo(Literal(5), Literal(4))),
+-        ExpressionReturnItem(AbsFunction(Literal(-1))),
+-        ExpressionReturnItem(RoundFunction(Literal(3.1415))),
+-        ExpressionReturnItem(Pow(Literal(2), Literal(8))),
+-        ExpressionReturnItem(SqrtFunction(Literal(16))),
+-        ExpressionReturnItem(SignFunction(Literal(1)))
++        ReturnItem(Modulo(Literal(5), Literal(4)), "5 % 4"),
++        ReturnItem(AbsFunction(Literal(-1)), "abs(-1)"),
++        ReturnItem(RoundFunction(Literal(3.1415)), "round(3.1415)"),
++        ReturnItem(Pow(Literal(2), Literal(8)), "2 ^ 8"),
++        ReturnItem(SqrtFunction(Literal(16)), "sqrt(16)"),
++        ReturnItem(SignFunction(Literal(1)), "sign(1)")
+@@ -1185 +1223,93 @@
+-  def testQuery(query: String, expectedQuery: Query) {
++  @Test def shouldAllowCommentAtEnd() {
++    testFrom_1_7("start s = NODE(1) return s // COMMENT",
++      Query.
++        start(NodeById("s", 1)).
++        returns(ReturnItem(Entity("s"), "s")))
++  }
++
++  @Test def shouldAllowCommentAlone() {
++    testFrom_1_7("""start s = NODE(1) return s
++    // COMMENT""",
++      Query.
++        start(NodeById("s", 1)).
++        returns(ReturnItem(Entity("s"), "s")))
++  }
++
++  @Test def shouldAllowCommentsInsideStrings() {
++    testFrom_1_7("start s = NODE(1) where s.apa = '//NOT A COMMENT' return s",
++      Query.
++        start(NodeById("s", 1)).
++        where(Equals(Property("s","apa"), Literal("//NOT A COMMENT")))
++        returns(ReturnItem(Entity("s"), "s")))
++  }
++
++  @Test def shouldHandleCommentsFollowedByWhiteSpace() {
++    testFrom_1_7("""start s = NODE(1)
++    //I can haz more comment?
++    return s""",
++      Query.
++        start(NodeById("s", 1)).
++        returns(ReturnItem(Entity("s"), "s")))
++  }
++
++  @Test def first_last_and_rest() {
++    testFrom_1_7("start x = NODE(1) match p=x-->z return head(nodes(p)), last(nodes(p)), tail(nodes(p))",
++      Query.
++        start(NodeById("x", 1)).
++        namedPaths(NamedPath("p", RelatedTo("x", "z", "  UNNAMED1", None, Direction.OUTGOING, false, True()))).
++        returns(
++        ReturnItem(HeadFunction(NodesFunction(Entity("p"))), "head(nodes(p))"),
++        ReturnItem(LastFunction(NodesFunction(Entity("p"))), "last(nodes(p))"),
++        ReturnItem(TailFunction(NodesFunction(Entity("p"))), "tail(nodes(p))")
++      ))
++  }
++
++  @Test def filter() {
++    testFrom_1_7("start x = NODE(1) match p=x-->z return filter(x in p : x.prop = 123)",
++      Query.
++        start(NodeById("x", 1)).
++        namedPaths(NamedPath("p", RelatedTo("x", "z", "  UNNAMED1", None, Direction.OUTGOING, false, True()))).
++        returns(
++        ReturnItem(FilterFunction(Entity("p"), "x", Equals(Property("x", "prop"), Literal(123))) , "filter(x in p : x.prop = 123)")
++      ))
++  }
++
++  def test_1_5(query: String, expectedQuery: Query) {
++    testQuery(Some("1.5 "), query, expectedQuery)
++  }
++
++  def test_1_6(query: String, expectedQuery: Query) {
++    testQuery(Some("1.6"), query, expectedQuery)
++  }
++
++  def test_1_7(query: String, expectedQuery: Query) {
++    testQuery(None, query, expectedQuery)
++  }
++
++  def testFrom_1_6(query: String, expectedQuery: Query) {
++    test_1_6(query, expectedQuery)
++    test_1_7(query, expectedQuery)
++  }
++
++  def testFrom_1_7(query: String, expectedQuery: Query) {
++    test_1_7(query, expectedQuery)
++  }
++
++  def testAll(query: String, expectedQuery: Query) {
++    test_1_5(query, expectedQuery)
++    test_1_6(query, expectedQuery)
++    test_1_7(query, expectedQuery)
++  }
++
++  def testOlderParsers(queryText: String, queryAst: Query) {
++    test_1_5(
++      queryText,
++      queryAst
++    )
++    test_1_6(
++      queryText,
++      queryAst
++    )
++  }
++
++  def testQuery(version: Option[String], query: String, expectedQuery: Query) {
+@@ -1188 +1318,4 @@
+-    val ast = parser.parse(query)
++    val (qWithVer, message) = version match {
++      case None => (query, "Using the default parser")
++      case Some(ver) => ("cypher %s %s".format(ver, query), "Using parser version " + ver)
++    }
+@@ -1190 +1323,7 @@
+-    assert(expectedQuery === ast)
++    val ast = parser.parse(qWithVer)
++
++    try {
++      assertThat(message, ast, equalTo(expectedQuery))
++    } catch {
++      case x:AssertionError => throw new AssertionError(x.getMessage.replace("WrappedArray", "List"))
++    }
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/ErrorMessagesTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/ErrorMessagesTest.scala
+index 0b94757..efdd385 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/ErrorMessagesTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/ErrorMessagesTest.scala
+@@ -61 +61 @@
+-      "aggregate functions can not be used in the WHERE clause")
++      "Can't use aggregate functions in the WHERE clause. Move it to the HAVING clause.")
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/ExecutionEngineTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/ExecutionEngineTest.scala
+index eabe57b..bcabe0f 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/ExecutionEngineTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/ExecutionEngineTest.scala
+@@ -37 +37 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -49 +49 @@
+-      returns(ExpressionReturnItem(Entity("r")))
++      returns(ReturnItem(Entity("r"), "r"))
+@@ -68 +68 @@
+-      returns(ExpressionReturnItem(Entity("node")))
++      returns(ReturnItem(Entity("node"), "node"))
+@@ -89 +89 @@
+-      returns(ExpressionReturnItem(Entity("node")))
++      returns(ReturnItem(Entity("node"), "node"))
+@@ -101 +101 @@
+-      returns(ExpressionReturnItem(Entity("rel")))
++      returns(ReturnItem(Entity("rel"), "rel"))
+@@ -112 +112 @@
+-      returns(ExpressionReturnItem(Entity("node")))
++      returns(ReturnItem(Entity("node"), "node"))
+@@ -124 +124 @@
+-      returns(ExpressionReturnItem(Property("node", "name")))
++      returns(ReturnItem(Property("node", "name"), "node.name"))
+@@ -143 +143 @@
+-      returns(ExpressionReturnItem(Entity("a")))
++      returns(ReturnItem(Entity("a"), "a"))
+@@ -160 +160 @@
+-      returns(ExpressionReturnItem(Entity("a")))
++      returns(ReturnItem(Entity("a"), "a"))
+@@ -172 +172 @@
+-      returns(ExpressionReturnItem(Entity("n1")), ExpressionReturnItem(Entity("n2")))
++      returns(ReturnItem(Entity("n1"), "n1"), ReturnItem(Entity("n2"), "n2"))
+@@ -187 +187 @@
+-      returns(ExpressionReturnItem(Entity("n1")), ExpressionReturnItem(Entity("n2")))
++      returns(ReturnItem(Entity("n1"), "n1"), ReturnItem(Entity("n2"), "n2"))
+@@ -204 +204 @@
+-      returns(ExpressionReturnItem(Entity("x")))
++      returns(ReturnItem(Entity("x"), "x"))
+@@ -221 +221 @@
+-      returns(ExpressionReturnItem(Entity("x")), ExpressionReturnItem(Entity("start")))
++      returns(ReturnItem(Entity("x"), "x"), ReturnItem(Entity("start"), "start"))
+@@ -232 +232 @@
+-      returns(ExpressionReturnItem(Entity("start")))
++      returns(ReturnItem(Entity("start"), "start"))
+@@ -249 +249 @@
+-      returns(ExpressionReturnItem(Entity("b")))
++      returns(ReturnItem(Entity("b"), "b"))
+@@ -265 +265 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -281 +281 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -296 +296 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -312 +312 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -328 +328 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -350 +350 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -360 +360 @@
+-      returns(ExpressionReturnItem(Nullable(Property("node", "name"))))
++      returns(ReturnItem(Nullable(Property("node", "name")), "node.name?"))
+@@ -391 +391 @@
+-      returns(ExpressionReturnItem(Entity("n")), ExpressionReturnItem(Entity("x")))
++      returns(ReturnItem(Entity("n"), "n"), ReturnItem(Entity("x"), "x"))
+@@ -412 +412 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -428 +428 @@
+-      returns(ExpressionReturnItem(Entity("n")))
++      returns(ReturnItem(Entity("n"), "n"))
+@@ -444,2 +444,2 @@
+-      aggregation(CountStar()).
+-      returns(ExpressionReturnItem(Entity("a")))
++      aggregation(ReturnItem(CountStar(), "count(*)")).
++      returns(ReturnItem(Entity("a"), "a"))
+@@ -486 +486 @@
+-      returns(ExpressionReturnItem(Entity("start")))
++      returns(ReturnItem(Entity("start"), "start"))
+@@ -498 +498 @@
+-      orderBy(SortItem(ExpressionReturnItem(Property("start", "name")), true)).
++      orderBy(SortItem(ReturnItem(Property("start", "name"), "start.name"), true)).
+@@ -500 +500 @@
+-      returns(ExpressionReturnItem(Entity("start")))
++      returns(ReturnItem(Entity("start"), "start"))
+@@ -512 +512 @@
+-      orderBy(SortItem(ExpressionReturnItem(Property("start", "name")), true)).
++      orderBy(SortItem(ReturnItem(Property("start", "name"), "start.name"), true)).
+@@ -514 +514 @@
+-      returns(ExpressionReturnItem(Entity("start")))
++      returns(ReturnItem(Entity("start"), "start"))
+@@ -526 +526 @@
+-      orderBy(SortItem(ExpressionReturnItem(Property("start", "name")), true)).
++      orderBy(SortItem(ReturnItem(Property("start", "name"), "start.name"), true)).
+@@ -529 +529 @@
+-      returns(ExpressionReturnItem(Entity("start")))
++      returns(ReturnItem(Entity("start"), "start"))
+@@ -541 +541 @@
+-      orderBy(SortItem(ExpressionReturnItem(Property("start", "name")), true)).
++      orderBy(SortItem(ReturnItem(Property("start", "name"), "start.name"), true)).
+@@ -544 +544 @@
+-      returns(ExpressionReturnItem(Entity("start")))
++      returns(ReturnItem(Entity("start"), "start"))
+@@ -559,3 +559,3 @@
+-      aggregation(ValueAggregationItem(Max(Property("n", "age"), "x"))).
+-      orderBy(SortItem(ValueAggregationItem(Max(Property("n", "age"), "x")), true)).
+-      returns(ExpressionReturnItem(Property("n", "divison")))
++      aggregation(ReturnItem(Max(Property("n", "age")), "x")).
++      orderBy(SortItem(ReturnItem(Max(Property("n", "age")), "x"), true)).
++      returns(ReturnItem(Property("n", "divison"), "n.division"))
+@@ -565 +565 @@
+-    assertEquals(List("Germany", "Sweden", "England"), result.columnAs[String]("n.divison").toList)
++    assertEquals(List("Germany", "Sweden", "England"), result.columnAs[String]("n.division").toList)
+@@ -576,3 +576,5 @@
+-      aggregation(CountStar()).
+-      orderBy(SortItem(CountStar(), false), SortItem(ExpressionReturnItem(Property("n", "division")), true)).
+-      returns(ExpressionReturnItem(Property("n", "division")))
++      aggregation(ReturnItem(CountStar(), "count(*)")).
++      orderBy(
++      SortItem(ReturnItem(CountStar(), "count(*)"), false),
++      SortItem(ReturnItem(Property("n", "division"), "n.division"), true)).
++      returns(ReturnItem(Property("n", "division"), "n.division"))
+@@ -597 +599 @@
+-      returns(ExpressionReturnItem(Entity("x")))
++      returns(ReturnItem(Entity("x"), "x"))
+@@ -612 +614 @@
+-      returns(ExpressionReturnItem(RelationshipTypeFunction(Entity("r"))))
++      returns(ReturnItem(RelationshipTypeFunction(Entity("r")), "type(r)"))
+@@ -616 +618 @@
+-    assertEquals(List("KNOWS", "HATES"), result.columnAs[String]("TYPE(r)").toList)
++    assertEquals(List("KNOWS", "HATES"), result.columnAs[String]("type(r)").toList)
+@@ -626,2 +628,2 @@
+-      aggregation(CountStar()).
+-      returns(ExpressionReturnItem(Property("node", "x")))
++      aggregation(ReturnItem(CountStar(), "count(*)")).
++      returns(ReturnItem(Property("node", "x"), "node.x"))
+@@ -641,2 +643,2 @@
+-      aggregation(ValueAggregationItem(Count(Nullable(Property("node", "x")), "count(node.x)"))).
+-      returns(ExpressionReturnItem(Property("node", "y")))
++      aggregation(ReturnItem(Count(Nullable(Property("node", "x"))), "count(node.x)")).
++      returns(ReturnItem(Property("node", "y"), "node.y"))
+@@ -659,2 +661,2 @@
+-      aggregation(ValueAggregationItem(Sum(Nullable(Property("node", "x")), "sum(node.x)"))).
+-      returns(ExpressionReturnItem(Property("node", "y")))
++      aggregation(ReturnItem(Sum(Nullable(Property("node", "x"))), "sum(node.x)")).
++      returns(ReturnItem(Property("node", "y"), "node.y"))
+@@ -677 +679 @@
+-      returns(ExpressionReturnItem(Entity("x")))
++      returns(ReturnItem(Entity("x"), "x"))
+@@ -691 +693 @@
+-      returns(ExpressionReturnItem(Entity("p"))) //  new CypherParser().parse("start a=(1) match p=(a-->b) return p")
++      returns(ReturnItem(Entity("p"), "p")) //  new CypherParser().parse("start a=(1) match p=(a-->b) return p")
+@@ -709 +711 @@
+-      returns(ExpressionReturnItem(Entity("p"))) //  new CypherParser().parse("start a=(1) match p=(a-->b) return p")
++      returns(ReturnItem(Entity("p"), "p")) //  new CypherParser().parse("start a=(1) match p=(a-->b) return p")
+@@ -776 +778 @@
+-      returns(ExpressionReturnItem(Entity("pB")))
++      returns(ReturnItem(Entity("pB"), "pB"))
+@@ -793 +795 @@
+-      returns(ExpressionReturnItem(RelationshipFunction(Entity("p"))))
++      returns(ReturnItem(RelationshipFunction(Entity("p")), "RELATIONSHIPS(p)"))
+@@ -903 +905 @@
+-      returns(ExpressionReturnItem(Entity("p")))
++      returns(ReturnItem(Entity("p"), "p"))
+@@ -921 +923 @@
+-      returns(ExpressionReturnItem(Entity("p")))
++      returns(ReturnItem(Entity("p"), "p"))
+@@ -937 +939,6 @@
+-      returns(ExpressionReturnItem(Entity("pA")), ExpressionReturnItem(Entity("pB")), ExpressionReturnItem(Entity("pC")), ExpressionReturnItem(Entity("pD")), ExpressionReturnItem(Entity("pE")))
++      returns(
++      ReturnItem(Entity("pA"), "pA"),
++      ReturnItem(Entity("pB"), "pB"),
++      ReturnItem(Entity("pC"), "pC"),
++      ReturnItem(Entity("pD"), "pD"),
++      ReturnItem(Entity("pE"), "pE"))
+@@ -955 +962 @@
+-      returns(ExpressionReturnItem(Entity("pA")))
++      returns(ReturnItem(Entity("pA"), "pA"))
+@@ -975 +982 @@
+-      .returns(ExpressionReturnItem(Entity("a")))
++      .returns(ReturnItem(Entity("a"), "a"))
+@@ -1122 +1129 @@
+-      returns(ExpressionReturnItem(Entity("pA")))
++      returns(ReturnItem(Entity("pA"), "pA"))
+@@ -1655 +1662 @@
+-    relate(a,b)
++    relate(a, b)
+@@ -1685,0 +1693,15 @@
++  @Test def shouldExcludeWithHaving() {
++    val a = createNode()
++    val b = createNode()
++    val c = createNode()
++
++    relate(b, a)
++    relate(c, a)
++
++    relate(a, b)
++
++    val result = parseAndExecute("start a=node(*) match a<--() return a, count(*) having count(*) > 1")
++
++    assert(List(a) === result.columnAs[Node]("a").toList)
++  }
++
+@@ -1701,0 +1724,34 @@
++  @Test def functions_should_return_null_if_they_get_null_in() {
++    createNode()
++
++    val result = parseAndExecute("start a=node(1) match p=a-[r?]->() return length(p), id(r), type(r), nodes(p), rels(p)").toList
++
++    assert(List(Map("length(p)" -> null, "id(r)" -> null, "type(r)" -> null, "nodes(p)" -> null, "rels(p)" -> null)) === result)
++  }
++
++  @Test def aggregates_in_aggregates_should_fail() {
++    createNode()
++
++    intercept[SyntaxException](parseAndExecute("start a=node(1) return count(count(*))").toList)
++  }
++
++  @Ignore("Exposes #254")
++  @Test def aggregates_inside_normal_functions_should_work() {
++    createNode()
++
++    val result = parseAndExecute("start a=node(1) return length(collect(a))").toList
++    assert(List(Map("length(collect(a))"->1)) === result)
++  }
++
++  @Test def tests_that_filterfunction_works_as_expected() {
++    val a = createNode("foo" -> 1)
++    val b = createNode("foo" -> 3)
++    val r = relate(a, b, "rel", Map("foo" -> 2))
++
++    val result = parseAndExecute("start a=node(1) match p=a-->() return filter(x in p : x.foo = 2)").toList
++
++    val resultingCollection = result.head("filter(x in p : x.foo = 2)").asInstanceOf[Seq[_]].toList
++
++    assert(List(r) == resultingCollection)
++  }
++
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/AggregationTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/AggregationTest.scala
+index 1384a37..d0eea91 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/AggregationTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/AggregationTest.scala
+@@ -44 +44 @@
+-      p => assertEquals(Map("n" -> node("A"), "count(*)" -> 3), p.toList.head))
++      assertions = p => assertEquals(Map("n" -> node("A"), "count(*)" -> 3), p.toList.head))
+@@ -53 +53 @@
+-      p => assertEquals(Map("type(r)" -> "KNOWS", "count(*)" -> 3), p.toList.head))
++      assertions = p => assertEquals(Map("type(r)" -> "KNOWS", "count(*)" -> 3), p.toList.head))
+@@ -63 +63 @@
+-      p => assertEquals(Map("count(x)" -> 3), p.toList.head))
++      assertions = p => assertEquals(Map("count(x)" -> 3), p.toList.head))
+@@ -72 +72 @@
+-      p => assertEquals(Map("count(n.property?)" -> 3), p.toList.head))
++      assertions = p => assertEquals(Map("count(n.property?)" -> 3), p.toList.head))
+@@ -82 +82 @@
+-      p => assertEquals(Map("sum(n.property)" -> (13 + 33 + 44)), p.toList.head))
++      assertions = p => assertEquals(Map("sum(n.property)" -> (13 + 33 + 44)), p.toList.head))
+@@ -91 +91 @@
+-      p => assertEquals(Map("avg(n.property)" -> 30), p.toList.head))
++      assertions = p => assertEquals(Map("avg(n.property)" -> 30), p.toList.head))
+@@ -100 +100 @@
+-      p => assertEquals(Map("min(n.property)" -> 13), p.toList.head))
++      assertions = p => assertEquals(Map("min(n.property)" -> 13), p.toList.head))
+@@ -109 +109 @@
+-      p => assertEquals(Map("max(n.property)" -> 44), p.toList.head))
++      assertions = p => assertEquals(Map("max(n.property)" -> 44), p.toList.head))
+@@ -118 +118 @@
+-      p => assertEquals(Map("collect(n.property)" -> Seq(13, 33, 44)), p.toList.head))
++      assertions = p => assertEquals(Map("collect(n.property)" -> Seq(13, 33, 44)), p.toList.head))
+@@ -128 +128 @@
+-      p => assertEquals(Map("count(distinct b.eyes)" -> 2), p.toList.head))
++      assertions = p => assertEquals(Map("count(distinct b.eyes)" -> 2), p.toList.head))
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/FunctionsTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/FunctionsTest.scala
+index 5ffdb90..b6cc8b4 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/FunctionsTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/FunctionsTest.scala
+@@ -25,0 +26 @@
++import collection.mutable.WrappedArray
+@@ -129,0 +131,56 @@
++  @Test def head() {
++    testThis(
++      title = "HEAD",
++      syntax = "HEAD( expression )",
++      arguments = List(
++        "expression" -> "This expression should return a collection of some sort."
++      ),
++      text = "HEAD returns the first element in a collection.",
++      queryText = """start a=node(%E%) return a.array, head(a.array)""",
++      returns = "The first node in the path",
++      assertions = (p) => assertEquals(List("one"), p.columnAs[List[_]]("head(a.array)").toList))
++  }
++
++  @Test def last() {
++    testThis(
++      title = "LAST",
++      syntax = "LAST( expression )",
++      arguments = List(
++        "expression" -> "This expression should return a collection of some sort."
++      ),
++      text = "LAST returns the last element in a collection.",
++      queryText = """start a=node(%E%) return a.array, last(a.array)""",
++      returns = "The first node in the path",
++      assertions = (p) => assertEquals(List("three"), p.columnAs[List[_]]("last(a.array)").toList))
++  }
++
++  @Test def tail() {
++    testThis(
++      title = "TAIL",
++      syntax = "TAIL( expression )",
++      arguments = List(
++        "expression" -> "This expression should return a collection of some sort."
++      ),
++      text = "TAIL returns all but the first element in a collection.",
++      queryText = """start a=node(%E%) return a.array, tail(a.array)""",
++      returns = "The first node in the path",
++      assertions = (p) => {
++        val toList = p.columnAs[Array[_]]("tail(a.array)").toList.head
++        assert(toList === Array("two","three"))
++      })
++  }
++
++  @Test def filter() {
++    testThis(
++      title = "FILTER",
++      syntax = "FILTER(identifier in iterable : predicate)",
++      arguments = common_arguments,
++      text = "FILTER returns all the elements in an iterable that comply to a predicate.",
++      queryText = """start a=node(%E%) return a.array, filter(x in a.array : length(x) = 3)""",
++      returns = "The first node in the path",
++      assertions = (p) => {
++        val array = p.columnAs[WrappedArray[_]]("filter(x in a.array : length(x) = 3)").toList.head
++        assert(List("one","two") === array.toList)
++      })
++  }
++
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala
+index 7120bb0..fcbec08 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala
+@@ -104 +104 @@
+-      text = "When you need missing property to evaluate to false, use the exclamation mark." ,
++      text = "When you need missing property to evaluate to false, use the exclamation mark.",
+@@ -148,0 +149,12 @@
++
++
++  @Test def filter_on_aggregates() {
++    testQuery(
++      title = "Filter on aggregates",
++      text = "You can't use aggregate functions in the WHERE clause. If you need to filter on aggregate functions, " +
++        "use the HAVING clause intead. HAVING filters matching subgraphs the same way WHERE does, but is invoked after " +
++        "aggregation has been done.",
++      queryText = """start a=node(%Andres%, %Tobias%, %Peter%) match a--() return a, count(*) having count(*)>1""",
++      returns = "Only nodes with more than one relationship are returned",
++      assertions = (p) => assertEquals(List(node("Andres")), p.columnAs[Node]("a").toList))
++  }
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/cookbook/CoFavoritedPlacesTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/cookbook/CoFavoritedPlacesTest.scala
+index b47b8e3..e0eaab3 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/cookbook/CoFavoritedPlacesTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/cookbook/CoFavoritedPlacesTest.scala
+@@ -55 +55 @@
+-      (p) => assertEquals(List(Map("stuff.name" -> "MelsPlace", "count(*)" -> 2),
++      assertions = (p) => assertEquals(List(Map("stuff.name" -> "MelsPlace", "count(*)" -> 2),
+@@ -68 +68 @@
+-      		MATCH place-[:tagged]->tag<-[:tagged]-otherPlace 
++      		MATCH place-[:tagged]->tag<-[:tagged]-otherPlace
+@@ -72 +72 @@
+-      (p) => {
++      assertions = (p) => {
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/internal/OrderByRewriterTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/internal/OrderByRewriterTest.scala
+index 0f00805..fbe57bf 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/internal/OrderByRewriterTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/internal/OrderByRewriterTest.scala
+@@ -34 +34 @@
+-      aggregation(CountStar()).
++      aggregation(ReturnItem(CountStar(), "count(*)")).
+@@ -36 +36 @@
+-      orderBy(SortItem(CountStar("apa"), true)).
++      orderBy(SortItem(ReturnItem(CountStar(), "apa"), true)).
+@@ -41 +41 @@
+-      aggregation(CountStar()).
++      aggregation(ReturnItem(CountStar(), "count(*)")).
+@@ -43 +43 @@
+-      orderBy(SortItem(CountStar(), true)).
++      orderBy(SortItem(ReturnItem(CountStar(), "count(*)"), true)).
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/internal/commands/DistinctTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/internal/commands/DistinctTest.scala
+new file mode 100644
+index 0000000..d45765a
+--- /dev/null
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/internal/commands/DistinctTest.scala
+@@ -0,0 +1,30 @@
++/**
++ * Copyright (c) 2002-2012 "Neo Technology,"
++ * Network Engine for Objects in Lund AB [http://neotechnology.com]
++ *
++ * This file is part of Neo4j.
++ *
++ * Neo4j is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++package org.neo4j.cypher.internal.commands
++
++import org.scalatest.Assertions
++import org.junit.Test
++
++class DistinctTest extends Assertions {
++  @Test def apa() {
++    val d = Distinct(Count(Literal("a")), Literal("a"))
++    assert(d.identifier.name === "count(distinct a)")
++  }
++}
+\ No newline at end of file
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/internal/commands/ExpressionTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/internal/commands/ExpressionTest.scala
+index cf37118..bb76b92 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/internal/commands/ExpressionTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/internal/commands/ExpressionTest.scala
+@@ -27 +27 @@
+-    val a = Collect(Nullable(Property("r", "age")), "wut")
++    val a = Collect(Nullable(Property("r", "age")))
+@@ -34 +34 @@
+-    assert(b === Collect(Nullable(Literal("r.age")), "wut"))
++    assert(b === Collect(Nullable(Literal("r.age"))))
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipeTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipeTest.scala
+index a10efd5..2f8eaa8 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipeTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/ColumnFilterPipeTest.scala
+@@ -25 +25 @@
+-import org.neo4j.cypher.internal.commands.{Entity, ExpressionReturnItem}
++import org.neo4j.cypher.internal.commands.{Entity, ReturnItem}
+@@ -31 +31 @@
+-    val returnItems = List(ExpressionReturnItem(Entity(col)))
++    val returnItems = List(ReturnItem(Entity(col), col))
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipeTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipeTest.scala
+index eac63e3..fa8a624 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipeTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/EagerAggregationPipeTest.scala
+@@ -29 +29 @@
+-import org.neo4j.cypher.internal.symbols.{IntegerType, SymbolTable, Identifier, NodeType}
++import org.neo4j.cypher.internal.symbols._
+@@ -35,2 +35,2 @@
+-    val returnItems = List(ExpressionReturnItem(Entity("name")))
+-    val grouping = List(CountStar())
++    val returnItems = List(ReturnItem(Entity("name"), "name"))
++    val grouping = List(ReturnItem(CountStar(), "count(*)"))
+@@ -40 +40 @@
+-      Seq(Identifier("name", NodeType()), Identifier("count(*)", IntegerType())),
++      Seq(Identifier("name", NodeType()), Identifier("count(*)", LongType())),
+@@ -47,2 +47,2 @@
+-    val returnItems = List(ExpressionReturnItem(Entity("name")))
+-    val grouping = List(ValueAggregationItem(Count(Entity("none-existing-identifier"), "x")))
++    val returnItems = List(ReturnItem(Entity("name"), "name"))
++    val grouping = List(ReturnItem(Count(Entity("none-existing-identifier")), "x"))
+@@ -59,2 +59,2 @@
+-    val returnItems = List(ExpressionReturnItem(Entity("name")))
+-    val grouping = List(CountStar())
++    val returnItems = List(ReturnItem(Entity("name"), "name"))
++    val grouping = List(ReturnItem(CountStar(), "count(*)"))
+@@ -77 +77 @@
+-    val grouping = List(ValueAggregationItem(Count((Entity("name")), "count(name)")))
++    val grouping = List(ReturnItem(Count((Entity("name"))), "count(name)"))
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipeTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipeTest.scala
+index d484a5f..e15102b 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipeTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/OrderedAggregationPipeTest.scala
+@@ -28 +27,0 @@
+-import org.neo4j.cypher.internal.symbols.{IntegerType, SymbolTable, Identifier, NodeType}
+@@ -31,0 +31 @@
++import org.neo4j.cypher.internal.symbols._
+@@ -37,2 +37,2 @@
+-    val returnItems = List(ExpressionReturnItem(Entity("name")))
+-    val grouping = List(CountStar())
++    val returnItems = List(ReturnItem(Entity("name"), "name"))
++    val grouping = List(ReturnItem(CountStar(), "count(*)"))
+@@ -42 +42 @@
+-      Seq(Identifier("name", NodeType()), Identifier("count(*)", IntegerType())),
++      Seq(Identifier("name", NodeType()), Identifier("count(*)", LongType())),
+@@ -49,2 +49,2 @@
+-    val returnItems = List(ExpressionReturnItem(Entity("name")))
+-    val grouping = List(ValueAggregationItem(Count(Entity("none-existing-identifier"), "x")))
++    val returnItems = List(ReturnItem(Entity("name"), "name"))
++    val grouping = List(ReturnItem(Count(Entity("none-existing-identifier")), "x"))
+@@ -62,2 +62,2 @@
+-    val returnItems = List(ExpressionReturnItem(Entity("name")))
+-    val grouping = List(CountStar())
++    val returnItems = List(ReturnItem(Entity("name"), "name"))
++    val grouping = List(ReturnItem(CountStar(), "count(*)"))
+@@ -78,2 +78,2 @@
+-    val returnItems = List(ExpressionReturnItem(Entity("name")))
+-    val grouping = List(ValueAggregationItem(Count((Entity("age")), "count(age)")))
++    val returnItems = List(ReturnItem(Entity("name"), "name"))
++    val grouping = List(ReturnItem(Count((Entity("age"))), "count(age)"))
+@@ -85 +85,2 @@
+-      Map("name" -> "Peter", "count(age)" -> 1)))  }
++      Map("name" -> "Peter", "count(age)" -> 1)))
++  }
+@@ -91 +92 @@
+-    val grouping = List(ValueAggregationItem(Count((Entity("name")), "x")))
++    val grouping = List(ReturnItem(Count((Entity("name"))), "x"))
+@@ -95 +96 @@
+-  private def createSymbolTableFor(names: String*) = new SymbolTable( names.map( Identifier(_, NodeType()) ):_*   )
++  private def createSymbolTableFor(names: String*) = new SymbolTable(names.map(Identifier(_, NodeType())): _*)
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/SortPipeTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/SortPipeTest.scala
+index 2d961b6..15cffa8 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/SortPipeTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/internal/pipes/SortPipeTest.scala
+@@ -25 +25 @@
+-import org.neo4j.cypher.internal.commands.{Entity, ExpressionReturnItem, SortItem}
++import org.neo4j.cypher.internal.commands.{Entity, ReturnItem, SortItem}
+@@ -32 +32 @@
+-    val sortPipe = new SortPipe(source, List(SortItem(ExpressionReturnItem(Entity("x")), true)))
++    val sortPipe = new SortPipe(source, List(SortItem(ReturnItem(Entity("x"), "x"), true)))
+@@ -39 +39 @@
+-    val sortPipe = new SortPipe(source, List(SortItem(ExpressionReturnItem(Entity("x")), true)))
++    val sortPipe = new SortPipe(source, List(SortItem(ReturnItem(Entity("x"), "x"), true)))
+@@ -51,2 +51,2 @@
+-      SortItem(ExpressionReturnItem(Entity("x")), true),
+-      SortItem(ExpressionReturnItem(Entity("y")), true)))
++      SortItem(ReturnItem(Entity("x"), "x"), true),
++      SortItem(ReturnItem(Entity("y"), "y"), true)))
+@@ -67,2 +67,2 @@
+-      SortItem(ExpressionReturnItem(Entity("x")), true),
+-      SortItem(ExpressionReturnItem(Entity("y")), false)))
++      SortItem(ReturnItem(Entity("x"), "x"), true),
++      SortItem(ReturnItem(Entity("y"), "y"), false)))
+@@ -82 +82 @@
+-    val sortPipe = new SortPipe(source, List(SortItem(ExpressionReturnItem(Entity("y")), true)))
++    val sortPipe = new SortPipe(source, List(SortItem(ReturnItem(Entity("y"), "y"), true)))
+

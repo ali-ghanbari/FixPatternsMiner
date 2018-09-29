@@ -1,0 +1,39 @@
+diff --git a/lumify-core/src/main/java/com/altamiracorp/lumify/core/model/ontology/Concept.java b/lumify-core/src/main/java/com/altamiracorp/lumify/core/model/ontology/Concept.java
+index eb8ea16..01dc2dc 100644
+--- a/lumify-core/src/main/java/com/altamiracorp/lumify/core/model/ontology/Concept.java
++++ b/lumify-core/src/main/java/com/altamiracorp/lumify/core/model/ontology/Concept.java
+@@ -80 +80 @@
+-                result.put("glyphIconHref", "/resource/" + URLEncoder.encode(getId(), "utf8"));
++                result.put("glyphIconHref", "resource/" + URLEncoder.encode(getId(), "utf8"));
+diff --git a/lumify-web-war/src/main/webapp/admin/dictionaryAdmin.html b/lumify-web-war/src/main/webapp/admin/dictionaryAdmin.html
+index cada287..73201c8 100644
+--- a/lumify-web-war/src/main/webapp/admin/dictionaryAdmin.html
++++ b/lumify-web-war/src/main/webapp/admin/dictionaryAdmin.html
+@@ -144 +144 @@
+-            $(evt.target).replaceWith('<img src="/img/loading.gif"/>');
++            $(evt.target).replaceWith('<img src="img/loading.gif"/>');
+diff --git a/lumify-web-war/src/main/webapp/js/service/user.js b/lumify-web-war/src/main/webapp/js/service/user.js
+index b4ff29b..98e9936 100644
+--- a/lumify-web-war/src/main/webapp/js/service/user.js
++++ b/lumify-web-war/src/main/webapp/js/service/user.js
+@@ -72 +72 @@
+-                url: '/user'
++                url: 'user'
+diff --git a/lumify-web-war/src/main/webapp/less/util/badge-loading.less b/lumify-web-war/src/main/webapp/less/util/badge-loading.less
+index f8cb9ae..e6e1175 100644
+--- a/lumify-web-war/src/main/webapp/less/util/badge-loading.less
++++ b/lumify-web-war/src/main/webapp/less/util/badge-loading.less
+@@ -2 +2 @@
+-  background-image: url('/img/loading-active.gif');
++  background-image: url('../img/loading-active.gif');
+@@ -5 +5 @@
+-  background-image: url('/img/loading.gif');
++  background-image: url('../img/loading.gif');
+diff --git a/lumify-web-war/src/main/webapp/less/util/button-loading.less b/lumify-web-war/src/main/webapp/less/util/button-loading.less
+index 48c43df..d4c1eb5 100644
+--- a/lumify-web-war/src/main/webapp/less/util/button-loading.less
++++ b/lumify-web-war/src/main/webapp/less/util/button-loading.less
+@@ -8 +8 @@
+-      background-image: url('/img/loading.gif');
++      background-image: url('../img/loading.gif');
+

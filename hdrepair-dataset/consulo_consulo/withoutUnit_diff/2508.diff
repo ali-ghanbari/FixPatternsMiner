@@ -1,0 +1,9 @@
+diff --git a/source/com/intellij/openapi/vcs/changes/VcsDirtyScopeManagerImpl.java b/source/com/intellij/openapi/vcs/changes/VcsDirtyScopeManagerImpl.java
+index 8ecdc12..2baa54a 100644
+--- a/source/com/intellij/openapi/vcs/changes/VcsDirtyScopeManagerImpl.java
++++ b/source/com/intellij/openapi/vcs/changes/VcsDirtyScopeManagerImpl.java
+@@ -184 +184,2 @@
+-      fileDirty(event.getFile());
++      // need to keep track of whether the deleted file was a directory
++      fileDirty(new FilePathImpl(new File(event.getFile().getPath()), event.getFile().isDirectory()));
+

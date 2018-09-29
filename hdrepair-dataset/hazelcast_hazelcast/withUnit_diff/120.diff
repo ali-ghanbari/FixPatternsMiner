@@ -1,0 +1,25 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java b/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java
+index 1b8160c..cb9eadd 100644
+--- a/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java
++++ b/hazelcast/src/main/java/com/hazelcast/map/proxy/MapProxySupport.java
+@@ -388 +388 @@
+-                    result.put(key, cachedValue);
++                    result.put(mapService.toObject(key), mapService.toObject(cachedValue));
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/NearCacheTest.java b/hazelcast/src/test/java/com/hazelcast/map/NearCacheTest.java
+index f32f2ad..aff286a 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/NearCacheTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/NearCacheTest.java
+@@ -28,0 +29 @@
++import java.util.Map;
+@@ -35,0 +37 @@
++import static junit.framework.Assert.assertEquals;
+@@ -112 +114 @@
+-        map.getAll(keys);
++        final Map<Integer,Integer> all = map.getAll(keys);
+@@ -115,0 +118,5 @@
++
++        for (int i = 0; i < size; i++) {
++            assertEquals(i,(int)all.get(i));
++
++        }
+

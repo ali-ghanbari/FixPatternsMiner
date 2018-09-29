@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/mapdb/BTreeMap.java b/src/main/java/org/mapdb/BTreeMap.java
+index 4914624..a0bf8ec 100644
+--- a/src/main/java/org/mapdb/BTreeMap.java
++++ b/src/main/java/org/mapdb/BTreeMap.java
+@@ -740 +740 @@
+-                DataIO.packLong(out, (cc[0] << 1) | 1); //pack first value mixed with int flag
++                DataIO.packLong(out, (((long)cc[0]) << 1) | 1L); //pack first value mixed with int flag
+

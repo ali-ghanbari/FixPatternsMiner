@@ -1,0 +1,15 @@
+diff --git a/app/playRepository/GitRepository.java b/app/playRepository/GitRepository.java
+index 960040d..e6093bc 100644
+--- a/app/playRepository/GitRepository.java
++++ b/app/playRepository/GitRepository.java
+@@ -364 +364 @@
+-        return result;
++        return (listData.size() == 0) ? null : result;
+diff --git a/app/views/code/partial_view_folder.scala.html b/app/views/code/partial_view_folder.scala.html
+index b2d94ad..0586348 100644
+--- a/app/views/code/partial_view_folder.scala.html
++++ b/app/views/code/partial_view_folder.scala.html
+@@ -56 +56 @@
+-    <div class="warning-none">@Messages("code.nofiles")</div>
++    <div class="alert alert-warning nm" style="border-top:0; padding-left:23px;">@Messages("code.nofiles")</div>
+

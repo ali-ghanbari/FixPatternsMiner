@@ -1,0 +1,26 @@
+diff --git a/admin/src/main/java/edu/unc/lib/dl/ui/CommonAdminObjectNavigationController.java b/admin/src/main/java/edu/unc/lib/dl/ui/CommonAdminObjectNavigationController.java
+index e41e95a..86fa352 100644
+--- a/admin/src/main/java/edu/unc/lib/dl/ui/CommonAdminObjectNavigationController.java
++++ b/admin/src/main/java/edu/unc/lib/dl/ui/CommonAdminObjectNavigationController.java
+@@ -95 +95 @@
+-		return uiWebService.getBreadcrumbsAndChildren(irUrlInfo, url, GroupsThreadStore.getGroups().toString(), pid);		
++		return uiWebService.getBreadcrumbsAndChildren(irUrlInfo, url, GroupsThreadStore.getGroupString(), pid);		
+diff --git a/services/src/main/webapp/WEB-INF/service-context.xml b/services/src/main/webapp/WEB-INF/service-context.xml
+index 0746abe..5685d92 100644
+--- a/services/src/main/webapp/WEB-INF/service-context.xml
++++ b/services/src/main/webapp/WEB-INF/service-context.xml
+@@ -48 +48 @@
+-		<property name="config" value="file:${activemq.home}/conf/activemq.xml" />
++		<property name="config" value="file:${services.activemq.config}" />
+@@ -268,10 +267,0 @@
+-
+-	<bean id="acCacheResetJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+-		<property name="targetObject" ref="accessControlUtils" />
+-		<property name="targetMethod" value="cacheCleanupForCdrBasedAccessControl" />
+-	</bean>
+-	
+-	<bean id="acCacheResetCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+-		<property name="jobDetail" ref="acCacheResetJobDetail" />
+-		<property name="cronExpression" value="${scheduled.acCacheReset.cron}" />
+-	</bean>
+

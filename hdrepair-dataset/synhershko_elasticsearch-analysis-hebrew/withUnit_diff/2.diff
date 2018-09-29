@@ -1,0 +1,37 @@
+diff --git a/java/hebmorph-core/src/main/java/com/code972/hebmorph/Tokenizer.java b/java/hebmorph-core/src/main/java/com/code972/hebmorph/Tokenizer.java
+index 3be0ada..4b00712 100644
+--- a/java/hebmorph-core/src/main/java/com/code972/hebmorph/Tokenizer.java
++++ b/java/hebmorph-core/src/main/java/com/code972/hebmorph/Tokenizer.java
+@@ -259 +259 @@
+-                } else if (!Character.isSpaceChar(c) && isRecognizedException(wordBuffer, length, c)) {
++                } else if (c != suffixForExactMatch && !Character.isSpaceChar(c) && isRecognizedException(wordBuffer, length, c)) {
+diff --git a/java/hebmorph-core/src/test/java/com/code972/hebmorph/StreamLemmatizerTest.java b/java/hebmorph-core/src/test/java/com/code972/hebmorph/StreamLemmatizerTest.java
+index 6e964df..3e70ba5 100644
+--- a/java/hebmorph-core/src/test/java/com/code972/hebmorph/StreamLemmatizerTest.java
++++ b/java/hebmorph-core/src/test/java/com/code972/hebmorph/StreamLemmatizerTest.java
+@@ -162,0 +163,17 @@
++        sl = new StreamLemmatizer(new StringReader("ומש\"א"), getDictionary(), false);
++        tokenType = sl.getLemmatizeNextToken(token, results);
++        assertEquals(Tokenizer.TokenType.Acronym | Tokenizer.TokenType.Hebrew, tokenType);
++        assertEquals("ומש\"א", token.ref);
++
++        sl = new StreamLemmatizer(new StringReader("ומש\"א"), getDictionary(), false);
++        sl.setSuffixForExactMatch('$');
++        tokenType = sl.getLemmatizeNextToken(token, results);
++        assertEquals(Tokenizer.TokenType.Acronym | Tokenizer.TokenType.Hebrew, tokenType);
++        assertEquals("ומש\"א", token.ref);
++
++        sl = new StreamLemmatizer(new StringReader("ומש\"א$"), getDictionary(), false);
++        sl.setSuffixForExactMatch('$');
++        tokenType = sl.getLemmatizeNextToken(token, results);
++        assertEquals("ומש\"א", token.ref);
++        assertEquals(Tokenizer.TokenType.Acronym | Tokenizer.TokenType.Hebrew | Tokenizer.TokenType.Exact, tokenType);
++
+diff --git a/java/hebmorph-core/src/test/java/com/code972/hebmorph/TokenizerTest.java b/java/hebmorph-core/src/test/java/com/code972/hebmorph/TokenizerTest.java
+index 248f5f4..d7cbaf0 100644
+--- a/java/hebmorph-core/src/test/java/com/code972/hebmorph/TokenizerTest.java
++++ b/java/hebmorph-core/src/test/java/com/code972/hebmorph/TokenizerTest.java
+@@ -110,0 +111,2 @@
++
++        assertTokenizesTo("ומש\"א$", "ומש\"א$");
+

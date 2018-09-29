@@ -1,0 +1,38 @@
+diff --git a/core/src/main/java/com/graphhopper/search/NameIndex.java b/core/src/main/java/com/graphhopper/search/NameIndex.java
+index 43dc21e..ec619f6 100644
+--- a/core/src/main/java/com/graphhopper/search/NameIndex.java
++++ b/core/src/main/java/com/graphhopper/search/NameIndex.java
+@@ -59 +59 @@
+-            bytePointer = BitUtil.LITTLE.combineIntsToLong(names.getHeader(0), names.getHeader(1));
++            bytePointer = BitUtil.LITTLE.combineIntsToLong(names.getHeader(0), names.getHeader(4));
+diff --git a/core/src/test/java/com/graphhopper/search/NameIndexTest.java b/core/src/test/java/com/graphhopper/search/NameIndexTest.java
+index 1b06375..cdc35ad 100644
+--- a/core/src/test/java/com/graphhopper/search/NameIndexTest.java
++++ b/core/src/test/java/com/graphhopper/search/NameIndexTest.java
+@@ -20,0 +21,2 @@
++import com.graphhopper.util.Helper;
++import java.io.File;
+@@ -92,0 +95,22 @@
++
++    @Test
++    public void testFlush()
++    {
++        String location = "./target/nameindex-store";
++        Helper.removeDir(new File(location));
++
++        NameIndex index = new NameIndex(new RAMDirectory(location, true)).create(1000);
++        long pointer = index.put("test");
++        index.flush();
++        index.close();
++
++        index = new NameIndex(new RAMDirectory(location, true));
++        assertTrue(index.loadExisting());
++        assertEquals("test", index.get(pointer));
++        // make sure bytePointer is correctly set after loadExisting
++        long newPointer = index.put("testing");
++        assertEquals(newPointer + ">" + pointer, pointer + "test".getBytes().length + 1, newPointer);
++        index.close();
++
++        Helper.removeDir(new File(location));
++    }
+

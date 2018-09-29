@@ -1,0 +1,8 @@
+diff --git a/src/org/openstreetmap/josm/actions/downloadtasks/DownloadOsmTask.java b/src/org/openstreetmap/josm/actions/downloadtasks/DownloadOsmTask.java
+index 1d2eb34..b7a68a7 100644
+--- a/src/org/openstreetmap/josm/actions/downloadtasks/DownloadOsmTask.java
++++ b/src/org/openstreetmap/josm/actions/downloadtasks/DownloadOsmTask.java
+@@ -60 +60 @@
+-		Task task = new Task(action.dialog.newLayer.isSelected(), new BoundingBoxDownloader(minlat, minlon, maxlat, maxlon));
++		Task task = new Task(action.dialog == null || action.dialog.newLayer.isSelected(), new BoundingBoxDownloader(minlat, minlon, maxlat, maxlon));
+

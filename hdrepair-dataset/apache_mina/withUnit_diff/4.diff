@@ -1,0 +1,21 @@
+diff --git a/core/src/main/java/org/apache/mina/filter/codec/textline/TextLineDecoder.java b/core/src/main/java/org/apache/mina/filter/codec/textline/TextLineDecoder.java
+index 8798f61..cb5477a 100644
+--- a/core/src/main/java/org/apache/mina/filter/codec/textline/TextLineDecoder.java
++++ b/core/src/main/java/org/apache/mina/filter/codec/textline/TextLineDecoder.java
+@@ -279,0 +280,2 @@
++                // fix for DIRMINA-506
++                in.position(in.position()-matchCount);
+diff --git a/core/src/test/java/org/apache/mina/filter/codec/textline/TextLineDecoderTest.java b/core/src/test/java/org/apache/mina/filter/codec/textline/TextLineDecoderTest.java
+index 3f00fe5..a0d5e60 100644
+--- a/core/src/test/java/org/apache/mina/filter/codec/textline/TextLineDecoderTest.java
++++ b/core/src/test/java/org/apache/mina/filter/codec/textline/TextLineDecoderTest.java
+@@ -81,0 +82,8 @@
++        // Test aborted delimiter (DIRMINA-506)
++        in.clear();
++        in.putString("ABC\r\r\n", encoder);
++        in.flip();
++        decoder.decode(session, in, out);
++        Assert.assertEquals(1, session.getDecoderOutputQueue().size());
++        Assert.assertEquals("ABC\r", session.getDecoderOutputQueue().poll());
++
+

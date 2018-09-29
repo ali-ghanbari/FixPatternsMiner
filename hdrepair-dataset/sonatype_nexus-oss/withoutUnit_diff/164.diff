@@ -1,0 +1,8 @@
+diff --git a/security-rest-api/src/main/java/org/sonatype/security/rest/AbstractSecurityPlexusResource.java b/security-rest-api/src/main/java/org/sonatype/security/rest/AbstractSecurityPlexusResource.java
+index 3a1c1db..2d9dfee 100644
+--- a/security-rest-api/src/main/java/org/sonatype/security/rest/AbstractSecurityPlexusResource.java
++++ b/security-rest-api/src/main/java/org/sonatype/security/rest/AbstractSecurityPlexusResource.java
+@@ -100 +100 @@
+-        resource.setResourceURI( this.createChildReference( request, resource.getUserId() ).toString() );
++        resource.setResourceURI( request.getResourceRef().getPath() );
+

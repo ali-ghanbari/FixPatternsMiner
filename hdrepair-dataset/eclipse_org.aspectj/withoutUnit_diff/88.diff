@@ -1,0 +1,9 @@
+diff --git a/ajde/src/org/aspectj/ajde/internal/CompilerAdapter.java b/ajde/src/org/aspectj/ajde/internal/CompilerAdapter.java
+index 871cd5d..d8c3a18 100644
+--- a/ajde/src/org/aspectj/ajde/internal/CompilerAdapter.java
++++ b/ajde/src/org/aspectj/ajde/internal/CompilerAdapter.java
+@@ -632,0 +633,3 @@
++        // bug 168840 - calling 'setInPath(..)' creates BinarySourceFiles which
++        // are used to see if there have been changes in classes on the inpath
++        if (config.getInpath() != null) config.setInPath(config.getInpath());
+

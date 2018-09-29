@@ -1,0 +1,70 @@
+diff --git a/org.hive2hive.core/src/main/java/org/hive2hive/core/security/H2HSignatureCodec.java b/org.hive2hive.core/src/main/java/org/hive2hive/core/security/H2HSignatureCodec.java
+index ff6bee9..b0c07be 100644
+--- a/org.hive2hive.core/src/main/java/org/hive2hive/core/security/H2HSignatureCodec.java
++++ b/org.hive2hive.core/src/main/java/org/hive2hive/core/security/H2HSignatureCodec.java
+@@ -13 +13 @@
+- * An ASN.1 encoder and decoder for the signature.
++ * A RSA encoder and decoder for the signature.
+diff --git a/org.hive2hive.core/src/test/java/org/hive2hive/core/security/H2HSignatureFactoryTest.java b/org.hive2hive.core/src/test/java/org/hive2hive/core/security/H2HSignatureFactoryTest.java
+index c083d80..9821057 100644
+--- a/org.hive2hive.core/src/test/java/org/hive2hive/core/security/H2HSignatureFactoryTest.java
++++ b/org.hive2hive.core/src/test/java/org/hive2hive/core/security/H2HSignatureFactoryTest.java
+@@ -2,0 +3,2 @@
++import io.netty.buffer.ByteBuf;
++
+@@ -5,0 +8 @@
++import java.security.Signature;
+@@ -20,0 +24,3 @@
++	private static KeyPair protectionKey;
++	private static Data testData;
++
+@@ -22,0 +29,5 @@
++		// create a content protection key
++		protectionKey = EncryptionUtil.generateRSAKeyPair(H2HConstants.KEYLENGTH_PROTECTION);
++		// generate some test data
++		testData = new Data("test");
++
+@@ -31,5 +41,0 @@
+-		// generate some test data
+-		Data testData = new Data("test");
+-		// create a content protection key
+-		KeyPair protectionKey = EncryptionUtil.generateRSAKeyPair(H2HConstants.KEYLENGTH_PROTECTION);
+-
+@@ -40 +46,2 @@
+-		boolean isVerified = signatureFactory.verify(protectionKey.getPublic(), testData.buffer(), signature);
++		Assert.assertTrue(signatureFactory.verify(protectionKey.getPublic(), testData.buffer(), signature));
++	}
+@@ -42,2 +49,30 @@
+-		// check if verifying worked
+-		Assert.assertTrue(isVerified);
++	@Test
++	public void testUpdateSingle() throws InvalidKeyException, SignatureException, IOException {
++		// sign the data
++		SignatureCodec signatureCodec = new H2HSignatureFactory().sign(protectionKey.getPrivate(), testData.buffer());
++
++		// update (already belongs to the verification)
++		Signature signature = new H2HSignatureFactory().update(protectionKey.getPublic(), testData.toByteBuffers());
++
++		// verify the data with the signature
++		Assert.assertTrue(signature.verify(signatureCodec.encode()));
++	}
++
++	@Test
++	public void testUpdateMultiple() throws InvalidKeyException, SignatureException, IOException {
++		// sign the data
++		SignatureCodec signatureCodec = new H2HSignatureFactory().sign(protectionKey.getPrivate(), testData.buffer());
++
++		// update (already belongs to the verification)
++		int length = testData.buffer().readableBytes();
++		ByteBuf slice1 = testData.buffer().copy(0, 3);
++		ByteBuf slice2 = testData.buffer().copy(3, 4);
++		ByteBuf slice3 = testData.buffer().copy(7, length - 7);
++
++		H2HSignatureFactory signatureFactory = new H2HSignatureFactory();
++		Signature signature = signatureFactory.update(protectionKey.getPublic(), slice1.nioBuffers());
++		signature.update(slice2.array());
++		signature.update(slice3.array());
++
++		// verify the data with the signature
++		Assert.assertTrue(signature.verify(signatureCodec.encode()));
+

@@ -1,0 +1,32 @@
+diff --git a/fits/src/main/uk/ac/starlink/fits/FitsConstants.java b/fits/src/main/uk/ac/starlink/fits/FitsConstants.java
+index c2023d6..2d6a309 100644
+--- a/fits/src/main/uk/ac/starlink/fits/FitsConstants.java
++++ b/fits/src/main/uk/ac/starlink/fits/FitsConstants.java
+@@ -196,0 +197 @@
++                    return new BufferedFile( file.getPath(), "r" );
+diff --git a/topcat/src/docs/sun253.xml b/topcat/src/docs/sun253.xml
+index 5efbaaf..0a5a04d 100644
+--- a/topcat/src/docs/sun253.xml
++++ b/topcat/src/docs/sun253.xml
+@@ -4118,0 +4119,9 @@
++<dt>Run in 64-bit mode</dt>
++<dd><p>If you are working with a file or files whose total size approaches
++    or exceeds about 2 Gbyte, you should use a 64-bit version of java.
++    This means that you will need a 64-bit operating system, and also
++    a 64-bit version of the Java Virtual Machine.
++    Executing "<code>java -version</code>" (or "<code>topcat -version</code>")
++    will probably say something about 64-bit-ness if it is 64-bit.
++    </p></dd>
++
+@@ -14032,0 +14042,3 @@
++    <li>Add recommendation to use 64-bit java in large table tips section.</li>
++    <li>Fix so FITS tables &gt;2Gb can be used in 32-bit mode
++        (though slower than 64-bit).</li>
+diff --git a/ttools/src/docs/sun256.xml b/ttools/src/docs/sun256.xml
+index c7b2aef..c675ed3 100644
+--- a/ttools/src/docs/sun256.xml
++++ b/ttools/src/docs/sun256.xml
+@@ -7385,0 +7386,2 @@
++    <li>Fix so FITS tables &gt;2Gb can provide random access in 32-bit mode
++        (though slower than 64-bit).</li>
+

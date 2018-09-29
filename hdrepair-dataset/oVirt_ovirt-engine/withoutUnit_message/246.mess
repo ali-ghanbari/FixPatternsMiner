@@ -1,0 +1,9 @@
+core: fix NPE in VdsUpdateRunTimeInfo
+
+When a disk reported by VDSM doesn't exist in the engine, it causes NPE
+when updating the disk statistics. Fixing it to check first if the
+returned DB disk is null.
+
+Change-Id: I9a3a02485766253fa63eb3260f60b83899bfd317
+Signed-off-by: Oved Ourfali <oourfali@redhat.com>
+

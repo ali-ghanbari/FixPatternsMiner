@@ -1,0 +1,293 @@
+diff --git a/usage/jsgui/src/main/webapp/assets/css/prettybrook.css b/usage/jsgui/src/main/webapp/assets/css/prettybrook.css
+index 3e1fa1f..8e7fb25 100644
+--- a/usage/jsgui/src/main/webapp/assets/css/prettybrook.css
++++ b/usage/jsgui/src/main/webapp/assets/css/prettybrook.css
+@@ -530,0 +531,9 @@
++.app-summary .inforow > div { display: inline-block; }
++.app-summary .inforow .name { font-weight: 700; width: 80px; padding-right: 12px;}
++.app-summary > .name { margin-bottom: 18px; }
++.app-summary .json { margin-top: 18px; }
++
++#activity-details div.for-activity-textarea {
++	/* correct for textarea width oddity */
++	margin-right: 10px;
++}
+diff --git a/usage/jsgui/src/main/webapp/assets/js/view/entity-activities.js b/usage/jsgui/src/main/webapp/assets/js/view/entity-activities.js
+index fb30921..94e1a23 100644
+--- a/usage/jsgui/src/main/webapp/assets/js/view/entity-activities.js
++++ b/usage/jsgui/src/main/webapp/assets/js/view/entity-activities.js
+@@ -32,0 +33 @@
++                this.$("#activity-details-none-selected").hide()
+@@ -47,0 +49,2 @@
++                } else {
++                    this.$("#activity-details-none-selected").show()                    
+@@ -59,2 +62 @@
+-                this.activeTask = null
+-                this.$("#activity-details").hide(100)
++                this.showFullActivity(null)
+@@ -67,0 +70 @@
++            this.$("#activity-details-none-selected").hide(100)
+@@ -71,0 +75,2 @@
++                this.$("#activity-details-none-selected").show(100)
++                return
+@@ -73,5 +78,11 @@
+-            var html = _.template(ActivityDetailsHtml, {
+-                displayName:this.model.get("displayName"),
+-                description:FormatJSON(task.toJSON())                
+-            })
+-            this.$("#activity-details").html(html)
++            
++            var $ta = this.$("#activity-details textarea")
++            if ($ta.length) {
++                $ta.val(FormatJSON(task.toJSON()))
++            } else {
++                var html = _.template(ActivityDetailsHtml, {
++                    displayName:this.model.get("displayName"),
++                    description:FormatJSON(task.toJSON())                
++                })
++                this.$("#activity-details").html(html)
++            }
+diff --git a/usage/jsgui/src/main/webapp/assets/js/view/entity-config.js b/usage/jsgui/src/main/webapp/assets/js/view/entity-config.js
+index 899b0a4..5cf7482 100644
+--- a/usage/jsgui/src/main/webapp/assets/js/view/entity-config.js
++++ b/usage/jsgui/src/main/webapp/assets/js/view/entity-config.js
+@@ -23 +22,0 @@
+-            this.viewUtils = new ViewUtils({})
+@@ -35 +34 @@
+-                that.viewUtils.myDataTable($table)
++                ViewUtils.myDataTable($table)
+@@ -46 +45 @@
+-            this.viewUtils.toggleFilterEmpty(this.$('#config-table'), 1)
++            ViewUtils.toggleFilterEmpty(this.$('#config-table'), 1)
+diff --git a/usage/jsgui/src/main/webapp/assets/js/view/entity-sensors.js b/usage/jsgui/src/main/webapp/assets/js/view/entity-sensors.js
+index 19c5cdc..63c9b04 100644
+--- a/usage/jsgui/src/main/webapp/assets/js/view/entity-sensors.js
++++ b/usage/jsgui/src/main/webapp/assets/js/view/entity-sensors.js
+@@ -23 +22,0 @@
+-            this.viewUtils = new ViewUtils({})
+@@ -42 +41 @@
+-                that.viewUtils.myDataTable($table)
++                ViewUtils.myDataTable($table)
+@@ -53 +52 @@
+-            this.viewUtils.toggleFilterEmpty(this.$('#sensors-table'), 2)
++            ViewUtils.toggleFilterEmpty(this.$('#sensors-table'), 2)
+diff --git a/usage/jsgui/src/main/webapp/assets/js/view/entity-summary.js b/usage/jsgui/src/main/webapp/assets/js/view/entity-summary.js
+index 2f7ef84..2d587ca 100644
+--- a/usage/jsgui/src/main/webapp/assets/js/view/entity-summary.js
++++ b/usage/jsgui/src/main/webapp/assets/js/view/entity-summary.js
+@@ -6,2 +6,3 @@
+-    "underscore", "jquery", "backbone", "text!tpl/apps/summary.html", "formatJson"
+-], function (_, $, Backbone, SummaryHtml) {
++    "underscore", "jquery", "backbone", "view/viewutils",
++    "text!tpl/apps/summary.html", "formatJson", "brooklyn-utils"
++], function (_, $, Backbone, ViewUtils, SummaryHtml) {
+@@ -11 +12,3 @@
+-        render:function () {
++        initialize: function() {
++            var that = this
++            var ej = FormatJSON(this.model.toJSON());
+@@ -13,2 +16,4 @@
+-                entity:FormatJSON(this.model.toJSON()),
+-                application:FormatJSON(this.options.application.toJSON())
++                entity:this.model,
++                application:this.options.application,
++                entityJson:ej,
++                applicationJson:FormatJSON(this.options.application.toJSON())
+@@ -15,0 +21,7 @@
++            ViewUtils.updateTextareaWithData($(".for-textarea", this.$el), ej, true, 150, 400)
++            ViewUtils.attachToggler(this.$el)
++            that.callPeriodically("entity-summary-sensors", 
++                    function() { that.updateSensorsNow(that) }, 3000)
++            that.updateSensorsNow(that)
++        },
++        render:function () {
+@@ -16,0 +29,13 @@
++        },
++        revealIfHasValue: function(that, sensor, $div) {
++            $.ajax({
++                url: that.model.getLinkByName("sensors")+"/"+sensor,
++                contentType:"application/json",
++                success:function (data) {
++                    $(".value", $div).html(_.escape(data))
++                    $div.show()
++                }})            
++        },
++        updateSensorsNow: function(that) {
++            that.revealIfHasValue(that, "service.isUp", that.$(".serviceUp"))
++            that.revealIfHasValue(that, "service.state", that.$(".status"))
+diff --git a/usage/jsgui/src/main/webapp/assets/js/view/script-groovy.js b/usage/jsgui/src/main/webapp/assets/js/view/script-groovy.js
+index 0e457de..a9610f8 100644
+--- a/usage/jsgui/src/main/webapp/assets/js/view/script-groovy.js
++++ b/usage/jsgui/src/main/webapp/assets/js/view/script-groovy.js
+@@ -2,0 +3 @@
++    "view/viewutils",
+@@ -10,2 +11,2 @@
+-    "brooklyn-utils"
+-], function (_, $, Backbone, GroovyHtml) {
++    "brooklyn-utils",
++], function (_, $, Backbone, ViewUtils, GroovyHtml) {
+@@ -29 +30 @@
+-            $(".toggler-header", this.$el).click(this.toggleNext)
++            ViewUtils.attachToggler(this.$el)
+@@ -33,13 +33,0 @@
+-        },
+-        toggleNext: function(event) {
+-            var root = $(event.currentTarget).closest(".toggler-header");
+-            root.toggleClass("user-hidden");
+-            $(".toggler-icon", root).
+-                toggleClass("icon-chevron-left").
+-                toggleClass("icon-chevron-down");
+-                
+-            var next = root.next();
+-            if (root.hasClass("user-hidden")) 
+-                next.hide('fast');
+-            else 
+-                next.show('fast')
+@@ -62,18 +50 @@
+-            var $ta = $("textarea", $div)
+-            var show = alwaysShow
+-            if (data !== undefined) {
+-                $ta.val(data)
+-                show = true
+-            } else {
+-                $ta.val("")
+-            }
+-            if (show) {
+-                log("foo")
+-                $div.show(100)
+-                $ta.css("height", 50);
+-                var height = Math.min($ta.prop("scrollHeight"), 350)
+-                $ta.css("height", height);
+-                log(height)
+-            } else {
+-                $div.hide()
+-            }
++            ViewUtils.updateTextareaWithData($div, data, alwaysShow, 50, 350) 
+diff --git a/usage/jsgui/src/main/webapp/assets/js/view/viewutils.js b/usage/jsgui/src/main/webapp/assets/js/view/viewutils.js
+index b802119..7572ffd 100644
+--- a/usage/jsgui/src/main/webapp/assets/js/view/viewutils.js
++++ b/usage/jsgui/src/main/webapp/assets/js/view/viewutils.js
+@@ -5 +5 @@
+-    var ViewUtils = Backbone.View.extend({
++    var ViewUtils = {
+@@ -41,0 +42,42 @@
++        },
++
++        attachToggler: function($scope) {
++            var $togglers;
++            if ($scope === undefined) $togglers = $(".toggler-header")
++            else $togglers = $(".toggler-header", $scope);
++            $togglers.click(this.onTogglerClick)
++        },
++        onTogglerClick: function(event) {
++            var root = $(event.currentTarget).closest(".toggler-header");
++            root.toggleClass("user-hidden");
++            $(".toggler-icon", root).
++                toggleClass("icon-chevron-left").
++                toggleClass("icon-chevron-down");
++                
++            var next = root.next();
++            if (root.hasClass("user-hidden")) 
++                next.hide('fast');
++            else 
++                next.show('fast')
++        },
++        
++        updateTextareaWithData: function($div, data, alwaysShow, minPx, maxPx) {
++            var $ta = $("textarea", $div)
++            var show = alwaysShow
++            if (data !== undefined) {
++                $ta.val(data)
++                show = true
++            } else {
++                $ta.val("")
++            }
++            if (show) {
++                $div.show(100)
++                $ta.css("height", minPx);
++                // scrollHeight prop works sometimes (e.g. groovy page) but not others (e.g. summary)
++                var height = $ta.prop("scrollHeight")
++                height = Math.min(height, maxPx)
++                height = Math.max(height, minPx)
++                $ta.css("height", height);
++            } else {
++                $div.hide()
++            }
+@@ -44 +86,2 @@
+-    })
++    }
++    
+diff --git a/usage/jsgui/src/main/webapp/assets/tpl/apps/activities.html b/usage/jsgui/src/main/webapp/assets/tpl/apps/activities.html
+index 8dbe3ec..d894035 100644
+--- a/usage/jsgui/src/main/webapp/assets/tpl/apps/activities.html
++++ b/usage/jsgui/src/main/webapp/assets/tpl/apps/activities.html
+@@ -15 +15,6 @@
+-<div id="activity-details"></div>
++<div id="activity-details">
++</div>
++
++<div id="activity-details-none-selected">
++    <i>Select an entity above to view details.</i>
++</div>
+diff --git a/usage/jsgui/src/main/webapp/assets/tpl/apps/activity-details.html b/usage/jsgui/src/main/webapp/assets/tpl/apps/activity-details.html
+index 83faca7..136e8ae 100644
+--- a/usage/jsgui/src/main/webapp/assets/tpl/apps/activity-details.html
++++ b/usage/jsgui/src/main/webapp/assets/tpl/apps/activity-details.html
+@@ -1 +1 @@
+-<div>
++<div class="for-activity-textarea">
+diff --git a/usage/jsgui/src/main/webapp/assets/tpl/apps/summary.html b/usage/jsgui/src/main/webapp/assets/tpl/apps/summary.html
+index baf8863..48f5d23 100644
+--- a/usage/jsgui/src/main/webapp/assets/tpl/apps/summary.html
++++ b/usage/jsgui/src/main/webapp/assets/tpl/apps/summary.html
+@@ -1 +1,41 @@
+-<textarea readonly="readonly" rows="25"><%= entity %></textarea>
++<div class="app-summary">
++
++  <div class="name">
++    <h2><%= entity.get('name') %></h2>
++  </div>
++
++  <div class="id inforow">
++    <div class="name">ID</div>
++    <div class="value"><%= entity.get('id') %></div>
++  </div>
++
++  <div class="status inforow hide">
++    <div class="name">Status</div>
++    <div class="value"><i>Loading...</i></div>
++  </div>
++  <div class="serviceUp inforow hide">
++    <div class="name">Available</div>
++    <div class="value"><i>Loading...</i></div>
++  </div>
++  <!-- TODO
++	<div class="toggler-region location inforow">
++		<div class="name">Location</div>
++		<div class="value"><i>Loading...</i></div>
++	</div>
++	-->
++  <!-- TODO
++    parent, app, children
++    map
++  -->
++
++  <div class="toggler-region json">
++    <div class="toggler-header">
++      <div class="toggler-icon icon-chevron-down"></div>
++      <div><b>JSON</b></div>
++    </div>
++    <div class="for-textarea">
++      <textarea id="json-textrea" readonly="readonly"><%= entityJson %></textarea>
++    </div>
++  </div>
++
++</div>
+\ No newline at end of file
+diff --git a/usage/rest/src/main/java/brooklyn/rest/resources/SensorResource.java b/usage/rest/src/main/java/brooklyn/rest/resources/SensorResource.java
+index 41b6f3d..33532e1 100644
+--- a/usage/rest/src/main/java/brooklyn/rest/resources/SensorResource.java
++++ b/usage/rest/src/main/java/brooklyn/rest/resources/SensorResource.java
+@@ -100,0 +101 @@
++  @Produces("text/plain")
+

@@ -1,0 +1,8 @@
+diff --git a/src/main/java/com/google/devtools/j2objc/util/NameTable.java b/src/main/java/com/google/devtools/j2objc/util/NameTable.java
+index d8a1d00..81251a8 100644
+--- a/src/main/java/com/google/devtools/j2objc/util/NameTable.java
++++ b/src/main/java/com/google/devtools/j2objc/util/NameTable.java
+@@ -432 +432 @@
+-      return outerBinding.isEnum() ? baseName : baseName + suffix;
++      return (outerBinding.isEnum() && binding.isAnonymous()) ? baseName : baseName + suffix;
+

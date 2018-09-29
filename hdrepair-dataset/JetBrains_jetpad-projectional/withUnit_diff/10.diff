@@ -1,0 +1,37 @@
+diff --git a/view/src/main/java/jetbrains/jetpad/projectional/view/MultiPointView.java b/view/src/main/java/jetbrains/jetpad/projectional/view/MultiPointView.java
+index 1d14f98..f734cda 100644
+--- a/view/src/main/java/jetbrains/jetpad/projectional/view/MultiPointView.java
++++ b/view/src/main/java/jetbrains/jetpad/projectional/view/MultiPointView.java
+@@ -98 +98 @@
+-      Vector relative = element.add(toRootDelta().get());
++      Vector relative = element.sub(toRootDelta().get());
+diff --git a/view/src/test/java/jetbrains/jetpad/projectional/view/MultiPointViewTest.java b/view/src/test/java/jetbrains/jetpad/projectional/view/MultiPointViewTest.java
+new file mode 100644
+index 0000000..98509e3
+--- /dev/null
++++ b/view/src/test/java/jetbrains/jetpad/projectional/view/MultiPointViewTest.java
+@@ -0,0 +1,23 @@
++package jetbrains.jetpad.projectional.view;
++
++import jetbrains.jetpad.geometry.Vector;
++import org.junit.Assert;
++import org.junit.Test;
++
++import static org.junit.Assert.*;
++
++public class MultiPointViewTest {
++  @Test
++  public void addRemoveWithRelativeCoordinates() {
++    GroupView container = new GroupView();
++    PolygonView polygonView = new PolygonView();
++    container.children().add(polygonView);
++
++    polygonView.move(new Vector(10, 10));
++
++    polygonView.points.add(new Vector(10, 10));
++
++    assertEquals(1, polygonView.points.size());
++    assertEquals(new Vector(10, 10), polygonView.points.get(0));
++  }
++}
+

@@ -1,0 +1,8 @@
+diff --git a/opennms-provision/opennms-provisiond/src/main/java/org/opennms/netmgt/provision/service/PhysInterfaceTableTracker.java b/opennms-provision/opennms-provisiond/src/main/java/org/opennms/netmgt/provision/service/PhysInterfaceTableTracker.java
+index 02b160f..221e19f 100644
+--- a/opennms-provision/opennms-provisiond/src/main/java/org/opennms/netmgt/provision/service/PhysInterfaceTableTracker.java
++++ b/opennms-provision/opennms-provisiond/src/main/java/org/opennms/netmgt/provision/service/PhysInterfaceTableTracker.java
+@@ -145 +145 @@
+-            return highSpeed != null && highSpeed > 4294 ? highSpeed*1000000L : getIfSpeed(); 
++            return (highSpeed != null && highSpeed > 4294) ? (highSpeed*1000000L) : getIfSpeed();
+

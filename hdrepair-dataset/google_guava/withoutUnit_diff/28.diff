@@ -1,0 +1,8 @@
+diff --git a/guava-gwt/src-super/com/google/common/collect/super/com/google/common/collect/ImmutableMap.java b/guava-gwt/src-super/com/google/common/collect/super/com/google/common/collect/ImmutableMap.java
+index c07ae23..1bdccfd 100644
+--- a/guava-gwt/src-super/com/google/common/collect/super/com/google/common/collect/ImmutableMap.java
++++ b/guava-gwt/src-super/com/google/common/collect/super/com/google/common/collect/ImmutableMap.java
+@@ -208 +208 @@
+-    return Maps.safeGet(delegate, key);
++    return (key == null) ? null : Maps.safeGet(delegate, key);
+

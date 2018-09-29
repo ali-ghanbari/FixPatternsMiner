@@ -1,0 +1,239 @@
+diff --git a/modules/openlmis-web/src/main/java/org/openlmis/web/configurationReader/StaticReferenceDataReader.java b/modules/openlmis-web/src/main/java/org/openlmis/web/configurationReader/StaticReferenceDataReader.java
+index 056bba2..bc4b284 100644
+--- a/modules/openlmis-web/src/main/java/org/openlmis/web/configurationReader/StaticReferenceDataReader.java
++++ b/modules/openlmis-web/src/main/java/org/openlmis/web/configurationReader/StaticReferenceDataReader.java
+@@ -32 +32 @@
+-    return messageSource.getMessage("currencySymbol", noArgs, Locale.getDefault());
++    return messageSource.getMessage("label.currency.symbol", noArgs, Locale.getDefault());
+diff --git a/modules/openlmis-web/src/main/resources/messages_en.properties b/modules/openlmis-web/src/main/resources/messages_en.properties
+index 2f16d41..280d261 100644
+--- a/modules/openlmis-web/src/main/resources/messages_en.properties
++++ b/modules/openlmis-web/src/main/resources/messages_en.properties
+@@ -7,17 +7,17 @@
+-currencySymbol = $
+-button.add=Add
+-button.addNew=Add New
+-button.cancel=Cancel
+-button.remove=Remove
+-button.create=Create
+-button.ok=OK
+-button.close=Close
+-button.done=Done
+-button.save=Save
+-button.submit=Submit
+-button.yes=Yes
+-button.no=No
+-button.restore=Restore
+-button.delete=Delete
+-button.authorize=Authorize
+-button.print=Print
++label.currency.symbol = $
++button.add = Add
++button.add.new = Add New
++button.cancel = Cancel
++button.remove = Remove
++button.create = Create
++button.ok = OK
++button.close = Close
++button.done = Done
++button.save = Save
++button.submit = Submit
++button.yes = Yes
++button.no = No
++button.restore = Restore
++button.delete = Delete
++button.authorize = Authorize
++button.print = Print
+@@ -25 +25 @@
+-message.loading=Loading...
++msg.loading = Loading...
+@@ -30,12 +30,12 @@
+-app.header = Logistics Management Information Systems
+-password.change.success = Password Changed Successfully!
+-sign.in.message = Please Sign In with your new password.
+-change.password.header = Change Password
+-header.sign.in = Sign In
+-button.signIn = Sign in
+-header.product.name = Product name
+-header.ISA.formula = ISA formula
+-program.product.header = Configure Product ISAs
+-header.ISA.formula.modal = ISA formula for
+-heading.ISA.formula.modal.formula.variables = Formula variables
+-heading.ISA.formula.modal.minimum.value = Minimum value
++label.app.header = Logistics Management Information Systems
++msg.password.change.success = Password Changed Successfully!
++msg.sign.in = Please Sign In with your new password.
++label.change.password = Change Password
++label.sign.in = Sign In
++button.sign.in = Sign in
++label.product.name = Product name
++label.isa.formula = ISA formula
++label.program.product = Configure Product ISAs
++label.isa.formula.modal = ISA formula for
++label.isa.formula.modal.formula.variables = Formula variables
++label.isa.formula.modal.minimum.value = Minimum value
+@@ -47 +47 @@
+-label.ISA.minimum.value = ISA minimum value
++label.isa.minimum.value = ISA minimum value
+@@ -49,5 +49,5 @@
+-ISA.monthly.restock.amount = Monthly restock amount =
+-ISA.population.of = A population of
+-ISA.doses.of = doses of
+-ISA.will.need = will need
+-ISA.per.month = per month
++label.isa.monthly.restock.amount = Monthly restock amount =
++label.isa.population.of = A population of
++label.isa.doses.of = doses of
++label.isa.will.need = will need
++label.isa.per.month = per month
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/facility/partials/search.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/facility/partials/search.html
+index 741a584..bea9f6b 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/facility/partials/search.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/facility/partials/search.html
+@@ -10 +10 @@
+-    <a id="add-new-facility" href="#/create-facility" class="pull-right btn btn-primary" openlmis-message="button.addNew"></a>
++    <a id="add-new-facility" href="#/create-facility" class="pull-right btn btn-primary" openlmis-message="button.add.new"></a>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/program-product-isa/partials/list.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/program-product-isa/partials/list.html
+index 443c266..6d45300 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/program-product-isa/partials/list.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/program-product-isa/partials/list.html
+@@ -9 +9 @@
+-  <h2 openlmis-message="program.product.header"></h2>
++  <h2 openlmis-message="label.program.product"></h2>
+@@ -36,2 +36,2 @@
+-      <div class="span4" openlmis-message="header.product.name"></div>
+-      <div class="span8" openlmis-message="header.ISA.formula"></div>
++      <div class="span4" openlmis-message="label.product.name"></div>
++      <div class="span8" openlmis-message="label.isa.formula"></div>
+@@ -55 +55 @@
+-        <span openlmis-message="header.ISA.formula.modal"></span>
++        <span openlmis-message="label.isa.formula.modal"></span>
+@@ -63 +63 @@
+-          <h5 openlmis-message="heading.ISA.formula.modal.formula.variables"></h5>
++          <h5 openlmis-message="label.isa.formula.modal.formula.variables"></h5>
+@@ -137 +137 @@
+-          <h5 openlmis-message="heading.ISA.formula.modal.minimum.value"></h5>
++          <h5 openlmis-message="label.isa.formula.modal.minimum.value"></h5>
+@@ -141 +141 @@
+-              <label for="minimum-value" openlmis-message="label.ISA.minimum.value"></label>
++              <label for="minimum-value" openlmis-message="label.isa.minimum.value"></label>
+@@ -156 +156 @@
+-          <span openlmis-message="ISA.monthly.restock.amount"></span>
++          <span openlmis-message="label.isa.monthly.restock.amount"></span>
+@@ -163 +163 @@
+-          <span openlmis-message="ISA.population.of"></span>
++          <span openlmis-message="label.isa.population.of"></span>
+@@ -167 +167 @@
+-          <span openlmis-message="ISA.will.need"></span>
++          <span openlmis-message="label.isa.will.need"></span>
+@@ -169 +169 @@
+-          <span openlmis-message="ISA.doses.of"></span>
++          <span openlmis-message="label.isa.doses.of"></span>
+@@ -171 +171 @@
+-          <span openlmis-message="ISA.per.month"></span>
++          <span openlmis-message="label.isa.per.month"></span>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html
+index 85e5b06..1ac2add 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/create.html
+@@ -7 +7 @@
+-<div ng-hide = "rights && role" openlmis-message="message.loading"></div >
++<div ng-hide = "rights && role" openlmis-message="msg.loading"></div >
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/list.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/list.html
+index 16c1454..1f901ee 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/list.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/role/partials/list.html
+@@ -7 +7 @@
+-<div ng-hide="roles" openlmis-message="message.loading"></div>
++<div ng-hide="roles" openlmis-message="msg.loading"></div>
+@@ -11 +11 @@
+-    <a id="role-add-new" ng-href="#/create" class="pull-right btn btn-primary" openlmis-message="button.addNew"></a>
++    <a id="role-add-new" ng-href="#/create" class="pull-right btn btn-primary" openlmis-message="button.add.new"></a>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/schedule/partials/list.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/schedule/partials/list.html
+index 523a16d..de24097 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/schedule/partials/list.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/schedule/partials/list.html
+@@ -8 +8 @@
+-  <h2><span openlmis-message="schedules.header"></span><a href="#" id="schedule-add-new" class="pull-right btn btn-primary" ng-click="startAddNewSchedule()" openlmis-message="button.addNew"></a></h2>
++  <h2><span openlmis-message="schedules.header"></span><a href="#" id="schedule-add-new" class="pull-right btn btn-primary" ng-click="startAddNewSchedule()" openlmis-message="button.add.new"></a></h2>
+@@ -11 +11 @@
+-  <div ng-hide="scheduleLoaded()" openlmis-message="message.loading"></div>
++  <div ng-hide="scheduleLoaded()" openlmis-message="msg.loading"></div>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/user/partials/search.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/user/partials/search.html
+index 3ff2eac..de561d2 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/user/partials/search.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/user/partials/search.html
+@@ -9 +9 @@
+-        <a href="#/create-user" class="pull-right btn btn-primary"><span id="user-add-new" openlmis-message="button.addNew"></span></a>
++        <a href="#/create-user" class="pull-right btn btn-primary"><span id="user-add-new" openlmis-message="button.add.new"></span></a>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/email-sent.html b/modules/openlmis-web/src/main/webapp/public/pages/email-sent.html
+index 0cff08c..c150e19 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/email-sent.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/email-sent.html
+@@ -25 +25 @@
+-        <h1 openlmis-message="app.header"></h1>
++        <h1 openlmis-message="label.app.header"></h1>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/forgot-password.html b/modules/openlmis-web/src/main/webapp/public/pages/forgot-password.html
+index 25dafd2..86637f6 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/forgot-password.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/forgot-password.html
+@@ -32 +32 @@
+-    <h1 openlmis-message="app.header"></h1>
++    <h1 openlmis-message="label.app.header"></h1>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/header.html b/modules/openlmis-web/src/main/webapp/public/pages/header.html
+index 97707b6..7e15a1a 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/header.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/header.html
+@@ -20 +20 @@
+-        <h1 openlmis-message="app.header"></h1>
++        <h1 openlmis-message="label.app.header"></h1>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/login-form.html b/modules/openlmis-web/src/main/webapp/public/pages/login-form.html
+index 60be3dc..96c6106 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/login-form.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/login-form.html
+@@ -8 +8 @@
+-  <h1 openlmis-message="app.header"></h1>
++  <h1 openlmis-message="label.app.header"></h1>
+@@ -10 +10 @@
+-    <h2 openlmis-message="header.sign.in"></h2>
++    <h2 openlmis-message="label.sign.in"></h2>
+@@ -21 +21 @@
+-          <input class="btn btn-primary" type="submit" value="Sign in" openlmis-message="button.signIn" ng-disabled="disableSignInButton"/>
++          <input class="btn btn-primary" type="submit" value="Sign in" openlmis-message="button.sign.in" ng-disabled="disableSignInButton"/>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/logistics/rnr/partials/create/index.html b/modules/openlmis-web/src/main/webapp/public/pages/logistics/rnr/partials/create/index.html
+index d397e4b..baa9bca 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/logistics/rnr/partials/create/index.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/logistics/rnr/partials/create/index.html
+@@ -22 +22 @@
+-  <div ng-hide="programRnrColumnList" openlmis-message="message.loading"></div>
++  <div ng-hide="programRnrColumnList" openlmis-message="msg.loading"></div>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-complete.html b/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-complete.html
+index 39342eb..f7c7209 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-complete.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-complete.html
+@@ -9 +9 @@
+-        <h1 openlmis-message="app.header"></h1>
++        <h1 openlmis-message="label.app.header"></h1>
+@@ -12,2 +12,2 @@
+-        <h2 openlmis-message="password.change.success"></h2>
+-          <div class="form-desc" openlmis-message="sign.in.message">
++        <h2 openlmis-message="msg.password.change.success"></h2>
++          <div class="form-desc" openlmis-message="msg.sign.in">
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-form.html b/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-form.html
+index 5f2c7a4..007b80e 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-form.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/partials/reset-password-form.html
+@@ -9 +9 @@
+-    <h1 openlmis-message="app.header"></h1>
++    <h1 openlmis-message="label.app.header"></h1>
+@@ -12 +12 @@
+-      <h2 openlmis-message="change.password.header"></h2>
++      <h2 openlmis-message="label.change.password"></h2>
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/report/partials/list.html b/modules/openlmis-web/src/main/webapp/public/pages/report/partials/list.html
+index c332472..809facd 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/report/partials/list.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/report/partials/list.html
+@@ -9 +9 @@
+-       openlmis-message="button.addNew"></a>
++       openlmis-message="button.add.new"></a>
+

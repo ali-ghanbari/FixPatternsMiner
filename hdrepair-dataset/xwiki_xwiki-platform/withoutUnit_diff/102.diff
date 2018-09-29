@@ -1,0 +1,38 @@
+diff --git a/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/store/XWikiHibernateStoreCompatibilityAspect.aj b/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/store/XWikiHibernateStoreCompatibilityAspect.aj
+index a446fe4..dd74496 100644
+--- a/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/store/XWikiHibernateStoreCompatibilityAspect.aj
++++ b/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/store/XWikiHibernateStoreCompatibilityAspect.aj
+@@ -55 +55 @@
+-        this.loadXWikiCollection(object, null, context, bTransaction, false);
++        this.loadXWikiCollectionInternal(object, null, context, bTransaction, false);
+@@ -122,3 +122,4 @@
+-    public void saveXWikiProperty(PropertyInterface property,
+-                                  XWikiContext context,
+-                                  boolean runInOwnTransaction) throws XWikiException
++    public void XWikiHibernateStore.saveXWikiProperty(PropertyInterface property,
++                                                      XWikiContext context,
++                                                      boolean runInOwnTransaction)
++        throws XWikiException
+diff --git a/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/util/UtilCompatibilityAspect.aj b/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/util/UtilCompatibilityAspect.aj
+index 5b24b7b..5af4a09 100644
+--- a/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/util/UtilCompatibilityAspect.aj
++++ b/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/aspect/compatibility/com/xpn/xwiki/util/UtilCompatibilityAspect.aj
+@@ -23,0 +24,3 @@
++import java.io.InputStream;
++import java.io.IOException;
++import java.util.List;
+@@ -24,0 +28 @@
++import com.xpn.xwiki.XWiki;
+@@ -30 +34 @@
+- * Add a backward compatibility layer to the {@link com.xpn.xwiki.store.XWikiHibernateStore} class.
++ * Add a backward compatibility layer to the {@link com.xpn.xwiki.util.Util} class.
+@@ -36 +39,0 @@
+-
+diff --git a/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/java/com/xpn/xwiki/plugin/query/SecHibernateQuery.java b/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/java/com/xpn/xwiki/plugin/query/SecHibernateQuery.java
+index 543c541..75a9e72 100644
+--- a/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/java/com/xpn/xwiki/plugin/query/SecHibernateQuery.java
++++ b/xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/java/com/xpn/xwiki/plugin/query/SecHibernateQuery.java
+@@ -189 +189 @@
+-                getHibernateStore().loadXWikiObject((BaseObject) element, getContext(), true);
++                getHibernateStore().loadXWikiCollection((BaseObject) element, getContext(), true);
+

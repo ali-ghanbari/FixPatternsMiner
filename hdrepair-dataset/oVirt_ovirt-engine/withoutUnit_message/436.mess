@@ -1,0 +1,12 @@
+webadmin: Events subtab of Users show nothing
+
+The Events subtab list no records for a user even there are some
+records. The problem is that UserEventListModel searches for users
+with username=getEntity().getname() which refers to the first
+ name of the user.
+
+This fix changes it to getEntity().getusername() which refers to the
+user name.
+
+Change-Id: Ia423c9d4c83b05bedde6647b430a79d1301c05b1
+

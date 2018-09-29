@@ -1,0 +1,10 @@
+Change default TIME_DELAYED_TO_RESTART_RADIO to 60secs from 20secs.
+
+This is the simple fix for bug 2199271 which increases the timeout
+for DEACTIVATE thus allowing more time to complete before SETUP_DATA_CALL
+is retried. This should fix some occurrences of this bug as the current
+time is known to be too short.
+
+Bug: 2199271
+Change-Id: I11c3cdc74678399de5f812133c83d687d0ed9937
+

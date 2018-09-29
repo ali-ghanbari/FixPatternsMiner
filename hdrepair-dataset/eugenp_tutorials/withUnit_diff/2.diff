@@ -1,0 +1,15 @@
+diff --git a/jackson/src/test/java/org/baeldung/jackson/deserialization/ItemDeserializer.java b/jackson/src/test/java/org/baeldung/jackson/deserialization/ItemDeserializer.java
+index 8c6b675..baf5b94 100644
+--- a/jackson/src/test/java/org/baeldung/jackson/deserialization/ItemDeserializer.java
++++ b/jackson/src/test/java/org/baeldung/jackson/deserialization/ItemDeserializer.java
+@@ -25 +25 @@
+-        final int userId = (Integer) ((IntNode) node.get("owner")).numberValue();
++        final int userId = (Integer) ((IntNode) node.get("createdBy")).numberValue();
+diff --git a/jackson/src/test/java/org/baeldung/jackson/test/JacksonDeserializationUnitTest.java b/jackson/src/test/java/org/baeldung/jackson/test/JacksonDeserializationUnitTest.java
+index e62b73e..eb62ba9 100644
+--- a/jackson/src/test/java/org/baeldung/jackson/test/JacksonDeserializationUnitTest.java
++++ b/jackson/src/test/java/org/baeldung/jackson/test/JacksonDeserializationUnitTest.java
+@@ -149 +149 @@
+-        final String json = "{\"id\":1,\"itemName\":\"theItem\",\"owner\":2}";
++        final String json = "{\"id\":1,\"itemName\":\"theItem\",\"createdBy\":2}";
+

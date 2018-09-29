@@ -1,0 +1,22 @@
+diff --git a/portal-service/src/com/liferay/portal/kernel/util/StringUtil.java b/portal-service/src/com/liferay/portal/kernel/util/StringUtil.java
+index 0f7bc18..ad9e100 100644
+--- a/portal-service/src/com/liferay/portal/kernel/util/StringUtil.java
++++ b/portal-service/src/com/liferay/portal/kernel/util/StringUtil.java
+@@ -758 +758 @@
+-		if (Validator.isNull(oldSub)) {
++		if ((oldSub == null) || (oldSub.equals(StringPool.BLANK))) {
+diff --git a/portal-service/test/com/liferay/portal/kernel/util/StringUtilTest.java b/portal-service/test/com/liferay/portal/kernel/util/StringUtilTest.java
+index 01d9069..7c1ffba 100644
+--- a/portal-service/test/com/liferay/portal/kernel/util/StringUtilTest.java
++++ b/portal-service/test/com/liferay/portal/kernel/util/StringUtilTest.java
+@@ -120,0 +121,9 @@
++	public void testReplaceSpaceString() throws Exception {
++		String original = "Hello World HELLO WORLD Hello World";
++		String expected = "HelloWorldHELLOWORLDHelloWorld";
++
++		String actual = StringUtil.replace(original, " ", StringPool.BLANK);
++
++		assertEquals(expected, actual);
++	}
++
+

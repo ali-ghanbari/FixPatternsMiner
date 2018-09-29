@@ -1,0 +1,8 @@
+diff --git a/xchange-okcoin/src/main/java/com/xeiam/xchange/okcoin/OkCoinAdapters.java b/xchange-okcoin/src/main/java/com/xeiam/xchange/okcoin/OkCoinAdapters.java
+index 42bcf6d..5bccccb 100644
+--- a/xchange-okcoin/src/main/java/com/xeiam/xchange/okcoin/OkCoinAdapters.java
++++ b/xchange-okcoin/src/main/java/com/xeiam/xchange/okcoin/OkCoinAdapters.java
+@@ -132 +132 @@
+-    return new Trade(trade.getType() == "buy" ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), trade.getTid());
++    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), trade.getTid());
+

@@ -1,0 +1,76 @@
+diff --git a/hibernate-entitymanager/src/main/java/org/hibernate/ejb/packaging/JarVisitorFactory.java b/hibernate-entitymanager/src/main/java/org/hibernate/ejb/packaging/JarVisitorFactory.java
+index 9e53bcb..d24decc 100644
+--- a/hibernate-entitymanager/src/main/java/org/hibernate/ejb/packaging/JarVisitorFactory.java
++++ b/hibernate-entitymanager/src/main/java/org/hibernate/ejb/packaging/JarVisitorFactory.java
+@@ -165 +165 @@
+-		else if ( StringHelper.isEmpty( protocol ) || "file".equals( protocol ) ) {
++		else if ( StringHelper.isEmpty( protocol ) || "file".equals( protocol ) || "vfszip".equals( protocol ) || "vfsfile".equals( protocol ) ) {
+diff --git a/hibernate-entitymanager/src/test/java/org/hibernate/ejb/test/packaging/JarVisitorTest.java b/hibernate-entitymanager/src/test/java/org/hibernate/ejb/test/packaging/JarVisitorTest.java
+index 9fc9aba..0c24a4d 100644
+--- a/hibernate-entitymanager/src/test/java/org/hibernate/ejb/test/packaging/JarVisitorTest.java
++++ b/hibernate-entitymanager/src/test/java/org/hibernate/ejb/test/packaging/JarVisitorTest.java
+@@ -26,3 +26,5 @@
+-import javax.persistence.Embeddable;
+-import javax.persistence.Entity;
+-import javax.persistence.MappedSuperclass;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertNotNull;
++import static org.junit.Assert.assertNull;
++import static org.junit.Assert.assertTrue;
++
+@@ -32,0 +35,2 @@
++import java.net.URLStreamHandler;
++import java.net.URLStreamHandlerFactory;
+@@ -33,0 +38,4 @@
++
++import javax.persistence.Embeddable;
++import javax.persistence.Entity;
++import javax.persistence.MappedSuperclass;
+@@ -48,3 +55,0 @@
+-
+-import org.junit.Test;
+-
+@@ -52,5 +57 @@
+-
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertNotNull;
+-import static org.junit.Assert.assertNull;
+-import static org.junit.Assert.assertTrue;
++import org.junit.Test;
+@@ -222,0 +224,35 @@
++	
++	@Test
++	@TestForIssue(jiraKey = "HHH-6806")
++	public void testJarVisitorFactory() throws Exception{
++		
++        //setting URL to accept vfs based protocol
++		URL.setURLStreamHandlerFactory(new URLStreamHandlerFactory() {
++			public URLStreamHandler createURLStreamHandler(String protocol) {
++				if("vfszip".equals(protocol) || "vfsfile".equals(protocol) )
++				return new URLStreamHandler() {
++					protected URLConnection openConnection(URL u)
++							throws IOException {
++						return null;
++					}
++				};
++				return null;
++			}
++		});
++        
++		URL jarUrl  = new URL ("file:./target/packages/defaultpar.par");
++		JarVisitor jarVisitor =  JarVisitorFactory.getVisitor(jarUrl, getFilters(), null);
++		assertEquals(FileZippedJarVisitor.class.getName(), jarVisitor.getClass().getName());
++		
++		jarUrl  = new URL ("file:./target/packages/explodedpar");
++		jarVisitor =  JarVisitorFactory.getVisitor(jarUrl, getFilters(), null);
++		assertEquals(ExplodedJarVisitor.class.getName(), jarVisitor.getClass().getName());
++		
++		jarUrl  = new URL ("vfszip:./target/packages/defaultpar.par");
++		jarVisitor =  JarVisitorFactory.getVisitor(jarUrl, getFilters(), null);
++		assertEquals(FileZippedJarVisitor.class.getName(), jarVisitor.getClass().getName());
++		
++		jarUrl  = new URL ("vfsfile:./target/packages/explodedpar");
++		jarVisitor =  JarVisitorFactory.getVisitor(jarUrl, getFilters(), null);
++		assertEquals(ExplodedJarVisitor.class.getName(), jarVisitor.getClass().getName());		
++	}
+

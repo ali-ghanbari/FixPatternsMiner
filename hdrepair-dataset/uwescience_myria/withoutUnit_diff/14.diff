@@ -1,0 +1,9 @@
+diff --git a/src/edu/washington/escience/myria/RelationKey.java b/src/edu/washington/escience/myria/RelationKey.java
+index b35b12f..28ae246 100644
+--- a/src/edu/washington/escience/myria/RelationKey.java
++++ b/src/edu/washington/escience/myria/RelationKey.java
+@@ -134 +134,2 @@
+-        Preconditions.checkArgument(ret.length() <= MAX_POSTGRESQL_IDENTIFIER_LENGTH,
++        /* Subtract 2 because of the open and close quotes. */
++        Preconditions.checkArgument((ret.length() - 2) <= MAX_POSTGRESQL_IDENTIFIER_LENGTH,
+

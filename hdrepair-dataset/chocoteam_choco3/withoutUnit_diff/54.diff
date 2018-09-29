@@ -1,0 +1,8 @@
+diff --git a/solver/src/main/java/samples/GolombRuler.java b/solver/src/main/java/samples/GolombRuler.java
+index 060c23f..c735895 100644
+--- a/solver/src/main/java/samples/GolombRuler.java
++++ b/solver/src/main/java/samples/GolombRuler.java
+@@ -97 +97 @@
+-                solver.post(IntConstraintFactory.scalar(new IntVar[]{diffs[k], ticks[m - 1]}, new int[]{1, -1}, VariableFactory.fixed(-((m - 1 - j + i) * (m - j + i)) / 2,solver)));
++                solver.post(IntConstraintFactory.arithm(diffs[k], "-", ticks[m - 1], "<=", -((m - 1 - j + i) * (m - j + i)) / 2));
+

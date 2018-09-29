@@ -1,0 +1,23 @@
+diff --git a/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java b/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java
+index 090f328..c4e0527 100644
+--- a/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java
++++ b/core/src/main/java/io/ddf/analytics/AStatisticsSupporter.java
+@@ -158,9 +158 @@
+-//        Gson gson = new Gson();
+-//        for (String rs : result) {
+-//          Type typeOfT = new TypeToken<List<HistogramBin>>() {
+-//          }.getType();
+-//          List<HistogramBin> tmpbins = gson
+-//              .fromJson((String) rs, typeOfT);
+-//          for (HistogramBin bin : tmpbins)
+-//            bins.add(bin);
+-//        }
++
+diff --git a/spark/src/main/scala/io/spark/ddf/analytics/BinningHandler.scala b/spark/src/main/scala/io/spark/ddf/analytics/BinningHandler.scala
+index 996b3ed..705daf6 100644
+--- a/spark/src/main/scala/io/spark/ddf/analytics/BinningHandler.scala
++++ b/spark/src/main/scala/io/spark/ddf/analytics/BinningHandler.scala
+@@ -159 +159 @@
+-    mDDF.sql2txt("SELECT " + cmd + " FROM @this", "").get(0).replaceAll("ArrayBuffer|\\(|\\)|,", "").split("\t").
++    mDDF.sql2txt("SELECT " + cmd + " FROM @this", "").get(0).replaceAll("ArrayBuffer|\\(|\\)|,", "").split("\t| ").
+

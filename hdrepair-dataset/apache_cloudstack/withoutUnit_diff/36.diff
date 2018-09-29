@@ -1,0 +1,16 @@
+diff --git a/server/src/com/cloud/configuration/Config.java b/server/src/com/cloud/configuration/Config.java
+index fbcb1f4..1fa3164 100755
+--- a/server/src/com/cloud/configuration/Config.java
++++ b/server/src/com/cloud/configuration/Config.java
+@@ -1065 +1065 @@
+-            "If set to true, will set guest VM's name as it appears on the hypervisor, to its hostname",
++            "If set to true, will set guest VM's name as it appears on the hypervisor, to its hostname. The flag is supported for VMware hypervisor only",
+diff --git a/setup/db/db/schema-441to450.sql b/setup/db/db/schema-441to450.sql
+index b8a829a..3f78c1f 100644
+--- a/setup/db/db/schema-441to450.sql
++++ b/setup/db/db/schema-441to450.sql
+@@ -431,0 +432,3 @@
++
++
++UPDATE `cloud`.`configuration` SET description="If set to true, will set guest VM's name as it appears on the hypervisor, to its hostname. The flag is supported for VMware hypervisor only" WHERE name='vm.instancename.flag';
+

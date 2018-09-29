@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/io/sstable/SSTableReader.java b/src/java/org/apache/cassandra/io/sstable/SSTableReader.java
+index e9a03c8..412e4c1 100644
+--- a/src/java/org/apache/cassandra/io/sstable/SSTableReader.java
++++ b/src/java/org/apache/cassandra/io/sstable/SSTableReader.java
+@@ -600 +600 @@
+-        return indexSummary.size() * DatabaseDescriptor.getIndexInterval();
++        return ((long) indexSummary.size()) * DatabaseDescriptor.getIndexInterval();
+

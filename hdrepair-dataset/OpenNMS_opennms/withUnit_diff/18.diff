@@ -1,0 +1,16 @@
+diff --git a/opennms-ackd/src/main/java/org/opennms/netmgt/ackd/readers/HypericAckProcessor.java b/opennms-ackd/src/main/java/org/opennms/netmgt/ackd/readers/HypericAckProcessor.java
+index eb2dee4..48ce0f6 100644
+--- a/opennms-ackd/src/main/java/org/opennms/netmgt/ackd/readers/HypericAckProcessor.java
++++ b/opennms-ackd/src/main/java/org/opennms/netmgt/ackd/readers/HypericAckProcessor.java
+@@ -269 +269 @@
+-        criteria.add(Restrictions.gt("severityId", 3));
++        criteria.add(Restrictions.gt("severity", OnmsSeverity.NORMAL));
+diff --git a/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/readers/HypericAckProcessorTest.java b/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/readers/HypericAckProcessorTest.java
+index 848d819..5500e9d 100644
+--- a/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/readers/HypericAckProcessorTest.java
++++ b/opennms-ackd/src/test/java/org/opennms/netmgt/ackd/readers/HypericAckProcessorTest.java
+@@ -78 +78,2 @@
+-        "classpath:/META-INF/opennms/applicationContext-databasePopulator.xml"
++        "classpath:/META-INF/opennms/applicationContext-databasePopulator.xml",
++        "classpath:/META-INF/opennms/applicationContext-minimal-conf.xml"
+

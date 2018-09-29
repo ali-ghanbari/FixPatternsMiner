@@ -1,0 +1,29 @@
+diff --git a/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java b/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java
+index 80da994..e9c7ddb 100644
+--- a/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java
++++ b/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java
+@@ -199 +199 @@
+-    if (!request.isDeployable()) {
++    if (!request.isDeployable() && !request.isOneOff()) {
+diff --git a/SingularityService/src/test/java/com/hubspot/singularity/scheduler/SingularitySchedulerTest.java b/SingularityService/src/test/java/com/hubspot/singularity/scheduler/SingularitySchedulerTest.java
+index 64d3b55..2fbe19a 100644
+--- a/SingularityService/src/test/java/com/hubspot/singularity/scheduler/SingularitySchedulerTest.java
++++ b/SingularityService/src/test/java/com/hubspot/singularity/scheduler/SingularitySchedulerTest.java
+@@ -547,0 +548,16 @@
++  @Test
++  public void testOneOffsDontRunByThemselves() {
++    requestId = "oneoffRequest";
++    SingularityRequestBuilder bldr = new SingularityRequestBuilder(requestId);
++    bldr.setDaemon(Optional.of(Boolean.FALSE));
++    requestResource.submit(bldr.build(), Optional.<String> absent());
++    Assert.assertTrue(requestManager.getPendingRequests().isEmpty());
++
++    requestResource.deploy(requestId, new SingularityDeployBuilder(requestId, "d2").setCommand(Optional.of("hi")).build(), Optional.<String> absent());
++    Assert.assertTrue(requestManager.getPendingRequests().isEmpty());
++
++    deployChecker.checkDeploys();
++
++    Assert.assertTrue(requestManager.getPendingRequests().isEmpty());
++
++  }
+

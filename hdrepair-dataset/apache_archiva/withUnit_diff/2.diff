@@ -1,0 +1,198 @@
+diff --git a/archiva-modules/metadata/metadata-repository-api/src/test/java/org/apache/archiva/metadata/repository/AbstractMetadataRepositoryTest.java b/archiva-modules/metadata/metadata-repository-api/src/test/java/org/apache/archiva/metadata/repository/AbstractMetadataRepositoryTest.java
+index dd68e80..46c0601 100644
+--- a/archiva-modules/metadata/metadata-repository-api/src/test/java/org/apache/archiva/metadata/repository/AbstractMetadataRepositoryTest.java
++++ b/archiva-modules/metadata/metadata-repository-api/src/test/java/org/apache/archiva/metadata/repository/AbstractMetadataRepositoryTest.java
+@@ -36 +35,0 @@
+-import org.fest.assertions.api.Assertions;
+@@ -58,2 +57,4 @@
+-@RunWith( ArchivaSpringJUnit4ClassRunner.class )
+-@ContextConfiguration( locations = { "classpath*:/META-INF/spring-context.xml", "classpath*:/spring-context.xml" } )
++import static org.fest.assertions.api.Assertions.assertThat;
++
++@RunWith(ArchivaSpringJUnit4ClassRunner.class)
++@ContextConfiguration(locations = { "classpath*:/META-INF/spring-context.xml", "classpath*:/spring-context.xml" })
+@@ -130 +131 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isEmpty();
++        assertThat( namespaces ).isNotNull().isEmpty();
+@@ -137 +138 @@
+-        Assertions.assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
++        assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
+@@ -141 +142 @@
+-        Assertions.assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isNotEmpty().contains(
++        assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isNotEmpty().contains(
+@@ -146 +147 @@
+-        Assertions.assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
++        assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
+@@ -155 +156 @@
+-        Assertions.assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
++        assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
+@@ -171 +172 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isNotEmpty().contains( TEST_NAMESPACE ).hasSize( 1 );
++        assertThat( namespaces ).isNotNull().isNotEmpty().contains( TEST_NAMESPACE ).hasSize( 1 );
+@@ -180 +181 @@
+-        Assertions.assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
++        assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
+@@ -193 +194 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_NAMESPACE );
++        assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_NAMESPACE );
+@@ -207 +208 @@
+-        Assertions.assertThat(
++        assertThat(
+@@ -209 +210 @@
+-        Assertions.assertThat( repository.getProject( TEST_REPO_ID, TEST_NAMESPACE, TEST_PROJECT ) ).isNull();
++        assertThat( repository.getProject( TEST_REPO_ID, TEST_NAMESPACE, TEST_PROJECT ) ).isNull();
+@@ -211 +212 @@
+-        Assertions.assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
++        assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isEmpty();
+@@ -223 +224 @@
+-        Assertions.assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isNotEmpty().contains(
++        assertThat( repository.getRootNamespaces( TEST_REPO_ID ) ).isNotNull().isNotEmpty().contains(
+@@ -252 +253 @@
+-        Assertions.assertThat( mailingLists ).isNotNull().isNotEmpty().hasSize( 1 );
++        assertThat( mailingLists ).isNotNull().isNotEmpty().hasSize( 1 );
+@@ -258 +259 @@
+-        Assertions.assertThat( others ).isNotNull().isEmpty();
++        assertThat( others ).isNotNull().isEmpty();
+@@ -273,0 +275,4 @@
++        mailingList.setUnsubscribeAddress( "UnsubscribeAddress" );
++        mailingList.setSubscribeAddress( "SubscribeAddress" );
++        mailingList.setPostAddress( "PostAddress" );
++        mailingList.setMainArchiveUrl( "MainArchiveUrl" );
+@@ -337,4 +342,11 @@
+-        mailingList = metadata.getMailingLists().get( 0 );
+-        assertEquals( "Foo List", mailingList.getName() );
+-        Assertions.assertThat( mailingList.getOtherArchives() ).isNotNull().isNotEmpty().hasSize( 1 ).contains(
+-            "other archive" );
++        MailingList retrievedMailingList = metadata.getMailingLists().get( 0 );
++        assertEquals( mailingList.getName(), retrievedMailingList.getName() );
++        assertEquals( mailingList.getMainArchiveUrl(), retrievedMailingList.getMainArchiveUrl() );
++        assertEquals( mailingList.getPostAddress(), retrievedMailingList.getPostAddress() );
++        assertEquals( mailingList.getSubscribeAddress(), retrievedMailingList.getSubscribeAddress() );
++        assertEquals( mailingList.getUnsubscribeAddress(), retrievedMailingList.getUnsubscribeAddress() );
++        assertThat( retrievedMailingList.getOtherArchives() ) //
++            .isNotNull() //
++            .isNotEmpty() //
++            .hasSize( 1 ) //
++            .contains( "other archive" );
+@@ -431 +443 @@
+-        Assertions.assertThat( metadata.getFacetIds() ).isNotNull().isEmpty();
++        assertThat( metadata.getFacetIds() ).isNotNull().isEmpty();
+@@ -438 +450 @@
+-        Assertions.assertThat( metadata.getFacetIds() ).isNotNull().isEmpty();
++        assertThat( metadata.getFacetIds() ).isNotNull().isEmpty();
+@@ -458 +470 @@
+-        Assertions.assertThat( metadata.getFacetIds() ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
++        assertThat( metadata.getFacetIds() ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
+@@ -474 +486 @@
+-        Assertions.assertThat( metadata.getFacetIds() ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
++        assertThat( metadata.getFacetIds() ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
+@@ -527 +539 @@
+-        Assertions.assertThat( artifacts ).isNotNull().isNotEmpty().hasSize( 1 );
++        assertThat( artifacts ).isNotNull().isNotEmpty().hasSize( 1 );
+@@ -531 +543 @@
+-        Assertions.assertThat( ids ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
++        assertThat( ids ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
+@@ -547 +559 @@
+-        Assertions.assertThat( artifacts ).isNotNull().isNotEmpty().hasSize( 1 );
++        assertThat( artifacts ).isNotNull().isNotEmpty().hasSize( 1 );
+@@ -551 +563 @@
+-        Assertions.assertThat( ids ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
++        assertThat( ids ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_FACET_ID );
+@@ -556 +568 @@
+-        Assertions.assertThat( props ).isNotNull().doesNotContainKey( "deleteKey" );
++        assertThat( props ).isNotNull().doesNotContainKey( "deleteKey" );
+@@ -774 +786 @@
+-        Assertions.assertThat( facets ).isNotNull().isNotEmpty().hasSize( 3 );
++        assertThat( facets ).isNotNull().isNotEmpty().hasSize( 3 );
+@@ -784 +796 @@
+-        Assertions.assertThat( facets ).isNotNull().isEmpty();
++        assertThat( facets ).isNotNull().isEmpty();
+@@ -846 +858 @@
+-        Assertions.assertThat( versions ).isNotNull().isNotEmpty().hasSize( 1 ).containsExactly( TEST_PROJECT_VERSION );
++        assertThat( versions ).isNotNull().isNotEmpty().hasSize( 1 ).containsExactly( TEST_PROJECT_VERSION );
+@@ -904 +916 @@
+-        Assertions.assertThat( artifacts ).isNotNull().isEmpty();
++        assertThat( artifacts ).isNotNull().isEmpty();
+@@ -950 +962 @@
+-        Assertions.assertThat( artifacts ).isNotNull().isEmpty();
++        assertThat( artifacts ).isNotNull().isEmpty();
+@@ -1033 +1045 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "org" );
++        assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "org" );
+@@ -1036 +1048 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "apache" );
++        assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "apache" );
+@@ -1039 +1051 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "maven" );
++        assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "maven" );
+@@ -1042 +1054 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "shared" );
++        assertThat( namespaces ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "shared" );
+@@ -1058 +1070 @@
+-        Assertions.assertThat( namespaces ).isNotNull().isEmpty();
++        assertThat( namespaces ).isNotNull().isEmpty();
+@@ -1075 +1087 @@
+-        Assertions.assertThat( projects ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_PROJECT );
++        assertThat( projects ).isNotNull().isNotEmpty().hasSize( 1 ).contains( TEST_PROJECT );
+@@ -1093 +1105 @@
+-        Assertions.assertThat( versions ).isNotNull().isNotEmpty().contains( TEST_PROJECT_VERSION );
++        assertThat( versions ).isNotNull().isNotEmpty().contains( TEST_PROJECT_VERSION );
+@@ -1097 +1109 @@
+-        Assertions.assertThat( versions ).isNotNull().isNotEmpty().contains( TEST_PROJECT_VERSION );
++        assertThat( versions ).isNotNull().isNotEmpty().contains( TEST_PROJECT_VERSION );
+@@ -1172 +1184 @@
+-        Assertions.assertThat( artifactsByChecksum ).isNotNull().isEmpty();
++        assertThat( artifactsByChecksum ).isNotNull().isEmpty();
+@@ -1233 +1245 @@
+-        Assertions.assertThat( versions ).isNotNull().isNotEmpty().hasSize( 2 ).contains( "1.0", "2.0" );
++        assertThat( versions ).isNotNull().isNotEmpty().hasSize( 2 ).contains( "1.0", "2.0" );
+@@ -1241 +1253 @@
+-        Assertions.assertThat( versions ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "2.0" );
++        assertThat( versions ).isNotNull().isNotEmpty().hasSize( 1 ).contains( "2.0" );
+@@ -1243,2 +1255,2 @@
+-        Assertions.assertThat( repository.getArtifacts( TEST_REPO_ID, TEST_NAMESPACE, TEST_PROJECT,
+-                                                        TEST_PROJECT_VERSION ) ).isNotNull().isEmpty();
++        assertThat( repository.getArtifacts( TEST_REPO_ID, TEST_NAMESPACE, TEST_PROJECT,
++                                             TEST_PROJECT_VERSION ) ).isNotNull().isEmpty();
+@@ -1246,2 +1258,2 @@
+-        Assertions.assertThat( repository.getArtifacts( TEST_REPO_ID, TEST_NAMESPACE, TEST_PROJECT,
+-                                                        TEST_PROJECT_VERSION_2_0 ) ).isNotEmpty().hasSize( 1 );
++        assertThat( repository.getArtifacts( TEST_REPO_ID, TEST_NAMESPACE, TEST_PROJECT,
++                                             TEST_PROJECT_VERSION_2_0 ) ).isNotEmpty().hasSize( 1 );
+@@ -1270 +1282 @@
+-        Assertions.assertThat( artifacts ).isNotNull().isEmpty();
++        assertThat( artifacts ).isNotNull().isEmpty();
+@@ -1286 +1298 @@
+-        Assertions.assertThat( versions ).isNotNull().isNotEmpty().hasSize( 1 );
++        assertThat( versions ).isNotNull().isNotEmpty().hasSize( 1 );
+@@ -1292 +1304 @@
+-        Assertions.assertThat( versions ).isNotNull().isEmpty();
++        assertThat( versions ).isNotNull().isEmpty();
+@@ -1312 +1324 @@
+-        Assertions.assertThat( versions ).isNotNull().isEmpty();
++        assertThat( versions ).isNotNull().isEmpty();
+@@ -1339 +1351 @@
+-        Assertions.assertThat( artifactMetadatas ).isNotNull().isNotEmpty().hasSize( 2 );
++        assertThat( artifactMetadatas ).isNotNull().isNotEmpty().hasSize( 2 );
+@@ -1347 +1359 @@
+-        Assertions.assertThat( artifactMetadatas ).isNotNull().isNotEmpty().hasSize( 1 );
++        assertThat( artifactMetadatas ).isNotNull().isNotEmpty().hasSize( 1 );
+@@ -1353 +1365 @@
+-        Assertions.assertThat( artifactMetadatas ).isNotNull().isEmpty();
++        assertThat( artifactMetadatas ).isNotNull().isEmpty();
+diff --git a/archiva-modules/plugins/metadata-store-cassandra/src/main/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepository.java b/archiva-modules/plugins/metadata-store-cassandra/src/main/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepository.java
+index 78b7f86..e2a0e3e 100644
+--- a/archiva-modules/plugins/metadata-store-cassandra/src/main/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepository.java
++++ b/archiva-modules/plugins/metadata-store-cassandra/src/main/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepository.java
+@@ -1690,2 +1689,0 @@
+-
+-
+diff --git a/archiva-modules/plugins/metadata-store-cassandra/src/test/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepositoryTest.java b/archiva-modules/plugins/metadata-store-cassandra/src/test/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepositoryTest.java
+index 5da758b..275c095 100644
+--- a/archiva-modules/plugins/metadata-store-cassandra/src/test/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepositoryTest.java
++++ b/archiva-modules/plugins/metadata-store-cassandra/src/test/java/org/apache/archiva/metadata/repository/cassandra/CassandraMetadataRepositoryTest.java
+@@ -102,0 +103,3 @@
++        cassandraArchivaManager.getCluster().truncate( cassandraArchivaManager.getKeyspace().getKeyspaceName(),
++                                                       "mailinglist" );
++
+

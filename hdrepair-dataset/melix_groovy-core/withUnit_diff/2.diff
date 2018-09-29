@@ -1,0 +1,39 @@
+diff --git a/src/test/JavaSourceCodehausPackagesSuite.java b/src/test/JavaSourceCodehausPackagesSuite.java
+index d435678..d8d6f96 100644
+--- a/src/test/JavaSourceCodehausPackagesSuite.java
++++ b/src/test/JavaSourceCodehausPackagesSuite.java
+@@ -62 +62 @@
+-        suite.addTestSuite(GroovyTest.class);
++        suite.addTest(GroovyTest.suite());
+diff --git a/src/test/org/codehaus/groovy/ant/GroovyTest.java b/src/test/org/codehaus/groovy/ant/GroovyTest.java
+index d2519dc..1a6a8e3 100644
+--- a/src/test/org/codehaus/groovy/ant/GroovyTest.java
++++ b/src/test/org/codehaus/groovy/ant/GroovyTest.java
+@@ -4,0 +5,2 @@
++import junit.framework.Test;
++import junit.framework.TestSuite;
+@@ -9,3 +11 @@
+-import java.io.File;
+-import java.io.PrintWriter;
+-import java.io.StringWriter;
++import java.io.*;
+@@ -26,0 +27,18 @@
++    public GroovyTest(final String name) {
++        setName(name);
++    }
++
++    public static Test suite() {
++        TestSuite suite = new TestSuite();
++        suite.addTest(new GroovyTest("testGroovyCodeWithinTag"));
++        suite.addTest(new GroovyTest("testGroovyCodeExternalFile"));
++        suite.addTest(new GroovyTest("testGroovyCodeInExternalFileWithOtherClass"));
++        suite.addTest(new GroovyTest("testClasspath_missing"));
++        suite.addTest(new GroovyTest("testClasspath_classpathAttribute"));
++        suite.addTest(new GroovyTest("testClasspath_classpathrefAttribute"));
++        suite.addTest(new GroovyTest("testClasspath_nestedclasspath"));
++        suite.addTest(new GroovyTest("testGroovyArgUsage"));
++        suite.addTest(new GroovyTest("testFileNameInStackTrace"));
++        return suite;
++    }
++
+

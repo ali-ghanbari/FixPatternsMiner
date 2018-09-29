@@ -1,0 +1,40 @@
+diff --git a/mifosng-provider/src/integrationTest/java/org/mifosplatform/integrationtests/MinimumDaysBetweenDisbursalAndFirstRepaymentTest.java b/mifosng-provider/src/integrationTest/java/org/mifosplatform/integrationtests/MinimumDaysBetweenDisbursalAndFirstRepaymentTest.java
+index 5f1248e..057ec76 100644
+--- a/mifosng-provider/src/integrationTest/java/org/mifosplatform/integrationtests/MinimumDaysBetweenDisbursalAndFirstRepaymentTest.java
++++ b/mifosng-provider/src/integrationTest/java/org/mifosplatform/integrationtests/MinimumDaysBetweenDisbursalAndFirstRepaymentTest.java
+@@ -47,4 +47,4 @@
+-    private String loanPrincipalAmount = "100000.00";
+-    private String numberOfRepayments = "12";
+-    private String interestRatePerPeriod = "18";
+-    private String groupActivationDate = "1 August 2014";
++    private final String loanPrincipalAmount = "100000.00";
++    private final String numberOfRepayments = "12";
++    private final String interestRatePerPeriod = "18";
++    private final String groupActivationDate = "1 August 2014";
+@@ -137,2 +137,2 @@
+-        assertEquals("error.msg.loan.days.between.first.repayment.and.disbursal.are.less.than.minimum.allowed.numbers", error
+-                .get(0).get(CommonConstants.RESPONSE_ERROR_MESSAGE_CODE));
++        assertEquals("error.msg.loan.days.between.first.repayment.and.disbursal.are.less.than.minimum.allowed",
++                error.get(0).get(CommonConstants.RESPONSE_ERROR_MESSAGE_CODE));
+@@ -177,2 +177,2 @@
+-        this.groupCalendarId = CalendarHelper.createMeetingCalendarForGroup(this.requestSpec, this.responseSpec, this.groupId, startDate,
+-                frequency, interval, repeatsOnDay);
++        this.setGroupCalendarId(CalendarHelper.createMeetingCalendarForGroup(this.requestSpec, this.responseSpec, this.groupId, startDate,
++                frequency, interval, repeatsOnDay));
+@@ -198,0 +199,8 @@
++
++    public Integer getGroupCalendarId() {
++        return groupCalendarId;
++    }
++
++    public void setGroupCalendarId(Integer groupCalendarId) {
++        this.groupCalendarId = groupCalendarId;
++    }
+diff --git a/mifosng-provider/src/main/java/org/mifosplatform/portfolio/loanaccount/exception/MinDaysBetweenDisbursalAndFirstRepaymentViolationException.java b/mifosng-provider/src/main/java/org/mifosplatform/portfolio/loanaccount/exception/MinDaysBetweenDisbursalAndFirstRepaymentViolationException.java
+index c4b779c..e76b633 100644
+--- a/mifosng-provider/src/main/java/org/mifosplatform/portfolio/loanaccount/exception/MinDaysBetweenDisbursalAndFirstRepaymentViolationException.java
++++ b/mifosng-provider/src/main/java/org/mifosplatform/portfolio/loanaccount/exception/MinDaysBetweenDisbursalAndFirstRepaymentViolationException.java
+@@ -21 +21 @@
+-        super("error.msg.loan.days.between.first.repayment.and.disbursal.are.less.than.minimum.allowed.numbers",
++        super("error.msg.loan.days.between.first.repayment.and.disbursal.are.less.than.minimum.allowed",
+

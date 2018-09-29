@@ -1,0 +1,341 @@
+diff --git a/apps/BOB/bob.config b/apps/BOB/bob.config
+index f9c28d3..810d65b 100644
+--- a/apps/BOB/bob.config
++++ b/apps/BOB/bob.config
+@@ -10 +10 @@
+-BOB.port=45067
++BOB.port=45678
+diff --git a/apps/BOB/nbproject/build-impl.xml b/apps/BOB/nbproject/build-impl.xml
+index 9feea8e..d8ed4de 100644
+--- a/apps/BOB/nbproject/build-impl.xml
++++ b/apps/BOB/nbproject/build-impl.xml
+@@ -155 +155 @@
+-            <attribute default="" name="sourcepath"/>
++            <attribute default="/does/not/exist" name="sourcepath"/>
+diff --git a/apps/BOB/nbproject/genfiles.properties b/apps/BOB/nbproject/genfiles.properties
+index dfc3734..ca344b0 100644
+--- a/apps/BOB/nbproject/genfiles.properties
++++ b/apps/BOB/nbproject/genfiles.properties
+@@ -7,2 +7,2 @@
+-nbproject/build-impl.xml.script.CRC32=75fac64c
+-nbproject/build-impl.xml.stylesheet.CRC32=e55b27f5
++nbproject/build-impl.xml.script.CRC32=c51e188e
++nbproject/build-impl.xml.stylesheet.CRC32=65b8de21
+diff --git a/apps/BOB/nbproject/project.properties b/apps/BOB/nbproject/project.properties
+index 76e318f..7a94ff6 100644
+--- a/apps/BOB/nbproject/project.properties
++++ b/apps/BOB/nbproject/project.properties
+@@ -26,0 +27 @@
++file.reference.build-javadoc=../../../i2p.i2p/build/javadoc
+@@ -29 +30 @@
+-file.reference.i2p.jar-1=../../core/java/build/i2p.jar
++file.reference.i2p.jar-1=../../build/i2p.jar
+@@ -31 +32,2 @@
+-file.reference.i2ptunnel.jar=../i2ptunnel/java/build/i2ptunnel.jar
++file.reference.i2p.jar-3=../../../i2p.i2p/build/i2p.jar
++file.reference.i2ptunnel.jar=../../../i2p.i2p/build/i2ptunnel.jar
+@@ -35 +37,2 @@
+-file.reference.mstreaming.jar-1=../ministreaming/java/build/mstreaming.jar
++file.reference.mstreaming.jar-1=../../build/mstreaming.jar
++file.reference.mstreaming.jar-2=../../../i2p.i2p/build/mstreaming.jar
+@@ -36,0 +40 @@
++file.reference.router.jar=../../build/router.jar
+@@ -38 +42 @@
+-file.reference.streaming.jar-1=../streaming/java/build/streaming.jar
++file.reference.streaming.jar-1=../../../i2p.i2p/build/streaming.jar
+@@ -46,5 +49,0 @@
+-file.reference.wrapper.jar-1=../../installer/lib/wrapper/freebsd/wrapper.jar
+-file.reference.wrapper.jar-2=../../installer/lib/wrapper/linux64/wrapper.jar
+-file.reference.wrapper.jar-3=../../installer/lib/wrapper/macosx/wrapper.jar
+-file.reference.wrapper.jar-4=../../installer/lib/wrapper/solaris/wrapper.jar
+-file.reference.wrapper.jar-5=../../installer/lib/wrapper/win32/wrapper.jar
+@@ -54,5 +52,0 @@
+-    ${file.reference.i2p.jar-1}:\
+-    ${file.reference.i2ptunnel.jar}:\
+-    ${file.reference.mstreaming.jar-1}:\
+-    ${file.reference.streaming.jar-1}:\
+-    ${file.reference.wrapper.jar-1}:\
+@@ -60,4 +54,7 @@
+-    ${file.reference.wrapper.jar-2}:\
+-    ${file.reference.wrapper.jar-3}:\
+-    ${file.reference.wrapper.jar-4}:\
+-    ${file.reference.wrapper.jar-5}
++    ${file.reference.streaming.jar-1}:\
++    ${file.reference.i2ptunnel.jar}:\
++    ${file.reference.i2p.jar-1}:\
++    ${file.reference.router.jar}:\
++    ${file.reference.mstreaming.jar-1}:\
++    ${file.reference.mstreaming.jar-2}:\
++    ${file.reference.i2p.jar-3}
+diff --git a/apps/BOB/src/net/i2p/BOB/TCPio.java b/apps/BOB/src/net/i2p/BOB/TCPio.java
+index 41bb7cb..c9f4ab6 100644
+--- a/apps/BOB/src/net/i2p/BOB/TCPio.java
++++ b/apps/BOB/src/net/i2p/BOB/TCPio.java
+@@ -78,0 +79,3 @@
++		 * Tested with 128 bytes, and there was no performance gain.
++		 *
++		 * --Sponge
+diff --git a/core/c/jbigi/build-all.sh b/core/c/jbigi/build-all.sh
+index 65456ee..861a1e0 100755
+--- a/core/c/jbigi/build-all.sh
++++ b/core/c/jbigi/build-all.sh
+@@ -15 +15 @@
+-VER=4.2.2
++VER=4.2.4
+@@ -24 +24,2 @@
+-for x in none pentium pentiummmx pentium2 pentium3 pentium4 k6 k62 k63 athlon
++
++for x in none pentium pentiummmx pentium2 pentium3 pentium4 k6 k62 k63 athlon geode pentiumm core2
+diff --git a/core/c/jbigi/build.sh b/core/c/jbigi/build.sh
+index 39969b1..7ef9000 100755
+--- a/core/c/jbigi/build.sh
++++ b/core/c/jbigi/build.sh
+@@ -18 +18 @@
+-VER=4.2.2
++VER=4.2.4
+diff --git a/core/c/jbigi/build_jbigi.sh b/core/c/jbigi/build_jbigi.sh
+index 859eda3..8ff3219 100755
+--- a/core/c/jbigi/build_jbigi.sh
++++ b/core/c/jbigi/build_jbigi.sh
+@@ -3 +3,2 @@
+-# When executed in Linux: Produces an libjbigi.so
++# When executed in Linux/FreeBSD: Produces an libjbigi.so
++# Darwin produces libjbigi.jnilib, right?
+@@ -35 +36,2 @@
+-if test $1 = "dynamic"
++# Bug!!! Quote *BOTH* or neither! --Sponge
++if test "$1" = "dynamic"
+diff --git a/core/c/jbigi/mbuild-all.sh b/core/c/jbigi/mbuild-all.sh
+new file mode 100755
+index 0000000..a97139d
+--- /dev/null
++++ b/core/c/jbigi/mbuild-all.sh
+@@ -0,0 +1,140 @@
++#/bin/bash
++
++# TO-DO: Darwin.
++
++# Note: You will have to add the CPU ID for the platform in the CPU ID code
++# for a new CPU. Just adding them here won't let I2P use the code!
++
++#
++# If you know of other platforms i2p on linux works on, 
++# please add them here.
++# Do NOT add any X86 platforms, do that below in the x86 platform list.
++#
++MISC_LINUX_PLATFORMS="hppa2.0 alphaev56 armv5tel mips64el itanium itanium2 ultrasparc2 ultrasparc2i alphaev6 powerpc970 powerpc7455 powerpc7447 atom"
++
++#
++# If you know of other platforms i2p on FREEBSD works on, 
++# please add them here.
++# Do NOT add any X86 platforms, do that below in the x86 platform list.
++#
++MISC_FREEBSD_PLATFORMS="atom alphaev56 ultrasparc2i"
++
++#
++# MINGW/Windows??
++#
++MISC_MINGW_PLATFORMS=""
++
++#
++# Are there any other X86 platforms that work on i2p? Add them here.
++#
++# Oddly athlon64 builds.... I wonder what others can :-)
++#
++X86_PLATFORMS="pentium pentiummmx pentium2 pentium3 pentium4 k6 k62 k63 athlon pentiumm core2 athlon64 geode"
++
++
++#
++# You should not need to edit anything below this comment.
++#
++
++MINGW_PLATFORMS="${X86_PLATFORMS} ${MISC_MINGW_PLATFORMS}"
++LINUX_PLATFORMS="${X86_PLATFORMS} ${MISC_LINUX_PLATFORMS}"
++FREEBSD_PLATFORMS="${X86_PLATFORMS} ${MISC_FREEBSD_PLATFORMS}"
++
++VER=$(echo gmp-*.tar.bz2 | sed -re "s/(.*-)(.*)(.*.tar.bz2)$/\2/" | tail --lines=1)
++if [ "$VER" == "" ] ; then
++	echo "ERROR! Can't find gmp source tarball."
++	exit 1
++fi
++
++
++case `uname -sr` in
++MINGW*)
++	PLATFORM_LIST="${MINGW_PLATFORMS}"
++	NAME="jbigi"
++	TYPE="dll"
++	TARGET="-windows-"
++	echo "Building windows .dlls for all architectures";;
++Linux*)
++	PLATFORM_LIST="${LINUX_PLATFORMS}"
++	NAME="libjbigi"
++	TYPE="so"
++	TARGET="-linux-"
++	echo "Building linux .sos for all architectures";;
++FreeBSD*)
++	PLATFORM_LIST="${FREEBSD_PLATFORMS}"
++	NAME="libjbigi"
++	TYPE="so"
++	TARGET="-freebsd-"
++	echo "Building freebsd .sos for all architectures";;
++*)
++	echo "Unsupported build environment"
++	exit;;
++esac
++
++function make_static {
++	echo "Attempting .${4} creation for ${3}${5}${2}"
++	../../mbuild_jbigi.sh static || return 1
++	cp ${3}.${4} ../../lib/net/i2p/util/${3}${5}${2}.${4}
++	return 0
++}
++
++function make_file {
++	# Nonfatal bail out on Failed build.
++	echo "Attempting build for ${3}${5}${2}"
++	make && return 0
++	cd ..
++	rm -R "$2" 
++	echo -e "\n\nFAILED! ${3}${5}${2} not made.\a"
++	sleep 10
++	return 1
++}
++
++function configure_file {
++	echo -e "\n\n\nAttempting configure for ${3}${5}${2}\n\n\n"
++	sleep 10
++	# Nonfatal bail out on unsupported platform.
++	../../gmp-${1}/configure --build=${2} && return 0
++	cd ..
++	rm -R "$2"
++	echo -e "\n\nSorry, ${3}${5}${2} is not supported on your build environment.\a"
++	sleep 10
++	return 1
++}
++
++function build_file {
++	configure_file "$1" "$2" "$3" "$4" "$5"  && make_file "$1" "$2" "$3" "$4" "$5" && make_static "$1" "$2" "$3" "$4" "$5" && return 0
++	echo -e "\n\n\nError building static!\n\n\a"
++	sleep 10
++	return 1
++}
++
++echo "Extracting GMP Version $VER ..."
++tar -xf gmp-$VER.tar.bz2 || ( echo "Error in tarball file!" ; exit 1 )
++
++if [ ! -d bin ]; then
++	mkdir bin
++fi
++if [ ! -d lib/net/i2p/util ]; then
++	mkdir -p lib/net/i2p/util
++fi
++
++# Don't touch this one.
++NO_PLATFORM=none
++
++for x in $NO_PLATFORM $PLATFORM_LIST
++do
++	(
++		if [ ! -d bin/$x ]; then
++			mkdir bin/$x
++			cd bin/$x
++		else
++			cd bin/$x
++			rm -Rf *
++		fi
++
++		build_file "$VER" "$x" "$NAME" "$TYPE" "$TARGET"
++	)
++done
++
++echo "Success!"
++exit 0
+diff --git a/core/c/jbigi/mbuild_jbigi.sh b/core/c/jbigi/mbuild_jbigi.sh
+new file mode 100755
+index 0000000..1e262a6
+--- /dev/null
++++ b/core/c/jbigi/mbuild_jbigi.sh
+@@ -0,0 +1,47 @@
++#!/bin/bash
++# When executed in Mingw: Produces an jbigi.dll
++# When executed in Linux/FreeBSD: Produces an libjbigi.so
++# What does Darwin produce? libjbigi.jnilib?
++CC="gcc"
++
++case `uname -sr` in
++MINGW*)
++	JAVA_HOME="c:/software/j2sdk1.4.2_05"
++	COMPILEFLAGS="-Wall"
++	INCLUDES="-I. -I../../jbigi/include -I$JAVA_HOME/include/win32/ -I$JAVA_HOME/include/"
++	LINKFLAGS="-shared -Wl,--kill-at"
++	LIBFILE="jbigi.dll";;
++CYGWIN*)
++	JAVA_HOME="c:/software/j2sdk1.4.2_05"
++	COMPILEFLAGS="-Wall -mno-cygwin"
++	INCLUDES="-I. -I../../jbigi/include -I$JAVA_HOME/include/win32/ -I$JAVA_HOME/include/"
++	LINKFLAGS="-shared -Wl,--kill-at"
++	LIBFILE="jbigi.dll";;
++Darwin*)
++        JAVA_HOME="/Library/Java/Home"
++        COMPILEFLAGS="-Wall"
++        INCLUDES="-I. -I../../jbigi/include -I$JAVA_HOME/include"
++        LINKFLAGS="-dynamiclib -framework JavaVM"
++        LIBFILE="libjbigi.jnilib";;
++*)
++	COMPILEFLAGS="-fPIC -Wall"
++	INCLUDES="-I. -I../../jbigi/include -I$JAVA_HOME/include -I$JAVA_HOME/include/linux"
++	LINKFLAGS="-shared -Wl,-soname,libjbigi.so"
++	LIBFILE="libjbigi.so";;
++esac
++
++if [ "$1" = "dynamic" ] ; then
++	echo "Building a jbigi lib that is dynamically linked to GMP" 
++	LIBPATH="-L.libs"
++	INCLUDELIBS="-lgmp"
++else
++	echo "Building a jbigi lib that is statically linked to GMP"
++	STATICLIBS=".libs/libgmp.a"
++fi
++
++echo "Compiling C code..."
++rm -f jbigi.o $LIBFILE
++$CC -c $COMPILEFLAGS $INCLUDES ../../jbigi/src/jbigi.c || exit 1
++$CC $LINKFLAGS $INCLUDES $INCLUDELIBS -o $LIBFILE jbigi.o $STATICLIBS || exit 1
++
++exit 0
+diff --git a/core/c/mbuild.sh b/core/c/mbuild.sh
+new file mode 100755
+index 0000000..4591d5b
+--- /dev/null
++++ b/core/c/mbuild.sh
+@@ -0,0 +1,28 @@
++#/bin/bash
++
++JBIGI=../../../installer/lib/jbigi/jbigi.jar
++
++if [ -f jbigi.jarx ] ; then
++JBIGI=../jbigi.jar
++fi
++
++(cd jcpuid ; sh build.sh ; cd ..)
++(cd jbigi ; sh mbuild-all.sh ; cd ..)
++
++mkdir t
++
++(
++	cd t
++	jar xf ../../../installer/lib/jbigi/jbigi.jar
++)
++
++cp jbigi/lib/net/i2p/util/* t/
++cp jcpuid/lib/freenet/support/CPUInformation/* t/
++
++(
++	cd t
++	jar cf ../jbigi.jar .
++)
++
++rm -R t
++echo "jbigi.jar Refreshed."
+

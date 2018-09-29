@@ -1,0 +1,8 @@
+diff --git a/opentripplanner-routing/src/main/java/org/opentripplanner/routing/impl/raptor/TargetBound.java b/opentripplanner-routing/src/main/java/org/opentripplanner/routing/impl/raptor/TargetBound.java
+index 992b31e..68ed44d 100644
+--- a/opentripplanner-routing/src/main/java/org/opentripplanner/routing/impl/raptor/TargetBound.java
++++ b/opentripplanner-routing/src/main/java/org/opentripplanner/routing/impl/raptor/TargetBound.java
+@@ -214 +214 @@
+-                } else if (prevTime < 0 && (options.arriveBy ? (current.getTime() + minTime <= prevTime) : ((current.getTime() - minTime) >= prevTime))) {
++                } else if (prevTime > 0 && (options.arriveBy ? (current.getTime() - minTime >= prevTime) : ((current.getTime() + minTime) <= prevTime))) {
+

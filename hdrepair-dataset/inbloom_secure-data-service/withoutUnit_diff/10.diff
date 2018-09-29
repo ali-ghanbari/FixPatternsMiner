@@ -1,0 +1,52 @@
+diff --git a/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature b/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature
+index 286ec70..350d67d 100644
+--- a/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature
++++ b/sli/acceptance-tests/test/features/apiV1/integration/public_data.feature
+@@ -88,6 +88,6 @@
+-     #| classPeriods                                                                     |                                             |                                                                           |
+-      | classPeriods                                                                     | 42921d6ca01bcee753d5bc81e2f3e1592ed05492_id |                                                                           |
+-      | classPeriods                                                                     | a78690d5d75f709066534ab6dbf4a69a0f69989f_id |                                                                           |
+-     #| educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/classPeriods  |                                             |                                                                           |
+-     #| educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/classPeriods  |                                             |                                                                           |
+-     #| bellSchedules                                                                    |                                             |                                                                           |
++      | classPeriods                                                                     |                                             |                                                                           |
++      | classPeriods                                                                     |42921d6ca01bcee753d5bc81e2f3e1592ed05492_id  |                                                                           |
++      | classPeriods                                                                     |a78690d5d75f709066534ab6dbf4a69a0f69989f_id  |                                                                           |
++      | educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/classPeriods  |                                             |                                                                           |
++      | educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/classPeriods  |                                             |                                                                           |
++      | bellSchedules                                                                    |                                             |                                                                           |
+@@ -96,2 +96,3 @@
+-     #| educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/bellSchedules |                                             |                                                                           |
+-     #| educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/bellSchedules |                                             |                                                                           |
++      | educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/bellSchedules |                                             |                                                                           |
++      | educationOrganizations/352e8570bd1116d11a72755b987902440045d346_id/bellSchedules |                                             |                                                                           |
++
+@@ -166,3 +167,3 @@
+-   #When I navigate to GET "/v1/classPeriods"
+-   #Then I should receive a return code of 200
+-    #And I should receive a collection with <COUNT> elements
++    When I navigate to GET "/v1/classPeriods"
++    Then I should receive a return code of 200
++    And I should receive a collection with <COUNT> elements
+@@ -171,3 +172,3 @@
+-    #When I navigate to GET "/v1/bellSchedules"
+-    #Then I should receive a return code of 200
+-     #And I should receive a collection with <COUNT> elements
++     When I navigate to GET "/v1/bellSchedules"
++     Then I should receive a return code of 200
++     And I should receive a collection with <COUNT> elements
+@@ -179,2 +180,4 @@
+-      #| /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
+-      #| /bellSchedules               | /educationOrganizations/<EDORG>/bellSchedules |
++       | /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
++       | /classPeriods                | /educationOrganizations/<EDORG>/classPeriods  |
++       | /bellSchedules               | /educationOrganizations/<EDORG>/bellSchedules |
++
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/context/StudentAccessValidator.java b/sli/api/src/main/java/org/slc/sli/api/security/context/StudentAccessValidator.java
+index 66746dc..19f9aef 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/context/StudentAccessValidator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/context/StudentAccessValidator.java
+@@ -127,0 +128,2 @@
++        edOrgsAllowedThreeParts.add(ResourceNames.CLASS_PERIODS);
++        edOrgsAllowedThreeParts.add(ResourceNames.BELL_SCHEDULES);
+

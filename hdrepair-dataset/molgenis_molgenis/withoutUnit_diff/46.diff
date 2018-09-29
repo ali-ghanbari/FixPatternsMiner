@@ -1,0 +1,9 @@
+diff --git a/molgenis-data-vcf/src/main/java/org/molgenis/data/vcf/importer/VcfImporterService.java b/molgenis-data-vcf/src/main/java/org/molgenis/data/vcf/importer/VcfImporterService.java
+index 306d15c..c71c5bb 100644
+--- a/molgenis-data-vcf/src/main/java/org/molgenis/data/vcf/importer/VcfImporterService.java
++++ b/molgenis-data-vcf/src/main/java/org/molgenis/data/vcf/importer/VcfImporterService.java
+@@ -112,0 +113,3 @@
++        //Should not be necessary, bug in elasticsearch?
++        //"All shards failed" for big datasets if this flush is not here...
++        searchService.flush();
+

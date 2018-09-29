@@ -1,0 +1,38 @@
+diff --git a/src/main/java/org/sonatype/appcontext/source/PropertiesFileEntrySource.java b/src/main/java/org/sonatype/appcontext/source/PropertiesFileEntrySource.java
+index 680f0e9..7e3c18e 100644
+--- a/src/main/java/org/sonatype/appcontext/source/PropertiesFileEntrySource.java
++++ b/src/main/java/org/sonatype/appcontext/source/PropertiesFileEntrySource.java
+@@ -36 +36 @@
+-        return "file: " + propertiesFile.getAbsolutePath();
++        return "file:" + propertiesFile.getAbsolutePath();
+diff --git a/src/test/java/org/sonatype/appcontext/SimpleHierarchyTest.java b/src/test/java/org/sonatype/appcontext/SimpleHierarchyTest.java
+index 3d67a5a..3a5f361 100644
+--- a/src/test/java/org/sonatype/appcontext/SimpleHierarchyTest.java
++++ b/src/test/java/org/sonatype/appcontext/SimpleHierarchyTest.java
+@@ -64,0 +65,6 @@
++        grandchild.put( "wowThisIsAnObject", new Object() );
++
++        System.out.println( " *** " );
++        System.out.println( grandchild.get( "basedir" ) );
++        System.out.println( " *** " );
++
+diff --git a/src/test/resources/c02/child.properties b/src/test/resources/c02/child.properties
+index 152e517..5726955 100644
+--- a/src/test/resources/c02/child.properties
++++ b/src/test/resources/c02/child.properties
+@@ -3,0 +4 @@
++currentBasedir=child/
+diff --git a/src/test/resources/c02/default.properties b/src/test/resources/c02/default.properties
+index c0edec3..cd4527a 100644
+--- a/src/test/resources/c02/default.properties
++++ b/src/test/resources/c02/default.properties
+@@ -3,0 +4,2 @@
++currentBasedir=.
++basedir=${currentBasedir}
+diff --git a/src/test/resources/c02/grandchild.properties b/src/test/resources/c02/grandchild.properties
+index 65f0d7c..dc0d2d7 100644
+--- a/src/test/resources/c02/grandchild.properties
++++ b/src/test/resources/c02/grandchild.properties
+@@ -3,0 +4 @@
++currentBasedir=grandchild/
+

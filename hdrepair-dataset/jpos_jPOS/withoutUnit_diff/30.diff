@@ -1,0 +1,9 @@
+diff --git a/jpos6/modules/jpos/src/org/jpos/iso/ISOUtil.java b/jpos6/modules/jpos/src/org/jpos/iso/ISOUtil.java
+index 79f7c5f..9d38000 100644
+--- a/jpos6/modules/jpos/src/org/jpos/iso/ISOUtil.java
++++ b/jpos6/modules/jpos/src/org/jpos/iso/ISOUtil.java
+@@ -627 +627,2 @@
+-            throw new RuntimeException("Uneven number("+s.length()+") of hex digits passed to hex2byte.");
++        	// Padding left zero to make it even size #Bug raised by tommy
++        	return hex2byte("0"+s);
+

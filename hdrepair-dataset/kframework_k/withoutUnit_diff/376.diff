@@ -1,0 +1,17 @@
+diff --git a/javasources/JavaClasses/src/ro/uaic/info/fmse/disambiguate/AmbFilter.java b/javasources/JavaClasses/src/ro/uaic/info/fmse/disambiguate/AmbFilter.java
+index d75e311..6d74967 100644
+--- a/javasources/JavaClasses/src/ro/uaic/info/fmse/disambiguate/AmbFilter.java
++++ b/javasources/JavaClasses/src/ro/uaic/info/fmse/disambiguate/AmbFilter.java
+@@ -27 +27 @@
+-				msg += variant.getClass().toString() + ", ";
++				msg += variant.toString() + ", ";
+diff --git a/javasources/K3Disamb/trans/disambEmph.str b/javasources/K3Disamb/trans/disambEmph.str
+index 9adbf07..eeb3fd9 100644
+--- a/javasources/K3Disamb/trans/disambEmph.str
++++ b/javasources/K3Disamb/trans/disambEmph.str
+@@ -41,2 +41,2 @@
+-		where <?[a | b]> x
+-		where <all(?a)> x
++		where rez := <nub> x
++		where a := <if <lt>(<length> rez, 2) then !<last> rez else !amb(rez) end>
+

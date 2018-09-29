@@ -1,0 +1,8 @@
+diff --git a/qbit/boon/src/main/java/io/advantageous/qbit/events/impl/BoonEventBusProxyCreator.java b/qbit/boon/src/main/java/io/advantageous/qbit/events/impl/BoonEventBusProxyCreator.java
+index 8be937e..e275bf5 100644
+--- a/qbit/boon/src/main/java/io/advantageous/qbit/events/impl/BoonEventBusProxyCreator.java
++++ b/qbit/boon/src/main/java/io/advantageous/qbit/events/impl/BoonEventBusProxyCreator.java
+@@ -77 +77 @@
+-        final Object o = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{eventBusProxyInterface, ClientProxy.class}, invocationHandler);
++        final Object o = Proxy.newProxyInstance(eventBusProxyInterface.getClassLoader(), new Class[]{eventBusProxyInterface, ClientProxy.class}, invocationHandler);
+

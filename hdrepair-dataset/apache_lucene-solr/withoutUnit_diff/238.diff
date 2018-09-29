@@ -1,0 +1,17 @@
+diff --git a/lucene/CHANGES.txt b/lucene/CHANGES.txt
+index b3baa80..95ff5dd 100644
+--- a/lucene/CHANGES.txt
++++ b/lucene/CHANGES.txt
+@@ -13,0 +14,4 @@
++* LUCENE-4249: Changed the explanation of the PayloadTermWeight to use the
++  underlying PayloadFunction's explanation as the explanation
++  for the payload score. (Scott Smerchek via Robert Muir)
++  
+diff --git a/lucene/core/src/java/org/apache/lucene/search/payloads/PayloadTermQuery.java b/lucene/core/src/java/org/apache/lucene/search/payloads/PayloadTermQuery.java
+index 4d07328..30d5bac 100644
+--- a/lucene/core/src/java/org/apache/lucene/search/payloads/PayloadTermQuery.java
++++ b/lucene/core/src/java/org/apache/lucene/search/payloads/PayloadTermQuery.java
+@@ -193 +193 @@
+-          Explanation payloadExpl = new Explanation(scorer.getPayloadScore(), "scorePayload(...)");
++          Explanation payloadExpl = function.explain(doc, scorer.payloadsSeen, scorer.payloadScore);
+

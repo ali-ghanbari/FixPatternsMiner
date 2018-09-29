@@ -1,0 +1,59 @@
+diff --git a/orcid-core/src/test/resources/org/orcid/core/manager/example_api_record_creation_email_body.txt b/orcid-core/src/test/resources/org/orcid/core/manager/example_api_record_creation_email_body.txt
+index 23cf1dd..a3ff60f 100644
+--- a/orcid-core/src/test/resources/org/orcid/core/manager/example_api_record_creation_email_body.txt
++++ b/orcid-core/src/test/resources/org/orcid/core/manager/example_api_record_creation_email_body.txt
+@@ -11 +11 @@
+-How do I claim my ORCID record? We encourage you to login and review your account, so that you may take full advantage of the ORCID Registry, including privacy settings, assignment of proxies, and selection of trusted parties. To claim your account, copy and paste this link into your browser:
++How do I claim my ORCID record? We encourage you to login and review your account, so that you may take full advantage of the ORCID Registry, including privacy settings, assignment of proxies, and selection of trusted parties. To claim your account follow this link to set a password and access your record. If you can't click on the link, copy and paste it into your browser:
+diff --git a/orcid-core/src/test/resources/org/orcid/core/manager/example_claim_reminder_email_body.txt b/orcid-core/src/test/resources/org/orcid/core/manager/example_claim_reminder_email_body.txt
+index 955ad75..b3e8ee7 100644
+--- a/orcid-core/src/test/resources/org/orcid/core/manager/example_claim_reminder_email_body.txt
++++ b/orcid-core/src/test/resources/org/orcid/core/manager/example_claim_reminder_email_body.txt
+@@ -9 +9 @@
+-Claim your iD to take full advantage of the ORCID Registry, including privacy settings, and selection of trusted parties. To claim your account, copy and paste this link into your browser:
++Claim your iD to take full advantage of the ORCID Registry, including privacy settings, and selection of trusted parties. To claim your account follow this link to set a password and access your record. If you can't click on the link, copy and paste it into your browser:
+diff --git a/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jpa2JaxbAdapterImpl.java b/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jpa2JaxbAdapterImpl.java
+index 95e9d41..f8b6a41 100644
+--- a/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jpa2JaxbAdapterImpl.java
++++ b/orcid-persistence/src/main/java/org/orcid/persistence/adapter/impl/Jpa2JaxbAdapterImpl.java
+@@ -57 +57 @@
+-    @Value("${org.orcid.core.baseUri:}")
++    @Value("${org.orcid.core.baseUri:http://orcid.org}")
+diff --git a/orcid-web/src/test/java/org/orcid/frontend/web/controllers/ManageProfileControllerTest.java b/orcid-web/src/test/java/org/orcid/frontend/web/controllers/ManageProfileControllerTest.java
+index 16175ea..02e8618 100644
+--- a/orcid-web/src/test/java/org/orcid/frontend/web/controllers/ManageProfileControllerTest.java
++++ b/orcid-web/src/test/java/org/orcid/frontend/web/controllers/ManageProfileControllerTest.java
+@@ -163,17 +162,0 @@
+-    public void testUpdateEmailInvokesNotificationManager() throws Exception {
+-
+-        controller.setNotificationManager(mockNotificationManager);
+-        controller.setOrcidProfileManager(mock(OrcidProfileManager.class));
+-
+-        BindingResult bindingResult = mock(BindingResult.class);
+-        HttpServletRequest request = mock(HttpServletRequest.class);
+-
+-        ChangePersonalInfoForm changePersonalInfoForm = new ChangePersonalInfoForm(getOrcidProfile());
+-        assertEquals("josiah_carberry@brown.edu", getOrcidProfile().getOrcidBio().getContactDetails().retrievePrimaryEmail().getValue());
+-        changePersonalInfoForm.setEmail("newemail@orcid.org");
+-        ModelAndView successView = controller.saveEditedBio(request, changePersonalInfoForm, bindingResult, mock(RedirectAttributes.class));
+-        verify(mockNotificationManager, times(1)).sendEmailAddressChangedNotification(any(OrcidProfile.class), any(Email.class), any(URI.class));
+-        assertEquals("redirect:manage-bio-settings", successView.getViewName());
+-    }
+-
+-    @Test
+diff --git a/orcid-web/src/test/java/org/orcid/frontend/web/forms/validate/ChangePersonalInfoValidatorTest.java b/orcid-web/src/test/java/org/orcid/frontend/web/forms/validate/ChangePersonalInfoValidatorTest.java
+index 27821ef..4f5b9af 100644
+--- a/orcid-web/src/test/java/org/orcid/frontend/web/forms/validate/ChangePersonalInfoValidatorTest.java
++++ b/orcid-web/src/test/java/org/orcid/frontend/web/forms/validate/ChangePersonalInfoValidatorTest.java
+@@ -50 +49,0 @@
+-        form.setEmail("jimmy@this.com");
+@@ -64 +63 @@
+-        assertEquals("Should be 2 errors", 2, allErrorValues.size());
++        assertEquals("Should be 1 error1", 1, allErrorValues.size());
+@@ -66 +64,0 @@
+-        String emailMissing = allErrorValues.get("email");
+@@ -69 +66,0 @@
+-        assertEquals("Please enter your e-mail address.", emailMissing);
+@@ -80 +76,0 @@
+-        form.setEmail("test+11@orcid.org");
+

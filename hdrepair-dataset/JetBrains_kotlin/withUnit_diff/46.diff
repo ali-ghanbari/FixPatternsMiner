@@ -1,0 +1,30 @@
+diff --git a/idea/src/org/jetbrains/jet/codegen/ExpressionCodegen.java b/idea/src/org/jetbrains/jet/codegen/ExpressionCodegen.java
+index 8b01275..776498d 100644
+--- a/idea/src/org/jetbrains/jet/codegen/ExpressionCodegen.java
++++ b/idea/src/org/jetbrains/jet/codegen/ExpressionCodegen.java
+@@ -1507 +1506,0 @@
+-            gen(expression.getLeft(), OBJECT_TYPE);
+diff --git a/idea/testData/codegen/typeInfo/asInLoop.jet b/idea/testData/codegen/typeInfo/asInLoop.jet
+new file mode 100644
+index 0000000..3e9f5c8
+--- /dev/null
++++ b/idea/testData/codegen/typeInfo/asInLoop.jet
+@@ -0,0 +1,7 @@
++import java.io.*
++fun main(args: Array<String>) {
++  val reader = new BufferedReader(new InputStreamReader(System.`in`))
++  while(true) {
++    val cmd = reader.readLine() as String
++  }
++}
+diff --git a/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java b/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java
+index 02b8d92..c8d0dae 100644
+--- a/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java
++++ b/idea/tests/org/jetbrains/jet/codegen/TypeInfoTest.java
+@@ -81,0 +82,5 @@
++    public void testAsInLoop() throws Exception {
++        loadFile();
++        generateFunction();  // assert no exception
++    }
++
+

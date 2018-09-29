@@ -1,0 +1,8 @@
+[bugfix] Critical bug fix: a page caching issue caused errors in btree branching, leading to unreachable pages. The bug requires a rather unlikely combination of events to occur, so it mainly affects databases which have been running over a longer time. Typical symptoms are: existing nodes are not found or the consistency check reports an error ERR_DOM_INDEX. Over time, the bug may have other unexpected side effects though, eventually requiring a complete restore.
+
+Users of trunk should update to this revision.
+
+Port of rev 14222.
+
+svn path=/trunk/eXist/; revision=14223
+

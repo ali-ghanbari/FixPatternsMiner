@@ -1,0 +1,13 @@
+diff --git a/java/tools/org/apache/derby/tools/ij.java b/java/tools/org/apache/derby/tools/ij.java
+index f58c324..6a6ca13 100644
+--- a/java/tools/org/apache/derby/tools/ij.java
++++ b/java/tools/org/apache/derby/tools/ij.java
+@@ -108 +108,6 @@
+-		  ijE = new org.apache.derby.impl.tools.ij.Main14(false);
++		  // temp - allow ij to continue to work under jdk131
++		  // will resolve as part of DEBRY-1609
++		  // jdk13 gets error loading Main14 due to the
++		  // class now being built with the jdk14 target flag.
++		  // ijE = new org.apache.derby.impl.tools.ij.Main14(false);
++		  ijE = new Main(false);
+

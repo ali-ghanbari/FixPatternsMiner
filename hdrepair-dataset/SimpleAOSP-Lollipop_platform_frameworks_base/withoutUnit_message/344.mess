@@ -1,0 +1,16 @@
+Layout hidden windows on Configuration change.
+
+Apply the test for configuration change to all windows. A year ago
+this was the test but CL ag/247731 which fixed b/7428221 limited the
+test to just Keyguard windows. A week later CL ag/248223 which fixed
+b/7444971 applied the test to Wallpaper as well. Then two days after
+that CL ag/249762 which fixed b/7453222 reverted the wallpaper. This
+fix reverts the Keyguard qualification and restores the test to all
+windows.
+
+This fix has been tested against the repro steps for all three bugs
+above. In addition this fixes bug 11033407. The fix for the bug is
+described in the bug.
+
+Change-Id: Ie0f4c7cd4697c1689c4f331d572359cf7ce934cf
+

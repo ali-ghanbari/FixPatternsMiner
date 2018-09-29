@@ -1,0 +1,3151 @@
+diff --git a/README.md b/README.md
+index f613358..45d1b77 100644
+--- a/README.md
++++ b/README.md
+@@ -0,0 +1,2 @@
++//todo  then tests (incl BOTH), then rel extr. strategies overhaul, then different weights per relationship
++
+diff --git a/src/main/java/com/graphaware/neo4j/relcount/full/api/FullLiteralRelationshipCounter.java b/src/main/java/com/graphaware/neo4j/relcount/full/api/FullLiteralRelationshipCounter.java
+index c3a1e33..88886b1 100644
+--- a/src/main/java/com/graphaware/neo4j/relcount/full/api/FullLiteralRelationshipCounter.java
++++ b/src/main/java/com/graphaware/neo4j/relcount/full/api/FullLiteralRelationshipCounter.java
+@@ -26 +25,0 @@
+-//todo  then tests (incl BOTH), then rel extr. strategies overhaul, then different weights per relationship, checks that tx manager is in place when 0 returned (is anything cached at all? if not, does the node really have 0?)
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/FullCachedMoreGeneralRelationshipCounterIntegrationTest.java b/src/test/java/com/graphaware/neo4j/relcount/FullCachedMoreGeneralRelationshipCounterIntegrationTest.java
+deleted file mode 100644
+index 5e4913e..0000000
+--- a/src/test/java/com/graphaware/neo4j/relcount/FullCachedMoreGeneralRelationshipCounterIntegrationTest.java
++++ /dev/null
+@@ -1,606 +0,0 @@
+-/*
+- * Copyright (c) 2013 GraphAware
+- *
+- * This file is part of GraphAware.
+- *
+- * GraphAware is free software: you can redistribute it and/or modify it under the terms of
+- * the GNU General Public License as published by the Free Software Foundation, either
+- * version 3 of the License, or (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+- * See the GNU General Public License for more details. You should have received a copy of
+- * the GNU General Public License along with this program.  If not, see
+- * <http://www.gnu.org/licenses/>.
+- */
+-
+-package com.graphaware.neo4j.relcount;
+-
+-import com.graphaware.neo4j.relcount.full.FullRelationshipCountTransactionEventHandlerFactory;
+-import com.graphaware.neo4j.relcount.full.api.FullCachedMoreGeneralRelationshipCounter;
+-import com.graphaware.neo4j.relcount.full.dto.relationship.GeneralRelationshipDescription;
+-import com.graphaware.neo4j.relcount.full.dto.relationship.LiteralRelationshipDescription;
+-import com.graphaware.neo4j.relcount.full.manager.FullCachingRelationshipCountManager;
+-import com.graphaware.neo4j.tx.event.strategy.RelationshipInclusionStrategy;
+-import com.graphaware.neo4j.tx.event.strategy.RelationshipPropertiesExtractionStrategy;
+-import com.graphaware.neo4j.tx.single.SimpleTransactionExecutor;
+-import com.graphaware.neo4j.tx.single.TransactionCallback;
+-import com.graphaware.neo4j.tx.single.TransactionExecutor;
+-import com.graphaware.neo4j.utils.TestDataBuilder;
+-import org.junit.Before;
+-import org.junit.Test;
+-import org.neo4j.graphdb.GraphDatabaseService;
+-import org.neo4j.graphdb.Node;
+-import org.neo4j.graphdb.Relationship;
+-import org.neo4j.helpers.collection.MapUtil;
+-import org.neo4j.test.TestGraphDatabaseFactory;
+-
+-import java.util.Collections;
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-import static com.graphaware.neo4j.common.Constants.GA_REL_PREFIX;
+-import static com.graphaware.neo4j.utils.DeleteUtils.deleteNodeAndRelationships;
+-import static com.graphaware.neo4j.utils.PropertyContainerUtils.*;
+-import static java.lang.String.valueOf;
+-import static java.lang.System.currentTimeMillis;
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertTrue;
+-import static org.neo4j.graphdb.Direction.INCOMING;
+-import static org.neo4j.graphdb.Direction.OUTGOING;
+-import static org.neo4j.graphdb.DynamicRelationshipType.withName;
+-
+-/**
+- * Integration test for relationship counting.
+- */
+-public class FullCachedMoreGeneralRelationshipCounterIntegrationTest {
+-
+-    private GraphDatabaseService database;
+-    private TransactionExecutor txExecutor;
+-
+-    @Before
+-    public void setUp() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5));
+-    }
+-
+-    @Test
+-    public void noRelationshipsShouldExistInEmptyDatabase() {
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void noRelationshipsShouldExistInDatabaseWithNoRelationships() {
+-        createNodes();
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void relationshipsBelowThresholdShouldBeCountedOneByOne() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key2", "value1").count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void relationshipsAboveThresholdShouldNotBeCountableOneByOne() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(8, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingRelationshipsShouldCorrectlyDecrementCounts1() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 2) {
+-                        relationship.delete();
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingRelationshipsShouldCorrectlyDecrementCounts2() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 2) {
+-                        relationship.delete();
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(7, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingBelowZeroShouldNotDoAnyHarm() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(1).setProperty(new GeneralRelationshipDescription(withName("test"), OUTGOING, MapUtil.stringMap("key1", "value1", "_LITERAL_", "true")).toString(), 0);
+-                return null;
+-            }
+-        });
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 2) {
+-                        relationship.delete();
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingNonExistingShouldNotDoAnyHarm() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(2).createRelationshipTo(database.getNodeById(10), withName("test2")).setProperty("key1", "value3");
+-                return null;
+-            }
+-        });
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(2).removeProperty(new LiteralRelationshipDescription(withName("test2"), OUTGOING, Collections.singletonMap("key1", "value3")).toString());
+-                return null;
+-            }
+-        });
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(2).getSingleRelationship(withName("test2"), OUTGOING).delete();
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key2", "value1").count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingNodeWithAllRelationshipsWorkCorrectly() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                deleteNodeAndRelationships(database.getNodeById(1));
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWithNoActualChangeWorksCorrectly() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value2");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWorksWhenNotYetCompacted() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value1");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWithNoActualChangeWorksWhenAlreadyCompacted() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value2");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(8, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWorksCorrectlyWhenAlreadyCompacted() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value1");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(8, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void internalRelationshipsAreIgnored() {
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName(GA_REL_PREFIX + "IGNORED")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertTrue(new FullCachingRelationshipCountManager().getRelationshipCounts(database.getNodeById(0)).isEmpty());
+-
+-    }
+-
+-    @Test
+-    public void inclusionStrategyIsHonored() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipInclusionStrategy() {
+-            @Override
+-            public boolean include(Relationship relationship) {
+-                return false;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertTrue(new FullCachingRelationshipCountManager().getRelationshipCounts(database.getNodeById(0)).isEmpty());
+-    }
+-
+-    @Test
+-    public void extractionStrategyIsHonored() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
+-            @Override
+-            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
+-                Map<String, String> result = new HashMap<>();
+-                for (String key : relationship.getPropertyKeys()) {
+-                    if (!"test".equals(key)) {
+-                        result.put(cleanKey(key), valueToString(relationship.getProperty(key)));
+-                    }
+-                }
+-                return result;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void extractionStrategyIsHonored2() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.SimpleAdapter() {
+-            @Override
+-            protected Map<String, String> extractProperties(Map<String, String> properties) {
+-                Map<String, String> result = new HashMap<>(properties);
+-                result.remove("test");
+-                return result;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void extractionStrategyCanAccessOtherNode() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
+-            @Override
+-            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
+-                Map<String, String> result = new HashMap<>();
+-                result.putAll(propertiesToStringMap(relationship));
+-                result.put("otherNodeName", relationship.getOtherNode(pointOfView).getProperty("name", "default").toString());
+-                return result;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void extractionStrategyCanAccessOtherNode2() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.OtherNodeIncludingAdapter() {
+-            @Override
+-            protected Map<String, String> extractProperties(Map<String, String> properties, Node otherNode) {
+-                properties.put("otherNodeName", otherNode.getProperty("name", "default").toString());
+-                return properties;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void scenario() {
+-        TestDataBuilder builder = new TestDataBuilder(database);
+-
+-        builder.node().setProp("name", "node1")
+-                .node().setProp("name", "node2")
+-                .node().setProp("name", "node3")
+-                .node().setProp("name", "node4")
+-                .node().setProp("name", "node5")
+-                .node().setProp("name", "node6")
+-                .node().setProp("name", "node7")
+-                .node().setProp("name", "node8")
+-                .node().setProp("name", "node9")
+-                .node().setProp("name", "node10")
+-                .relationshipTo(1, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(2, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(3, "FRIEND_OF").setProp("level", "3").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(4, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(5, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(6, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(7, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(8, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(9, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()));
+-
+-        assertEquals(5, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
+-        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
+-        assertEquals(9, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
+-
+-        builder.relationshipTo(1, "FRIEND_OF").setProp("level", "4").setProp("timestamp", valueOf(currentTimeMillis()));
+-        builder.relationshipTo(2, "FRIEND_OF").setProp("level", "5").setProp("timestamp", valueOf(currentTimeMillis()));
+-        builder.relationshipTo(3, "FRIEND_OF").setProp("level", "6").setProp("timestamp", valueOf(currentTimeMillis()));
+-        builder.relationshipTo(4, "FRIEND_OF").setProp("level", "7").setProp("timestamp", valueOf(currentTimeMillis()));
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "4").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "5").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "6").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "7").count(database.getNodeById(10)));
+-        assertEquals(13, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
+-    }
+-
+-    private void createFirstRelationships() {
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                Node node1 = database.getNodeById(1);
+-                Node node2 = database.getNodeById(2);
+-                Node node3 = database.getNodeById(3);
+-                Node node4 = database.getNodeById(4);
+-                Node node5 = database.getNodeById(5);
+-                Node node6 = database.getNodeById(6);
+-
+-                node1.createRelationshipTo(node2, withName("test")).setProperty("key1", "value1");
+-                node1.createRelationshipTo(node3, withName("test")).setProperty("key1", "value2");
+-                node1.createRelationshipTo(node4, withName("test"));
+-                node1.createRelationshipTo(node5, withName("test")).setProperty("key1", "value2");
+-                node6.createRelationshipTo(node1, withName("test")).setProperty("key2", "value1");
+-
+-                return null;
+-            }
+-        });
+-    }
+-
+-    private void createSecondRelationships() {
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                Node node1 = database.getNodeById(1);
+-                Node node7 = database.getNodeById(7);
+-                Node node8 = database.getNodeById(8);
+-                Node node9 = database.getNodeById(9);
+-                Node node10 = database.getNodeById(10);
+-
+-                node1.createRelationshipTo(node7, withName("test")).setProperty("key1", "value3");
+-                node1.createRelationshipTo(node8, withName("test")).setProperty("key1", "value4");
+-                node1.createRelationshipTo(node9, withName("test")).setProperty("key1", "value5");
+-                node1.createRelationshipTo(node10, withName("test")).setProperty("key1", "value6");
+-
+-                return null;
+-            }
+-        });
+-    }
+-
+-    private void createNodes() {
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (int i = 0; i < 10; i++) {
+-                    Node node = database.createNode();
+-                    node.setProperty("name", "node " + (i + 1));
+-                }
+-                return null;
+-            }
+-        });
+-    }
+-}
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/FullNaiveMoreGeneralRelationshipCounterIntegrationTest.java b/src/test/java/com/graphaware/neo4j/relcount/FullNaiveMoreGeneralRelationshipCounterIntegrationTest.java
+deleted file mode 100644
+index 97562ea..0000000
+--- a/src/test/java/com/graphaware/neo4j/relcount/FullNaiveMoreGeneralRelationshipCounterIntegrationTest.java
++++ /dev/null
+@@ -1,488 +0,0 @@
+-/*
+- * Copyright (c) 2013 GraphAware
+- *
+- * This file is part of GraphAware.
+- *
+- * GraphAware is free software: you can redistribute it and/or modify it under the terms of
+- * the GNU General Public License as published by the Free Software Foundation, either
+- * version 3 of the License, or (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+- * See the GNU General Public License for more details. You should have received a copy of
+- * the GNU General Public License along with this program.  If not, see
+- * <http://www.gnu.org/licenses/>.
+- */
+-
+-package com.graphaware.neo4j.relcount;
+-
+-import com.graphaware.neo4j.relcount.full.FullRelationshipCountTransactionEventHandlerFactory;
+-import com.graphaware.neo4j.relcount.full.api.FullCachedMoreGeneralRelationshipCounter;
+-import com.graphaware.neo4j.relcount.full.api.FullNaiveMoreGeneralRelationshipCounter;
+-import com.graphaware.neo4j.tx.event.strategy.RelationshipPropertiesExtractionStrategy;
+-import com.graphaware.neo4j.tx.single.SimpleTransactionExecutor;
+-import com.graphaware.neo4j.tx.single.TransactionCallback;
+-import com.graphaware.neo4j.tx.single.TransactionExecutor;
+-import com.graphaware.neo4j.utils.TestDataBuilder;
+-import org.junit.Before;
+-import org.junit.Test;
+-import org.neo4j.graphdb.GraphDatabaseService;
+-import org.neo4j.graphdb.Node;
+-import org.neo4j.graphdb.Relationship;
+-import org.neo4j.test.TestGraphDatabaseFactory;
+-
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-import static com.graphaware.neo4j.utils.DeleteUtils.deleteNodeAndRelationships;
+-import static com.graphaware.neo4j.utils.PropertyContainerUtils.*;
+-import static java.lang.String.valueOf;
+-import static java.lang.System.currentTimeMillis;
+-import static org.junit.Assert.assertEquals;
+-import static org.neo4j.graphdb.Direction.INCOMING;
+-import static org.neo4j.graphdb.Direction.OUTGOING;
+-import static org.neo4j.graphdb.DynamicRelationshipType.withName;
+-
+-/**
+- * Integration test for relationship counting.
+- */
+-public class FullNaiveMoreGeneralRelationshipCounterIntegrationTest {
+-
+-    private GraphDatabaseService database;
+-    private TransactionExecutor txExecutor;
+-
+-    @Before
+-    public void setUp() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-    }
+-
+-    @Test
+-    public void noRelationshipsShouldExistInEmptyDatabase() {
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void noRelationshipsShouldExistInDatabaseWithNoRelationships() {
+-        createNodes();
+-
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void relationshipsShouldBeCountedOneByOne() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(4, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key2", "value1").count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void relationshipsAboveThresholdShouldBeCountableOneByOne() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(8, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingRelationshipsShouldCorrectlyDecrementCounts1() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 2) {
+-                        relationship.delete();
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(3, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingRelationshipsShouldCorrectlyDecrementCounts2() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 2) {
+-                        relationship.delete();
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(7, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void deletingNodeWithAllRelationshipsWorkCorrectly() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                deleteNodeAndRelationships(database.getNodeById(1));
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWithNoActualChangeWorksCorrectly() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value2");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(4, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWorksWhenNotYetCompacted() {
+-        createNodes();
+-        createFirstRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value1");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(4, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWithNoActualChangeWorksWhenAlreadyCompacted() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value2");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(8, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void changingRelationshipsWorksCorrectlyWhenAlreadyCompacted() {
+-        createNodes();
+-        createFirstRelationships();
+-        createSecondRelationships();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
+-                    if (relationship.getEndNode().getId() == 3) {
+-                        relationship.setProperty("key1", "value1");
+-                        break;
+-                    }
+-                }
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
+-        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
+-        assertEquals(8, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
+-        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
+-    }
+-
+-    @Test
+-    public void extractionStrategyIsHonored() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
+-            @Override
+-            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
+-                Map<String, String> result = new HashMap<>();
+-                for (String key : relationship.getPropertyKeys()) {
+-                    if (!"test".equals(key)) {
+-                        result.put(cleanKey(key), valueToString(relationship.getProperty(key)));
+-                    }
+-                }
+-                return result;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void extractionStrategyIsHonored2() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.SimpleAdapter() {
+-            @Override
+-            protected Map<String, String> extractProperties(Map<String, String> properties) {
+-                Map<String, String> result = new HashMap<>(properties);
+-                result.remove("test");
+-                return result;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
+-        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void extractionStrategyCanAccessOtherNode() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
+-            @Override
+-            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
+-                Map<String, String> result = new HashMap<>();
+-                result.putAll(propertiesToStringMap(relationship));
+-                result.put("otherNodeName", relationship.getOtherNode(pointOfView).getProperty("name", "default").toString());
+-                return result;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void extractionStrategyCanAccessOtherNode2() {
+-        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
+-        txExecutor = new SimpleTransactionExecutor(database);
+-        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.OtherNodeIncludingAdapter() {
+-            @Override
+-            protected Map<String, String> extractProperties(Map<String, String> properties, Node otherNode) {
+-                properties.put("otherNodeName", otherNode.getProperty("name", "default").toString());
+-                return properties;
+-            }
+-        }));
+-
+-        createNodes();
+-
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
+-                return null;
+-            }
+-        });
+-
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
+-    }
+-
+-    @Test
+-    public void scenario() {
+-        TestDataBuilder builder = new TestDataBuilder(database);
+-
+-        builder.node().setProp("name", "node1")
+-                .node().setProp("name", "node2")
+-                .node().setProp("name", "node3")
+-                .node().setProp("name", "node4")
+-                .node().setProp("name", "node5")
+-                .node().setProp("name", "node6")
+-                .node().setProp("name", "node7")
+-                .node().setProp("name", "node8")
+-                .node().setProp("name", "node9")
+-                .node().setProp("name", "node10")
+-                .relationshipTo(1, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(2, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(3, "FRIEND_OF").setProp("level", "3").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(4, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(5, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(6, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(7, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(8, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
+-                .relationshipTo(9, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()));
+-
+-        assertEquals(5, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
+-        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
+-        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
+-        assertEquals(9, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
+-
+-        builder.relationshipTo(1, "FRIEND_OF").setProp("level", "4").setProp("timestamp", valueOf(currentTimeMillis()));
+-        builder.relationshipTo(2, "FRIEND_OF").setProp("level", "5").setProp("timestamp", valueOf(currentTimeMillis()));
+-        builder.relationshipTo(3, "FRIEND_OF").setProp("level", "6").setProp("timestamp", valueOf(currentTimeMillis()));
+-        builder.relationshipTo(4, "FRIEND_OF").setProp("level", "7").setProp("timestamp", valueOf(currentTimeMillis()));
+-
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "4").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "5").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "6").count(database.getNodeById(10)));
+-        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "7").count(database.getNodeById(10)));
+-        assertEquals(13, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
+-    }
+-
+-    private void createFirstRelationships() {
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                Node node1 = database.getNodeById(1);
+-                Node node2 = database.getNodeById(2);
+-                Node node3 = database.getNodeById(3);
+-                Node node4 = database.getNodeById(4);
+-                Node node5 = database.getNodeById(5);
+-                Node node6 = database.getNodeById(6);
+-
+-                node1.createRelationshipTo(node2, withName("test")).setProperty("key1", "value1");
+-                node1.createRelationshipTo(node3, withName("test")).setProperty("key1", "value2");
+-                node1.createRelationshipTo(node4, withName("test"));
+-                node1.createRelationshipTo(node5, withName("test")).setProperty("key1", "value2");
+-                node6.createRelationshipTo(node1, withName("test")).setProperty("key2", "value1");
+-
+-                return null;
+-            }
+-        });
+-    }
+-
+-    private void createSecondRelationships() {
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                Node node1 = database.getNodeById(1);
+-                Node node7 = database.getNodeById(7);
+-                Node node8 = database.getNodeById(8);
+-                Node node9 = database.getNodeById(9);
+-                Node node10 = database.getNodeById(10);
+-
+-                node1.createRelationshipTo(node7, withName("test")).setProperty("key1", "value3");
+-                node1.createRelationshipTo(node8, withName("test")).setProperty("key1", "value4");
+-                node1.createRelationshipTo(node9, withName("test")).setProperty("key1", "value5");
+-                node1.createRelationshipTo(node10, withName("test")).setProperty("key1", "value6");
+-
+-                return null;
+-            }
+-        });
+-    }
+-
+-    private void createNodes() {
+-        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
+-            @Override
+-            public Void doInTransaction(GraphDatabaseService database) {
+-                for (int i = 0; i < 10; i++) {
+-                    Node node = database.createNode();
+-                    node.setProperty("name", "node " + (i + 1));
+-                }
+-                return null;
+-            }
+-        });
+-    }
+-}
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/full/api/FullCachedMoreGeneralRelationshipCounterIntegrationTest.java b/src/test/java/com/graphaware/neo4j/relcount/full/api/FullCachedMoreGeneralRelationshipCounterIntegrationTest.java
+new file mode 100644
+index 0000000..c720074
+--- /dev/null
++++ b/src/test/java/com/graphaware/neo4j/relcount/full/api/FullCachedMoreGeneralRelationshipCounterIntegrationTest.java
+@@ -0,0 +1,605 @@
++/*
++ * Copyright (c) 2013 GraphAware
++ *
++ * This file is part of GraphAware.
++ *
++ * GraphAware is free software: you can redistribute it and/or modify it under the terms of
++ * the GNU General Public License as published by the Free Software Foundation, either
++ * version 3 of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
++ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of
++ * the GNU General Public License along with this program.  If not, see
++ * <http://www.gnu.org/licenses/>.
++ */
++
++package com.graphaware.neo4j.relcount.full.api;
++
++import com.graphaware.neo4j.relcount.full.FullRelationshipCountTransactionEventHandlerFactory;
++import com.graphaware.neo4j.relcount.full.dto.relationship.GeneralRelationshipDescription;
++import com.graphaware.neo4j.relcount.full.dto.relationship.LiteralRelationshipDescription;
++import com.graphaware.neo4j.relcount.full.manager.FullCachingRelationshipCountManager;
++import com.graphaware.neo4j.tx.event.strategy.RelationshipInclusionStrategy;
++import com.graphaware.neo4j.tx.event.strategy.RelationshipPropertiesExtractionStrategy;
++import com.graphaware.neo4j.tx.single.SimpleTransactionExecutor;
++import com.graphaware.neo4j.tx.single.TransactionCallback;
++import com.graphaware.neo4j.tx.single.TransactionExecutor;
++import com.graphaware.neo4j.utils.TestDataBuilder;
++import org.junit.Before;
++import org.junit.Test;
++import org.neo4j.graphdb.GraphDatabaseService;
++import org.neo4j.graphdb.Node;
++import org.neo4j.graphdb.Relationship;
++import org.neo4j.helpers.collection.MapUtil;
++import org.neo4j.test.TestGraphDatabaseFactory;
++
++import java.util.Collections;
++import java.util.HashMap;
++import java.util.Map;
++
++import static com.graphaware.neo4j.common.Constants.GA_REL_PREFIX;
++import static com.graphaware.neo4j.utils.DeleteUtils.deleteNodeAndRelationships;
++import static com.graphaware.neo4j.utils.PropertyContainerUtils.*;
++import static java.lang.String.valueOf;
++import static java.lang.System.currentTimeMillis;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertTrue;
++import static org.neo4j.graphdb.Direction.INCOMING;
++import static org.neo4j.graphdb.Direction.OUTGOING;
++import static org.neo4j.graphdb.DynamicRelationshipType.withName;
++
++/**
++ * Integration test for relationship counting.
++ */
++public class FullCachedMoreGeneralRelationshipCounterIntegrationTest {
++
++    private GraphDatabaseService database;
++    private TransactionExecutor txExecutor;
++
++    @Before
++    public void setUp() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5));
++    }
++
++    @Test
++    public void noRelationshipsShouldExistInEmptyDatabase() {
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void noRelationshipsShouldExistInDatabaseWithNoRelationships() {
++        createNodes();
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void relationshipsBelowThresholdShouldBeCountedOneByOne() {
++        createNodes();
++        createFirstRelationships();
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key2", "value1").count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void relationshipsAboveThresholdShouldNotBeCountableOneByOne() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(8, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingRelationshipsShouldCorrectlyDecrementCounts1() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 2) {
++                        relationship.delete();
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingRelationshipsShouldCorrectlyDecrementCounts2() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 2) {
++                        relationship.delete();
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(7, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingBelowZeroShouldNotDoAnyHarm() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(1).setProperty(new GeneralRelationshipDescription(withName("test"), OUTGOING, MapUtil.stringMap("key1", "value1", "_LITERAL_", "true")).toString(), 0);
++                return null;
++            }
++        });
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 2) {
++                        relationship.delete();
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingNonExistingShouldNotDoAnyHarm() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(2).createRelationshipTo(database.getNodeById(10), withName("test2")).setProperty("key1", "value3");
++                return null;
++            }
++        });
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(2).removeProperty(new LiteralRelationshipDescription(withName("test2"), OUTGOING, Collections.singletonMap("key1", "value3")).toString());
++                return null;
++            }
++        });
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(2).getSingleRelationship(withName("test2"), OUTGOING).delete();
++                return null;
++            }
++        });
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key2", "value1").count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingNodeWithAllRelationshipsWorkCorrectly() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                deleteNodeAndRelationships(database.getNodeById(1));
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
++    }
++
++    @Test
++    public void changingRelationshipsWithNoActualChangeWorksCorrectly() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value2");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void changingRelationshipsWorksWhenNotYetCompacted() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value1");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(4, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void changingRelationshipsWithNoActualChangeWorksWhenAlreadyCompacted() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value2");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(8, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void changingRelationshipsWorksCorrectlyWhenAlreadyCompacted() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value1");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(8, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void internalRelationshipsAreIgnored() {
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName(GA_REL_PREFIX + "IGNORED")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertTrue(new FullCachingRelationshipCountManager().getRelationshipCounts(database.getNodeById(0)).isEmpty());
++
++    }
++
++    @Test
++    public void inclusionStrategyIsHonored() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipInclusionStrategy() {
++            @Override
++            public boolean include(Relationship relationship) {
++                return false;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertTrue(new FullCachingRelationshipCountManager().getRelationshipCounts(database.getNodeById(0)).isEmpty());
++    }
++
++    @Test
++    public void extractionStrategyIsHonored() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
++            @Override
++            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
++                Map<String, String> result = new HashMap<>();
++                for (String key : relationship.getPropertyKeys()) {
++                    if (!"test".equals(key)) {
++                        result.put(cleanKey(key), valueToString(relationship.getProperty(key)));
++                    }
++                }
++                return result;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void extractionStrategyIsHonored2() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.SimpleAdapter() {
++            @Override
++            protected Map<String, String> extractProperties(Map<String, String> properties) {
++                Map<String, String> result = new HashMap<>(properties);
++                result.remove("test");
++                return result;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void extractionStrategyCanAccessOtherNode() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
++            @Override
++            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
++                Map<String, String> result = new HashMap<>();
++                result.putAll(propertiesToStringMap(relationship));
++                result.put("otherNodeName", relationship.getOtherNode(pointOfView).getProperty("name", "default").toString());
++                return result;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void extractionStrategyCanAccessOtherNode2() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.OtherNodeIncludingAdapter() {
++            @Override
++            protected Map<String, String> extractProperties(Map<String, String> properties, Node otherNode) {
++                properties.put("otherNodeName", otherNode.getProperty("name", "default").toString());
++                return properties;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void scenario() {
++        TestDataBuilder builder = new TestDataBuilder(database);
++
++        builder.node().setProp("name", "node1")
++                .node().setProp("name", "node2")
++                .node().setProp("name", "node3")
++                .node().setProp("name", "node4")
++                .node().setProp("name", "node5")
++                .node().setProp("name", "node6")
++                .node().setProp("name", "node7")
++                .node().setProp("name", "node8")
++                .node().setProp("name", "node9")
++                .node().setProp("name", "node10")
++                .relationshipTo(1, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(2, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(3, "FRIEND_OF").setProp("level", "3").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(4, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(5, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(6, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(7, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(8, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(9, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()));
++
++        assertEquals(5, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
++        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
++        assertEquals(9, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
++
++        builder.relationshipTo(1, "FRIEND_OF").setProp("level", "4").setProp("timestamp", valueOf(currentTimeMillis()));
++        builder.relationshipTo(2, "FRIEND_OF").setProp("level", "5").setProp("timestamp", valueOf(currentTimeMillis()));
++        builder.relationshipTo(3, "FRIEND_OF").setProp("level", "6").setProp("timestamp", valueOf(currentTimeMillis()));
++        builder.relationshipTo(4, "FRIEND_OF").setProp("level", "7").setProp("timestamp", valueOf(currentTimeMillis()));
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "4").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "5").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "6").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "7").count(database.getNodeById(10)));
++        assertEquals(13, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
++    }
++
++    private void createFirstRelationships() {
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                Node node1 = database.getNodeById(1);
++                Node node2 = database.getNodeById(2);
++                Node node3 = database.getNodeById(3);
++                Node node4 = database.getNodeById(4);
++                Node node5 = database.getNodeById(5);
++                Node node6 = database.getNodeById(6);
++
++                node1.createRelationshipTo(node2, withName("test")).setProperty("key1", "value1");
++                node1.createRelationshipTo(node3, withName("test")).setProperty("key1", "value2");
++                node1.createRelationshipTo(node4, withName("test"));
++                node1.createRelationshipTo(node5, withName("test")).setProperty("key1", "value2");
++                node6.createRelationshipTo(node1, withName("test")).setProperty("key2", "value1");
++
++                return null;
++            }
++        });
++    }
++
++    private void createSecondRelationships() {
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                Node node1 = database.getNodeById(1);
++                Node node7 = database.getNodeById(7);
++                Node node8 = database.getNodeById(8);
++                Node node9 = database.getNodeById(9);
++                Node node10 = database.getNodeById(10);
++
++                node1.createRelationshipTo(node7, withName("test")).setProperty("key1", "value3");
++                node1.createRelationshipTo(node8, withName("test")).setProperty("key1", "value4");
++                node1.createRelationshipTo(node9, withName("test")).setProperty("key1", "value5");
++                node1.createRelationshipTo(node10, withName("test")).setProperty("key1", "value6");
++
++                return null;
++            }
++        });
++    }
++
++    private void createNodes() {
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (int i = 0; i < 10; i++) {
++                    Node node = database.createNode();
++                    node.setProperty("name", "node " + (i + 1));
++                }
++                return null;
++            }
++        });
++    }
++}
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/full/api/FullNaiveMoreGeneralRelationshipCounterIntegrationTest.java b/src/test/java/com/graphaware/neo4j/relcount/full/api/FullNaiveMoreGeneralRelationshipCounterIntegrationTest.java
+new file mode 100644
+index 0000000..0870609
+--- /dev/null
++++ b/src/test/java/com/graphaware/neo4j/relcount/full/api/FullNaiveMoreGeneralRelationshipCounterIntegrationTest.java
+@@ -0,0 +1,486 @@
++/*
++ * Copyright (c) 2013 GraphAware
++ *
++ * This file is part of GraphAware.
++ *
++ * GraphAware is free software: you can redistribute it and/or modify it under the terms of
++ * the GNU General Public License as published by the Free Software Foundation, either
++ * version 3 of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
++ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of
++ * the GNU General Public License along with this program.  If not, see
++ * <http://www.gnu.org/licenses/>.
++ */
++
++package com.graphaware.neo4j.relcount.full.api;
++
++import com.graphaware.neo4j.relcount.full.FullRelationshipCountTransactionEventHandlerFactory;
++import com.graphaware.neo4j.tx.event.strategy.RelationshipPropertiesExtractionStrategy;
++import com.graphaware.neo4j.tx.single.SimpleTransactionExecutor;
++import com.graphaware.neo4j.tx.single.TransactionCallback;
++import com.graphaware.neo4j.tx.single.TransactionExecutor;
++import com.graphaware.neo4j.utils.TestDataBuilder;
++import org.junit.Before;
++import org.junit.Test;
++import org.neo4j.graphdb.GraphDatabaseService;
++import org.neo4j.graphdb.Node;
++import org.neo4j.graphdb.Relationship;
++import org.neo4j.test.TestGraphDatabaseFactory;
++
++import java.util.HashMap;
++import java.util.Map;
++
++import static com.graphaware.neo4j.utils.DeleteUtils.deleteNodeAndRelationships;
++import static com.graphaware.neo4j.utils.PropertyContainerUtils.*;
++import static java.lang.String.valueOf;
++import static java.lang.System.currentTimeMillis;
++import static org.junit.Assert.assertEquals;
++import static org.neo4j.graphdb.Direction.INCOMING;
++import static org.neo4j.graphdb.Direction.OUTGOING;
++import static org.neo4j.graphdb.DynamicRelationshipType.withName;
++
++/**
++ * Integration test for relationship counting.
++ */
++public class FullNaiveMoreGeneralRelationshipCounterIntegrationTest {
++
++    private GraphDatabaseService database;
++    private TransactionExecutor txExecutor;
++
++    @Before
++    public void setUp() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++    }
++
++    @Test
++    public void noRelationshipsShouldExistInEmptyDatabase() {
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void noRelationshipsShouldExistInDatabaseWithNoRelationships() {
++        createNodes();
++
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void relationshipsShouldBeCountedOneByOne() {
++        createNodes();
++        createFirstRelationships();
++
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(4, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key2", "value1").count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void relationshipsAboveThresholdShouldBeCountableOneByOne() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(8, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingRelationshipsShouldCorrectlyDecrementCounts1() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 2) {
++                        relationship.delete();
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(3, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingRelationshipsShouldCorrectlyDecrementCounts2() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 2) {
++                        relationship.delete();
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(7, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void deletingNodeWithAllRelationshipsWorkCorrectly() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                deleteNodeAndRelationships(database.getNodeById(1));
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(2)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(3)));
++    }
++
++    @Test
++    public void changingRelationshipsWithNoActualChangeWorksCorrectly() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value2");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(4, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void changingRelationshipsWorksWhenNotYetCompacted() {
++        createNodes();
++        createFirstRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value1");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(2, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(4, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void changingRelationshipsWithNoActualChangeWorksWhenAlreadyCompacted() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value2");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(8, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void changingRelationshipsWorksCorrectlyWhenAlreadyCompacted() {
++        createNodes();
++        createFirstRelationships();
++        createSecondRelationships();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (Relationship relationship : database.getNodeById(1).getRelationships(withName("test"), OUTGOING)) {
++                    if (relationship.getEndNode().getId() == 3) {
++                        relationship.setProperty("key1", "value1");
++                        break;
++                    }
++                }
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value2").count(database.getNodeById(1)));
++        assertEquals(0, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value3").count(database.getNodeById(1)));
++        assertEquals(8, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(1)));
++        assertEquals(1, new FullNaiveMoreGeneralRelationshipCounter(withName("test"), INCOMING).count(database.getNodeById(1)));
++    }
++
++    @Test
++    public void extractionStrategyIsHonored() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
++            @Override
++            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
++                Map<String, String> result = new HashMap<>();
++                for (String key : relationship.getPropertyKeys()) {
++                    if (!"test".equals(key)) {
++                        result.put(cleanKey(key), valueToString(relationship.getProperty(key)));
++                    }
++                }
++                return result;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void extractionStrategyIsHonored2() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.SimpleAdapter() {
++            @Override
++            protected Map<String, String> extractProperties(Map<String, String> properties) {
++                Map<String, String> result = new HashMap<>(properties);
++                result.remove("test");
++                return result;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("test", "value1");
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("test", "value1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").count(database.getNodeById(0)));
++        assertEquals(2, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void extractionStrategyCanAccessOtherNode() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy() {
++            @Override
++            public Map<String, String> extractProperties(Relationship relationship, Node pointOfView) {
++                Map<String, String> result = new HashMap<>();
++                result.putAll(propertiesToStringMap(relationship));
++                result.put("otherNodeName", relationship.getOtherNode(pointOfView).getProperty("name", "default").toString());
++                return result;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void extractionStrategyCanAccessOtherNode2() {
++        database = new TestGraphDatabaseFactory().newImpermanentDatabase();
++        txExecutor = new SimpleTransactionExecutor(database);
++        database.registerTransactionEventHandler(new FullRelationshipCountTransactionEventHandlerFactory().create(5, new RelationshipPropertiesExtractionStrategy.OtherNodeIncludingAdapter() {
++            @Override
++            protected Map<String, String> extractProperties(Map<String, String> properties, Node otherNode) {
++                properties.put("otherNodeName", otherNode.getProperty("name", "default").toString());
++                return properties;
++            }
++        }));
++
++        createNodes();
++
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                database.getNodeById(0).createRelationshipTo(database.getNodeById(1), withName("test")).setProperty("key1", "value1");
++                return null;
++            }
++        });
++
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).with("key1", "value1").with("otherNodeName", "node 1").count(database.getNodeById(0)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), INCOMING).with("key1", "value1").with("otherNodeName", "default").count(database.getNodeById(1)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("test"), OUTGOING).count(database.getNodeById(0)));
++    }
++
++    @Test
++    public void scenario() {
++        TestDataBuilder builder = new TestDataBuilder(database);
++
++        builder.node().setProp("name", "node1")
++                .node().setProp("name", "node2")
++                .node().setProp("name", "node3")
++                .node().setProp("name", "node4")
++                .node().setProp("name", "node5")
++                .node().setProp("name", "node6")
++                .node().setProp("name", "node7")
++                .node().setProp("name", "node8")
++                .node().setProp("name", "node9")
++                .node().setProp("name", "node10")
++                .relationshipTo(1, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(2, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(3, "FRIEND_OF").setProp("level", "3").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(4, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(5, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(6, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(7, "FRIEND_OF").setProp("level", "1").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(8, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()))
++                .relationshipTo(9, "FRIEND_OF").setProp("level", "2").setProp("timestamp", valueOf(currentTimeMillis()));
++
++        assertEquals(5, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
++        assertEquals(3, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
++        assertEquals(1, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
++        assertEquals(9, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
++
++        builder.relationshipTo(1, "FRIEND_OF").setProp("level", "4").setProp("timestamp", valueOf(currentTimeMillis()));
++        builder.relationshipTo(2, "FRIEND_OF").setProp("level", "5").setProp("timestamp", valueOf(currentTimeMillis()));
++        builder.relationshipTo(3, "FRIEND_OF").setProp("level", "6").setProp("timestamp", valueOf(currentTimeMillis()));
++        builder.relationshipTo(4, "FRIEND_OF").setProp("level", "7").setProp("timestamp", valueOf(currentTimeMillis()));
++
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "1").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "2").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "3").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "4").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "5").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "6").count(database.getNodeById(10)));
++        assertEquals(0, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).with("level", "7").count(database.getNodeById(10)));
++        assertEquals(13, new FullCachedMoreGeneralRelationshipCounter(withName("FRIEND_OF"), OUTGOING).count(database.getNodeById(10)));
++    }
++
++    private void createFirstRelationships() {
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                Node node1 = database.getNodeById(1);
++                Node node2 = database.getNodeById(2);
++                Node node3 = database.getNodeById(3);
++                Node node4 = database.getNodeById(4);
++                Node node5 = database.getNodeById(5);
++                Node node6 = database.getNodeById(6);
++
++                node1.createRelationshipTo(node2, withName("test")).setProperty("key1", "value1");
++                node1.createRelationshipTo(node3, withName("test")).setProperty("key1", "value2");
++                node1.createRelationshipTo(node4, withName("test"));
++                node1.createRelationshipTo(node5, withName("test")).setProperty("key1", "value2");
++                node6.createRelationshipTo(node1, withName("test")).setProperty("key2", "value1");
++
++                return null;
++            }
++        });
++    }
++
++    private void createSecondRelationships() {
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                Node node1 = database.getNodeById(1);
++                Node node7 = database.getNodeById(7);
++                Node node8 = database.getNodeById(8);
++                Node node9 = database.getNodeById(9);
++                Node node10 = database.getNodeById(10);
++
++                node1.createRelationshipTo(node7, withName("test")).setProperty("key1", "value3");
++                node1.createRelationshipTo(node8, withName("test")).setProperty("key1", "value4");
++                node1.createRelationshipTo(node9, withName("test")).setProperty("key1", "value5");
++                node1.createRelationshipTo(node10, withName("test")).setProperty("key1", "value6");
++
++                return null;
++            }
++        });
++    }
++
++    private void createNodes() {
++        txExecutor.executeInTransaction(new TransactionCallback<Void>() {
++            @Override
++            public Void doInTransaction(GraphDatabaseService database) {
++                for (int i = 0; i < 10; i++) {
++                    Node node = database.createNode();
++                    node.setProperty("name", "node " + (i + 1));
++                }
++                return null;
++            }
++        });
++    }
++}
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/full/compactor/ThresholdBasedRelationshipCountCompactorTest.java b/src/test/java/com/graphaware/neo4j/relcount/full/compactor/ThresholdBasedRelationshipCountCompactorTest.java
+index 2fd3b2f..62972c0 100644
+--- a/src/test/java/com/graphaware/neo4j/relcount/full/compactor/ThresholdBasedRelationshipCountCompactorTest.java
++++ b/src/test/java/com/graphaware/neo4j/relcount/full/compactor/ThresholdBasedRelationshipCountCompactorTest.java
+@@ -18,0 +19 @@
++import com.graphaware.neo4j.relcount.common.api.UnableToCountException;
+@@ -32 +33 @@
+-import static junit.framework.Assert.assertEquals;
++import static junit.framework.Assert.*;
+@@ -117,4 +118 @@
+-        assertEquals(0, manager.getRelationshipCount(rel("test#OUTGOING#k1#v1"), database.getNodeById(0)));
+-        assertEquals(0, manager.getRelationshipCount(rel("test#OUTGOING#k1#v2"), database.getNodeById(0)));
+-        assertEquals(0, manager.getRelationshipCount(rel("test#OUTGOING#k1#v3"), database.getNodeById(0)));
+-        assertEquals(0, manager.getRelationshipCount(rel("test#OUTGOING#k1#v4"), database.getNodeById(0)));
++        assertTrue(manager.getRelationshipCounts(database.getNodeById(0)).containsKey(rel("test#OUTGOING#")));
+@@ -121,0 +120,7 @@
++
++        try {
++            manager.getRelationshipCount(rel("test#OUTGOING#k1#v1"), database.getNodeById(0));
++            fail();
++        } catch (UnableToCountException e) {
++            //OK
++        }
+@@ -219 +223,0 @@
+-        assertEquals(0, manager.getRelationshipCount(rel("test#OUTGOING#k1#v1"), database.getNodeById(0)));
+@@ -224,0 +229,7 @@
++
++        try {
++            manager.getRelationshipCount(rel("test#OUTGOING#k1#v1"), database.getNodeById(0));
++            fail();
++        } catch (UnableToCountException e) {
++            //ok
++        }
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/ComparablePropertiesTest.java b/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/ComparablePropertiesTest.java
+deleted file mode 100644
+index 23b623f..0000000
+--- a/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/ComparablePropertiesTest.java
++++ /dev/null
+@@ -1,176 +0,0 @@
+-/*
+- * Copyright (c) 2013 GraphAware
+- *
+- * This file is part of GraphAware.
+- *
+- * GraphAware is free software: you can redistribute it and/or modify it under the terms of
+- * the GNU General Public License as published by the Free Software Foundation, either
+- * version 3 of the License, or (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+- * See the GNU General Public License for more details. You should have received a copy of
+- * the GNU General Public License along with this program.  If not, see
+- * <http://www.gnu.org/licenses/>.
+- */
+-
+-package com.graphaware.neo4j.relcount.full.dto.property;
+-
+-import org.junit.Test;
+-
+-import java.util.Iterator;
+-import java.util.Set;
+-import java.util.TreeSet;
+-
+-import static junit.framework.Assert.*;
+-
+-/**
+- * Unit test for {@link GeneralPropertiesDescription}.
+- */
+-public class ComparablePropertiesTest {
+-
+-    @Test
+-    public void shouldCorrectlyJudgeMoreGeneral() {
+-        assertTrue(props("key1#value1#key2#value2").isMoreGeneralThan(props("key1#value1#key2#value2")));
+-        assertFalse(props("key1#value1#key2#value2").isStrictlyMoreGeneralThan(props("key1#value1#key2#value2")));
+-
+-        assertTrue(props("key1#value1").isMoreGeneralThan(props("key1#value1#key2#value2")));
+-        assertTrue(props("key1#value1").isStrictlyMoreGeneralThan(props("key1#value1#key2#value2")));
+-
+-        assertTrue(props("").isMoreGeneralThan(props("key1#value1#key2#value2")));
+-        assertTrue(props("").isStrictlyMoreGeneralThan(props("key1#value1#key2#value2")));
+-
+-        assertTrue(props("").isMoreGeneralThan(props("")));
+-        assertFalse(props("").isStrictlyMoreGeneralThan(props("")));
+-
+-        assertFalse(props("key1#value1#key2#value3").isMoreGeneralThan(props("key1#value1#key2#value2")));
+-        assertFalse(props("key1#value1#key2#value3").isStrictlyMoreGeneralThan(props("key1#value1#key2#value2")));
+-
+-        assertFalse(props("key1#value1#key2#value2").isMoreGeneralThan(props("key1#value1#key2#value3")));
+-        assertFalse(props("key1#value1#key2#value2").isStrictlyMoreGeneralThan(props("key1#value1#key2#value3")));
+-
+-        assertFalse(props("key1#value1#key2#value2").isMoreGeneralThan(props("key1#value1")));
+-        assertFalse(props("key1#value1#key2#value2").isStrictlyMoreGeneralThan(props("key1#value1")));
+-
+-        assertFalse(props("key1#value1").isMoreGeneralThan(props("")));
+-        assertFalse(props("key1#value1").isStrictlyMoreGeneralThan(props("")));
+-
+-        assertFalse(props("key1#value1#key3#value2").isMoreGeneralThan(props("key1#value1#key2#value2")));
+-        assertFalse(props("key1#value1#key3#value2").isStrictlyMoreGeneralThan(props("key1#value1#key2#value2")));
+-    }
+-
+-    @Test
+-    public void shouldCorrectlyJudgeMoreSpecific() {
+-        assertTrue(props("key1#value1#key2#value2").isMoreSpecificThan(props("key1#value1#key2#value2")));
+-        assertFalse(props("key1#value1#key2#value2").isStrictlyMoreSpecificThan(props("key1#value1#key2#value2")));
+-
+-        assertTrue(props("key1#value1#key2#value2").isMoreSpecificThan(props("key1#value1")));
+-        assertTrue(props("key1#value1#key2#value2").isStrictlyMoreSpecificThan(props("key1#value1")));
+-
+-        assertTrue(props("key1#value1#key2#value2").isMoreSpecificThan(props("")));
+-        assertTrue(props("key1#value1#key2#value2").isStrictlyMoreSpecificThan(props("")));
+-
+-        assertTrue(props("").isMoreSpecificThan(props("")));
+-        assertFalse(props("").isStrictlyMoreSpecificThan(props("")));
+-
+-        assertFalse(props("key1#value1#key2#value3").isMoreSpecificThan(props("key1#value1#key2#value2")));
+-        assertFalse(props("key1#value1#key2#value3").isStrictlyMoreSpecificThan(props("key1#value1#key2#value2")));
+-
+-        assertFalse(props("key1#value1#key2#value2").isMoreSpecificThan(props("key1#value1#key2#value3")));
+-        assertFalse(props("key1#value1#key2#value2").isStrictlyMoreSpecificThan(props("key1#value1#key2#value3")));
+-
+-        assertFalse(props("key1#value1").isMoreSpecificThan(props("key1#value1#key2#value2")));
+-        assertFalse(props("key1#value1").isStrictlyMoreSpecificThan(props("key1#value1#key2#value2")));
+-
+-        assertFalse(props("").isMoreSpecificThan(props("key1#value1")));
+-        assertFalse(props("").isStrictlyMoreSpecificThan(props("key1#value1")));
+-
+-        assertFalse(props("key1#value1#key3#value2").isMoreSpecificThan(props("key1#value1#key2#value2")));
+-        assertFalse(props("key1#value1#key3#value2").isStrictlyMoreSpecificThan(props("key1#value1#key2#value2")));
+-    }
+-
+-    @Test
+-    public void shouldGenerateMoreGeneralAllMoreGeneral() {
+-        Set<PropertiesDescription> result = props("key1#value1#key2#value2#key3#value3").generateAllMoreGeneral();
+-
+-        assertEquals(8, result.size());
+-        Iterator<PropertiesDescription> iterator = result.iterator();
+-        assertEquals(iterator.next(), props("key1#value1#key2#value2#key3#value3"));
+-        assertEquals(iterator.next(), props("key1#value1#key2#value2"));
+-        assertEquals(iterator.next(), props("key1#value1#key3#value3"));
+-        assertEquals(iterator.next(), props("key1#value1"));
+-        assertEquals(iterator.next(), props("key2#value2#key3#value3"));
+-        assertEquals(iterator.next(), props("key2#value2"));
+-        assertEquals(iterator.next(), props("key3#value3"));
+-        assertEquals(iterator.next(), props(""));
+-    }
+-
+-    @Test
+-    public void shouldGenerateMoreGeneralOneMoreGeneral() {
+-        Set<PropertiesDescription> result = props("key1#value1#key2#value2#key3#value3").generateOneMoreGeneral();
+-
+-        assertEquals(4, result.size());
+-        Iterator<PropertiesDescription> iterator = result.iterator();
+-        assertEquals(iterator.next(), props("key1#value1#key2#value2#key3#value3"));
+-        assertEquals(iterator.next(), props("key1#value1#key2#value2"));
+-        assertEquals(iterator.next(), props("key1#value1#key3#value3"));
+-        assertEquals(iterator.next(), props("key2#value2#key3#value3"));
+-    }
+-
+-    @Test
+-    public void shouldGenerateMoreGeneralOneMoreGeneral2() {
+-        Set<PropertiesDescription> result = props("key1#value1").generateOneMoreGeneral();
+-
+-        assertEquals(2, result.size());
+-        Iterator<PropertiesDescription> iterator = result.iterator();
+-        assertEquals(iterator.next(), props("key1#value1"));
+-        assertEquals(iterator.next(), props(""));
+-    }
+-
+-    @Test
+-    public void equalityTest() {
+-        assertTrue(props("key1#value1").equals(props("key1#value1")));
+-    }
+-
+-    @Test
+-    public void shouldAchieveSpecificToGeneralOrderingForProperties() {
+-        Set<PropertiesDescription> properties = new TreeSet<>();
+-
+-        properties.add(props(""));
+-        properties.add(props("key1#value1#key2#value2"));
+-        properties.add(props("key2#value2"));
+-        properties.add(props("key2#value2"));
+-        properties.add(props("key2#value2"));
+-
+-        Iterator<PropertiesDescription> iterator = properties.iterator();
+-        assertEquals(props("key1#value1#key2#value2"), iterator.next());
+-        assertEquals(props("key2#value2"), iterator.next());
+-        assertEquals(props(""), iterator.next());
+-        assertFalse(iterator.hasNext());
+-    }
+-
+-    @Test
+-    public void propertiesShouldBehaveProperlyInTreeSets() {
+-        Set<PropertiesDescription> properties = new TreeSet<>();
+-
+-        properties.add(props(""));
+-        properties.add(props("key1#value1#key2#value2"));
+-        properties.add(props("key2#value2"));
+-        properties.add(props("key1#value2"));
+-        properties.add(props("key2#value1"));
+-
+-        assertTrue(properties.contains(props("")));
+-        assertTrue(properties.contains(props("key1#value1#key2#value2")));
+-        assertTrue(properties.contains(props("key2#value2")));
+-        assertTrue(properties.contains(props("key1#value2")));
+-        assertTrue(properties.contains(props("key2#value1")));
+-        assertFalse(properties.contains(props("key1#value1")));
+-    }
+-
+-    /**
+-     * just for readability
+-     */
+-    private PropertiesDescription props(String s) {
+-        return new GeneralPropertiesDescription(s);
+-    }    
+-}
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/GeneralPropertiesDescriptionTest.java b/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/GeneralPropertiesDescriptionTest.java
+new file mode 100644
+index 0000000..95ec0f5
+--- /dev/null
++++ b/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/GeneralPropertiesDescriptionTest.java
+@@ -0,0 +1,218 @@
++/*
++ * Copyright (c) 2013 GraphAware
++ *
++ * This file is part of GraphAware.
++ *
++ * GraphAware is free software: you can redistribute it and/or modify it under the terms of
++ * the GNU General Public License as published by the Free Software Foundation, either
++ * version 3 of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
++ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of
++ * the GNU General Public License along with this program.  If not, see
++ * <http://www.gnu.org/licenses/>.
++ */
++
++package com.graphaware.neo4j.relcount.full.dto.property;
++
++import org.junit.Test;
++
++import java.util.Iterator;
++import java.util.Set;
++import java.util.TreeSet;
++
++import static junit.framework.Assert.*;
++
++/**
++ * Unit test for {@link GeneralPropertiesDescription}.
++ */
++public class GeneralPropertiesDescriptionTest {
++
++    @Test
++    public void shouldCorrectlyJudgeMoreGeneral() {
++        assertTrue(gen("key1#value1#key2#value2").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertTrue(gen("key1#value1#key2#value2").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertTrue(gen("key1#value1").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertTrue(gen("key1#value1").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertTrue(gen("key1#value1").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertTrue(gen("key1#value1").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertTrue(gen("").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertTrue(gen("").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertTrue(gen("").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertTrue(gen("").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertTrue(gen("").isMoreGeneralThan(gen("")));
++        assertTrue(gen("").isMoreGeneralThan(lit("")));
++        assertFalse(gen("").isStrictlyMoreGeneralThan(gen("")));
++        assertFalse(gen("").isStrictlyMoreGeneralThan(lit("")));
++
++        assertFalse(gen("key1#value1#key2#value3").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value3").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value3").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value3").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(gen("key1#value1#key2#value2").isMoreGeneralThan(gen("key1#value1#key2#value3")));
++        assertFalse(gen("key1#value1#key2#value2").isMoreGeneralThan(lit("key1#value1#key2#value3")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value3")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value3")));
++
++        assertFalse(gen("key1#value1#key2#value2").isMoreGeneralThan(gen("key1#value1")));
++        assertFalse(gen("key1#value1#key2#value2").isMoreGeneralThan(lit("key1#value1")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreGeneralThan(gen("key1#value1")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lit("key1#value1")));
++
++        assertFalse(gen("key1#value1").isMoreGeneralThan(gen("")));
++        assertFalse(gen("key1#value1").isMoreGeneralThan(lit("")));
++        assertFalse(gen("key1#value1").isStrictlyMoreGeneralThan(gen("")));
++        assertFalse(gen("key1#value1").isStrictlyMoreGeneralThan(lit("")));
++
++        assertFalse(gen("key1#value1#key3#value2").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key3#value2").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key3#value2").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key3#value2").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++    }
++
++    @Test
++    public void shouldCorrectlyJudgeMoreSpecific() {
++        assertTrue(gen("key1#value1#key2#value2").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertTrue(gen("key1#value1#key2#value2").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++
++        assertTrue(gen("key1#value1#key2#value2").isMoreSpecificThan(gen("key1#value1")));
++        assertFalse(gen("key1#value1#key2#value2").isMoreSpecificThan(lit("key1#value1")));
++        assertTrue(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("key1#value1")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("key1#value1")));
++
++        assertTrue(gen("key1#value1#key2#value2").isMoreSpecificThan(gen("")));
++        assertFalse(gen("key1#value1#key2#value2").isMoreSpecificThan(lit("")));
++        assertTrue(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("")));
++
++        assertTrue(gen("").isMoreSpecificThan(gen("")));
++        assertTrue(gen("").isMoreSpecificThan(lit("")));
++        assertFalse(gen("").isStrictlyMoreSpecificThan(gen("")));
++        assertFalse(gen("").isStrictlyMoreSpecificThan(lit("")));
++
++        assertFalse(gen("key1#value1#key2#value3").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value3").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value3").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key2#value3").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(gen("key1#value1#key2#value2").isMoreSpecificThan(gen("key1#value1#key2#value3")));
++        assertFalse(gen("key1#value1#key2#value2").isMoreSpecificThan(lit("key1#value1#key2#value3")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value3")));
++        assertFalse(gen("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value3")));
++
++        assertFalse(gen("key1#value1").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(gen("").isMoreSpecificThan(gen("key1#value1")));
++        assertFalse(gen("").isMoreSpecificThan(lit("key1#value1")));
++        assertFalse(gen("").isStrictlyMoreSpecificThan(gen("key1#value1")));
++        assertFalse(gen("").isStrictlyMoreSpecificThan(lit("key1#value1")));
++
++        assertFalse(gen("key1#value1#key3#value2").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key3#value2").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key3#value2").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(gen("key1#value1#key3#value2").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++    }
++
++    @Test
++    public void shouldGenerateAllMoreGeneral() {
++        Set<PropertiesDescription> result = gen("key1#value1#key2#value2#key3#value3").generateAllMoreGeneral();
++
++        assertEquals(8, result.size());
++        Iterator<PropertiesDescription> iterator = result.iterator();
++        assertEquals(iterator.next(), gen("key1#value1#key2#value2#key3#value3"));
++        assertEquals(iterator.next(), gen("key1#value1#key2#value2"));
++        assertEquals(iterator.next(), gen("key1#value1#key3#value3"));
++        assertEquals(iterator.next(), gen("key1#value1"));
++        assertEquals(iterator.next(), gen("key2#value2#key3#value3"));
++        assertEquals(iterator.next(), gen("key2#value2"));
++        assertEquals(iterator.next(), gen("key3#value3"));
++        assertEquals(iterator.next(), gen(""));
++    }
++
++    @Test
++    public void shouldGenerateOneMoreGeneral() {
++        Set<PropertiesDescription> result = gen("key1#value1#key2#value2#key3#value3").generateOneMoreGeneral();
++
++        assertEquals(4, result.size());
++        Iterator<PropertiesDescription> iterator = result.iterator();
++        assertEquals(iterator.next(), gen("key1#value1#key2#value2#key3#value3"));
++        assertEquals(iterator.next(), gen("key1#value1#key2#value2"));
++        assertEquals(iterator.next(), gen("key1#value1#key3#value3"));
++        assertEquals(iterator.next(), gen("key2#value2#key3#value3"));
++    }
++
++    @Test
++    public void shouldGenerateOneMoreGeneral2() {
++        Set<PropertiesDescription> result = gen("key1#value1").generateOneMoreGeneral();
++
++        assertEquals(2, result.size());
++        Iterator<PropertiesDescription> iterator = result.iterator();
++        assertEquals(iterator.next(), gen("key1#value1"));
++        assertEquals(iterator.next(), gen(""));
++    }
++
++    @Test
++    public void equalityTest() {
++        assertTrue(gen("key1#value1").equals(gen("key1#value1")));
++        assertFalse(gen("key1#value1").equals(gen("key1#value2")));
++        assertFalse(gen("key1#value1").equals(gen("")));
++    }
++
++    @Test
++    public void shouldAchieveSpecificToGeneralOrderingForProperties() {
++        Set<PropertiesDescription> properties = new TreeSet<>();
++
++        properties.add(gen(""));
++        properties.add(gen("key1#value1#key2#value2"));
++        properties.add(gen("key2#value2"));
++        properties.add(gen("key2#value2"));
++        properties.add(gen("key2#value2"));
++
++        Iterator<PropertiesDescription> iterator = properties.iterator();
++        assertEquals(gen("key1#value1#key2#value2"), iterator.next());
++        assertEquals(gen("key2#value2"), iterator.next());
++        assertEquals(gen(""), iterator.next());
++        assertFalse(iterator.hasNext());
++    }
++
++    @Test
++    public void propertiesShouldBehaveProperlyInTreeSets() {
++        Set<PropertiesDescription> properties = new TreeSet<>();
++
++        properties.add(gen(""));
++        properties.add(gen("key1#value1#key2#value2"));
++        properties.add(gen("key2#value2"));
++        properties.add(gen("key1#value2"));
++        properties.add(gen("key2#value1"));
++
++        assertTrue(properties.contains(gen("")));
++        assertTrue(properties.contains(gen("key1#value1#key2#value2")));
++        assertTrue(properties.contains(gen("key2#value2")));
++        assertTrue(properties.contains(gen("key1#value2")));
++        assertTrue(properties.contains(gen("key2#value1")));
++        assertFalse(properties.contains(gen("key1#value1")));
++    }
++
++    /**
++     * just for readability
++     */
++    private PropertiesDescription gen(String s) {
++        return new GeneralPropertiesDescription(s);
++    }
++
++    private PropertiesDescription lit(String s) {
++        return new LiteralPropertiesDescription(s);
++    }
++}
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/LiteralComparablePropertiesTest.java b/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/LiteralComparablePropertiesTest.java
+deleted file mode 100644
+index 4354e35..0000000
+--- a/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/LiteralComparablePropertiesTest.java
++++ /dev/null
+@@ -1,243 +0,0 @@
+-/*
+- * Copyright (c) 2013 GraphAware
+- *
+- * This file is part of GraphAware.
+- *
+- * GraphAware is free software: you can redistribute it and/or modify it under the terms of
+- * the GNU General Public License as published by the Free Software Foundation, either
+- * version 3 of the License, or (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+- * See the GNU General Public License for more details. You should have received a copy of
+- * the GNU General Public License along with this program.  If not, see
+- * <http://www.gnu.org/licenses/>.
+- */
+-
+-package com.graphaware.neo4j.relcount.full.dto.property;
+-
+-import org.junit.Test;
+-
+-import java.util.Iterator;
+-import java.util.Set;
+-import java.util.TreeSet;
+-
+-import static junit.framework.Assert.*;
+-
+-/**
+- * Unit test for {@link LiteralPropertiesDescription}.
+- */
+-public class LiteralComparablePropertiesTest {
+-
+-    @Test
+-    public void shouldCorrectlyJudgeMoreGeneral() {
+-        assertTrue(lprops("key1#value1#key2#value2").isMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1#key2#value2").isStrictlyMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-
+-        assertFalse(lprops("key1#value1").isMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1").isStrictlyMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-
+-        assertTrue(cprops("key1#value1#key2#value2").isMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(cprops("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-
+-        assertTrue(cprops("key1#value1").isMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-        assertTrue(cprops("key1#value1").isStrictlyMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-
+-        assertFalse(lprops("").isMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("").isStrictlyMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-
+-        assertTrue(lprops("").isMoreGeneralThan(cprops("")));
+-        assertFalse(lprops("").isStrictlyMoreGeneralThan(cprops("")));
+-
+-        assertTrue(cprops("").isMoreGeneralThan(lprops("")));
+-        assertFalse(cprops("").isStrictlyMoreGeneralThan(lprops("")));
+-
+-        assertFalse(lprops("key1#value1#key2#value3").isMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1#key2#value3").isStrictlyMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-
+-        assertFalse(cprops("key1#value1#key2#value3").isMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(cprops("key1#value1#key2#value3").isStrictlyMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-
+-        assertFalse(lprops("key1#value1#key2#value2").isMoreGeneralThan(cprops("key1#value1#key2#value3")));
+-        assertFalse(lprops("key1#value1#key2#value2").isStrictlyMoreGeneralThan(cprops("key1#value1#key2#value3")));
+-
+-        assertFalse(cprops("key1#value1#key2#value2").isMoreGeneralThan(lprops("key1#value1#key2#value3")));
+-        assertFalse(cprops("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lprops("key1#value1#key2#value3")));
+-
+-        assertFalse(lprops("key1#value1#key2#value2").isMoreGeneralThan(lprops("key1#value1")));
+-        assertFalse(lprops("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lprops("key1#value1")));
+-
+-        assertFalse(lprops("key1#value1#key2#value2").isMoreGeneralThan(lprops("key1#value1")));
+-        assertFalse(lprops("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lprops("key1#value1")));
+-
+-        assertFalse(lprops("key1#value1").isMoreGeneralThan(cprops("")));
+-        assertFalse(lprops("key1#value1").isStrictlyMoreGeneralThan(cprops("")));
+-
+-        assertFalse(cprops("key1#value1").isMoreGeneralThan(lprops("")));
+-        assertFalse(cprops("key1#value1").isStrictlyMoreGeneralThan(lprops("")));
+-
+-        assertFalse(lprops("key1#value1#key3#value2").isMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1#key3#value2").isStrictlyMoreGeneralThan(cprops("key1#value1#key2#value2")));
+-
+-        assertFalse(cprops("key1#value1#key3#value2").isMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(cprops("key1#value1#key3#value2").isStrictlyMoreGeneralThan(lprops("key1#value1#key2#value2")));
+-    }
+-
+-    @Test
+-    public void shouldCorrectlyJudgeMoreSpecific() {
+-        assertTrue(lprops("key1#value1#key2#value2").isMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1#key2#value2").isStrictlyMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-
+-        assertTrue(cprops("key1#value1#key2#value2").isMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(cprops("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-
+-        assertTrue(lprops("key1#value1#key2#value2").isMoreSpecificThan(cprops("key1#value1")));
+-        assertTrue(lprops("key1#value1#key2#value2").isStrictlyMoreSpecificThan(cprops("key1#value1")));
+-
+-        assertFalse(cprops("key1#value1#key2#value2").isMoreSpecificThan(lprops("key1#value1")));
+-        assertFalse(cprops("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lprops("key1#value1")));
+-
+-        assertFalse(lprops("key1#value1#key2#value2").isMoreSpecificThan(lprops("")));
+-        assertFalse(lprops("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lprops("")));
+-
+-        assertTrue(lprops("").isMoreSpecificThan(cprops("")));
+-        assertFalse(lprops("").isStrictlyMoreSpecificThan(cprops("")));
+-
+-        assertTrue(cprops("").isMoreSpecificThan(lprops("")));
+-        assertFalse(cprops("").isStrictlyMoreSpecificThan(lprops("")));
+-
+-        assertFalse(lprops("key1#value1#key2#value3").isMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1#key2#value3").isStrictlyMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-
+-        assertFalse(cprops("key1#value1#key2#value3").isMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(cprops("key1#value1#key2#value3").isStrictlyMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-
+-        assertFalse(lprops("key1#value1#key2#value2").isMoreSpecificThan(lprops("key1#value1#key2#value3")));
+-        assertFalse(lprops("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lprops("key1#value1#key2#value3")));
+-
+-        assertFalse(lprops("key1#value1").isMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1").isStrictlyMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-
+-        assertFalse(cprops("key1#value1").isMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(cprops("key1#value1").isStrictlyMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-
+-        assertFalse(lprops("").isMoreSpecificThan(cprops("key1#value1")));
+-        assertFalse(lprops("").isStrictlyMoreSpecificThan(cprops("key1#value1")));
+-
+-        assertFalse(cprops("").isMoreSpecificThan(lprops("key1#value1")));
+-        assertFalse(cprops("").isStrictlyMoreSpecificThan(lprops("key1#value1")));
+-
+-        assertFalse(lprops("key1#value1#key3#value2").isMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-        assertFalse(lprops("key1#value1#key3#value2").isStrictlyMoreSpecificThan(cprops("key1#value1#key2#value2")));
+-
+-        assertFalse(cprops("key1#value1#key3#value2").isMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-        assertFalse(cprops("key1#value1#key3#value2").isStrictlyMoreSpecificThan(lprops("key1#value1#key2#value2")));
+-    }
+-
+-    @Test
+-    public void shouldGenerateMoreGeneralAllMoreGeneral() {
+-        Set<PropertiesDescription> result = lprops("key1#value1#key2#value2#key3#value3").generateAllMoreGeneral();
+-
+-        assertEquals(9, result.size());
+-        Iterator<PropertiesDescription> iterator = result.iterator();
+-        assertEquals(iterator.next(), lprops("key1#value1#key2#value2#key3#value3"));
+-        assertEquals(iterator.next(), cprops("key1#value1#key2#value2#key3#value3"));
+-        assertEquals(iterator.next(), cprops("key1#value1#key2#value2"));
+-        assertEquals(iterator.next(), cprops("key1#value1#key3#value3"));
+-        assertEquals(iterator.next(), cprops("key1#value1"));
+-        assertEquals(iterator.next(), cprops("key2#value2#key3#value3"));
+-        assertEquals(iterator.next(), cprops("key2#value2"));
+-        assertEquals(iterator.next(), cprops("key3#value3"));
+-        assertEquals(iterator.next(), cprops(""));
+-    }
+-
+-    @Test
+-    public void shouldGenerateMoreGeneralOneMoreGeneral() {
+-        Set<PropertiesDescription> result = lprops("key1#value1#key2#value2#key3#value3").generateOneMoreGeneral();
+-
+-        assertEquals(1, result.size());
+-        Iterator<PropertiesDescription> iterator = result.iterator();
+-        assertEquals(iterator.next(), cprops("key1#value1#key2#value2#key3#value3"));
+-    }
+-
+-    @Test
+-    public void shouldGenerateMoreGeneralOneMoreGeneral2() {
+-        Set<PropertiesDescription> result = lprops("key1#value1").generateOneMoreGeneral();
+-
+-        assertEquals(1, result.size());
+-        Iterator<PropertiesDescription> iterator = result.iterator();
+-        assertEquals(iterator.next(), cprops("key1#value1"));
+-    }
+-
+-    @Test
+-    public void equalityTest() {
+-        assertTrue(lprops("key1#value1").equals(lprops("key1#value1")));
+-        assertFalse(cprops("key1#value1").equals(lprops("key1#value1")));
+-        assertFalse(lprops("key1#value1").equals(cprops("key1#value1")));
+-    }
+-
+-    @Test
+-    public void shouldAchieveSpecificToGeneralOrderingForProperties() {
+-        Set<PropertiesDescription> properties = new TreeSet<>();
+-
+-        properties.add(lprops(""));
+-        properties.add(lprops("key1#value1#key2#value2"));
+-        properties.add(lprops("key2#value2"));
+-        properties.add(lprops("key2#value2"));
+-        properties.add(lprops("key2#value2"));
+-        properties.add(cprops(""));
+-        properties.add(cprops("key1#value1#key2#value2"));
+-        properties.add(cprops("key2#value2"));
+-        properties.add(cprops("key2#value2"));
+-        properties.add(cprops("key2#value2"));
+-
+-        Iterator<PropertiesDescription> iterator = properties.iterator();
+-        assertEquals(lprops(""), iterator.next());
+-        assertEquals(lprops("key1#value1#key2#value2"), iterator.next());
+-        assertEquals(lprops("key2#value2"), iterator.next());
+-        assertEquals(cprops("key1#value1#key2#value2"), iterator.next());
+-        assertEquals(cprops("key2#value2"), iterator.next());
+-        assertEquals(cprops(""), iterator.next());
+-        assertFalse(iterator.hasNext());
+-    }
+-
+-    @Test
+-    public void propertiesShouldBehaveProperlyInTreeSets() {
+-        Set<PropertiesDescription> properties = new TreeSet<>();
+-
+-        properties.add(lprops(""));
+-        properties.add(lprops("key1#value1#key2#value2"));
+-        properties.add(lprops("key2#value2"));
+-        properties.add(lprops("key1#value2"));
+-        properties.add(lprops("key2#value1"));
+-        properties.add(cprops(""));
+-        properties.add(cprops("key1#value1#key2#value2"));
+-        properties.add(cprops("key2#value2"));
+-        properties.add(cprops("key1#value2"));
+-        properties.add(cprops("key2#value1"));
+-
+-        assertTrue(properties.contains(lprops("")));
+-        assertTrue(properties.contains(lprops("key1#value1#key2#value2")));
+-        assertTrue(properties.contains(lprops("key2#value2")));
+-        assertTrue(properties.contains(lprops("key1#value2")));
+-        assertTrue(properties.contains(lprops("key2#value1")));
+-        assertFalse(properties.contains(lprops("key1#value1")));
+-        assertTrue(properties.contains(cprops("")));
+-        assertTrue(properties.contains(cprops("key1#value1#key2#value2")));
+-        assertTrue(properties.contains(cprops("key2#value2")));
+-        assertTrue(properties.contains(cprops("key1#value2")));
+-        assertTrue(properties.contains(cprops("key2#value1")));
+-        assertFalse(properties.contains(cprops("key1#value1")));
+-    }
+-
+-    /**
+-     * just for readability
+-     */
+-    private PropertiesDescription lprops(String s) {
+-        return new LiteralPropertiesDescription(s);
+-    }
+-
+-    private PropertiesDescription cprops(String s) {
+-        return new GeneralPropertiesDescription(s);
+-    }
+-}
+diff --git a/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/LiteralPropertiesDescriptionPropertiesTest.java b/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/LiteralPropertiesDescriptionPropertiesTest.java
+new file mode 100644
+index 0000000..ebdb3c4
+--- /dev/null
++++ b/src/test/java/com/graphaware/neo4j/relcount/full/dto/property/LiteralPropertiesDescriptionPropertiesTest.java
+@@ -0,0 +1,234 @@
++/*
++ * Copyright (c) 2013 GraphAware
++ *
++ * This file is part of GraphAware.
++ *
++ * GraphAware is free software: you can redistribute it and/or modify it under the terms of
++ * the GNU General Public License as published by the Free Software Foundation, either
++ * version 3 of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
++ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of
++ * the GNU General Public License along with this program.  If not, see
++ * <http://www.gnu.org/licenses/>.
++ */
++
++package com.graphaware.neo4j.relcount.full.dto.property;
++
++import org.junit.Test;
++
++import java.util.Iterator;
++import java.util.Set;
++import java.util.TreeSet;
++
++import static junit.framework.Assert.*;
++
++/**
++ * Unit test for {@link LiteralPropertiesDescription}.
++ */
++public class LiteralPropertiesDescriptionPropertiesTest {
++
++    @Test
++    public void shouldCorrectlyJudgeMoreGeneral() {
++        assertTrue(lit("key1#value1#key2#value2").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertTrue(lit("key1#value1#key2#value2").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(lit("key1#value1").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(lit("").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertTrue(lit("").isMoreGeneralThan(gen("")));
++        assertTrue(lit("").isMoreGeneralThan(lit("")));
++        assertFalse(lit("").isStrictlyMoreGeneralThan(gen("")));
++        assertFalse(lit("").isStrictlyMoreGeneralThan(lit("")));
++
++        assertFalse(lit("key1#value1#key2#value3").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value3").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value3").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value3").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(lit("key1#value1#key2#value2").isMoreGeneralThan(gen("key1#value1#key2#value3")));
++        assertFalse(lit("key1#value1#key2#value2").isMoreGeneralThan(lit("key1#value1#key2#value3")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value3")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value3")));
++
++        assertFalse(lit("key1#value1#key2#value2").isMoreGeneralThan(gen("key1#value1")));
++        assertFalse(lit("key1#value1#key2#value2").isMoreGeneralThan(lit("key1#value1")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreGeneralThan(gen("key1#value1")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreGeneralThan(lit("key1#value1")));
++
++        assertFalse(lit("key1#value1").isMoreGeneralThan(gen("")));
++        assertFalse(lit("key1#value1").isMoreGeneralThan(lit("")));
++        assertFalse(lit("key1#value1").isStrictlyMoreGeneralThan(gen("")));
++        assertFalse(lit("key1#value1").isStrictlyMoreGeneralThan(lit("")));
++
++        assertFalse(lit("key1#value1#key3#value2").isMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key3#value2").isMoreGeneralThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key3#value2").isStrictlyMoreGeneralThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key3#value2").isStrictlyMoreGeneralThan(lit("key1#value1#key2#value2")));
++    }
++
++    @Test
++    public void shouldCorrectlyJudgeMoreSpecific() {
++        assertTrue(lit("key1#value1#key2#value2").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertTrue(lit("key1#value1#key2#value2").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++
++        assertTrue(lit("key1#value1#key2#value2").isMoreSpecificThan(gen("key1#value1")));
++        assertFalse(lit("key1#value1#key2#value2").isMoreSpecificThan(lit("key1#value1")));
++        assertTrue(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("key1#value1")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("key1#value1")));
++
++        assertTrue(lit("key1#value1#key2#value2").isMoreSpecificThan(gen("")));
++        assertFalse(lit("key1#value1#key2#value2").isMoreSpecificThan(lit("")));
++        assertTrue(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("")));
++
++        assertTrue(lit("").isMoreSpecificThan(gen("")));
++        assertTrue(lit("").isMoreSpecificThan(lit("")));
++        assertFalse(lit("").isStrictlyMoreSpecificThan(gen("")));
++        assertFalse(lit("").isStrictlyMoreSpecificThan(lit("")));
++
++        assertFalse(lit("key1#value1#key2#value3").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value3").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value3").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key2#value3").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(lit("key1#value1#key2#value2").isMoreSpecificThan(gen("key1#value1#key2#value3")));
++        assertFalse(lit("key1#value1#key2#value2").isMoreSpecificThan(lit("key1#value1#key2#value3")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value3")));
++        assertFalse(lit("key1#value1#key2#value2").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value3")));
++
++        assertFalse(lit("key1#value1").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++
++        assertFalse(lit("").isMoreSpecificThan(gen("key1#value1")));
++        assertFalse(lit("").isMoreSpecificThan(lit("key1#value1")));
++        assertFalse(lit("").isStrictlyMoreSpecificThan(gen("key1#value1")));
++        assertFalse(lit("").isStrictlyMoreSpecificThan(lit("key1#value1")));
++
++        assertFalse(lit("key1#value1#key3#value2").isMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key3#value2").isMoreSpecificThan(lit("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key3#value2").isStrictlyMoreSpecificThan(gen("key1#value1#key2#value2")));
++        assertFalse(lit("key1#value1#key3#value2").isStrictlyMoreSpecificThan(lit("key1#value1#key2#value2")));
++    }
++
++    @Test
++    public void shouldGenerateMoreGeneralAllMoreGeneral() {
++        Set<PropertiesDescription> result = lit("key1#value1#key2#value2#key3#value3").generateAllMoreGeneral();
++
++        assertEquals(9, result.size());
++        Iterator<PropertiesDescription> iterator = result.iterator();
++        assertEquals(iterator.next(), lit("key1#value1#key2#value2#key3#value3"));
++        assertEquals(iterator.next(), gen("key1#value1#key2#value2#key3#value3"));
++        assertEquals(iterator.next(), gen("key1#value1#key2#value2"));
++        assertEquals(iterator.next(), gen("key1#value1#key3#value3"));
++        assertEquals(iterator.next(), gen("key1#value1"));
++        assertEquals(iterator.next(), gen("key2#value2#key3#value3"));
++        assertEquals(iterator.next(), gen("key2#value2"));
++        assertEquals(iterator.next(), gen("key3#value3"));
++        assertEquals(iterator.next(), gen(""));
++    }
++
++    @Test
++    public void shouldGenerateMoreGeneralOneMoreGeneral() {
++        Set<PropertiesDescription> result = lit("key1#value1#key2#value2#key3#value3").generateOneMoreGeneral();
++
++        assertEquals(1, result.size());
++        Iterator<PropertiesDescription> iterator = result.iterator();
++        assertEquals(iterator.next(), gen("key1#value1#key2#value2#key3#value3"));
++    }
++
++    @Test
++    public void shouldGenerateMoreGeneralOneMoreGeneral2() {
++        Set<PropertiesDescription> result = lit("key1#value1").generateOneMoreGeneral();
++
++        assertEquals(1, result.size());
++        Iterator<PropertiesDescription> iterator = result.iterator();
++        assertEquals(iterator.next(), gen("key1#value1"));
++    }
++
++    @Test
++    public void equalityTest() {
++        assertTrue(lit("key1#value1").equals(lit("key1#value1")));
++        assertFalse(gen("key1#value1").equals(lit("key1#value1")));
++        assertFalse(lit("key1#value1").equals(gen("key1#value1")));
++    }
++
++    @Test
++    public void shouldAchieveSpecificToGeneralOrderingForProperties() {
++        Set<PropertiesDescription> properties = new TreeSet<>();
++
++        properties.add(lit(""));
++        properties.add(lit("key1#value1#key2#value2"));
++        properties.add(lit("key2#value2"));
++        properties.add(lit("key2#value2"));
++        properties.add(lit("key2#value2"));
++        properties.add(gen(""));
++        properties.add(gen("key1#value1#key2#value2"));
++        properties.add(gen("key2#value2"));
++        properties.add(gen("key2#value2"));
++        properties.add(gen("key2#value2"));
++
++        Iterator<PropertiesDescription> iterator = properties.iterator();
++        assertEquals(lit(""), iterator.next());
++        assertEquals(lit("key1#value1#key2#value2"), iterator.next());
++        assertEquals(lit("key2#value2"), iterator.next());
++        assertEquals(gen("key1#value1#key2#value2"), iterator.next());
++        assertEquals(gen("key2#value2"), iterator.next());
++        assertEquals(gen(""), iterator.next());
++        assertFalse(iterator.hasNext());
++    }
++
++    @Test
++    public void propertiesShouldBehaveProperlyInTreeSets() {
++        Set<PropertiesDescription> properties = new TreeSet<>();
++
++        properties.add(lit(""));
++        properties.add(lit("key1#value1#key2#value2"));
++        properties.add(lit("key2#value2"));
++        properties.add(lit("key1#value2"));
++        properties.add(lit("key2#value1"));
++        properties.add(gen(""));
++        properties.add(gen("key1#value1#key2#value2"));
++        properties.add(gen("key2#value2"));
++        properties.add(gen("key1#value2"));
++        properties.add(gen("key2#value1"));
++
++        assertTrue(properties.contains(lit("")));
++        assertTrue(properties.contains(lit("key1#value1#key2#value2")));
++        assertTrue(properties.contains(lit("key2#value2")));
++        assertTrue(properties.contains(lit("key1#value2")));
++        assertTrue(properties.contains(lit("key2#value1")));
++        assertFalse(properties.contains(lit("key1#value1")));
++        assertTrue(properties.contains(gen("")));
++        assertTrue(properties.contains(gen("key1#value1#key2#value2")));
++        assertTrue(properties.contains(gen("key2#value2")));
++        assertTrue(properties.contains(gen("key1#value2")));
++        assertTrue(properties.contains(gen("key2#value1")));
++        assertFalse(properties.contains(gen("key1#value1")));
++    }
++
++    /**
++     * just for readability
++     */
++    private PropertiesDescription lit(String s) {
++        return new LiteralPropertiesDescription(s);
++    }
++
++    private PropertiesDescription gen(String s) {
++        return new GeneralPropertiesDescription(s);
++    }
++}
+

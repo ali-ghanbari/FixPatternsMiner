@@ -1,0 +1,2 @@
+Bug fix: do not call `VCFHeader` constructor that copies sample names, since that forces the writer to emit genotype data for those samples (which fails the requirements of a site-only VCF).
+

@@ -1,0 +1,103 @@
+diff --git a/history.txt b/history.txt
+index a27d0df..15bdeab 100644
+--- a/history.txt
++++ b/history.txt
+@@ -0,0 +1,5 @@
++2012-12-22 zzz
++  - i2psnark: Add announce list support (BEP 12) (ticket #778)
++  - i2ptunnel: Add more tunnel quantity options for servers
++  - Jetty: Update to Apache Tomcat 0.6.36
++
+diff --git a/installer/resources/i2prouter b/installer/resources/i2prouter
+index 6d5104e..67df892 100644
+--- a/installer/resources/i2prouter
++++ b/installer/resources/i2prouter
+@@ -496 +496 @@
+-        echo '  $1  Found but not executable.';
++        echo "  $1  Found but not executable.";
+@@ -659 +659 @@
+-            echo 'User $RUN_AS_USER does not exist.'
++            echo "User $RUN_AS_USER does not exist."
+@@ -797 +797 @@
+-                    echo 'Removed stale pid file: $PIDFILE'
++                    echo "Removed stale pid file: $PIDFILE"
+@@ -802 +802 @@
+-            echo 'Cannot read $PIDFILE.'
++            echo "Cannot read $PIDFILE."
+@@ -985 +985 @@
+-    echo 'Starting $APP_LONG_NAME.  Detected Mac OSX and installed launchd daemon.'
++    echo "Starting $APP_LONG_NAME.  Detected Mac OSX and installed launchd daemon."
+@@ -1013 +1013 @@
+-    echo 'Starting $APP_LONG_NAME.  Detected Linux and installed upstart.'
++    echo "Starting $APP_LONG_NAME.  Detected Linux and installed upstart."
+@@ -1159 +1159 @@
+-    echo 'Pausing $APP_LONG_NAME.'
++    echo "Pausing $APP_LONG_NAME."
+@@ -1163 +1163 @@
+-    echo 'Resuming $APP_LONG_NAME.'
++    echo "Resuming $APP_LONG_NAME."
+@@ -1185 +1185 @@
+-    echo ' Installing the $APP_LONG_NAME daemon using upstart..'
++    echo " Installing the $APP_LONG_NAME daemon using upstart.."
+@@ -1187 +1187 @@
+-        echo ' a custom upstart conf file ${APP_NAME}.conf found'
++        echo " a custom upstart conf file ${APP_NAME}.conf found"
+@@ -1331 +1331 @@
+-                                echo ' The $APP_LONG_NAME daemon has been installed.'
++                                echo " The $APP_LONG_NAME daemon has been installed."
+@@ -1372 +1372 @@
+-                        echo ' Installing the $APP_LONG_NAME daemon using init.d..'
++                        echo " Installing the $APP_LONG_NAME daemon using init.d.."
+@@ -1405 +1405 @@
+-                echo ' The $APP_LONG_NAME daemon is already installed as rc.d script.'
++                echo " The $APP_LONG_NAME daemon is already installed as rc.d script."
+@@ -1408 +1408 @@
+-                echo ' The $APP_LONG_NAME daemon is already installed as SRC service.'
++                echo " The $APP_LONG_NAME daemon is already installed as SRC service."
+@@ -1539 +1539 @@
+-                    echo ' Removing $APP_LONG_NAME daemon from upstart...'
++                    echo " Removing $APP_LONG_NAME daemon from upstart..."
+@@ -1578 +1578 @@
+-                    echo ' Removing $APP_LONG_NAME daemon from init.d...'
++                    echo " Removing $APP_LONG_NAME daemon from init.d..."
+@@ -1582 +1582 @@
+-                    echo ' Removing $APP_LONG_NAME daemon from upstart...'
++                    echo " Removing $APP_LONG_NAME daemon from upstart..."
+@@ -1677 +1677 @@
+-    echo 'Dumping $APP_LONG_NAME...'
++    echo "Dumping $APP_LONG_NAME..."
+@@ -1687 +1687 @@
+-            echo 'Failed to dump $APP_LONG_NAME.'
++            echo "Failed to dump $APP_LONG_NAME."
+@@ -1690 +1690 @@
+-            echo 'Dumped $APP_LONG_NAME.'
++            echo "Dumped $APP_LONG_NAME."
+@@ -1700 +1700 @@
+-        echo 'Starting $APP_LONG_NAME...  Wrapper:Stopped'
++        echo "Starting $APP_LONG_NAME...  Wrapper:Stopped"
+@@ -1704 +1704 @@
+-            echo 'Starting $APP_LONG_NAME...  Wrapper:Running'
++            echo "Starting $APP_LONG_NAME...  Wrapper:Running"
+@@ -1707 +1707 @@
+-            echo 'Starting $APP_LONG_NAME...  Wrapper:$STATUS, Java:$JAVASTATUS'
++            echo "Starting $APP_LONG_NAME...  Wrapper:$STATUS, Java:$JAVASTATUS"
+@@ -1717 +1717 @@
+-        echo 'Stopping $APP_LONG_NAME...  Wrapper:Stopped'
++        echo "Stopping $APP_LONG_NAME...  Wrapper:Stopped"
+@@ -1721 +1721 @@
+-            echo 'Stopping $APP_LONG_NAME...  Wrapper:Running'
++            echo "Stopping $APP_LONG_NAME...  Wrapper:Running"
+@@ -1724 +1724 @@
+-            echo 'Stopping $APP_LONG_NAME...  Wrapper:$STATUS, Java:$JAVASTATUS'
++            echo "Stopping $APP_LONG_NAME...  Wrapper:$STATUS, Java:$JAVASTATUS"
+@@ -1734 +1734 @@
+-        echo 'Unexpected command: $1'
++        echo "Unexpected command: $1"
+diff --git a/router/java/src/net/i2p/router/RouterVersion.java b/router/java/src/net/i2p/router/RouterVersion.java
+index a411b00..87e5bff 100644
+--- a/router/java/src/net/i2p/router/RouterVersion.java
++++ b/router/java/src/net/i2p/router/RouterVersion.java
+@@ -21 +21 @@
+-    public final static long BUILD = 0;
++    public final static long BUILD = 1;
+

@@ -1,0 +1,25 @@
+diff --git a/plugins/org.springframework.ide.eclipse.quickfix.tests/src/org/springframework/ide/eclipse/quickfix/tests/ConfigurationLocationProposalComputerTest.java b/plugins/org.springframework.ide.eclipse.quickfix.tests/src/org/springframework/ide/eclipse/quickfix/tests/ConfigurationLocationProposalComputerTest.java
+index 70ad533..546bcc5 100644
+--- a/plugins/org.springframework.ide.eclipse.quickfix.tests/src/org/springframework/ide/eclipse/quickfix/tests/ConfigurationLocationProposalComputerTest.java
++++ b/plugins/org.springframework.ide.eclipse.quickfix.tests/src/org/springframework/ide/eclipse/quickfix/tests/ConfigurationLocationProposalComputerTest.java
+@@ -39 +38,0 @@
+-
+@@ -314 +313 @@
+-		assertTrue(proposals.size() == expectedResultsArray.length);
++		assertEquals(expectedResultsArray.length, proposals.size());
+@@ -331 +330 @@
+-					assertTrue(errorMessage, expectedProposal.equals(replacementString));
++					assertEquals(errorMessage, expectedProposal, replacementString);
+@@ -357,3 +356,2 @@
+-			System.err.println("############" + label + ": offest is " + offset + ", characterIndex is "
+-					+ characterIndex + " characterOffset should be " + (referencePosition - offset));
+-			assertTrue(false);
++			fail("############" + label + ": offest is " + offset + ", characterIndex is " + characterIndex
++					+ " characterOffset should be " + (referencePosition - offset));
+diff --git a/plugins/org.springframework.ide.eclipse.quickfix.tests/workspace/Test/src/com/test/ContextConfigurationTests.java b/plugins/org.springframework.ide.eclipse.quickfix.tests/workspace/Test/src/com/test/ContextConfigurationTests.java
+index bb1aeed..db6e46c 100644
+--- a/plugins/org.springframework.ide.eclipse.quickfix.tests/workspace/Test/src/com/test/ContextConfigurationTests.java
++++ b/plugins/org.springframework.ide.eclipse.quickfix.tests/workspace/Test/src/com/test/ContextConfigurationTests.java
+@@ -15 +14,0 @@
+-
+

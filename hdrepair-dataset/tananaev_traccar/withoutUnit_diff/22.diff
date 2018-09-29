@@ -1,0 +1,8 @@
+diff --git a/src/org/traccar/protocol/Gt06ProtocolDecoder.java b/src/org/traccar/protocol/Gt06ProtocolDecoder.java
+index a0113b3..9b5bcc4 100644
+--- a/src/org/traccar/protocol/Gt06ProtocolDecoder.java
++++ b/src/org/traccar/protocol/Gt06ProtocolDecoder.java
+@@ -137 +137 @@
+-            position.setSpeed((double) buf.readUnsignedByte());
++            position.setSpeed(buf.readUnsignedByte() * 0.539957);
+

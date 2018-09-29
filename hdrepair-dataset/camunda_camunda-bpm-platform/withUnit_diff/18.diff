@@ -1,0 +1,171 @@
+diff --git a/engine/src/main/java/org/camunda/bpm/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java b/engine/src/main/java/org/camunda/bpm/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java
+index a31ecfd..9566b77 100644
+--- a/engine/src/main/java/org/camunda/bpm/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java
++++ b/engine/src/main/java/org/camunda/bpm/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java
+@@ -109 +109 @@
+-        if (concurrentExecution.isActive() && concurrentExecution.getActivity() != activity) {
++        if (concurrentExecution.isActive()) {
+diff --git a/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.java b/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.java
+index 7922478..2f4ef48 100644
+--- a/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.java
++++ b/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.java
+@@ -4 +4 @@
+- * 
++ *
+@@ -6 +6 @@
+- * 
++ *
+@@ -24,0 +25 @@
++import org.camunda.bpm.engine.runtime.Job;
+@@ -73 +74 @@
+-    
++
+@@ -76 +77,13 @@
+-  
++
++  @Deployment
++  public void testMergingInclusiveGatewayAsync() {
++    ProcessInstance pi = runtimeService.startProcessInstanceByKey("inclusiveGwMerging", CollectionUtil.singletonMap("input", 2));
++    List<Job> list = managementService.createJobQuery().list();
++    for (Job job : list) {
++      managementService.executeJob(job.getId());
++    }
++    assertEquals(1, taskService.createTaskQuery().count());
++
++    runtimeService.deleteProcessInstance(pi.getId(), "testing deletion");
++  }
++
+@@ -82 +95 @@
+-    
++
+@@ -84 +97 @@
+-    
++
+@@ -87 +100 @@
+-    
++
+@@ -107 +120 @@
+-    
++
+@@ -110 +123 @@
+-    
++
+@@ -113 +126 @@
+-    
++
+@@ -115 +128 @@
+-    
++
+@@ -119 +132 @@
+-    
++
+@@ -122 +135 @@
+-    
++
+@@ -124 +137 @@
+-    
++
+@@ -128 +141 @@
+-    
++
+@@ -132 +145 @@
+-    
++
+@@ -134 +147 @@
+-    
++
+@@ -138 +151 @@
+-    
++
+@@ -140 +153 @@
+-    
++
+@@ -143 +156 @@
+-    
++
+@@ -317,2 +330,2 @@
+-  
+-  /** This test the isReachable() check thaty is done to check if 
++
++  /** This test the isReachable() check thaty is done to check if
+@@ -320 +333 @@
+-   * 
++   *
+@@ -326 +339 @@
+-    ProcessInstance pi = runtimeService.startProcessInstanceByKey("inclusiveTestLoop", 
++    ProcessInstance pi = runtimeService.startProcessInstanceByKey("inclusiveTestLoop",
+@@ -328 +341 @@
+-    
++
+@@ -331 +344 @@
+-    
++
+@@ -334 +347 @@
+-    
++
+@@ -339 +352 @@
+-    
++
+@@ -343,2 +356,2 @@
+-  
+-  @Deployment 
++
++  @Deployment
+@@ -398 +411 @@
+-  
++
+@@ -400 +413 @@
+-                    "org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.testJoinAfterCallSubProcess.bpmn20.xml"})  
++                    "org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.testJoinAfterCallSubProcess.bpmn20.xml"})
+@@ -407 +420 @@
+-    // now complete task A and check number of remaining tasks. 
++    // now complete task A and check number of remaining tasks.
+diff --git a/engine/src/test/resources/org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.testMergingInclusiveGatewayAsync.bpmn20.xml b/engine/src/test/resources/org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.testMergingInclusiveGatewayAsync.bpmn20.xml
+new file mode 100644
+index 0000000..298be85
+--- /dev/null
++++ b/engine/src/test/resources/org/camunda/bpm/engine/test/bpmn/gateway/InclusiveGatewayTest.testMergingInclusiveGatewayAsync.bpmn20.xml
+@@ -0,0 +1,42 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<definitions id="definitions" 
++  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
++  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xmlns:camunda="http://activiti.org/bpmn"
++  targetNamespace="Examples">
++  
++  <process id="inclusiveGwMerging">
++  
++    <startEvent id="theStart" />
++    
++    <sequenceFlow id="flow1" sourceRef="theStart" targetRef="inclusiveGw">
++      <conditionExpression xsi:type="tFormalExpression">
++        <![CDATA[${input <= 1}]]>
++      </conditionExpression>
++    </sequenceFlow>
++    
++    <sequenceFlow id="flow2" sourceRef="theStart" targetRef="inclusiveGw">
++      <conditionExpression xsi:type="tFormalExpression">
++        <![CDATA[${input <= 2}]]>
++      </conditionExpression>
++    </sequenceFlow>
++    
++    <sequenceFlow id="flow3" sourceRef="theStart" targetRef="inclusiveGw">
++      <conditionExpression xsi:type="tFormalExpression">
++        <![CDATA[${input <= 3}]]>
++      </conditionExpression>
++    </sequenceFlow>
++    
++    <inclusiveGateway id="inclusiveGw" name="Inclusive Gateway" camunda:asyncBefore="true" />
++    
++    <sequenceFlow id="flow4" sourceRef="inclusiveGw" targetRef="theTask" />
++    
++    <userTask id="theTask" name="my task" />
++    
++    <sequenceFlow id="flow5" sourceRef="theTask" targetRef="theEnd" />    
++    
++    <endEvent id="theEnd" />
++    
++  </process>
++
++</definitions>
+

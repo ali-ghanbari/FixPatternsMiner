@@ -1,0 +1,15 @@
+diff --git a/bundles/plugins/org.bonitasoft.studio.pagedesigner/src-test/java/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingCompositeTest.java b/bundles/plugins/org.bonitasoft.studio.pagedesigner/src-test/java/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingCompositeTest.java
+index 0f0539b..debf10c 100644
+--- a/bundles/plugins/org.bonitasoft.studio.pagedesigner/src-test/java/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingCompositeTest.java
++++ b/bundles/plugins/org.bonitasoft.studio.pagedesigner/src-test/java/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingCompositeTest.java
+@@ -67 +67 @@
+-        when(webPageRepositoryStore.getChild("a-page-id.json")).thenReturn(selectedPage);
++        when(webPageRepositoryStore.getChild("a-page-id")).thenReturn(selectedPage);
+diff --git a/bundles/plugins/org.bonitasoft.studio.pagedesigner/src/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingComposite.java b/bundles/plugins/org.bonitasoft.studio.pagedesigner/src/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingComposite.java
+index 6e7efee..ad5a2d3 100644
+--- a/bundles/plugins/org.bonitasoft.studio.pagedesigner/src/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingComposite.java
++++ b/bundles/plugins/org.bonitasoft.studio.pagedesigner/src/org/bonitasoft/studio/pagedesigner/ui/property/section/control/PageDesignerMappingComposite.java
+@@ -101 +101 @@
+-            repositoryAccessor.getRepositoryStore(WebPageRepositoryStore.class).getChild(targetForm.getContent() + ".json").open();
++            repositoryAccessor.getRepositoryStore(WebPageRepositoryStore.class).getChild(targetForm.getContent()).open();
+

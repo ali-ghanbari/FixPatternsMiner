@@ -1,0 +1,7 @@
+Fix for missing keystrokes in searchbox (on GTK linux).
+
+Net-net: in GTK we need to punt focus back to the text control when it gets wrongly transferred to the table.  Before this fix we were doing that in an async exec which opened the door to a race condition where keystrokes were sent to the table and dropped on the floor before control was given back to the text widget.
+Review URL: https://chromiumcodereview.appspot.com//10908190
+
+git-svn-id: https://dart.googlecode.com/svn/branches/bleeding_edge@12154 260f80e4-7a28-3924-810f-c04153c831b5
+

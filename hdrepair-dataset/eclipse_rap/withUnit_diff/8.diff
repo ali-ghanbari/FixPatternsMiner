@@ -1,0 +1,43 @@
+diff --git a/bundles/org.eclipse.rap.rwt.q07/src/org/eclipse/swt/internal/custom/ccombokit/CComboLCA.java b/bundles/org.eclipse.rap.rwt.q07/src/org/eclipse/swt/internal/custom/ccombokit/CComboLCA.java
+index 1ca3c7c..8f54cd4 100644
+--- a/bundles/org.eclipse.rap.rwt.q07/src/org/eclipse/swt/internal/custom/ccombokit/CComboLCA.java
++++ b/bundles/org.eclipse.rap.rwt.q07/src/org/eclipse/swt/internal/custom/ccombokit/CComboLCA.java
+@@ -14 +13,0 @@
+-import org.eclipse.rwt.internal.lifecycle.JSConst;
+diff --git a/tests/org.eclipse.rap.rwt.q07.test/src/org/eclipse/rwt/lifecycle/ControlLCAUtil_Test.java b/tests/org.eclipse.rap.rwt.q07.test/src/org/eclipse/rwt/lifecycle/ControlLCAUtil_Test.java
+index 0334e2c..dbfb38d 100644
+--- a/tests/org.eclipse.rap.rwt.q07.test/src/org/eclipse/rwt/lifecycle/ControlLCAUtil_Test.java
++++ b/tests/org.eclipse.rap.rwt.q07.test/src/org/eclipse/rwt/lifecycle/ControlLCAUtil_Test.java
+@@ -247 +247 @@
+-    Cursor cursor = Graphics.getCursor( SWT.CURSOR_HAND );
++    Cursor cursor = display.getSystemCursor( SWT.CURSOR_HAND );
+diff --git a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/graphics/Cursor_Test.java b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/graphics/Cursor_Test.java
+index 045c124..490fa25 100644
+--- a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/graphics/Cursor_Test.java
++++ b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/graphics/Cursor_Test.java
+@@ -2 +2 @@
+- * Copyright (c) 2008 Innoopract Informationssysteme GmbH.
++ * Copyright (c) 2009 Innoopract Informationssysteme GmbH.
+@@ -9,0 +10 @@
++ *     EclipseSource - ongoing development
+@@ -17,0 +19 @@
++import org.eclipse.swt.widgets.Display;
+@@ -36,0 +39,7 @@
++  public void testSameSystem() {
++    Display display = new Display();
++    Cursor arrow1 = display.getSystemCursor( SWT.CURSOR_ARROW );
++    Cursor arrow2 = Graphics.getCursor( SWT.CURSOR_ARROW );
++    assertSame( arrow1, arrow2 );
++  }
++  
+diff --git a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/widgets/Control_Test.java b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/widgets/Control_Test.java
+index 10cc758..e02b944 100644
+--- a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/widgets/Control_Test.java
++++ b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/widgets/Control_Test.java
+@@ -773 +773 @@
+-    Cursor handCursor = Graphics.getCursor( SWT.CURSOR_HAND );
++    Cursor handCursor = display.getSystemCursor( SWT.CURSOR_HAND );
+@@ -776 +776 @@
+-    Cursor crossCursor = Graphics.getCursor( SWT.CURSOR_CROSS );
++    Cursor crossCursor = display.getSystemCursor( SWT.CURSOR_CROSS );
+

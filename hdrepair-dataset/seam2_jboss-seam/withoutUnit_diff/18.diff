@@ -1,0 +1,8 @@
+diff --git a/jboss-seam/src/main/java/org/jboss/seam/core/SynchronizationInterceptor.java b/jboss-seam/src/main/java/org/jboss/seam/core/SynchronizationInterceptor.java
+index 6651886..d053c5f 100644
+--- a/jboss-seam/src/main/java/org/jboss/seam/core/SynchronizationInterceptor.java
++++ b/jboss-seam/src/main/java/org/jboss/seam/core/SynchronizationInterceptor.java
+@@ -52 +52 @@
+-      return getComponent().isSynchronize() && !ComponentType.STATEFUL_SESSION_BEAN.equals(getComponent().getType());
++      return getComponent().isSynchronize() && getComponent().getType() != ComponentType.STATEFUL_SESSION_BEAN;
+

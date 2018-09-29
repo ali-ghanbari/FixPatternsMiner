@@ -1,0 +1,18 @@
+diff --git a/core/java/android/view/HardwareRenderer.java b/core/java/android/view/HardwareRenderer.java
+index d1af397..b0399fd 100644
+--- a/core/java/android/view/HardwareRenderer.java
++++ b/core/java/android/view/HardwareRenderer.java
+@@ -529 +529 @@
+-        static final int FUNCTOR_PROCESS_DELAY = 2;
++        static final int FUNCTOR_PROCESS_DELAY = 4;
+diff --git a/libs/hwui/OpenGLRenderer.cpp b/libs/hwui/OpenGLRenderer.cpp
+index 39d2e39..2a908ab 100644
+--- a/libs/hwui/OpenGLRenderer.cpp
++++ b/libs/hwui/OpenGLRenderer.cpp
+@@ -263 +263 @@
+-            if (result == DrawGlInfo::kStatusInvoke) {
++            if (result & DrawGlInfo::kStatusInvoke) {
+@@ -303 +303 @@
+-        if (result == DrawGlInfo::kStatusInvoke) {
++        if (result & DrawGlInfo::kStatusInvoke) {
+

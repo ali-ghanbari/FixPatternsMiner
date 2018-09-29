@@ -1,0 +1,14 @@
+diff --git a/src/main/java/com/hearthsim/card/classic/minion/rare/TwilightDrake.java b/src/main/java/com/hearthsim/card/classic/minion/rare/TwilightDrake.java
+index 74e6c6a..f04c55f 100644
+--- a/src/main/java/com/hearthsim/card/classic/minion/rare/TwilightDrake.java
++++ b/src/main/java/com/hearthsim/card/classic/minion/rare/TwilightDrake.java
+@@ -21,0 +22 @@
++            this.addMaxHealth((byte) boardState.data_.getCurrentPlayer().getHand().size());
+diff --git a/src/test/groovy/com/hearthsim/test/groovy/card/classic/minion/TwilightDrakeSpec.groovy b/src/test/groovy/com/hearthsim/test/groovy/card/classic/minion/TwilightDrakeSpec.groovy
+index f667711..23ac372 100644
+--- a/src/test/groovy/com/hearthsim/test/groovy/card/classic/minion/TwilightDrakeSpec.groovy
++++ b/src/test/groovy/com/hearthsim/test/groovy/card/classic/minion/TwilightDrakeSpec.groovy
+@@ -57 +57 @@
+-                updateMinion(0, [deltaHealth: 3])
++                updateMinion(0, [deltaHealth: 3, deltaMaxHealth: 3])
+

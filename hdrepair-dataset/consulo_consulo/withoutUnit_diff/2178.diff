@@ -1,0 +1,8 @@
+diff --git a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/actions/AddSuppressInspectionAllForClassFix.java b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/actions/AddSuppressInspectionAllForClassFix.java
+index eb0e9ff..30f1e21 100644
+--- a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/actions/AddSuppressInspectionAllForClassFix.java
++++ b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/actions/AddSuppressInspectionAllForClassFix.java
+@@ -67 +67 @@
+-          annotation.replace(JavaPsiFacade.getInstance(project).getElementFactory().createAnnotationFromText("@" + SuppressManagerImpl.SUPPRESS_INSPECTIONS_ANNOTATION_NAME + ID, container));
++          annotation.replace(JavaPsiFacade.getInstance(project).getElementFactory().createAnnotationFromText("@" + SuppressManagerImpl.SUPPRESS_INSPECTIONS_ANNOTATION_NAME + "({\"" + ID + "\"})", container));
+

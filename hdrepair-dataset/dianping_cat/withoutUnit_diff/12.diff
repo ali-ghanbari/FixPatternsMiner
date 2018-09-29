@@ -1,0 +1,27 @@
+diff --git a/cat-home/src/main/java/com/dianping/cat/system/config/StorageRuleConfigManager.java b/cat-home/src/main/java/com/dianping/cat/system/config/StorageRuleConfigManager.java
+index 5e4419a..2c35171 100644
+--- a/cat-home/src/main/java/com/dianping/cat/system/config/StorageRuleConfigManager.java
++++ b/cat-home/src/main/java/com/dianping/cat/system/config/StorageRuleConfigManager.java
+@@ -72 +72 @@
+-			if (conditions.length == 4) {
++			if (conditions.length >= 4) {
+diff --git a/cat-home/src/main/webapp/WEB-INF/tags/hourlyStorageReport.tag b/cat-home/src/main/webapp/WEB-INF/tags/hourlyStorageReport.tag
+index 03999bc..fc1763b 100755
+--- a/cat-home/src/main/webapp/WEB-INF/tags/hourlyStorageReport.tag
++++ b/cat-home/src/main/webapp/WEB-INF/tags/hourlyStorageReport.tag
+@@ -14 +14 @@
+-		var href = '<a href="?op=${payload.action.name}&domain=${model.domain}&id='+id+'&date=${model.date}">&nbsp;[&nbsp;'+id+'&nbsp;]&nbsp;</a>';
++		var href = '<a href="?op=${payload.action.name}&type=${payload.type}&domain=${model.domain}&id='+id+'&date=${model.date}">&nbsp;[&nbsp;'+id+'&nbsp;]&nbsp;</a>';
+@@ -29 +29 @@
+-			var newUrl = '${model.baseUri}?op=${payload.action.name}&domain=${model.domain}&id='+$( "#search" ).val() +'&date=${model.date}';
++			var newUrl = '${model.baseUri}?op=${payload.action.name}&type=${payload.type}&domain=${model.domain}&id='+$( "#search" ).val() +'&date=${model.date}';
+@@ -34 +34 @@
+-				var newUrl = '${model.baseUri}?op=${payload.action.name}&domain=${model.domain}&id='+$( "#search" ).val() +'&date=${model.date}';
++				var newUrl = '${model.baseUri}?op=${payload.action.name}&type=${payload.type}&domain=${model.domain}&id='+$( "#search" ).val() +'&date=${model.date}';
+@@ -54 +54 @@
+-													href="?op=${payload.action.name}&domain=${model.domain}&id=${id}&date=${model.date}&reportType=${model.reportType}"
++													href="?op=${payload.action.name}&type=${payload.type}&domain=${model.domain}&id=${id}&date=${model.date}&reportType=${model.reportType}"
+@@ -57 +57 @@
+-													href="?op=${payload.action.name}&domain=${model.domain}&id=${id}&date=${model.date}&reportType=${model.reportType}">[&nbsp;${id}&nbsp;]</a>
++													href="?op=${payload.action.name}&type=${payload.type}&domain=${model.domain}&id=${id}&date=${model.date}&reportType=${model.reportType}">[&nbsp;${id}&nbsp;]</a>
+

@@ -1,0 +1,73 @@
+diff --git a/WHATSNEW b/WHATSNEW
+index 0359d83..a5301d5 100644
+--- a/WHATSNEW
++++ b/WHATSNEW
+@@ -272,0 +273,3 @@
++ * New task <bindtargets> to make a list of targets bound to some
++   specified extension point.
++
+diff --git a/docs/manual/tasklist.html b/docs/manual/tasklist.html
+index 1a598df..f7b5524 100644
+--- a/docs/manual/tasklist.html
++++ b/docs/manual/tasklist.html
+@@ -47,0 +48 @@
++<li><a href="Tasks/bindtargets.html">Bindtargets</a></li>
+diff --git a/src/main/org/apache/tools/ant/taskdefs/BindTargets.java b/src/main/org/apache/tools/ant/taskdefs/BindTargets.java
+index e62d0f8..c40fd74 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/BindTargets.java
++++ b/src/main/org/apache/tools/ant/taskdefs/BindTargets.java
+@@ -88 +88 @@
+-                    new String[] { (String) itTarget.next(), extensionPoint,
++                    new String[] { extensionPoint, (String) itTarget.next(),
+diff --git a/src/main/org/apache/tools/ant/taskdefs/defaults.properties b/src/main/org/apache/tools/ant/taskdefs/defaults.properties
+index 533f6c2..a554e99 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/defaults.properties
++++ b/src/main/org/apache/tools/ant/taskdefs/defaults.properties
+@@ -25,0 +26 @@
++bindtargets=org.apache.tools.ant.taskdefs.BindTargets
+diff --git a/src/tests/antunit/core/bindtargets-test.xml b/src/tests/antunit/core/bindtargets-test.xml
+new file mode 100644
+index 0000000..3d66cd4
+--- /dev/null
++++ b/src/tests/antunit/core/bindtargets-test.xml
+@@ -0,0 +1,39 @@
++<?xml version="1.0"?>
++<!--
++  Licensed to the Apache Software Foundation (ASF) under one or more
++  contributor license agreements.  See the NOTICE file distributed with
++  this work for additional information regarding copyright ownership.
++  The ASF licenses this file to You under the Apache License, Version 2.0
++  (the "License"); you may not use this file except in compliance with
++  the License.  You may obtain a copy of the License at
++
++      http://www.apache.org/licenses/LICENSE-2.0
++
++  Unless required by applicable law or agreed to in writing, software
++  distributed under the License is distributed on an "AS IS" BASIS,
++  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++  See the License for the specific language governing permissions and
++  limitations under the License.
++-->
++<project xmlns:au="antlib:org.apache.ant.antunit" default="antunit">
++
++  <import file="../antunit-base.xml"/>
++
++  <target name="binded">
++    <property name="test-binded" value="ok" />
++  </target>
++
++  <target name="binded2">
++    <property name="test-binded2" value="ok" />
++  </target>
++
++  <extension-point name="extension" />
++
++  <bindtargets targets="binded,binded2" extensionPoint="extension" />
++
++  <target name="testBind" depends="extension">
++    <au:assertPropertyEquals name="test-binded" value="ok"/>
++    <au:assertPropertyEquals name="test-binded2" value="ok"/>
++  </target>
++
++</project>
+

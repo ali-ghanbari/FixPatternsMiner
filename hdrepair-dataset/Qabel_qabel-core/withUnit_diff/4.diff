@@ -1,0 +1,50 @@
+diff --git a/src/main/java/de/qabel/core/drop/DropMessage.java b/src/main/java/de/qabel/core/drop/DropMessage.java
+index 336f1f2..f9ada6e 100644
+--- a/src/main/java/de/qabel/core/drop/DropMessage.java
++++ b/src/main/java/de/qabel/core/drop/DropMessage.java
+@@ -97 +97 @@
+-    	if (enabled && this.acknowledgeId != NOACK) {
++    	if (enabled && this.acknowledgeId == NOACK) {
+diff --git a/src/test/java/de/qabel/core/drop/AcknowledgeIdGenerationTest.java b/src/test/java/de/qabel/core/drop/AcknowledgeIdGenerationTest.java
+new file mode 100644
+index 0000000..f286744
+--- /dev/null
++++ b/src/test/java/de/qabel/core/drop/AcknowledgeIdGenerationTest.java
+@@ -0,0 +1,36 @@
++package de.qabel.core.drop;
++
++import org.junit.Assert;
++import org.junit.Before;
++import org.junit.Test;
++
++import de.qabel.core.config.Identity;
++import de.qabel.core.crypto.QblKeyFactory;
++
++public class AcknowledgeIdGenerationTest {
++	private class DummyMessage extends ModelObject {
++		// nothing just a dummy
++	}
++
++	private Identity sender;
++
++	@Before
++	public void setup() {
++		sender = new Identity("Bernd", null, QblKeyFactory.getInstance().generateQblPrimaryKeyPair());
++	}
++
++	@Test
++	public void testDefaultDisabledAck() {
++		DropMessage<DummyMessage> dm = new DropMessage<>(sender, new DummyMessage());
++		Assert.assertEquals(DropMessage.NOACK, dm.getAcknowledgeID());
++	}
++
++	@Test
++	public void testSwitchAck() {
++		DropMessage<DummyMessage> dm = new DropMessage<>(sender, new DummyMessage());
++		dm.enableAcknowledgeing(true);
++		Assert.assertNotEquals(DropMessage.NOACK, dm.getAcknowledgeID());
++		dm.enableAcknowledgeing(false);
++		Assert.assertEquals(DropMessage.NOACK, dm.getAcknowledgeID());
++	}
++}
+

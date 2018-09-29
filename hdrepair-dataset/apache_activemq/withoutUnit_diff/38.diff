@@ -1,0 +1,8 @@
+diff --git a/activemq-client/src/main/java/org/apache/activemq/util/MarshallingSupport.java b/activemq-client/src/main/java/org/apache/activemq/util/MarshallingSupport.java
+index d7c10b2..8d8ec1b 100755
+--- a/activemq-client/src/main/java/org/apache/activemq/util/MarshallingSupport.java
++++ b/activemq-client/src/main/java/org/apache/activemq/util/MarshallingSupport.java
+@@ -140,0 +141,2 @@
++        } else  if (value.getClass() == UTF8Buffer.class) {
++            marshalString(out, value.toString());
+

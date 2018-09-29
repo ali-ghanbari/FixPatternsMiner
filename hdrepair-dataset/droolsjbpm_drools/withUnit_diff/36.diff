@@ -1,0 +1,21 @@
+diff --git a/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java b/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java
+index c39a475..e8992a9 100644
+--- a/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java
++++ b/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java
+@@ -1685 +1684,0 @@
+-    @Ignore
+diff --git a/drools-compiler/src/test/resources/org/drools/integrationtests/test_FactBindings.drl b/drools-compiler/src/test/resources/org/drools/integrationtests/test_FactBindings.drl
+index 459a981..5fce70c 100644
+--- a/drools-compiler/src/test/resources/org/drools/integrationtests/test_FactBindings.drl
++++ b/drools-compiler/src/test/resources/org/drools/integrationtests/test_FactBindings.drl
+@@ -9 +9 @@
+-        $pnamenotationon( name == "big cheese", $cheese : cheese )
++        $person : Person( name == "big cheese", $cheese : cheese )
+diff --git a/drools-core/src/main/java/org/drools/base/DefaultKnowledgeHelper.java b/drools-core/src/main/java/org/drools/base/DefaultKnowledgeHelper.java
+index a91bfb1..29ddbf9 100644
+--- a/drools-core/src/main/java/org/drools/base/DefaultKnowledgeHelper.java
++++ b/drools-core/src/main/java/org/drools/base/DefaultKnowledgeHelper.java
+@@ -345 +345 @@
+-                if ( handle != null ) {
++                if ( handle != null && identityMap != null ) {
+

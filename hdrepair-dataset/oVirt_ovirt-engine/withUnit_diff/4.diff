@@ -1,0 +1,14 @@
+diff --git a/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/validation/NfsMountPointConstraint.java b/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/validation/NfsMountPointConstraint.java
+index bc68e68..8f62acf 100644
+--- a/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/validation/NfsMountPointConstraint.java
++++ b/backend/manager/modules/common/src/main/java/org/ovirt/engine/core/common/validation/NfsMountPointConstraint.java
+@@ -19 +19 @@
+-    private static final String FQDN = "(([A-Za-z0-9]([A-Za-z0-9\\-\\.]{0,61}[A-Za-z0-9])?)*[A-Za-z]))";
++    private static final String FQDN = "(?=^.{1,254}$)(^(((?!-)[a-zA-Z0-9-]{1,63}(?<!-))|((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\\.)+[a-zA-Z0-9]{2,63})))";
+diff --git a/backend/manager/modules/common/src/test/java/org/ovirt/engine/core/common/validation/NFSMountPointConstraintTest.java b/backend/manager/modules/common/src/test/java/org/ovirt/engine/core/common/validation/NFSMountPointConstraintTest.java
+index 5184193..798c383 100644
+--- a/backend/manager/modules/common/src/test/java/org/ovirt/engine/core/common/validation/NFSMountPointConstraintTest.java
++++ b/backend/manager/modules/common/src/test/java/org/ovirt/engine/core/common/validation/NFSMountPointConstraintTest.java
+@@ -16,0 +17 @@
++        Assert.assertTrue(new NfsMountPointConstraint().isValid("f0o.example.f4:/tmp/kakukk", null));
+

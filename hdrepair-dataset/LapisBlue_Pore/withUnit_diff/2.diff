@@ -1,0 +1,412 @@
+diff --git a/patches/0002-Make-events-properly-overridable-for-Pore.patch b/patches/0002-Make-events-properly-overridable-for-Pore.patch
+deleted file mode 100644
+index 9a6b0d7..0000000
+--- a/patches/0002-Make-events-properly-overridable-for-Pore.patch
++++ /dev/null
+@@ -1,122 +0,0 @@
+-From a366e8518bfb0e58b182210cd4dbb598dd8d2c44 Mon Sep 17 00:00:00 2001
+-From: Minecrell <dev@minecrell.net>
+-Date: Mon, 26 Jan 2015 22:51:58 +0100
+-Subject: [PATCH] Make events properly overridable for Pore
+-
+-
+-diff --git a/src/main/java/org/bukkit/event/block/BlockEvent.java b/src/main/java/org/bukkit/event/block/BlockEvent.java
+-index 2405205..c0c9b6c 100644
+---- a/src/main/java/org/bukkit/event/block/BlockEvent.java
+-+++ b/src/main/java/org/bukkit/event/block/BlockEvent.java
+-@@ -18,7 +18,7 @@ public abstract class BlockEvent extends Event {
+-      *
+-      * @return The Block which block is involved in this event
+-      */
+--    public final Block getBlock() {
+-+    public Block getBlock() {
+-         return block;
+-     }
+- }
+-diff --git a/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java b/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java
+-index 9ef48c8..4a3a258 100644
+---- a/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java
+-+++ b/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java
+-@@ -141,7 +141,7 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
+-      *
+-      * @return the amount of damage caused by the event
+-      */
+--    public final double getFinalDamage() {
+-+    public double getFinalDamage() {
+-         double damage = 0;
+-         for (DamageModifier modifier : MODIFIERS) {
+-             damage += getDamage(modifier);
+-diff --git a/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java b/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java
+-index 74d458a..07f978a 100644
+---- a/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java
+-+++ b/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java
+-@@ -45,7 +45,7 @@ public class PlayerLeashEntityEvent extends Event implements Cancellable {
+-      *
+-      * @return Player who is involved in this event
+-      */
+--    public final Player getPlayer() {
+-+    public Player getPlayer() {
+-         return player;
+-     }
+- 
+-diff --git a/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java b/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java
+-index 054efbc..c44bbf8 100644
+---- a/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java
+-+++ b/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java
+-@@ -16,7 +16,7 @@ public abstract class PlayerChannelEvent extends PlayerEvent {
+-         this.channel = channel;
+-     }
+- 
+--    public final String getChannel() {
+-+    public String getChannel() {
+-         return channel;
+-     }
+- 
+-diff --git a/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java b/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java
+-index ea7ecef..61e6f75 100644
+---- a/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java
+-+++ b/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java
+-@@ -23,11 +23,12 @@ public class PlayerEditBookEvent extends PlayerEvent implements Cancellable {
+-     public PlayerEditBookEvent(Player who, int slot, BookMeta previousBookMeta, BookMeta newBookMeta, boolean isSigning) {
+-         super(who);
+- 
+--        Validate.isTrue(slot >= 0 && slot <=8, "Slot must be in range 0-8 inclusive");
+--        Validate.notNull(previousBookMeta, "Previous book meta must not be null");
+--        Validate.notNull(newBookMeta, "New book meta must not be null");
+--
+--        Bukkit.getItemFactory().equals(previousBookMeta, newBookMeta);
+-+        if (getClass() == PlayerEditBookEvent.class) {
+-+            Validate.isTrue(slot >= 0 && slot <=8, "Slot must be in range 0-8 inclusive");
+-+            Validate.notNull(previousBookMeta, "Previous book meta must not be null");
+-+            Validate.notNull(newBookMeta, "New book meta must not be null");
+-+            Bukkit.getItemFactory().equals(previousBookMeta, newBookMeta);
+-+        }
+- 
+-         this.previousBookMeta = previousBookMeta;
+-         this.newBookMeta = newBookMeta;
+-diff --git a/src/main/java/org/bukkit/event/player/PlayerEvent.java b/src/main/java/org/bukkit/event/player/PlayerEvent.java
+-index 0d4833f..20106ce 100644
+---- a/src/main/java/org/bukkit/event/player/PlayerEvent.java
+-+++ b/src/main/java/org/bukkit/event/player/PlayerEvent.java
+-@@ -24,7 +24,7 @@ public abstract class PlayerEvent extends Event {
+-      *
+-      * @return Player who is involved in this event
+-      */
+--    public final Player getPlayer() {
+-+    public Player getPlayer() {
+-         return player;
+-     }
+- }
+-diff --git a/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java b/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
+-index b8255c0..b09ef86 100644
+---- a/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
+-+++ b/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
+-@@ -18,7 +18,7 @@ public abstract class VehicleEvent extends Event {
+-      *
+-      * @return the vehicle
+-      */
+--    public final Vehicle getVehicle() {
+-+    public Vehicle getVehicle() {
+-         return vehicle;
+-     }
+- }
+-diff --git a/src/main/java/org/bukkit/event/weather/WeatherEvent.java b/src/main/java/org/bukkit/event/weather/WeatherEvent.java
+-index 0cae9bc..5d88767 100644
+---- a/src/main/java/org/bukkit/event/weather/WeatherEvent.java
+-+++ b/src/main/java/org/bukkit/event/weather/WeatherEvent.java
+-@@ -18,7 +18,7 @@ public abstract class WeatherEvent extends Event {
+-      *
+-      * @return World this event is occurring in
+-      */
+--    public final World getWorld() {
+-+    public World getWorld() {
+-         return world;
+-     }
+- }
+--- 
+-2.3.0
+-
+diff --git a/patches/0002-Remove-final-from-event-getters.patch b/patches/0002-Remove-final-from-event-getters.patch
+new file mode 100644
+index 0000000..8836540
+--- /dev/null
++++ b/patches/0002-Remove-final-from-event-getters.patch
+@@ -0,0 +1,100 @@
++From 4876d21ad1258d70667d37133215751f2fec95d8 Mon Sep 17 00:00:00 2001
++From: Minecrell <dev@minecrell.net>
++Date: Tue, 3 Mar 2015 22:19:10 +0100
++Subject: [PATCH] Remove final from event getters
++
++
++diff --git a/src/main/java/org/bukkit/event/block/BlockEvent.java b/src/main/java/org/bukkit/event/block/BlockEvent.java
++index 2405205..c0c9b6c 100644
++--- a/src/main/java/org/bukkit/event/block/BlockEvent.java
+++++ b/src/main/java/org/bukkit/event/block/BlockEvent.java
++@@ -18,7 +18,7 @@ public abstract class BlockEvent extends Event {
++      *
++      * @return The Block which block is involved in this event
++      */
++-    public final Block getBlock() {
+++    public Block getBlock() {
++         return block;
++     }
++ }
++diff --git a/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java b/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java
++index 9ef48c8..4a3a258 100644
++--- a/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java
+++++ b/src/main/java/org/bukkit/event/entity/EntityDamageEvent.java
++@@ -141,7 +141,7 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
++      *
++      * @return the amount of damage caused by the event
++      */
++-    public final double getFinalDamage() {
+++    public double getFinalDamage() {
++         double damage = 0;
++         for (DamageModifier modifier : MODIFIERS) {
++             damage += getDamage(modifier);
++diff --git a/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java b/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java
++index 74d458a..07f978a 100644
++--- a/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java
+++++ b/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java
++@@ -45,7 +45,7 @@ public class PlayerLeashEntityEvent extends Event implements Cancellable {
++      *
++      * @return Player who is involved in this event
++      */
++-    public final Player getPlayer() {
+++    public Player getPlayer() {
++         return player;
++     }
++ 
++diff --git a/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java b/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java
++index 054efbc..c44bbf8 100644
++--- a/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java
+++++ b/src/main/java/org/bukkit/event/player/PlayerChannelEvent.java
++@@ -16,7 +16,7 @@ public abstract class PlayerChannelEvent extends PlayerEvent {
++         this.channel = channel;
++     }
++ 
++-    public final String getChannel() {
+++    public String getChannel() {
++         return channel;
++     }
++ 
++diff --git a/src/main/java/org/bukkit/event/player/PlayerEvent.java b/src/main/java/org/bukkit/event/player/PlayerEvent.java
++index 0d4833f..20106ce 100644
++--- a/src/main/java/org/bukkit/event/player/PlayerEvent.java
+++++ b/src/main/java/org/bukkit/event/player/PlayerEvent.java
++@@ -24,7 +24,7 @@ public abstract class PlayerEvent extends Event {
++      *
++      * @return Player who is involved in this event
++      */
++-    public final Player getPlayer() {
+++    public Player getPlayer() {
++         return player;
++     }
++ }
++diff --git a/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java b/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
++index b8255c0..b09ef86 100644
++--- a/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
+++++ b/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
++@@ -18,7 +18,7 @@ public abstract class VehicleEvent extends Event {
++      *
++      * @return the vehicle
++      */
++-    public final Vehicle getVehicle() {
+++    public Vehicle getVehicle() {
++         return vehicle;
++     }
++ }
++diff --git a/src/main/java/org/bukkit/event/weather/WeatherEvent.java b/src/main/java/org/bukkit/event/weather/WeatherEvent.java
++index 0cae9bc..5d88767 100644
++--- a/src/main/java/org/bukkit/event/weather/WeatherEvent.java
+++++ b/src/main/java/org/bukkit/event/weather/WeatherEvent.java
++@@ -18,7 +18,7 @@ public abstract class WeatherEvent extends Event {
++      *
++      * @return World this event is occurring in
++      */
++-    public final World getWorld() {
+++    public World getWorld() {
++         return world;
++     }
++ }
++-- 
++2.3.1
++
+diff --git a/patches/0004-Make-events-properly-initialisable.patch b/patches/0004-Make-events-properly-initialisable.patch
+new file mode 100644
+index 0000000..3669548
+--- /dev/null
++++ b/patches/0004-Make-events-properly-initialisable.patch
+@@ -0,0 +1,143 @@
++From b62ec8f116e2588e8371266570230c9d6f4425e6 Mon Sep 17 00:00:00 2001
++From: Minecrell <dev@minecrell.net>
++Date: Tue, 3 Mar 2015 22:31:03 +0100
++Subject: [PATCH] Make events properly initialisable
++
++
++diff --git a/src/main/java/org/bukkit/event/Event.java b/src/main/java/org/bukkit/event/Event.java
++index fa29c27..e579967 100644
++--- a/src/main/java/org/bukkit/event/Event.java
+++++ b/src/main/java/org/bukkit/event/Event.java
++@@ -93,4 +93,8 @@ public abstract class Event {
++          */
++         ALLOW;
++     }
+++
+++    protected final boolean isPoreEvent() {
+++        return getClass().getName().startsWith("blue.lapis.pore.impl.event."); // TODO: Keep up to date
+++    }
++ }
++diff --git a/src/main/java/org/bukkit/event/block/BlockMultiPlaceEvent.java b/src/main/java/org/bukkit/event/block/BlockMultiPlaceEvent.java
++index d16e4be..e6b9ee0 100644
++--- a/src/main/java/org/bukkit/event/block/BlockMultiPlaceEvent.java
+++++ b/src/main/java/org/bukkit/event/block/BlockMultiPlaceEvent.java
++@@ -19,8 +19,14 @@ public class BlockMultiPlaceEvent extends BlockPlaceEvent {
++     private final List<BlockState> states;
++ 
++     public BlockMultiPlaceEvent(List<BlockState> states, Block clicked, ItemStack itemInHand, Player thePlayer, boolean canBuild) {
++-        super(states.get(0).getBlock(), states.get(0), clicked, itemInHand, thePlayer, canBuild);
++-        this.states = ImmutableList.copyOf(states);
+++        super(null, null, clicked, itemInHand, thePlayer, canBuild);
+++        if (isPoreEvent()) {
+++            this.states = null;
+++        } else {
+++            this.block = states.get(0).getBlock();
+++            this.replacedBlockState = states.get(0);
+++            this.states = ImmutableList.copyOf(states);
+++        }
++     }
++ 
++     /**
++diff --git a/src/main/java/org/bukkit/event/enchantment/EnchantItemEvent.java b/src/main/java/org/bukkit/event/enchantment/EnchantItemEvent.java
++index de28f1d..a06ceba 100644
++--- a/src/main/java/org/bukkit/event/enchantment/EnchantItemEvent.java
+++++ b/src/main/java/org/bukkit/event/enchantment/EnchantItemEvent.java
++@@ -32,7 +32,7 @@ public class EnchantItemEvent extends InventoryEvent implements Cancellable {
++         this.table = table;
++         this.item = item;
++         this.level = level;
++-        this.enchants = new HashMap<Enchantment, Integer>(enchants);
+++        this.enchants = isPoreEvent() ? null : new HashMap<Enchantment, Integer>(enchants);
++         this.cancelled = false;
++         this.button = i;
++     }
++diff --git a/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java b/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java
++index ea7ecef..ff75381 100644
++--- a/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java
+++++ b/src/main/java/org/bukkit/event/player/PlayerEditBookEvent.java
++@@ -23,11 +23,13 @@ public class PlayerEditBookEvent extends PlayerEvent implements Cancellable {
++     public PlayerEditBookEvent(Player who, int slot, BookMeta previousBookMeta, BookMeta newBookMeta, boolean isSigning) {
++         super(who);
++ 
++-        Validate.isTrue(slot >= 0 && slot <=8, "Slot must be in range 0-8 inclusive");
++-        Validate.notNull(previousBookMeta, "Previous book meta must not be null");
++-        Validate.notNull(newBookMeta, "New book meta must not be null");
+++        if (!isPoreEvent()) {
+++            Validate.isTrue(slot >= 0 && slot <=8, "Slot must be in range 0-8 inclusive");
+++            Validate.notNull(previousBookMeta, "Previous book meta must not be null");
+++            Validate.notNull(newBookMeta, "New book meta must not be null");
++ 
++-        Bukkit.getItemFactory().equals(previousBookMeta, newBookMeta);
+++            Bukkit.getItemFactory().equals(previousBookMeta, newBookMeta);
+++        }
++ 
++         this.previousBookMeta = previousBookMeta;
++         this.newBookMeta = newBookMeta;
++diff --git a/src/main/java/org/bukkit/event/world/ChunkEvent.java b/src/main/java/org/bukkit/event/world/ChunkEvent.java
++index 4710d40..b1bde64 100644
++--- a/src/main/java/org/bukkit/event/world/ChunkEvent.java
+++++ b/src/main/java/org/bukkit/event/world/ChunkEvent.java
++@@ -9,7 +9,7 @@ public abstract class ChunkEvent extends WorldEvent {
++     protected Chunk chunk;
++ 
++     protected ChunkEvent(final Chunk chunk) {
++-        super(chunk.getWorld());
+++        super(chunk);
++         this.chunk = chunk;
++     }
++ 
++diff --git a/src/main/java/org/bukkit/event/world/PortalCreateEvent.java b/src/main/java/org/bukkit/event/world/PortalCreateEvent.java
++index d83d7a9..c7fb32d 100644
++--- a/src/main/java/org/bukkit/event/world/PortalCreateEvent.java
+++++ b/src/main/java/org/bukkit/event/world/PortalCreateEvent.java
++@@ -14,13 +14,13 @@ import java.util.Collection;
++ public class PortalCreateEvent extends WorldEvent implements Cancellable {
++     private static final HandlerList handlers = new HandlerList();
++     private boolean cancel = false;
++-    private final ArrayList<Block> blocks = new ArrayList<Block>();
+++    private final ArrayList<Block> blocks;
++     private CreateReason reason = CreateReason.FIRE;
++ 
++     public PortalCreateEvent(final Collection<Block> blocks, final World world, CreateReason reason) {
++         super(world);
++ 
++-        this.blocks.addAll(blocks);
+++        this.blocks = isPoreEvent() ? null : new ArrayList<Block>(blocks);
++         this.reason = reason;
++     }
++ 
++diff --git a/src/main/java/org/bukkit/event/world/StructureGrowEvent.java b/src/main/java/org/bukkit/event/world/StructureGrowEvent.java
++index 62d300d..fe57c79 100644
++--- a/src/main/java/org/bukkit/event/world/StructureGrowEvent.java
+++++ b/src/main/java/org/bukkit/event/world/StructureGrowEvent.java
++@@ -22,7 +22,7 @@ public class StructureGrowEvent extends WorldEvent implements Cancellable {
++     private final List<BlockState> blocks;
++ 
++     public StructureGrowEvent(final Location location, final TreeType species, final boolean bonemeal, final Player player, final List<BlockState> blocks) {
++-        super(location.getWorld());
+++        super(location);
++         this.location = location;
++         this.species = species;
++         this.bonemeal = bonemeal;
++diff --git a/src/main/java/org/bukkit/event/world/WorldEvent.java b/src/main/java/org/bukkit/event/world/WorldEvent.java
++index bd89b81..e4bc7c3 100644
++--- a/src/main/java/org/bukkit/event/world/WorldEvent.java
+++++ b/src/main/java/org/bukkit/event/world/WorldEvent.java
++@@ -13,6 +13,14 @@ public abstract class WorldEvent extends Event {
++         this.world = world;
++     }
++ 
+++    protected WorldEvent(final org.bukkit.Chunk chunk) {
+++        this.world = isPoreEvent() ? null : chunk.getWorld();
+++    }
+++
+++    protected WorldEvent(final org.bukkit.Location location) {
+++        this.world = isPoreEvent() ? null : location.getWorld();
+++    }
+++
++     /**
++      * Gets the world primarily involved with this event
++      *
++-- 
++2.3.1
++
+diff --git a/src/main/java/blue/lapis/pore/impl/event/block/PoreBlockPistonExtendEvent.java b/src/main/java/blue/lapis/pore/impl/event/block/PoreBlockPistonExtendEvent.java
+index d493049..283ce62 100644
+--- a/src/main/java/blue/lapis/pore/impl/event/block/PoreBlockPistonExtendEvent.java
++++ b/src/main/java/blue/lapis/pore/impl/event/block/PoreBlockPistonExtendEvent.java
+@@ -44 +44 @@
+-        super(null, null, null);
++        super(null, -1, null);
+diff --git a/src/test/java/blue/lapis/pore/impl/event/PoreEventTest.java b/src/test/java/blue/lapis/pore/impl/event/PoreEventTest.java
+index c23609a..8eae02d 100644
+--- a/src/test/java/blue/lapis/pore/impl/event/PoreEventTest.java
++++ b/src/test/java/blue/lapis/pore/impl/event/PoreEventTest.java
+@@ -31,0 +32 @@
++import com.google.common.base.Objects;
+@@ -149 +150 @@
+-    public void checkConstructor() throws Exception {
++    public void checkConstructor() throws Throwable {
+@@ -162,2 +163,7 @@
+-                            if (cause != null && cause instanceof NullPointerException) {
+-                                continue events;
++                            if (cause != null) {
++                                if (cause instanceof NullPointerException
++                                        && Objects.equal(cause.getMessage(), "handle")) {
++                                    continue events;
++                                }
++
++                                throw cause;
+@@ -164,0 +171 @@
++
+

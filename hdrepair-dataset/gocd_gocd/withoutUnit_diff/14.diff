@@ -1,0 +1,68 @@
+diff --git a/server/src/com/thoughtworks/go/server/service/PipelineHistoryService.java b/server/src/com/thoughtworks/go/server/service/PipelineHistoryService.java
+index 5b73823..258fa74 100644
+--- a/server/src/com/thoughtworks/go/server/service/PipelineHistoryService.java
++++ b/server/src/com/thoughtworks/go/server/service/PipelineHistoryService.java
+@@ -131,0 +132,5 @@
++	/*
++	 * Load just enough data for Pipeline History API. The API is complete enough to build Pipeline History Page. Does following:
++	 * Exists check, Authorized check, Loads paginated pipeline data, Populates build-cause,
++	 * Populates future stages as empty, Populates can run for pipeline & each stage, Populate stage run permission
++	 */
+diff --git a/server/webapp/WEB-INF/rails.new/app/models/modification_instance_api_model.rb b/server/webapp/WEB-INF/rails.new/app/models/modification_instance_api_model.rb
+index 56217b9..6bfb303 100644
+--- a/server/webapp/WEB-INF/rails.new/app/models/modification_instance_api_model.rb
++++ b/server/webapp/WEB-INF/rails.new/app/models/modification_instance_api_model.rb
+@@ -18 +18 @@
+-  attr_reader :id, :revision, :modified_time, :user_name, :comment, :email_address, :modified_files
++  attr_reader :id, :revision, :modified_time, :user_name, :comment, :email_address
+@@ -27,5 +26,0 @@
+-    if modification_instance_model.getModifiedFiles() != nil
+-      @modified_files = modification_instance_model.getModifiedFiles().collect do |modified_file|
+-        ModifiedFileAPIModel.new(modified_file)
+-      end
+-    end
+diff --git a/server/webapp/WEB-INF/rails.new/app/models/pipeline_instance_api_model.rb b/server/webapp/WEB-INF/rails.new/app/models/pipeline_instance_api_model.rb
+index 90fe399..484598f 100644
+--- a/server/webapp/WEB-INF/rails.new/app/models/pipeline_instance_api_model.rb
++++ b/server/webapp/WEB-INF/rails.new/app/models/pipeline_instance_api_model.rb
+@@ -28,3 +27,0 @@
+-    @currently_locked = pipeline_instance_model.isCurrentlyLocked()
+-    @lockable = pipeline_instance_model.isLockable()
+-    @can_unlock = pipeline_instance_model.canUnlock()
+diff --git a/server/webapp/WEB-INF/rails.new/spec/models/material_history_api_model_spec.rb b/server/webapp/WEB-INF/rails.new/spec/models/material_history_api_model_spec.rb
+index 5e305f8..d7730dd 100644
+--- a/server/webapp/WEB-INF/rails.new/spec/models/material_history_api_model_spec.rb
++++ b/server/webapp/WEB-INF/rails.new/spec/models/material_history_api_model_spec.rb
+@@ -39,4 +38,0 @@
+-
+-      modified_file_api_model = modification_api_model.modified_files[0]
+-      modified_file_api_model.file_name.should == 'file-name'
+-      modified_file_api_model.action.should == 'add'
+@@ -61,4 +56,0 @@
+-
+-      modified_file_api_model = modification_api_model.modified_files[0]
+-      modified_file_api_model.file_name.should == nil
+-      modified_file_api_model.action.should == nil
+diff --git a/server/webapp/WEB-INF/rails.new/spec/models/pipeline_history_api_model_spec.rb b/server/webapp/WEB-INF/rails.new/spec/models/pipeline_history_api_model_spec.rb
+index 3888257..d1e3287 100644
+--- a/server/webapp/WEB-INF/rails.new/spec/models/pipeline_history_api_model_spec.rb
++++ b/server/webapp/WEB-INF/rails.new/spec/models/pipeline_history_api_model_spec.rb
+@@ -40,3 +39,0 @@
+-      pipeline_instance_api_model.currently_locked.should == false
+-      pipeline_instance_api_model.lockable.should == true
+-      pipeline_instance_api_model.can_unlock.should == false
+@@ -65,4 +61,0 @@
+-
+-      modified_file_api_model = modification_api_model.modified_files[0]
+-      modified_file_api_model.file_name.should == 'file-name'
+-      modified_file_api_model.action.should == 'add'
+@@ -116,3 +108,0 @@
+-      pipeline_instance_api_model.currently_locked.should == nil
+-      pipeline_instance_api_model.lockable.should == nil
+-      pipeline_instance_api_model.can_unlock.should == nil
+@@ -141,4 +130,0 @@
+-
+-      modified_file_api_model = modification_api_model.modified_files[0]
+-      modified_file_api_model.file_name.should == nil
+-      modified_file_api_model.action.should == nil
+

@@ -1,0 +1,25 @@
+diff --git a/subprojects/core/src/main/groovy/org/gradle/api/JavaVersion.java b/subprojects/core/src/main/groovy/org/gradle/api/JavaVersion.java
+index 392412e..fb9ba60 100644
+--- a/subprojects/core/src/main/groovy/org/gradle/api/JavaVersion.java
++++ b/subprojects/core/src/main/groovy/org/gradle/api/JavaVersion.java
+@@ -25 +25 @@
+-    VERSION_1_1(false), VERSION_1_2(false), VERSION_1_3(false), VERSION_1_4(false), VERSION_1_5(true), VERSION_1_6(true);
++    VERSION_1_1(false), VERSION_1_2(false), VERSION_1_3(false), VERSION_1_4(false), VERSION_1_5(true), VERSION_1_6(true), VERSION_1_7(true);
+diff --git a/subprojects/core/src/test/groovy/org/gradle/api/JavaVersionTest.java b/subprojects/core/src/test/groovy/org/gradle/api/JavaVersionTest.java
+index 0a27d97..9c5a288 100644
+--- a/subprojects/core/src/test/groovy/org/gradle/api/JavaVersionTest.java
++++ b/subprojects/core/src/test/groovy/org/gradle/api/JavaVersionTest.java
+@@ -28,0 +29 @@
++        assertThat(JavaVersion.VERSION_1_7.toString(), equalTo("1.7"));
+@@ -40,0 +42 @@
++        assertThat(JavaVersion.toVersion("7"), equalTo(JavaVersion.VERSION_1_7));
+@@ -48 +50 @@
+-        conversionFails("7");
++        conversionFails("8");
+@@ -70,0 +73,2 @@
++        assertThat(JavaVersion.toVersion(7), equalTo(JavaVersion.VERSION_1_7));
++        assertThat(JavaVersion.toVersion(1.7), equalTo(JavaVersion.VERSION_1_7));
+@@ -77 +81 @@
+-        conversionFails(7);
++        conversionFails(8);
+

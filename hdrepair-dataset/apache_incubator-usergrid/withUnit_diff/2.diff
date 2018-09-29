@@ -1,0 +1,24 @@
+diff --git a/stack/core/src/main/java/org/usergrid/persistence/cassandra/RelationManagerImpl.java b/stack/core/src/main/java/org/usergrid/persistence/cassandra/RelationManagerImpl.java
+index 1d4c0ce..26a7e6b 100644
+--- a/stack/core/src/main/java/org/usergrid/persistence/cassandra/RelationManagerImpl.java
++++ b/stack/core/src/main/java/org/usergrid/persistence/cassandra/RelationManagerImpl.java
+@@ -2393 +2393 @@
+-      EntityRef ref = em.getAlias(headEntity.getUuid(), collection.getName(), nameIdentifierNode.getName());
++      EntityRef ref = em.getAlias(headEntity.getUuid(), collection.getType(), nameIdentifierNode.getName());
+diff --git a/stack/core/src/test/java/org/usergrid/persistence/CollectionTest.java b/stack/core/src/test/java/org/usergrid/persistence/CollectionTest.java
+index e67d95f..b5247c2 100644
+--- a/stack/core/src/test/java/org/usergrid/persistence/CollectionTest.java
++++ b/stack/core/src/test/java/org/usergrid/persistence/CollectionTest.java
+@@ -1535,0 +1536,4 @@
++    //we create 2 entities, otherwise this test will pass when it shouldn't
++    properties.put("name", "test2");
++    Entity game2 = em.create("game", properties);
++    assertNotNull(game2);
+@@ -1564,0 +1569,6 @@
++    //we create 2 entities, otherwise this test will pass when it shouldn't
++    User user2 = new User();
++    user2.setUsername("foobar2");
++    user2.setEmail("foobar2@usergrid.org");
++    Entity createUser2 = em.create(user2);
++    assertNotNull(createUser2);
+

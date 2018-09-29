@@ -1,0 +1,15 @@
+diff --git a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/BrowserInformationControl.java b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/BrowserInformationControl.java
+index d6a86d5..2737757 100644
+--- a/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/BrowserInformationControl.java
++++ b/org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/text/java/hover/BrowserInformationControl.java
+@@ -227,2 +227,7 @@
+-				// using the Browser.setText API triggers a location change to "about:blank"
+-				if (!"about:blank".equals(location)) //$NON-NLS-1$
++				/*
++				 * Using the Browser.setText API triggers a location change to "about:blank" with
++				 * the mozilla widget. The Browser on carbon uses yet another kind of special
++				 * initialization URLs. 
++				 * TODO remove this code once https://bugs.eclipse.org/bugs/show_bug.cgi?id=130314 is fixed
++				 */
++				if (!"about:blank".equals(location) && !("carbon".equals(SWT.getPlatform()) && location.startsWith("applewebdata:"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+

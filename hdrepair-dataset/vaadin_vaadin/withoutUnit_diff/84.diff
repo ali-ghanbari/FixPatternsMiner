@@ -1,0 +1,15 @@
+diff --git a/src/com/vaadin/terminal/gwt/server/AbstractCommunicationManager.java b/src/com/vaadin/terminal/gwt/server/AbstractCommunicationManager.java
+index 6411361..d9d31f0 100644
+--- a/src/com/vaadin/terminal/gwt/server/AbstractCommunicationManager.java
++++ b/src/com/vaadin/terminal/gwt/server/AbstractCommunicationManager.java
+@@ -1360 +1360,8 @@
+-        if (requestLength == 0) {
++        if (requestLength <= 0) {
++            /*
++             * TODO Browsers as we know them, know how long XHR they are sending
++             * and expose this in headers. However we have seen some -1 values
++             * in logs. Wild guess is that it is some kind of bot that tries to
++             * play well with ajax pages. Decide if we need to support those
++             * requests. See #6401
++             */
+

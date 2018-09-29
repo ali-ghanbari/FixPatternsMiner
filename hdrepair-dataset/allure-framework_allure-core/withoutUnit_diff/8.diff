@@ -1,0 +1,58 @@
+diff --git a/allure-e2e/src/main/java/ru/yandex/qatools/allure/blocks/TimelineTab.java b/allure-e2e/src/main/java/ru/yandex/qatools/allure/blocks/TimelineTab.java
+index d3b60b3..faa9099 100644
+--- a/allure-e2e/src/main/java/ru/yandex/qatools/allure/blocks/TimelineTab.java
++++ b/allure-e2e/src/main/java/ru/yandex/qatools/allure/blocks/TimelineTab.java
+@@ -18 +18 @@
+-    @FindBy(css=".pane_col_last")
++    @FindBy(css="[ui-view=\"testcase\"] .pane_col")
+diff --git a/allure-report-face/src/main/less/app.less b/allure-report-face/src/main/less/app.less
+index 3c46d65..c1e0419 100644
+--- a/allure-report-face/src/main/less/app.less
++++ b/allure-report-face/src/main/less/app.less
+@@ -131,4 +130,0 @@
+-  margin: 20px 20px 20px 0;
+-  padding: 15px;
+-  overflow: hidden;
+-  position: relative;
+@@ -136,2 +131,0 @@
+-    position: absolute;
+-    height: 100%;
+@@ -139,7 +132,0 @@
+-    right: 0;
+-    top: 0;
+-    border-right: 0;
+-    &_overlay {
+-      background: #f4f4f4;
+-      opacity: 0.5;
+-    }
+diff --git a/allure-report-face/src/main/webapp/templates/timeline.html b/allure-report-face/src/main/webapp/templates/timeline.html
+index 1e2416f..02642b2 100644
+--- a/allure-report-face/src/main/webapp/templates/timeline.html
++++ b/allure-report-face/src/main/webapp/templates/timeline.html
+@@ -1,4 +1,12 @@
+-<div class="timeline b-island">
+-    <div class="page-header b-island__title">
+-        <h3>Timeline</h3>
+-        <div class="text-muted">Started {{startTime | date:'mediumDate'}} at {{startTime | date:'HH:mm:ss'}}</div>
++<div class="timeline b-island tab-content-fill" pane-set>
++    <div class="pane_col timeline_pane" pane pane-expanded="true" ng-class="{'pane_col-overlay': isState('timeline.testcase')}">
++        <div class="pane_overlay clickable" ui-sref="timeline"></div>
++        <div class="pane_content">
++            <div class="page-header b-island__title">
++                <h3>Timeline</h3>
++                <div class="text-muted">Started {{startTime | date:'mediumDate'}} at {{startTime | date:'HH:mm:ss'}}</div>
++            </div>
++            <div timeline on-item-click="openTestcase(item)">
++                <timestamp data="testcase" ng-repeat="testcase in testcases"></timestamp>
++            </div>
++        </div>
+@@ -6,7 +14 @@
+-    <div timeline on-item-click="openTestcase(item)">
+-        <timestamp data="testcase" ng-repeat="testcase in testcases"></timestamp>
+-    </div>
+-    <div pane-set class="timeline_pane" ng-show="!isState('timeline')">
+-        <div class="pane_col timeline_pane_overlay" pane pane-expanded="'true'" ui-sref="timeline"></div>
+-        <div ui-view="testcase"></div>
+-    </div>
++    <div ui-view="testcase"></div>
+

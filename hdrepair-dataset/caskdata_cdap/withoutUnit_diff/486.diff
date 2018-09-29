@@ -1,0 +1,15 @@
+diff --git a/src/main/java/com/continuuity/internal/app/runtime/flow/BasicFlowletContext.java b/src/main/java/com/continuuity/internal/app/runtime/flow/BasicFlowletContext.java
+index ad4b56d..ef0b8a4 100644
+--- a/src/main/java/com/continuuity/internal/app/runtime/flow/BasicFlowletContext.java
++++ b/src/main/java/com/continuuity/internal/app/runtime/flow/BasicFlowletContext.java
+@@ -148 +148 @@
+-    int groupId = 100000 + Objects.hashCode(getFlowletId(), getFlowletId());
++    int groupId = 100000 + Objects.hashCode(getAccountId(), getApplicationId(), getFlowId(), getFlowletId());
+diff --git a/src/thrift/conf/appfabric.thrift b/src/thrift/conf/appfabric.thrift
+index 8e88713..cee1a83 100644
+--- a/src/thrift/conf/appfabric.thrift
++++ b/src/thrift/conf/appfabric.thrift
+@@ -211,0 +212,2 @@
++   * NOTE: On this call we use overload flowid to hostname (totally wrong - but we didn't wanted to changed)
++   * Javascript binding that has patching to be done. Hate Thrift.!!!!!
+

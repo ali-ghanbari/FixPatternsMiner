@@ -1,0 +1,22 @@
+diff --git a/src/main/java/org/mamute/notification/NotificationMailer.java b/src/main/java/org/mamute/notification/NotificationMailer.java
+index f5424a4..4dd1362 100644
+--- a/src/main/java/org/mamute/notification/NotificationMailer.java
++++ b/src/main/java/org/mamute/notification/NotificationMailer.java
+@@ -73 +73 @@
+-				.setSubject(format(bundle.getMessage("answer_notification_mail"), action.getMainThread().getTitle()));
++				.setSubject(format(bundle.getMessage("answer_notification_mail"), bundle.getMessage("site.name"), action.getMainThread().getTitle()));
+diff --git a/src/main/resources/messages.properties b/src/main/resources/messages.properties
+index 0abcc3b..0f7b080 100644
+--- a/src/main/resources/messages.properties
++++ b/src/main/resources/messages.properties
+@@ -576 +576 @@
+-answer_notification_mail = [{0}] Updated in {1}
++answer_notification_mail = [{0}] New update at {1}
+diff --git a/src/main/resources/messages_pt_BR.properties b/src/main/resources/messages_pt_BR.properties
+index bda613f..8c7d461 100644
+--- a/src/main/resources/messages_pt_BR.properties
++++ b/src/main/resources/messages_pt_BR.properties
+@@ -578 +578 @@
+-answer_notification_mail = [{0}] Atualiza��o em {0}
++answer_notification_mail = [{0}] Atualiza��o em {1}
+

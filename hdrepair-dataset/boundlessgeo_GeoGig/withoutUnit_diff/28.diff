@@ -1,0 +1,17 @@
+diff --git a/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java b/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java
+index 3c4df3e..fec44b9 100644
+--- a/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java
++++ b/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java
+@@ -94 +94 @@
+-                    .setCommit(Suppliers.ofInstance(ref.get().getObjectId()));
++                    .setCommit(Suppliers.ofInstance(ref.get().getObjectId())).call();
+diff --git a/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature b/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature
+index 1421821..3c57e1f 100644
+--- a/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature
++++ b/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature
+@@ -91 +91,3 @@
+-     Then the response should contain "Merge aborted successfully"     
++     Then the response should contain "Merge aborted successfully"
++     When I run the command "status"
++     Then the response should contain "nothing to commit"        
+

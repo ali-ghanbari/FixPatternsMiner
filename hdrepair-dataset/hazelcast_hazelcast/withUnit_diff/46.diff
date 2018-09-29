@@ -1,0 +1,101 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/instance/GroupProperties.java b/hazelcast/src/main/java/com/hazelcast/instance/GroupProperties.java
+index e5de0e7..40d4a84 100644
+--- a/hazelcast/src/main/java/com/hazelcast/instance/GroupProperties.java
++++ b/hazelcast/src/main/java/com/hazelcast/instance/GroupProperties.java
+@@ -324 +324 @@
+-        CLIENT_HEARTBEAT_TIMEOUT_SECONDS = new GroupProperty(config, PROP_CLIENT_MAX_NO_HEARTBEAT_SECONDS, "60");
++        CLIENT_HEARTBEAT_TIMEOUT_SECONDS = new GroupProperty(config, PROP_CLIENT_MAX_NO_HEARTBEAT_SECONDS, "300");
+diff --git a/hazelcast/src/test/java/com/hazelcast/concurrent/lock/ConditionTest.java b/hazelcast/src/test/java/com/hazelcast/concurrent/lock/ConditionTest.java
+index 65b47c6..b400de5 100644
+--- a/hazelcast/src/test/java/com/hazelcast/concurrent/lock/ConditionTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/concurrent/lock/ConditionTest.java
+@@ -65,0 +66 @@
++        final CountDownLatch syncLatch = new CountDownLatch(2);
+@@ -67,2 +68,2 @@
+-        createThreadWaitsForCondition(latch, lock, condition0).start();
+-        createThreadWaitsForCondition(latch, lock, condition1).start();
++        createThreadWaitsForCondition(latch, lock, condition0, syncLatch).start();
++        createThreadWaitsForCondition(latch, lock, condition1, syncLatch).start();
+@@ -70 +71 @@
+-        sleepSeconds(1);
++        syncLatch.await();
+@@ -90,0 +92 @@
++        final CountDownLatch syncLatch = new CountDownLatch(2);
+@@ -92,2 +94,2 @@
+-        createThreadWaitsForCondition(latch, lock, condition).start();
+-        createThreadWaitsForCondition(latch, lock, condition).start();
++        createThreadWaitsForCondition(latch, lock, condition, syncLatch).start();
++        createThreadWaitsForCondition(latch, lock, condition, syncLatch).start();
+@@ -95 +97,2 @@
+-        sleepSeconds(1);
++        syncLatch.await();
++
+@@ -111,0 +115 @@
++        final CountDownLatch syncLatch = new CountDownLatch(2);
+@@ -113,2 +117,2 @@
+-        createThreadWaitsForCondition(latch, lock, condition0).start();
+-        createThreadWaitsForCondition(latch, lock, condition1).start();
++        createThreadWaitsForCondition(latch, lock, condition0, syncLatch).start();
++        createThreadWaitsForCondition(latch, lock, condition1, syncLatch).start();
+@@ -116 +120,2 @@
+-        sleepSeconds(1);
++        syncLatch.await();
++
+@@ -138,0 +144 @@
++        final CountDownLatch syncLatch = new CountDownLatch(2);
+@@ -140,2 +146,2 @@
+-        createThreadWaitsForCondition(latch, lock, condition0).start();
+-        createThreadWaitsForCondition(latch, lock, condition1).start();
++        createThreadWaitsForCondition(latch, lock, condition0, syncLatch).start();
++        createThreadWaitsForCondition(latch, lock, condition1, syncLatch).start();
+@@ -143 +149 @@
+-        sleepSeconds(1);
++        syncLatch.await();
+@@ -146,5 +152 @@
+-        condition0.signal();
+-        lock.unlock();
+-
+-        lock.lock();
+-        condition1.signal();
++        condition0.signalAll();
+@@ -166,0 +169 @@
++        final CountDownLatch syncLatch = new CountDownLatch(2);
+@@ -168 +171 @@
+-        createThreadWaitsForCondition(latch, lock0, condition0).start();
++        createThreadWaitsForCondition(latch, lock0, condition0, syncLatch).start();
+@@ -170 +173 @@
+-        createThreadWaitsForCondition(latch, lock1, condition1).start();
++        createThreadWaitsForCondition(latch, lock1, condition1, syncLatch).start();
+@@ -172 +175 @@
+-        sleepSeconds(1);
++        syncLatch.await();
+@@ -346 +349 @@
+-                } catch (Throwable e) {
++                } catch (InterruptedException e) {
+@@ -361 +364 @@
+-    public void testSignalWithMultipleWaiters() {
++    public void testSignalWithMultipleWaiters() throws InterruptedException {
+@@ -367,0 +371 @@
++        final CountDownLatch syncLatch = new CountDownLatch(3);
+@@ -369,3 +373,3 @@
+-        createThreadWaitsForCondition(latch, lock, condition).start();
+-        createThreadWaitsForCondition(latch, lock, condition).start();
+-        createThreadWaitsForCondition(latch, lock, condition).start();
++        createThreadWaitsForCondition(latch, lock, condition, syncLatch).start();
++        createThreadWaitsForCondition(latch, lock, condition, syncLatch).start();
++        createThreadWaitsForCondition(latch, lock, condition, syncLatch).start();
+@@ -373 +377 @@
+-        sleepSeconds(1);
++        syncLatch.await();
+@@ -404 +408 @@
+-        createThreadWaitsForCondition(latch, lock, condition).start();
++        createThreadWaitsForCondition(latch, lock, condition, null).start();
+@@ -552,0 +557 @@
++    // See #3262
+@@ -717 +722 @@
+-    private Thread createThreadWaitsForCondition(final CountDownLatch latch, final ILock lock, final ICondition condition) {
++    private Thread createThreadWaitsForCondition(final CountDownLatch latch, final ILock lock, final ICondition condition, final CountDownLatch syncLatch) {
+@@ -722 +727 @@
+-
++                    syncLatch.countDown();
+

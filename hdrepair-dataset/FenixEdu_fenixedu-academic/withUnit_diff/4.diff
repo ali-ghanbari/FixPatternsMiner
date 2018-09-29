@@ -1,0 +1,59 @@
+diff --git a/src/Dominio/Announcement.java b/src/Dominio/Announcement.java
+index e23d704..2393991 100755
+--- a/src/Dominio/Announcement.java
++++ b/src/Dominio/Announcement.java
+@@ -7 +6,0 @@
+-import java.util.Date;
+diff --git a/src_tests/ServidorAplicacao/Servicos/gesdis/ReadLastAnnouncementServiceTest.java b/src_tests/ServidorAplicacao/Servicos/gesdis/ReadLastAnnouncementServiceTest.java
+index 2a2be6b..a460742 100755
+--- a/src_tests/ServidorAplicacao/Servicos/gesdis/ReadLastAnnouncementServiceTest.java
++++ b/src_tests/ServidorAplicacao/Servicos/gesdis/ReadLastAnnouncementServiceTest.java
+@@ -2,0 +3 @@
++import java.sql.Timestamp;
+@@ -162 +163 @@
+-						date,
++			(Timestamp)date,
+diff --git a/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/DeleteAnnouncementTest.java b/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/DeleteAnnouncementTest.java
+index 56eebd1..9b23278 100755
+--- a/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/DeleteAnnouncementTest.java
++++ b/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/DeleteAnnouncementTest.java
+@@ -12,0 +13 @@
++import java.sql.Timestamp;
+@@ -82 +83 @@
+-		InfoAnnouncement infoAnnouncement = new InfoAnnouncement("announcement1", date, date, "information1", infoSite);
++		InfoAnnouncement infoAnnouncement = new InfoAnnouncement("announcement1",(Timestamp) date,(Timestamp) date, "information1", infoSite);
+diff --git a/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/EditAnnouncementTest.java b/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/EditAnnouncementTest.java
+index 0eb8c06..f862d9f 100755
+--- a/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/EditAnnouncementTest.java
++++ b/src_tests/ServidorAplicacao/Servicos/gesdis/teacher/EditAnnouncementTest.java
+@@ -11,0 +12 @@
++import java.sql.Timestamp;
+@@ -82 +83 @@
+-		InfoAnnouncement infoAnnouncement = new InfoAnnouncement("announcement1", date, date, "information1", infoSite);
++		InfoAnnouncement infoAnnouncement = new InfoAnnouncement("announcement1",(Timestamp) date,(Timestamp) date, "information1", infoSite);
+@@ -122 +123 @@
+-		InfoAnnouncement infoAnnouncement = new InfoAnnouncement("unexistingAnnouncement", date, date, "information1", infoSite);
++		InfoAnnouncement infoAnnouncement = new InfoAnnouncement("unexistingAnnouncement",(Timestamp) date,(Timestamp) date, "information1", infoSite);
+diff --git a/src_tests/ServidorPersistente/OJB/AnnouncementOJBTest.java b/src_tests/ServidorPersistente/OJB/AnnouncementOJBTest.java
+index eb5e4fd..bb85fed 100755
+--- a/src_tests/ServidorPersistente/OJB/AnnouncementOJBTest.java
++++ b/src_tests/ServidorPersistente/OJB/AnnouncementOJBTest.java
+@@ -174 +174 @@
+-			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", date, this.site);
++			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", (Timestamp)date, this.site);
+@@ -194 +194 @@
+-			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", date, this.site);
++			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", (Timestamp)date, this.site);
+@@ -218 +218 @@
+-            announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", date, this.site);
++            announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI",(Timestamp) date, this.site);
+@@ -234 +234 @@
+-			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("unexistingAnnouncement", date, site);
++			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("unexistingAnnouncement", (Timestamp)date, site);
+@@ -258 +258 @@
+-			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", date, this.site);
++			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI",(Timestamp) date, this.site);
+@@ -278 +278 @@
+-			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", date, this.site);
++			announcement = persistentAnnouncement.readAnnouncementByTitleAndCreationDateAndSite("announcement1deTFCI", (Timestamp)date, this.site);
+

@@ -1,0 +1,11 @@
+Minor haproxy health monitor cleanup and fixes
+
+* changes default config for l4lb docs to use a trailing back slash
+* moves the ensurenamespace call into a try block
+* moves some calls happening in a namespace to be called outside a namespace.
+  These calls did not need a namespace as we are only using network namespaces
+  not process namespaces.
+
+Change-Id: I238292e30ec5e5bcd47eba5bad97febd9fc30a29
+Signed-off-by: Joe Mills <joe@midokura.com>
+

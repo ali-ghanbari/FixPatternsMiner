@@ -1,0 +1,8 @@
+diff --git a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ApprovePage.java b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ApprovePage.java
+index 3949208..915e54b 100644
+--- a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ApprovePage.java
++++ b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/ApprovePage.java
+@@ -228 +228 @@
+-    BigDecimal cost = new BigDecimal((parseFloat(packsToShip.getText().trim()) + parseFloat(pricePerPack.getText().substring(1)))).setScale(2, ROUND_HALF_UP);
++    BigDecimal cost = new BigDecimal((parseFloat(packsToShip.getText().trim()) * parseFloat(pricePerPack.getText().substring(1)))).setScale(2, ROUND_HALF_UP);
+

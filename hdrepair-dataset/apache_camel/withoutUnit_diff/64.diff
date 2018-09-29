@@ -1,0 +1,10 @@
+diff --git a/camel-core/src/main/java/org/apache/camel/model/LoadBalanceDefinition.java b/camel-core/src/main/java/org/apache/camel/model/LoadBalanceDefinition.java
+index 7d7dcf7..653c0d7 100644
+--- a/camel-core/src/main/java/org/apache/camel/model/LoadBalanceDefinition.java
++++ b/camel-core/src/main/java/org/apache/camel/model/LoadBalanceDefinition.java
+@@ -134 +134,3 @@
+-            if (processorType instanceof LoadBalanceDefinition) {
++            // check for instanceof as the code below as there is compilation errors on earlier versions of JDK6
++            // on Windows boxes or with IBM JDKs etc.
++            if (LoadBalanceDefinition.class.isInstance(processorType)) {
+

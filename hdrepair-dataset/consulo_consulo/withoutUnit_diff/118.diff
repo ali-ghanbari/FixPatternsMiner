@@ -1,0 +1,15 @@
+diff --git a/java/java-impl/src/com/intellij/ide/actions/CreateClassAction.java b/java/java-impl/src/com/intellij/ide/actions/CreateClassAction.java
+index b13c603..570efa1 100644
+--- a/java/java-impl/src/com/intellij/ide/actions/CreateClassAction.java
++++ b/java/java-impl/src/com/intellij/ide/actions/CreateClassAction.java
+@@ -94 +94 @@
+-    return IdeBundle.message("progress.creating.class", JavaDirectoryService.getInstance().getPackage(directory).getQualifiedName(), newName);
++    return IdeBundle.message("progress.creating.class", StringUtil.getQualifiedName(JavaDirectoryService.getInstance().getPackage(directory).getQualifiedName(), newName));
+diff --git a/platform/platform-resources-en/src/messages/IdeBundle.properties b/platform/platform-resources-en/src/messages/IdeBundle.properties
+index e0c4999..1a1673d 100644
+--- a/platform/platform-resources-en/src/messages/IdeBundle.properties
++++ b/platform/platform-resources-en/src/messages/IdeBundle.properties
+@@ -341 +341 @@
+-progress.creating.class=Creating class {0}.{1}
++progress.creating.class=Creating class {0}
+

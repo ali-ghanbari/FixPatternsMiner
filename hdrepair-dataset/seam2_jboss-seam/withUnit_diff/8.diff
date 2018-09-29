@@ -1,0 +1,25 @@
+diff --git a/src/main/org/jboss/seam/web/AuthenticationFilter.java b/src/main/org/jboss/seam/web/AuthenticationFilter.java
+index 246ef27..53c4643 100644
+--- a/src/main/org/jboss/seam/web/AuthenticationFilter.java
++++ b/src/main/org/jboss/seam/web/AuthenticationFilter.java
+@@ -301 +301 @@
+-            identity.setUsername(username);
++            identity.getCredentials().setUsername(username);
+diff --git a/src/test/integration/src/org/jboss/seam/test/integration/security/SecurityTest.java b/src/test/integration/src/org/jboss/seam/test/integration/security/SecurityTest.java
+index b61d3c5..e2c967a 100644
+--- a/src/test/integration/src/org/jboss/seam/test/integration/security/SecurityTest.java
++++ b/src/test/integration/src/org/jboss/seam/test/integration/security/SecurityTest.java
+@@ -55 +55 @@
+-         return new LoginContext("default", getSubject(), getDefaultCallbackHandler(), 
++         return new LoginContext("default", getSubject(), getCredentials().createCallbackHandler(), 
+@@ -93,2 +93,2 @@
+-         identity.setUsername("foo");
+-         identity.setPassword("bar");
++         identity.getCredentials().setUsername("foo");
++         identity.getCredentials().setPassword("bar");
+@@ -96,2 +96,2 @@
+-         assert("foo".equals(identity.getUsername()));
+-         assert("bar".equals(identity.getPassword()));
++         assert("foo".equals(identity.getCredentials().getUsername()));
++         assert("bar".equals(identity.getCredentials().getPassword()));
+

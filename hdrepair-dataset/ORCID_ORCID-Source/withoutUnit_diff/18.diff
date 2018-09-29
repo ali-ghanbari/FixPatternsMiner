@@ -1,0 +1,15 @@
+diff --git a/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jaxb2JpaAdapterImpl.java b/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jaxb2JpaAdapterImpl.java
+index 7813412..4eaf993 100755
+--- a/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jaxb2JpaAdapterImpl.java
++++ b/orcid-core/src/main/java/org/orcid/core/adapter/impl/Jaxb2JpaAdapterImpl.java
+@@ -1223 +1223 @@
+-                if (cde != null) {
++                if (cde != null && cde.getClientType() != null) {
+diff --git a/orcid-persistence/src/main/resources/db/updates/new_way_of_doing_client_ids.xml b/orcid-persistence/src/main/resources/db/updates/new_way_of_doing_client_ids.xml
+index 0f8fca1..93d488b 100644
+--- a/orcid-persistence/src/main/resources/db/updates/new_way_of_doing_client_ids.xml
++++ b/orcid-persistence/src/main/resources/db/updates/new_way_of_doing_client_ids.xml
+@@ -78 +78 @@
+-    <changeSet id="POPULATE-CLIENT-SOURCE-ID" author="Will Simpson" dbms="postgresql">
++    <changeSet id="POPULATE-CLIENT-SOURCE-ID-AGAIN" author="Will Simpson" dbms="postgresql">
+

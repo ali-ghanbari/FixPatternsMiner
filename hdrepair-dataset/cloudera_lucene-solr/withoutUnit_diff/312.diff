@@ -1,0 +1,10 @@
+diff --git a/solr/src/test/org/apache/solr/BaseDistributedSearchTestCase.java b/solr/src/test/org/apache/solr/BaseDistributedSearchTestCase.java
+index 92ea4c9..2b7ab0f 100644
+--- a/solr/src/test/org/apache/solr/BaseDistributedSearchTestCase.java
++++ b/solr/src/test/org/apache/solr/BaseDistributedSearchTestCase.java
+@@ -58 +58,3 @@
+-  protected String[] deadServers = {"does_not_exist_54321.com:33331/solr","localhost:33332/solr"};
++  // Some ISPs redirect to their own web site for domains that don't exist, causing this to fail
++  // protected String[] deadServers = {"does_not_exist_54321.com:33331/solr","localhost:33332/solr"};
++  protected String[] deadServers = {"localhost:33332/solr"};
+

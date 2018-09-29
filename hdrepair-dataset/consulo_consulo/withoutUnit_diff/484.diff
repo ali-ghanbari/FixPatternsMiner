@@ -1,0 +1,8 @@
+diff --git a/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java b/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java
+index 7caedba..0f775b2 100644
+--- a/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java
++++ b/plugins/groovy/rt/src/org/jetbrains/jps/incremental/groovy/GroovyBuilder.java
+@@ -69 +69 @@
+-        compilerOutput, toCompilePaths, finalOutputs.get(chunk.representativeModule()), class2Src, encoding, patchers
++        compilerOutput, toCompilePaths, FileUtil.toSystemDependentName(finalOutputs.get(chunk.representativeModule())), class2Src, encoding, patchers
+

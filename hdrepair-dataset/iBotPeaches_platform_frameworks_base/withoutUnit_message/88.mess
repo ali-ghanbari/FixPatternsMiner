@@ -1,0 +1,14 @@
+MountService: Fix android.process.media crash repeatedly problem
+
+When the framework restarts because of certain exception, the
+external volume id will disappear. At this time, mount service
+will issue "volume list" command to vold to get the status of
+each storage.
+
+The fix is to re-broadcast the uuid and user label again via
+vold "volume list broadcast" command.
+
+Bug: 16253597
+Bug: 16306775
+Change-Id: I227e8bc597a4f5338035d3401036490f14557211
+

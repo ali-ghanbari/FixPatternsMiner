@@ -1,0 +1,8 @@
+diff --git a/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java b/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java
+index 1c323c5..a4a3c2d 100644
+--- a/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java
++++ b/platform/util/src/com/intellij/execution/rmi/RemoteUtil.java
+@@ -117 +117 @@
+-  public static <T> T handleRemoteResult(Object value, Class<T> clazz, Object requestor) throws Exception {
++  public static <T> T handleRemoteResult(Object value, Class<? super T> clazz, Object requestor) throws Exception {
+

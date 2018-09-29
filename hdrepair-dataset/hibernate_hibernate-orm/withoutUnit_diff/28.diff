@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/org/hibernate/cfg/AnnotationBinder.java b/core/src/main/java/org/hibernate/cfg/AnnotationBinder.java
+index 8454c43..517cac3 100644
+--- a/core/src/main/java/org/hibernate/cfg/AnnotationBinder.java
++++ b/core/src/main/java/org/hibernate/cfg/AnnotationBinder.java
+@@ -2664 +2664 @@
+-						&& !joinColumn.name().isEmpty()
++						&& ! BinderHelper.isEmptyAnnotationValue( joinColumn.name() )
+

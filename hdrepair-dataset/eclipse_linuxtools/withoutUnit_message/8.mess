@@ -1,0 +1,14 @@
+tmf: Fix empty trace properties when trace name has regex special chars
+
+The trace properties (e.g. CTF environment variables) are empty when the
+trace name contains regex special characters such as '(' ')' because
+this causes failure of a replace of the trace name in the prefix of the
+property descriptor key.
+
+Change-Id: Ie682ee91f14249d32b26dd60d8c9511004c1ab1f
+Signed-off-by: Patrick Tasse <patrick.tasse@gmail.com>
+Reviewed-on: https://git.eclipse.org/r/24027
+Tested-by: Hudson CI
+Reviewed-by: Alexandre Montplaisir <alexmonthy@voxpopuli.im>
+IP-Clean: Alexandre Montplaisir <alexmonthy@voxpopuli.im>
+

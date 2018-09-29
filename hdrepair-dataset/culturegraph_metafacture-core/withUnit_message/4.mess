@@ -1,0 +1,12 @@
+Fixed #178: Reset conditions if sameEntity is true
+
+If a collector has an `sameEntity="true"` set, it is reset whenever
+the current entity changes. As described in issue #178 the current
+implementation fails to reset the condition during these reset
+operations. This commit fixes this.
+
+Additionally, the test cases for the if-condition have been moved
+into a separate xml-file as quite a number of tests have
+accumulated so that it makes sense to keep them in there on test
+file.
+

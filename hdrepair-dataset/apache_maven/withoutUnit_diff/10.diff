@@ -1,0 +1,8 @@
+diff --git a/maven-core/src/main/java/org/apache/maven/execution/ExecutionBuildContext.java b/maven-core/src/main/java/org/apache/maven/execution/ExecutionBuildContext.java
+index baf69e7..4edb3e2 100644
+--- a/maven-core/src/main/java/org/apache/maven/execution/ExecutionBuildContext.java
++++ b/maven-core/src/main/java/org/apache/maven/execution/ExecutionBuildContext.java
+@@ -111 +111 @@
+-        return request.getPom().getAbsolutePath();
++        return request.getPom() == null ? null : request.getPom().getAbsolutePath();
+

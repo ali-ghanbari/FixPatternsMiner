@@ -1,0 +1,35 @@
+diff --git a/pom.xml b/pom.xml
+index e90708f..57bab9f 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -243,0 +244,9 @@
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-surefire-plugin</artifactId>
++                <version>2.9</version>
++                <configuration>
++                    <forkMode>always</forkMode>
++                </configuration>
++            </plugin>
++
+diff --git a/src/main/java/org/mapdb/LinkedQueueLifo.java b/src/main/java/org/mapdb/LinkedQueueLifo.java
+index 21b858d..24a7496 100644
+--- a/src/main/java/org/mapdb/LinkedQueueLifo.java
++++ b/src/main/java/org/mapdb/LinkedQueueLifo.java
+@@ -44 +44 @@
+-        this.locks = useLocks? new Locks.SegmentedRecidLocks(16) : null;
++        this.locks = useLocks? new Locks.LongHashMapRecidLocks() : null;
+diff --git a/src/test/java/stress/QueueStressTest.kt b/src/test/java/stress/QueueStressTest.kt
+index e1beda7..a60013c 100644
+--- a/src/test/java/stress/QueueStressTest.kt
++++ b/src/test/java/stress/QueueStressTest.kt
+@@ -21 +21 @@
+-            fun LinkedQueueLifo_noLocks(){
++    fun LinkedQueueLifo_noLocks(){
+@@ -28 +28 @@
+-            fun LinkedQueueLifo_withLocks(){
++    fun LinkedQueueLifo_withLocks(){
+@@ -36 +36 @@
+-            fun LinkedQueueLifo_StorageDirect(){
++    fun LinkedQueueLifo_StorageDirect(){
+

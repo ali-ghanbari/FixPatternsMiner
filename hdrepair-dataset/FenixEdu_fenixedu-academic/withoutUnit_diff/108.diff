@@ -1,0 +1,8 @@
+diff --git a/src/net/sourceforge/fenixedu/domain/reports/RaidesPhdReportFile.java b/src/net/sourceforge/fenixedu/domain/reports/RaidesPhdReportFile.java
+index 5da8bdf..c0ad5a1 100644
+--- a/src/net/sourceforge/fenixedu/domain/reports/RaidesPhdReportFile.java
++++ b/src/net/sourceforge/fenixedu/domain/reports/RaidesPhdReportFile.java
+@@ -242 +242 @@
+-	row.setCell(registration != null ? registration.getName() : "n/a");
++	row.setCell(registration != null ? registration.getName() : process.hasPerson() ? process.getPerson().getName() : "n/a");
+

@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java b/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java
+index dbaf6be..82591c4 100644
+--- a/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java
++++ b/src/main/java/org/codehaus/gmavenplus/mojo/ExecuteMojo.java
+@@ -81 +81 @@
+-                        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
++                        BufferedReader reader = closer.register(new BufferedReader(new InputStreamReader(url.openStream())));
+

@@ -1,0 +1,58 @@
+diff --git a/src/java/org/eclim/plugin/wst/command/validate/CssValidateCommand.java b/src/java/org/eclim/plugin/wst/command/validate/CssValidateCommand.java
+index 0f88f36..3cc894e 100644
+--- a/src/java/org/eclim/plugin/wst/command/validate/CssValidateCommand.java
++++ b/src/java/org/eclim/plugin/wst/command/validate/CssValidateCommand.java
+@@ -102 +102 @@
+-            toFile(uri),
++            super.toFile(uri), // need to use the super version
+diff --git a/src/test/junit/org/eclim/plugin/wst/command/validate/CssValidateCommandTest.java b/src/test/junit/org/eclim/plugin/wst/command/validate/CssValidateCommandTest.java
+index a89830b..590aec3 100644
+--- a/src/test/junit/org/eclim/plugin/wst/command/validate/CssValidateCommandTest.java
++++ b/src/test/junit/org/eclim/plugin/wst/command/validate/CssValidateCommandTest.java
+@@ -36,0 +37 @@
++  private static final String TEST_LEXICAL_FILE = "css/lexical.css";
+@@ -63,0 +65,24 @@
++
++  @Test
++  public void lexical ()
++  {
++    assertTrue("Project doesn't exist.",
++        Eclim.projectExists(Wst.TEST_PROJECT));
++
++    String result = Eclim.execute(new String[]{
++      "css_validate", "-p", Wst.TEST_PROJECT, "-f", TEST_LEXICAL_FILE
++    });
++
++    System.out.println(result);
++
++    String[] results = StringUtils.split(result, '\n');
++    assertEquals("Wrong number of errors.", 1, results.length);
++
++    String file = Eclim.resolveFile(Wst.TEST_PROJECT, TEST_LEXICAL_FILE);
++    for(int ii = 0; ii < results.length; ii++){
++      assertTrue("Wrong filename [" + ii + "].", results[ii].startsWith(file));
++      assertTrue("Wrong level [" + ii + "].", results[ii].endsWith("|e"));
++    }
++
++    assertTrue("Wrong error.", results[0].indexOf("Lexical error") != -1);
++  }
+diff --git a/src/test/resources/eclim_unit_test_java/css/lexical.css b/src/test/resources/eclim_unit_test_java/css/lexical.css
+new file mode 100644
+index 0000000..dc53d29
+--- /dev/null
++++ b/src/test/resources/eclim_unit_test_java/css/lexical.css
+@@ -0,0 +1,13 @@
++.test {
++  width: expression(
++    this.width > 800 ? "800px" : "auto"
++  );
++}
++
++body {
++  font-weight: bald;
++}
++
++p {
++  fnt-size: 15px;
++}
+

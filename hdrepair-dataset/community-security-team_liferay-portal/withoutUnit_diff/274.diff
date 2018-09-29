@@ -1,0 +1,28 @@
+diff --git a/portal-impl/src/com/liferay/portal/util/PortalImpl.java b/portal-impl/src/com/liferay/portal/util/PortalImpl.java
+index 28fc3f2..4974069 100644
+--- a/portal-impl/src/com/liferay/portal/util/PortalImpl.java
++++ b/portal-impl/src/com/liferay/portal/util/PortalImpl.java
+@@ -576 +576 @@
+-		return null;
++		return StringPool.BLANK;
+diff --git a/portal-web/docroot/html/portal/layout/view/control_panel.jsp b/portal-web/docroot/html/portal/layout/view/control_panel.jsp
+index 20dde78..d371287 100644
+--- a/portal-web/docroot/html/portal/layout/view/control_panel.jsp
++++ b/portal-web/docroot/html/portal/layout/view/control_panel.jsp
+@@ -46,4 +46 @@
+-
+-if (Validator.isNull(category)) {
+-	category = "control-panel";
+-}
++	if (category == null) category = "";
+@@ -176 +173,8 @@
+-								<h2><liferay-ui:message key='<%= "category." + category %>' /></h2>
++								<%
++								String title = "control-panel";
++
++								if (Validator.isNotNull(category)) {
++									category = "category." + category;
++								}
++								%>
++								<h2><liferay-ui:message key='<%= title %>' /></h2>
+

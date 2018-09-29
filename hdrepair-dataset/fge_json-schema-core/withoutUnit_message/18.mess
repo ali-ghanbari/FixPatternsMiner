@@ -1,0 +1,8 @@
+AbstractProcessingReport: fix success status on report merging
+
+It is possible that the report to merge with has no message but is considered a
+failure: in this case, .dispatch() will not set the current log level correctly.
+
+Set it by hand instead: if the other report is a failure, change the current
+level if it was previously strictly lower than ERROR.
+

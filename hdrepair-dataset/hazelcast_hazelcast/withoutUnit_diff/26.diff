@@ -1,0 +1,8 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/nio/tcp/WriteHandler.java b/hazelcast/src/main/java/com/hazelcast/nio/tcp/WriteHandler.java
+index f38da46..a90b70c 100644
+--- a/hazelcast/src/main/java/com/hazelcast/nio/tcp/WriteHandler.java
++++ b/hazelcast/src/main/java/com/hazelcast/nio/tcp/WriteHandler.java
+@@ -160 +160 @@
+-        if (dirtyOutputBuffer()) {
++        if (dirtyOutputBuffer() || currentPacket != null) {
+

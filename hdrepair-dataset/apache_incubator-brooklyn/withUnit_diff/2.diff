@@ -1,0 +1,24 @@
+diff --git a/utils/common/src/main/java/brooklyn/util/time/Time.java b/utils/common/src/main/java/brooklyn/util/time/Time.java
+index ccbb6f3..05bf088 100644
+--- a/utils/common/src/main/java/brooklyn/util/time/Time.java
++++ b/utils/common/src/main/java/brooklyn/util/time/Time.java
+@@ -812,2 +812,2 @@
+-                    if (s>=0 && s<=60) {
+-                        // in double format, with correct period
++                    if (secsS.indexOf('.')>=0) {
++                        // accept
+diff --git a/utils/common/src/test/java/brooklyn/util/time/TimeTest.java b/utils/common/src/test/java/brooklyn/util/time/TimeTest.java
+index 5f16d5e..350b1fe 100644
+--- a/utils/common/src/test/java/brooklyn/util/time/TimeTest.java
++++ b/utils/common/src/test/java/brooklyn/util/time/TimeTest.java
+@@ -327 +326,0 @@
+-    @SuppressWarnings("deprecation")
+@@ -329,2 +328 @@
+-    public void testParseDateToString() {
+-        // java.lang.AssertionError: for: Sun Jun 07 21:21:00 BST 2015 (20150607-212100073) expected [Sun Jun 07 21:22:13 BST 2015] but found [Sun Jun 07 21:21:00 BST 2015]
++    public void testParseDateToStringWithMillisecond() {
+@@ -332 +330,2 @@
+-        d.setSeconds(0);
++        // clear seconds, but add a milli - to ensure not just toString formatting but also seconds computation
++        d.setTime(d.getTime() - (d.getTime() % 60000) + 1);
+

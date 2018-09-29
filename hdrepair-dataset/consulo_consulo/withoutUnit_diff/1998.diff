@@ -1,0 +1,8 @@
+diff --git a/plugins/svn4idea/src/org/jetbrains/idea/svn/history/LiveProvider.java b/plugins/svn4idea/src/org/jetbrains/idea/svn/history/LiveProvider.java
+index b7c0de4..b69742b 100644
+--- a/plugins/svn4idea/src/org/jetbrains/idea/svn/history/LiveProvider.java
++++ b/plugins/svn4idea/src/org/jetbrains/idea/svn/history/LiveProvider.java
+@@ -41 +41 @@
+-    if ((oldestRevision == myYoungestRevision) && ((! includeYoungest) || (! includeOldest))) {
++    if ((myEarliestRevisionWasAccessed) || ((oldestRevision == myYoungestRevision) && ((! includeYoungest) || (! includeOldest)))) {
+

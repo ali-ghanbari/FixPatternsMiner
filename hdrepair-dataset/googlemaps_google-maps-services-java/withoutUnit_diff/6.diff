@@ -1,0 +1,27 @@
+diff --git a/build.gradle b/build.gradle
+index eafeef5..9fcfe2d 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -0,0 +1,2 @@
++import org.apache.tools.ant.filters.ReplaceTokens
++
+@@ -7,2 +9 @@
+-version = '0.1'
+-// TODO(macd): add a check that this version equals the version in GeoApiContext.java
++version = '0.1.1'
+@@ -52,0 +54,7 @@
++task updateVersion(type: Copy) {
++    from('src') into "build/filtered/src"
++    filter(ReplaceTokens, tokens: [VERSION: project.version])
++}
++compileJava.source = "build/filtered/src/main/java"
++compileJava.dependsOn updateVersion
++
+diff --git a/src/main/java/com/google/maps/GeoApiContext.java b/src/main/java/com/google/maps/GeoApiContext.java
+index 4e280e2..2667fd2 100644
+--- a/src/main/java/com/google/maps/GeoApiContext.java
++++ b/src/main/java/com/google/maps/GeoApiContext.java
+@@ -40 +40 @@
+-  private static final String VERSION = "0.0.1";
++  private static final String VERSION = "@VERSION@";  // Populated by the build script
+

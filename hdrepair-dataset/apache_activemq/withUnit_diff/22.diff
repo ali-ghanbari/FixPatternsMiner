@@ -1,0 +1,78 @@
+diff --git a/activemq-client/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java b/activemq-client/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java
+index b7f6aff..da4b1d1 100755
+--- a/activemq-client/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java
++++ b/activemq-client/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java
+@@ -1209 +1208,0 @@
+-                    ack.setPoisonCause(lastMd.getRollbackCause());
+diff --git a/activemq-unit-tests/src/test/java/org/apache/activemq/MessageListenerRedeliveryTest.java b/activemq-unit-tests/src/test/java/org/apache/activemq/MessageListenerRedeliveryTest.java
+index 61076db..798cb2a 100644
+--- a/activemq-unit-tests/src/test/java/org/apache/activemq/MessageListenerRedeliveryTest.java
++++ b/activemq-unit-tests/src/test/java/org/apache/activemq/MessageListenerRedeliveryTest.java
+@@ -49,0 +50 @@
++    @Override
+@@ -56,0 +58 @@
++    @Override
+@@ -83 +85 @@
+-        private Session session;
++        private final Session session;
+@@ -88,0 +91 @@
++        @Override
+@@ -128 +130,0 @@
+-
+@@ -138 +139,0 @@
+-
+@@ -146 +146,0 @@
+-
+@@ -159 +158,0 @@
+-            // ignore
+@@ -167 +165,0 @@
+-            // ignore
+@@ -242 +240 @@
+-            
++
+@@ -250,2 +248 @@
+-            
+-        
++
+@@ -253 +250 @@
+-            
++
+@@ -258,0 +256 @@
++            @Override
+@@ -275 +273 @@
+-            
++
+@@ -277 +275 @@
+-        
++
+@@ -286 +283,0 @@
+-        
+@@ -290 +287 @@
+-            
++
+@@ -301,0 +299 @@
++            @Override
+@@ -310 +308 @@
+-            
++
+@@ -313 +311 @@
+-        
++
+@@ -314,0 +313 @@
++            @Override
+@@ -321 +320 @@
+-            
++
+@@ -323 +322 @@
+-        
++
+@@ -331,3 +330,3 @@
+-        assertTrue("cause exception is remembered", cause.contains("RuntimeException"));
+-        assertTrue("is correct exception", cause.contains(getName()));
+-        
++        LOG.info("DLQ'd message cause reported as: {}", cause);
++        assertTrue("cause exception is remembered", cause.contains("Throwable"));
++
+@@ -336 +334,0 @@
+-    
+

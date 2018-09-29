@@ -1,0 +1,21 @@
+diff --git a/cell/src/main/java/jetbrains/jetpad/cell/util/Cells.java b/cell/src/main/java/jetbrains/jetpad/cell/util/Cells.java
+index 4ddd830..4334eca 100644
+--- a/cell/src/main/java/jetbrains/jetpad/cell/util/Cells.java
++++ b/cell/src/main/java/jetbrains/jetpad/cell/util/Cells.java
+@@ -140,0 +141,2 @@
++    if (cell.children().isEmpty()) return bounds;
++
+diff --git a/cell/src/test/java/jetbrains/jetpad/cell/indent/IndentPropertiesTest.java b/cell/src/test/java/jetbrains/jetpad/cell/indent/IndentPropertiesTest.java
+index 2255895..0a019f0 100644
+--- a/cell/src/test/java/jetbrains/jetpad/cell/indent/IndentPropertiesTest.java
++++ b/cell/src/test/java/jetbrains/jetpad/cell/indent/IndentPropertiesTest.java
+@@ -21,0 +22 @@
++import jetbrains.jetpad.cell.util.Cells;
+@@ -98,0 +100,6 @@
++  @Test
++  public void emptyIndentBounds() {
++    c1.children().clear();
++    assertNotNull(Cells.indentBounds(c1));
++  }
++
+

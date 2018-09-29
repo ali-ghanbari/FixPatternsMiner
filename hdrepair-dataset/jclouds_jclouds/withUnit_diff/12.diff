@@ -1,0 +1,29 @@
+diff --git a/labs/joyent-cloudapi/src/test/java/org/jclouds/joyent/cloudapi/v6_5/features/MachineApiLiveTest.java b/labs/joyent-cloudapi/src/test/java/org/jclouds/joyent/cloudapi/v6_5/features/MachineApiLiveTest.java
+index ceb441a..1e35d38 100644
+--- a/labs/joyent-cloudapi/src/test/java/org/jclouds/joyent/cloudapi/v6_5/features/MachineApiLiveTest.java
++++ b/labs/joyent-cloudapi/src/test/java/org/jclouds/joyent/cloudapi/v6_5/features/MachineApiLiveTest.java
+@@ -34 +33,0 @@
+-import org.jclouds.joyent.cloudapi.v6_5.features.MachineApi;
+@@ -44 +43 @@
+-import org.testng.annotations.BeforeGroups;
++import org.testng.annotations.BeforeClass;
+@@ -91 +90 @@
+-   @BeforeGroups(groups = { "integration", "live" })
++   @BeforeClass(groups = { "integration", "live" })
+@@ -101,8 +99,0 @@
+-      machineRunning = new RetryablePredicate<Machine>(new Predicate<Machine>() {
+-
+-         @Override
+-         public boolean apply(Machine input) {
+-            return api.get(input.getId()).getState() == Machine.State.RUNNING;
+-         }
+-
+-      }, 600, 5, 5, TimeUnit.SECONDS);
+diff --git a/labs/openstack-glance/src/main/java/org/jclouds/openstack/glance/v1_0/domain/Image.java b/labs/openstack-glance/src/main/java/org/jclouds/openstack/glance/v1_0/domain/Image.java
+index f390b42..32e32aa 100644
+--- a/labs/openstack-glance/src/main/java/org/jclouds/openstack/glance/v1_0/domain/Image.java
++++ b/labs/openstack-glance/src/main/java/org/jclouds/openstack/glance/v1_0/domain/Image.java
+@@ -166 +166 @@
+-      return Objects.hashCode(containerFormat, diskFormat, size, checksum);
++      return Objects.hashCode(super.hashCode(), containerFormat, diskFormat, size, checksum);
+

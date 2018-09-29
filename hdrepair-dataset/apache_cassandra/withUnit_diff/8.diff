@@ -1,0 +1,24 @@
+diff --git a/src/java/org/apache/cassandra/db/DeletionTime.java b/src/java/org/apache/cassandra/db/DeletionTime.java
+index 5f39071..350d026 100644
+--- a/src/java/org/apache/cassandra/db/DeletionTime.java
++++ b/src/java/org/apache/cassandra/db/DeletionTime.java
+@@ -38 +38 @@
+-    DeletionTime(long markedForDeleteAt, int localDeletionTime)
++    public DeletionTime(long markedForDeleteAt, int localDeletionTime)
+diff --git a/test/unit/org/apache/cassandra/cache/ObjectSizeTest.java b/test/unit/org/apache/cassandra/cache/ObjectSizeTest.java
+index 398b395..47aab6d 100644
+--- a/test/unit/org/apache/cassandra/cache/ObjectSizeTest.java
++++ b/test/unit/org/apache/cassandra/cache/ObjectSizeTest.java
+@@ -6 +6 @@
+-import junit.framework.Assert;
++import org.junit.Test;
+@@ -8 +8,2 @@
+-import org.apache.cassandra.db.DeletionInfo;
++import junit.framework.Assert;
++import org.apache.cassandra.db.DeletionTime;
+@@ -12 +12,0 @@
+-import org.junit.Test;
+@@ -59 +59 @@
+-        RowIndexEntry entry = RowIndexEntry.create(123, new DeletionInfo(123, 123), null);
++        RowIndexEntry entry = RowIndexEntry.create(123, new DeletionTime(123, 123), null);
+

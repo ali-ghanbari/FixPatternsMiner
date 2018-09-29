@@ -1,0 +1,40 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 9ba72f9..cd2c168 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -0,0 +1,3 @@
++# version 2.2
++- Changed the default port for the http interface to the IANA port for docker: 2375.
++
+diff --git a/README.md b/README.md
+index fc04873..c2403c9 100644
+--- a/README.md
++++ b/README.md
+@@ -152 +152 @@
+-- Finally it will default to 127.0.0.1:4243
++- Finally it will default to 127.0.0.1:2375
+@@ -318 +318 @@
+-Normally, docker accepts commands via unix sockets, by default this is /var/run/docker.sock. This plugin uses the REST API that is also packaged with docker, but needs to be enabled. You can enable this by adding a -H option to the daemon startup command, see http://docs.docker.io/reference/commandline/cli/#daemon. To bind the REST API to port 4243 (default) that only listens to the local interface, add this to your daemon startup: `-H tcp://127.0.0.1:4243`
++Normally, docker accepts commands via unix sockets, by default this is /var/run/docker.sock. This plugin uses the REST API that is also packaged with docker, but needs to be enabled. You can enable this by adding a -H option to the daemon startup command, see http://docs.docker.io/reference/commandline/cli/#daemon. To bind the REST API to port 2375 (default) that only listens to the local interface, add this to your daemon startup: `-H tcp://127.0.0.1:2375`
+@@ -339 +339 @@
+-also exposes port 4243 on localhost for the docker API. You should specify the IP of `eth1`, the host-only network
++also exposes port 2375 on localhost for the docker API. You should specify the IP of `eth1`, the host-only network
+diff --git a/src/main/java/net/wouterdanes/docker/provider/RemoteApiBasedDockerProvider.java b/src/main/java/net/wouterdanes/docker/provider/RemoteApiBasedDockerProvider.java
+index e5d7700..a087fce 100644
+--- a/src/main/java/net/wouterdanes/docker/provider/RemoteApiBasedDockerProvider.java
++++ b/src/main/java/net/wouterdanes/docker/provider/RemoteApiBasedDockerProvider.java
+@@ -69 +69 @@
+-    private static final int DEFAULT_DOCKER_PORT = 4243;
++    private static final int DEFAULT_DOCKER_PORT = 2375;
+diff --git a/src/test/java/net/wouterdanes/docker/provider/RemoteDockerProviderTest.java b/src/test/java/net/wouterdanes/docker/provider/RemoteDockerProviderTest.java
+index 8240ee4..81c611e 100644
+--- a/src/test/java/net/wouterdanes/docker/provider/RemoteDockerProviderTest.java
++++ b/src/test/java/net/wouterdanes/docker/provider/RemoteDockerProviderTest.java
+@@ -50 +50 @@
+-        int expectedPort = 4243;
++        int expectedPort = 2375;
+@@ -70 +70 @@
+-}
+\ No newline at end of file
++}
+

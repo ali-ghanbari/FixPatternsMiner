@@ -1,0 +1,34 @@
+diff --git a/archiva-modules/archiva-base/archiva-proxy/src/main/java/org/apache/maven/archiva/proxy/DefaultRepositoryProxyConnectors.java b/archiva-modules/archiva-base/archiva-proxy/src/main/java/org/apache/maven/archiva/proxy/DefaultRepositoryProxyConnectors.java
+index 1fd51ef..6e9861d 100644
+--- a/archiva-modules/archiva-base/archiva-proxy/src/main/java/org/apache/maven/archiva/proxy/DefaultRepositoryProxyConnectors.java
++++ b/archiva-modules/archiva-base/archiva-proxy/src/main/java/org/apache/maven/archiva/proxy/DefaultRepositoryProxyConnectors.java
+@@ -112,0 +113 @@
++    @Named(value="metadataTools#default")
+diff --git a/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/HttpProxyTransferTest.java b/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/HttpProxyTransferTest.java
+index 555c7d9..92068ad 100644
+--- a/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/HttpProxyTransferTest.java
++++ b/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/HttpProxyTransferTest.java
+@@ -50 +49,0 @@
+-import javax.inject.Named;
+@@ -92 +91 @@
+-        proxyHandler = applicationContext.getBean( RepositoryProxyConnectors.class );
++        proxyHandler = applicationContext.getBean( "repositoryProxyConnectors#test", RepositoryProxyConnectors.class );
+diff --git a/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/MetadataTransferTest.java b/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/MetadataTransferTest.java
+index 7c56b61..d0166d1 100644
+--- a/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/MetadataTransferTest.java
++++ b/archiva-modules/archiva-base/archiva-proxy/src/test/java/org/apache/maven/archiva/proxy/MetadataTransferTest.java
+@@ -44,0 +45 @@
++import javax.inject.Named;
+@@ -99,0 +101 @@
++    @Named(value = "metadataTools#mocked")
+diff --git a/archiva-modules/archiva-base/archiva-proxy/src/test/resources/spring-context.xml b/archiva-modules/archiva-base/archiva-proxy/src/test/resources/spring-context.xml
+index bb42560..2476e69 100755
+--- a/archiva-modules/archiva-base/archiva-proxy/src/test/resources/spring-context.xml
++++ b/archiva-modules/archiva-base/archiva-proxy/src/test/resources/spring-context.xml
+@@ -55,0 +56 @@
++    <property name="metadataTools" ref="metadataTools#mocked"/>
+@@ -61,0 +63,3 @@
++  <bean name="metadataTools#mocked" class="org.apache.maven.archiva.repository.metadata.MetadataTools">
++    <property name="configuration" ref="archivaConfiguration#mock"/>
++  </bean>
+

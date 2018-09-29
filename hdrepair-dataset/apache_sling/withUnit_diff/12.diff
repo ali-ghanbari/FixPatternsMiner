@@ -1,0 +1,19 @@
+diff --git a/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/MultipleInjectorTest.java b/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/MultipleInjectorTest.java
+index 4e7c331..44324c5 100644
+--- a/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/MultipleInjectorTest.java
++++ b/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/MultipleInjectorTest.java
+@@ -71,3 +71,3 @@
+-        factory.bindInjector(bindingsInjector, new ServicePropertiesMap(2, 2));
+-        factory.bindInjector(attributesInjector, new ServicePropertiesMap(1, 1));
+-        factory.bindInjectAnnotationProcessorFactory(bindingsInjector, new ServicePropertiesMap(2, 2));
++        factory.bindInjector(bindingsInjector, new ServicePropertiesMap(1, 1));
++        factory.bindInjector(attributesInjector, new ServicePropertiesMap(2, 2));
++        factory.bindInjectAnnotationProcessorFactory(bindingsInjector, new ServicePropertiesMap(1, 1));
+diff --git a/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/ServicePropertiesMap.java b/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/ServicePropertiesMap.java
+index 884f61e..d424e5c 100644
+--- a/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/ServicePropertiesMap.java
++++ b/bundles/extensions/models/impl/src/test/java/org/apache/sling/models/impl/ServicePropertiesMap.java
+@@ -26 +26 @@
+-    public ServicePropertiesMap(long serviceId, long serviceRanking) {
++    public ServicePropertiesMap(long serviceId, int serviceRanking) {
+

@@ -1,0 +1,10 @@
+webadmin: fix import vm from export domain
+
+Fix a regression that broke import VM when it was triggered from the
+'Import VMs' sub-tab of an export domain. The problem was that the
+model wasn't initialized with the ID of the export domain, so this
+patch sets it correctly in the model.
+
+Change-Id: Ib07956411cf3bec5a29f8af6044eb0dbafccddca
+Signed-off-by: Arik Hadas <ahadas@redhat.com>
+

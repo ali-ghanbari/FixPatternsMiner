@@ -1,0 +1,53 @@
+diff --git a/README.md b/README.md
+index bf659c6..2a0f2cf 100644
+--- a/README.md
++++ b/README.md
+@@ -54 +54 @@
+-In case you the test is using the embedded version of midolman it needs to be run as root: 
++In case you the test is using the embedded version of midolman it needs to be run as root:
+diff --git a/midonet-functional-tests/pom.xml b/midonet-functional-tests/pom.xml
+index e1ca7ae..e9b98cd 100644
+--- a/midonet-functional-tests/pom.xml
++++ b/midonet-functional-tests/pom.xml
+@@ -89,3 +89,3 @@
+-					<additionalClasspathElements>
+-						<additionalClasspathElement>${project.basedir}/midolmanj_runtime_configurations/</additionalClasspathElement>
+-				  	</additionalClasspathElements>
++                    <additionalClasspathElements>
++                       <additionalClasspathElement>${project.basedir}/midolmanj_runtime_configurations/</additionalClasspathElement>
++                    </additionalClasspathElements>
+@@ -319,11 +319,11 @@
+-		     <dependency>
+-			                        <groupId>org.apache.zookeeper</groupId>
+-			                        <artifactId>zookeeper</artifactId>
+-			                        <version>3.4.2</version>
+-			                </dependency>
+-			 
+-			                <dependency>
+-			                        <groupId>org.yaml</groupId>
+-			                        <artifactId>snakeyaml</artifactId>
+-			                        <version>1.10</version>
+-			                </dependency>
++        <dependency>
++            <groupId>org.apache.zookeeper</groupId>
++            <artifactId>zookeeper</artifactId>
++            <version>3.4.2</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.yaml</groupId>
++            <artifactId>snakeyaml</artifactId>
++            <version>1.10</version>
++        </dependency>
+diff --git a/midonet-functional-tests/src/main/java/com/midokura/midonet/functional_test/FunctionalTestsHelper.java b/midonet-functional-tests/src/main/java/com/midokura/midonet/functional_test/FunctionalTestsHelper.java
+index 0811008..9a6bbe4 100644
+--- a/midonet-functional-tests/src/main/java/com/midokura/midonet/functional_test/FunctionalTestsHelper.java
++++ b/midonet-functional-tests/src/main/java/com/midokura/midonet/functional_test/FunctionalTestsHelper.java
+@@ -316,2 +316,4 @@
+-              //assertTrue("Cassandra ports are not the same in cassandra.yaml and the test configuration.", yamlCassandraPort == cassandraPort);
+-              //assertTrue("Cassandra cluster names are not the same in cassandra.yaml and the test configuration", yamlClusterName.matches(cassandraClusterName));
++              //assertTrue("Cassandra ports are not the same in cassandra.yaml and the test configuration.",
++              // yamlCassandraPort == cassandraPort);
++              //assertTrue("Cassandra cluster names are not the same in cassandra.yaml and the test configuration",
++              // yamlClusterName.matches(cassandraClusterName));
+

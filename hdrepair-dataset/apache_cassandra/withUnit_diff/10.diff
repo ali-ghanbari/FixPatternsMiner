@@ -1,0 +1,16 @@
+diff --git a/src/java/org/apache/cassandra/db/ColumnIndex.java b/src/java/org/apache/cassandra/db/ColumnIndex.java
+index daaac63..b523814 100644
+--- a/src/java/org/apache/cassandra/db/ColumnIndex.java
++++ b/src/java/org/apache/cassandra/db/ColumnIndex.java
+@@ -61 +60,0 @@
+-                       DataOutput output)
+diff --git a/test/unit/org/apache/cassandra/streaming/StreamingTransferTest.java b/test/unit/org/apache/cassandra/streaming/StreamingTransferTest.java
+index 335f98c..e3d9b8a 100644
+--- a/test/unit/org/apache/cassandra/streaming/StreamingTransferTest.java
++++ b/test/unit/org/apache/cassandra/streaming/StreamingTransferTest.java
+@@ -149,2 +149,2 @@
+-        rm.add(new QueryPath(cfname, null, ByteBufferUtil.bytes(1)), ByteBuffer.wrap(new byte[DatabaseDescriptor.getColumnIndexSize() - 64]), 2);
+-        rm.add(new QueryPath(cfname, null, ByteBufferUtil.bytes(6)), ByteBuffer.wrap(new byte[DatabaseDescriptor.getColumnIndexSize()]), 2);
++        rm.add(cfname, ByteBufferUtil.bytes(1), ByteBuffer.wrap(new byte[DatabaseDescriptor.getColumnIndexSize() - 64]), 2);
++        rm.add(cfname, ByteBufferUtil.bytes(6), ByteBuffer.wrap(new byte[DatabaseDescriptor.getColumnIndexSize()]), 2);
+

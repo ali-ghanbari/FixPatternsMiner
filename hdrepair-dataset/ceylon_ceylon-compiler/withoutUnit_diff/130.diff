@@ -1,0 +1,9 @@
+diff --git a/src/com/redhat/ceylon/compiler/codegen/AbstractTransformer.java b/src/com/redhat/ceylon/compiler/codegen/AbstractTransformer.java
+index 03ca0c7..73793b4 100755
+--- a/src/com/redhat/ceylon/compiler/codegen/AbstractTransformer.java
++++ b/src/com/redhat/ceylon/compiler/codegen/AbstractTransformer.java
+@@ -1109,0 +1110,3 @@
++        } else if (type.isExactly(typeFact().getObjectDeclaration().getType())){
++            // is Object => is not null
++            return make().Binary(JCTree.NE, testExpr, makeNull());
+

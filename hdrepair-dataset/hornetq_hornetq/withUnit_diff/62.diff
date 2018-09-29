@@ -1,0 +1,18 @@
+diff --git a/tests/src/org/jboss/messaging/tests/unit/core/journal/impl/JournalImplTestBase.java b/tests/src/org/jboss/messaging/tests/unit/core/journal/impl/JournalImplTestBase.java
+index 577ca18..39fc5ed 100644
+--- a/tests/src/org/jboss/messaging/tests/unit/core/journal/impl/JournalImplTestBase.java
++++ b/tests/src/org/jboss/messaging/tests/unit/core/journal/impl/JournalImplTestBase.java
+@@ -142 +142 @@
+-			new JournalImpl(fileSize, minFiles, sync, fileFactory, 1000, filePrefix, fileExtension, maxAIO, 120);
++			new JournalImpl(fileSize, minFiles, sync, fileFactory, 1000, filePrefix, fileExtension, maxAIO, 120000);
+diff --git a/tests/src/org/jboss/messaging/tests/unit/core/util/VariableLatchTest.java b/tests/src/org/jboss/messaging/tests/unit/core/util/VariableLatchTest.java
+index 8179392..f0fe33a 100644
+--- a/tests/src/org/jboss/messaging/tests/unit/core/util/VariableLatchTest.java
++++ b/tests/src/org/jboss/messaging/tests/unit/core/util/VariableLatchTest.java
+@@ -72 +72 @@
+-         latch.waitCompletion(1);
++         latch.waitCompletion(1000);
+@@ -109 +109 @@
+-               latch.waitCompletion(5);
++               latch.waitCompletion(5000);
+

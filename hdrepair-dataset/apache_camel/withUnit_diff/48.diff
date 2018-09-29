@@ -1,0 +1,32 @@
+diff --git a/camel-core/src/main/java/org/apache/camel/model/ProcessorDefinition.java b/camel-core/src/main/java/org/apache/camel/model/ProcessorDefinition.java
+index 286f7df..55e542e 100644
+--- a/camel-core/src/main/java/org/apache/camel/model/ProcessorDefinition.java
++++ b/camel-core/src/main/java/org/apache/camel/model/ProcessorDefinition.java
+@@ -1344 +1344 @@
+-    public ResequenceDefinition resequencer(Expression... expressions) {
++    public ResequenceDefinition resequence(Expression... expressions) {
+diff --git a/camel-core/src/test/java/org/apache/camel/processor/ResequencerTest.java b/camel-core/src/test/java/org/apache/camel/processor/ResequencerTest.java
+index d9c9be0..c89e0fb 100644
+--- a/camel-core/src/test/java/org/apache/camel/processor/ResequencerTest.java
++++ b/camel-core/src/test/java/org/apache/camel/processor/ResequencerTest.java
+@@ -59 +59 @@
+-                from("direct:start").resequencer(body()).to("mock:result");
++                from("direct:start").resequence(body()).to("mock:result");
+diff --git a/camel-core/src/test/java/org/apache/camel/processor/StreamResequencerTest.java b/camel-core/src/test/java/org/apache/camel/processor/StreamResequencerTest.java
+index 114733e..1a9cbc3 100644
+--- a/camel-core/src/test/java/org/apache/camel/processor/StreamResequencerTest.java
++++ b/camel-core/src/test/java/org/apache/camel/processor/StreamResequencerTest.java
+@@ -95 +95 @@
+-                from("direct:start").resequencer(header("seqnum")).stream().to("mock:result");
++                from("direct:start").resequence(header("seqnum")).stream().to("mock:result");
+diff --git a/tests/camel-itest/src/test/java/org/apache/camel/itest/jms/JmsResequencerTest.java b/tests/camel-itest/src/test/java/org/apache/camel/itest/jms/JmsResequencerTest.java
+index d87eba1..5d79112 100644
+--- a/tests/camel-itest/src/test/java/org/apache/camel/itest/jms/JmsResequencerTest.java
++++ b/tests/camel-itest/src/test/java/org/apache/camel/itest/jms/JmsResequencerTest.java
+@@ -110 +110 @@
+-                    .resequencer(header("seqnum"))
++                    .resequence(header("seqnum"))
+@@ -117 +117 @@
+-                    .resequencer(header("seqnum"))
++                    .resequence(header("seqnum"))
+

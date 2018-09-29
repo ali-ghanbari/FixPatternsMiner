@@ -1,0 +1,30 @@
+diff --git a/src/hermes/shape/Polygon.java b/src/hermes/shape/Polygon.java
+index b6056be..d8e806b 100644
+--- a/src/hermes/shape/Polygon.java
++++ b/src/hermes/shape/Polygon.java
+@@ -75 +75 @@
+-		rotate(axis,Math.PI/2);
++		axis = rotate(axis,Math.PI/2);
+diff --git a/src/hermesTest/shapeTests/PolygonTest.java b/src/hermesTest/shapeTests/PolygonTest.java
+index 3687e7e..9d90b42 100644
+--- a/src/hermesTest/shapeTests/PolygonTest.java
++++ b/src/hermesTest/shapeTests/PolygonTest.java
+@@ -223 +223 @@
+-		//Other circles that collide
++		//collides at vertex
+@@ -231,7 +231,7 @@
+-//		PVector pos4 = new PVector(1,1);
+-//		Circle c3 = new Circle(pos4, 5);
+-//		assertTrue(p1.collide(c3));
+-//		PVector projectV3 = p1.projectionVector(c3);
+-//		System.out.println(projectV3);
+-//		assertEquals(projectV3.x,0,1e-8);
+-//		assertEquals(projectV3.y,0,1e-8);
++		PVector pos4 = new PVector(1,1);
++		Circle c3 = new Circle(pos4, 5);
++		assertTrue(p1.collide(c3));
++		PVector projectV3 = p1.projectionVector(c3);
++		System.out.println(projectV3);
++		assertEquals(projectV3.x,0,1e-8);
++		assertEquals(projectV3.y,0,1e-8);
+

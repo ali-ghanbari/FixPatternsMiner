@@ -1,0 +1,14 @@
+webadmin: fix cpu profile selection on import vm
+
+CPU profile and quota are set in the import-VM dialog upon cluster
+change. However, when switching between the first screen and the second
+screen in the new import dialog, it might be that the cluster will not
+change (as a result of the injection of ClusterListModel in
+ImportVmFromExportDomainModel) so these fields will not be set.
+
+The solution is to clear the cluster selection before setting its new
+values to ensure that a cluster selection change will be detected.
+
+Change-Id: I922ccf0b27f1fb971f7b26a7a9cc6aa6ce9833f7
+Signed-off-by: Arik Hadas <ahadas@redhat.com>
+

@@ -1,0 +1,15 @@
+diff --git a/core/codegen/src/main/java/org/overture/codegen/vdm2java/JavaFormat.java b/core/codegen/src/main/java/org/overture/codegen/vdm2java/JavaFormat.java
+index 1490361..0362e3d 100644
+--- a/core/codegen/src/main/java/org/overture/codegen/vdm2java/JavaFormat.java
++++ b/core/codegen/src/main/java/org/overture/codegen/vdm2java/JavaFormat.java
+@@ -728 +728 @@
+-	public boolean isSeq(PExpCG exp)
++	public boolean isSeqType(PExpCG exp)
+diff --git a/core/codegen/src/main/resources/JavaTemplates/Expressions/Apply.vm b/core/codegen/src/main/resources/JavaTemplates/Expressions/Apply.vm
+index a5bc04e..067e6e7 100644
+--- a/core/codegen/src/main/resources/JavaTemplates/Expressions/Apply.vm
++++ b/core/codegen/src/main/resources/JavaTemplates/Expressions/Apply.vm
+@@ -9 +9 @@
+-#if ($JavaFormat.isSeq($node.getRoot()))
++#if ($JavaFormat.isSeqType($node.getRoot()) && $node.getArgs().size() == 1)
+

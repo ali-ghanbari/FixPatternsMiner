@@ -1,0 +1,34 @@
+diff --git a/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfConsumerTest.java b/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfConsumerTest.java
+index 264197d..520c67f 100644
+--- a/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfConsumerTest.java
++++ b/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfConsumerTest.java
+@@ -107 +107 @@
+-        clientBean.setBus(BusFactory.getDefaultBus());
++        clientBean.setBus(BusFactory.newInstance().createBus());
+diff --git a/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfMixedModeRouterTest.java b/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfMixedModeRouterTest.java
+index a211e25..7ad3b82 100644
+--- a/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfMixedModeRouterTest.java
++++ b/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfMixedModeRouterTest.java
+@@ -32,0 +33 @@
++import org.apache.cxf.BusFactory;
+@@ -148 +149,2 @@
+-        clientBean.setServiceClass(HelloService.class); 
++        clientBean.setServiceClass(HelloService.class);
++        clientBean.setBus(BusFactory.newInstance().createBus());
+diff --git a/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfPayLoadBareSoapTest.java b/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfPayLoadBareSoapTest.java
+index c57fe09..8d517dd 100644
+--- a/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfPayLoadBareSoapTest.java
++++ b/components/camel-cxf/src/test/java/org/apache/camel/component/cxf/CxfPayLoadBareSoapTest.java
+@@ -27,0 +28 @@
++import org.apache.cxf.BusFactory;
+@@ -68,0 +70 @@
++        factory.setBus(BusFactory.newInstance().createBus());
+diff --git a/examples/camel-example-loan-broker/src/main/java/org/apache/camel/loanbroker/webservice/version/Client.java b/examples/camel-example-loan-broker/src/main/java/org/apache/camel/loanbroker/webservice/version/Client.java
+index 7818b2a..cc5a262 100644
+--- a/examples/camel-example-loan-broker/src/main/java/org/apache/camel/loanbroker/webservice/version/Client.java
++++ b/examples/camel-example-loan-broker/src/main/java/org/apache/camel/loanbroker/webservice/version/Client.java
+@@ -41 +41,2 @@
+-        clientBean.setBus(BusFactory.getDefaultBus());
++        // just create a new bus for use
++        clientBean.setBus(BusFactory.newInstance().createBus());
+

@@ -1,0 +1,42 @@
+diff --git a/xwiki-platform-web/xwiki-gwt-dom/src/main/java/org/xwiki/gwt/dom/client/DOMUtils.java b/xwiki-platform-web/xwiki-gwt-dom/src/main/java/org/xwiki/gwt/dom/client/DOMUtils.java
+index fb5a249..102ab9e 100644
+--- a/xwiki-platform-web/xwiki-gwt-dom/src/main/java/org/xwiki/gwt/dom/client/DOMUtils.java
++++ b/xwiki-platform-web/xwiki-gwt-dom/src/main/java/org/xwiki/gwt/dom/client/DOMUtils.java
+@@ -441 +441 @@
+-            attrNames.push(element.attributes.item(i));
++            attrNames.push(element.attributes.item(i).nodeName);
+diff --git a/xwiki-platform-web/xwiki-gwt-dom/src/test/java/org/xwiki/gwt/dom/client/ElementTest.java b/xwiki-platform-web/xwiki-gwt-dom/src/test/java/org/xwiki/gwt/dom/client/ElementTest.java
+index c38aaf9..d3c1b21 100644
+--- a/xwiki-platform-web/xwiki-gwt-dom/src/test/java/org/xwiki/gwt/dom/client/ElementTest.java
++++ b/xwiki-platform-web/xwiki-gwt-dom/src/test/java/org/xwiki/gwt/dom/client/ElementTest.java
+@@ -21,0 +22,5 @@
++import java.util.ArrayList;
++import java.util.List;
++
++import com.google.gwt.core.client.JsArrayString;
++
+@@ -124,0 +130,23 @@
++
++    /**
++     * Unit test for {@link Element#getAttributeNames()}.
++     */
++    public void testGetAttributeNames()
++    {
++        Element element = Document.get().createSpanElement().cast();
++        String customAttribute = "x";
++        element.setAttribute(customAttribute, "y");
++        element.setTitle("z");
++        element.getStyle().setProperty(Style.BACKGROUND_COLOR, "rgb(255, 0, 0)");
++
++        List<String> attrList = new ArrayList<String>();
++        attrList.add(customAttribute);
++        attrList.add("title");
++        attrList.add("style");
++
++        JsArrayString attributeNames = element.getAttributeNames();
++        for (int i = 0; i < attributeNames.length(); i++) {
++            attrList.remove(attributeNames.get(i));
++        }
++        assertEquals(0, attrList.size());
++    }
+

@@ -1,0 +1,8 @@
+diff --git a/codeInsight/impl/com/intellij/codeInsight/hint/ImplementationViewComponent.java b/codeInsight/impl/com/intellij/codeInsight/hint/ImplementationViewComponent.java
+index 24c297f..ed6c99d 100644
+--- a/codeInsight/impl/com/intellij/codeInsight/hint/ImplementationViewComponent.java
++++ b/codeInsight/impl/com/intellij/codeInsight/hint/ImplementationViewComponent.java
+@@ -285 +285 @@
+-    final int lineEnd = doc.getLineEndOffset(doc.getLineNumber(end));
++    final int lineEnd = end < doc.getTextLength() ?doc.getLineEndOffset(doc.getLineNumber(end)):0;
+

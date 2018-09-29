@@ -1,0 +1,8 @@
+diff --git a/api/src/org/apache/cloudstack/api/command/user/snapshot/CreateSnapshotCmd.java b/api/src/org/apache/cloudstack/api/command/user/snapshot/CreateSnapshotCmd.java
+index 64b3772..fc40fb2 100644
+--- a/api/src/org/apache/cloudstack/api/command/user/snapshot/CreateSnapshotCmd.java
++++ b/api/src/org/apache/cloudstack/api/command/user/snapshot/CreateSnapshotCmd.java
+@@ -181 +181 @@
+-            snapshot = _volumeService.takeSnapshot(this.getVolumeId(), this.getPolicyId(), this.getEntityId(), _accountService.getAccount(getEntityOwnerId()));
++            snapshot = _volumeService.takeSnapshot(this.getVolumeId(), this.getPolicyId(), this.getEntityId(), _accountService.getAccount(getEntityOwnerId()), getQuiescevm());
+

@@ -1,0 +1,70 @@
+diff --git a/jnalib/src/com/sun/jna/Native.java b/jnalib/src/com/sun/jna/Native.java
+index 3bd50a5..23f3545 100644
+--- a/jnalib/src/com/sun/jna/Native.java
++++ b/jnalib/src/com/sun/jna/Native.java
+@@ -176 +175,0 @@
+-            throw new RuntimeException("Native library delete failed: " + e.getMessage());
+diff --git a/jnalib/test/com/sun/jna/JNAUnloadTest.java b/jnalib/test/com/sun/jna/JNAUnloadTest.java
+index 732a451..6da10cf 100644
+--- a/jnalib/test/com/sun/jna/JNAUnloadTest.java
++++ b/jnalib/test/com/sun/jna/JNAUnloadTest.java
+@@ -37,0 +38 @@
++    // Fails on VMs other than Sun's
+@@ -56 +57,2 @@
+-            Thread.sleep(1);
++            Thread.sleep(10);
++            System.gc();
+@@ -61 +63 @@
+-        for (int i=0;i < 1000 && f.exists();i++) {
++        for (int i=0;i < 100 && f.exists();i++) {
+@@ -62,0 +65 @@
++            System.gc();
+@@ -64,2 +67,11 @@
+-        assertFalse("Temporary native library not deleted: " + path,
+-                    f.exists());
++        // NOTE: Temporary file removal on Windows only works on a Sun VM
++        try {
++            if (Platform.isWindows()) {
++                ClassLoader.class.getDeclaredField("nativeLibraries");
++            }
++            assertFalse("Temporary native library not deleted: " + path,
++                        f.exists());
++        }
++        catch(Exception e) {
++            // Skip on non-supported VMs
++        }
+@@ -68 +80 @@
+-            loader = new TestLoader(false);
++            loader = new TestLoader(true);
+@@ -80,0 +93 @@
++    // Fails on VMs other than Sun's
+@@ -98 +111,2 @@
+-            Thread.sleep(1);
++            Thread.sleep(10);
++            System.gc();
+@@ -103,3 +117,15 @@
+-        try {
+-            loader = new TestLoader(false);
+-            cls = Class.forName("com.sun.jna.Native", true, loader);
++        Throwable throwable = null;
++        // NOTE: IBM J9 needs some extra time to unload the native library,
++        // so try a few times before failing
++        for (int i=0;i < 100;i++) {
++            System.gc();
++            Thread.sleep(10);
++            try {
++                loader = new TestLoader(false);
++                cls = Class.forName("com.sun.jna.Native", true, loader);
++                break;
++            }
++            catch(Throwable t) {
++                loader = null;
++                throwable = t;
++            }
+@@ -107,2 +133,3 @@
+-        catch(Throwable t) {
+-            fail("Native library not unloaded: " + t.getMessage());
++        try {
++            if (loader == null)
++                fail("Native library not unloaded: " + throwable.getMessage());
+

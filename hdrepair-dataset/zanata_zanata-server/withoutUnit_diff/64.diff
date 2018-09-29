@@ -1,0 +1,8 @@
+diff --git a/zanata-war/src/main/java/org/zanata/search/FilterConstraintToQuery.java b/zanata-war/src/main/java/org/zanata/search/FilterConstraintToQuery.java
+index 6aa03c4..d1069ed 100644
+--- a/zanata-war/src/main/java/org/zanata/search/FilterConstraintToQuery.java
++++ b/zanata-war/src/main/java/org/zanata/search/FilterConstraintToQuery.java
+@@ -95 +95 @@
+-            .from("HTextFlow tf").leftJoin("tf.targets tfts").with(eq("index(tfts)", LOCALE_PLACEHOLDER).toString())
++            .from("HTextFlow tf").leftJoin("tf.targets tfts").with(eq("tfts.index", LOCALE_PLACEHOLDER).toString())
+

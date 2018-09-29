@@ -1,0 +1,35 @@
+diff --git a/maven-project-info-reports-plugin/pom.xml b/maven-project-info-reports-plugin/pom.xml
+index 061421c..305a9cd 100644
+--- a/maven-project-info-reports-plugin/pom.xml
++++ b/maven-project-info-reports-plugin/pom.xml
+@@ -48 +48 @@
+-      <version>1.0-alpha-2</version>
++      <version>1.0-beta-2</version>
+@@ -64 +64 @@
+-      <version>1.0-alpha-2</version>
++      <version>1.0-beta-2</version>
+@@ -74 +74 @@
+-      <version>1.0-alpha-2</version>
++      <version>1.0-beta-2</version>
+@@ -89 +89 @@
+-      <version>1.0-alpha-2</version>
++      <version>1.0-beta-2</version>
+@@ -94 +94 @@
+-      <version>1.0-alpha-2</version>
++      <version>1.0-beta-2</version>
+@@ -99 +99 @@
+-      <version>1.0-alpha-2</version>
++      <version>1.0-beta-2</version>
+@@ -104 +104 @@
+-      <version>1.0-alpha-2</version>
++      <version>1.0-beta-2</version>
+diff --git a/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/ScmReport.java b/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/ScmReport.java
+index 931fbfc..99b1b48 100644
+--- a/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/ScmReport.java
++++ b/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/ScmReport.java
+@@ -512 +512,3 @@
+-            command.append( "$ cleartool checkout " ).append( clearCaseRepo.getModule() );
++            // @todo test replacement of getModule() with directory...
++            // found on a site that the next parameter is a pathname
++            command.append( "$ cleartool checkout " ).append( checkoutDirectoryName );
+

@@ -1,0 +1,48 @@
+diff --git a/soap-builder/src/test/java/com/centeractive/ws/builder/ServiceComplianceTest.java b/soap-builder/src/test/java/com/centeractive/ws/builder/ServiceComplianceTest.java
+index b2ec8da..f4cde1b 100644
+--- a/soap-builder/src/test/java/com/centeractive/ws/builder/ServiceComplianceTest.java
++++ b/soap-builder/src/test/java/com/centeractive/ws/builder/ServiceComplianceTest.java
+@@ -20,0 +21 @@
++import com.centeractive.ws.SoapContext;
+@@ -100,3 +101,3 @@
+-        // SoapBuilderLegacy builder = new SoapBuilderLegacy(wsdlUrl);
+-
+-
++        SoapContext context = SoapContext.builder()
++                .exampleContent(false)
++                .build();
+@@ -119 +120 @@
+-                String response = builder.buildOutputMessage(operation);
++                String response = builder.buildOutputMessage(operation, context);
+diff --git a/soap-common/src/main/java/com/centeractive/ws/SoapContext.java b/soap-common/src/main/java/com/centeractive/ws/SoapContext.java
+index d2e4e3e..418e014 100644
+--- a/soap-common/src/main/java/com/centeractive/ws/SoapContext.java
++++ b/soap-common/src/main/java/com/centeractive/ws/SoapContext.java
+@@ -33,0 +34 @@
++    public final static SoapContext NO_CONTENT = SoapContext.builder().exampleContent(false).build();
+diff --git a/soap-examples/quickstart/src/test/java/com/centeractive/ws/examples/SoapClientExamplesTest.java b/soap-examples/quickstart/src/test/java/com/centeractive/ws/examples/SoapClientExamplesTest.java
+index b3a2def..85228f2 100644
+--- a/soap-examples/quickstart/src/test/java/com/centeractive/ws/examples/SoapClientExamplesTest.java
++++ b/soap-examples/quickstart/src/test/java/com/centeractive/ws/examples/SoapClientExamplesTest.java
+@@ -103 +103 @@
+-        String expectedResponse = soapBuilder.buildOutputMessage(operation);
++        String expectedResponse = soapBuilder.buildOutputMessage(operation, SoapContext.NO_CONTENT);
+diff --git a/soap-it/src/test/java/com/centeractive/ws/test/AbstractCooperationTest.java b/soap-it/src/test/java/com/centeractive/ws/test/AbstractCooperationTest.java
+index 52b5d75..b6a0e06 100644
+--- a/soap-it/src/test/java/com/centeractive/ws/test/AbstractCooperationTest.java
++++ b/soap-it/src/test/java/com/centeractive/ws/test/AbstractCooperationTest.java
+@@ -20,0 +21 @@
++import com.centeractive.ws.SoapContext;
+@@ -107,0 +109 @@
++        SoapContext context = SoapContext.builder().exampleContent(false).build();
+@@ -109 +111 @@
+-            String expectedResponse = builder.buildOutputMessage(wrapper);
++            String expectedResponse = builder.buildOutputMessage(wrapper, context);
+diff --git a/soap-test/src/test/resources/log4j.xml b/soap-test/src/test/resources/log4j.xml
+index f14dd69..c6d3084 100644
+--- a/soap-test/src/test/resources/log4j.xml
++++ b/soap-test/src/test/resources/log4j.xml
+@@ -33 +33 @@
+-        <level value="info"/>
++        <level value="warn"/>
+

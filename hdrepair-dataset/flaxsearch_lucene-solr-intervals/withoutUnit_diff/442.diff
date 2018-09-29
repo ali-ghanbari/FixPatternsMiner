@@ -1,0 +1,41 @@
+diff --git a/solr/CHANGES.txt b/solr/CHANGES.txt
+index 0002802..035cff3 100644
+--- a/solr/CHANGES.txt
++++ b/solr/CHANGES.txt
+@@ -24,0 +25,7 @@
++Versions of Major Components
++---------------------
++Apache Lucene trunk
++Apache Tika 0.6
++Carrot2 3.1.0
++
++
+@@ -38 +45,2 @@
+-* Old syntax of <highlighting> is deprecated (SOLR-1696)
++* Old syntax of <highlighting> configuration in solrconfig.xml
++  is deprecated (SOLR-1696)
+@@ -50,5 +58,5 @@
+-Versions of Major Components
+----------------------
+-Apache Lucene trunk
+-Apache Tika 0.6
+-Carrot2 3.1.0
++* SOLR-1845: The TermsComponent response format was changed so that the
++  "terms" container is a map instead of a named list.  This affects
++   response formats like JSON, but not XML. (yonik)
++  
++
+@@ -117,0 +126 @@
++
+@@ -294,0 +304,3 @@
++
++
++  
+diff --git a/solr/src/java/org/apache/solr/handler/component/TermsComponent.java b/solr/src/java/org/apache/solr/handler/component/TermsComponent.java
+index c685ec0..dbb7fec 100644
+--- a/solr/src/java/org/apache/solr/handler/component/TermsComponent.java
++++ b/solr/src/java/org/apache/solr/handler/component/TermsComponent.java
+@@ -75 +75 @@
+-        NamedList terms = new NamedList();
++        NamedList terms = new SimpleOrderedMap();
+

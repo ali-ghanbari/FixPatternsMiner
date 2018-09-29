@@ -1,0 +1,5 @@
+SONAR-6590 fix QueueItem status not saved after processing
+
+because the container was not started, when cleanup method was invoked an IllegalStateException was raised by Pico because the current status of the container was CONSTRUCTED
+unfortunately, the method to update the item status is after the call to the cleanup method and therefor was never invoked
+

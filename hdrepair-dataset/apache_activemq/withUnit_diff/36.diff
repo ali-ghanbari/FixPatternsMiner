@@ -1,0 +1,48 @@
+diff --git a/activemq-broker/src/main/java/org/apache/activemq/broker/util/RedeliveryPlugin.java b/activemq-broker/src/main/java/org/apache/activemq/broker/util/RedeliveryPlugin.java
+index 0bcb9ff..d0abf00 100644
+--- a/activemq-broker/src/main/java/org/apache/activemq/broker/util/RedeliveryPlugin.java
++++ b/activemq-broker/src/main/java/org/apache/activemq/broker/util/RedeliveryPlugin.java
+@@ -130 +130 @@
+-        if (next.get().isExpired(messageReference)) {
++        if (messageReference.isExpired()) {
+diff --git a/activemq-core/src/test/java/org/apache/activemq/broker/BrokerRedeliveryTest.java b/activemq-core/src/test/java/org/apache/activemq/broker/BrokerRedeliveryTest.java
+index 5d6c17e..da746f0 100644
+--- a/activemq-core/src/test/java/org/apache/activemq/broker/BrokerRedeliveryTest.java
++++ b/activemq-core/src/test/java/org/apache/activemq/broker/BrokerRedeliveryTest.java
+@@ -25,0 +26 @@
++import org.apache.activemq.ActiveMQPrefetchPolicy;
+@@ -46 +47 @@
+-        sendMessage();
++        sendMessage(0);
+@@ -84 +85,25 @@
+-    private void sendMessage() throws Exception {
++    public void testNoScheduledRedeliveryOfExpired() throws Exception {
++        ActiveMQConnection consumerConnection = (ActiveMQConnection) createConnection();
++        consumerConnection.start();
++        Session consumerSession = consumerConnection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
++        MessageConsumer consumer = consumerSession.createConsumer(destination);
++        sendMessage(1000);
++        Message message = consumer.receive(1000);
++        assertNotNull("got message", message);
++
++        // ensure there is another consumer to redispatch to
++        MessageConsumer redeliverConsumer = consumerSession.createConsumer(destination);
++
++        // allow consumed to expire so it gets redelivered
++        TimeUnit.SECONDS.sleep(2);
++        consumer.close();
++
++        // should go to dlq as it has expired
++        // validate DLQ
++        MessageConsumer dlqConsumer = consumerSession.createConsumer(new ActiveMQQueue(SharedDeadLetterStrategy.DEFAULT_DEAD_LETTER_QUEUE_NAME));
++        Message dlqMessage = dlqConsumer.receive(2000);
++        assertNotNull("Got message from dql", dlqMessage);
++        assertEquals("message matches", message.getStringProperty("data"), dlqMessage.getStringProperty("data"));
++    }
++
++    private void sendMessage(int timeToLive) throws Exception {
+@@ -88,0 +114,3 @@
++        if (timeToLive > 0) {
++            producer.setTimeToLive(timeToLive);
++        }
+

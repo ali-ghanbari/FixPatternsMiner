@@ -1,0 +1,11 @@
+Check for BT state when sending Bond State Change intent.
+
+When users use application specific Bluetooth state changes,
+and the bond state changes, we crash.
+
+We need to recheck Bluetooth state in all functions and scenarios
+and even maintain a per application pid Bluetooth state, but this fix
+is quick fix for a problem.
+
+Change-Id: I905dfb53965907ccb27757ff6ed1816536277f14
+

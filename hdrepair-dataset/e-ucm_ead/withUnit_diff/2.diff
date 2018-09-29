@@ -1,0 +1,758 @@
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/EditorTest.java b/editor/core/src/test/java/es/eucm/ead/editor/EditorTest.java
+index bf96054..92d598b 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/EditorTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/EditorTest.java
+@@ -64 +64 @@
+-	protected Controller mockController;
++	protected Controller controller;
+@@ -71 +71 @@
+-	protected MockPlatform mockPlatform;
++	protected MockPlatform platform;
+@@ -78 +78 @@
+-	protected Model mockModel;
++	protected Model model;
+@@ -81 +81 @@
+-	public static void setUpClass() {
++	public static void setUpEditorTest() {
+@@ -87,4 +87,4 @@
+-		mockPlatform = new MockPlatform();
+-		mockController = new Controller(mockPlatform, new MockFiles(),
+-				new Group(), new Group());
+-		mockModel = mockController.getModel();
++		platform = new MockPlatform();
++		controller = new Controller(platform, new MockFiles(), new Group(),
++				new Group());
++		model = controller.getModel();
+@@ -95 +95 @@
+-		mockPlatform.removeTempFiles();
++		platform.removeTempFiles();
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/ActionTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/ActionTest.java
+index 94890ae..5f62e3b 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/ActionTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/ActionTest.java
+@@ -81 +81 @@
+-		mockController.getEditorGameAssets().setLoadingPath(
++		controller.getEditorGameAssets().setLoadingPath(
+@@ -97,2 +97,2 @@
+-		mockModel.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(), game);
+-		mockModel.putEntity(SCENE0, scene);
++		model.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(), game);
++		model.putEntity(SCENE0, scene);
+@@ -101 +101 @@
+-		mockController.action(Save.class);
++		controller.action(Save.class);
+@@ -104 +104 @@
+-		mockController.action(OpenGame.class, emptyGamePath.file()
++		controller.action(OpenGame.class, emptyGamePath.file()
+@@ -111,2 +111,2 @@
+-		mockController.getModel().reset();
+-		mockController.getCommands().pushContext();
++		controller.getModel().reset();
++		controller.getCommands().pushContext();
+@@ -116 +116 @@
+-		mockController.getEditorGameAssets().finishLoading();
++		controller.getEditorGameAssets().finishLoading();
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/AddRecentGameTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/AddRecentGameTest.java
+index 4254899..daf6910 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/AddRecentGameTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/AddRecentGameTest.java
+@@ -51 +51 @@
+-		mockController.getPreferences().putString(Preferences.RECENT_GAMES, "");
++		controller.getPreferences().putString(Preferences.RECENT_GAMES, "");
+@@ -55,3 +55,2 @@
+-			file[i] = mockPlatform.createTempFile(true);
+-			mockController.action(AddRecentGame.class,
+-					file[i].getAbsolutePath());
++			file[i] = platform.createTempFile(true);
++			controller.action(AddRecentGame.class, file[i].getAbsolutePath());
+@@ -59 +58 @@
+-		String preference = mockController.getPreferences().getString(
++		String preference = controller.getPreferences().getString(
+@@ -65 +64 @@
+-					mockController.getEditorGameAssets().toCanonicalPath(
++					controller.getEditorGameAssets().toCanonicalPath(
+@@ -70,5 +69,4 @@
+-		String newProject = mockController.getEditorGameAssets()
+-				.toCanonicalPath(
+-						mockPlatform.createTempFile(true).getAbsolutePath());
+-		mockController.action(AddRecentGame.class, newProject);
+-		preference = mockController.getPreferences().getString(
++		String newProject = controller.getEditorGameAssets().toCanonicalPath(
++				platform.createTempFile(true).getAbsolutePath());
++		controller.action(AddRecentGame.class, newProject);
++		preference = controller.getPreferences().getString(
+@@ -81 +79 @@
+-					mockController.getEditorGameAssets().toCanonicalPath(
++					controller.getEditorGameAssets().toCanonicalPath(
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneElementTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneElementTest.java
+index 920f74a..2fe7a3e 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneElementTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneElementTest.java
+@@ -52 +52 @@
+-		ModelEntity scene = mockController.getModel().getEditScene();
++		ModelEntity scene = controller.getModel().getEditScene();
+@@ -54 +54 @@
+-		mockController.action(AddSceneElement.class, new ModelEntity());
++		controller.action(AddSceneElement.class, new ModelEntity());
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneTest.java
+index 62e434e..6c1806f 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/AddSceneTest.java
+@@ -73 +73 @@
+-		mockModel.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
++		model.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
+@@ -75 +75 @@
+-		Map<String, ModelEntity> scenes = mockModel
++		Map<String, ModelEntity> scenes = model
+@@ -78 +78 @@
+-		mockController.getModel().addMapListener(scenes,
++		controller.getModel().addMapListener(scenes,
+@@ -87,2 +87,2 @@
+-		mockModel.addListListener(
+-				Model.getComponent(mockModel.getGame(), EditState.class)
++		model.addListListener(
++				Model.getComponent(model.getGame(), EditState.class)
+@@ -93 +93 @@
+-								Model.getComponent(mockModel.getGame(),
++								Model.getComponent(model.getGame(),
+@@ -97,3 +97,2 @@
+-								.getComponent(mockModel.getGame(),
+-										EditState.class).getSceneorder()
+-								.contains("scene0"));
++								.getComponent(model.getGame(), EditState.class)
++								.getSceneorder().contains("scene0"));
+@@ -104,2 +103,2 @@
+-		mockModel.addFieldListener(
+-				Model.getComponent(mockModel.getGame(), EditState.class),
++		model.addFieldListener(
++				Model.getComponent(model.getGame(), EditState.class),
+@@ -116 +115 @@
+-								Model.getComponent(mockModel.getGame(),
++								Model.getComponent(model.getGame(),
+@@ -122 +121 @@
+-		mockController.action(AddScene.class);
++		controller.action(AddScene.class);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/ChangeSceneNoteTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/ChangeSceneNoteTest.java
+index 48514b9..b77e8bd 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/ChangeSceneNoteTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/ChangeSceneNoteTest.java
+@@ -68 +68 @@
+-		mockModel.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
++		model.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
+@@ -70,2 +70,2 @@
+-		mockController.action(NewGame.class, projectFile.file()
+-				.getAbsolutePath(), mockModel.getGame());
++		controller.action(NewGame.class, projectFile.file().getAbsolutePath(),
++				model.getGame());
+@@ -78 +78 @@
+-		mockController.action(AddScene.class);
++		controller.action(AddScene.class);
+@@ -81 +81 @@
+-		final ModelEntity editScene = mockModel.getEditScene();
++		final ModelEntity editScene = model.getEditScene();
+@@ -86 +86 @@
+-		mockController.getModel().addFieldListener(changingNotes,
++		controller.getModel().addFieldListener(changingNotes,
+@@ -108,2 +108,2 @@
+-		mockController.action(ChangeNote.class, editScene,
+-				FieldName.NOTE_TITLE, newTitle);
++		controller.action(ChangeNote.class, editScene, FieldName.NOTE_TITLE,
++				newTitle);
+@@ -115 +115 @@
+-		mockController.action(ChangeNote.class, editScene,
++		controller.action(ChangeNote.class, editScene,
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteProjectTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteProjectTest.java
+index 02be573..32c2d8d 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteProjectTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteProjectTest.java
+@@ -58 +58 @@
+-		final File file = mockPlatform.createTempFile(true);
++		final File file = platform.createTempFile(true);
+@@ -63 +63 @@
+-		mockController.action(NewGame.class, file.getAbsolutePath(), game,
++		controller.action(NewGame.class, file.getAbsolutePath(), game,
+@@ -66 +66 @@
+-		mockController.action(DeleteProject.class, file.getAbsolutePath(),
++		controller.action(DeleteProject.class, file.getAbsolutePath(),
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteSceneTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteSceneTest.java
+index a85176b..f5f3239 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteSceneTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/DeleteSceneTest.java
+@@ -64 +64 @@
+-		Map<String, ModelEntity> scenes = mockModel
++		Map<String, ModelEntity> scenes = model
+@@ -71 +71 @@
+-		mockController.action(DeleteScene.class, "initial", false);
++		controller.action(DeleteScene.class, "initial", false);
+@@ -75 +75 @@
+-		mockController.action(DeleteScene.class, "second", false);
++		controller.action(DeleteScene.class, "second", false);
+@@ -80 +80 @@
+-		Model.getComponent(mockModel.getGame(), EditState.class).setEditScene(
++		Model.getComponent(model.getGame(), EditState.class).setEditScene(
+@@ -82,3 +82,3 @@
+-		Model.getComponent(mockModel.getGame(), GameData.class)
+-				.setInitialScene("initial");
+-		mockController.action(DeleteScene.class, "initial", false);
++		Model.getComponent(model.getGame(), GameData.class).setInitialScene(
++				"initial");
++		controller.action(DeleteScene.class, "initial", false);
+@@ -86 +86 @@
+-				Model.getComponent(mockModel.getGame(), GameData.class)
++				Model.getComponent(model.getGame(), GameData.class)
+@@ -89 +89 @@
+-				Model.getComponent(mockModel.getGame(), EditState.class)
++				Model.getComponent(model.getGame(), EditState.class)
+@@ -96 +96 @@
+-		mockController.action(DeleteScene.class, "ñor", false);
++		controller.action(DeleteScene.class, "ñor", false);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/EditSceneTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/EditSceneTest.java
+index 0825d2a..bd541f4 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/EditSceneTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/EditSceneTest.java
+@@ -55 +55 @@
+-		mockController.getModel().putEntity("scenes/scene1.json", scene1);
++		controller.getModel().putEntity("scenes/scene1.json", scene1);
+@@ -57 +57 @@
+-		mockController.action(EditScene.class, "scenes/scene1.json");
++		controller.action(EditScene.class, "scenes/scene1.json");
+@@ -59 +59 @@
+-				Model.getComponent(mockController.getModel().getGame(),
++				Model.getComponent(controller.getModel().getGame(),
+@@ -61 +61 @@
+-		assertSame(mockController.getModel().getEditionContext(), scene1);
++		assertSame(controller.getModel().getEditionContext(), scene1);
+@@ -67 +67 @@
+-		mockController.action(EditScene.class, "ñor");
++		controller.action(EditScene.class, "ñor");
+@@ -69 +69 @@
+-				mockController.getModel().getGame(), EditState.class)
++				controller.getModel().getGame(), EditState.class)
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/ImportEntityResourcesTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/ImportEntityResourcesTest.java
+index 5591d14..c07b660 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/ImportEntityResourcesTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/ImportEntityResourcesTest.java
+@@ -58 +58 @@
+-		String elemResourcesFolder = mockController.getEditorGameAssets()
++		String elemResourcesFolder = controller.getEditorGameAssets()
+@@ -64 +64 @@
+-		mockController.action(ImportEntityResources.class, myElement,
++		controller.action(ImportEntityResources.class, myElement,
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/NewGameTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/NewGameTest.java
+index 899ee4a..27cab86 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/NewGameTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/NewGameTest.java
+@@ -65 +65 @@
+-		mockController.getModel().addLoadListener(this);
++		controller.getModel().addLoadListener(this);
+@@ -71 +71 @@
+-		File file = mockPlatform.createTempFile(true);
++		File file = platform.createTempFile(true);
+@@ -76 +76 @@
+-		String path = mockController.getEditorGameAssets().toCanonicalPath(
++		String path = controller.getEditorGameAssets().toCanonicalPath(
+@@ -78 +78 @@
+-		mockController.action(NewGame.class, path, game);
++		controller.action(NewGame.class, path, game);
+@@ -80 +80 @@
+-		assertTrue(mockController.getLoadingPath().startsWith(path));
++		assertTrue(controller.getLoadingPath().startsWith(path));
+@@ -91 +91 @@
+-			mockController.action(NewGame.class, ":<>ñor\0", new ModelEntity());
++			controller.action(NewGame.class, ":<>ñor\0", new ModelEntity());
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/OpenGameTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/OpenGameTest.java
+index 276dd77..086a62a 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/OpenGameTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/OpenGameTest.java
+@@ -62 +62 @@
+-		mockController.getModel().addLoadListener(this);
++		controller.getModel().addLoadListener(this);
+@@ -70,2 +70,2 @@
+-		mockPlatform.pushPath(emptyGamePath.file().getAbsolutePath());
+-		mockController.action(OpenGame.class);
++		platform.pushPath(emptyGamePath.file().getAbsolutePath());
++		controller.action(OpenGame.class);
+@@ -73 +73 @@
+-				mockController.getLoadingPath());
++				controller.getLoadingPath());
+@@ -80 +80 @@
+-		mockController.action(OpenGame.class, emptyGamePath.file()
++		controller.action(OpenGame.class, emptyGamePath.file()
+@@ -83 +83 @@
+-				mockController.getLoadingPath());
++				controller.getLoadingPath());
+@@ -91 +91 @@
+-			mockController.action(OpenGame.class, "ñor/ñor");
++			controller.action(OpenGame.class, "ñor/ñor");
+@@ -102,2 +102,2 @@
+-		mockPlatform.pushPath(null);
+-		mockController.action(OpenGame.class);
++		platform.pushPath(null);
++		controller.action(OpenGame.class);
+@@ -113 +113 @@
+-			mockController.action(OpenGame.class, invalidGame.file()
++			controller.action(OpenGame.class, invalidGame.file()
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/RemoveFromSceneTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/RemoveFromSceneTest.java
+index aaa7cd2..5bf7dbe 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/RemoveFromSceneTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/RemoveFromSceneTest.java
+@@ -53 +53 @@
+-		mockController.action(RemoveFromScene.class, scene, sceneElement);
++		controller.action(RemoveFromScene.class, scene, sceneElement);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/RenameTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/RenameTest.java
+index 92dff2f..bd5a68a 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/RenameTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/RenameTest.java
+@@ -152 +152 @@
+-		mockModel.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
++		model.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
+@@ -154,2 +154,2 @@
+-		mockController.action(NewGame.class, projectFile.file()
+-				.getAbsolutePath(), mockModel.getGame());
++		controller.action(NewGame.class, projectFile.file().getAbsolutePath(),
++				model.getGame());
+@@ -167 +167 @@
+-		mockController.action(AddScene.class);
++		controller.action(AddScene.class);
+@@ -170 +170 @@
+-		scene = mockModel.getEditScene();
++		scene = model.getEditScene();
+@@ -173 +173 @@
+-		mockController.getModel().addFieldListener(
++		controller.getModel().addFieldListener(
+@@ -199 +199 @@
+-				mockController
++				controller
+@@ -207,5 +207,3 @@
+-				mockController
+-						.action(RenameScene.class,
+-								Model.getComponent(mockModel.getGame(),
+-										EditState.class).getEditScene(),
+-								newName);
++				controller.action(RenameScene.class,
++						Model.getComponent(model.getGame(), EditState.class)
++								.getEditScene(), newName);
+@@ -215 +213 @@
+-				mockController.action(RenameTestAction.class, newName);
++				controller.action(RenameTestAction.class, newName);
+@@ -223 +221 @@
+-				mockController.action(RenameTestAction.class,
++				controller.action(RenameTestAction.class,
+@@ -229,4 +227,3 @@
+-				mockController
+-						.action(RenameScene.class,
+-								Model.getComponent(mockModel.getGame(),
+-										EditState.class).getEditScene());
++				controller.action(RenameScene.class,
++						Model.getComponent(model.getGame(), EditState.class)
++								.getEditScene());
+@@ -236 +233 @@
+-				mockController.action(RenameTestAction.class);
++				controller.action(RenameTestAction.class);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/ReorderTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/ReorderTest.java
+index 2148cc0..017ca8d 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/ReorderTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/ReorderTest.java
+@@ -63 +63 @@
+-		mockController.action(AddScene.class);
++		controller.action(AddScene.class);
+@@ -65 +65 @@
+-		mockController.action(AddScene.class);
++		controller.action(AddScene.class);
+@@ -67 +67 @@
+-		mockController.action(AddScene.class);
++		controller.action(AddScene.class);
+@@ -74,3 +74,4 @@
+-		mockController.action(ReorderScenes.class, "scene2", 0, false, Model
+-				.getComponent(mockModel.getGame(), EditState.class)
+-				.getSceneorder());
++		controller
++				.action(ReorderScenes.class, "scene2", 0, false, Model
++						.getComponent(model.getGame(), EditState.class)
++						.getSceneorder());
+@@ -80,3 +81,4 @@
+-		mockController.action(ReorderScenes.class, "scene1", 1, false, Model
+-				.getComponent(mockModel.getGame(), EditState.class)
+-				.getSceneorder());
++		controller
++				.action(ReorderScenes.class, "scene1", 1, false, Model
++						.getComponent(model.getGame(), EditState.class)
++						.getSceneorder());
+@@ -87,3 +89,4 @@
+-		mockController.action(ReorderScenes.class, "scene1", 5, false, Model
+-				.getComponent(mockModel.getGame(), EditState.class)
+-				.getSceneorder());
++		controller
++				.action(ReorderScenes.class, "scene1", 5, false, Model
++						.getComponent(model.getGame(), EditState.class)
++						.getSceneorder());
+@@ -91,3 +94,4 @@
+-		mockController.action(ReorderScenes.class, "scene1", -3, false, Model
+-				.getComponent(mockModel.getGame(), EditState.class)
+-				.getSceneorder());
++		controller
++				.action(ReorderScenes.class, "scene1", -3, false, Model
++						.getComponent(model.getGame(), EditState.class)
++						.getSceneorder());
+@@ -97,2 +101 @@
+-		mockController
+-				.action(ReorderScenes.class, "scene1", 1, false, "scenes");
++		controller.action(ReorderScenes.class, "scene1", 1, false, "scenes");
+@@ -103 +106 @@
+-		mockController.action(ReorderScenes.class, "scene1", 2, false, "s");
++		controller.action(ReorderScenes.class, "scene1", 2, false, "s");
+@@ -108 +111 @@
+-		mockController.action(ReorderScenes.class, "scene1", 1);
++		controller.action(ReorderScenes.class, "scene1", 1);
+@@ -112 +115 @@
+-		mockController.action(ReorderScenes.class, 0, 1);
++		controller.action(ReorderScenes.class, 0, 1);
+@@ -116 +119 @@
+-		mockController.action(ReorderScenes.class, "scene0", -1, true);
++		controller.action(ReorderScenes.class, "scene0", -1, true);
+@@ -118 +121 @@
+-		mockController.action(ReorderScenes.class, "scene0", -1, true);
++		controller.action(ReorderScenes.class, "scene0", -1, true);
+@@ -120 +123 @@
+-		mockController.action(ReorderScenes.class, "scene0", -1, true);
++		controller.action(ReorderScenes.class, "scene0", -1, true);
+@@ -122 +125 @@
+-		mockController.action(ReorderScenes.class, "scene0", 1, true);
++		controller.action(ReorderScenes.class, "scene0", 1, true);
+@@ -124 +127 @@
+-		mockController.action(ReorderScenes.class, "scene0", 1, true);
++		controller.action(ReorderScenes.class, "scene0", 1, true);
+@@ -126 +129 @@
+-		mockController.action(ReorderScenes.class, "scene0", 1, true);
++		controller.action(ReorderScenes.class, "scene0", 1, true);
+@@ -139 +142 @@
+-		for (String sceneId : Model.getComponent(mockModel.getGame(),
++		for (String sceneId : Model.getComponent(model.getGame(),
+@@ -152 +155 @@
+-		mockModel.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(), game);
++		model.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(), game);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/ReplaceEntityTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/ReplaceEntityTest.java
+index 75c974a..58a59ba 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/ReplaceEntityTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/ReplaceEntityTest.java
+@@ -58 +58 @@
+-		mockController.action(AddSceneElement.class, replacedEntity);
++		controller.action(AddSceneElement.class, replacedEntity);
+@@ -61 +61 @@
+-		mockController.action(ReplaceEntity.class, replacedEntity, newEntity);
++		controller.action(ReplaceEntity.class, replacedEntity, newEntity);
+@@ -63 +63 @@
+-		ModelEntity scene = mockController.getModel().getEditScene();
++		ModelEntity scene = controller.getModel().getEditScene();
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/SaveGameTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/SaveGameTest.java
+index b571db3..85f892e 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/SaveGameTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/SaveGameTest.java
+@@ -81 +81 @@
+-		File tempDirPath = mockPlatform.createTempFile(true);
++		File tempDirPath = platform.createTempFile(true);
+@@ -84 +84 @@
+-		mockController.getEditorGameAssets().setLoadingPath(gameFolderPath);
++		controller.getEditorGameAssets().setLoadingPath(gameFolderPath);
+@@ -87 +87 @@
+-		mockModel.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
++		model.putEntity(ModelEntityCategory.GAME.getCategoryPrefix(),
+@@ -98 +98 @@
+-			mockModel.putEntity(EditorGameAssets.SCENES_PATH + "scene" + j
++			model.putEntity(EditorGameAssets.SCENES_PATH + "scene" + j
+@@ -101 +101 @@
+-				Model.getComponent(mockModel.getGame(), EditState.class)
++				Model.getComponent(model.getGame(), EditState.class)
+@@ -105 +105 @@
+-				Model.getComponent(mockModel.getGame(), GameData.class)
++				Model.getComponent(model.getGame(), GameData.class)
+@@ -110 +110 @@
+-			Model.getComponent(mockModel.getGame(), EditState.class)
++			Model.getComponent(model.getGame(), EditState.class)
+@@ -117 +117 @@
+-		mockController.action(RenameScene.class, EditorGameAssets.SCENES_PATH
++		controller.action(RenameScene.class, EditorGameAssets.SCENES_PATH
+@@ -121 +121 @@
+-		mockController.action(Save.class);
++		controller.action(Save.class);
+@@ -132,2 +132 @@
+-				.getComponent(mockModel.getGame(), Versions.class)
+-				.getAppVersion());
++				.getComponent(model.getGame(), Versions.class).getAppVersion());
+@@ -137 +136 @@
+-				.getComponent(mockModel.getGame(), Versions.class)
++				.getComponent(model.getGame(), Versions.class)
+@@ -144 +143 @@
+-				mockController.action(DeleteScene.class,
++				controller.action(DeleteScene.class,
+@@ -153,2 +152 @@
+-		mockModel.putEntity(EditorGameAssets.SCENES_PATH + "scene2.json",
+-				scene2);
++		model.putEntity(EditorGameAssets.SCENES_PATH + "scene2.json", scene2);
+@@ -171 +169 @@
+-		mockController.action(Save.class);
++		controller.action(Save.class);
+@@ -192 +190 @@
+-		mockController.action(OpenGame.class,
++		controller.action(OpenGame.class,
+@@ -194,2 +192 @@
+-		assertTrue(mockController.getModel()
+-				.getEntities(ModelEntityCategory.SCENE)
++		assertTrue(controller.getModel().getEntities(ModelEntityCategory.SCENE)
+@@ -230,2 +227,2 @@
+-		File folder = mockPlatform.createTempFile(true);
+-		mockController.getEditorGameAssets().setLoadingPath(
++		File folder = platform.createTempFile(true);
++		controller.getEditorGameAssets().setLoadingPath(
+@@ -234 +231 @@
+-		mockModel.putEntity("game.json", new ModelEntity());
++		model.putEntity("game.json", new ModelEntity());
+@@ -239 +236 @@
+-		mockModel.putEntity("scenes/myentity.json", modelEntity);
++		model.putEntity("scenes/myentity.json", modelEntity);
+@@ -241 +238 @@
+-		mockController.action(Save.class);
++		controller.action(Save.class);
+@@ -243 +240 @@
+-		ModelEntity read = mockController.getEditorGameAssets().fromJsonPath(
++		ModelEntity read = controller.getEditorGameAssets().fromJsonPath(
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/editor/SetPreferenceTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/editor/SetPreferenceTest.java
+index 2b32fb2..a64a5e5 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/editor/SetPreferenceTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/editor/SetPreferenceTest.java
+@@ -50,4 +50,4 @@
+-		mockController.action(SetPreference.class, "prefInteger", 20);
+-		mockController.action(SetPreference.class, "prefFloat", 55.5f);
+-		mockController.action(SetPreference.class, "prefBoolean", true);
+-		mockController.action(SetPreference.class, "prefString", "prefValue");
++		controller.action(SetPreference.class, "prefInteger", 20);
++		controller.action(SetPreference.class, "prefFloat", 55.5f);
++		controller.action(SetPreference.class, "prefBoolean", true);
++		controller.action(SetPreference.class, "prefString", "prefValue");
+@@ -55 +55 @@
+-		Preferences preferences = mockController.getPreferences();
++		Preferences preferences = controller.getPreferences();
+@@ -65 +65 @@
+-		mockController.action(SetPreference.class, "prefInvalid", new Object());
++		controller.action(SetPreference.class, "prefInvalid", new Object());
+@@ -67 +67 @@
+-		Preferences preferences = mockController.getPreferences();
++		Preferences preferences = controller.getPreferences();
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ActorTransformToEntityTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ActorTransformToEntityTest.java
+index 3b7fa91..97c7578 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ActorTransformToEntityTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ActorTransformToEntityTest.java
+@@ -54 +54 @@
+-		EngineEntity engineEntity = new EngineEntity(mockController.getEngine()
++		EngineEntity engineEntity = new EngineEntity(controller.getEngine()
+@@ -66 +66 @@
+-		mockController.action(ActorTransformToEntity.class, actor);
++		controller.action(ActorTransformToEntity.class, actor);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/MultipleActorTransformToEntityTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/MultipleActorTransformToEntityTest.java
+index c6bf9f0..62d7706 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/MultipleActorTransformToEntityTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/MultipleActorTransformToEntityTest.java
+@@ -63,2 +63,2 @@
+-			EngineEntity engineEntity = new EngineEntity(mockController
+-					.getEngine().getGameLoop());
++			EngineEntity engineEntity = new EngineEntity(controller.getEngine()
++					.getGameLoop());
+@@ -78 +78 @@
+-		mockController.action(MultipleActorTransformToEntity.class, actors);
++		controller.action(MultipleActorTransformToEntity.class, actors);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewGroupHierarchyToEntitiesTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewGroupHierarchyToEntitiesTest.java
+index bbbe2a2..25b4580 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewGroupHierarchyToEntitiesTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewGroupHierarchyToEntitiesTest.java
+@@ -76 +76 @@
+-		mockController.action(NewGroupHierarchyToEntities.class,
++		controller.action(NewGroupHierarchyToEntities.class,
+@@ -103 +103 @@
+-		EngineEntity engineEntity = new EngineEntity(mockController.getEngine()
++		EngineEntity engineEntity = new EngineEntity(controller.getEngine()
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewSceneTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewSceneTest.java
+index cef3dcc..2acb988 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewSceneTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/NewSceneTest.java
+@@ -62 +62 @@
+-		Model model = mockController.getModel();
++		Model model = controller.getModel();
+@@ -67 +67 @@
+-		mockController.action(NewScene.class);
++		controller.action(NewScene.class);
+@@ -75 +75 @@
+-		mockController.action(Undo.class);
++		controller.action(Undo.class);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/RemoveChildrenFromEntityTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/RemoveChildrenFromEntityTest.java
+index 89bacd4..35a64c5 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/RemoveChildrenFromEntityTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/RemoveChildrenFromEntityTest.java
+@@ -67,2 +67,2 @@
+-		mockController.action(RemoveChildrenFromEntity.class, modelEntity,
+-				children);
++		controller
++				.action(RemoveChildrenFromEntity.class, modelEntity, children);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ReorderSelectionTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ReorderSelectionTest.java
+index 8d42348..48a5bf3 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ReorderSelectionTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/ReorderSelectionTest.java
+@@ -63 +63 @@
+-		mockController.action(SetEditionContext.class, scene);
++		controller.action(SetEditionContext.class, scene);
+@@ -72 +72 @@
+-			mockController.action(ReorderSelection.class, Type.TO_BACK);
++			controller.action(ReorderSelection.class, Type.TO_BACK);
+@@ -86 +86 @@
+-			mockController.action(ReorderSelection.class, Type.TO_FRONT);
++			controller.action(ReorderSelection.class, Type.TO_FRONT);
+@@ -99 +99 @@
+-		mockController.action(ReorderSelection.class, Type.SEND_TO_BACK);
++		controller.action(ReorderSelection.class, Type.SEND_TO_BACK);
+@@ -108 +108 @@
+-		mockController.action(ReorderSelection.class, Type.BRING_TO_FRONT);
++		controller.action(ReorderSelection.class, Type.BRING_TO_FRONT);
+@@ -115 +115 @@
+-		mockController.getCommands().pushContext();
++		controller.getCommands().pushContext();
+@@ -122 +122 @@
+-		mockController.action(ReorderSelection.class, Type.TO_BACK);
++		controller.action(ReorderSelection.class, Type.TO_BACK);
+@@ -126 +126 @@
+-		mockController.action(ReorderSelection.class, Type.TO_FRONT);
++		controller.action(ReorderSelection.class, Type.TO_FRONT);
+@@ -133 +133 @@
+-		mockController.action(ReorderSelection.class, Type.TO_BACK);
++		controller.action(ReorderSelection.class, Type.TO_BACK);
+@@ -137 +137 @@
+-		mockController.action(ReorderSelection.class, Type.TO_FRONT);
++		controller.action(ReorderSelection.class, Type.TO_FRONT);
+@@ -149 +149 @@
+-		mockController.action(ReorderSelection.class, Type.SEND_TO_BACK);
++		controller.action(ReorderSelection.class, Type.SEND_TO_BACK);
+@@ -153 +153 @@
+-		mockController.action(ReorderSelection.class, Type.BRING_TO_FRONT);
++		controller.action(ReorderSelection.class, Type.BRING_TO_FRONT);
+@@ -165 +165 @@
+-		mockController.action(ReorderSelection.class, Type.SEND_TO_BACK);
++		controller.action(ReorderSelection.class, Type.SEND_TO_BACK);
+@@ -169 +169 @@
+-		mockController.action(ReorderSelection.class, Type.BRING_TO_FRONT);
++		controller.action(ReorderSelection.class, Type.BRING_TO_FRONT);
+@@ -187 +187 @@
+-			mockController.action(ReorderSelection.class, Type.TO_BACK);
++			controller.action(ReorderSelection.class, Type.TO_BACK);
+@@ -208 +208 @@
+-			mockController.action(ReorderSelection.class, Type.TO_FRONT);
++			controller.action(ReorderSelection.class, Type.TO_FRONT);
+@@ -222 +222 @@
+-		mockController.action(SetSelection.class, selection);
++		controller.action(SetSelection.class, selection);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/UngroupHierarchyToEntitiesTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/UngroupHierarchyToEntitiesTest.java
+index f704983..3dc0969 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/UngroupHierarchyToEntitiesTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/UngroupHierarchyToEntitiesTest.java
+@@ -75 +75 @@
+-		mockController.action(UngroupHierarchyToEntities.class,
++		controller.action(UngroupHierarchyToEntities.class,
+@@ -97 +97 @@
+-		EngineEntity engineEntity = new EngineEntity(mockController.getEngine()
++		EngineEntity engineEntity = new EngineEntity(controller.getEngine()
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/MirrorSelectionTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/MirrorSelectionTest.java
+index 01de2a4..59b5d1f 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/MirrorSelectionTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/MirrorSelectionTest.java
+@@ -57,2 +57,2 @@
+-		mockController.action(SetSelection.class, selection);
+-		mockController.action(MirrorSelection.class, Type.HORIZONTAL);
++		controller.action(SetSelection.class, selection);
++		controller.action(MirrorSelection.class, Type.HORIZONTAL);
+@@ -62 +62 @@
+-		mockController.action(MirrorSelection.class, Type.VERTICAL);
++		controller.action(MirrorSelection.class, Type.VERTICAL);
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/RotateSelectionTest.java b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/RotateSelectionTest.java
+index f8d63ac..2af9aa4 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/RotateSelectionTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/actions/model/scene/transform/RotateSelectionTest.java
+@@ -56,3 +56,3 @@
+-		mockController.action(SetSelection.class, selection);
+-		mockController.action(RotateSelection.class,
+-				RotateSelection.Type.CLOCKWISE);
++		controller.action(SetSelection.class, selection);
++		controller
++				.action(RotateSelection.class, RotateSelection.Type.CLOCKWISE);
+@@ -62 +62 @@
+-		mockController.action(RotateSelection.class,
++		controller.action(RotateSelection.class,
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/control/ActionsTest.java b/editor/core/src/test/java/es/eucm/ead/editor/control/ActionsTest.java
+index 8779340..7dc3c5f 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/control/ActionsTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/control/ActionsTest.java
+@@ -127 +127 @@
+-		actions = new Actions(mockController);
++		actions = new Actions(controller);
+@@ -175,2 +175,2 @@
+-		File file = mockPlatform.createTempFile(true);
+-		mockController.action(NewGame.class, file.getAbsolutePath(),
++		File file = platform.createTempFile(true);
++		controller.action(NewGame.class, file.getAbsolutePath(),
+@@ -178,5 +178,5 @@
+-		mockController.action(AddScene.class);
+-		mockController.action(AddScene.class);
+-		mockController.action(AddScene.class);
+-		mockController.action(DeleteScene.class, "scene2");
+-		mockController.action(EditScene.class, "scene3");
++		controller.action(AddScene.class);
++		controller.action(AddScene.class);
++		controller.action(AddScene.class);
++		controller.action(DeleteScene.class, "scene2");
++		controller.action(EditScene.class, "scene3");
+@@ -184,2 +184,2 @@
+-			String json = mockController.getApplicationAssets().toJson(
+-					mockController.getActions().getLoggedActions(
++			String json = controller.getApplicationAssets()
++					.toJson(controller.getActions().getLoggedActions(
+diff --git a/editor/core/src/test/java/es/eucm/ead/editor/control/ReleaseInfoTest.java b/editor/core/src/test/java/es/eucm/ead/editor/control/ReleaseInfoTest.java
+index e603817..d7dfaf9 100644
+--- a/editor/core/src/test/java/es/eucm/ead/editor/control/ReleaseInfoTest.java
++++ b/editor/core/src/test/java/es/eucm/ead/editor/control/ReleaseInfoTest.java
+@@ -64 +64 @@
+-		ReleaseInfo releaseInfo = mockController.getApplicationAssets()
++		ReleaseInfo releaseInfo = controller.getApplicationAssets()
+@@ -90 +90 @@
+-		ReleaseInfo releaseInfo = mockController.getApplicationAssets()
++		ReleaseInfo releaseInfo = controller.getApplicationAssets()
+@@ -114 +114 @@
+-			Field releaseLocationField = mockController.getApplicationAssets()
++			Field releaseLocationField = controller.getApplicationAssets()
+@@ -117,2 +117,2 @@
+-			releaseLocationField.set(mockController.getApplicationAssets(),
+-					newPath);
++			releaseLocationField
++					.set(controller.getApplicationAssets(), newPath);
+diff --git a/editor/desktop/src/test/java/es/eucm/ead/editor/control/background/BackgroundTaskDemo.java b/editor/desktop/src/test/java/es/eucm/ead/editor/control/background/BackgroundTaskDemo.java
+index b85e19c..aafd3aa 100644
+--- a/editor/desktop/src/test/java/es/eucm/ead/editor/control/background/BackgroundTaskDemo.java
++++ b/editor/desktop/src/test/java/es/eucm/ead/editor/control/background/BackgroundTaskDemo.java
+@@ -63 +63 @@
+-			mockController.getBackgroundExecutor().submit(
++			controller.getBackgroundExecutor().submit(
+diff --git a/editor/desktop/src/test/java/es/eucm/ead/editor/widgets/AbstractWidgetTest.java b/editor/desktop/src/test/java/es/eucm/ead/editor/widgets/AbstractWidgetTest.java
+index 358fd3a..1809624 100644
+--- a/editor/desktop/src/test/java/es/eucm/ead/editor/widgets/AbstractWidgetTest.java
++++ b/editor/desktop/src/test/java/es/eucm/ead/editor/widgets/AbstractWidgetTest.java
+@@ -71,4 +71,4 @@
+-		mockPlatform = new MockPlatform();
+-		mockController = new Controller(mockPlatform, new MockFiles(),
+-				new Group(), new Group());
+-		mockModel = mockController.getModel();
++		platform = new MockPlatform();
++		controller = new Controller(platform, new MockFiles(), new Group(),
++				new Group());
++		model = controller.getModel();
+@@ -76 +76 @@
+-		widget = createWidget(mockController);
++		widget = createWidget(controller);
+@@ -102 +102 @@
+-		mockController.act(Gdx.graphics.getDeltaTime());
++		controller.act(Gdx.graphics.getDeltaTime());
+

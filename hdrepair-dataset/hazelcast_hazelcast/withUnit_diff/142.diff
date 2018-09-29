@@ -1,0 +1,41 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/ascii/rest/HttpPostCommandProcessor.java b/hazelcast/src/main/java/com/hazelcast/ascii/rest/HttpPostCommandProcessor.java
+index 986552c..8157e28 100644
+--- a/hazelcast/src/main/java/com/hazelcast/ascii/rest/HttpPostCommandProcessor.java
++++ b/hazelcast/src/main/java/com/hazelcast/ascii/rest/HttpPostCommandProcessor.java
+@@ -40 +40 @@
+-                textCommandService.put(mapName, key, new RestValue(data, command.getContentType()), 0);
++                textCommandService.put(mapName, key, new RestValue(data, command.getContentType()), -1);
+diff --git a/hazelcast/src/test/java/com/hazelcast/ascii/RestTest.java b/hazelcast/src/test/java/com/hazelcast/ascii/RestTest.java
+index 0dae5a7..d0e118a 100644
+--- a/hazelcast/src/test/java/com/hazelcast/ascii/RestTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/ascii/RestTest.java
+@@ -19,0 +20 @@
++import com.hazelcast.config.MapConfig;
+@@ -23 +23,0 @@
+-import com.hazelcast.core.IMap;
+@@ -26 +26,4 @@
+-import org.junit.*;
++import org.junit.After;
++import org.junit.Assert;
++import org.junit.Before;
++import org.junit.Test;
+@@ -33 +35,0 @@
+-import java.util.Map;
+@@ -53,0 +56,16 @@
++    public void testTtl_issue1783() throws IOException, InterruptedException {
++        final Config conf = new Config();
++        final MapConfig mapConfig = conf.getMapConfig("map");
++        mapConfig.setTimeToLiveSeconds(3);
++        final HazelcastInstance instance = Hazelcast.newHazelcastInstance(conf);
++        final HTTPCommunicator communicator = new HTTPCommunicator(instance);
++        communicator.put("map", "key", "value");
++        String value = communicator.get("map", "key");
++        Assert.assertNotNull(value);
++        Assert.assertEquals("value", value);
++        Thread.sleep(4000);
++        value = communicator.get("map", "key");
++        Assert.assertTrue(value.isEmpty());
++    }
++
++    @Test
+

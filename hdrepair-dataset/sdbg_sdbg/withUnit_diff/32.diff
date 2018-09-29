@@ -1,0 +1,27 @@
+diff --git a/dart/compiler/java/com/google/dart/compiler/parser/DartParser.java b/dart/compiler/java/com/google/dart/compiler/parser/DartParser.java
+index 49ee607..bec8ce6 100644
+--- a/dart/compiler/java/com/google/dart/compiler/parser/DartParser.java
++++ b/dart/compiler/java/com/google/dart/compiler/parser/DartParser.java
+@@ -4017 +4017 @@
+-        if (peek(1) == Token.IDENTIFIER || peek(1) == Token.LT) {
++        if (peek(1) == Token.IDENTIFIER || peek(1) == Token.LT || peek(1) == Token.PERIOD) {
+diff --git a/dart/compiler/javatests/com/google/dart/compiler/parser/SyntaxTest.java b/dart/compiler/javatests/com/google/dart/compiler/parser/SyntaxTest.java
+index cd2cfd8..50b9239 100644
+--- a/dart/compiler/javatests/com/google/dart/compiler/parser/SyntaxTest.java
++++ b/dart/compiler/javatests/com/google/dart/compiler/parser/SyntaxTest.java
+@@ -945,0 +946,14 @@
++  public void test_localVariable_final_prefixedType() {
++    DartUnit unit = parseUnit("finalVar.dart", makeCode(
++        "main() {",
++        "  final p.T v = 1;",
++        "}"));
++    assertNotNull(unit);
++    DartNode firstNode = unit.getTopLevelNodes().get(0);
++    assertTrue(firstNode instanceof DartMethodDefinition);
++    DartStatement statement = ((DartMethodDefinition) firstNode).getFunction().getBody().getStatements().get(0);
++    DartVariableStatement variableStatement = (DartVariableStatement) statement;
++    assertTrue(variableStatement.getModifiers().isFinal());
++    assertEquals("v", variableStatement.getVariables().get(0).getVariableName());
++  }
++
+

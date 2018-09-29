@@ -1,0 +1,42 @@
+diff --git a/core/workflow/service-engine/pom.xml b/core/workflow/service-engine/pom.xml
+index 6218128..35889e1 100644
+--- a/core/workflow/service-engine/pom.xml
++++ b/core/workflow/service-engine/pom.xml
+@@ -33 +33 @@
+-  
++
+@@ -49 +49 @@
+-   
++
+@@ -64 +64 @@
+-    
++
+@@ -103 +103 @@
+-    
++
+@@ -113 +113 @@
+-      <artifactId>servicemix-core</artifactId>  
++      <artifactId>servicemix-core</artifactId>
+@@ -163 +163,5 @@
+-          <srcdir>${project.build.sourceDirectory}/org/openengsb/drools/message/</srcdir>
++          <srcdir>${project.basedir}</srcdir>
++          <includes>
++            <include>src/main/java/org/openengsb/drools/message/*.java</include>
++            <include>src/main/resources/org/openengsb/drools/message/*.java</include>
++          </includes>
+@@ -164,0 +169,6 @@
++          <schemas>
++            <schema>
++              <namespace>http://www.openengsb.org/drools/message/1.0</namespace>
++              <file>drools_message.xsd</file>
++            </schema>
++          </schemas>
+diff --git a/core/workflow/service-engine/src/main/resources/org/openengsb/drools/message/package-info.java b/core/workflow/service-engine/src/main/resources/org/openengsb/drools/message/package-info.java
+new file mode 100644
+index 0000000..e5c1000
+--- /dev/null
++++ b/core/workflow/service-engine/src/main/resources/org/openengsb/drools/message/package-info.java
+@@ -0,0 +1,2 @@
++@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.openengsb.org/drools/message/1.0")
++package org.openengsb.drools.message;
+

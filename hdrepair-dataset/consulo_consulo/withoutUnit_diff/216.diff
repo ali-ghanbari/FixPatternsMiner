@@ -1,0 +1,23 @@
+diff --git a/plugins/groovy/rt/src/org/jetbrains/groovy/compiler/rt/AstAwareResourceLoader.java b/plugins/groovy/rt/src/org/jetbrains/groovy/compiler/rt/AstAwareResourceLoader.java
+index 51e6fd0..9b5aca5 100644
+--- a/plugins/groovy/rt/src/org/jetbrains/groovy/compiler/rt/AstAwareResourceLoader.java
++++ b/plugins/groovy/rt/src/org/jetbrains/groovy/compiler/rt/AstAwareResourceLoader.java
+@@ -38 +38 @@
+-    if (file != null) {
++    if (file != null && file.exists()) {
+diff --git a/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy b/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy
+index c7b04bd..cea2b9c 100644
+--- a/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy
++++ b/plugins/groovy/test/org/jetbrains/plugins/groovy/compiler/GroovyCompilerTest.groovy
+@@ -780,0 +781,10 @@
++  public void "test rename class to java and touch its usage"() {
++    def usage = myFixture.addFileToProject('Usage.groovy', 'class Usage { Renamed r } ')
++    def renamed = myFixture.addFileToProject('Renamed.groovy', 'public class Renamed { } ')
++    assertEmpty make()
++
++    touch usage.virtualFile
++    setFileName(renamed, 'Renamed.java')
++    assertEmpty make()
++  }
++
+

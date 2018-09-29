@@ -1,0 +1,23 @@
+diff --git a/maven-plugin-pmd-build/src/config.properties b/maven-plugin-pmd-build/src/config.properties
+index 8122a83..30da7b1 100644
+--- a/maven-plugin-pmd-build/src/config.properties
++++ b/maven-plugin-pmd-build/src/config.properties
+@@ -1,5 +1,5 @@
+-pmd.build.config.xsl.rulesetToDocs=tools/xslt/rule-format.xsl
+-pmd.build.config.xsl.mergeRuleset=tools/xslt/merge-rulesets.xsl
+-pmd.build.config.xsl.rulesIndex=tools/xslt/rules-index.xsl
+-pmd.build.config.xsl.createRulesetMenu=tools/xslt/create-rules-menu.xsl
+-pmd.build.config.xsladdToSiteDescriptor.=tools/xslt/add-menu-to-site-descriptor.xsl
++pmd.build.config.xsl.rulesetToDocs=xslt/rule-format.xsl
++pmd.build.config.xsl.mergeRuleset=xslt/merge-rulesets.xsl
++pmd.build.config.xsl.rulesIndex=xslt/rules-index.xsl
++pmd.build.config.xsl.createRulesetMenu=xslt/create-rules-menu.xsl
++pmd.build.config.xsladdToSiteDescriptor=xslt/add-menu-to-site-descriptor.xsl
+diff --git a/maven-plugin-pmd-build/src/net/sourceforge/pmd/build/RuleSetToDocs.java b/maven-plugin-pmd-build/src/net/sourceforge/pmd/build/RuleSetToDocs.java
+index c05442a..9da9137 100644
+--- a/maven-plugin-pmd-build/src/net/sourceforge/pmd/build/RuleSetToDocs.java
++++ b/maven-plugin-pmd-build/src/net/sourceforge/pmd/build/RuleSetToDocs.java
+@@ -159 +159 @@
+-		xmlFileTemplater.transform(sitePre,site,"tools/xslt/add-menu-to-site-descriptor.xsl",parameters);
++		xmlFileTemplater.transform(sitePre,site,xmlFileTemplater.getAddToSiteDescriptorXsl(),parameters);
+

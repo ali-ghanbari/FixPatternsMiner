@@ -1,0 +1,52 @@
+diff --git a/nosqlunit-core/src/main/java/com/lordofthejars/nosqlunit/core/PropertyGetter.java b/nosqlunit-core/src/main/java/com/lordofthejars/nosqlunit/core/PropertyGetter.java
+index 4cbe853..6edcad9 100644
+--- a/nosqlunit-core/src/main/java/com/lordofthejars/nosqlunit/core/PropertyGetter.java
++++ b/nosqlunit-core/src/main/java/com/lordofthejars/nosqlunit/core/PropertyGetter.java
+@@ -16 +16 @@
+-				if (field.getType().isAssignableFrom(type)) {
++				if (type.isAssignableFrom(field.getType())) {
+diff --git a/nosqlunit-core/src/test/java/com/lordofthejars/nosqlunit/core/PropertyGetterTest.java b/nosqlunit-core/src/test/java/com/lordofthejars/nosqlunit/core/PropertyGetterTest.java
+new file mode 100644
+index 0000000..6e6f9d3
+--- /dev/null
++++ b/nosqlunit-core/src/test/java/com/lordofthejars/nosqlunit/core/PropertyGetterTest.java
+@@ -0,0 +1,38 @@
++package com.lordofthejars.nosqlunit.core;
++
++import static org.hamcrest.Matchers.*;
++import static org.junit.Assert.assertThat;
++
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.Collection;
++import java.util.List;
++
++import org.junit.Test;
++
++public class PropertyGetterTest {
++
++	private static class TestClass {
++		List list = Arrays.asList(1, 2, 3);
++	}
++	
++	private final TestClass testInstance = new TestClass();
++	
++	@Test
++	public void propertyByType_sameTypes() {
++		PropertyGetter<List> propertyGetter = new PropertyGetter<List>();
++		assertThat(propertyGetter.propertyByType(testInstance, List.class), sameInstance(testInstance.list));
++	}
++	
++	@Test
++	public void propertyByType_findSuperType() {
++		PropertyGetter<Collection> propertyGetter = new PropertyGetter<Collection>();
++		assertThat(propertyGetter.propertyByType(testInstance, Collection.class), sameInstance((Collection) testInstance.list));
++	}
++	
++	@Test
++	public void propertyByType_findSubType() {
++		PropertyGetter<ArrayList> propertyGetter = new PropertyGetter<ArrayList>();
++		assertThat(propertyGetter.propertyByType(testInstance, ArrayList.class), nullValue());
++	}
++}
+

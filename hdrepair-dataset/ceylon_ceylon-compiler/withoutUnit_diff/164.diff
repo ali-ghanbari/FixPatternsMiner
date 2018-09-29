@@ -1,0 +1,8 @@
+diff --git a/src/com/redhat/ceylon/compiler/codegen/ClassGen.java b/src/com/redhat/ceylon/compiler/codegen/ClassGen.java
+index 7ee7207..1bf4613 100755
+--- a/src/com/redhat/ceylon/compiler/codegen/ClassGen.java
++++ b/src/com/redhat/ceylon/compiler/codegen/ClassGen.java
+@@ -518 +518 @@
+-                make().Modifiers(STATIC  | (method.isShared() ? PUBLIC : 0), langAnnotations.toList()),
++                make().Modifiers((method.isToplevel() ? STATIC  : 0) | (method.isShared() ? PUBLIC : 0), langAnnotations.toList()),
+

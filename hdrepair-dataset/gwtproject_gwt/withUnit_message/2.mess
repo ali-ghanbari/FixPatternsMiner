@@ -1,0 +1,20 @@
+Removes the assertion from FileResource.
+
+FileResource is asserting is argument isFile. This is a
+poor assertion because when the resource is deleted, the
+result is false (hence you can have a FileResource with
+isFile returns false if FileResource is deleted afterwards).
+
+Enforcing this assertion also makes it difficult to use
+FileResource as a key in a map and complicates interning
+(this wasn't a problem earlier because deleted resource
+was already interned, so FileResource instance was returned
+from map).
+
+Also fixes the test logic for detecting origin of resources.
+
+(This patch will fix the broken build.)
+
+Change-Id: I437f3bff581b52d0675d175b7d8be126cdf3e659
+Review-Link: https://gwt-review.googlesource.com/#/c/10911/
+

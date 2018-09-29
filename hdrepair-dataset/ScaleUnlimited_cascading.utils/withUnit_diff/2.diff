@@ -1,0 +1,79 @@
+diff --git a/build.xml b/build.xml
+index 48d0dd5..5e1a867 100644
+--- a/build.xml
++++ b/build.xml
+@@ -158 +158 @@
+-		       maxmemory="256m"
++		       maxmemory="384m"
+diff --git a/src/main/java/com/scaleunlimited/cascading/FlowRunner.java b/src/main/java/com/scaleunlimited/cascading/FlowRunner.java
+index ed4b595..7f2d20f 100644
+--- a/src/main/java/com/scaleunlimited/cascading/FlowRunner.java
++++ b/src/main/java/com/scaleunlimited/cascading/FlowRunner.java
+@@ -271 +271 @@
+-               if (flowStep.getGroup() != null) {
++               if (flowStep.getGroups().size() > 0) {
+diff --git a/src/test/java/com/scaleunlimited/cascading/FlowRunnerTest.java b/src/test/java/com/scaleunlimited/cascading/FlowRunnerTest.java
+index 17aac21..db18e63 100644
+--- a/src/test/java/com/scaleunlimited/cascading/FlowRunnerTest.java
++++ b/src/test/java/com/scaleunlimited/cascading/FlowRunnerTest.java
+@@ -4,0 +5 @@
++import java.io.FileNotFoundException;
+@@ -5,0 +7 @@
++import java.io.IOException;
+@@ -64 +65,0 @@
+-                System.out.println("Delaying...");
+@@ -67 +68 @@
+-                    Thread.sleep(1000);
++                    Thread.sleep(100L);
+@@ -182,0 +184 @@
++        final String logDirName = "build/test/testStatsLocal/log";
+@@ -184 +186 @@
+-        FlowRunner fr = new FlowRunner("testStatsLocal", 1, new File("build/test/testStatsLocal/log"), 10);
++        FlowRunner fr = new FlowRunner("testStatsLocal", 1, new File(logDirName), 10);
+@@ -186,0 +189,3 @@
++        
++        // We should some number of entries in the stats file
++        checkStatsFile(logDirName, "testStatsLocal", "group on total", 1, 1);
+@@ -193,0 +199 @@
++        final String logDirName = "build/test/testStatsHadoop/log";
+@@ -195,3 +201,8 @@
+-        FlowRunner fr = new FlowRunner("testStatsHadoop", 1, new File("build/test/testStatsHadoop/log"), 100);
+-        FlowFuture result0 = fr.addFlow(makeFlow("testStatsHadoop", 10, 0, false, platform));
+-        result0.get();
++        FlowRunner fr = new FlowRunner("testStatsHadoop", 1, new File(logDirName), 1000L);
++        FlowFuture result = fr.addFlow(makeFlow("testStatsHadoop", 10, 0, false, platform));
++        result.get();
++        
++        // We should some number of entries in the stats file
++        // Unfortunately you get no stats for Hadoop when running in Hadoop local mode, as there
++        // is no JobTracker
++        // checkStatsFile(logDirName, "testStatsHadoop", "group on total", 0, 1);
+@@ -262,0 +274,4 @@
++        checkStatsFile(logDirName, "testStatsHadoopMiniCluster", "group on total", 0, 2);
++    }
++    
++    private BufferedReader openStatsFile(String logDirName, String testName) throws FileNotFoundException {
+@@ -264 +279 @@
+-        File statsFile = new File(statsDir, "testStatsHadoopMiniCluster-stats.tsv");
++        File statsFile = new File(statsDir, testName + "-stats.tsv");
+@@ -267,2 +282,7 @@
+-        BufferedReader br = new BufferedReader(new FileReader(statsFile));
+-        boolean foundGoodLine = false;
++        return new BufferedReader(new FileReader(statsFile));
++    }
++    
++    private void checkStatsFile(String logDirName, String testName, String stepName, int numMaps, int numReduces) throws IOException {
++        String targetText = String.format("\t%d\t%d\t%s|%s=%d,%d;", numMaps, numReduces, testName, stepName, numMaps, numReduces);
++        BufferedReader br = openStatsFile(logDirName, testName);
++        
+@@ -271,4 +291,2 @@
+-            String[] pieces = curLine.split("\t");
+-            if (pieces[1].equals("0") && pieces[2].equals("2") && pieces[3].equals("testStatsHadoopMiniCluster|group on total=0,2; ")) {
+-                foundGoodLine = true;
+-                break;
++            if (curLine.contains(targetText)) {
++                return;
+@@ -278 +296 @@
+-        assertTrue(foundGoodLine);
++        fail("Couldn't find target line in stats file");
+

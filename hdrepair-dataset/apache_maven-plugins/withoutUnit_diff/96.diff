@@ -1,0 +1,8 @@
+diff --git a/maven-install-plugin/src/main/java/org/codehaus/plexus/util/xml/XmlReader.java b/maven-install-plugin/src/main/java/org/codehaus/plexus/util/xml/XmlReader.java
+index c53e302..be272ac 100644
+--- a/maven-install-plugin/src/main/java/org/codehaus/plexus/util/xml/XmlReader.java
++++ b/maven-install-plugin/src/main/java/org/codehaus/plexus/util/xml/XmlReader.java
+@@ -734 +734 @@
+-                BufferedReader bReader = new BufferedReader( new StringReader( xmlProlog ) );
++                BufferedReader bReader = new BufferedReader( new StringReader( xmlProlog.substring( 0, firstGT + 1 ) ) );
+

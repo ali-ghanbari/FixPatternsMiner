@@ -1,0 +1,9 @@
+diff --git a/src/soot/javaToJimple/JimpleBodyBuilder.java b/src/soot/javaToJimple/JimpleBodyBuilder.java
+index f04ee20..c86a333 100644
+--- a/src/soot/javaToJimple/JimpleBodyBuilder.java
++++ b/src/soot/javaToJimple/JimpleBodyBuilder.java
+@@ -797 +797,2 @@
+-            else if(sootCond instanceof IntConstant && ((IntConstant)sootCond).value == 1){
++            //(if boto is false then we have to reverse the meaning) 
++            else if(sootCond instanceof IntConstant && (((IntConstant)sootCond).value == 1)==boto){
+

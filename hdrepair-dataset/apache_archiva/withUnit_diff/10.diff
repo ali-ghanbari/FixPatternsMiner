@@ -1,0 +1,298 @@
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesAction.java b/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesAction.java
+index ca5fe97..d0bc90f 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesAction.java
++++ b/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesAction.java
+@@ -118,2 +117,0 @@
+-        Configuration config = archivaConfiguration.getConfiguration();
+-
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesActionTest.java b/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesActionTest.java
+index 3592525..b763a5c 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesActionTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/RepositoriesActionTest.java
+@@ -24,0 +25,2 @@
++import org.apache.archiva.admin.repository.group.DefaultRepositoryGroupAdmin;
++import org.apache.archiva.admin.repository.managed.DefaultManagedRepositoryAdmin;
+@@ -29,0 +32 @@
++import org.apache.maven.archiva.configuration.ArchivaConfiguration;
+@@ -33,0 +37,2 @@
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
+@@ -45,0 +51,2 @@
++    private Logger log = LoggerFactory.getLogger( getClass() );
++
+@@ -46,0 +54,2 @@
++
++    ArchivaConfiguration originalArchivaConfiguration;
+@@ -51,2 +59,0 @@
+-        super.setUp();
+-        action = (RepositoriesAction) getActionProxy( "/admin/index.action" ).getAction();
+@@ -53,0 +61,25 @@
++        super.setUp();
++
++        action = (RepositoriesAction) getActionProxy( "/admin/index.action" ).getAction();
++        originalArchivaConfiguration =
++            ( (DefaultRepositoryGroupAdmin) action.getRepositoryGroupAdmin() ).getArchivaConfiguration();
++        // some other test are modifying archivaConfiguration with a mocked instance : this test need the real one
++        // so use the real one from spring, backup the mock and restore it at the end (tearDown)
++        ArchivaConfiguration real = applicationContext.getBean( ArchivaConfiguration.class );
++        ( (DefaultRepositoryGroupAdmin) action.getRepositoryGroupAdmin() ).setArchivaConfiguration( real );
++        ( (DefaultManagedRepositoryAdmin) action.getManagedRepositoryAdmin() ).setArchivaConfiguration( real );
++        ( (DefaultRemoteRepositoryAdmin) action.getRemoteRepositoryAdmin() ).setArchivaConfiguration( real );
++    }
++
++
++    @Override
++    protected void tearDown()
++        throws Exception
++    {
++        super.tearDown();
++        ( (DefaultRepositoryGroupAdmin) action.getRepositoryGroupAdmin() ).setArchivaConfiguration(
++            originalArchivaConfiguration );
++        ( (DefaultManagedRepositoryAdmin) action.getManagedRepositoryAdmin() ).setArchivaConfiguration(
++            originalArchivaConfiguration );
++        ( (DefaultRemoteRepositoryAdmin) action.getRemoteRepositoryAdmin() ).setArchivaConfiguration(
++            originalArchivaConfiguration );
+@@ -65,13 +97,15 @@
+-        MockControl control = MockControl.createControl( MetadataRepository.class );
+-        MetadataRepository metadataRepository = (MetadataRepository) control.getMock();
+-        control.expectAndReturn( metadataRepository.getMetadataFacets( "internal", RepositoryStatistics.FACET_ID ),
+-                                 Arrays.asList( "20091125.123456.678" ) );
+-        control.expectAndReturn(
+-            metadataRepository.getMetadataFacet( "internal", RepositoryStatistics.FACET_ID, "20091125.123456.678" ),
+-            new RepositoryStatistics() );
+-        control.expectAndReturn( metadataRepository.getMetadataFacets( "snapshots", RepositoryStatistics.FACET_ID ),
+-                                 Arrays.asList( "20091112.012345.012" ) );
+-        control.expectAndReturn(
+-            metadataRepository.getMetadataFacet( "snapshots", RepositoryStatistics.FACET_ID, "20091112.012345.012" ),
+-            new RepositoryStatistics() );
+-        control.replay();
++        try
++        {
++            MockControl control = MockControl.createControl( MetadataRepository.class );
++            MetadataRepository metadataRepository = (MetadataRepository) control.getMock();
++            control.expectAndReturn( metadataRepository.getMetadataFacets( "internal", RepositoryStatistics.FACET_ID ),
++                                     Arrays.asList( "20091125.123456.678" ) );
++            control.expectAndReturn(
++                metadataRepository.getMetadataFacet( "internal", RepositoryStatistics.FACET_ID, "20091125.123456.678" ),
++                new RepositoryStatistics() );
++            control.expectAndReturn( metadataRepository.getMetadataFacets( "snapshots", RepositoryStatistics.FACET_ID ),
++                                     Arrays.asList( "20091112.012345.012" ) );
++            control.expectAndReturn( metadataRepository.getMetadataFacet( "snapshots", RepositoryStatistics.FACET_ID,
++                                                                          "20091112.012345.012" ),
++                                     new RepositoryStatistics() );
++            control.replay();
+@@ -79,5 +113,5 @@
+-        RepositorySession session = mock( RepositorySession.class );
+-        when( session.getRepository() ).thenReturn( metadataRepository );
+-        TestRepositorySessionFactory factory =
+-            applicationContext.getBean( "repositorySessionFactory#test", TestRepositorySessionFactory.class );
+-        factory.setRepositorySession( session );
++            RepositorySession session = mock( RepositorySession.class );
++            when( session.getRepository() ).thenReturn( metadataRepository );
++            TestRepositorySessionFactory factory =
++                applicationContext.getBean( "repositorySessionFactory#test", TestRepositorySessionFactory.class );
++            factory.setRepositorySession( session );
+@@ -85,2 +119,2 @@
+-        ServletRunner sr = new ServletRunner();
+-        ServletUnitClient sc = sr.newClient();
++            ServletRunner sr = new ServletRunner();
++            ServletUnitClient sc = sr.newClient();
+@@ -88 +122 @@
+-        action.setServletRequest( sc.newInvocation( "http://localhost/admin/repositories.action" ).getRequest() );
++            action.setServletRequest( sc.newInvocation( "http://localhost/admin/repositories.action" ).getRequest() );
+@@ -90,3 +124,3 @@
+-        action.prepare();
+-        String result = action.execute();
+-        assertEquals( Action.SUCCESS, result );
++            action.prepare();
++            String result = action.execute();
++            assertEquals( Action.SUCCESS, result );
+@@ -94,2 +128,2 @@
+-        // TODO: for some reason servletunit is not populating the port of the servlet request
+-        assertEquals( "http://localhost:0/repository", action.getBaseUrl() );
++            // TODO: for some reason servletunit is not populating the port of the servlet request
++            assertEquals( "http://localhost:0/repository", action.getBaseUrl() );
+@@ -97,3 +131,3 @@
+-        assertNotNull( action.getManagedRepositories() );
+-        assertNotNull( action.getRemoteRepositories() );
+-        assertNotNull( action.getRepositoryStatistics() );
++            assertNotNull( action.getManagedRepositories() );
++            assertNotNull( action.getRemoteRepositories() );
++            assertNotNull( action.getRepositoryStatistics() );
+@@ -101,3 +135,3 @@
+-        assertEquals( 2, action.getManagedRepositories().size() );
+-        assertEquals( 2, action.getRemoteRepositories().size() );
+-        assertEquals( 2, action.getRepositoryStatistics().size() );
++            assertEquals( 2, action.getManagedRepositories().size() );
++            assertEquals( 2, action.getRemoteRepositories().size() );
++            assertEquals( 2, action.getRepositoryStatistics().size() );
+@@ -105 +139,7 @@
+-        control.verify();
++            control.verify();
++        }
++        catch ( Exception e )
++        {
++            log.error( e.getMessage(), e );
++            throw e;
++        }
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java b/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java
+index c0ccdc8..82e3913 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java
+@@ -21,0 +22 @@
++import com.opensymphony.xwork2.Action;
+@@ -30,2 +30,0 @@
+-import com.opensymphony.xwork2.Action;
+-
+@@ -34,2 +32,0 @@
+- * 
+- * @version
+@@ -37 +34 @@
+-public class SortRepositoriesActionTest 
++public class SortRepositoriesActionTest
+@@ -41 +38 @@
+-	
++
+@@ -43 +40 @@
+-	
++
+@@ -45 +42 @@
+-	
++
+@@ -47 +44 @@
+-	
++
+@@ -51 +48,3 @@
+-    
++
++    private ArchivaConfiguration originalArchivaConfiguration;
++
+@@ -64,3 +62,0 @@
+-	    
+-        //action = (SortRepositoriesAction) lookup( Action.class.getName(), "sortRepositoriesAction" );
+-
+@@ -69,0 +66 @@
++        originalArchivaConfiguration = action.archivaConfiguration;
+@@ -72 +69,9 @@
+-    
++
++    @Override
++    protected void tearDown()
++        throws Exception
++    {
++        super.tearDown();
++        action.archivaConfiguration = originalArchivaConfiguration;
++    }
++
+@@ -79 +84 @@
+-	
++
+@@ -84 +89 @@
+-    
++
+@@ -89 +94 @@
+-        
++
+@@ -94,2 +99,3 @@
+-    	
+-        RepositoryGroupConfiguration repoGroup = (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
++
++        RepositoryGroupConfiguration repoGroup =
++            (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
+@@ -97 +103 @@
+-    	
++
+@@ -102 +108 @@
+-    	
++
+@@ -106 +112 @@
+-    	
++
+@@ -109 +115 @@
+-    	
++
+@@ -117 +123 @@
+-    
++
+@@ -122 +128 @@
+-        
++
+@@ -127,2 +133,3 @@
+-    	
+-        RepositoryGroupConfiguration repoGroup = (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
++
++        RepositoryGroupConfiguration repoGroup =
++            (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
+@@ -130 +137 @@
+-        
++
+@@ -135 +142 @@
+-    	
++
+@@ -139 +146 @@
+-    	
++
+@@ -142 +149 @@
+-    	
++
+@@ -150 +157 @@
+-    
++
+@@ -155 +162 @@
+-        
++
+@@ -160,2 +167,3 @@
+-    	
+-        RepositoryGroupConfiguration repoGroup = (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
++
++        RepositoryGroupConfiguration repoGroup =
++            (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
+@@ -163 +171 @@
+-    	
++
+@@ -168 +176 @@
+-    	
++
+@@ -172 +180 @@
+-    	
++
+@@ -175 +183 @@
+-    	
++
+@@ -183 +191 @@
+-    
++
+@@ -188 +196 @@
+-        
++
+@@ -193,2 +201,3 @@
+-    	
+-        RepositoryGroupConfiguration repoGroup = (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
++
++        RepositoryGroupConfiguration repoGroup =
++            (RepositoryGroupConfiguration) configuration.getRepositoryGroups().get( 0 );
+@@ -196 +205 @@
+-        
++
+@@ -201 +210 @@
+-        
++
+@@ -205 +214 @@
+-    	
++
+@@ -208 +217 @@
+-        
++
+@@ -216 +225 @@
+-    
++
+@@ -220 +229 @@
+-        
++
+@@ -226 +235 @@
+-		
++
+@@ -228 +237 @@
+-        
++
+

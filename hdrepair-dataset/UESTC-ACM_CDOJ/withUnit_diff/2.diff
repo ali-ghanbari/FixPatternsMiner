@@ -1,0 +1,399 @@
+diff --git a/trunk/src/main/java/cn/edu/uestc/acmicpc/service/impl/TrainingPlatformInfoServiceImpl.java b/trunk/src/main/java/cn/edu/uestc/acmicpc/service/impl/TrainingPlatformInfoServiceImpl.java
+index cec7158..0432fc1 100644
+--- a/trunk/src/main/java/cn/edu/uestc/acmicpc/service/impl/TrainingPlatformInfoServiceImpl.java
++++ b/trunk/src/main/java/cn/edu/uestc/acmicpc/service/impl/TrainingPlatformInfoServiceImpl.java
+@@ -56 +56 @@
+-
++    
+diff --git a/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingPlatformInfoServiceITTest.java b/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingPlatformInfoServiceITTest.java
+index 58ce15a..e5857ff 100644
+--- a/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingPlatformInfoServiceITTest.java
++++ b/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingPlatformInfoServiceITTest.java
+@@ -5,0 +6 @@
++import cn.edu.uestc.acmicpc.db.dto.impl.TrainingUserDto;
+@@ -6,0 +8 @@
++import cn.edu.uestc.acmicpc.service.testing.TrainingPlatformInfoProvider;
+@@ -14,0 +17 @@
++import java.util.ArrayList;
+@@ -25,0 +29,3 @@
++  @Autowired
++  TrainingPlatformInfoProvider trainingPlatformInfoProvider;
++
+@@ -28 +34,3 @@
+-    Integer trainingPlatformInfoId = 1;
++    TrainingPlatformInfoDto trainingPlatformInfo = trainingPlatformInfoProvider
++        .createTrainingPlatformInfo();
++    Integer trainingPlatformInfoId = trainingPlatformInfo.getTrainingPlatformInfoId();
+@@ -34 +42 @@
+-        trainingPlatformInfoId);
++        trainingPlatformInfo.getTrainingPlatformInfoId());
+@@ -37 +45 @@
+-        Integer.valueOf(1));
++        trainingPlatformInfo.getTrainingUserId());
+@@ -40 +48 @@
+-        "RectaFlex");
++        trainingPlatformInfo.getUserName());
+@@ -43 +51 @@
+-        "123");
++        trainingPlatformInfo.getUserId());
+@@ -46,2 +54 @@
+-        Integer.valueOf(TrainingPlatformType.TC.ordinal())
+-        );
++        trainingPlatformInfo.getType());
+@@ -50,2 +57 @@
+-        "userA"
+-        );
++        trainingPlatformInfo.getTrainingUserName());
+@@ -55,0 +62,4 @@
++    List<TrainingPlatformInfoDto>newTrainingPlatformInfolist = new ArrayList<>();
++    for(int i = 0; i < 8; i++) {
++      newTrainingPlatformInfolist.add(trainingPlatformInfoProvider.createTrainingPlatformInfo());
++    }
+@@ -62 +72,2 @@
+-      Assert.assertEquals(result.get(i).getTrainingPlatformInfoId(), Integer.valueOf(i + 1));
++      Assert.assertEquals(result.get(i).getTrainingPlatformInfoId(),
++          newTrainingPlatformInfolist.get(i).getTrainingPlatformInfoId());
+@@ -67,0 +79,4 @@
++    List<TrainingPlatformInfoDto>newTrainingPlatformInfolist = new ArrayList<>();
++    for(int i = 0; i < 8; i++) {
++      newTrainingPlatformInfolist.add(trainingPlatformInfoProvider.createTrainingPlatformInfo());
++    }
+@@ -69,2 +84,2 @@
+-    trainingPlatformInfoCriteria.startId = 2;
+-    trainingPlatformInfoCriteria.endId = 5;
++    trainingPlatformInfoCriteria.startId = newTrainingPlatformInfolist.get(1).getTrainingUserId();
++    trainingPlatformInfoCriteria.endId = trainingPlatformInfoCriteria.startId + 3;
+@@ -76 +91,2 @@
+-      Assert.assertEquals(result.get(i).getTrainingPlatformInfoId(), Integer.valueOf(i + 2));
++      Assert.assertEquals(result.get(i).getTrainingPlatformInfoId(),
++          newTrainingPlatformInfolist.get(i + 1).getTrainingPlatformInfoId());
+@@ -81,0 +98,4 @@
++    List<TrainingPlatformInfoDto>newTrainingPlatformInfolist = new ArrayList<>();
++    for(int i = 0; i < 8; i++) {
++      newTrainingPlatformInfolist.add(trainingPlatformInfoProvider.createTrainingPlatformInfo());
++    }
+@@ -83 +103,2 @@
+-    trainingPlatformInfoCriteria.trainingUserId = 1;
++    trainingPlatformInfoCriteria.trainingUserId = newTrainingPlatformInfolist.get(0)
++        .getTrainingUserId();
+@@ -87,3 +108,4 @@
+-    Assert.assertEquals(result.size(), 5);
+-    for (int i = 0; i < 5; i++) {
+-      Assert.assertEquals(result.get(i).getTrainingUserId(), Integer.valueOf(1));
++    Assert.assertEquals(result.size(), 1);
++    for (int i = 0; i < 1; i++) {
++      Assert.assertEquals(result.get(i).getTrainingUserId(), newTrainingPlatformInfolist.get(0)
++          .getTrainingUserId());
+@@ -94,0 +117,11 @@
++    for(int i = 0; i < 8; i++) {
++      TrainingPlatformInfoDto trainingPlatformInfo = trainingPlatformInfoProvider
++          .createTrainingPlatformInfo();
++      if(i < 2) {
++        trainingPlatformInfo.setUserName("UESTC_Izayoi");
++        trainingPlatformInfoService.updateTrainingPlatformInfo(trainingPlatformInfo);
++      } else {
++        trainingPlatformInfo.setUserId("UESTC_Fish");
++        trainingPlatformInfoService.updateTrainingPlatformInfo(trainingPlatformInfo);
++      }
++    }
+@@ -107,0 +141,11 @@
++    for(int i = 0; i < 8; i++) {
++      TrainingPlatformInfoDto trainingPlatformInfo = trainingPlatformInfoProvider
++          .createTrainingPlatformInfo();
++      if(i < 7) {
++        trainingPlatformInfo.setUserId("123");
++        trainingPlatformInfoService.updateTrainingPlatformInfo(trainingPlatformInfo);
++      } else {
++        trainingPlatformInfo.setUserId("321");
++        trainingPlatformInfoService.updateTrainingPlatformInfo(trainingPlatformInfo);
++      }
++    }
+@@ -120,0 +165,11 @@
++    for(int i = 0; i < 8; i++) {
++      TrainingPlatformInfoDto trainingPlatformInfo = trainingPlatformInfoProvider
++          .createTrainingPlatformInfo();
++      if(i < 4) {
++        trainingPlatformInfo.setType(TrainingPlatformType.TC.ordinal());
++        trainingPlatformInfoService.updateTrainingPlatformInfo(trainingPlatformInfo);
++      } else {
++        trainingPlatformInfo.setType(TrainingPlatformType.CF.ordinal());
++        trainingPlatformInfoService.updateTrainingPlatformInfo(trainingPlatformInfo);
++      }
++    }
+@@ -134,0 +190,8 @@
++    for(int i = 0; i < 8; i++) {
++      TrainingPlatformInfoDto trainingPlatformInfo = trainingPlatformInfoProvider
++          .createTrainingPlatformInfo();
++      if(i < 2) {
++        trainingPlatformInfo.setUserName("Mzry123");
++        trainingPlatformInfoService.updateTrainingPlatformInfo(trainingPlatformInfo);
++      }
++    }
+@@ -145,2 +208,3 @@
+-    TrainingPlatformInfoDto dataBeforeUpdated = trainingPlatformInfoService
+-        .getTrainingPlatformInfoDto(1, TrainingPlatformInfoFields.ALL_FIELDS);
++    TrainingPlatformInfoDto trainingPlatformInfo = trainingPlatformInfoProvider
++        .createTrainingPlatformInfo();
++    Integer trainingPlatformInfoId = trainingPlatformInfo.getTrainingPlatformInfoId();
+@@ -148,2 +212,2 @@
+-        .setTrainingPlatformInfoId(1)
+-        .setTrainingUserId(2)
++        .setTrainingPlatformInfoId(trainingPlatformInfoId)
++        .setTrainingUserId(trainingPlatformInfo.getTrainingUserId())
+@@ -155,3 +219,4 @@
+-    TrainingPlatformInfoDto updatedData = trainingPlatformInfoService.getTrainingPlatformInfoDto(1,
+-        TrainingPlatformInfoFields.ALL_FIELDS);
+-    Assert.assertEquals(updatedData.getTrainingPlatformInfoId(),
++    TrainingPlatformInfoDto updatedData = trainingPlatformInfoService.getTrainingPlatformInfoDto(
++        trainingPlatformInfoId, TrainingPlatformInfoFields.ALL_FIELDS);
++    Assert.assertEquals(
++        updatedData.getTrainingPlatformInfoId(),
+@@ -163,2 +227,0 @@
+-
+-    trainingPlatformInfoService.updateTrainingPlatformInfo(dataBeforeUpdated);
+@@ -168,0 +232 @@
++    TrainingPlatformInfoDto trainingPlatformInfoDto = trainingPlatformInfoProvider.createTrainingPlatformInfo();
+@@ -170 +234 @@
+-        .getTrainingPlatformInfoDto(1, TrainingPlatformInfoFields.ALL_FIELDS);
++        .getTrainingPlatformInfoDto(trainingPlatformInfoDto.getTrainingPlatformInfoId(), TrainingPlatformInfoFields.ALL_FIELDS);
+@@ -172 +236 @@
+-        .setTrainingPlatformInfoId(1)
++        .setTrainingPlatformInfoId(trainingPlatformInfoDto.getTrainingPlatformInfoId())
+@@ -175 +239 @@
+-    TrainingPlatformInfoDto updatedData = trainingPlatformInfoService.getTrainingPlatformInfoDto(1,
++    TrainingPlatformInfoDto updatedData = trainingPlatformInfoService.getTrainingPlatformInfoDto(trainingPlatformInfoDto.getTrainingPlatformInfoId(),
+@@ -187,3 +251,5 @@
+-    Integer exceptedId = 9;
+-    Integer newId = trainingPlatformInfoService.createNewTrainingPlatformInfo(1);
+-    Assert.assertEquals(exceptedId, newId);
++    Integer exceptedId = 1;
++    TrainingUserDto trainingUser = trainingUserProvider.createTrainingUser();
++    Integer newId = trainingPlatformInfoService.createNewTrainingPlatformInfo(trainingUser
++        .getTrainingUserId());
++    Assert.assertEquals(newId, exceptedId);
+diff --git a/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingServiceITTest.java b/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingServiceITTest.java
+index 11a8d74..e553a3b 100644
+--- a/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingServiceITTest.java
++++ b/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingServiceITTest.java
+@@ -27 +27 @@
+-    Integer trainingId = 1;
++    Integer trainingId = trainingProvider.createTraining().getTrainingId();
+@@ -49,0 +50,3 @@
++    for(int i = 0; i < 7; i++) {
++      trainingProvider.createTraining();
++    }
+@@ -58,2 +61,14 @@
+-    trainingCriteria.startId = 3;
+-    trainingCriteria.endId = 6;
++    for(int i = 0; i < 7; i++) {
++      TrainingDto trainingDto = trainingProvider.createTraining();
++      if(i < 4) {
++        trainingDto.setTitle("training");
++      } else {
++        trainingDto.setTitle("keyword");
++      }
++      if(i == 3) {
++        trainingCriteria.startId = trainingDto.getTrainingId();
++      }
++      if(i == 6) {
++        trainingCriteria.endId = trainingDto.getTrainingId();
++      }
++    }
+@@ -65,0 +81,9 @@
++    for(int i = 0; i < 7; i++) {
++      TrainingDto trainingDto = trainingProvider.createTraining();
++      if(i < 4) {
++        trainingDto.setTitle("hello" + Integer.valueOf(i).toString());
++      } else {
++        trainingDto.setTitle("mzry" + Integer.valueOf(i).toString());
++      }
++      trainingService.updateTraining(trainingDto);
++    }
+@@ -67 +91 @@
+-    trainingCriteria.keyword = "training";
++    trainingCriteria.keyword = "hello";
+@@ -73,0 +98,9 @@
++    for(int i = 0; i < 7; i++) {
++      TrainingDto trainingDto = trainingProvider.createTraining();
++      if(i < 4) {
++        trainingDto.setTitle("hello" + Integer.valueOf(i).toString());
++      } else {
++        trainingDto.setTitle("mzry" + Integer.valueOf(i).toString());
++      }
++      trainingService.updateTraining(trainingDto);
++    }
+@@ -75 +108 @@
+-    trainingCriteria.keyword = "keyword";
++    trainingCriteria.keyword = "mzry";
+@@ -81,0 +115,7 @@
++    Integer id = 0;
++    for(int i = 0; i < 7; i++) {
++      TrainingDto trainingDto = trainingProvider.createTraining();
++      if(i == 0) {
++        id = trainingDto.getTrainingId();
++      }
++    }
+@@ -86 +126 @@
+-    Integer id = 0;
++    ;
+@@ -88 +128 @@
+-      Assert.assertEquals(trainingDto.getTrainingId(), ++id);
++      Assert.assertEquals(trainingDto.getTrainingId(), id++);
+@@ -95,0 +136,7 @@
++    Integer id = 6;
++    for(int i = 0; i < 7; i++) {
++      TrainingDto trainingDto = trainingProvider.createTraining();
++      if(i == 6) {
++        id = trainingDto.getTrainingId();
++      }
++    }
+@@ -102 +148,0 @@
+-    Integer id = 7;
+@@ -112,2 +158,3 @@
+-    TrainingDto trainingDto = TrainingDto.builder()
+-        .setTrainingId(1)
++    TrainingDto trainingDto = trainingProvider.createTraining();
++    TrainingDto editTrainingDto = TrainingDto.builder()
++        .setTrainingId(trainingDto.getTrainingId())
+@@ -117 +164 @@
+-    trainingService.updateTraining(trainingDto);
++    trainingService.updateTraining(editTrainingDto);
+@@ -120 +167 @@
+-    Assert.assertEquals(result, trainingDto);
++    Assert.assertEquals(result, editTrainingDto);
+@@ -125,2 +172,3 @@
+-    TrainingDto trainingDto = TrainingDto.builder()
+-        .setTrainingId(1)
++    TrainingDto trainingDto = trainingProvider.createTraining();
++    TrainingDto editTrainingDto = TrainingDto.builder()
++        .setTrainingId(trainingDto.getTrainingId())
+@@ -129 +177 @@
+-    trainingService.updateTraining(trainingDto);
++    trainingService.updateTraining(editTrainingDto);
+@@ -132,3 +180,3 @@
+-    Assert.assertEquals(result.getTrainingId(), trainingDto.getTrainingId());
+-    Assert.assertEquals(result.getDescription(), trainingDto.getDescription());
+-    Assert.assertNotEquals(result.getTitle(), trainingDto.getTitle());
++    Assert.assertEquals(result.getTrainingId(), editTrainingDto.getTrainingId());
++    Assert.assertEquals(result.getDescription(), editTrainingDto.getDescription());
++    Assert.assertNotEquals(result.getTitle(), editTrainingDto.getTitle());
+@@ -139,2 +187,3 @@
+-    TrainingDto trainingDto = TrainingDto.builder()
+-        .setTrainingId(1)
++    TrainingDto trainingDto = trainingProvider.createTraining();
++    TrainingDto editTrainingDto = TrainingDto.builder()
++        .setTrainingId(trainingDto.getTrainingId())
+@@ -143 +192 @@
+-    trainingService.updateTraining(trainingDto);
++    trainingService.updateTraining(editTrainingDto);
+@@ -146,3 +195,3 @@
+-    Assert.assertEquals(result.getTrainingId(), trainingDto.getTrainingId());
+-    Assert.assertNotEquals(result.getDescription(), trainingDto.getDescription());
+-    Assert.assertEquals(result.getTitle(), trainingDto.getTitle());
++    Assert.assertEquals(result.getTrainingId(), editTrainingDto.getTrainingId());
++    Assert.assertNotEquals(result.getDescription(), editTrainingDto.getDescription());
++    Assert.assertEquals(result.getTitle(), editTrainingDto.getTitle());
+@@ -152,0 +202 @@
++    trainingProvider.createTraining();
+@@ -166,3 +216,4 @@
+-    Long exceptedId = trainingService.count(new TrainingCriteria()) + 1;
+-    Integer newId = trainingService.createNewTraining("new training!");
+-    Assert.assertEquals(newId.intValue(), exceptedId.intValue());
++    Integer newId1 = trainingService.createNewTraining("new training1!");
++    Integer newId2 = trainingService.createNewTraining("new training2!");
++    Long exceptedId = Long.valueOf(newId1 + 1);
++    Assert.assertEquals(newId2.intValue(), exceptedId.intValue());
+diff --git a/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingUserServiceITTest.java b/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingUserServiceITTest.java
+index 076c489..feda47d 100644
+--- a/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingUserServiceITTest.java
++++ b/trunk/src/test/java/cn/edu/uestc/acmicpc/service/TrainingUserServiceITTest.java
+@@ -5,0 +6 @@
++import cn.edu.uestc.acmicpc.db.dto.impl.user.UserDto;
+@@ -6,0 +8 @@
++import cn.edu.uestc.acmicpc.service.iface.UserService;
+@@ -14,0 +17 @@
++import java.util.ArrayList;
+@@ -25,0 +29,3 @@
++  @Autowired
++  private UserService userService;
++
+@@ -28 +34 @@
+-    Integer trainingUserId = 1;
++    Integer trainingUserId = trainingUserProvider.createTrainingUser().getTrainingUserId();
+@@ -45,0 +52,4 @@
++    List<TrainingUserDto>list = new ArrayList<>();
++    for(int i = 0; i < 5; i++) {
++      list.add(trainingUserProvider.createTrainingUser());
++    }
+@@ -50 +60 @@
+-    Integer id = 0;
++    int id = 0;
+@@ -52 +62 @@
+-      Assert.assertEquals(trainingUserDto.getTrainingUserId(), ++id);
++      Assert.assertEquals(trainingUserDto.getTrainingUserId(), list.get(id).getTrainingUserId());
+@@ -56,2 +66,3 @@
+-      Assert.assertEquals(trainingUserDto.getCurrentRating(), 1200.0);
+-      Assert.assertEquals(trainingUserDto.getCurrentVolatility(), 350.0);
++      Assert.assertEquals(trainingUserDto.getCurrentRating(), list.get(id).getCurrentRating());
++      Assert.assertEquals(trainingUserDto.getCurrentVolatility(),  list.get(id).getCurrentVolatility());
++      id++;
+@@ -62,0 +74,10 @@
++    List<TrainingUserDto>list = new ArrayList<>();
++    for(int i = 0; i < 5; i++) {
++      TrainingUserDto trainingUserDto = trainingUserProvider.createTrainingUser();
++      if(i < 2) {
++        UserDto userDto = userService.getUserDtoByUserId(trainingUserDto.getUserId());
++        userDto.setUserName("userA" + Integer.valueOf(i).toString());
++        userService.updateUser(userDto);
++      }
++      list.add(trainingUserDto);
++    }
+@@ -68,2 +89,4 @@
+-    Assert.assertEquals(trainingUserDtoList.get(0).getTrainingUserId(), Integer.valueOf(1));
+-    Assert.assertEquals(trainingUserDtoList.get(1).getTrainingUserId(), Integer.valueOf(5));
++    Assert.assertEquals(trainingUserDtoList.get(0).getTrainingUserId(),
++        list.get(0).getTrainingUserId());
++    Assert.assertEquals(trainingUserDtoList.get(1).getTrainingUserId(),
++        list.get(1).getTrainingUserId());
+@@ -74,2 +97,5 @@
+-    TrainingUserDto dataBeforeUpdated = trainingUserService.getTrainingUserDto(1,
+-        TrainingUserFields.ALL_FIELDS);
++    List<TrainingUserDto>list = new ArrayList<>();
++    for(int i = 0; i < 5; i++) {
++      TrainingUserDto trainingUserDto = trainingUserProvider.createTrainingUser();
++      list.add(trainingUserDto);
++    }
+@@ -77,3 +103,3 @@
+-        .setTrainingUserId(1)
+-        .setTrainingId(2)
+-        .setUserId(2)
++        .setTrainingUserId(list.get(0).getTrainingUserId())
++        .setTrainingId(list.get(0).getTrainingId())
++        .setUserId(list.get(0).getUserId())
+@@ -93 +119 @@
+-    TrainingUserDto updatedTrainingUserDto = trainingUserService.getTrainingUserDto(1,
++    TrainingUserDto updatedTrainingUserDto = trainingUserService.getTrainingUserDto(list.get(0).getTrainingUserId(),
+@@ -118,2 +143,0 @@
+-
+-    trainingUserService.updateTrainingUser(dataBeforeUpdated);
+@@ -124,2 +148 @@
+-    TrainingUserDto dataBeforeUpdated = trainingUserService.getTrainingUserDto(1,
+-        TrainingUserFields.ALL_FIELDS);
++    TrainingUserDto trainingUserDto = trainingUserProvider.createTrainingUser();
+@@ -127 +150 @@
+-        .setTrainingUserId(1)
++        .setTrainingUserId(trainingUserDto.getTrainingUserId())
+@@ -132 +154,0 @@
+-    Assert.assertEquals(dataBeforeUpdated, updatedTrainingUserDto);
+@@ -137,3 +159,7 @@
+-    Integer exceptedId = 6;
+-    Integer newId = trainingUserService.createNewTrainingUser(1, 1);
+-    Assert.assertEquals(newId, exceptedId);
++    Integer trainingId1 = trainingProvider.createTraining().getTrainingId();
++    Integer trainingId2 = trainingProvider.createTraining().getTrainingId();
++    Integer userID = userProvider.createUser().getUserId();
++    Integer newId1 = trainingUserService.createNewTrainingUser(userID, trainingId1);
++    Integer newId2 = trainingUserService.createNewTrainingUser(userID, trainingId2);
++    Integer exceptedId = newId1 + 1;
++    Assert.assertEquals(newId2, exceptedId);
+

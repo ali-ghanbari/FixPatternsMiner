@@ -1,0 +1,11 @@
+diff --git a/src/soot/PackManager.java b/src/soot/PackManager.java
+index 22e9d20..2aa0441 100644
+--- a/src/soot/PackManager.java
++++ b/src/soot/PackManager.java
+@@ -1012 +1012,4 @@
+-            Iterator methodIt = cl.methodIterator();
++            //note: the following is a snapshot iterator;
++            //this is necessary because it can happen that phantom methods
++            //are added during resolution
++            Iterator methodIt = cl.getMethods().iterator();
+

@@ -1,0 +1,8 @@
+Issue #13 fix
+
+This fixes #13. The issue was that the NumberField’s contents were
+initialized to displayValue.toString() instead of
+displayValue.getValue.toString(). For whatever reason, only one of the
+values wasn’t changing before the user saw the field, making this bug
+slightly more mysterious than it really was.
+

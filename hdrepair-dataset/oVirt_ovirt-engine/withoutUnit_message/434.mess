@@ -1,0 +1,12 @@
+webadmin: buttons are grayed out when vm is selected
+
+This is a problem which came with the fix of the bug: No paging is
+available through web-admin (#745000). The problem is that
+SearchableListModel.setItems() called the ItemsChanged which
+causes the problem.
+
+This fix changes it to call only the UpdatePagingAvailability()
+which is less invasive.
+
+Change-Id: Iedf8e86ba286b979e891a518303f68825c862308
+

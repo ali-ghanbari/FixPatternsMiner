@@ -1,0 +1,8 @@
+diff --git a/platform/lang-api/src/com/intellij/util/FileContentUtil.java b/platform/lang-api/src/com/intellij/util/FileContentUtil.java
+index b623e92..5cf6314 100644
+--- a/platform/lang-api/src/com/intellij/util/FileContentUtil.java
++++ b/platform/lang-api/src/com/intellij/util/FileContentUtil.java
+@@ -83,0 +84,2 @@
++            .before(new ArrayList<VFileEvent>(list));
++        ApplicationManager.getApplication().getMessageBus().syncPublisher(VirtualFileManager.VFS_CHANGES)
+

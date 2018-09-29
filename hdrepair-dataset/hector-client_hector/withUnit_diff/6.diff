@@ -1,0 +1,64 @@
+diff --git a/object-mapper/src/test/java/me/prettyprint/hom/CassandraTestBase.java b/object-mapper/src/test/java/me/prettyprint/hom/CassandraTestBase.java
+index bcdcda2..0e864c1 100644
+--- a/object-mapper/src/test/java/me/prettyprint/hom/CassandraTestBase.java
++++ b/object-mapper/src/test/java/me/prettyprint/hom/CassandraTestBase.java
+@@ -100 +100 @@
+-        Cluster cluster = HFactory.getOrCreateCluster("TestPool", "localhost:9170");
++        Cluster cluster = HFactory.getOrCreateCluster("TestPool", "localhost:9161");
+diff --git a/object-mapper/src/test/java/me/prettyprint/hom/ClassCacheMgrTest.java b/object-mapper/src/test/java/me/prettyprint/hom/ClassCacheMgrTest.java
+index a49f3aa..47f46c4 100644
+--- a/object-mapper/src/test/java/me/prettyprint/hom/ClassCacheMgrTest.java
++++ b/object-mapper/src/test/java/me/prettyprint/hom/ClassCacheMgrTest.java
+@@ -110,2 +110,2 @@
+-    // assertEquals( 13, cfMapDef.getAllProperties().size() );
+-    assertEquals(12, cfMapDef.getAllProperties().size());
++    assertEquals( 13, cfMapDef.getAllProperties().size() );
++    
+diff --git a/object-mapper/src/test/resources/spring-jpa-container-context.xml b/object-mapper/src/test/resources/spring-jpa-container-context.xml
+index ae34596..695aad1 100644
+--- a/object-mapper/src/test/resources/spring-jpa-container-context.xml
++++ b/object-mapper/src/test/resources/spring-jpa-container-context.xml
+@@ -3,2 +3,2 @@
+-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+-    xsi:schemaLocation="http://www.springframework.org/schema/beans
++	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
++	xsi:schemaLocation="http://www.springframework.org/schema/beans
+@@ -8,19 +8,18 @@
+-	
+-   <context:annotation-config/>
+-   <!-- creates myEmf, but fails with null props -->
+-   <bean id="myProvider" class="me.prettyprint.hom.CassandraPersistenceProvider">
+-   	<constructor-arg>
+-   		<map>
+-   			<entry key="me.prettyprint.hom.keyspace" value="TestKeyspace"/>
+-   			<entry key="me.prettyprint.hom.clusterName" value="TestPool"/>
+-   			<entry key="me.prettyprint.hom.classpathPrefix" value="me.prettyprint.hom.beans"/>
+-   		</map>
+-   	</constructor-arg>
+-   </bean>
+-   
+-   <bean id="myEmf" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+-    	<property name="persistenceUnitName" value="cassandraPersistenceUnit"/> 
+-      <property name="persistenceProvider" ref="myProvider"/> 
+-   </bean>
+-   
+-  
++
++	<context:annotation-config />
++
++	<bean id="cassandraProvider" class="me.prettyprint.hom.CassandraPersistenceProvider">
++		<constructor-arg>
++			<map>
++				<entry key="me.prettyprint.hom.keyspace" value="TestKeyspace" />
++				<entry key="me.prettyprint.hom.clusterName" value="TestPool" />
++				<entry key="me.prettyprint.hom.classpathPrefix" value="me.prettyprint.hom.beans" />
++			</map>
++		</constructor-arg>
++	</bean>
++
++	<bean id="cassandraEntityManagerFactory"
++		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
++		<property name="persistenceUnitName" value="cassandraPersistenceUnit" />
++		<property name="persistenceProvider" ref="cassandraProvider" />
++	</bean>
+

@@ -1,0 +1,8 @@
+diff --git a/admin/broadleaf-contentmanagement-module/src/main/java/org/broadleafcommerce/cms/web/processor/ContentProcessor.java b/admin/broadleaf-contentmanagement-module/src/main/java/org/broadleafcommerce/cms/web/processor/ContentProcessor.java
+index 1f9183d..96c92bb 100644
+--- a/admin/broadleaf-contentmanagement-module/src/main/java/org/broadleafcommerce/cms/web/processor/ContentProcessor.java
++++ b/admin/broadleaf-contentmanagement-module/src/main/java/org/broadleafcommerce/cms/web/processor/ContentProcessor.java
+@@ -153 +153 @@
+-        if (StringUtils.isEmpty(contentType) || (StringUtils.isEmpty(extensionFieldName) && StringUtils.isEmpty(extensionFieldValue)) ) {
++        if (StringUtils.isEmpty(contentType) && (StringUtils.isEmpty(extensionFieldName) || StringUtils.isEmpty(extensionFieldValue)) ) {
+

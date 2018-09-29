@@ -1,0 +1,14 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 91f7897..297ddbb 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -26,0 +27 @@
++ * fix writing SSTable column count statistics (CASSANDRA-1976)
+diff --git a/src/java/org/apache/cassandra/io/sstable/SSTableWriter.java b/src/java/org/apache/cassandra/io/sstable/SSTableWriter.java
+index 7730844..a2c4d0d 100644
+--- a/src/java/org/apache/cassandra/io/sstable/SSTableWriter.java
++++ b/src/java/org/apache/cassandra/io/sstable/SSTableWriter.java
+@@ -198 +198 @@
+-        EstimatedHistogram.serializer.serialize(rowSizes, out);
++        EstimatedHistogram.serializer.serialize(columnnCounts, out);
+

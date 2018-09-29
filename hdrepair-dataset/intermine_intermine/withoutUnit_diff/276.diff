@@ -1,0 +1,25 @@
+diff --git a/intermine/web/main/src/org/intermine/web/struts/ObjectTrailController.java b/intermine/web/main/src/org/intermine/web/struts/ObjectTrailController.java
+index 3040559..d3254e3 100644
+--- a/intermine/web/main/src/org/intermine/web/struts/ObjectTrailController.java
++++ b/intermine/web/main/src/org/intermine/web/struts/ObjectTrailController.java
+@@ -91 +91 @@
+-                 *      results.0   ... <-- i don't know
++                 *      results.0   ... <-- query from querybuilder or quicksearch
+diff --git a/intermine/webapp/main/resources/webapp/WEB-INF/classes/InterMineWebApp.properties b/intermine/webapp/main/resources/webapp/WEB-INF/classes/InterMineWebApp.properties
+index 270c122..7b5796d 100644
+--- a/intermine/webapp/main/resources/webapp/WEB-INF/classes/InterMineWebApp.properties
++++ b/intermine/webapp/main/resources/webapp/WEB-INF/classes/InterMineWebApp.properties
+@@ -553,0 +554 @@
++tips.tab = begin
+diff --git a/intermine/webapp/main/resources/webapp/queryClassSelect.jsp b/intermine/webapp/main/resources/webapp/queryClassSelect.jsp
+index 25edb7c..454c4c5 100644
+--- a/intermine/webapp/main/resources/webapp/queryClassSelect.jsp
++++ b/intermine/webapp/main/resources/webapp/queryClassSelect.jsp
+@@ -33 +33,2 @@
+-      if (e.detail == 2) {
++	  var i = document.queryClassSelectForm.className.selectedIndex;
++      if (e.detail == 2 &&  document.queryClassSelectForm.className[i].value != '') {
+@@ -78 +79 @@
+-                <td align="right" valign="top"><a href="#" onclick="javascript:document.getElementById('classSelectDiv').style.display='none';return false"><img border="0" src="images/cross.gif" title="Click here to close the help text."></a></td>
++                <td align="right" valign="top"><a href="#" onclick="javascript:document.getElementById('classSelectDiv').style.display='none';return false"><img border="0" src="images/cross.gif" title="Click here to close the help text."/></a></td>
+

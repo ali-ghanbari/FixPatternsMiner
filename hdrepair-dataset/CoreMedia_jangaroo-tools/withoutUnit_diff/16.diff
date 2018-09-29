@@ -1,0 +1,57 @@
+diff --git a/jangaroo-core/jangaroo-compiler/src/main/cup/net/jangaroo/jooc/joo.cup b/jangaroo-core/jangaroo-compiler/src/main/cup/net/jangaroo/jooc/joo.cup
+index 3f211a4..d0f6216 100644
+--- a/jangaroo-core/jangaroo-compiler/src/main/cup/net/jangaroo/jooc/joo.cup
++++ b/jangaroo-core/jangaroo-compiler/src/main/cup/net/jangaroo/jooc/joo.cup
+@@ -106,2 +106,2 @@
+-    String whitespace = ((JooSymbol)cur_token).getWhitespace();
+-      boolean isPostfixOp = cur_token.sym == sym.PLUSPLUS || cur_token.sym == sym.MINUSMINUS;
++   String whitespace = ((JooSymbol)cur_token).getWhitespace();
++   boolean isPostfixOp = cur_token.sym == sym.PLUSPLUS || cur_token.sym == sym.MINUSMINUS;
+@@ -113,0 +114,6 @@
++   }
++
++   // check for Type start
++   if (cur_token.sym == sym.MULTEQ && isActionDefinedFor(sym.TYPE_START)) {
++     scanner.startType((JooSymbol)cur_token);
++     return replaceToken(sym.TYPE_START);
+@@ -217 +222,0 @@
+-terminal JooSymbol ANYTYPE;
+@@ -244 +249 @@
+-// virtual tokens to mark the begin of a regular expression literal
++// virtual token to mark the begin of a regular expression literal
+@@ -246,0 +252,4 @@
++
++// virtual token to mark the beginning of an any type (disambiguate the any type "*" and operator "*=")
++// inserted by parser if no other action is available
++terminal JooSymbol TYPE_START;
+@@ -952,2 +961,2 @@
+-  | ANYTYPE:at
+-    {: RESULT = new TypeRelation(at); :}
++  | COLON:s TYPE_START type:t
++    {: RESULT = new TypeRelation(s, t); :}
+diff --git a/jangaroo-core/jangaroo-compiler/src/main/java/net/jangaroo/jooc/ScannerBase.java b/jangaroo-core/jangaroo-compiler/src/main/java/net/jangaroo/jooc/ScannerBase.java
+index ecb1db6..08f3315 100644
+--- a/jangaroo-core/jangaroo-compiler/src/main/java/net/jangaroo/jooc/ScannerBase.java
++++ b/jangaroo-core/jangaroo-compiler/src/main/java/net/jangaroo/jooc/ScannerBase.java
+@@ -158 +157,0 @@
+-    defsym(":*", ANYTYPE);
+diff --git a/jangaroo-core/jangaroo-compiler/src/main/jflex/net/jangaroo/jooc/joo.flex b/jangaroo-core/jangaroo-compiler/src/main/jflex/net/jangaroo/jooc/joo.flex
+index 68abf03..8215b56 100644
+--- a/jangaroo-core/jangaroo-compiler/src/main/jflex/net/jangaroo/jooc/joo.flex
++++ b/jangaroo-core/jangaroo-compiler/src/main/jflex/net/jangaroo/jooc/joo.flex
+@@ -116 +116 @@
+-    pushback(regexpStart.sym == sym.DIVEQ ? 2 : 1);
++    yypushback(regexpStart.getText().length()); // scan it again as part of the regexp
+@@ -120,4 +120,5 @@
+-  // workaround for bug in jflex column counting, works only if no newline is in these n characters 
+-  private void pushback(int n) {
+-    yypushback(n);
+-    yycolumn -= n;
++  protected void startType(JooSymbol typeStart) {
++    assert(typeStart.sym == sym.MULTEQ);
++    JooSymbol mul = new JooSymbol(sym.MUL, typeStart.getFileName(), typeStart.getLine(), typeStart.getColumn(), "", "*");
++    pushback(mul);
++    yypushback(1); // the "="
+@@ -268 +268,0 @@
+-  ":*"                            { return symbol(ANYTYPE); }
+

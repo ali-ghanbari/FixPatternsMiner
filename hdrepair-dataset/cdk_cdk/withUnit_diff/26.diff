@@ -1,0 +1,63 @@
+diff --git a/src/org/openscience/cdk/smiles/SmilesParser.java b/src/org/openscience/cdk/smiles/SmilesParser.java
+index 2004a05..27e8aee 100644
+--- a/src/org/openscience/cdk/smiles/SmilesParser.java
++++ b/src/org/openscience/cdk/smiles/SmilesParser.java
+@@ -797,0 +798,2 @@
++		if (ringbonds[thisRing] > bondStat)
++			bondStat = ringbonds[thisRing];
+diff --git a/src/org/openscience/cdk/test/smiles/SmilesParserTest.java b/src/org/openscience/cdk/test/smiles/SmilesParserTest.java
+index ee70432..137f2a4 100644
+--- a/src/org/openscience/cdk/test/smiles/SmilesParserTest.java
++++ b/src/org/openscience/cdk/test/smiles/SmilesParserTest.java
+@@ -1074,0 +1075,3 @@
++	 * Test for bug #1503541 "Problem with SMILES parsing". All SMILES in the test
++	 * should result in a benzene molecule. Sometimes only a Cyclohexa-dien was
++	 * created.
+@@ -1079,2 +1082,2 @@
+-		//                             0  1 23 45
+-		IMolecule mol = sp.parseSmiles("C=1C=CC=CC=1"); // phenol
++		//                              0  1 23 45
++		IMolecule mol = sp.parseSmiles("C=1C=CC=CC=1"); // benzene #1
+@@ -1090 +1093,40 @@
+-		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(5)), 0.001);			
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(5)), 0.001);
++		
++		//                              0 1 23 45
++		mol = sp.parseSmiles("C1C=CC=CC=1"); // benzene #2
++		Assert.assertNotNull(mol);
++		Assert.assertEquals(6, mol.getAtomCount());
++		Assert.assertEquals(6, mol.getBondCount());
++		// test only option for delocalized bond system
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(0)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(1)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(2)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(3)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(4)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(5)), 0.001);
++		
++		//                              0  1 23 45
++		mol = sp.parseSmiles("C=1C=CC=CC1"); // benzene #3
++		Assert.assertNotNull(mol);
++		Assert.assertEquals(6, mol.getAtomCount());
++		Assert.assertEquals(6, mol.getBondCount());
++		// test only option for delocalized bond system
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(0)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(1)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(2)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(3)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(4)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(5)), 0.001);
++		
++		//                              0  12 34 5
++		mol = sp.parseSmiles("C1=CC=CC=C1"); // benzene #4
++		Assert.assertNotNull(mol);
++		Assert.assertEquals(6, mol.getAtomCount());
++		Assert.assertEquals(6, mol.getBondCount());
++		// test only option for delocalized bond system
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(0)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(1)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(2)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(3)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(4)), 0.001);
++		Assert.assertEquals(3.0, mol.getBondOrderSum(mol.getAtom(5)), 0.001);
+

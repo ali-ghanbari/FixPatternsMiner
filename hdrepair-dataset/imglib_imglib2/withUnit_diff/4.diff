@@ -1,0 +1,21 @@
+diff --git a/meta/src/main/java/net/imglib2/meta/AbstractCalibratedSpace.java b/meta/src/main/java/net/imglib2/meta/AbstractCalibratedSpace.java
+index ef4ec17..fc3f2f6 100644
+--- a/meta/src/main/java/net/imglib2/meta/AbstractCalibratedSpace.java
++++ b/meta/src/main/java/net/imglib2/meta/AbstractCalibratedSpace.java
+@@ -67 +67 @@
+-		return averageScale(d);
++		return axis(d).averageScale(0, 1);
+diff --git a/meta/src/test/java/net/imglib2/meta/DefaultCalibratedSpaceTest.java b/meta/src/test/java/net/imglib2/meta/DefaultCalibratedSpaceTest.java
+index ee886ae..4eef44d 100644
+--- a/meta/src/test/java/net/imglib2/meta/DefaultCalibratedSpaceTest.java
++++ b/meta/src/test/java/net/imglib2/meta/DefaultCalibratedSpaceTest.java
+@@ -129,0 +130,8 @@
++	@Test
++	public void testAverageScale() {
++		space = new DefaultCalibratedSpace(3);
++		for (int d = 0; d < space.numDimensions(); d++) {
++			assertEquals(1.0, space.averageScale(d), 0.0);
++		}
++	}
++
+

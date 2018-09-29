@@ -1,0 +1,15 @@
+diff --git a/server/src/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooser.java b/server/src/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooser.java
+index 7c1a835..8760c99 100644
+--- a/server/src/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooser.java
++++ b/server/src/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooser.java
+@@ -78 +78 @@
+-        return new File("work/local", format("%s.log", DigestUtils.md5Hex(locatableEntity.entityLocator())));
++        return new File("data/console", format("%s.log", DigestUtils.md5Hex(locatableEntity.entityLocator())));
+diff --git a/server/test/unit/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooserTest.java b/server/test/unit/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooserTest.java
+index 57a1f6b..0fab8f1 100644
+--- a/server/test/unit/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooserTest.java
++++ b/server/test/unit/com/thoughtworks/go/server/view/artifacts/ArtifactDirectoryChooserTest.java
+@@ -132 +132 @@
+-        assertThat(consoleFile.getPath(), is(String.format("work%slocal%sd0132b209429f7dc5b9ffffe87b02a7c.log", filePathSeparator, filePathSeparator)));
++        assertThat(consoleFile.getPath(), is(String.format("data%sconsole%sd0132b209429f7dc5b9ffffe87b02a7c.log", filePathSeparator, filePathSeparator)));
+

@@ -1,0 +1,57 @@
+diff --git a/core/src/main/java/javabot/commands/AddApi.java b/core/src/main/java/javabot/commands/AddApi.java
+index 70adf08..a6a7e98 100644
+--- a/core/src/main/java/javabot/commands/AddApi.java
++++ b/core/src/main/java/javabot/commands/AddApi.java
+@@ -42 +42 @@
+-        if (args.size() == 2 || existing) {
++        if (args.size() >= 2 || existing) {
+diff --git a/core/src/test/java/javabot/admin/AdminOperationTest.java b/core/src/test/java/javabot/admin/AdminOperationTest.java
+index 4c0a11c..297a577 100644
+--- a/core/src/test/java/javabot/admin/AdminOperationTest.java
++++ b/core/src/test/java/javabot/admin/AdminOperationTest.java
+@@ -8,0 +9 @@
++import javabot.javadoc.Api;
+@@ -9,0 +11 @@
++import javabot.dao.ApiDao;
+@@ -12,0 +15 @@
++import org.springframework.beans.factory.annotation.Autowired;
+@@ -14,0 +18,3 @@
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import javadoc.JavadocParserTest;
+@@ -22,0 +29,5 @@
++    private static final Logger log = LoggerFactory.getLogger(AdminOperationTest.class);
++    
++    @Autowired
++    private ApiDao dao;
++
+@@ -27,0 +39,19 @@
++    public void addApi() {
++        final Api api = dao.find(JavadocParserTest.API_NAME);
++        if(api != null) {
++            log.debug("deleting old api " + JavadocParserTest.API_NAME);
++            dao.delete(api);
++        }
++        getTestBot().sendMessage(getJavabotChannel(), getJavabot().getNick() + " admin addApi " + JavadocParserTest.API_NAME + " "
++            + JavadocParserTest.API_URL_STRING + " " + JavadocParserTest.PACKAGES);
++        long start = System.currentTimeMillis();
++        while(dao.find(JavadocParserTest.API_NAME) == null && System.currentTimeMillis() < start + 300000) {
++            log.debug("waiting for javadoc");
++            try {
++                Thread.sleep(1000);
++            } catch (InterruptedException e) {
++                log.error(e.getMessage(), e);
++            }
++        }
++    }
++    
+diff --git a/core/src/test/java/javadoc/JavadocParserTest.java b/core/src/test/java/javadoc/JavadocParserTest.java
+index 882c164..35a56ba 100644
+--- a/core/src/test/java/javadoc/JavadocParserTest.java
++++ b/core/src/test/java/javadoc/JavadocParserTest.java
+@@ -26,0 +27 @@
++    public static final String PACKAGES = "java javax";
+@@ -39 +40 @@
+-        parse(JavadocParserTest.API_NAME, API_URL_STRING, Arrays.asList("java", "javax"));
++        parse(JavadocParserTest.API_NAME, API_URL_STRING, Arrays.asList(PACKAGES.split(" ")));
+

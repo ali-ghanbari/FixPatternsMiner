@@ -1,0 +1,67 @@
+diff --git a/CHANGES.md b/CHANGES.md
+index 6b63554..4c44eb2 100644
+--- a/CHANGES.md
++++ b/CHANGES.md
+@@ -97,4 +97 @@
+-
+-????
+--------------------
+-
++* Fix #206: fix lack of robustess in eucl_div
+diff --git a/choco-solver/src/main/java/solver/constraints/ternary/PropDivXYZ.java b/choco-solver/src/main/java/solver/constraints/ternary/PropDivXYZ.java
+index 1b4cf2d..651411e 100644
+--- a/choco-solver/src/main/java/solver/constraints/ternary/PropDivXYZ.java
++++ b/choco-solver/src/main/java/solver/constraints/ternary/PropDivXYZ.java
+@@ -299 +299 @@
+-        return absX.updateLowerBound(absZ.getLB() * absY.getLB(), aCause) & absX.updateUpperBound((absZ.getUB() * absY.getUB()) + absY.getUB() - 1, aCause);
++        return absX.updateLowerBound(absZ.getLB() * absY.getLB(), aCause) | absX.updateUpperBound((absZ.getUB() * absY.getUB()) + absY.getUB() - 1, aCause);
+diff --git a/choco-solver/src/test/java/solver/constraints/ternary/DivTest.java b/choco-solver/src/test/java/solver/constraints/ternary/DivTest.java
+index 0832878..ed20f9e 100644
+--- a/choco-solver/src/test/java/solver/constraints/ternary/DivTest.java
++++ b/choco-solver/src/test/java/solver/constraints/ternary/DivTest.java
+@@ -33,0 +34 @@
++import solver.search.loop.monitors.IMonitorSolution;
+@@ -34,0 +36 @@
++import solver.search.strategy.ISF;
+@@ -36,0 +39 @@
++import util.ESat;
+@@ -56,8 +59,30 @@
+-	@Test(groups = "1s")
+-	public void testJL(){
+-		Solver solver = new Solver();
+-		IntVar i = VF.enumerated("i", 0, 2, solver);
+-		solver.post(ICF.eucl_div(i, VF.one(solver), VF.zero(solver)).getOpposite());
+-		SMF.log(solver,true,false);
+-		solver.findAllSolutions();
+-	}
++    @Test(groups = "1s")
++    public void testJL() {
++        Solver solver = new Solver();
++        IntVar i = VF.enumerated("i", 0, 2, solver);
++        solver.post(ICF.eucl_div(i, VF.one(solver), VF.zero(solver)).getOpposite());
++        SMF.log(solver, true, false);
++        solver.findAllSolutions();
++    }
++
++    @Test(groups = "1s")
++    public void testJL2() {
++        for (int i = 0; i < 100000; i++) {
++            final Solver s = new Solver();
++            IntVar a = VF.enumerated("a", new int[]{0, 2, 3, 4}, s);
++            IntVar b = VF.enumerated("b", new int[]{-1, 1, 3, 4}, s);
++            IntVar c = VF.enumerated("c", new int[]{-3, 1, 4}, s);
++            s.post(ICF.eucl_div(a, b, c));
++            s.set(ISF.random_value(new IntVar[]{a, b, c}, i));
++            //SMF.log(s, true, true);
++            s.plugMonitor(new IMonitorSolution() {
++                @Override
++                public void onSolution() {
++                    if (!ESat.TRUE.equals(s.isSatisfied())) {
++                        throw new Error(s.toString());
++                    }
++                }
++            });
++            s.findAllSolutions();
++        }
++    }
+

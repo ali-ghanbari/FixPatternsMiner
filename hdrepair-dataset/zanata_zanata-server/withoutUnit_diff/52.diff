@@ -1,0 +1,22 @@
+diff --git a/functional-test/pom.xml b/functional-test/pom.xml
+index 16203fe..f31babd 100644
+--- a/functional-test/pom.xml
++++ b/functional-test/pom.xml
+@@ -33 +33 @@
+-        <jdbc.version>1.3.161</jdbc.version>
++        <jdbc.version>1.3.168</jdbc.version>
+@@ -158,2 +158,3 @@
+-            <groupId>com.h2database</groupId>
+-            <artifactId>h2</artifactId>
++            <groupId>${jdbc.groupId}</groupId>
++            <artifactId>${jdbc.artifactId}</artifactId>
++            <version>${jdbc.version}</version>
+@@ -378,0 +380 @@
++                                    <printResultSet>true</printResultSet>
+diff --git a/functional-test/src/main/java/org/zanata/page/SignInPage.java b/functional-test/src/main/java/org/zanata/page/SignInPage.java
+index bc90722..7fb82c9 100644
+--- a/functional-test/src/main/java/org/zanata/page/SignInPage.java
++++ b/functional-test/src/main/java/org/zanata/page/SignInPage.java
+@@ -73,0 +74 @@
++      usernameField.clear();
+

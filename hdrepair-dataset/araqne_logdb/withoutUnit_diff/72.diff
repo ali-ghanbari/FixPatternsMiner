@@ -1,0 +1,22 @@
+diff --git a/araqne-logdb/pom.xml b/araqne-logdb/pom.xml
+index d5a3393..58eb462 100644
+--- a/araqne-logdb/pom.xml
++++ b/araqne-logdb/pom.xml
+@@ -115 +115 @@
+-			<version>2.4.1</version>
++			<version>2.4.2</version>
+diff --git a/araqne-logstorage/pom.xml b/araqne-logstorage/pom.xml
+index a4b98ca..48e7cd2 100644
+--- a/araqne-logstorage/pom.xml
++++ b/araqne-logstorage/pom.xml
+@@ -12 +12 @@
+-	<version>2.4.1</version>
++	<version>2.4.2</version>
+diff --git a/araqne-logstorage/src/main/java/org/araqne/logstorage/LogTraverseCallback.java b/araqne-logstorage/src/main/java/org/araqne/logstorage/LogTraverseCallback.java
+index 75928ab..0c8a46e 100644
+--- a/araqne-logstorage/src/main/java/org/araqne/logstorage/LogTraverseCallback.java
++++ b/araqne-logstorage/src/main/java/org/araqne/logstorage/LogTraverseCallback.java
+@@ -29 +29 @@
+-		return sink.isEof();
++		return sink.isEof() || isInterrupted();
+

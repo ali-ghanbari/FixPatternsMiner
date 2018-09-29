@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java b/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java
+index b7be9b6..9ca067f 100644
+--- a/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java
++++ b/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java
+@@ -438 +438 @@
+-      final String oldText = ApplicationManagerEx.getApplicationEx().isInternal() ? file.getText() : null;
++      final String oldText = ApplicationManagerEx.getApplicationEx().isInternal() && !ApplicationManagerEx.getApplicationEx().isUnitTestMode() ? file.getText() : null;
+

@@ -1,0 +1,8 @@
+diff --git a/frontend/webadmin/modules/uicommonweb/src/main/java/org/ovirt/engine/ui/uicommonweb/models/SystemTreeItemModel.java b/frontend/webadmin/modules/uicommonweb/src/main/java/org/ovirt/engine/ui/uicommonweb/models/SystemTreeItemModel.java
+index 7b2c374..7ad7015 100644
+--- a/frontend/webadmin/modules/uicommonweb/src/main/java/org/ovirt/engine/ui/uicommonweb/models/SystemTreeItemModel.java
++++ b/frontend/webadmin/modules/uicommonweb/src/main/java/org/ovirt/engine/ui/uicommonweb/models/SystemTreeItemModel.java
+@@ -129 +129 @@
+-        if (result && getChildren().size() > 0 && deepCompare) {
++        if (result && (!getChildren().isEmpty() || !otherModel.getChildren().isEmpty()) && deepCompare) {
+

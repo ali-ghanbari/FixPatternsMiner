@@ -1,0 +1,39 @@
+diff --git a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/Logger_Test.java b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/Logger_Test.java
+index 26f7ac1..48708c4 100644
+--- a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/Logger_Test.java
++++ b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/Logger_Test.java
+@@ -33,0 +34,2 @@
++  
++  private ILifeCycleServiceHandlerConfigurer bufferedConfigurer;
+@@ -62,0 +65 @@
++    bufferedConfigurer = LifeCycleServiceHandler.configurer;
+@@ -86 +89 @@
+-    LifeCycleServiceHandler.configurer = null; 
++    LifeCycleServiceHandler.configurer = bufferedConfigurer; 
+diff --git a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/WrappedRequest_Test.java b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/WrappedRequest_Test.java
+index 23daa16..270d795 100644
+--- a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/WrappedRequest_Test.java
++++ b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/internal/service/WrappedRequest_Test.java
+@@ -103,0 +104,2 @@
++    ILifeCycleServiceHandlerConfigurer bufferedConfigurer 
++      = LifeCycleServiceHandler.configurer;
+@@ -140 +142 @@
+-    LifeCycleServiceHandler.configurer = null;
++    LifeCycleServiceHandler.configurer = bufferedConfigurer;
+diff --git a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/service/ServiceHandler_Test.java b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/service/ServiceHandler_Test.java
+index 9645a33..c890311 100644
+--- a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/service/ServiceHandler_Test.java
++++ b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/rwt/service/ServiceHandler_Test.java
+@@ -74,0 +75,2 @@
++    ILifeCycleServiceHandlerConfigurer bufferedConfigurer 
++      = LifeCycleServiceHandler.configurer;
+@@ -97 +99 @@
+-    LifeCycleServiceHandler.configurer = null; 
++    LifeCycleServiceHandler.configurer = bufferedConfigurer; 
+diff --git a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/RWTFixture.java b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/RWTFixture.java
+index aab78dc..102a1a3 100644
+--- a/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/RWTFixture.java
++++ b/tests/org.eclipse.rap.rwt.test/src/org/eclipse/swt/RWTFixture.java
+@@ -180 +179,0 @@
+-    LifeCycleServiceHandler.configurer = null;
+

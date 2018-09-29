@@ -1,0 +1,24 @@
+diff --git a/services/workers/src/main/java/org/sagebionetworks/search/workers/sqs/search/SearchQueueWorker.java b/services/workers/src/main/java/org/sagebionetworks/search/workers/sqs/search/SearchQueueWorker.java
+index 20b82f0..d4a0c1b 100644
+--- a/services/workers/src/main/java/org/sagebionetworks/search/workers/sqs/search/SearchQueueWorker.java
++++ b/services/workers/src/main/java/org/sagebionetworks/search/workers/sqs/search/SearchQueueWorker.java
+@@ -89 +89 @@
+-					processCreateUpdate(change);
++					processCreateUpdate(newMessage);
+diff --git a/services/workers/src/test/java/org/sagebionetworks/search/workers/sqs/search/SearchWorkerIntegrationTest.java b/services/workers/src/test/java/org/sagebionetworks/search/workers/sqs/search/SearchWorkerIntegrationTest.java
+index 49cda91..1a46c0c 100644
+--- a/services/workers/src/test/java/org/sagebionetworks/search/workers/sqs/search/SearchWorkerIntegrationTest.java
++++ b/services/workers/src/test/java/org/sagebionetworks/search/workers/sqs/search/SearchWorkerIntegrationTest.java
+@@ -92,0 +93,11 @@
++		
++		assertTrue(TimeUtils.waitFor(20000, 500, null, new Predicate<Void>() {
++			@Override
++			public boolean apply(Void input) {
++				try {
++					return searchDao.postInitialize();
++				} catch (Exception e) {
++					throw new RuntimeException(e);
++				}
++			}
++		}));
+

@@ -1,0 +1,15 @@
+diff --git a/web/src/main/java/uk/ac/ebi/atlas/model/ExperimentType.java b/web/src/main/java/uk/ac/ebi/atlas/model/ExperimentType.java
+index bc23339..dbd881b 100644
+--- a/web/src/main/java/uk/ac/ebi/atlas/model/ExperimentType.java
++++ b/web/src/main/java/uk/ac/ebi/atlas/model/ExperimentType.java
+@@ -52 +52 @@
+-        return getParent().equals(MICROARRAY_1COLOUR_MRNA_DIFFERENTIAL);
++        return getParent().equals(MICROARRAY_ANY);
+diff --git a/web/src/main/webapp/WEB-INF/jsp/includes/heatmap-matrix-gene-oriented.jsp b/web/src/main/webapp/WEB-INF/jsp/includes/heatmap-matrix-gene-oriented.jsp
+index 5e96fec..9d74654 100644
+--- a/web/src/main/webapp/WEB-INF/jsp/includes/heatmap-matrix-gene-oriented.jsp
++++ b/web/src/main/webapp/WEB-INF/jsp/includes/heatmap-matrix-gene-oriented.jsp
+@@ -145 +145 @@
+-                                                <c:if test="${type == 'MICROARRAY'}">
++                                                <c:if test="${type == 'MICROARRAY_ANY'}">
+

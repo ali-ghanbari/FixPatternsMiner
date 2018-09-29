@@ -1,0 +1,48 @@
+diff --git a/server/tracer/src/main/java/org/apache/accumulo/tracer/ZooTraceClient.java b/server/tracer/src/main/java/org/apache/accumulo/tracer/ZooTraceClient.java
+index 10dfdc2..3db77f0 100644
+--- a/server/tracer/src/main/java/org/apache/accumulo/tracer/ZooTraceClient.java
++++ b/server/tracer/src/main/java/org/apache/accumulo/tracer/ZooTraceClient.java
+@@ -112,2 +112,2 @@
+-          log.error("Unabled to get destination tracer hosts in ZooKeeper, will retry in 5 seconds", e);
+-          // We failed to connect to ZK, try again in 5seconds
++          log.error("Unabled to get destination tracer hosts in ZooKeeper, will retry in " + retryPause + " milliseconds", e);
++          // We failed to connect to ZK, try again in `retryPause` milliseconds
+diff --git a/server/tracer/src/test/java/org/apache/accumulo/tracer/ZooTraceClientTest.java b/server/tracer/src/test/java/org/apache/accumulo/tracer/ZooTraceClientTest.java
+index ebb2a7c..2a3d0d1 100644
+--- a/server/tracer/src/test/java/org/apache/accumulo/tracer/ZooTraceClientTest.java
++++ b/server/tracer/src/test/java/org/apache/accumulo/tracer/ZooTraceClientTest.java
+@@ -18,0 +19,2 @@
++import java.util.concurrent.atomic.AtomicBoolean;
++
+@@ -23,0 +26,16 @@
++  /**
++   * An extension on ZooTraceClient which acts as a latch on updateHostsFromZooKeeper using the provided {@link AtomicBoolean}
++   */
++  private static class UpdateHostsDelegate extends ZooTraceClient {
++    private final AtomicBoolean done;
++
++    private UpdateHostsDelegate(AtomicBoolean done) {
++      this.done = done;
++    }
++
++    @Override
++    public void updateHostsFromZooKeeper() {
++      this.done.set(true);
++    }
++  }
++
+@@ -27,0 +46 @@
++    AtomicBoolean done = new AtomicBoolean(false);
+@@ -32 +51,2 @@
+-    EasyMock.expectLastCall();
++    // Expect the second call to updateHostsFromZooKeeper, but wait for it to fire before verification
++    EasyMock.expectLastCall().andDelegateTo(new UpdateHostsDelegate(done));
+@@ -37 +57,6 @@
+-    
++
++    while (!done.get()) {
++      // The 2nd call to updateHostsFromZooKeeper is async. Wait for it for fire before verifying it was called.
++      Thread.sleep(200);
++    }
++
+

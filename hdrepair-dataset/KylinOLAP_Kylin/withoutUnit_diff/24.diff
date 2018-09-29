@@ -1,0 +1,8 @@
+diff --git a/metadata/src/main/java/com/kylinolap/metadata/tool/HiveSourceTableLoader.java b/metadata/src/main/java/com/kylinolap/metadata/tool/HiveSourceTableLoader.java
+index e0937f1..caa6927 100644
+--- a/metadata/src/main/java/com/kylinolap/metadata/tool/HiveSourceTableLoader.java
++++ b/metadata/src/main/java/com/kylinolap/metadata/tool/HiveSourceTableLoader.java
+@@ -152 +152 @@
+-            File file = new File(tableExdDir, tableAttrs.get("tableName").toUpperCase() + "." + OUTPUT_SURFIX);
++            File file = new File(tableExdDir, (database + "." + tableAttrs.get("tableName")).toUpperCase() + "." + OUTPUT_SURFIX);
+

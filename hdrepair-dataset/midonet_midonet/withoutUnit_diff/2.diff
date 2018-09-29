@@ -1,0 +1,26 @@
+diff --git a/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/PoolResource.scala b/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/PoolResource.scala
+index 1c56ce2..8d4bda4 100644
+--- a/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/PoolResource.scala
++++ b/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/PoolResource.scala
+@@ -29 +29 @@
+-import org.midonet.cluster.rest_api.NotFoundHttpException
++import org.midonet.cluster.rest_api.{InternalServerErrorHttpException, NotFoundHttpException}
+@@ -52,0 +53,5 @@
++    @Path("{id}/pool_members")
++    def members(@PathParam("id") id: UUID): PoolPoolMemberResource = {
++        new PoolPoolMemberResource(id, resContext)
++    }
++
+@@ -65,3 +70 @@
+-                Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+-                        .entity(t.getMessage)
+-                        .build()
++                throw new InternalServerErrorHttpException(t.getMessage)
+diff --git a/midonet-api/src/test/java/org/midonet/api/l4lb/e2e/L4LBTestBase.java b/midonet-api/src/test/java/org/midonet/api/l4lb/e2e/L4LBTestBase.java
+index 02eacb3..9f04fff 100644
+--- a/midonet-api/src/test/java/org/midonet/api/l4lb/e2e/L4LBTestBase.java
++++ b/midonet-api/src/test/java/org/midonet/api/l4lb/e2e/L4LBTestBase.java
+@@ -233 +233 @@
+-                .type(APPLICATION_POOL_JSON)
++                .accept(APPLICATION_POOL_JSON)
+

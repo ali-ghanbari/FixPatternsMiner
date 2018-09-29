@@ -1,0 +1,32 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/collection/CollectionAddAllOperation.java b/hazelcast/src/main/java/com/hazelcast/collection/CollectionAddAllOperation.java
+index 516b39c..0766cae 100644
+--- a/hazelcast/src/main/java/com/hazelcast/collection/CollectionAddAllOperation.java
++++ b/hazelcast/src/main/java/com/hazelcast/collection/CollectionAddAllOperation.java
+@@ -70,0 +71 @@
++            valueSet.add(value);
+diff --git a/hazelcast/src/test/java/com/hazelcast/collection/ListTest.java b/hazelcast/src/test/java/com/hazelcast/collection/ListTest.java
+index 45a35a2..4e4d7f7 100644
+--- a/hazelcast/src/test/java/com/hazelcast/collection/ListTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/collection/ListTest.java
+@@ -102,4 +102 @@
+-//        assertEquals(count+1, getList(instances, name).size());
+-//        assertEquals("item",getList(instances, name).set(0, "newItem"));
+-//        assertEquals("newItem",getList(instances, name).remove(0));
+-//        assertEquals(count, getList(instances, name).size());
++        assertEquals(4, getList(instances, name).size());
+@@ -109 +105,0 @@
+-//        assertEquals(count+list.size()-1, getList(instances, name).size());
+@@ -111,6 +107,6 @@
+-//
+-//        assertTrue(getList(instances, name).containsAll(list));
+-//        list.add("asd");
+-//        assertFalse(getList(instances, name).containsAll(list));
+-//        assertTrue(getList(instances, name).contains("item98"));
+-//        assertFalse(getList(instances, name).contains("item99"));
++
++        assertTrue(getList(instances, name).containsAll(list));
++        list.add("asd");
++        assertFalse(getList(instances, name).containsAll(list));
++        assertTrue(getList(instances, name).contains("item-1"));
++        assertFalse(getList(instances, name).contains("item"));
+

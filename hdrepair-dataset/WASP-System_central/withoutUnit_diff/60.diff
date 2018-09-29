@@ -1,0 +1,25 @@
+diff --git a/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/JobController.java b/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/JobController.java
+index fd79b3e..d453f18 100644
+--- a/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/JobController.java
++++ b/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/JobController.java
+@@ -982 +982 @@
+-		if(authenticationService.hasRole("su") || authenticationService.hasRole("ft") || authenticationService.hasRole("da")){
++		if(authenticationService.hasRole("su") || authenticationService.hasRole("ft") || authenticationService.hasRole("da-*")){
+diff --git a/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/createUpdateQuote.jsp b/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/createUpdateQuote.jsp
+index 6da41e4..b2816a3 100644
+--- a/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/createUpdateQuote.jsp
++++ b/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/createUpdateQuote.jsp
+@@ -90 +90 @@
+-<sec:authorize access="hasRole('su') or hasRole('ft') or hasRole('da')">
++<sec:authorize access="hasRole('su') or hasRole('ft') or hasRole('da-*')">
+diff --git a/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/uploadQuoteOrInvoice.jsp b/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/uploadQuoteOrInvoice.jsp
+index 7f387cd..91c116b 100644
+--- a/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/uploadQuoteOrInvoice.jsp
++++ b/wasp-web/src/main/webapp/WEB-INF/jsp/job/home/uploadQuoteOrInvoice.jsp
+@@ -6,0 +7,2 @@
++<sec:authorize access="hasRole('su') or hasRole('ft') or hasRole('da-*')">
++
+@@ -46,0 +49 @@
++</sec:authorize>
+\ No newline at end of file
+

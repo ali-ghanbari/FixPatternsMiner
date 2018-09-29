@@ -1,0 +1,10 @@
+Fix 5386408: Fix battery state information propagation in Lock Screen
+
+This fixes a bug where Lock Screen would sometimes inappropriately show
+"charged" if it took a while for Lock Screen to get an update on the
+battery state.  It now starts with the state set to BATTERY_STATUS_UNKNOWN
+so we properly update listeners when we finally get battery information
+in handleBatteryUpdate().
+
+Change-Id: I71018a233f38b2f897ff2e6592d7e310550fa016
+

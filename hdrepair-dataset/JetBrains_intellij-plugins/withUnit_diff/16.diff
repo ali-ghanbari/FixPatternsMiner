@@ -1,0 +1,24 @@
+diff --git a/struts2/plugin/src-test/com/intellij/struts2/BasicHighlightingTestCase.java b/struts2/plugin/src-test/com/intellij/struts2/BasicHighlightingTestCase.java
+index 8a819a4..ae49b2a 100644
+--- a/struts2/plugin/src-test/com/intellij/struts2/BasicHighlightingTestCase.java
++++ b/struts2/plugin/src-test/com/intellij/struts2/BasicHighlightingTestCase.java
+@@ -54 +54 @@
+-  private static final String SOURCE_PATH = "/src";
++  protected static final String SOURCE_PATH = "/src";
+diff --git a/struts2/plugin/src-test/com/intellij/struts2/dom/struts/StrutsIncludeTest.java b/struts2/plugin/src-test/com/intellij/struts2/dom/struts/StrutsIncludeTest.java
+index ffd8ea1..8025457 100644
+--- a/struts2/plugin/src-test/com/intellij/struts2/dom/struts/StrutsIncludeTest.java
++++ b/struts2/plugin/src-test/com/intellij/struts2/dom/struts/StrutsIncludeTest.java
+@@ -19,0 +20,2 @@
++import java.io.File;
++
+@@ -32,3 +34,5 @@
+-  @Override
+-  protected boolean hasJavaSources() {
+-    return true;
++  protected void configureModule(final JavaModuleFixtureBuilder moduleBuilder) throws Exception {
++    final String path = myFixture.getTempDirPath();
++    moduleBuilder.addContentRoot(path);
++    new File(path + SOURCE_PATH).mkdir();
++    moduleBuilder.addSourceRoot(SOURCE_PATH);
+

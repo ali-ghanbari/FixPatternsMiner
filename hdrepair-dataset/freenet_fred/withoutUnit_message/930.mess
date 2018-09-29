@@ -1,0 +1,25 @@
+955: Increment build number for lots of recent changes:
+- Cache all local requests. This means the store can be probed by our peers or when it's seized, but it prevents our peers from knowing for certain when a request was local due to its not being cached.
+- Fix an infinite loop that was causing restarts and high CPU usage
+- Truncate the storefile if there is a large empty block at the end
+- IP detection:
+-- Detect no more than every 12 hours if we have a directly detected IP
+-- Send an IP-detected message if the other end's IP changes while a connection is open
+-- While doing the first IP detection, tell the user that we are doing it
+-- Detect immediately if we have no old IP address rather than waiting for our peers to connect and give us one.
+-- Show the no-IP warning even if we have local addresses enabled.
+-- Locking and minor fixes
+- Rewrite ARK fetches; simplify code, don't limit more than necessary, hopefully fixes reported nodes not fetching ARKs except immediately after startup
+- Config changes: Don't write config values to freenet.ini unless they are different to the default (apart from a few e.g. storeSize which are always written).
+- Force any nodes still with the old default aggressiveGC to the new default of disabling it. This may help with CPU, deadlocking etc.
+- Don't run the updater if not running under the wrapper
+- Always close the freenet.ini filehandle after writing it even if there is an error
+- New USKRetriever used by the ARK changes; provides a simple interface to subscribe to a USK and get the content as well as the update notifications; related changes and bugfixes to client.async
+- USK related bugfixes
+- Don't rewrite valid anchor links
+- Spider bugfix
+- Drop checkAddress(), use the java-provided methods to determine whether an IP is a real internet address
+- Logging
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@10327 67a373e5-eb02-0410-a15c-ee090a768436
+

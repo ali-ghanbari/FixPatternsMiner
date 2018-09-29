@@ -1,0 +1,15 @@
+WebView's scrollBarStyle need to be set at init
+
+At initialization time of WebView, the View's scrollBarStyle is set
+according to the xml file.
+But WebView didn't pick that info up to specialize its own variable.
+
+The fix is to call WebView's setScrollBarStyle according to the View's
+ScrollBarStyle at the init() time.
+This will help Gmail to pick up the scrollBarStyle from xml file
+correctly.
+
+bug:3409308
+
+Change-Id: I3792b12a36bd989b6c31e0054ebacce4269300da
+

@@ -1,0 +1,10 @@
+diff --git a/nars_java/src/main/java/nars/control/DefaultCore.java b/nars_java/src/main/java/nars/control/DefaultCore.java
+index 69aa607..69d49e3 100644
+--- a/nars_java/src/main/java/nars/control/DefaultCore.java
++++ b/nars_java/src/main/java/nars/control/DefaultCore.java
+@@ -122,2 +122,2 @@
+-        if (task.isInput() || !task.sentence.isJudgment() || concept(task.sentence.term) != null) {
+-            //it is a question/goal/quest or a judgment for a concept which exists:
++        if (task.isInput() || task.sentence.isGoal() || task.sentence.isQuest() || concept(task.sentence.term) != null) {
++            //it is a question/quest or a judgment for a concept which exists:
+

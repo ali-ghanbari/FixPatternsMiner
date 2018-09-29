@@ -1,0 +1,28 @@
+diff --git a/components/camel-jms/src/main/java/org/apache/camel/component/jms/JmsConfiguration.java b/components/camel-jms/src/main/java/org/apache/camel/component/jms/JmsConfiguration.java
+index 98f3c83..b064da9 100644
+--- a/components/camel-jms/src/main/java/org/apache/camel/component/jms/JmsConfiguration.java
++++ b/components/camel-jms/src/main/java/org/apache/camel/component/jms/JmsConfiguration.java
+@@ -74 +74 @@
+-    private String cacheLevelName = "CACHE_CONSUMER";
++    private String cacheLevelName = "CACHE_CONNECTION";
+diff --git a/components/camel-jms/src/test/java/org/apache/camel/component/jms/JmsTransactedRouteTest.java b/components/camel-jms/src/test/java/org/apache/camel/component/jms/JmsTransactedRouteTest.java
+index 2d4e1c8..7400cbf 100644
+--- a/components/camel-jms/src/test/java/org/apache/camel/component/jms/JmsTransactedRouteTest.java
++++ b/components/camel-jms/src/test/java/org/apache/camel/component/jms/JmsTransactedRouteTest.java
+@@ -26,0 +27 @@
++import org.springframework.jms.listener.DefaultMessageListenerContainer;
+@@ -34,0 +36 @@
++        String expectedBody2 = "Goodbye!";
+@@ -36 +38,2 @@
+-        resultEndpoint.expectedBodiesReceived(expectedBody);
++
++        resultEndpoint.expectedBodiesReceived(expectedBody, expectedBody2);
+@@ -39,0 +43 @@
++        template.sendBodyAndHeader("activemq:test.a", expectedBody2, "cheese", 124);
+@@ -48 +52,4 @@
+-        camelContext.addComponent("activemq", jmsComponentTransacted(connectionFactory));
++        JmsComponent component = jmsComponentTransacted(connectionFactory);
++        //component.getConfiguration().setCacheLevelName("CACHE_CONNECTION");
++        //component.getConfiguration().setCacheLevel(DefaultMessageListenerContainer.CACHE_CONNECTION);
++        camelContext.addComponent("activemq", component);
+

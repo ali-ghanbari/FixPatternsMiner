@@ -1,0 +1,3 @@
+CLOUDSTACK-2276: NPE while attaching the volume to the instance which is created from ROOT Disk Snapshot
+The NPE comes as the storage pool id is set to null in the in-memory volume object which is not in sync with the db. entry. Reloading the volume from db. fixes the issue
+

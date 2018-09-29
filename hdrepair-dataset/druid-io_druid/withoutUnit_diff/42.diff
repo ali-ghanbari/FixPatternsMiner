@@ -1,0 +1,25 @@
+diff --git a/pom.xml b/pom.xml
+index 20c89c4..1ad6ccb 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -327 +327 @@
+-                <version>9.2.2.v20140723</version>
++                <version>9.2.3.v20140905</version>
+@@ -332 +332 @@
+-                <version>9.2.2.v20140723</version>
++                <version>9.2.3.v20140905</version>
+@@ -337 +337 @@
+-                <version>9.2.2.v20140723</version>
++                <version>9.2.3.v20140905</version>
+@@ -342 +342 @@
+-                <version>9.2.2.v20140723</version>
++                <version>9.2.3.v20140905</version>
+diff --git a/server/src/main/java/io/druid/server/initialization/JettyServerModule.java b/server/src/main/java/io/druid/server/initialization/JettyServerModule.java
+index f89329c..9cf3763 100644
+--- a/server/src/main/java/io/druid/server/initialization/JettyServerModule.java
++++ b/server/src/main/java/io/druid/server/initialization/JettyServerModule.java
+@@ -160,0 +161,3 @@
++    // workaround suggested in -
++    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=435322#c66 for jetty half open connection issues during failovers
++    connector.setAcceptorPriorityDelta(-1);
+

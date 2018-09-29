@@ -1,0 +1,14 @@
+diff --git a/build.xml b/build.xml
+index d2489a9..b1ca615 100644
+--- a/build.xml
++++ b/build.xml
+@@ -292 +291,0 @@
+-    <exclude name="${optional.package}/XmlValidateTest.java" unless="run.failing.tests" />
+diff --git a/src/main/org/apache/tools/ant/taskdefs/optional/XMLValidateTask.java b/src/main/org/apache/tools/ant/taskdefs/optional/XMLValidateTask.java
+index 92c50fd..3f6d7e1 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/optional/XMLValidateTask.java
++++ b/src/main/org/apache/tools/ant/taskdefs/optional/XMLValidateTask.java
+@@ -493 +493 @@
+-            File fileDTD = new File(location);
++            File fileDTD = project.resolveFile(location);
+

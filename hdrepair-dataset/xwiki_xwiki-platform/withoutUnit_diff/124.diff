@@ -1,0 +1,38 @@
+diff --git a/xwiki-rendering/xwiki-rendering-api/src/main/java/org/xwiki/rendering/internal/renderer/xhtml/link/DocumentXHTMLLinkTypeRenderer.java b/xwiki-rendering/xwiki-rendering-api/src/main/java/org/xwiki/rendering/internal/renderer/xhtml/link/DocumentXHTMLLinkTypeRenderer.java
+index 45223f5..634a512 100644
+--- a/xwiki-rendering/xwiki-rendering-api/src/main/java/org/xwiki/rendering/internal/renderer/xhtml/link/DocumentXHTMLLinkTypeRenderer.java
++++ b/xwiki-rendering/xwiki-rendering-api/src/main/java/org/xwiki/rendering/internal/renderer/xhtml/link/DocumentXHTMLLinkTypeRenderer.java
+@@ -135 +135 @@
+-        if (this.wikiModel.isDocumentAvailable(reference)) {
++        if (StringUtils.isEmpty(reference.getReference()) || this.wikiModel.isDocumentAvailable(reference)) {
+diff --git a/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links18.test b/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links18.test
+index fdc243e..e4ca58e 100644
+--- a/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links18.test
++++ b/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links18.test
+@@ -22 +22 @@
+-<p><span class="wikilink"><a href="#"><span class="wikigeneratedlinkcontent"></span></a></span></p>
++<p><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent"></span></a></span></p>
+@@ -26 +26 @@
+-<p><!--startwikilink:false|-|doc|-|--><span class="wikilink"><a href="#"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>
++<p><!--startwikilink:false|-|doc|-|--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>
+@@ -34 +34 @@
+-<p><!--startwikilink:false|-|doc|-|--><span class="wikilink"><a href="#"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>
+\ No newline at end of file
++<p><!--startwikilink:false|-|doc|-|--><span class="wikilink"><a href="viewurl"><span class="wikigeneratedlinkcontent"></span></a></span><!--stopwikilink--></p>
+\ No newline at end of file
+diff --git a/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links21.test b/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links21.test
+index 1c1a168..414ac69 100644
+--- a/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links21.test
++++ b/xwiki-rendering/xwiki-rendering-tests/src/test/resources/wiki/link/links21.test
+@@ -23 +23 @@
+-<p><span class="wikilink"><a href="#name">label</a></span></p>
++<p><span class="wikilink"><a href="viewurl#name">label</a></span></p>
+@@ -27 +27 @@
+-<p><!--startwikilink:false|-|doc|-||-|anchor="name"--><span class="wikilink"><a href="#name">label</a></span><!--stopwikilink--></p>
++<p><!--startwikilink:false|-|doc|-||-|anchor="name"--><span class="wikilink"><a href="viewurl#name">label</a></span><!--stopwikilink--></p>
+@@ -31 +31 @@
+-<p><!--startwikilink:false|-|doc|-||-|anchor="name"--><span class="wikilink"><a href="#name">label</a></span><!--stopwikilink--></p>
+\ No newline at end of file
++<p><!--startwikilink:false|-|doc|-||-|anchor="name"--><span class="wikilink"><a href="viewurl#name">label</a></span><!--stopwikilink--></p>
+\ No newline at end of file
+

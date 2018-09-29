@@ -1,0 +1,36 @@
+diff --git a/plugins/org.eclipse.xtext.common.types.edit/build.properties b/plugins/org.eclipse.xtext.common.types.edit/build.properties
+index f42462a..fe57ff2 100644
+--- a/plugins/org.eclipse.xtext.common.types.edit/build.properties
++++ b/plugins/org.eclipse.xtext.common.types.edit/build.properties
+@@ -7 +7,2 @@
+-               icons/
++               icons/,\
++               about.html
+diff --git a/plugins/org.eclipse.xtext.smap/build.properties b/plugins/org.eclipse.xtext.smap/build.properties
+index 34d2e4d..17daa5b 100644
+--- a/plugins/org.eclipse.xtext.smap/build.properties
++++ b/plugins/org.eclipse.xtext.smap/build.properties
+@@ -4 +4,2 @@
+-               .
++               .,\
++               about.html
+diff --git a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/PluginProjectFactory.java b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/PluginProjectFactory.java
+index 3e028d0..2db0bb4 100644
+--- a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/PluginProjectFactory.java
++++ b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/PluginProjectFactory.java
+@@ -101 +101 @@
+-		content.append("Bundle-Version: 1.0.0\n");
++		content.append("Bundle-Version: 1.0.0.qualifier\n");
+diff --git a/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/RegisteredGenmodelTest.java b/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/RegisteredGenmodelTest.java
+index 6240729..ccc3356 100644
+--- a/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/RegisteredGenmodelTest.java
++++ b/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/RegisteredGenmodelTest.java
+@@ -21,0 +22 @@
++import org.junit.Ignore;
+@@ -41 +42 @@
+-	@Test public void testCanResolveGenmodelURIs() {
++	@Ignore @Test public void testCanResolveGenmodelURIs() {
+@@ -56 +57 @@
+-//							fail(uriAsString + " does not exist");
++							fail(uriAsString + " does not exist");
+

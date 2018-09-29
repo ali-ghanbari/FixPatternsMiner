@@ -1,0 +1,723 @@
+diff --git a/app/assets/javascripts/listEntry.js b/app/assets/javascripts/listEntry.js
+index 374ee6b..a9fbe0f 100644
+--- a/app/assets/javascripts/listEntry.js
++++ b/app/assets/javascripts/listEntry.js
+@@ -22 +22 @@
+-    this.subject = this.$wrapper.data('subject');
++    this.listItemName = this.$wrapper.data('listItemName');
+@@ -33 +33 @@
+-        '<span class="hidden">Fieldset legend number </span>{{number}}.' +
++        '<span class="hidden">{{listItemName}} number </span>{{number}}.' +
+@@ -38 +38 @@
+-          'Remove<span class="hidden"> Fieldset legend number {{number}}</span>' +
++          'Remove<span class="hidden"> {{listItemName}} number {{number}}</span>' +
+@@ -44 +44 @@
+-    '<button type="button" class="button-secondary list-entry-add">Add another {{subject}} ({{entriesLeft}} remaining)</button>'
++    '<button type="button" class="button-secondary list-entry-add">Add another {{listItemName}} ({{entriesLeft}} remaining)</button>'
+@@ -132 +132,2 @@
+-            'value' : entry
++            'value' : entry,
++            'listItemName' : this.listItemName
+@@ -141 +142 @@
+-      'subject' : this.subject,
++      'listItemName' : this.listItemName,
+diff --git a/app/assets/javascripts/wordCounter.js b/app/assets/javascripts/wordCounter.js
+index 66d800a..8141e6f 100644
+--- a/app/assets/javascripts/wordCounter.js
++++ b/app/assets/javascripts/wordCounter.js
+@@ -9 +9 @@
+-  var counterClass = 'wordCount',
++  var counterClass = 'word-count-counter',
+@@ -11,2 +11,2 @@
+-        var $textarea = $('textarea[data-max-length-in-words]')
+-        
++        var $textarea = $('textarea[data-max-length-in-words]');
++
+@@ -15,2 +15,7 @@
+-          .after('<p class="' + counterClass + '" role="status" aria-live="assertive" aria-relevant="text" id="wordcount" />')
+-          .attr('aria-controls', 'wordcount')
++          .after(
++            '<p class="' + counterClass + '" ' +
++              'role="status" aria-live="polite" aria-relevant="text" ' +
++              'id="word-count-' + $textarea.prop('name') + '"' +
++            '/>'
++          )
++          .attr('aria-controls', 'word-count-' + $textarea.prop('name'))
+diff --git a/app/assets/sass/components/_button.scss b/app/assets/sass/components/_button.scss
+index 1020243..8397cd3 100644
+--- a/app/assets/sass/components/_button.scss
++++ b/app/assets/sass/components/_button.scss
+@@ -6,0 +7 @@
++    margin: 0 0 25px 0;
+diff --git a/app/assets/sass/components/_page-footer.scss b/app/assets/sass/components/_page-footer.scss
+index f7f5ed2..fa53ed8 100644
+--- a/app/assets/sass/components/_page-footer.scss
++++ b/app/assets/sass/components/_page-footer.scss
+@@ -6,3 +6,3 @@
+-  &-item,
+-  &-link {
+-    margin: 0 0 20px 0;
++  &-item {
++    display: block;
++    margin: 10px 0 0 0;
+diff --git a/app/assets/sass/components/_page-heading.scss b/app/assets/sass/components/_page-heading.scss
+index f126144..1e208de 100644
+--- a/app/assets/sass/components/_page-heading.scss
++++ b/app/assets/sass/components/_page-heading.scss
+@@ -3 +3 @@
+-  @include heading-48;
++  @include heading-36;
+@@ -5 +4,0 @@
+-  margin-bottom: 15px;
+@@ -11,0 +11,5 @@
++
++.page-heading-without-position {
++  @extend .page-heading;
++  margin-top: 25px;
++}
+diff --git a/app/assets/sass/components/_position.scss b/app/assets/sass/components/_position.scss
+index 5d3b9cf..f18f887 100644
+--- a/app/assets/sass/components/_position.scss
++++ b/app/assets/sass/components/_position.scss
+@@ -2 +2 @@
+-  @include copy-19;
++  @include heading-24;
+diff --git a/app/assets/sass/components/_summary.scss b/app/assets/sass/components/_summary.scss
+index b5a55e9..69c607a 100644
+--- a/app/assets/sass/components/_summary.scss
++++ b/app/assets/sass/components/_summary.scss
+@@ -3,0 +4,2 @@
++    margin: 10px 0 15px 0;
++  }
+@@ -5,8 +7,8 @@
+-    &-heading {
+-      @include core-24;
+-      font-weight: bold;
+-      position: relative;
+-      padding: 10px 50% 10px 0;
+-      margin: 0;
+-      @include box-sizing(border-box);
+-    }
++  &-heading {
++    @include core-24;
++    font-weight: bold;
++    position: relative;
++    padding: 35px 50% 0 0;
++    margin: 0 0 10px 0;
++    @include box-sizing(border-box);
++  }
+@@ -14,5 +16,8 @@
+-    &-change-link {
+-      @include core-19;
+-      font-weight: normal;
+-      text-align: right;
+-    }
++  &-top-level-action {
++    @include copy-19;
++    text-align: right;
++    margin: -36px 0 0 0;
++    padding-left: 50%;
++    position: relative;
++    z-index: 10;
++  }
+@@ -20 +25 @@
+-    &-answer-list {
++  &-answer-list {
+@@ -22,2 +27,2 @@
+-      border-top: 1px solid $grey-3;
+-      margin: 0 0 30px 0;
++    border-bottom: 1px solid $grey-3;
++    margin: 0 0 30px 0;
+@@ -25 +30 @@
+-    }
++  }
+@@ -27 +32 @@
+-    &-answer {
++  &-row {
+@@ -29,3 +34,3 @@
+-      @include core-19;
+-      padding: 10px 0;
+-      border-bottom: 1px solid $grey-3;
++    @include core-19;
++    text-align: right;
++    border-top: 1px solid $grey-3;
+@@ -32,0 +38,4 @@
++    td {
++      padding-top: 10px;
++      padding-bottom: 10px;
++      vertical-align: middle;
+@@ -36,0 +46,32 @@
++  &-without-answers {
++    border-top: 1px solid $grey-3;
++    border-bottom: 1px solid $grey-3;
++    padding-top: 10px;
++    padding-bottom: 10px;
++    margin: 0 0 30px 0;
++  }
++
++  &-answer-heading {
++    display: none;
++  }
++
++  &-answer-title {
++    text-align: left;
++    width: 100%;
++  }
++
++  &-answer-progress,
++  &-answer-action {
++    white-space: nowrap;
++    padding-left: 20px;
++  }
++
++  &-answer-button {
++    @include button($grey-3);
++    @include core-16;
++    margin: 0 0 -10px 0; // Hack to make sure the button doesn't expand the row
++    position: relative;
++    top: -2px;
++  }
++
++
+diff --git a/app/assets/sass/components/_wrappers.scss b/app/assets/sass/components/_wrappers.scss
+index 7951d2f..db692d4 100644
+--- a/app/assets/sass/components/_wrappers.scss
++++ b/app/assets/sass/components/_wrappers.scss
+@@ -9,0 +10,4 @@
++
++#content {
++  padding-bottom: 60px;
++}
+diff --git a/app/controllers/QuestionPageDisplay.java b/app/controllers/QuestionPageDisplay.java
+index b5efa3c..5648086 100644
+--- a/app/controllers/QuestionPageDisplay.java
++++ b/app/controllers/QuestionPageDisplay.java
+@@ -27,0 +28 @@
++        renderArgs.put("listingID", listing.id);
+diff --git a/app/views/Dashboard/home.html b/app/views/Dashboard/home.html
+index ec788ed..35aa35f 100644
+--- a/app/views/Dashboard/home.html
++++ b/app/views/Dashboard/home.html
+@@ -17,2 +17,2 @@
+-<h1 class='page-heading'>
+-    ${supplierDetails.get("supplierCompanyName")} [${supplierDetails.get("supplierId")}]
++<h1 class='page-heading' id='supplier-${supplierDetails.get("supplierId")}'>
++    ${supplierDetails.get("supplierCompanyName")}
+@@ -21,5 +21,6 @@
+-<div class='summary-item'>
+-  <h2 class='summary-item-heading'>
+-    Draft services
+-    <a href='/addservice' class='summary-item-change-link' id='new_service'>Add a new service</a>
+-  </h2>
++<h2 class='summary-heading'>
++  Draft services
++</h2>
++<p class='summary-top-level-action'>
++  <a href='/addservice' class='summary-change-link' id='new_service'>Add a new service</a>
++</p>
+@@ -27,6 +28,6 @@
+-  #{ifnot listings}
+-  <p class='question-hint summary-item-answer-list summary-item-answer'>
+-    You haven't added any services yet
+-  </p>
+-  #{/ifnot}
+-  #{else}
++#{ifnot listings}
++<p class='question-hint summary-answer-list summary-without-answers'>
++  You haven't added any services yet
++</p>
++#{/ifnot}
++#{else}
+@@ -34 +35,15 @@
+-  <ul class='summary-item-answer-list'>
++<table width='100%' class='summary-item'>
++  <thead class='summary-answer-heading'>
++    <tr>
++      <td>
++        Service name
++      </td>
++      <td>
++        Pages completed
++      </td>
++      <td>
++        Link to first incomplete page
++      </td>
++    </tr>
++  </thead>
++  <tbody class='summary-answer-list'>
+@@ -36,8 +51,10 @@
+-    <li class='summary-item-answer'>
+-      %{
+-        if (listing.title != null)
+-           serviceName = listing.title;
+-        else serviceName = listing.id;
+-      }%
+-      ${serviceName}
+-      <span class='summary-item-change-link'>
++    %{
++      if (listing.title != null)
++         serviceName = listing.title;
++      else serviceName = listing.id;
++    }%
++    <tr class='summary-row'>
++      <td class='summary-answer-title'>
++        <a href='/service/${listing.id}'>${serviceName}</a>
++      </td>
++      <td class='summary-answer-progress'>
+@@ -46,4 +63,6 @@
+-        ${listing.getPageSequenceSize()} steps complete&ensp;<a href='/service/${listing.id}'>Continue</a>
+-        ${listing.description}
+-      </span>
+-    </li>
++        ${listing.getPageSequenceSize()} pages complete
++      </td>
++      <td class='summary-answer-action'>
++        <a href='/service/${listing.id}'>Continue</a>
++      </td>
++    </tr>
+@@ -51,14 +70,56 @@
+-  </ul>
+-  #{/else}
+-</div>
+-<div class='summary-item'>
+-  <h2 class='summary-item-heading'>
+-    Completed services
+-  </h2>
+-  <p class='question-hint'>
+-    Once approved, these services will be published on the Digital Marketplace
+-  </p>
+-  <p class='question-hint summary-item-answer-list summary-item-answer'>
+-    You haven't marked any services as completed yet
+-  </p>
+-</div>
++  </tbody>
++</table>
++#{/else}
++
++<h2 class='summary-heading'>
++  Completed services
++</h2>
++<p class='question-hint'>
++  These services will be published on the Digital Marketplace when G-Cloud 6 goes live
++</p>
++%{
++  if (play.configuration.getProperty("application.mode") == 'prod') {
++}%
++<p class='question-hint summary-without-answers'>
++  You haven't marked any services as completed yet
++</p>
++%{
++  } else {
++}%
++<table width='100%'>
++  <thead class='summary-answer-heading'>
++    <tr>
++      <td>
++        Service name
++      </td>
++      <td>
++        Actions that can be performed on this service
++      </td>
++    </tr>
++  </thead>
++  <tbody class='summary-answer-list'>
++    <tr class='summary-row'>
++      <td class='summary-answer-title'>
++        <a href='#'>Example service 1</a>
++      </td>
++      <td class='summary-answer-progress'>
++        <button class='summary-answer-button'>
++          Return service to drafts
++        </button>
++      </td>
++    </tr>
++    <tr class='summary-row'>
++      <td class='summary-answer-title'>
++        <a href='#'>Another example service</a>
++      </td>
++      <td class='summary-answer-progress'>
++        <button class='summary-answer-button'>
++          Return service to drafts
++        </button>
++      </td>
++    </tr>
++  </tbody>
++</table>
++%{
++  }
++}%
+diff --git a/app/views/QuestionPages/1.html b/app/views/QuestionPages/1.html
+index 9b4bf94..fadd264 100644
+--- a/app/views/QuestionPages/1.html
++++ b/app/views/QuestionPages/1.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/10.html b/app/views/QuestionPages/10.html
+index ce435be..43a6d4f 100644
+--- a/app/views/QuestionPages/10.html
++++ b/app/views/QuestionPages/10.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/11.html b/app/views/QuestionPages/11.html
+index 4f2aac8..8bc18af 100644
+--- a/app/views/QuestionPages/11.html
++++ b/app/views/QuestionPages/11.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/12.html b/app/views/QuestionPages/12.html
+index 4a27de2..85577af 100644
+--- a/app/views/QuestionPages/12.html
++++ b/app/views/QuestionPages/12.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/13.html b/app/views/QuestionPages/13.html
+index a28d2d6..b716726 100644
+--- a/app/views/QuestionPages/13.html
++++ b/app/views/QuestionPages/13.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/14.html b/app/views/QuestionPages/14.html
+index 9cc0e0f..d1396d8 100644
+--- a/app/views/QuestionPages/14.html
++++ b/app/views/QuestionPages/14.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/15.html b/app/views/QuestionPages/15.html
+index 9f8d831..481610f 100644
+--- a/app/views/QuestionPages/15.html
++++ b/app/views/QuestionPages/15.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/16.html b/app/views/QuestionPages/16.html
+index ffdfab2..4749bbc 100644
+--- a/app/views/QuestionPages/16.html
++++ b/app/views/QuestionPages/16.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+@@ -15 +16 @@
+-<form action='${request.getBase()}${request.url}' method='POST'>
++<form action="${request.getBase()}${request.url}" method="POST">
+@@ -23 +24 @@
+-  <fieldset class='input-list' data-subject='feature'>
++  <fieldset class="input-list" data-list-item-name="${content.get(question + 'listItemName')}">
+diff --git a/app/views/QuestionPages/17.html b/app/views/QuestionPages/17.html
+index 305bf1f..f44ee87 100644
+--- a/app/views/QuestionPages/17.html
++++ b/app/views/QuestionPages/17.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/18.html b/app/views/QuestionPages/18.html
+index 96e0c94..8714d4e 100644
+--- a/app/views/QuestionPages/18.html
++++ b/app/views/QuestionPages/18.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/19.html b/app/views/QuestionPages/19.html
+index abd45d1..f70e0ea 100644
+--- a/app/views/QuestionPages/19.html
++++ b/app/views/QuestionPages/19.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/2.html b/app/views/QuestionPages/2.html
+index fe2a59c..bf79c3a 100644
+--- a/app/views/QuestionPages/2.html
++++ b/app/views/QuestionPages/2.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/20.html b/app/views/QuestionPages/20.html
+index c8df2d3..2296ee9 100644
+--- a/app/views/QuestionPages/20.html
++++ b/app/views/QuestionPages/20.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+@@ -15 +16 @@
+-<form action='${request.getBase()}${request.url}' method='POST'>
++<form action="${request.getBase()}${request.url}" method="POST">
+@@ -23 +24 @@
+-  <div class='input-list' data-subject='feature'>
++  <div class="input-list" data-list-item-name="${content.get(question + 'listItemName')}">
+diff --git a/app/views/QuestionPages/21.html b/app/views/QuestionPages/21.html
+index d38f6fb..51a68b5 100644
+--- a/app/views/QuestionPages/21.html
++++ b/app/views/QuestionPages/21.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/22.html b/app/views/QuestionPages/22.html
+index 0e31964..4f8d9de 100644
+--- a/app/views/QuestionPages/22.html
++++ b/app/views/QuestionPages/22.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/23.html b/app/views/QuestionPages/23.html
+index ab381fd..373e67d 100644
+--- a/app/views/QuestionPages/23.html
++++ b/app/views/QuestionPages/23.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/24.html b/app/views/QuestionPages/24.html
+index d19fefb..32def77 100644
+--- a/app/views/QuestionPages/24.html
++++ b/app/views/QuestionPages/24.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/25.html b/app/views/QuestionPages/25.html
+index ed90c3a..73ed7e5 100644
+--- a/app/views/QuestionPages/25.html
++++ b/app/views/QuestionPages/25.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/26.html b/app/views/QuestionPages/26.html
+index 096f72b..b64a885 100644
+--- a/app/views/QuestionPages/26.html
++++ b/app/views/QuestionPages/26.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/27.html b/app/views/QuestionPages/27.html
+index ac38ac8..6943ae1 100644
+--- a/app/views/QuestionPages/27.html
++++ b/app/views/QuestionPages/27.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/28.html b/app/views/QuestionPages/28.html
+index e5dd0fb..affc58e 100644
+--- a/app/views/QuestionPages/28.html
++++ b/app/views/QuestionPages/28.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/29.html b/app/views/QuestionPages/29.html
+index 0be41ca..c0239ca 100644
+--- a/app/views/QuestionPages/29.html
++++ b/app/views/QuestionPages/29.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/3.html b/app/views/QuestionPages/3.html
+index 6dcf002..846bed3 100644
+--- a/app/views/QuestionPages/3.html
++++ b/app/views/QuestionPages/3.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/30.html b/app/views/QuestionPages/30.html
+index eedae4c..f1e309b 100644
+--- a/app/views/QuestionPages/30.html
++++ b/app/views/QuestionPages/30.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/31.html b/app/views/QuestionPages/31.html
+index 8419a37..efe6b5c 100644
+--- a/app/views/QuestionPages/31.html
++++ b/app/views/QuestionPages/31.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/32.html b/app/views/QuestionPages/32.html
+index be65a47..6145791 100644
+--- a/app/views/QuestionPages/32.html
++++ b/app/views/QuestionPages/32.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/33.html b/app/views/QuestionPages/33.html
+index 20fc1f5..847c322 100644
+--- a/app/views/QuestionPages/33.html
++++ b/app/views/QuestionPages/33.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/34.html b/app/views/QuestionPages/34.html
+index e32ce65..ce58a45 100644
+--- a/app/views/QuestionPages/34.html
++++ b/app/views/QuestionPages/34.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/35.html b/app/views/QuestionPages/35.html
+index dc69fb1..28df122 100644
+--- a/app/views/QuestionPages/35.html
++++ b/app/views/QuestionPages/35.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/36.html b/app/views/QuestionPages/36.html
+index b635afe..677e987 100644
+--- a/app/views/QuestionPages/36.html
++++ b/app/views/QuestionPages/36.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/4.html b/app/views/QuestionPages/4.html
+index fe3e24b..669c879 100644
+--- a/app/views/QuestionPages/4.html
++++ b/app/views/QuestionPages/4.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/5.html b/app/views/QuestionPages/5.html
+index bf72599..f7b7e27 100644
+--- a/app/views/QuestionPages/5.html
++++ b/app/views/QuestionPages/5.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+@@ -15 +16 @@
+-<form action='${request.getBase()}${request.url}' method='POST'>
++<form action="${request.getBase()}${request.url}" method="POST">
+@@ -27 +28 @@
+-  <div class='input-list' data-subject='feature'>
++  <div class="input-list" data-list-item-name="${content.get(question + 'listItemName')}">
+@@ -55 +56 @@
+-  <div class='input-list'>
++  <div class="input-list" data-list-item-name="${content.get(question + 'listItemName')}">
+diff --git a/app/views/QuestionPages/6.html b/app/views/QuestionPages/6.html
+index b865904..fb614cf 100644
+--- a/app/views/QuestionPages/6.html
++++ b/app/views/QuestionPages/6.html
+@@ -9,0 +10 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/7.html b/app/views/QuestionPages/7.html
+index f60eaf4..78b62bc 100644
+--- a/app/views/QuestionPages/7.html
++++ b/app/views/QuestionPages/7.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/8.html b/app/views/QuestionPages/8.html
+index c810665..836f847 100644
+--- a/app/views/QuestionPages/8.html
++++ b/app/views/QuestionPages/8.html
+@@ -11,0 +12 @@
++  service_id: listingID,
+diff --git a/app/views/QuestionPages/9.html b/app/views/QuestionPages/9.html
+index e218bed..8cff281 100644
+--- a/app/views/QuestionPages/9.html
++++ b/app/views/QuestionPages/9.html
+@@ -10,0 +11 @@
++  service_id: listingID,
+diff --git a/app/views/Service/newService.html b/app/views/Service/newService.html
+index 20ba16e..780a759 100644
+--- a/app/views/Service/newService.html
++++ b/app/views/Service/newService.html
+@@ -25 +24,0 @@
+-  <fieldset class='question question-with-explantion'>
+@@ -28 +27,2 @@
+-      hint: content.get(question + 'hint')
++      hint: content.get(question + 'hint'),
++      error: content.get(question + flash.get(question))
+@@ -30,5 +30,26 @@
+-    #{forms/selection-button-radio
+-      name: 'lot',
+-      label: content.get(question + 'val1Label'),
+-      description: 'Infrastructure is the hardware that makes software work. It’s the networks, hosting facilities and servers that platforms and software depend on. IaaS is infrastructure you can order and run entirely over the internet, without having to pay for your own hardware.',
+-      value: 'IaaS'
++      #{forms/selection-button-radio
++        name: 'lot',
++        label: content.get(question + 'val1Label'),
++        description: content.get(question + 'val1Description'),
++        value: 'IaaS'
++      /}
++      #{forms/selection-button-radio
++        name: 'lot',
++        label: content.get(question + 'val2Label'),
++        description: content.get(question + 'val2Description'),
++        value: 'SaaS'
++      /}
++      #{forms/selection-button-radio
++        name: 'lot',
++        label: content.get(question + 'val3Label'),
++        description: content.get(question + 'val3Description'),
++        value: 'PaaS'
++      /}
++      #{forms/selection-button-radio
++        name: 'lot',
++        label: content.get(question + 'val4Label'),
++        description: content.get(question + 'val4Description'),
++        value: 'SCS'
++      /}
++    #{question-footer
++      error: content.get(question + flash.get(question))
+@@ -36,19 +56,0 @@
+-    #{forms/selection-button-radio
+-      name: 'lot',
+-      label: content.get(question + 'val2Label'),
+-      description: 'SaaS is an application or service that can be run over the internet or in the cloud. For example, web-based email services, customer relationship management (CRM) software and analytics tools.',
+-      value: 'SaaS'
+-    /}
+-    #{forms/selection-button-radio
+-      name: 'lot',
+-      label: content.get(question + 'val3Label'),
+-      description: 'Platforms are just that: software platforms that provide a basis for building other services and applications. With PaaS, you can set up, order, pay for and manage platforms in the cloud.',
+-      value: 'PaaS'
+-    /}
+-    #{forms/selection-button-radio
+-      name: 'lot',
+-      label: content.get(question + 'val4Label'),
+-      description: 'Specialist Cloud Services support your transition to SaaS, PaaS and IaaS. For example, cloud strategy, data transfer between providers, or day-to-day support of cloud-based services.',
+-      value: 'SCS'
+-    /}
+-  </fieldset>
+@@ -57,3 +58,0 @@
+-    <p class="page-footer-item">
+-      <a href="/">Return to dashboard</a>
+-    </p>
+diff --git a/app/views/Service/summaryPage.html b/app/views/Service/summaryPage.html
+index 9448831..d0b4531 100644
+--- a/app/views/Service/summaryPage.html
++++ b/app/views/Service/summaryPage.html
+@@ -15 +15 @@
+-<h1 class="page-heading">
++<h1 class="page-heading-without-position">
+@@ -24 +24 @@
+-  label: 'This submission is completed'
++  label: 'This service is completed'
+diff --git a/app/views/Styleguide/home.html b/app/views/Styleguide/home.html
+index ff94475..bb07602 100644
+--- a/app/views/Styleguide/home.html
++++ b/app/views/Styleguide/home.html
+@@ -99 +99 @@
+-    <div class="input-list">
++    <div class="input-list" data-list-item-name="feature">
+diff --git a/app/views/tags/breadcrumb-one-deep.html b/app/views/tags/breadcrumb-one-deep.html
+index 9949a8d..635d212 100644
+--- a/app/views/tags/breadcrumb-one-deep.html
++++ b/app/views/tags/breadcrumb-one-deep.html
+@@ -7,0 +8 @@
++        <a href='/service/${_service_id}' class='breadcrumb-navigation-link'>
+@@ -18,0 +20 @@
++        </a>
+diff --git a/app/views/tags/footer.html b/app/views/tags/footer.html
+index 75d4c4a..54292c0 100644
+--- a/app/views/tags/footer.html
++++ b/app/views/tags/footer.html
+@@ -2,8 +2,6 @@
+-    <input type='submit' value='Save and continue' class='page-footer-item button button-save' />
+-    <p class='page-footer-item'>
+-      <a href='#'>Go back to previous page</a>
+-    </p>
+-    <p class='returnToDashboard'>
+-      <a href='/'>Return to dashboard</a>
+-    </p>
+-  </div>
+\ No newline at end of file
++    <button class='button-save'>
++      Save and continue
++    </button>
++    <a href='#' class='page-footer-item'>Previous page of questions</a>
++    <a href='/' class='page-footer-item'>Summary of pages</a>
++  </div>
+diff --git a/app/views/tags/forms/textbox-input-list-item.html b/app/views/tags/forms/textbox-input-list-item.html
+index c9c93b0..4d57889 100644
+--- a/app/views/tags/forms/textbox-input-list-item.html
++++ b/app/views/tags/forms/textbox-input-list-item.html
+@@ -3 +3 @@
+-    <span class='hidden'>Fieldset legend number </span>${_numbered}.
++    <span class='hidden'>${_listItemName} number </span>${_numbered}.
+diff --git a/package.json b/package.json
+index 36003fc..475d0fe 100755
+--- a/package.json
++++ b/package.json
+@@ -13 +13 @@
+-    "govuk_frontend_toolkit": "1.6.0",
++    "govuk_frontend_toolkit": "1.6.1",
+diff --git a/scripts/productionPageEntry.mustache b/scripts/productionPageEntry.mustache
+index 48ee5c3..1ccf7b4 100644
+--- a/scripts/productionPageEntry.mustache
++++ b/scripts/productionPageEntry.mustache
+@@ -10,0 +11,3 @@
++{{#listItemName}}
++p{{{pageNumber}}}q{{{questionNumber}}}listItemName={{{listItemName}}}
++{{/listItemName}}
+@@ -14,0 +18,3 @@
++{{#explanation}}
++p{{{pageNumber}}}q{{{questionNumber}}}val{{{fieldNumber}}}Description={{{explanation}}}
++{{/explanation}}
+

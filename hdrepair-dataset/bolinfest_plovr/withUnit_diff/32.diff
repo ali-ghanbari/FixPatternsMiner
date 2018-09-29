@@ -1,0 +1,29 @@
+diff --git a/closure/closure-compiler/src/com/google/javascript/jscomp/ExpressionDecomposer.java b/closure/closure-compiler/src/com/google/javascript/jscomp/ExpressionDecomposer.java
+index cc77bab..2ef2fe9 100644
+--- a/closure/closure-compiler/src/com/google/javascript/jscomp/ExpressionDecomposer.java
++++ b/closure/closure-compiler/src/com/google/javascript/jscomp/ExpressionDecomposer.java
+@@ -81,0 +82 @@
++      i++;
+diff --git a/closure/closure-compiler/test/com/google/javascript/jscomp/InlineFunctionsTest.java b/closure/closure-compiler/test/com/google/javascript/jscomp/InlineFunctionsTest.java
+index 84a939f..4053b8a 100644
+--- a/closure/closure-compiler/test/com/google/javascript/jscomp/InlineFunctionsTest.java
++++ b/closure/closure-compiler/test/com/google/javascript/jscomp/InlineFunctionsTest.java
+@@ -335,0 +336,12 @@
++  public void testInlineFunctions27() {
++    test("var window = {}; function foo(){window.bar++; return 3;}" +
++        "var x = {y: 1, z: foo(2)};",
++        "var window={};" +
++        "{" +
++        "  var JSCompiler_inline_result$$0;" +
++        "  window.bar++;" +
++        "  JSCompiler_inline_result$$0 = 3;" +
++        "}" +
++        "var x = {y: 1, z: JSCompiler_inline_result$$0};");
++  }
++
+@@ -1496,2 +1508,2 @@
+-    		"((function(){return function(){foo()}})())();" +
+-    		"}");
++                "((function(){return function(){foo()}})())();" +
++                "}");
+

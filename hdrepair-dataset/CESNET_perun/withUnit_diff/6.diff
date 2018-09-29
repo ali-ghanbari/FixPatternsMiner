@@ -1,0 +1,17 @@
+diff --git a/perun-core/src/main/java/cz/metacentrum/perun/core/blImpl/AttributesManagerBlImpl.java b/perun-core/src/main/java/cz/metacentrum/perun/core/blImpl/AttributesManagerBlImpl.java
+index 490feb7..e50f6fb 100644
+--- a/perun-core/src/main/java/cz/metacentrum/perun/core/blImpl/AttributesManagerBlImpl.java
++++ b/perun-core/src/main/java/cz/metacentrum/perun/core/blImpl/AttributesManagerBlImpl.java
+@@ -5184,0 +5185,2 @@
++		//if attributeToConverting has already null value, return it
++		if(attributeToConverting.getValue() == null) return attributeToConverting;
+diff --git a/perun-core/src/test/java/cz/metacentrum/perun/core/entry/AttributesManagerEntryIntegrationTest.java b/perun-core/src/test/java/cz/metacentrum/perun/core/entry/AttributesManagerEntryIntegrationTest.java
+index 6b2ac3f..dc8b1e7 100644
+--- a/perun-core/src/test/java/cz/metacentrum/perun/core/entry/AttributesManagerEntryIntegrationTest.java
++++ b/perun-core/src/test/java/cz/metacentrum/perun/core/entry/AttributesManagerEntryIntegrationTest.java
+@@ -621,4 +620,0 @@
+-		for(Attribute a: retAttr) {
+-			System.out.println(a);
+-		}
+-
+

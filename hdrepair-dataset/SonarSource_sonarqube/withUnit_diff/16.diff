@@ -1,0 +1,20 @@
+diff --git a/sonar-server/src/main/java/org/sonar/server/qualityprofile/ws/BulkRuleActivationActions.java b/sonar-server/src/main/java/org/sonar/server/qualityprofile/ws/BulkRuleActivationActions.java
+index 101f39e..750c094 100644
+--- a/sonar-server/src/main/java/org/sonar/server/qualityprofile/ws/BulkRuleActivationActions.java
++++ b/sonar-server/src/main/java/org/sonar/server/qualityprofile/ws/BulkRuleActivationActions.java
+@@ -39 +39 @@
+-  public static final String SEVERITY = "severity";
++  public static final String SEVERITY = "activation_severity";
+diff --git a/sonar-server/src/test/java/org/sonar/server/qualityprofile/ws/QProfilesWsMediumTest.java b/sonar-server/src/test/java/org/sonar/server/qualityprofile/ws/QProfilesWsMediumTest.java
+index b195aef..a9aa46a 100644
+--- a/sonar-server/src/test/java/org/sonar/server/qualityprofile/ws/QProfilesWsMediumTest.java
++++ b/sonar-server/src/test/java/org/sonar/server/qualityprofile/ws/QProfilesWsMediumTest.java
+@@ -385,2 +385,2 @@
+-    request.setParam(RuleActivationActions.PROFILE_KEY, profile.getKey().toString());
+-    request.setParam(RuleActivationActions.SEVERITY, "MINOR");
++    request.setParam(BulkRuleActivationActions.PROFILE_KEY, profile.getKey().toString());
++    request.setParam(BulkRuleActivationActions.SEVERITY, "MINOR");
+@@ -388 +388 @@
+-    session.clearCache();
++    session.commit();
+

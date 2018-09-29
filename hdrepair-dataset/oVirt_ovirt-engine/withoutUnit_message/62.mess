@@ -1,0 +1,10 @@
+core: temporary fix for vm deserialization
+
+The introduction of graphics-info to VM broke the deserialization of VMs
+using json since there is a 'getter' named 'getGraphicsInfos' without a
+corresponding setter. This patch makes a temporary change in order to
+overcome this problem by adding JsonIgnore annotation on the
+getGraphicsInfos method, until a proper solution will be made.
+
+Change-Id: I365000b9dd8e282af0a43932963baf29e6cad7f0
+Signed-off-by: Arik Hadas <ahadas@redhat.com>

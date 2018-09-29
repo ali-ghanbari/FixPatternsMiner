@@ -1,0 +1,23 @@
+diff --git a/hibernate-core/src/main/java/org/hibernate/loader/entity/plan/LegacyBatchingEntityLoaderBuilder.java b/hibernate-core/src/main/java/org/hibernate/loader/entity/plan/LegacyBatchingEntityLoaderBuilder.java
+index 849c045..f2eb459 100644
+--- a/hibernate-core/src/main/java/org/hibernate/loader/entity/plan/LegacyBatchingEntityLoaderBuilder.java
++++ b/hibernate-core/src/main/java/org/hibernate/loader/entity/plan/LegacyBatchingEntityLoaderBuilder.java
+@@ -130 +130 @@
+-			return ( loaders[batchSizes.length-1] ).load( id, optionalObject, session );
++			return ( loaders[batchSizes.length-1] ).load( id, optionalObject, session, lockOptions );
+diff --git a/hibernate-core/src/test/java/org/hibernate/test/legacy/FooBarTest.java b/hibernate-core/src/test/java/org/hibernate/test/legacy/FooBarTest.java
+index 377a6e7..35da814 100644
+--- a/hibernate-core/src/test/java/org/hibernate/test/legacy/FooBarTest.java
++++ b/hibernate-core/src/test/java/org/hibernate/test/legacy/FooBarTest.java
+@@ -4314,2 +4314,2 @@
+-		assertTrue( foo.getLong().longValue() == -3l );
+-		assertTrue( s.getCurrentLockMode(foo)==LockMode.READ );
++		assertEquals( Long.valueOf( -3l ), foo.getLong() );
++		assertEquals( LockMode.READ, s.getCurrentLockMode(foo) );
+@@ -4318 +4318 @@
+-			assertTrue( s.getCurrentLockMode(foo)==LockMode.UPGRADE );
++			assertEquals( LockMode.UPGRADE, s.getCurrentLockMode(foo) );
+@@ -4332 +4332 @@
+-		foo.setChar( new Character('X') );
++		foo.setChar( 'X' );
+

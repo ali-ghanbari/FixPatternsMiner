@@ -1,0 +1,16 @@
+fix locking problem during timeout in VM GUI
+
+java.lang.IllegalMonitorStateException: attempt to unlock read lock, not
+locked by current thread
+attempt to unlock read lock, not locked by current thread
+java.util.concurrent.locks.ReentrantReadWriteLock$Sync.unmatchedUnlockException(Unknown
+Source)
+java.util.concurrent.locks.ReentrantReadWriteLock$Sync.tryReleaseShared(Unknown
+Source)
+java.util.concurrent.locks.AbstractQueuedSynchronizer.releaseShared(Unknown
+Source)
+java.util.concurrent.locks.ReentrantReadWriteLock$ReadLock.unlock(Unknown
+Source)
+lcmc.gui.resources.VMSVirtualDomainInfo.start(VMSVirtualDomainInfo.java:2298)
+lcmc.gui.resources.VMSVirtualDomainInfo$12$1.run(VMSVirtualDomainInfo.java:1781)
+

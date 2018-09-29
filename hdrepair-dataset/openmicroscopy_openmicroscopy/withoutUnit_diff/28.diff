@@ -1,0 +1,885 @@
+diff --git a/README.md b/README.md
+index ab247e8..70230dc 100644
+--- a/README.md
++++ b/README.md
+@@ -5 +5 @@
+-Full developer documentation is available from http://www.openmicroscopy.org/site/support/omero4/developers/index.html
++Full developer documentation is available from http://www.openmicroscopy.org/site/support/omero5/developers/index.html
+diff --git a/components/blitz/resources/omero/API.ice b/components/blitz/resources/omero/API.ice
+index e46bb64..85f704b 100644
+--- a/components/blitz/resources/omero/API.ice
++++ b/components/blitz/resources/omero/API.ice
+@@ -185,2 +185,2 @@
+-             *   <li><a href="http://trac.openmicroscopy.org.uk/ome/wiki/OmeroScripts">OMERO.scripts</a>
+-             *   <li><a href="http://trac.openmicroscopy.org.uk/ome/wiki/OmeroTables">OMERO.tables</a>
++             *   <li><a href="http://www.openmicroscopy.org/site/community/scripts">OMERO.scripts</a>
++             *   <li><a href="http://www.openmicroscopy.org/site/support/omero5/developers/Tables.html">OMERO.tables</a>
+diff --git a/components/blitz/resources/omero/Constants.ice b/components/blitz/resources/omero/Constants.ice
+index 59471e3..d73bb82 100644
+--- a/components/blitz/resources/omero/Constants.ice
++++ b/components/blitz/resources/omero/Constants.ice
+@@ -162 +162 @@
+-     * General namespaces for <a href="http://trac.openmicroscopy.org.uk/ome/wiki/StructuredAnnotations">StructuredAnnotations</a>
++     * General namespaces for <a href="http://www.openmicroscopy.org/site/support/omero5/developers/Modules/StructuredAnnotations.html">StructuredAnnotations</a>
+@@ -179 +179 @@
+-        // modulo namespaces for <a href="https://www.openmicroscopy.org/site/support/file-formats/working-with-ome-xml/6d-7d-and-8d-storage">6d-7d-and-8d-storage</a>
++        // modulo namespaces for <a href="http://www.openmicroscopy.org/site/support/ome-model/developers/6d-7d-and-8d-storage.html">6d-7d-and-8d-storage</a>
+diff --git a/components/blitz/resources/omero/Scripts.ice b/components/blitz/resources/omero/Scripts.ice
+index d7b7c74..1eaa2ba 100644
+--- a/components/blitz/resources/omero/Scripts.ice
++++ b/components/blitz/resources/omero/Scripts.ice
+@@ -22 +22 @@
+- * See http://trac.openmicroscopy.org.uk/ome/wiki/OmeroScripts
++ * See http://www.openmicroscopy.org/site/community/scripts
+diff --git a/components/blitz/resources/omero/Tables.ice b/components/blitz/resources/omero/Tables.ice
+index 9a92a94..4a571e2 100644
+--- a/components/blitz/resources/omero/Tables.ice
++++ b/components/blitz/resources/omero/Tables.ice
+@@ -24 +24 @@
+- * See http://trac.openmicroscopy.org.uk/ome/wiki/OmeroTables
++ * See http://www.openmicroscopy.org/site/support/omero5/developers/Tables.html
+diff --git a/components/blitz/resources/omero/api/IScript.ice b/components/blitz/resources/omero/api/IScript.ice
+index 3ff5fc3..6e26f23 100644
+--- a/components/blitz/resources/omero/api/IScript.ice
++++ b/components/blitz/resources/omero/api/IScript.ice
+@@ -51 +51 @@
+-	 * See <a href="http://trac.openmicroscopy.org.uk/ome/wiki/OmeroScripts">OmeroScripts</a> for more information.
++	 * See <a href="http://www.openmicroscopy.org/site/community/scripts">OMERO.scripts</a> for more information.
+diff --git a/components/server/src/ome/services/util/DBPatchCheck.java b/components/server/src/ome/services/util/DBPatchCheck.java
+index 5ffd913..85a5581 100644
+--- a/components/server/src/ome/services/util/DBPatchCheck.java
++++ b/components/server/src/ome/services/util/DBPatchCheck.java
+@@ -39 +39 @@
+-    private final static String see = "See http://www.openmicroscopy.org/site/support/omero4/server/upgrade\n";
++    private final static String see = "See http://www.openmicroscopy.org/site/support/omero5/sysadmins/server-upgrade.html\n";
+diff --git a/components/tests/ui/README.md b/components/tests/ui/README.md
+index 8131357..35fff38 100755
+--- a/components/tests/ui/README.md
++++ b/components/tests/ui/README.md
+@@ -112,2 +112,2 @@
+-Please check either https://www.openmicroscopy.org/site/support/omero4/sysadmins/unix/install-web.html
+-or https://www.openmicroscopy.org/site/support/omero4/sysadmins/windows/install-web.html for more information.
++Please check either http://www.openmicroscopy.org/site/support/omero5/sysadmins/unix/install-web.html
++or http://www.openmicroscopy.org/site/support/omero5/sysadmins/windows/install-web.html for more information.
+@@ -151 +151 @@
+-./build.py -f components/tests/ui/build.xml web-firefox -DTEST=tree.txt
+\ No newline at end of file
++./build.py -f components/tests/ui/build.xml web-firefox -DTEST=tree.txt
+diff --git a/components/tools/OmeroPy/src/omero/plugins/basics.py b/components/tools/OmeroPy/src/omero/plugins/basics.py
+index 8a9f857..4395067 100644
+--- a/components/tools/OmeroPy/src/omero/plugins/basics.py
++++ b/components/tools/OmeroPy/src/omero/plugins/basics.py
+@@ -153 +153 @@
+-http://www.openmicroscopy.org/site/support/omero4/users/\
++http://www.openmicroscopy.org/site/support/omero5/users/\
+diff --git a/components/tools/OmeroPy/src/omero/plugins/group.py b/components/tools/OmeroPy/src/omero/plugins/group.py
+index edd97de..879d988 100755
+--- a/components/tools/OmeroPy/src/omero/plugins/group.py
++++ b/components/tools/OmeroPy/src/omero/plugins/group.py
+@@ -42 +42 @@
+-https://www.openmicroscopy.org/site/support/omero4/sysadmins/\
++http://www.openmicroscopy.org/site/support/omero5/sysadmins/\
+diff --git a/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form.html b/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form.html
+index 1588a6c..963ed65 100644
+--- a/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form.html
++++ b/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form.html
+@@ -114 +114 @@
+-        <a href="http://www.openmicroscopy.org/site/support/omero4/sysadmins/server-permissions.html" target="new">
++        <a href="http://www.openmicroscopy.org/site/support/omero5/sysadmins/server-permissions.html" target="new">
+@@ -120 +120 @@
+-{% endblock %}
+\ No newline at end of file
++{% endblock %}
+diff --git a/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form_owner.html b/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form_owner.html
+index f3b40a5..6073fb8 100644
+--- a/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form_owner.html
++++ b/components/tools/OmeroWeb/omeroweb/webadmin/templates/webadmin/group_form_owner.html
+@@ -135 +135 @@
+-        <a href="http://www.openmicroscopy.org/site/support/omero4/sysadmins/server-permissions.html" target="new">
++        <a href="http://www.openmicroscopy.org/site/support/omero5/sysadmins/server-permissions.html" target="new">
+diff --git a/components/tools/OmeroWeb/omeroweb/webclient/templates/webclient/help/help.html b/components/tools/OmeroWeb/omeroweb/webclient/templates/webclient/help/help.html
+deleted file mode 100644
+index a486fac..0000000
+--- a/components/tools/OmeroWeb/omeroweb/webclient/templates/webclient/help/help.html
++++ /dev/null
+@@ -1,672 +0,0 @@
+-{% extends "webclient/base/base.html" %}
+-{% load i18n %}
+-
+-{% comment %}
+-<!--
+-  Copyright (C) 2011 University of Dundee & Open Microscopy Environment.
+-  All rights reserved.
+-
+-  This program is free software: you can redistribute it and/or modify
+-  it under the terms of the GNU Affero General Public License as
+-  published by the Free Software Foundation, either version 3 of the
+-  License, or (at your option) any later version.
+-
+-  This program is distributed in the hope that it will be useful,
+-  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-  GNU Affero General Public License for more details.
+-
+-  You should have received a copy of the GNU Affero General Public License
+-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--->
+-{% endcomment %}
+-
+-{% block link %}
+-    {{ block.super }}
+-    <link rel="stylesheet" href="{% static "webclient/css/layout.css" %}" type="text/css" media="screen"/>
+-    <link rel="stylesheet" href="{% static "webclient/css/help.css" %}" type="text/css" media="screen"/>
+-{% endblock %}
+-
+-
+-{% block script %}
+-    {{ block.super }}
+-    <script type="text/javascript">
+-        $(document).ready(function() 
+-            {
+-                var h = $(window).height()-200;
+-                $("div#help_search").html('<iframe width="370" height="'+(h+11)+'" src="{% url help_search %}" id="help_search" name="help_search"></iframe>');
+-                $('iframe#help_search').load();
+-                
+-                $("#right_panel").show();
+-                $("#swapMeta").html('<img tabindex="0" src="{% static "webgateway/img/spacer.gif" %}" class="collapsed-right" id="lhid_trayhandle_icon_right">');
+-                
+-        })
+-    </script>
+-    
+-{% endblock %}
+-
+-
+-{% block thin_header_right %}
+-    <a href="{% url csend %}" title="Contact">{% trans "Contact" %}</a>
+-{% endblock %}
+-
+-
+-{% block center %}
+-
+-<div id="content_details">
+-<div id="help_details">
+-    
+-    <h1>{% trans "Help" %}</h1>
+-
+-    <p>{% trans "OMERO is client-server software for visualisation, management and analysis of biological microscope images. See the full feature list or read more about OMERO." %}</p>
+-
+-    <h1>
+-        New features in up-coming release: OMERO 4.2
+-    </h1>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Permissions
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/ledorange.png">
+-            </div>
+-            <div class="feature-text">
+-                OMERO permissions functionality allows users to share data within groups of scientists and collaborate on their data. <a target="_blank" href="http://www.openmicroscopy.org.uk/site/support/omero4/sysadmins/server-permissions.html">More Info</a>.
+-                    </div>
+-                    <div class="feature-link">Movies: 
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/Permissions1.mov">Intro</a> |
+-                            <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/Permissions2.mov">Collaborative Tagging</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Scripting Service
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/kcmsystem.png">
+-            </div>
+-            <div class="feature-text">
+-                An intro to the Scripting Service: Write Python scripts to add image processing functionality to the OMERO server. 
+-                    </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/Scripting1.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Script Writing
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/kcmsystem.png">
+-            </div>
+-            <div class="feature-text">
+-                View script-writing demo movies for regular users and server admins. <a target="_blank" href="http://trac.openmicroscopy.org.uk/ome/wiki/OmeroPy/ScriptingServiceGuide">More Info</a>.
+-                    </div>
+-                    <div class="feature-link">Movies:
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/Scripting2.mov">User</a> |
+-                            <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/Scripting3.mov">Admin</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Image Processing
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/kcmsystem.png">
+-            </div>
+-            <div class="feature-text">
+-                The Scripting Service can be used to add image processing and analysis functionality to the OMERO server. 
+-                    </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/Scripting4.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Figure Export
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/splitViewFig_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Export your data as figures for presentation.
+-                    </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/FigureExport.mov">View Movie</a> 
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Image Preview
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/live_thumbnail_view_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Improvements to the browsing and rendering of images in Insight. 
+-                    </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-2/mov/Preview_Panel.mov">View Movie</a> 
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div style="clear:both">
+-    <h1>
+-        New features in OMERO 4.1
+-    </h1>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            More File Formats
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/bio-formats_32.png">
+-            </div>
+-            <div class="feature-text">
+-                OMERO now imports all the formats read by Bio-Formats including microscopy, HCS, tissue scanner and graphics file formats. Over 60 in total.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://www.openmicroscopy.org/site/support/bio-formats/supported-formats.html">Supported Formats</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Metadata
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/metadata_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Improved metadata support — full visibility of image, microscope, and detector metadata.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/ImageMetadata.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Movie maker
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/video_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Create a movie from any image file and save as an annotation or export as MOV.
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Export to ImageJ
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/export_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Export any image as OME-TIFF or connect to OMERO with the <a target="_blank" href="http://rsbweb.nih.gov/ij/">ImageJ</a> plugin to open images in ImageJ
+-            </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/ExportImageJ.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Directory import
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/import_folder_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Choose a directory of images to import and filter the contents by image format if desired.
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Quality Assurance
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/qa_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Feedback system that allows users to send comments, bugs, or data files, and to track responses and updates.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://qa.openmicroscopy.org.uk/">More details...</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Demo server
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/demo_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Take the advantage of OMERO platform  and ask for a free Demo Account <a target="_blank" href="http://qa.openmicroscopy.org.uk/registry/demo_account/">here</a>.
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div style="clear:both">
+-    <h1>
+-        OMERO features before 4.1
+-    </h1>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Import images
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/import_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Import images from microscope, graphics and other imaging formats.
+-            </div>
+-                    <div class="feature-link">
+-                        <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-3-0/mov/OMEROimporter.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Manage and organise
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/manage_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Manage, organise and delete images within Projects and Datasets.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/ManagingImages.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Image rendering
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/coloursliders32.png">
+-            </div>
+-            <div class="feature-text">
+-                Turn channels on/off, change channel colours, adjust brightness and contrast. Copy and paste settings between images.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-0/mov/Insight1-rendering.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Browse & View Images
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                         <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/view_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Browse and View Images remotely on cross-platform software. 
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/ConnectBrowse.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            3D Projection
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/projection_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Configure parameters with a live preview, then do the projection and save the projected image.
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Annotate
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/annotate_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Annotate images with a description, comment or URL. Batch annotate several images at once.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/AnnotatingImages.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Attach
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/attach_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Attach files to images, such as pdf or word documents (protocols, results, etc.).
+-            </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/AttachingFiles.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Tag & Rate
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                         <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/notes_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Tag images, rate images, and filter by tag, rating, name & comment.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-0/mov/Insight2-tags.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Add Experiment Info
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/edu_science.png">
+-            </div>
+-            <div class="feature-text">
+-                Edit Protocol and Experiment files and use these to annotate your data.
+-            </div>
+-                    <div class="feature-link">
+-                            <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/EditorNewExperiment.mov">View Movie</a>       
+-                    </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Search
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/search_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Search using tags, names, or any other text data.
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Draw ROIs
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/roi2_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Draw ROIs, in 2D, or across 3D or 4D.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-0/mov/MeasurementTool-DrawingROI.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Measure
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/roi_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Measure distances, sizes, pixel intensity of ROIs and export to an Excel spreadsheet.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-0/mov/MeasurementTool-Taking%20Measurments.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Share
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/sharing_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Share sets of images with other users and have a conversation about the data.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/ShareImages.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Calendar
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/calendar_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Use the calendar on the web client to browse your recent imports and other activity.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://www.openmicroscopy.org.uk/site/products/feature-list/image/web_calendar.jpg/image_view_fullscreen">View screenshot</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Manage users
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/users_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Server administrators can add and manage users and groups with the web-admin tool.
+-
+-    <div class="feature-link">
+-                <a target="_blank" href="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/webadmin.png/image_view_fullscreen">Screen shot</a>
+-    </div>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            LDAP support
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/ldap_32.png">
+-            </div>
+-            <div class="feature-text">
+-                The Lightweight Directory Access Protocol (LDAP) support.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://www.openmicroscopy.org.uk/site/support/omero4/server/install-ldap">More details...</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Personalise
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/personal_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Edit your account details and upload your photo to personalise your account.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/MyAccount.mov">View Movie</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Feedback &amp; support
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/help_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Documentation and user support on <a target="_blank" href="/community/">forum</a> and <a target="_blank" href="http://www.openmicroscopy.org.uk/site/community/mailing-lists">mailing lists</a>.
+-            </div>
+-        </div>
+-    </div>
+-
+-
+-
+-    <div style="clear:both">
+-        <h1>
+-            Preview features in OMERO 4.1
+-        </h1>
+-        <p>
+-            Features that are being released for feedback and testing
+-        </p>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            HCS support
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/screen_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Import InCell, MIAS and Flex formats including metadata. View 384-well and 96-well plates in OMERO.insight.
+-            </div>
+-                    <div class="feature-link">
+-                Movies: <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/FlexPreview4.1-configuration.mov">Configuration</a> | <a target="_blank" href="http://cvs.openmicroscopy.org.uk/snapshots/movies/omero-4-1/mov/FlexPreview4.1-import.mov">Import</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            OpenGL support
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/open_gl.png">
+-            </div>
+-            <div class="feature-text">
+-                OpenGL ImageViewer — minimizes memory footprint for image viewing.
+-            </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://www.opengl.org/">Learn more about OpenGL</a>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            DropBox
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/dropbox_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Full-fledged "DropBox" — allows automatic import from a defined directory of all supported file formats.
+-            </div>
+-                    <div class="feature-link">
+-                <a target="_blank" href="http://www.openmicroscopy.org.uk/site/support/omero4/server/fs">Read more...</a>
+-            </div>
+-
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            ROIs on the server
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-                <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/roi_32.png">
+-            </div>
+-            <div class="feature-text">
+-                Server-side region-of-interest (ROI) support.
+-            </div>
+-        </div>
+-    </div>
+-    <div class="ome-feature">
+-        <div class="feature-header">
+-            Tabular Data support
+-        </div>
+-        <div class="feature-block">
+-            <div class="feature-icon">
+-        <img alt="feature icon" src="http://www.openmicroscopy.org.uk/site/products/feature-list/omero/FeatureIcons/hdf_32.png">
+-            </div>
+-            <div class="feature-text">
+-                HDF-based storage of measurement results with an API for exporting to Excel.
+-            </div>
+-            <div class="feature-link">
+-                <a target="_blank" href="http://trac.openmicroscopy.org.uk/ome/wiki/OmeroTables">Learn more about OMEROTables</a>
+-            </div>
+-        </div>
+-    </div>
+-    
+-</div>
+-</div>
+-{% endblock %}
+-
+-
+-{% block right %}
+-
+-    <div id="help_search"></div>
+-    
+-{% endblock %}
+diff --git a/components/tools/OmeroWeb/omeroweb/webclient/templates/webclient/help/help_search.html b/components/tools/OmeroWeb/omeroweb/webclient/templates/webclient/help/help_search.html
+index 27c68bc..b4b027c 100644
+--- a/components/tools/OmeroWeb/omeroweb/webclient/templates/webclient/help/help_search.html
++++ b/components/tools/OmeroWeb/omeroweb/webclient/templates/webclient/help/help_search.html
+@@ -46 +46 @@
+-<p>{% trans "Please visit" %} <a href="http://www.openmicroscopy.org.uk/site/support/faq" target="_blank">FAQ</a> or {% trans "search for help:" %}</p>
++<p>{% trans "Please visit" %} <a href="http://www.openmicroscopy.org/site/support/faq" target="_blank">FAQ</a> or {% trans "search for help:" %}</p>
+@@ -52 +52 @@
+-{% endblock %}
+\ No newline at end of file
++{% endblock %}
+diff --git a/components/tools/OmeroWeb/omeroweb/webclient/views.py b/components/tools/OmeroWeb/omeroweb/webclient/views.py
+index d4df739..98b1d05 100755
+--- a/components/tools/OmeroWeb/omeroweb/webclient/views.py
++++ b/components/tools/OmeroWeb/omeroweb/webclient/views.py
+@@ -1991,13 +1990,0 @@
+-@login_required()
+-@render_response()
+-def help(request, conn=None, **kwargs):
+-    """ Displays help page. Includes the choosers for changing current group and current user. """
+-
+-    template = "webclient/help.html"
+-    
+-    controller = BaseHelp(conn)
+-    
+-    context = {'controller':controller}
+-    context['template'] = template
+-    return context
+-
+diff --git a/docs/install/VM/README.md b/docs/install/VM/README.md
+index dbc790e..5713f9b 100644
+--- a/docs/install/VM/README.md
++++ b/docs/install/VM/README.md
+@@ -31 +31 @@
+-	http://www.openmicroscopy.org/site/support/omero4/users/virtual-appliance.html)
++	http://www.openmicroscopy.org/site/support/omero5/users/virtual-appliance.html)
+diff --git a/docs/install/homebrew/README.md b/docs/install/homebrew/README.md
+index 5d08a17..4bfe36a 100644
+--- a/docs/install/homebrew/README.md
++++ b/docs/install/homebrew/README.md
+@@ -1 +1 @@
+-The instructions for installing OMERO on Mac OS X using Homebrew are available in the [OMERO documentation](http://www.openmicroscopy.org/site/support/omero4/sysadmins/unix/server-install-homebrew.html).
+\ No newline at end of file
++The instructions for installing OMERO on Mac OS X using Homebrew are available in the [OMERO documentation](http://www.openmicroscopy.org/site/support/omero5/sysadmins/unix/server-install-homebrew.html).
+diff --git a/examples/ScriptingService/HelloWorld.py b/examples/ScriptingService/HelloWorld.py
+index dbf458b..4126fb2 100644
+--- a/examples/ScriptingService/HelloWorld.py
++++ b/examples/ScriptingService/HelloWorld.py
+@@ -18 +18 @@
+-  
++
+@@ -25,4 +25,4 @@
+-This script demonstrates the minimum framework of a script that can be run by the 
+-scripting service on an OMERO server. 
+-It defines a name, description and parameter list for the script. 
+-    
++This script demonstrates the minimum framework of a script that can be run by the
++scripting service on an OMERO server.
++It defines a name, description and parameter list for the script.
++
+@@ -36 +36 @@
+- 
++
+@@ -43 +42,0 @@
+-
+@@ -45 +44 @@
+-    
++
+@@ -47 +46 @@
+-    The main entry point of the script, as called by the client via the scripting service, passing the required parameters. 
++    The main entry point of the script, as called by the client via the scripting service, passing the required parameters.
+@@ -49,2 +48,2 @@
+-    
+-    client = scripts.client('HelloWorld.py', 'Hello World example script', 
++
++    client = scripts.client('HelloWorld.py', 'Hello World example script',
+@@ -52 +51 @@
+-    
++
+@@ -54 +53 @@
+-    
++
+@@ -56 +55 @@
+-        # process the list of args above. Not scrictly necessary, but useful for more complex scripts
++        # process the list of args above. Not strictly necessary, but useful for more complex scripts
+@@ -61 +60 @@
+-    
++
+@@ -64 +63 @@
+-            print "Hello World"                    
++            print "Hello World"
+@@ -67,6 +66,6 @@
+-            # Any print statments (std.out) will go into one file on the server (E.g. /OMERO/Files/001) 
+-            print "No message parameter"    
+-        
+-            # Any Exceptions (std.err) will go in another file on the server (E.g. /OMERO/Files/002) 
+-            raise Exception("message parameter was not in the argument list")    
+-        
++            # Any print statments (std.out) will go into one file on the server (E.g. /OMERO/Files/001)
++            print "No message parameter"
++
++            # Any Exceptions (std.err) will go in another file on the server (E.g. /OMERO/Files/002)
++            raise Exception("message parameter was not in the argument list")
++
+@@ -76,2 +74,0 @@
+-    
+-    
+

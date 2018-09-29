@@ -1,0 +1,39 @@
+diff --git a/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java b/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
+index 3420b45..3609c62 100644
+--- a/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
++++ b/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
+@@ -197,0 +198,2 @@
++      // "der letzte der vier großen Flüsse":
++      build("<der|das> <pos=ADJ> <der> <pos=ZAL> <NP>", NPS, true),
+diff --git a/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/hunspell/spelling.txt b/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/hunspell/spelling.txt
+index cab4d81..d54e09f 100644
+--- a/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/hunspell/spelling.txt
++++ b/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/hunspell/spelling.txt
+@@ -921,0 +922,2 @@
++Aikido
++Aikidō
+diff --git a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+index 4447f67..13a46ae 100644
+--- a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
++++ b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+@@ -9150 +9150 @@
+-                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen</exception>
++                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen|Kaninchen</exception>
+@@ -23591,0 +23592,6 @@
++                    <token regexp="yes">einer|eine|eines</token>
++                    <token>der</token>
++                    <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes"/>
++                    <token postag="ADJ:.*" postag_regexp="yes"/>
++                </antipattern>
++                <antipattern>
+@@ -23638,0 +23645 @@
++                <example>Aikido ist eine der schwerer erlernbaren Kampfkünste.</example>
+diff --git a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
+index 19e2838..7748642 100644
+--- a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
++++ b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
+@@ -278 +278,2 @@
+-        "Das Kopieren und Einfügen ist sehr nützlich."
++        "Das Kopieren und Einfügen ist sehr nützlich.",
++        "Der letzte der vier großen Flüsse ist die Kolyma."
+

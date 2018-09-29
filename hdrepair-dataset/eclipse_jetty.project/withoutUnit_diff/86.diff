@@ -1,0 +1,25 @@
+diff --git a/jetty-server/src/main/config/etc/jetty-proxy.xml b/jetty-server/src/main/config/etc/jetty-proxy.xml
+index c6ca5d8..9fe82f1 100644
+--- a/jetty-server/src/main/config/etc/jetty-proxy.xml
++++ b/jetty-server/src/main/config/etc/jetty-proxy.xml
+@@ -50 +50 @@
+-	  <Arg>org.eclipse.jetty.servlets.AsyncProxyServlet</Arg>
++	  <Arg>org.eclipse.jetty.servlets.ProxyServlet</Arg>
+diff --git a/jetty-server/src/main/java/org/eclipse/jetty/server/handler/ContextHandler.java b/jetty-server/src/main/java/org/eclipse/jetty/server/handler/ContextHandler.java
+index bb17268..68a50f0 100644
+--- a/jetty-server/src/main/java/org/eclipse/jetty/server/handler/ContextHandler.java
++++ b/jetty-server/src/main/java/org/eclipse/jetty/server/handler/ContextHandler.java
+@@ -365 +365 @@
+-                if (file.exists())
++                if (file!=null && file.exists())
+diff --git a/jetty-start/src/main/resources/org/eclipse/jetty/start/start.config b/jetty-start/src/main/resources/org/eclipse/jetty/start/start.config
+index 4d17691..691fbe1 100644
+--- a/jetty-start/src/main/resources/org/eclipse/jetty/start/start.config
++++ b/jetty-start/src/main/resources/org/eclipse/jetty/start/start.config
+@@ -111 +111,4 @@
+-                 
++                  
++[All,ajp]
++$(jetty.home)/lib/jetty-ajp-$(version).jar                                              ! available org.eclipse.jetty.ajp.Ajp13Connection      
++                   
+

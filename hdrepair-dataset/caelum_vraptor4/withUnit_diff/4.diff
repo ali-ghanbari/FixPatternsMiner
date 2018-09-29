@@ -1,0 +1,38 @@
+diff --git a/vraptor-core/src/main/java/br/com/caelum/vraptor/serialization/gson/DateGsonConverter.java b/vraptor-core/src/main/java/br/com/caelum/vraptor/serialization/gson/DateGsonConverter.java
+index 763b22f..16a629f 100644
+--- a/vraptor-core/src/main/java/br/com/caelum/vraptor/serialization/gson/DateGsonConverter.java
++++ b/vraptor-core/src/main/java/br/com/caelum/vraptor/serialization/gson/DateGsonConverter.java
+@@ -32 +32 @@
+-		this.iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
++		this.iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z");
+diff --git a/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonDeserializerTest.java b/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonDeserializerTest.java
+index fa48e36..2e15b92 100644
+--- a/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonDeserializerTest.java
++++ b/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonDeserializerTest.java
+@@ -21,0 +22 @@
++import static org.junit.Assert.assertEquals;
+@@ -42,0 +44 @@
++import org.junit.Assert;
+@@ -76,0 +79 @@
++		TimeZone.setDefault(TimeZone.getTimeZone("GMT-0300"));
+@@ -79 +81,0 @@
+-
+@@ -82,0 +85 @@
++		jsonDeserializers.add(new DateGsonConverter());
+@@ -364 +367 @@
+-		InputStream stream = asStream("{\"date\":\"1988-02-25T02:30:15Z\"}");
++		InputStream stream = asStream("{\"date\":\"1988-02-25T02:30:15 -0300\"}");
+@@ -370 +373 @@
+-		assertThat(deserializedDate.compareTo(date), is(0));
++		assertEquals(date, deserializedDate);
+diff --git a/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonJSONSerializationTest.java b/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonJSONSerializationTest.java
+index b2a15fb..7556955 100644
+--- a/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonJSONSerializationTest.java
++++ b/vraptor-core/src/test/java/br/com/caelum/vraptor/serialization/gson/GsonJSONSerializationTest.java
+@@ -67,0 +68,2 @@
++		TimeZone.setDefault(TimeZone.getTimeZone("GMT-0300"));
++		
+@@ -459 +461 @@
+-		String expectedResult = "{\"date\":\"1988-01-25T01:30:15Z\"}";
++		String expectedResult = "{\"date\":\"1988-01-25T01:30:15 -0300\"}";
+

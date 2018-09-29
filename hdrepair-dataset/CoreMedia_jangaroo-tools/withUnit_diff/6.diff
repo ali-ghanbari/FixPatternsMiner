@@ -1,0 +1,16 @@
+diff --git a/ext-xml/src/main/java/net/jangaroo/extxml/XsdScanner.java b/ext-xml/src/main/java/net/jangaroo/extxml/XsdScanner.java
+index 2088b08..1191338 100644
+--- a/ext-xml/src/main/java/net/jangaroo/extxml/XsdScanner.java
++++ b/ext-xml/src/main/java/net/jangaroo/extxml/XsdScanner.java
+@@ -47 +47 @@
+-          schemaElement.getAttribute("id"), null, null);
++          schemaElement.lookupPrefix(schemaElement.getAttribute("targetNamespace")), null, null);
+diff --git a/ext-xml/src/test/java/net/jangaroo/extxml/XsdScannerTest.java b/ext-xml/src/test/java/net/jangaroo/extxml/XsdScannerTest.java
+index d63c9f9..9b5e498 100644
+--- a/ext-xml/src/test/java/net/jangaroo/extxml/XsdScannerTest.java
++++ b/ext-xml/src/test/java/net/jangaroo/extxml/XsdScannerTest.java
+@@ -6,0 +7 @@
++import static org.junit.Assert.assertEquals;
+@@ -23,0 +25 @@
++    assertEquals("ext",suite.getNs());
+

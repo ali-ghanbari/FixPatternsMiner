@@ -1,0 +1,8 @@
+diff --git a/opennms-webapp/src/main/java/org/opennms/web/controller/admin/notifications/ChooseUeisController.java b/opennms-webapp/src/main/java/org/opennms/web/controller/admin/notifications/ChooseUeisController.java
+index 1a5cc6b..9b51f3a 100644
+--- a/opennms-webapp/src/main/java/org/opennms/web/controller/admin/notifications/ChooseUeisController.java
++++ b/opennms-webapp/src/main/java/org/opennms/web/controller/admin/notifications/ChooseUeisController.java
+@@ -147 +147 @@
+-        if ("donotpersist".equalsIgnoreCase(e.getLogmsg().getDest())) {
++        if (e.getLogmsg() != null && "donotpersist".equalsIgnoreCase(e.getLogmsg().getDest())) {
+

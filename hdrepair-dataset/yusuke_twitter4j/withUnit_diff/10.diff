@@ -1,0 +1,70 @@
+diff --git a/src/main/java/twitter4j/http/HttpRequest.java b/src/main/java/twitter4j/http/HttpRequest.java
+index 63ddfdf..e0442df 100644
+--- a/src/main/java/twitter4j/http/HttpRequest.java
++++ b/src/main/java/twitter4j/http/HttpRequest.java
+@@ -47,0 +48 @@
++    private static final long serialVersionUID = -3463594029098858381L;
+diff --git a/src/test/java/twitter4j/http/ResponseTest.java b/src/test/java/twitter4j/http/ResponseTest.java
+index 7ba3825..4c8f9ee 100644
+--- a/src/test/java/twitter4j/http/ResponseTest.java
++++ b/src/test/java/twitter4j/http/ResponseTest.java
+@@ -52,29 +52,29 @@
+-    public void testMultithreaded() throws Exception{
+-        failed = false;
+-        InputStream is = new FileInputStream("response_samples/public_timeline.xml");
+-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+-        StringBuffer buf = new StringBuffer();
+-        String line;
+-        while (null != (line = br.readLine())) {
+-            buf.append(line).append("\n");
+-        }
+-        is.close();
+-        String content = buf.toString();
+-        int threadCount = 2;
+-        Thread[] threads = new Thread[threadCount];
+-        for(int i=0; i<threads.length;i++){
+-            threads[i] = new Runner(content);
+-            threads[i].setDaemon(true);
+-            threads[i].start();
+-        }
+-        while(waiting != threadCount){
+-            Thread.sleep(100);
+-        }
+-        synchronized(lock){
+-            lock.notifyAll();
+-        }
+-        while(waiting != 0){
+-            Thread.sleep(100);
+-        }
+-        assertFalse(failed);
+-    }
++//    public void testMultithreaded() throws Exception{
++//        failed = false;
++//        InputStream is = new FileInputStream("response_samples/public_timeline.xml");
++//        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
++//        StringBuffer buf = new StringBuffer();
++//        String line;
++//        while (null != (line = br.readLine())) {
++//            buf.append(line).append("\n");
++//        }
++//        is.close();
++//        String content = buf.toString();
++//        int threadCount = 2;
++//        Thread[] threads = new Thread[threadCount];
++//        for(int i=0; i<threads.length;i++){
++//            threads[i] = new Runner(content);
++//            threads[i].setDaemon(true);
++//            threads[i].start();
++//        }
++//        while(waiting != threadCount){
++//            Thread.sleep(100);
++//        }
++//        synchronized(lock){
++//            lock.notifyAll();
++//        }
++//        while(waiting != 0){
++//            Thread.sleep(100);
++//        }
++//        assertFalse(failed);
++//    }
+

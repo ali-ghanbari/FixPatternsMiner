@@ -1,0 +1,20 @@
+diff --git a/mes-application/conf/dedyk-demo/db.properties b/mes-application/conf/dedyk-demo/db.properties
+index 24fb6f1..223b0b5 100644
+--- a/mes-application/conf/dedyk-demo/db.properties
++++ b/mes-application/conf/dedyk-demo/db.properties
+@@ -3 +3 @@
+-dbUsername=mesuser
++dbUsername=postgres
+@@ -6 +6 @@
+-hibernateHbm2ddlAuto=validate
+\ No newline at end of file
++hibernateHbm2ddlAuto=update
+\ No newline at end of file
+diff --git a/mes-plugins/mes-plugins-technologies/src/main/java/com/qcadoo/mes/technologies/TechnologyService.java b/mes-plugins/mes-plugins-technologies/src/main/java/com/qcadoo/mes/technologies/TechnologyService.java
+index 405f269..3487a61 100644
+--- a/mes-plugins/mes-plugins-technologies/src/main/java/com/qcadoo/mes/technologies/TechnologyService.java
++++ b/mes-plugins/mes-plugins-technologies/src/main/java/com/qcadoo/mes/technologies/TechnologyService.java
+@@ -417 +417 @@
+-            if (entity.getBelongsToField("product").getId() == product.getId()) {
++            if (entity.getBelongsToField("product").getId().equals(product.getId())) {
+

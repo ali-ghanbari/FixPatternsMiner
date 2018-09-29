@@ -1,0 +1,9 @@
+SubscriptionManager.Subscription: Fix incomplete thread safety JavaDoc
+
+- We modify the database so we must lock upon the transaction
+- Also, talk about thread "safety", not "synchronization":
+With regards to SubscriptionManager, synchronization is a technical term
+which has a different meaning than thread sync so we should use a
+different word here. The following commit will fix that for the rest of
+the whole class SubscriptionManager.
+

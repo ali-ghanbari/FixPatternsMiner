@@ -1,0 +1,8 @@
+Another fix for mac: Add java 1.8 to condition + direct call to MacSpecifics.
+
+This should finally make the dummy test work on all macs again.
+First, it adds a new condition so that the awt.toolkit property
+is set correctly for both java 1.7 and 1.8 on mac.
+Also, this commit adds a direct call to MacSpecifics from within
+the dummy test (which does not use RequirementAwareSuite).
+

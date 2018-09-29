@@ -1,0 +1,29 @@
+diff --git a/org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ConfigTest.java b/org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ConfigTest.java
+index 23dd260..fe423da 100644
+--- a/org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ConfigTest.java
++++ b/org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ConfigTest.java
+@@ -45 +45,2 @@
+-import static org.junit.Assert.assertArrayEquals;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertTrue;
+@@ -63,6 +64,6 @@
+-		assertArrayEquals("expected default configuration", //
+-				new String[] { "core.autocrlf=false", //
+-						"core.filemode=true", //
+-						"core.logallrefupdates=true", //
+-						"core.repositoryformatversion=0", //
+-						"" /* ends with LF (last line empty) */}, output);
++		// value depends on platform
++		assertTrue(output[0].startsWith("core.filemode="));
++		assertTrue(output[0].endsWith("true") || output[0].endsWith("false"));
++		assertEquals("core.logallrefupdates=true", output[1]);
++		assertEquals("core.repositoryformatversion=0", output[2]);
++		assertEquals("", output[3]); /* ends with LF (last line empty) */
+diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java b/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java
+index fa87b9f..7934e7f 100644
+--- a/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java
++++ b/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java
+@@ -283,2 +282,0 @@
+-		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+-				ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+

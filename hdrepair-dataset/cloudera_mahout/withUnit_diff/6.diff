@@ -1,0 +1,31 @@
+diff --git a/integration/src/main/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterable.java b/integration/src/main/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterable.java
+index 31abc04..bc521b2 100644
+--- a/integration/src/main/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterable.java
++++ b/integration/src/main/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterable.java
+@@ -107 +107 @@
+-            model.addNominal(label, classes[i].trim(), i);
++            model.addNominal(label, classes[i].trim(), i + 1);
+diff --git a/integration/src/test/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterableTest.java b/integration/src/test/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterableTest.java
+index 5a0fae9..2ca661c 100644
+--- a/integration/src/test/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterableTest.java
++++ b/integration/src/test/java/org/apache/mahout/utils/vectors/arff/ARFFVectorIterableTest.java
+@@ -20,0 +21,2 @@
++import java.text.SimpleDateFormat;
++import java.util.Date;
+@@ -21,0 +24 @@
++import java.util.Locale;
+@@ -125,0 +129,13 @@
++  }
++
++  @Test
++  public void testDate() throws Exception {
++    MapBackedARFFModel model = new MapBackedARFFModel();
++    ARFFVectorIterable iterable = new ARFFVectorIterable(NON_NUMERIC_ARFF, model);
++    Iterator<Vector> iter = iterable.iterator();
++    Vector firstVector = iter.next();
++    assertEquals(firstVector.get(2),1.0,0); 
++    DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
++    Date date = format.parse("1973-10-23");
++    long result = date.getTime();
++    assertEquals(result, firstVector.get(4),0);
+

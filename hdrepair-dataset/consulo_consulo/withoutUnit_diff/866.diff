@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/openapi/editor/actions/DuplicateAction.java b/platform/platform-impl/src/com/intellij/openapi/editor/actions/DuplicateAction.java
+index 50749c1..cc283f5 100644
+--- a/platform/platform-impl/src/com/intellij/openapi/editor/actions/DuplicateAction.java
++++ b/platform/platform-impl/src/com/intellij/openapi/editor/actions/DuplicateAction.java
+@@ -90 +90 @@
+-    return new Pair<Integer, Integer>(end, end+s.length());
++    return new Pair<Integer, Integer>(end, end+s.length()-1);   // don't include separator of last line in range to select
+

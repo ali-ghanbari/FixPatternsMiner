@@ -1,0 +1,17 @@
+diff --git a/whois-query/src/main/java/net/ripe/db/whois/query/executor/SearchQueryExecutor.java b/whois-query/src/main/java/net/ripe/db/whois/query/executor/SearchQueryExecutor.java
+index 721abe9..1848802 100644
+--- a/whois-query/src/main/java/net/ripe/db/whois/query/executor/SearchQueryExecutor.java
++++ b/whois-query/src/main/java/net/ripe/db/whois/query/executor/SearchQueryExecutor.java
+@@ -128,0 +129 @@
++                sources.add(sourceContext.getWhoisSlaveSource());
+diff --git a/whois-query/src/test/java/net/ripe/db/whois/query/executor/SearchQueryExecutorTest.java b/whois-query/src/test/java/net/ripe/db/whois/query/executor/SearchQueryExecutorTest.java
+index 89df8b9..5bac439 100644
+--- a/whois-query/src/test/java/net/ripe/db/whois/query/executor/SearchQueryExecutorTest.java
++++ b/whois-query/src/test/java/net/ripe/db/whois/query/executor/SearchQueryExecutorTest.java
+@@ -205,0 +206 @@
++    @Test
+@@ -207 +208,2 @@
+-        when(sourceContext.getAdditionalSourceNames()).thenReturn(ciSet("RIPE", "APNIC-GRS", "ARIN-GRS"));
++        when(sourceContext.getAdditionalSourceNames()).thenReturn(ciSet("APNIC-GRS", "ARIN-GRS"));
++        when(sourceContext.getWhoisSlaveSource()).thenReturn(Source.slave("RIPE"));
+

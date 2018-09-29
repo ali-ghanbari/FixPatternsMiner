@@ -1,0 +1,40 @@
+diff --git a/fyodor-core/src/main/java/com/fyodor/generators/characters/CharacterSetGenerator.java b/fyodor-core/src/main/java/com/fyodor/generators/characters/CharacterSetGenerator.java
+index c7910b0..08430dc 100644
+--- a/fyodor-core/src/main/java/com/fyodor/generators/characters/CharacterSetGenerator.java
++++ b/fyodor-core/src/main/java/com/fyodor/generators/characters/CharacterSetGenerator.java
+@@ -30 +30 @@
+-        for (int i = range.lowerBound(); i < range.upperBound(); i++) {
++        for (int i = range.lowerBound(); i <= range.upperBound(); i++) {
+diff --git a/fyodor-core/src/test/java/com/fyodor/generators/CharacterSetGeneratorTest.java b/fyodor-core/src/test/java/com/fyodor/generators/CharacterSetGeneratorTest.java
+new file mode 100644
+index 0000000..2e8e9ab
+--- /dev/null
++++ b/fyodor-core/src/test/java/com/fyodor/generators/CharacterSetGeneratorTest.java
+@@ -0,0 +1,26 @@
++package com.fyodor.generators;
++
++import com.fyodor.generators.characters.CharacterFilter;
++import com.fyodor.generators.characters.CharacterSetGenerator;
++import com.fyodor.range.Range;
++import org.junit.Test;
++
++import static com.fyodor.FyodorAssertions.assertThat;
++
++public class CharacterSetGeneratorTest {
++
++    CharacterFilter allowEverythingFilter = new CharacterFilter() {
++        @Override
++        public boolean includeCharacter(int i) {
++            return true;
++        }
++    };
++
++    @Test
++    public void generateCorrectNumberOfChars(){
++        Integer rangeStart = RDG.integer(50).next();
++        Integer rangeEnd = RDG.integer(Range.closed(51, 1000)).next();
++        CharacterSetGenerator generator = new CharacterSetGenerator(Range.closed(rangeStart, rangeEnd), allowEverythingFilter);
++        assertThat(generator.getCharset()).hasSize(rangeEnd - rangeStart + 1);
++    }
++}
+

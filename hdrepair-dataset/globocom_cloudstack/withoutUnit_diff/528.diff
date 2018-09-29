@@ -1,0 +1,16 @@
+diff --git a/core/src/com/cloud/agent/resource/virtualnetwork/VirtualRoutingResource.java b/core/src/com/cloud/agent/resource/virtualnetwork/VirtualRoutingResource.java
+index 28d9f97..5c68793 100755
+--- a/core/src/com/cloud/agent/resource/virtualnetwork/VirtualRoutingResource.java
++++ b/core/src/com/cloud/agent/resource/virtualnetwork/VirtualRoutingResource.java
+@@ -144,0 +145 @@
++            result = command.execute();
+diff --git a/patches/systemvm/debian/config/root/firewall.sh b/patches/systemvm/debian/config/root/firewall.sh
+index 0111973..8927c79 100755
+--- a/patches/systemvm/debian/config/root/firewall.sh
++++ b/patches/systemvm/debian/config/root/firewall.sh
+@@ -32,0 +33 @@
++  local dport0=$2
+@@ -57 +58 @@
+-           --destination-port $dport -m state --state NEW  -j ACCEPT &>>  $OUTFILE)
++           --destination-port $dport0 -m state --state NEW  -j ACCEPT &>>  $OUTFILE)
+

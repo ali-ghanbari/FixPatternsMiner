@@ -1,0 +1,51 @@
+diff --git a/softwaremill-test/softwaremill-test-util/src/main/java/pl/softwaremill/common/test/util/fest/TimeAssertions.java b/softwaremill-test/softwaremill-test-util/src/main/java/pl/softwaremill/common/test/util/fest/TimeAssertions.java
+index 528f3cc..1bd4443 100644
+--- a/softwaremill-test/softwaremill-test-util/src/main/java/pl/softwaremill/common/test/util/fest/TimeAssertions.java
++++ b/softwaremill-test/softwaremill-test-util/src/main/java/pl/softwaremill/common/test/util/fest/TimeAssertions.java
+@@ -12 +12 @@
+-    public static DateAssert assertThat(DateTime date) {
++    public static DateAssert assertTime(DateTime date) {
+diff --git a/softwaremill-test/softwaremill-test-util/src/test/java/pl/softwaremill/common/test/util/fest/TimeAssertionsTest.java b/softwaremill-test/softwaremill-test-util/src/test/java/pl/softwaremill/common/test/util/fest/TimeAssertionsTest.java
+index d6d42bd..0fa8582 100644
+--- a/softwaremill-test/softwaremill-test-util/src/test/java/pl/softwaremill/common/test/util/fest/TimeAssertionsTest.java
++++ b/softwaremill-test/softwaremill-test-util/src/test/java/pl/softwaremill/common/test/util/fest/TimeAssertionsTest.java
+@@ -6,0 +7,2 @@
++import static pl.softwaremill.common.test.util.fest.TimeAssertions.assertTime;
++
+@@ -13 +15 @@
+-        TimeAssertions.assertThat(dateToCheck).isBefore(reference);
++        assertTime(dateToCheck).isBefore(reference);
+@@ -18 +20 @@
+-        TimeAssertions.assertThat(dateToCheck).isBefore(reference);
++        assertTime(dateToCheck).isBefore(reference);
+@@ -23 +25 @@
+-        TimeAssertions.assertThat(dateToCheck).isBefore(reference);
++        assertTime(dateToCheck).isBefore(reference);
+@@ -31 +33 @@
+-        TimeAssertions.assertThat(dateToCheck).isBeforeOrAt(reference);
++        assertTime(dateToCheck).isBeforeOrAt(reference);
+@@ -36 +38 @@
+-        TimeAssertions.assertThat(dateToCheck).isBeforeOrAt(reference);
++        assertTime(dateToCheck).isBeforeOrAt(reference);
+@@ -41 +43 @@
+-        TimeAssertions.assertThat(dateToCheck).isBeforeOrAt(reference);
++        assertTime(dateToCheck).isBeforeOrAt(reference);
+@@ -49 +51 @@
+-        TimeAssertions.assertThat(dateToCheck).isAfter(reference);
++        assertTime(dateToCheck).isAfter(reference);
+@@ -54 +56 @@
+-        TimeAssertions.assertThat(dateToCheck).isAfter(reference);
++        assertTime(dateToCheck).isAfter(reference);
+@@ -59 +61 @@
+-        TimeAssertions.assertThat(dateToCheck).isAfter(reference);
++        assertTime(dateToCheck).isAfter(reference);
+@@ -67 +69 @@
+-        TimeAssertions.assertThat(dateToCheck).isAfterOrAt(reference);
++        assertTime(dateToCheck).isAfterOrAt(reference);
+@@ -72 +74 @@
+-        TimeAssertions.assertThat(dateToCheck).isAfterOrAt(reference);
++        assertTime(dateToCheck).isAfterOrAt(reference);
+@@ -77 +79 @@
+-        TimeAssertions.assertThat(dateToCheck).isAfterOrAt(reference);
++        assertTime(dateToCheck).isAfterOrAt(reference);
+

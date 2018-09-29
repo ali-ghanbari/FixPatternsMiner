@@ -1,0 +1,84 @@
+diff --git a/user/super/com/google/gwt/emul/java/lang/Double.java b/user/super/com/google/gwt/emul/java/lang/Double.java
+index c16461a..9aa19fb 100644
+--- a/user/super/com/google/gwt/emul/java/lang/Double.java
++++ b/user/super/com/google/gwt/emul/java/lang/Double.java
+@@ -77 +77 @@
+-      return EXPONENT_MASK | NAN_MANTISSA;
++      return (1L << (EXPONENT_BITSIZE -1)) | NAN_MANTISSA;
+diff --git a/user/test/com/google/gwt/emultest/java/lang/DoubleTest.java b/user/test/com/google/gwt/emultest/java/lang/DoubleTest.java
+index f06be07..2472e67 100644
+--- a/user/test/com/google/gwt/emultest/java/lang/DoubleTest.java
++++ b/user/test/com/google/gwt/emultest/java/lang/DoubleTest.java
+@@ -82,4 +82,10 @@
+-    assertEquals(Double.doubleToLongBits(Double.NaN), NAN_LONG_VALUE);
+-    assertEquals(Double.doubleToLongBits(Double.POSITIVE_INFINITY), POSINF_LONG_VALUE);
+-    assertEquals(Double.doubleToLongBits(Double.NEGATIVE_INFINITY), NEGINF_LONG_VALUE);
+-    assertEquals(Double.doubleToLongBits(Double.MAX_VALUE), MAXD_LONG_VALUE);
++    assertEquals("NaN double->longbits test",
++        Double.doubleToLongBits(Double.NaN), NAN_LONG_VALUE);
++    assertEquals("posinf double->longbits test",
++        Double.doubleToLongBits(Double.POSITIVE_INFINITY), POSINF_LONG_VALUE);
++    assertEquals("neginf double->longbits test",
++        Double.doubleToLongBits(Double.NEGATIVE_INFINITY), NEGINF_LONG_VALUE);
++    assertEquals("maxvalue double->longbits test",
++        Double.doubleToLongBits(Double.MAX_VALUE), MAXD_LONG_VALUE);
++    assertEquals("minvalue double->longbits test",
++        Double.doubleToLongBits(Double.MIN_VALUE), MIND_LONG_VALUE);
+@@ -87,4 +93,4 @@
+-    assertEquals(Double.doubleToLongBits(Double.MAX_VALUE), MAXD_LONG_VALUE);
+-    assertEquals(Double.doubleToLongBits(Double.MIN_VALUE), MIND_LONG_VALUE);
+-    assertEquals(Double.doubleToLongBits(TEST1_DOUBLE_VALUE), TEST1_LONG_VALUE);
+-    assertEquals(Double.doubleToLongBits(-TEST1_DOUBLE_VALUE), NEGTEST1_LONG_VALUE);
++    assertEquals("test1 double->longbits test",
++        Double.doubleToLongBits(TEST1_DOUBLE_VALUE), TEST1_LONG_VALUE);
++    assertEquals("-test1 double->longbits test",
++        Double.doubleToLongBits(-TEST1_DOUBLE_VALUE), NEGTEST1_LONG_VALUE);
+@@ -92 +98,2 @@
+-    assertEquals(Double.doubleToLongBits(MIN_NORMAL), MINNORM_LONG_VALUE);
++    assertEquals("minnormal double->longbits test", 
++        Double.doubleToLongBits(MIN_NORMAL), MINNORM_LONG_VALUE);
+@@ -96,7 +103,14 @@
+-    assertTrue(Double.isNaN(Double.longBitsToDouble(NAN_LONG_VALUE)));
+-    assertTrue(Double.POSITIVE_INFINITY == Double.longBitsToDouble(POSINF_LONG_VALUE));
+-    assertTrue(Double.NEGATIVE_INFINITY == Double.longBitsToDouble(NEGINF_LONG_VALUE));
+-    assertTrue(Double.MAX_VALUE == Double.longBitsToDouble(MAXD_LONG_VALUE));
+-    assertTrue(Double.MIN_VALUE == Double.longBitsToDouble(MIND_LONG_VALUE));
+-    assertTrue(TEST1_DOUBLE_VALUE == Double.longBitsToDouble(TEST1_LONG_VALUE));
+-    assertTrue(-TEST1_DOUBLE_VALUE == Double.longBitsToDouble(NEGTEST1_LONG_VALUE));
++    assertTrue("isNaN longbits->double test", 
++        Double.isNaN(Double.longBitsToDouble(NAN_LONG_VALUE)));
++    assertEquals("posinf longbits->double test", 
++        Double.POSITIVE_INFINITY, Double.longBitsToDouble(POSINF_LONG_VALUE));
++    assertEquals("neginf longbits->double test", 
++        Double.NEGATIVE_INFINITY, Double.longBitsToDouble(NEGINF_LONG_VALUE));
++    assertEquals("maxval longbits->double test", 
++        Double.MAX_VALUE, Double.longBitsToDouble(MAXD_LONG_VALUE));
++    assertEquals("minval longbits->double test", 
++        Double.MIN_VALUE, Double.longBitsToDouble(MIND_LONG_VALUE));
++    assertEquals("test1 longbits->double test", 
++        TEST1_DOUBLE_VALUE, Double.longBitsToDouble(TEST1_LONG_VALUE));
++    assertEquals("-test1 longbits->double test", 
++        -TEST1_DOUBLE_VALUE, Double.longBitsToDouble(NEGTEST1_LONG_VALUE));
+@@ -104 +118,2 @@
+-    assertTrue(MIN_NORMAL == Double.longBitsToDouble(MINNORM_LONG_VALUE));
++    assertEquals("minnormal longbits->double test", 
++        MIN_NORMAL, Double.longBitsToDouble(MINNORM_LONG_VALUE));
+@@ -108,7 +123,10 @@
+-    assertTrue(0 == Double.parseDouble("0"));
+-    assertTrue(-1.5 == Double.parseDouble("-1.5"));
+-    assertTrue(3.0 == Double.parseDouble("3."));
+-    assertTrue(0.5 == Double.parseDouble(".5"));
+-    assertTrue(2.98e8 == Double.parseDouble("2.98e8"));
+-    assertTrue(-2.98e-8 == Double.parseDouble("-2.98e-8"));
+-    assertTrue(+2.98E+8 == Double.parseDouble("+2.98E+8"));
++    assertEquals(0.0, Double.parseDouble("0"));
++    assertEquals(-1.5, Double.parseDouble("-1.5"));
++    assertEquals(3.0, Double.parseDouble("3."));
++    assertEquals(0.5, Double.parseDouble(".5"));
++    assertEquals("parse of 2.98e8", 
++        2.98e8, Double.parseDouble("2.98e8"));
++    assertEquals("parse of -2.98e-8", 
++        -2.98e-8, Double.parseDouble("-2.98e-8"));
++    assertEquals("parse of 2.08E+8", 
++        +2.98E+8, Double.parseDouble("+2.98E+8"));
+

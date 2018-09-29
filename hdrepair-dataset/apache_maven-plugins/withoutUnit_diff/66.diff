@@ -1,0 +1,136 @@
+diff --git a/maven-assembly-plugin/src/it/projects/bugs/massembly-375/goals.txt b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/goals.txt
+new file mode 100644
+index 0000000..f668c60
+--- /dev/null
++++ b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/goals.txt
+@@ -0,0 +1,2 @@
++clean
++package
+diff --git a/maven-assembly-plugin/src/it/projects/bugs/massembly-375/pom.xml b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/pom.xml
+new file mode 100644
+index 0000000..7574a52
+--- /dev/null
++++ b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/pom.xml
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <parent>
++    <groupId>org.apache.maven.plugin.assembly.test</groupId>
++    <artifactId>it-project-parent</artifactId>
++    <version>1</version>
++  </parent>
++  
++  <artifactId>massembly-375</artifactId>
++  <packaging>jar</packaging>
++  
++  <build>
++    <plugins>
++      <plugin>
++        <artifactId>maven-assembly-plugin</artifactId>
++        <configuration>
++          <descriptors>
++            <descriptor>src/main/assembly/test.xml</descriptor>
++          </descriptors>
++        </configuration>
++        <executions>
++          <execution>
++            <id>single-assembly</id>
++            <phase>package</phase>
++            <goals>
++              <goal>single</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++    </plugins>
++  </build>
++</project>
+diff --git a/maven-assembly-plugin/src/it/projects/bugs/massembly-375/src/main/assembly/test.txt b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/src/main/assembly/test.txt
+new file mode 100644
+index 0000000..4fff881
+--- /dev/null
++++ b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/src/main/assembly/test.txt
+@@ -0,0 +1 @@
++Test File
+diff --git a/maven-assembly-plugin/src/it/projects/bugs/massembly-375/src/main/assembly/test.xml b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/src/main/assembly/test.xml
+new file mode 100644
+index 0000000..b8f9d73
+--- /dev/null
++++ b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/src/main/assembly/test.xml
+@@ -0,0 +1,16 @@
++<assembly>
++  <id>test</id>
++  <formats>
++    <format>jar</format>
++  </formats>
++  <includeBaseDirectory>false</includeBaseDirectory>
++  <fileSets>
++    <fileSet>
++      <directory>src/main/assembly</directory>
++      <outputDirectory>/</outputDirectory>
++      <includes>
++        <include>test.txt</include>
++      </includes>
++    </fileSet>
++  </fileSets>
++</assembly>
+diff --git a/maven-assembly-plugin/src/it/projects/bugs/massembly-375/verify.bsh b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/verify.bsh
+new file mode 100644
+index 0000000..af6e975
+--- /dev/null
++++ b/maven-assembly-plugin/src/it/projects/bugs/massembly-375/verify.bsh
+@@ -0,0 +1,45 @@
++import java.io.*;
++import java.util.jar.*;
++
++try
++{
++	File f = new File( basedir, "target/massembly-375-1-test.jar" );
++	
++	System.out.println( "Examining assembly file: " + f );
++	System.out.flush();
++
++	if ( !f.isFile() )
++	{
++		System.out.println( "Target file: " + f + " doesn't exist!" );
++		System.out.flush();
++		return false;
++	}
++
++	JarFile jf = new JarFile( f );
++
++	JarEntry je = jf.getEntry( "/test.txt" );
++	if ( je != null )
++	{
++		System.out.println( "Entry: /test.txt should NOT exist." );
++		System.out.flush();
++		return false;
++	}
++
++	je = jf.getEntry( "test.txt" );
++	if ( je == null )
++	{
++		System.out.println( "Entry: test.txt SHOULD exist." );
++		System.out.flush();
++		return false;
++	}
++
++	System.out.println( "VERIFICATION PASSED." );
++	System.out.flush();
++	return true;
++}
++catch ( Throwable t )
++{
++	t.printStackTrace( System.out );
++	System.out.flush();
++	return false;
++}
+diff --git a/maven-assembly-plugin/src/main/java/org/apache/maven/plugin/assembly/archive/archiver/PrefixedFileSet.java b/maven-assembly-plugin/src/main/java/org/apache/maven/plugin/assembly/archive/archiver/PrefixedFileSet.java
+index d8b5b96..f71b547 100644
+--- a/maven-assembly-plugin/src/main/java/org/apache/maven/plugin/assembly/archive/archiver/PrefixedFileSet.java
++++ b/maven-assembly-plugin/src/main/java/org/apache/maven/plugin/assembly/archive/archiver/PrefixedFileSet.java
+@@ -43 +43 @@
+-        if ( ! rootPrefix.endsWith( "/" ) )
++        if ( rootPrefix.length() > 0 && ! rootPrefix.endsWith( "/" ) )
+

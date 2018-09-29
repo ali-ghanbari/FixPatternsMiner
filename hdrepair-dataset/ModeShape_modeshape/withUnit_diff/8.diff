@@ -1,0 +1,25 @@
+diff --git a/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrWorkspace.java b/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrWorkspace.java
+index d44bf44..1e8f8db 100644
+--- a/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrWorkspace.java
++++ b/modeshape-jcr/src/main/java/org/modeshape/jcr/JcrWorkspace.java
+@@ -461 +461 @@
+-                if (!parentNode.isRoot()) {
++                if (!destPath.isRoot()) {
+diff --git a/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrWorkspaceTest.java b/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrWorkspaceTest.java
+index 38757b2..98cf75c 100644
+--- a/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrWorkspaceTest.java
++++ b/modeshape-jcr/src/test/java/org/modeshape/jcr/JcrWorkspaceTest.java
+@@ -101,0 +102,12 @@
++    @Test
++    @FixFor( "MODE-2007" )
++    public void shouldCloneChildrenOfRoot() throws Exception {
++        otherWorkspace.clone(workspaceName, "/a", "/a", false);
++        otherWorkspace.clone(workspaceName, "/b", "/b", false);
++
++        assertEquals(session.getNode("/a").getIdentifier(), otherSession.getNode("/a").getIdentifier());
++        assertEquals(session.getNode("/a/b").getIdentifier(), otherSession.getNode("/a/b").getIdentifier());
++        assertEquals(session.getNode("/a/b/c").getIdentifier(), otherSession.getNode("/a/b/c").getIdentifier());
++        assertEquals(session.getNode("/b").getIdentifier(), otherSession.getNode("/b").getIdentifier());
++    }
++
+

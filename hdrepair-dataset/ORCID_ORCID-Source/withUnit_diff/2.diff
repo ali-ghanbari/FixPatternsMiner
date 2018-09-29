@@ -1,0 +1,33 @@
+diff --git a/orcid-core/src/main/java/org/orcid/core/utils/OrcidEhCacheFactoryBean.java b/orcid-core/src/main/java/org/orcid/core/utils/OrcidEhCacheFactoryBean.java
+index 9b1ae4b..297f690 100644
+--- a/orcid-core/src/main/java/org/orcid/core/utils/OrcidEhCacheFactoryBean.java
++++ b/orcid-core/src/main/java/org/orcid/core/utils/OrcidEhCacheFactoryBean.java
+@@ -111,0 +112,2 @@
++        } else {
++            this.cache = existingCache;
+diff --git a/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/PublicOauthClientTest.java b/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/PublicOauthClientTest.java
+index 3d66e27..caf4424 100644
+--- a/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/PublicOauthClientTest.java
++++ b/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/PublicOauthClientTest.java
+@@ -87,3 +87,3 @@
+-    private static final List<String> DATA_FILES = Arrays.asList("/data/EmptyEntityData.xml", "/data/SecurityQuestionEntityData.xml", "/data/ProfileEntityData.xml",
+-            "/data/WorksEntityData.xml", "/data/ProfileWorksEntityData.xml", "/data/ClientDetailsEntityData.xml", "/data/Oauth2TokenDetailsData.xml",
+-            "/data/WebhookEntityData.xml");
++    private static final List<String> DATA_FILES = Arrays.asList("/data/EmptyEntityData.xml", "/data/SecurityQuestionEntityData.xml",
++            "/data/SourceClientDetailsEntityData.xml", "/data/ProfileEntityData.xml", "/data/WorksEntityData.xml", "/data/ProfileWorksEntityData.xml",
++            "/data/ClientDetailsEntityData.xml", "/data/Oauth2TokenDetailsData.xml", "/data/WebhookEntityData.xml");
+diff --git a/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/T1OrcidApiClientIntegrationTest.java b/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/T1OrcidApiClientIntegrationTest.java
+index e0419a8..27405f5 100644
+--- a/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/T1OrcidApiClientIntegrationTest.java
++++ b/orcid-integration-test/src/test/java/org/orcid/api/t1/integration/T1OrcidApiClientIntegrationTest.java
+@@ -47,3 +47,3 @@
+-    private static final List<String> DATA_FILES = Arrays.asList("/data/EmptyEntityData.xml", "/data/SecurityQuestionEntityData.xml", "/data/ProfileEntityData.xml",
+-            "/data/WorksEntityData.xml", "/data/ProfileWorksEntityData.xml", "/data/ClientDetailsEntityData.xml", "/data/Oauth2TokenDetailsData.xml",
+-            "/data/WebhookEntityData.xml");
++    private static final List<String> DATA_FILES = Arrays.asList("/data/EmptyEntityData.xml", "/data/SecurityQuestionEntityData.xml",
++            "/data/SourceClientDetailsEntityData.xml", "/data/ProfileEntityData.xml", "/data/WorksEntityData.xml", "/data/ProfileWorksEntityData.xml",
++            "/data/ClientDetailsEntityData.xml", "/data/Oauth2TokenDetailsData.xml", "/data/WebhookEntityData.xml");
+@@ -69 +69 @@
+-    public  void testStatus() {
++    public void testStatus() {
+

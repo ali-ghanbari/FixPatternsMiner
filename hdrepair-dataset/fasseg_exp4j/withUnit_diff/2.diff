@@ -1,0 +1,27 @@
+diff --git a/src/main/java/net/objecthunter/exp4j/ShuntingYard.java b/src/main/java/net/objecthunter/exp4j/ShuntingYard.java
+index 6a3898f..6f4f24f 100644
+--- a/src/main/java/net/objecthunter/exp4j/ShuntingYard.java
++++ b/src/main/java/net/objecthunter/exp4j/ShuntingYard.java
+@@ -46 +46 @@
+-					while (stack.peek().getType() != Type.PARANTHESES && ((ParanthesesToken) stack.peek()).isOpen()) {
++					while (stack.peek().getType() != Type.PARANTHESES || !((ParanthesesToken) stack.peek()).isOpen()) {
+diff --git a/src/test/java/net/objecthunter/exp4j/ExpressionBuilderTest.java b/src/test/java/net/objecthunter/exp4j/ExpressionBuilderTest.java
+index 173e32d..ed5b1d3 100644
+--- a/src/test/java/net/objecthunter/exp4j/ExpressionBuilderTest.java
++++ b/src/test/java/net/objecthunter/exp4j/ExpressionBuilderTest.java
+@@ -96,0 +97,14 @@
++	public void testFloatExpression13(){
++		ExpressionBuilder<Float> e = new ExpressionBuilder<>("7++1",Float.class);
++		float result = e.build().calculate();
++		assertTrue("exp4j calulated " + result, 8f == result);
++	}
++
++	@Test
++	public void testFloatExpression14(){
++		ExpressionBuilder<Float> e = new ExpressionBuilder<>("sin(-1.0)",Float.class);
++		float result = e.build().calculate();
++		assertTrue("exp4j calulated " + result, (float) Math.sin(-1.0f) == result);
++	}
++
++	@Test
+

@@ -1,0 +1,33 @@
+diff --git a/kundera-cassandra/src/main/java/com/impetus/client/cassandra/datahandler/CassandraDataHandlerBase.java b/kundera-cassandra/src/main/java/com/impetus/client/cassandra/datahandler/CassandraDataHandlerBase.java
+index c9d0436..6d7f72e 100644
+--- a/kundera-cassandra/src/main/java/com/impetus/client/cassandra/datahandler/CassandraDataHandlerBase.java
++++ b/kundera-cassandra/src/main/java/com/impetus/client/cassandra/datahandler/CassandraDataHandlerBase.java
+@@ -601 +601 @@
+-                initialize(tr, m, entity);
++                entity = initialize(tr, m, entity);
+diff --git a/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraPropertiesTest.java b/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraPropertiesTest.java
+index 175aa6b..0cc6d42 100644
+--- a/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraPropertiesTest.java
++++ b/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraPropertiesTest.java
+@@ -198,0 +199,3 @@
++        metaModel.assignManagedTypes(appMetadata.getMetaModelBuilder().getManagedTypes());
++        metaModel.assignEmbeddables(appMetadata.getMetaModelBuilder().getEmbeddables());
++        metaModel.assignMappedSuperClass(appMetadata.getMetaModelBuilder().getMappedSuperClassTypes());
+diff --git a/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerMTMTest.java b/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerMTMTest.java
+index d220595..b1ba005 100644
+--- a/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerMTMTest.java
++++ b/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerMTMTest.java
+@@ -172,0 +173,4 @@
++        metaModel.assignManagedTypes(appMetadata.getMetaModelBuilder().getManagedTypes());
++        metaModel.assignEmbeddables(appMetadata.getMetaModelBuilder().getEmbeddables());
++        metaModel.assignMappedSuperClass(appMetadata.getMetaModelBuilder().getMappedSuperClassTypes());
++
+diff --git a/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerValidateEntityTest.java b/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerValidateEntityTest.java
+index 9243477..80f122e 100644
+--- a/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerValidateEntityTest.java
++++ b/kundera-cassandra/src/test/java/com/impetus/client/schemamanager/CassandraSchemaManagerValidateEntityTest.java
+@@ -137,0 +138,3 @@
++        metaModel.assignManagedTypes(appMetadata.getMetaModelBuilder().getManagedTypes());
++        metaModel.assignEmbeddables(appMetadata.getMetaModelBuilder().getEmbeddables());
++        metaModel.assignMappedSuperClass(appMetadata.getMetaModelBuilder().getMappedSuperClassTypes());
+

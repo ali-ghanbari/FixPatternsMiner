@@ -1,0 +1,8 @@
+diff --git a/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/artifacts/ivyservice/ivyresolve/parser/DownloadedIvyModuleDescriptorParser.java b/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/artifacts/ivyservice/ivyresolve/parser/DownloadedIvyModuleDescriptorParser.java
+index 33b926d..cb5c3aa 100644
+--- a/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/artifacts/ivyservice/ivyresolve/parser/DownloadedIvyModuleDescriptorParser.java
++++ b/subprojects/core-impl/src/main/groovy/org/gradle/api/internal/artifacts/ivyservice/ivyresolve/parser/DownloadedIvyModuleDescriptorParser.java
+@@ -31 +31 @@
+-    public ModuleDescriptor parseDescriptor(ParserSettings ivySettings, URL xmlURL, Resource res, boolean validate) throws ParseException, IOException {
++    synchronized public ModuleDescriptor parseDescriptor(ParserSettings ivySettings, URL xmlURL, Resource res, boolean validate) throws ParseException, IOException {
+

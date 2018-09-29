@@ -1,0 +1,108 @@
+diff --git a/backend/manager/modules/services/src/main/webapp/novnc-main.html b/backend/manager/modules/services/src/main/webapp/novnc-main.html
+index 7e18c5d..cd4a570 100644
+--- a/backend/manager/modules/services/src/main/webapp/novnc-main.html
++++ b/backend/manager/modules/services/src/main/webapp/novnc-main.html
+@@ -23 +23 @@
+-<script src="files/novnc/include/vnc.js"></script>
++<script src="files/novnc/include/util.js"></script>
+@@ -51 +51,32 @@
+-        var rfb;
++        var rfb, isOldNoVnc, loadedScripts = false, eventData = null;
++
++        // Load supporting scripts
++        if (Util.load_scripts !== undefined) {
++            // for noVNC 0.5
++
++            isOldNoVnc = false;
++
++            Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
++                           "keysymdef.js", "keyboard.js", "input.js", "display.js",
++                           "jsunzip.js", "rfb.js", "keysym.js"]);
++        } else {
++            // for noVNC 0.4
++
++            isOldNoVnc = true;
++
++            var extra = "", start, end;
++
++            start = "<script src='files/novnc/include/";
++            end = "'><\/script>";
++
++            extra += start + "webutil.js" + end;
++            extra += start + "base64.js" + end;
++            extra += start + "websock.js" + end;
++            extra += start + "des.js" + end;
++            extra += start + "input.js" + end;
++            extra += start + "display.js" + end;
++            extra += start + "rfb.js" + end;
++            extra += start + "jsunzip.js" + end;
++
++            document.write(extra);
++        }
+@@ -94,3 +125,2 @@
+-        function connectToConsole (evt) {
+-            if (evt.data === null || evt.data.password === null || evt.data.connectionTicket === null) {
+-                alert("Incorrect connection data");
++        function connectToConsole () {
++            if (!loadedScripts || !eventData) {
+@@ -103,2 +133,2 @@
+-                var password = evt.data.password;
+-                var path = evt.data.connectionTicket;
++                var password = eventData.password;
++                var path = eventData.connectionTicket;
+@@ -112 +142 @@
+-                rfb = new RFB({'target':       $D('noVNC_canvas'),
++                var rfbParams = {'target':       $D('noVNC_canvas'),
+@@ -119,3 +149,10 @@
+-                           'updateState':  updateState,
+-                           'onPasswordRequired':  passwordRequired});
+-                           rfb.connect(host, port, password, path);
++                           'onPasswordRequired':  passwordRequired};
++
++                if (isOldNoVnc) {
++                    rfbParams.updateState = updateState;
++                } else {
++                    rfbParams.onUpdateState = updateState;
++                }
++
++                rfb = new RFB(rfbParams);
++                rfb.connect(host, port, password, path);
+@@ -124,0 +162,11 @@
++        function receiveEvtData(evt) {
++            if (evt.data === null || evt.data.password === null || evt.data.connectionTicket === null) {
++                alert("Incorrect connection data");
++                return;
++            }
++
++            eventData = evt.data;
++
++            connectToConsole();
++        };
++
+@@ -127 +175 @@
+-            window.addEventListener("message", connectToConsole, false);
++            window.addEventListener("message", receiveEvtData, false);
+@@ -129 +177 @@
+-            window.attachEvent("onmessage", connectToConsole);
++            window.attachEvent("onmessage", receiveEvtData);
+@@ -130,0 +179,6 @@
++
++        window.onscriptsload = function () {
++            loadedScripts = true;
++
++            connectToConsole();
++        };
+@@ -136,0 +191,5 @@
++
++            if (isOldNoVnc) {
++                window.onscriptsload();
++            }
++
+diff --git a/frontend/webadmin/modules/gwt-common/src/main/java/org/ovirt/engine/ui/common/uicommon/NoVncImpl.java b/frontend/webadmin/modules/gwt-common/src/main/java/org/ovirt/engine/ui/common/uicommon/NoVncImpl.java
+index abfbbfb..6b7b0ba 100644
+--- a/frontend/webadmin/modules/gwt-common/src/main/java/org/ovirt/engine/ui/common/uicommon/NoVncImpl.java
++++ b/frontend/webadmin/modules/gwt-common/src/main/java/org/ovirt/engine/ui/common/uicommon/NoVncImpl.java
+@@ -25 +25 @@
+-        if (config != null) {
++        if (config == null) {
+

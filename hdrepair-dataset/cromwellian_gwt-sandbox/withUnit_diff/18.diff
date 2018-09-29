@@ -1,0 +1,21 @@
+diff --git a/user/src/com/google/gwt/json/client/JSONObject.java b/user/src/com/google/gwt/json/client/JSONObject.java
+index 17233ff..bb6867a 100644
+--- a/user/src/com/google/gwt/json/client/JSONObject.java
++++ b/user/src/com/google/gwt/json/client/JSONObject.java
+@@ -113 +113,2 @@
+-   * Returns the set of properties defined on this JSONObject.
++   * Returns the set of properties defined on this JSONObject. The returned set
++   * is immutable.
+diff --git a/user/test/com/google/gwt/json/client/JSONTest.java b/user/test/com/google/gwt/json/client/JSONTest.java
+index de9f9f0..c10751f 100644
+--- a/user/test/com/google/gwt/json/client/JSONTest.java
++++ b/user/test/com/google/gwt/json/client/JSONTest.java
+@@ -58,2 +58,3 @@
+-    for (String key : expected.keySet()) {
+-      actKeys.remove(key);
++    Set<String> expKeys = expected.keySet();
++    assertEquals(expKeys.size(), actKeys.size());
++    for (String key : expKeys) {
+@@ -65 +65,0 @@
+-    assertEquals(0, actKeys.size());
+

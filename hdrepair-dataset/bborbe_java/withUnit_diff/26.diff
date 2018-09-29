@@ -1,0 +1,26 @@
+diff --git a/sample/src/main/java/de/benjaminborbe/sample/servlet/SampleServlet.java b/sample/src/main/java/de/benjaminborbe/sample/servlet/SampleServlet.java
+index 0c4d1cb..fd47aaa 100644
+--- a/sample/src/main/java/de/benjaminborbe/sample/servlet/SampleServlet.java
++++ b/sample/src/main/java/de/benjaminborbe/sample/servlet/SampleServlet.java
+@@ -34 +34 @@
+-		out.println("<h2>Dashboard</h2>");
++		out.println("<h2>Sample</h2>");
+diff --git a/slash/src/test/java/de/benjaminborbe/slash/servlet/SlashServletTest.java b/slash/src/test/java/de/benjaminborbe/slash/servlet/SlashServletTest.java
+index 9541339..71b706d 100644
+--- a/slash/src/test/java/de/benjaminborbe/slash/servlet/SlashServletTest.java
++++ b/slash/src/test/java/de/benjaminborbe/slash/servlet/SlashServletTest.java
+@@ -33 +33 @@
+-		assertEquals("/bb/dashboard", slashServlet.buildRedirectTargetPath(request));
++		assertEquals("/bb/website/dashboard", slashServlet.buildRedirectTargetPath(request));
+diff --git a/website/src/test/java/de/benjaminborbe/website/servlet/WebsiteSearchServletTest.java b/website/src/test/java/de/benjaminborbe/website/servlet/WebsiteSearchServletTest.java
+index 0ea9a89..3b08bc4 100644
+--- a/website/src/test/java/de/benjaminborbe/website/servlet/WebsiteSearchServletTest.java
++++ b/website/src/test/java/de/benjaminborbe/website/servlet/WebsiteSearchServletTest.java
+@@ -9 +8,0 @@
+-import de.benjaminborbe.search.guice.SearchModulesMock;
+@@ -10,0 +10 @@
++import de.benjaminborbe.website.guice.WebsiteModulesMock;
+@@ -17 +17 @@
+-		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchModulesMock());
++		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsiteModulesMock());
+

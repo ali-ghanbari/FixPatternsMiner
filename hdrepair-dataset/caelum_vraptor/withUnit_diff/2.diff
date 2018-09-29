@@ -1,0 +1,36 @@
+diff --git a/vraptor-core/src/main/java/br/com/caelum/vraptor/http/route/RouteBuilder.java b/vraptor-core/src/main/java/br/com/caelum/vraptor/http/route/RouteBuilder.java
+index 51b87c6..7c1e442 100644
+--- a/vraptor-core/src/main/java/br/com/caelum/vraptor/http/route/RouteBuilder.java
++++ b/vraptor-core/src/main/java/br/com/caelum/vraptor/http/route/RouteBuilder.java
+@@ -195 +195 @@
+-		String betweenBraces = "\\*?\\}[^\\{]*\\{";
++		String betweenBraces = "\\*?\\}[^\\{\\}]*\\{";
+diff --git a/vraptor-core/src/test/java/br/com/caelum/vraptor/http/route/RouteBuilderTest.java b/vraptor-core/src/test/java/br/com/caelum/vraptor/http/route/RouteBuilderTest.java
+index 241a402..8831a72 100644
+--- a/vraptor-core/src/test/java/br/com/caelum/vraptor/http/route/RouteBuilderTest.java
++++ b/vraptor-core/src/test/java/br/com/caelum/vraptor/http/route/RouteBuilderTest.java
+@@ -122,0 +123,14 @@
++	public void usingRegexesWithCurlyBracesNotOnTheEndAndOtherVar() throws Exception {
++		builder = new RouteBuilder(proxifier, typeFinder, "/abc/{abc:[0-9A-Z]{5}}/def/{def}");
++
++		builder.is(MyResource.class, method.getMethod());
++		Route route = builder.build();
++
++		assertFalse("invalid uri", route.canHandle("/abc/notValid/def/12"));
++		assertFalse("invalid uri", route.canHandle("/abc/ABC123/def/12"));
++		assertTrue("valid uri", route.canHandle("/abc/10AB3/def/12"));
++
++	}
++
++
++	@Test
+diff --git a/vraptor-site/.settings/org.eclipse.core.resources.prefs b/vraptor-site/.settings/org.eclipse.core.resources.prefs
+index 894cb01..380bf4a 100644
+--- a/vraptor-site/.settings/org.eclipse.core.resources.prefs
++++ b/vraptor-site/.settings/org.eclipse.core.resources.prefs
+@@ -1 +1 @@
+-#Sun Feb 28 12:53:27 BRT 2010
++#Mon May 17 14:59:28 BRT 2010
+@@ -2,0 +3 @@
++encoding//src/content/beneficios.jsp=UTF-8
+

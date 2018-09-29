@@ -1,0 +1,21 @@
+diff --git a/backend/impl/src/main/java/org/geomajas/internal/service/RealTestRecorder.java b/backend/impl/src/main/java/org/geomajas/internal/service/RealTestRecorder.java
+index d81fbd5..b486abb 100644
+--- a/backend/impl/src/main/java/org/geomajas/internal/service/RealTestRecorder.java
++++ b/backend/impl/src/main/java/org/geomajas/internal/service/RealTestRecorder.java
+@@ -72 +72 @@
+-			return "more recorded messages then tested" + list;
++			return "more recorded messages then tested, " + list;
+diff --git a/backend/impl/src/test/java/org/geomajas/internal/service/RealTestRecorderTest.java b/backend/impl/src/test/java/org/geomajas/internal/service/RealTestRecorderTest.java
+index bcfc935..985bd1d 100644
+--- a/backend/impl/src/test/java/org/geomajas/internal/service/RealTestRecorderTest.java
++++ b/backend/impl/src/test/java/org/geomajas/internal/service/RealTestRecorderTest.java
+@@ -52 +52 @@
+-		Assert.assertEquals("too little recorded messages, only 1 available",
++		Assert.assertEquals("too little recorded messages, only 1 available, [something]",
+@@ -54 +54 @@
+-		Assert.assertEquals("match failed at position 0, requested [bla] got [something]",
++		Assert.assertEquals("match failed at position 0, requested [bla] got [something], [something]",
+@@ -58 +58 @@
+-		Assert.assertEquals("more recorded messages then tested", recorder.matches("bla", "something", "more"));
++		Assert.assertEquals("more recorded messages then tested, [something, more, and more]", recorder.matches("bla", "something", "more"));
+

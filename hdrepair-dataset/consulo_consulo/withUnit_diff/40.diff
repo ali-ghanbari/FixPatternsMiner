@@ -1,0 +1,49 @@
+diff --git a/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUi.java b/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUi.java
+index dd3c9f3..fa6bdbc 100644
+--- a/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUi.java
++++ b/platform/platform-api/src/com/intellij/ide/util/treeView/AbstractTreeUi.java
+@@ -3672,0 +3673,2 @@
++      //myRequestedExpand = null;
++
+diff --git a/platform/platform-impl/testSrc/com/intellij/ide/util/treeView/TreeUiTest.java b/platform/platform-impl/testSrc/com/intellij/ide/util/treeView/TreeUiTest.java
+index ef11b2a..483e421 100644
+--- a/platform/platform-impl/testSrc/com/intellij/ide/util/treeView/TreeUiTest.java
++++ b/platform/platform-impl/testSrc/com/intellij/ide/util/treeView/TreeUiTest.java
+@@ -3,0 +4 @@
++import com.intellij.openapi.util.Condition;
+@@ -1343,0 +1345,29 @@
++  public void testStickyLoadingNodeIssue() throws Exception {
++    buildStructure(myRoot);
++
++    final boolean[] done = new boolean[] {false};
++    getBuilder().select(new NodeElement("jetbrains"), new Runnable() {
++      public void run() {
++        getBuilder().expand(new NodeElement("fabrique"), new Runnable() {
++          public void run() {
++            done[0] = true;
++          }
++        });
++      }
++    });
++
++    waitBuilderToCome(new Condition() {
++      public boolean value(Object o) {
++        return done[0];
++      }
++    });
++
++    assertTree("-/\n" +
++               " +com\n" +
++               " -[jetbrains]\n" +
++               "  -fabrique\n" +
++               "   ide\n" +
++               " +org\n" +
++               " +xunit\n");
++  }
++
+@@ -1465,0 +1496,4 @@
++    @Override
++    public void testStickyLoadingNodeIssue() throws Exception {
++      super.testStickyLoadingNodeIssue();
++    }
+

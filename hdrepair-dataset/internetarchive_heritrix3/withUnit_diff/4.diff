@@ -1,0 +1,169 @@
+diff --git a/engine/src/test/java/org/archive/crawler/datamodel/CrawlURITest.java b/engine/src/test/java/org/archive/crawler/datamodel/CrawlURITest.java
+index 642c5bf..3ea4771 100644
+--- a/engine/src/test/java/org/archive/crawler/datamodel/CrawlURITest.java
++++ b/engine/src/test/java/org/archive/crawler/datamodel/CrawlURITest.java
+@@ -4,2 +4,2 @@
+- *  Licensed to the Internet Archive (IA) by one or more individual 
+- *  contributors. 
++ *  Licensed to the Internet Archive (IA) by one or more individual
++ *  contributors.
+@@ -30,0 +31 @@
++import org.archive.modules.extractor.LinkContext.SimpleLinkContext;
+@@ -37 +38 @@
+- * 
++ *
+@@ -43 +44 @@
+-    
++
+@@ -45 +46 @@
+-    
++
+@@ -60 +61 @@
+-     * 
++     *
+@@ -65,3 +66,3 @@
+-    		throws IOException, ClassNotFoundException {
+-        File serialize = new File(getTmpDir(), 
+-            this.getClass().getName() + ".serialize");
++            throws IOException, ClassNotFoundException {
++        File serialize = new File(getTmpDir(),
++                this.getClass().getName() + ".serialize");
+@@ -84 +85 @@
+-                this.seed.toString(), deserializedCuri.toString());
++                    this.seed.toString(), deserializedCuri.toString());
+@@ -87 +88 @@
+-                host != null && host.length() >= 0);
++                    host != null && host.length() >= 0);
+@@ -92 +93 @@
+-    
++
+@@ -94 +95 @@
+-    throws URIException {
++            throws URIException {
+@@ -100 +101 @@
+-            curi.getData().get("key").equals("value"));
++                curi.getData().get("key").equals("value"));
+@@ -102 +103 @@
+-    
++
+@@ -105 +106 @@
+-        
++
+@@ -107 +108 @@
+-        
++
+@@ -109,4 +110,4 @@
+-            "from fortynine",
+-            "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLX",
+-            CrawlURI.extendHopsPath("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",'X'));
+-        
++                "from fortynine",
++                "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLX",
++                CrawlURI.extendHopsPath("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",'X'));
++
+@@ -117 +118 @@
+-        
++
+@@ -122,0 +124,94 @@
++
++
++    public void testNullPathFromSeed() throws URIException {
++        // check comparing with null
++        CrawlURI a = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                null, // a < b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a == b
++        assertEquals("", a.getPathFromSeed());
++
++        CrawlURI b = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                "", // a < b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a == b
++        assertEquals("", b.getPathFromSeed());
++
++        assertEquals(0, a.compareTo(b));
++        assertEquals(0, b.compareTo(a));
++
++    }
++
++    public void testOrdering() throws URIException {
++        // check that via is highest precedence
++        CrawlURI a = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/2"), // a > b
++                "2", // a > b
++                UURIFactory.getInstance("http://example.com/via/1"), // a < b
++                new SimpleLinkContext("2")); // a > b
++        CrawlURI b = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a > b
++                "1", // a > b
++                UURIFactory.getInstance("http://example.com/via/2"), // a < b
++                new SimpleLinkContext("1")); // a > b
++        assertEquals(-1, a.compareTo(b));
++        assertEquals(1, b.compareTo(a));
++
++        // check that uri is next highest
++        a = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a < b
++                "2", // a > b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("2")); // a > b
++        b = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/2"), // a < b
++                "1", // a > b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a > b
++        assertEquals(-1, a.compareTo(b));
++        assertEquals(1, b.compareTo(a));
++
++        // check that via context is next
++        a = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                "2", // a > b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a < b
++        b = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                "1", // a > b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("2")); // a < b
++        assertEquals(-1, a.compareTo(b));
++        assertEquals(1, b.compareTo(a));
++
++        // check that pathFromSeed is next
++        a = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                "1", // a < b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a == b
++        b = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                "2", // a < b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a == b
++        assertEquals(-1, a.compareTo(b));
++        assertEquals(1, b.compareTo(a));
++
++        // check equality
++        a = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                "1", // a == b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a == b
++        b = new CrawlURI(
++                UURIFactory.getInstance("http://example.com/1"), // a == b
++                "1", // a == b
++                UURIFactory.getInstance("http://example.com/via/1"), // a == b
++                new SimpleLinkContext("1")); // a == b
++        assertEquals(0, a.compareTo(b));
++        assertEquals(0, b.compareTo(a));
++    }
+diff --git a/modules/src/main/java/org/archive/modules/CrawlURI.java b/modules/src/main/java/org/archive/modules/CrawlURI.java
+index d5eefb7..dc66606 100644
+--- a/modules/src/main/java/org/archive/modules/CrawlURI.java
++++ b/modules/src/main/java/org/archive/modules/CrawlURI.java
+@@ -1981 +1981 @@
+-        } else if (a != null && b != null) {
++        } else if (a != null && b == null) {
+

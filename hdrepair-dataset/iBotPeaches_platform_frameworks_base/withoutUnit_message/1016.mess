@@ -1,0 +1,18 @@
+Fix Paint#breakText(char[]..) JavaDoc
+
+The JavaDoc says that if the "...count is negative then the
+characters before index are measured in reverse order. This
+allows for measuring the end of string."
+
+However, the native code doesn't work its way backwards
+from the given index when the count is negative. It always
+passes Skia the substring starting from index and the
+absolute value of count.
+
+Its better to fix the JavaDoc rather than the behavior, since
+this API is public and has been this way for some time. It
+is also used by TextUtils.ellipsize indirectly, so its best
+to avoid breaking that sensitive code.
+
+Change-Id: I8bd51def6ec98251e355370710eb44f58fb737c4
+

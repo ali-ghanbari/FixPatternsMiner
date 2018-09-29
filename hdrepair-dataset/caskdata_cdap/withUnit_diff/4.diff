@@ -1,0 +1,35 @@
+diff --git a/cdap-app-templates/cdap-etl/cdap-etl-lib/src/main/java/co/cask/cdap/template/etl/transform/ProjectionTransform.java b/cdap-app-templates/cdap-etl/cdap-etl-lib/src/main/java/co/cask/cdap/template/etl/transform/ProjectionTransform.java
+index 31b4d51..0cca40e 100644
+--- a/cdap-app-templates/cdap-etl/cdap-etl-lib/src/main/java/co/cask/cdap/template/etl/transform/ProjectionTransform.java
++++ b/cdap-app-templates/cdap-etl/cdap-etl-lib/src/main/java/co/cask/cdap/template/etl/transform/ProjectionTransform.java
+@@ -181,0 +182 @@
++        return;
+diff --git a/cdap-app-templates/cdap-etl/cdap-etl-lib/src/test/java/co/cask/cdap/template/etl/transform/ProjectionTransformTest.java b/cdap-app-templates/cdap-etl/cdap-etl-lib/src/test/java/co/cask/cdap/template/etl/transform/ProjectionTransformTest.java
+index 0a73173..f43436a 100644
+--- a/cdap-app-templates/cdap-etl/cdap-etl-lib/src/test/java/co/cask/cdap/template/etl/transform/ProjectionTransformTest.java
++++ b/cdap-app-templates/cdap-etl/cdap-etl-lib/src/test/java/co/cask/cdap/template/etl/transform/ProjectionTransformTest.java
+@@ -417,0 +418,23 @@
++
++  @Test
++  public void testConvertNullField() throws Exception {
++    ProjectionTransform.ProjectionTransformConfig config = new ProjectionTransform
++      .ProjectionTransformConfig(null, null, "x:long");
++    Transform<StructuredRecord, StructuredRecord> transform = new ProjectionTransform(config);
++    TransformContext transformContext = new MockTransformContext();
++    transform.initialize(transformContext);
++
++    Schema inputSchema = Schema.recordOf("record",
++      Schema.Field.of("x", Schema.nullableOf(Schema.of(Schema.Type.INT))));
++    StructuredRecord input = StructuredRecord.builder(inputSchema).build();
++
++    MockEmitter<StructuredRecord> emitter = new MockEmitter<>();
++    transform.transform(input, emitter);
++    StructuredRecord output = emitter.getEmitted().get(0);
++
++    Schema expectedSchema = Schema.recordOf("record.projected",
++      Schema.Field.of("x", Schema.nullableOf(Schema.of(Schema.Type.LONG))));
++
++    Assert.assertEquals(expectedSchema, output.getSchema());
++    Assert.assertNull(output.get("x"));
++  }
+

@@ -1,0 +1,19 @@
+diff --git a/solr/src/test/org/apache/solr/client/solrj/SolrJettyTestBase.java b/solr/src/test/org/apache/solr/client/solrj/SolrJettyTestBase.java
+index 62ece85..a4b5f19 100755
+--- a/solr/src/test/org/apache/solr/client/solrj/SolrJettyTestBase.java
++++ b/solr/src/test/org/apache/solr/client/solrj/SolrJettyTestBase.java
+@@ -18,0 +19 @@
++  public static String WEBAPP_HOME = new File(SOURCE_HOME, "src/webapp/web").getAbsolutePath();
+diff --git a/solr/src/test/org/apache/solr/client/solrj/embedded/JettyWebappTest.java b/solr/src/test/org/apache/solr/client/solrj/embedded/JettyWebappTest.java
+index fc11474..7a6068c 100644
+--- a/solr/src/test/org/apache/solr/client/solrj/embedded/JettyWebappTest.java
++++ b/solr/src/test/org/apache/solr/client/solrj/embedded/JettyWebappTest.java
+@@ -27,0 +28 @@
++import org.apache.solr.client.solrj.SolrJettyTestBase;
+@@ -49 +50 @@
+-    System.setProperty("solr.solr.home", "../../../example/solr");
++    System.setProperty("solr.solr.home", SolrJettyTestBase.EXAMPLE_HOME);
+@@ -55 +56 @@
+-    String path = "../../webapp/web";
++    String path = SolrJettyTestBase.WEBAPP_HOME;
+

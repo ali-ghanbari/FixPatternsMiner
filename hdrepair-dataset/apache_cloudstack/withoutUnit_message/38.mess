@@ -1,0 +1,10 @@
+AlertGenerator: Fix NPE from CLOUDSTACK-3272
+
+There was a commit 4b89a45e571a34dff0191d501089aa9b1046bc08 on master which was
+added by "root@devcloud.apache.org" with no committer signature so I cannot tell
+whom to reach. In the code it looks like they forgot to initialize the static
+config dao variable which is causing NPE on master. The fix simply initializes
+the s_configDao with injected configDao object.
+
+Signed-off-by: Rohit Yadav <bhaisaab@apache.org>
+

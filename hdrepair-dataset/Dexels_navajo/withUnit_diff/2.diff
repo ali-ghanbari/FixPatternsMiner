@@ -1,0 +1,67 @@
+diff --git a/build.xml b/build.xml
+index 5e07889..58a1955 100644
+--- a/build.xml
++++ b/build.xml
+@@ -16 +16 @@
+-	<property name="haltontestfailure" value="false" />
++	<property name="haltontestfailure" value="true" />
+diff --git a/src/com/dexels/navajo/functions/ExecuteScript.java b/src/com/dexels/navajo/functions/ExecuteScript.java
+index aae93c3..cc65285 100644
+--- a/src/com/dexels/navajo/functions/ExecuteScript.java
++++ b/src/com/dexels/navajo/functions/ExecuteScript.java
+@@ -18,0 +19 @@
++ * @deprecated But still used for the financial forms, I think
+diff --git a/testsrc/com/dexels/navajo/functions/test/StandardFunctionsTest.java b/testsrc/com/dexels/navajo/functions/test/StandardFunctionsTest.java
+index ee4142e..a14c2ec 100644
+--- a/testsrc/com/dexels/navajo/functions/test/StandardFunctionsTest.java
++++ b/testsrc/com/dexels/navajo/functions/test/StandardFunctionsTest.java
+@@ -3,0 +4 @@
++import java.util.Arrays;
+@@ -5,0 +7,2 @@
++
++import org.dexels.utils.Base64;
+@@ -62 +65 @@
+-	
++
+@@ -992,2 +994,0 @@
+-	
+-	public void testGetVersionInfo() throws Exception {
+@@ -995,11 +995,0 @@
+-		FunctionInterface fi = fff.getInstance(cl, "GetVersionInfo");
+-		fi.reset();
+-		fi.insertOperand("NavajoFunctions");
+-		
+-		try {
+-		Object o = fi.evaluateWithTypeChecking();
+-		} catch (TMLExpressionException e) 
+-		{}
+-	
+-		
+-	}	
+@@ -1298,2 +1287,0 @@
+-	
+-	public void testFileString() throws Exception {
+@@ -1301,10 +1288,0 @@
+-		FunctionInterface fi = fff.getInstance(cl, "FileString");
+-		fi.reset();
+-		
+-		fi.insertOperand(null);
+-		
+-		Object o = fi.evaluateWithTypeChecking();
+-		
+-		assertNull(o);
+-		
+-	}	
+@@ -1700 +1678,2 @@
+-		
++		byte[] bytes = "tralala".getBytes();
++		String b = Base64.encode(bytes);
+@@ -1703 +1682 @@
+-		fi.insertOperand("dsdsds");
++		fi.insertOperand(b);
+@@ -1706 +1685,3 @@
+-	
++		Binary oo = (Binary)o;
++		byte[] returned = oo.getData();
++		assertTrue(Arrays.equals(returned, bytes));
+

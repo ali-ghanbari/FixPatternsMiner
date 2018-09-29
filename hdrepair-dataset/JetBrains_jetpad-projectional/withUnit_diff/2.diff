@@ -1,0 +1,23 @@
+diff --git a/projectional/src/main/java/jetbrains/jetpad/projectional/cell/ProjectionalObservableListSynchronizer.java b/projectional/src/main/java/jetbrains/jetpad/projectional/cell/ProjectionalObservableListSynchronizer.java
+index 82b7308..79fd2b2 100644
+--- a/projectional/src/main/java/jetbrains/jetpad/projectional/cell/ProjectionalObservableListSynchronizer.java
++++ b/projectional/src/main/java/jetbrains/jetpad/projectional/cell/ProjectionalObservableListSynchronizer.java
+@@ -79 +79 @@
+-            if (getSelectedItems().isEmpty()) {
++            if (getSelectedItems().size() <= 1) {
+diff --git a/projectional/src/test/java/jetbrains/jetpad/projectional/cell/ProjectionalListSynchronizerTest.java b/projectional/src/test/java/jetbrains/jetpad/projectional/cell/ProjectionalListSynchronizerTest.java
+index 09d71c7..5e552cc 100644
+--- a/projectional/src/test/java/jetbrains/jetpad/projectional/cell/ProjectionalListSynchronizerTest.java
++++ b/projectional/src/test/java/jetbrains/jetpad/projectional/cell/ProjectionalListSynchronizerTest.java
+@@ -132,0 +133,10 @@
++  public void insertWithActiveSelection() {
++    container.children.add(new ComplexChild());
++
++    selectChild(0);
++    enter();
++    assertEquals(2, container.children.size());
++    assertFocused(1);
++  }
++
++  @Test
+

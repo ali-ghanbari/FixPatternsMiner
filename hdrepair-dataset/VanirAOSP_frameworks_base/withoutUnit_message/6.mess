@@ -1,0 +1,9 @@
+Don't set mHomeConsumed to true for KEY_ACTION_SLEEP
+
+When the device goes to sleep it does not receive the key up event
+which would normally set mHomeConsumed to false.  This behavior
+causes the next double tap action to be missed.  Not setting
+mHomeConsumed to true for KEY_ACTION_SLEEP fixes this issue.
+
+Change-Id: If78b637c8abf5eac5894194be2dd8645012a259a
+

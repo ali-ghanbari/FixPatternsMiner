@@ -1,0 +1,7 @@
+Fixes issue with Monitor tags
+
+TaggedMonitorListenerInvocationHandler was not getting the tags that
+ it was created with. The result was that listeners added for specific tags
+ would get called for all invocations of the observed interface regardless.
+ This commit fixes the issue and adds a test for it.
+

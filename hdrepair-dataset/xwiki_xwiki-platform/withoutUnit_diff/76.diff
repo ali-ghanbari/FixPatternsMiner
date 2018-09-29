@@ -1,0 +1,11 @@
+diff --git a/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/user/impl/xwiki/MyFormAuthenticator.java b/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/user/impl/xwiki/MyFormAuthenticator.java
+index ae4bf72..50d3a78 100644
+--- a/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/user/impl/xwiki/MyFormAuthenticator.java
++++ b/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/user/impl/xwiki/MyFormAuthenticator.java
+@@ -138,0 +139,5 @@
++
++            // Note: In order to support working without cookies enabled we would need to test if cookies are enabled
++            //       by calling for example request.isRequestedSessionIdFromCookie(). However doing this breaks first
++            //       time multiwiki access in domain based for example (see http://jira.xwiki.org/browse/XWIKI-9622).
++            //       Thus at the moment we don't support working fully without cookies (something to be fixed for later)
+

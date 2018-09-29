@@ -1,0 +1,113 @@
+diff --git a/coeus-db/coeus-db-data-conv/pom.xml b/coeus-db/coeus-db-data-conv/pom.xml
+index 6ca5757..00f6b62 100644
+--- a/coeus-db/coeus-db-data-conv/pom.xml
++++ b/coeus-db/coeus-db-data-conv/pom.xml
+@@ -25 +25 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+@@ -29 +29 @@
+-    <version>6.0.2.7-SNAPSHOT</version>
++    <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-db/coeus-db-sql/pom.xml b/coeus-db/coeus-db-sql/pom.xml
+index 4c14c63..0bdf774 100644
+--- a/coeus-db/coeus-db-sql/pom.xml
++++ b/coeus-db/coeus-db-sql/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-db/coeus-db-xml/pom.xml b/coeus-db/coeus-db-xml/pom.xml
+index 344b9bd..b25ff55 100644
+--- a/coeus-db/coeus-db-xml/pom.xml
++++ b/coeus-db/coeus-db-xml/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-db/pom.xml b/coeus-db/pom.xml
+index ba529ec..b558add 100644
+--- a/coeus-db/pom.xml
++++ b/coeus-db/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-help/pom.xml b/coeus-help/pom.xml
+index 5239fd2..7bb99c5 100644
+--- a/coeus-help/pom.xml
++++ b/coeus-help/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-impl/pom.xml b/coeus-impl/pom.xml
+index e764c9e..479ff2f 100644
+--- a/coeus-impl/pom.xml
++++ b/coeus-impl/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetView.java b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetView.java
+index 3dc668d..21eda91 100644
+--- a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetView.java
++++ b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetView.java
+@@ -47,0 +48 @@
++        ((ProposalBudgetForm) model).setViewOnly(this.getReadOnly());
+diff --git a/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/person/ProposalBudgetAssignPersonnelToPeriodsPage.xml b/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/person/ProposalBudgetAssignPersonnelToPeriodsPage.xml
+index 0e1cab9..4a4eded 100644
+--- a/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/person/ProposalBudgetAssignPersonnelToPeriodsPage.xml
++++ b/coeus-impl/src/main/resources/org/kuali/coeus/propdev/impl/budget/person/ProposalBudgetAssignPersonnelToPeriodsPage.xml
+@@ -65 +65 @@
+-		p:addWithDialog="false" p:renderAddLine="false" 
++		p:addWithDialog="false" p:renderAddLine="false" p:readOnly="false"
+@@ -86,2 +86,2 @@
+-						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod" p:render="@{!#parent.readOnly}" p:order="10"/>
+-						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel" p:render="@{!#parent.readOnly}" p:order="20"/>
++						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod" p:render="@{!#parent.readOnly and !viewOnly }" p:order="10"/>
++						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel" p:render="@{!#parent.readOnly and !viewOnly}" p:order="20"/>
+@@ -115 +115 @@
+-					p:actionLabel="Details" p:order="10">
++					p:actionLabel="Details" p:order="10" p:render="@{!#parent.readOnly}">
+@@ -123 +123 @@
+-					p:iconClass="icon-trash" p:render="@{!#parent.readOnly}">
++					p:iconClass="icon-trash" p:render="@{!#parent.readOnly and !viewOnly}">
+@@ -282 +282 @@
+-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
++					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+@@ -289 +289 @@
+-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
++					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+@@ -292 +292 @@
+-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
++					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+@@ -295 +295 @@
+-					p:readOnly="@{#fp.personSequenceNumber != #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
++					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber != #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+@@ -305 +305 @@
+-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}">
++					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}">
+diff --git a/coeus-it/pom.xml b/coeus-it/pom.xml
+index f29be62..b058917 100644
+--- a/coeus-it/pom.xml
++++ b/coeus-it/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-tool/pom.xml b/coeus-tool/pom.xml
+index 07ffdf5..c77ce28 100644
+--- a/coeus-tool/pom.xml
++++ b/coeus-tool/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/coeus-webapp/pom.xml b/coeus-webapp/pom.xml
+index c23bc4e..1428e1b 100644
+--- a/coeus-webapp/pom.xml
++++ b/coeus-webapp/pom.xml
+@@ -27 +27 @@
+-        <version>6.0.2.7-SNAPSHOT</version>
++        <version>6.0.2.8-SNAPSHOT</version>
+diff --git a/pom.xml b/pom.xml
+index ae7fcb0..76b5a36 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -25 +25 @@
+-    <version>6.0.2.7-SNAPSHOT</version>
++    <version>6.0.2.8-SNAPSHOT</version>
+

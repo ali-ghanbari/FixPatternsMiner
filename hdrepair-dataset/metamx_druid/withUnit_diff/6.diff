@@ -1,0 +1,39 @@
+diff --git a/common/src/test/java/io/druid/common/utils/JodaUtilsTest.java b/common/src/test/java/io/druid/common/utils/JodaUtilsTest.java
+index a39340f..451114a 100644
+--- a/common/src/test/java/io/druid/common/utils/JodaUtilsTest.java
++++ b/common/src/test/java/io/druid/common/utils/JodaUtilsTest.java
+@@ -19,0 +20,2 @@
++import org.joda.time.DateTimeConstants;
++import org.joda.time.Duration;
+@@ -20,0 +23 @@
++import org.joda.time.Period;
+@@ -25,0 +29 @@
++import java.util.Date;
+@@ -126,0 +131,19 @@
++
++  @Test
++  public void testMinMaxDuration()
++  {
++    final Interval interval = new Interval(JodaUtils.MIN_INSTANT, JodaUtils.MAX_INSTANT);
++    final Duration duration = interval.toDuration();
++    Assert.assertEquals(Long.MAX_VALUE, duration.getMillis());
++    Assert.assertEquals("PT9223372036854775.807S", duration.toString());
++  }
++
++  // new Period(Long.MAX_VALUE) throws ArithmeticException
++  @Test(expected = ArithmeticException.class)
++  public void testMinMaxPeriod()
++  {
++    final Interval interval = new Interval(JodaUtils.MIN_INSTANT, JodaUtils.MAX_INSTANT);
++    final Period period = interval.toDuration().toPeriod();
++    Assert.assertEquals(Long.MAX_VALUE, period.getMinutes());
++  }
++
+diff --git a/processing/src/main/java/io/druid/query/DruidMetrics.java b/processing/src/main/java/io/druid/query/DruidMetrics.java
+index 4687b05..58deed8 100644
+--- a/processing/src/main/java/io/druid/query/DruidMetrics.java
++++ b/processing/src/main/java/io/druid/query/DruidMetrics.java
+@@ -79 +79 @@
+-        .setDimension("duration", query.getDuration().toPeriod().toStandardMinutes().toString());
++        .setDimension("duration", query.getDuration().toString());
+

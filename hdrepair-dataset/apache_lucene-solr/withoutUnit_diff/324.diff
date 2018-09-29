@@ -1,0 +1,9 @@
+diff --git a/lucene/src/test/org/apache/lucene/util/fst/TestFSTs.java b/lucene/src/test/org/apache/lucene/util/fst/TestFSTs.java
+index 68b264e..f2b009b 100644
+--- a/lucene/src/test/org/apache/lucene/util/fst/TestFSTs.java
++++ b/lucene/src/test/org/apache/lucene/util/fst/TestFSTs.java
+@@ -76 +76,2 @@
+-    dir.close();
++    // can be null if we force simpletext (funky, some kind of bug in test runner maybe)
++    if (dir != null) dir.close();
+

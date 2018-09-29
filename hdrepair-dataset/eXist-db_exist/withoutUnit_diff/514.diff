@@ -1,0 +1,8 @@
+diff --git a/src/org/exist/util/Collations.java b/src/org/exist/util/Collations.java
+index bf2dc3b..d51a71d 100644
+--- a/src/org/exist/util/Collations.java
++++ b/src/org/exist/util/Collations.java
+@@ -125 +125 @@
+-            return s1.compareTo(s2);
++            return s1==null ? (s2==null ? 0 : -1)  : s1.compareTo(s2);
+

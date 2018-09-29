@@ -1,0 +1,52 @@
+diff --git a/hornetq-server/src/main/java/org/hornetq/core/management/impl/HornetQServerControlImpl.java b/hornetq-server/src/main/java/org/hornetq/core/management/impl/HornetQServerControlImpl.java
+index 6a9f75b..f363cca 100644
+--- a/hornetq-server/src/main/java/org/hornetq/core/management/impl/HornetQServerControlImpl.java
++++ b/hornetq-server/src/main/java/org/hornetq/core/management/impl/HornetQServerControlImpl.java
+@@ -1335 +1335 @@
+-                  if (potentialConnection.getID().toString().equals(serverSession.getConnectionID()))
++                  if (potentialConnection.getID().toString().equals(serverSession.getConnectionID().toString()))
+diff --git a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/ClusterConnectionControlTest.java b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/ClusterConnectionControlTest.java
+index 00948db..6685fda 100644
+--- a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/ClusterConnectionControlTest.java
++++ b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/ClusterConnectionControlTest.java
+@@ -168,2 +168,2 @@
+-      Notification notif = notifListener.getNotifications().get(0);
+-      Assert.assertEquals(CoreNotificationType.CLUSTER_CONNECTION_STOPPED, notif.getType());
++      Notification notif = getFirstNotificationOfType(notifListener.getNotifications(), CoreNotificationType.CLUSTER_CONNECTION_STOPPED);
++      Assert.assertNotNull(notif);
+@@ -177,2 +177,2 @@
+-      notif = notifListener.getNotifications().get(1);
+-      Assert.assertEquals(CoreNotificationType.CLUSTER_CONNECTION_STARTED, notif.getType());
++      notif = getFirstNotificationOfType(notifListener.getNotifications(), CoreNotificationType.CLUSTER_CONNECTION_STARTED);
++      Assert.assertNotNull(notif);
+@@ -183,0 +184,15 @@
++   private Notification getFirstNotificationOfType(List<Notification> notifications, CoreNotificationType type)
++   {
++      Notification result = null;
++
++      for (Notification notification : notifications)
++      {
++         if (notification.getType().equals(type))
++         {
++            result = notification;
++         }
++      }
++
++      return result;
++   }
++
+diff --git a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/HornetQServerControlUsingCoreTest.java b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/HornetQServerControlUsingCoreTest.java
+index 0979252..d6f8ed4 100644
+--- a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/HornetQServerControlUsingCoreTest.java
++++ b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/management/HornetQServerControlUsingCoreTest.java
+@@ -98 +98,2 @@
+-   //the core messaging proxy doesnt work when the server is stopped so we cant run these tests
++
++   // the core messaging proxy doesn't work when the server is stopped so we cant run these 2 tests
+@@ -102 +102,0 @@
+-      super.testScaleDownWithOutConnector();
+@@ -108 +107,0 @@
+-      super.testScaleDownWithConnector();
+@@ -124,0 +124 @@
++            throw new UnsupportedOperationException();
+

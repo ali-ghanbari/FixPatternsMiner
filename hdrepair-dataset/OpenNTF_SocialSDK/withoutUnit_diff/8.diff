@@ -1,0 +1,10 @@
+diff --git a/commons/com.ibm.commons/src/main/java/com/ibm/commons/extension/ExtensionManager.java b/commons/com.ibm.commons/src/main/java/com/ibm/commons/extension/ExtensionManager.java
+index c5f33ac..911f55f 100644
+--- a/commons/com.ibm.commons/src/main/java/com/ibm/commons/extension/ExtensionManager.java
++++ b/commons/com.ibm.commons/src/main/java/com/ibm/commons/extension/ExtensionManager.java
+@@ -80,0 +81,4 @@
++                			// Make sure that the OSGi framework is actually available
++                			// In case of a Domino agent, for example, the properties are set but OSGi is not available
++                			// Make sure that it exists - if not, it generates an exception that will be caught.
++                			Class.forName("org.eclipse.core.runtime.Platform");
+

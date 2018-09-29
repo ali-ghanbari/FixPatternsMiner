@@ -1,0 +1,8 @@
+diff --git a/src/web/api/src/main/java/org/geogit/web/api/commands/UpdateRefWeb.java b/src/web/api/src/main/java/org/geogit/web/api/commands/UpdateRefWeb.java
+index 5ee40a0..878f685 100644
+--- a/src/web/api/src/main/java/org/geogit/web/api/commands/UpdateRefWeb.java
++++ b/src/web/api/src/main/java/org/geogit/web/api/commands/UpdateRefWeb.java
+@@ -88 +88 @@
+-                if (target.isPresent() && target.get() instanceof Ref) {
++                if (target.isPresent() && !(target.get() instanceof SymRef)) {
+

@@ -1,0 +1,14 @@
+diff --git a/Versions.txt b/Versions.txt
+index ef5525d..885dab2 100644
+--- a/Versions.txt
++++ b/Versions.txt
+@@ -11,0 +12 @@
++- Jar file execution fix on the classpath arguments passing.
+diff --git a/src/lib/com/izforge/izpack/util/FileExecutor.java b/src/lib/com/izforge/izpack/util/FileExecutor.java
+index d1a2774..664b622 100644
+--- a/src/lib/com/izforge/izpack/util/FileExecutor.java
++++ b/src/lib/com/izforge/izpack/util/FileExecutor.java
+@@ -304 +304 @@
+-          paramList.add("-cp=" + file.toString());
++          paramList.add("-cp " + file.toString());
+

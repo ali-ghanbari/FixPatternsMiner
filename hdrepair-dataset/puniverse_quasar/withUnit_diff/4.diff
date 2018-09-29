@@ -1,0 +1,15 @@
+diff --git a/quasar-core/src/test/java/co/paralleluniverse/concurrent/util/SingleConsumerNonblockingProducerDelayQueueTest.java b/quasar-core/src/test/java/co/paralleluniverse/concurrent/util/SingleConsumerNonblockingProducerDelayQueueTest.java
+index dd3d447..79de69f 100644
+--- a/quasar-core/src/test/java/co/paralleluniverse/concurrent/util/SingleConsumerNonblockingProducerDelayQueueTest.java
++++ b/quasar-core/src/test/java/co/paralleluniverse/concurrent/util/SingleConsumerNonblockingProducerDelayQueueTest.java
+@@ -107 +107 @@
+-        assertTrue("elapsed: " + elapsedMillis, elapsedMillis > 140 && elapsedMillis < 170);
++        assertTrue("elapsed: " + elapsedMillis, elapsedMillis > 140 && elapsedMillis < 300);
+diff --git a/quasar-galaxy/src/main/java/co/paralleluniverse/actors/galaxy/RemoteActor.java b/quasar-galaxy/src/main/java/co/paralleluniverse/actors/galaxy/RemoteActor.java
+index 73db978..8695cad 100644
+--- a/quasar-galaxy/src/main/java/co/paralleluniverse/actors/galaxy/RemoteActor.java
++++ b/quasar-galaxy/src/main/java/co/paralleluniverse/actors/galaxy/RemoteActor.java
+@@ -32 +32 @@
+-    protected void removeLifecycleListener(Object listener) {
++    protected void removeLifecycleListener(LifecycleListener listener) {
+

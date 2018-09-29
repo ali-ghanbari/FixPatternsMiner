@@ -1,0 +1,4 @@
+Fixed ERRAI-671 - Build/Compilation hangs when running with only one CPU
+
+We need at least two threads to run a code generator. One for the generator itself and one for the reflection scanner which is used by all generators. The problem was that we initialized our ExecutorService with a fixed sized thread pool sized by the number of available processors. We now use at least 2 threads or the number of processors if it's higher than 2.
+

@@ -1,0 +1,8 @@
+diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java b/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java
+index 96173b7..456236c 100644
+--- a/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java
++++ b/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java
+@@ -324 +324 @@
+-		return snapshot != null && snapshot.isModified(liveFile);
++		return snapshot == null || snapshot.isModified(liveFile);
+

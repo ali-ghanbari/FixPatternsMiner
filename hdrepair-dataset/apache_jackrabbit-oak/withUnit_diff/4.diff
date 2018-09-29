@@ -1,0 +1,58 @@
+diff --git a/oak-core/src/main/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidator.java b/oak-core/src/main/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidator.java
+index 30def09..6a80e39 100644
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidator.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidator.java
+@@ -108 +108 @@
+-        if (isPrivilegeDefinition(before)) {
++        if (isPrivilegeDefinition(before) && !before.equals(after)) {
+diff --git a/oak-core/src/test/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidatorTest.java b/oak-core/src/test/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidatorTest.java
+index fcf12c4..800fabc 100644
+--- a/oak-core/src/test/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidatorTest.java
++++ b/oak-core/src/test/java/org/apache/jackrabbit/oak/security/privilege/PrivilegeValidatorTest.java
+@@ -27,0 +28 @@
++import org.apache.jackrabbit.oak.plugins.memory.EmptyNodeState;
+@@ -28,0 +30,3 @@
++import org.apache.jackrabbit.oak.plugins.tree.TreeFactory;
++import org.apache.jackrabbit.oak.plugins.tree.impl.AbstractTree;
++import org.apache.jackrabbit.oak.plugins.tree.impl.ImmutableTree;
+@@ -31,0 +36,3 @@
++import org.apache.jackrabbit.oak.spi.state.NodeBuilder;
++import org.apache.jackrabbit.oak.spi.state.NodeState;
++import org.apache.jackrabbit.oak.spi.state.NodeStateUtils;
+@@ -37,0 +45 @@
++import static org.junit.Assert.assertNull;
+@@ -156,0 +165,33 @@
++
++    /**
++     * @see <a href="https://issues.apache.org/jira/browse/OAK-2413">OAK-2413</a>
++     */
++    @Test
++    public void testChildNodeChangedWithChanges() throws CommitFailedException {
++        NodeBuilder nb = EmptyNodeState.EMPTY_NODE.builder();
++        nb.setProperty(JcrConstants.JCR_PRIMARYTYPE, NT_REP_PRIVILEGE, Type.NAME);
++
++        NodeState privilegeDefinition = nb.getNodeState();
++        assertTrue(NT_REP_PRIVILEGE.equals(NodeStateUtils.getPrimaryTypeName(privilegeDefinition)));
++
++        PrivilegeValidator pv = new PrivilegeValidator(root, root);
++        try {
++            pv.childNodeChanged("test", privilegeDefinition, EmptyNodeState.EMPTY_NODE);
++        } catch (CommitFailedException e) {
++            assertEquals(41, e.getCode());
++        }
++    }
++    /**
++     * @see <a href="https://issues.apache.org/jira/browse/OAK-2413">OAK-2413</a>
++     */
++    @Test
++    public void testChildNodeChangedWithoutChanges() throws CommitFailedException {
++        NodeBuilder nb = EmptyNodeState.EMPTY_NODE.builder();
++        nb.setProperty(JcrConstants.JCR_PRIMARYTYPE, NT_REP_PRIVILEGE, Type.NAME);
++
++        NodeState privilegeDefinition = nb.getNodeState();
++        assertTrue(NT_REP_PRIVILEGE.equals(NodeStateUtils.getPrimaryTypeName(privilegeDefinition)));
++
++        PrivilegeValidator pv = new PrivilegeValidator(root, root);
++        assertNull(pv.childNodeChanged("test", privilegeDefinition, privilegeDefinition));
++    }
+

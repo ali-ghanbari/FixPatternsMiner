@@ -1,0 +1,20 @@
+diff --git a/core/src/net/sf/openrocket/rocketcomponent/FinSet.java b/core/src/net/sf/openrocket/rocketcomponent/FinSet.java
+index 4b8d580..40aac2f 100644
+--- a/core/src/net/sf/openrocket/rocketcomponent/FinSet.java
++++ b/core/src/net/sf/openrocket/rocketcomponent/FinSet.java
+@@ -443 +443 @@
+-			if (Math.abs(y0 - y1) < 0.00001) {
++			if (Math.abs(y0 + y1) < 0.00001) {
+diff --git a/core/test/net/sf/openrocket/rocketcomponent/FinSetTest.java b/core/test/net/sf/openrocket/rocketcomponent/FinSetTest.java
+index 3ad01f8..881773e 100644
+--- a/core/test/net/sf/openrocket/rocketcomponent/FinSetTest.java
++++ b/core/test/net/sf/openrocket/rocketcomponent/FinSetTest.java
+@@ -122,3 +122,2 @@
+-			// FIXME - this computes NaN
+-			//assertEquals(3.5/3.0, coords.x, 0.001);
+-			//assertEquals(0.5/3.0, coords.y, 0.001);
++			assertEquals(3.5/3.0, coords.x, 0.001);
++			assertEquals(0.5/3.0, coords.y, 0.001);
+@@ -128,0 +128 @@
++
+

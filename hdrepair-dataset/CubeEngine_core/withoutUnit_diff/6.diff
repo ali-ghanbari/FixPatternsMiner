@@ -1,0 +1,8 @@
+diff --git a/src/main/java/de/cubeisland/engine/core/command/ContainerCommand.java b/src/main/java/de/cubeisland/engine/core/command/ContainerCommand.java
+index ec9b658..4275131 100644
+--- a/src/main/java/de/cubeisland/engine/core/command/ContainerCommand.java
++++ b/src/main/java/de/cubeisland/engine/core/command/ContainerCommand.java
+@@ -47 +47 @@
+-        getDescriptor().setPermission(module.getBasePermission().child(permName, def), checkPerm);
++        getDescriptor().setPermission(module.getBasePermission().childWildcard("command").child(permName, def), checkPerm);
+

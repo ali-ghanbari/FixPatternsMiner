@@ -1,0 +1,601 @@
+diff --git a/subprojects/plugins/src/main/groovy/org/gradle/api/tasks/testing/Test.java b/subprojects/plugins/src/main/groovy/org/gradle/api/tasks/testing/Test.java
+index 2a4aa96..6248384 100644
+--- a/subprojects/plugins/src/main/groovy/org/gradle/api/tasks/testing/Test.java
++++ b/subprojects/plugins/src/main/groovy/org/gradle/api/tasks/testing/Test.java
+@@ -35,0 +36 @@
++import org.gradle.api.internal.tasks.testing.junit.result.TestResultsProvider;
+@@ -454,8 +455 @@
+-        Binary2JUnitXmlReportGenerator binary2JUnitXmlReportGenerator = new Binary2JUnitXmlReportGenerator(getTestResultsDir(), testReportDataCollector);
+-        binary2JUnitXmlReportGenerator.generate();
+-
+-        if (!isTestReport()) {
+-            getLogger().info("Test report disabled, omitting generation of the HTML test report.");
+-        } else {
+-            testReporter.generateReport(testReportDataCollector, getTestReportDir());
+-        }
++        generateTestReports(testReportDataCollector, testCountLogger);
+@@ -464,4 +457,0 @@
+-
+-        if (testCountLogger.hadFailures()) {
+-            handleTestFailures();
+-        }
+@@ -469 +458,0 @@
+-
+@@ -1016 +1005,15 @@
+-    private void handleTestFailures() {
++    private void generateTestReports(TestResultsProvider testResultsProvider, TestCountLogger testCountLogger) {
++        Binary2JUnitXmlReportGenerator binary2JUnitXmlReportGenerator = new Binary2JUnitXmlReportGenerator(getTestResultsDir(), testResultsProvider);
++        binary2JUnitXmlReportGenerator.generate();
++
++        if (isTestReport()) {
++            testReporter.generateReport(testResultsProvider, getTestReportDir());
++            if (testCountLogger.hadFailures()) {
++                logReportLink();
++            }
++        } else {
++            getLogger().info("Test report disabled, omitting generation of the HTML test report.");
++        }
++    }
++
++    private void logReportLink() {
+diff --git a/subprojects/sonar/src/integTest/groovy/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest.groovy b/subprojects/sonar/src/integTest/groovy/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest.groovy
+index afd5e73..ccdb8d2 100644
+--- a/subprojects/sonar/src/integTest/groovy/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest.groovy
++++ b/subprojects/sonar/src/integTest/groovy/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest.groovy
+@@ -38 +38 @@
+-    TestNameTestDirectoryProvider tempDir
++    TestNameTestDirectoryProvider tempDir = new TestNameTestDirectoryProvider()
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/build.gradle b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/build.gradle
+deleted file mode 100644
+index 9916476..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/build.gradle
++++ /dev/null
+@@ -1,13 +0,0 @@
+-apply plugin: 'groovy'
+-
+-description = "Sonar Test Groovy Project"
+-
+-dependencies {
+-    compile 'org.codehaus.groovy:groovy-all:2.0.5'
+-}
+-
+-sonar {
+-    project {
+-        // language = "grvy"
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy1.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy1.groovy
+deleted file mode 100644
+index cba2e24..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy1.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy1 {
+-    private final String property;
+-
+-    public ProductionGroovy1(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy10.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy10.groovy
+deleted file mode 100644
+index 4d0232d..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy10.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy10 {
+-    private final String property;
+-
+-    public ProductionGroovy10(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy2.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy2.groovy
+deleted file mode 100644
+index ef8c800..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy2.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy2 {
+-    private final String property;
+-
+-    public ProductionGroovy2(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy3.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy3.groovy
+deleted file mode 100644
+index 27c1a88..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy3.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy3 {
+-    private final String property;
+-
+-    public ProductionGroovy3(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy4.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy4.groovy
+deleted file mode 100644
+index 1745c83..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy4.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy4 {
+-    private final String property;
+-
+-    public ProductionGroovy4(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy5.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy5.groovy
+deleted file mode 100644
+index 33c90ea..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy5.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy5 {
+-    private final String property;
+-
+-    public ProductionGroovy5(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy6.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy6.groovy
+deleted file mode 100644
+index b0aa82c..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy6.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy6 {
+-    private final String property;
+-
+-    public ProductionGroovy6(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy7.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy7.groovy
+deleted file mode 100644
+index 963bb45..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy7.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy7 {
+-    private final String property;
+-
+-    public ProductionGroovy7(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy8.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy8.groovy
+deleted file mode 100644
+index e74af19..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy8.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy8 {
+-    private final String property;
+-
+-    public ProductionGroovy8(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy9.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy9.groovy
+deleted file mode 100644
+index 57e9c7d..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy9.groovy
++++ /dev/null
+@@ -1,13 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-public class ProductionGroovy9 {
+-    private final String property;
+-
+-    public ProductionGroovy9(String param) {
+-        this.property = param;
+-    }
+-
+-    public String getProperty() {
+-        return property;
+-    }
+-}
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy1.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy1.groovy
+deleted file mode 100644
+index 554be1f..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy1.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy1 {
+-    private final ProductionGroovy1 production = new ProductionGroovy1("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy10.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy10.groovy
+deleted file mode 100644
+index 7478780..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy10.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy10 {
+-    private final ProductionGroovy10 production = new ProductionGroovy10("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy2.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy2.groovy
+deleted file mode 100644
+index 2bc9e2b..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy2.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy2 {
+-    private final ProductionGroovy2 production = new ProductionGroovy2("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy3.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy3.groovy
+deleted file mode 100644
+index 7cf44dd..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy3.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy3 {
+-    private final ProductionGroovy3 production = new ProductionGroovy3("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy4.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy4.groovy
+deleted file mode 100644
+index 17dc1bb..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy4.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy4 {
+-    private final ProductionGroovy4 production = new ProductionGroovy4("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy5.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy5.groovy
+deleted file mode 100644
+index ecf9be3..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy5.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy5 {
+-    private final ProductionGroovy5 production = new ProductionGroovy5("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy6.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy6.groovy
+deleted file mode 100644
+index 18edd32..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy6.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy6 {
+-    private final ProductionGroovy6 production = new ProductionGroovy6("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy7.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy7.groovy
+deleted file mode 100644
+index ec2f4c9..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy7.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy7 {
+-    private final ProductionGroovy7 production = new ProductionGroovy7("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy8.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy8.groovy
+deleted file mode 100644
+index 6d8bfb0..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy8.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy8 {
+-    private final ProductionGroovy8 production = new ProductionGroovy8("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy9.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy9.groovy
+deleted file mode 100644
+index 86ca712..0000000
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy9.groovy
++++ /dev/null
+@@ -1,12 +0,0 @@
+-package org.gradle.test.groovyProject
+-
+-import static org.junit.Assert.assertEquals
+-
+-public class TestGroovy9 {
+-    private final ProductionGroovy9 production = new ProductionGroovy9("value");
+-
+-    @org.junit.Test
+-    public void test() {
+-        assertEquals(production.getProperty(), "value");
+-    }
+-}
+\ No newline at end of file
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/settings.gradle b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/settings.gradle
+index c85c9b8..fbb7d87 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/settings.gradle
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/SonarSmokeIntegrationTest/shared/settings.gradle
+@@ -1 +1 @@
+-include "javaProject", "groovyProject", "skippedProject", "customizedProject", "nested:nested2:nestedProject"
++include "javaProject", "skippedProject", "customizedProject", "nested:nested2:nestedProject"
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy1.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy1.groovy
+index d2c7742..cba2e24 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy1.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy1.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy10.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy10.groovy
+index 09dcbfe..4d0232d 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy10.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy10.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy2.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy2.groovy
+index 8ff06db..ef8c800 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy2.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy2.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy3.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy3.groovy
+index 78a4146..27c1a88 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy3.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy3.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy4.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy4.groovy
+index 5f95a21..1745c83 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy4.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy4.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy5.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy5.groovy
+index 2125295..33c90ea 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy5.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy5.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy6.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy6.groovy
+index 6098345..b0aa82c 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy6.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy6.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy7.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy7.groovy
+index f6e63ce..963bb45 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy7.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy7.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy8.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy8.groovy
+index 611791b..e74af19 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy8.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy8.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy9.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy9.groovy
+index 8994cc2..57e9c7d 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy9.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/main/groovy/org/gradle/test/groovyProject/ProductionGroovy9.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.main.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy1.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy1.groovy
+index 57d291c..554be1f 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy1.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy1.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy10.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy10.groovy
+index e8c1649..7478780 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy10.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy10.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy2.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy2.groovy
+index eeb01a1..2bc9e2b 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy2.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy2.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy3.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy3.groovy
+index eb5e06f..7cf44dd 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy3.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy3.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy4.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy4.groovy
+index 3c9784a..17dc1bb 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy4.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy4.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy5.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy5.groovy
+index c675da5..ecf9be3 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy5.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy5.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy6.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy6.groovy
+index 34d8ab3..18edd32 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy6.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy6.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy7.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy7.groovy
+index 0d4a74a..ec2f4c9 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy7.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy7.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy8.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy8.groovy
+index 7a8fbd8..6d8bfb0 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy8.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy8.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy9.groovy b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy9.groovy
+index 6926059..86ca712 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy9.groovy
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/groovyProject/src/test/groovy/org/gradle/test/groovyProject/TestGroovy9.groovy
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.groovyProject.src.test.groovy.org.gradle.test.groovyProject
++package org.gradle.test.groovyProject
+diff --git a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/nested/nested2/nestedProject/src/test/java/org/gradle/test/nestedProject/Test1.java b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/nested/nested2/nestedProject/src/test/java/org/gradle/test/nestedProject/Test1.java
+index 82e6dce..8e6f73a 100644
+--- a/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/nested/nested2/nestedProject/src/test/java/org/gradle/test/nestedProject/Test1.java
++++ b/subprojects/sonar/src/integTest/resources/org/gradle/api/plugins/sonar/runner/SonarRunnerSmokeIntegrationTest/shared/nested/nested2/nestedProject/src/test/java/org/gradle/test/nestedProject/Test1.java
+@@ -1 +1 @@
+-package org.gradle.api.plugins.sonar.runner.SonarRunnerSmokeIntegrationTest.shared.nested.nested2.nestedProject.src.test.java.org.gradle.test.nestedProject;
++package org.gradle.test.nestedProject;
+

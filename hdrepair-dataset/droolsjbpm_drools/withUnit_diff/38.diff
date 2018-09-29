@@ -1,0 +1,64 @@
+diff --git a/drools-compiler/src/main/java/org/drools/lang/descr/DescrFactory.java b/drools-compiler/src/main/java/org/drools/lang/descr/DescrFactory.java
+index 56e5670..2c8c324 100644
+--- a/drools-compiler/src/main/java/org/drools/lang/descr/DescrFactory.java
++++ b/drools-compiler/src/main/java/org/drools/lang/descr/DescrFactory.java
+@@ -401 +401 @@
+-			String chunkData = ((DroolsTree) activeEntry.getValue()).getText();
++            String chunkData = ((DroolsTree) activeEntry.getValue() != null ) ?((DroolsTree) activeEntry.getValue()).getText() : "()";
+diff --git a/drools-compiler/src/test/java/org/drools/lang/RuleParserTest.java b/drools-compiler/src/test/java/org/drools/lang/RuleParserTest.java
+index 7f12d85..efef6e2 100644
+--- a/drools-compiler/src/test/java/org/drools/lang/RuleParserTest.java
++++ b/drools-compiler/src/test/java/org/drools/lang/RuleParserTest.java
+@@ -3959,0 +3960,14 @@
++    
++    public void testTypeWithMetaData() throws Exception {
++
++        parseResource( "compilation_unit",
++                       "compilation_unit",
++                       "type_with_meta.drl" );
++
++        final PackageDescr pack = walker.getPackageDescr();
++
++        final List<TypeDeclarationDescr> declarations = pack.getTypeDeclarations();
++
++        assertEquals( 3,
++                      declarations.size() );
++    }    
+diff --git a/drools-compiler/src/test/resources/org/drools/lang/type_with_meta.drl b/drools-compiler/src/test/resources/org/drools/lang/type_with_meta.drl
+new file mode 100644
+index 0000000..af4e3a9
+--- /dev/null
++++ b/drools-compiler/src/test/resources/org/drools/lang/type_with_meta.drl
+@@ -0,0 +1,31 @@
++package org.drools;
++
++declare NetworkNode
++            locElevation: java.math.BigDecimal
++            name: String @key
++            nodeClass: String
++            locLongitude: java.math.BigDecimal
++            nodeType: String
++            locLatitude: java.math.BigDecimal
++end
++
++declare NetworkConnection
++            id: String @key
++            node1: NetworkNode
++            node2: NetworkNode
++            hops: Integer
++end
++
++declare NetworkEvent
++            @role( event )
++            @timestamp( creationTime )
++
++            id: String @key
++            locElevation: java.math.BigDecimal
++            description: String
++            sourceComponent: NetworkNode
++            locLongitude: java.math.BigDecimal
++            severity: Integer
++            creationTime: java.util.Date
++            locLatitude: java.math.BigDecimal
++end
+

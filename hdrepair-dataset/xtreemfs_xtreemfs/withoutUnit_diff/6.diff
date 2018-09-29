@@ -1,0 +1,10 @@
+diff --git a/java/servers/src/org/xtreemfs/mrc/operations/AccessOperation.java b/java/servers/src/org/xtreemfs/mrc/operations/AccessOperation.java
+index 95fe30f..be3c19f 100644
+--- a/java/servers/src/org/xtreemfs/mrc/operations/AccessOperation.java
++++ b/java/servers/src/org/xtreemfs/mrc/operations/AccessOperation.java
+@@ -54,2 +54,2 @@
+-        // if F_OK is set, only check if the file exists
+-        if ((rqArgs.getFlags() & ACCESS_FLAGS.ACCESS_FLAGS_F_OK.getNumber()) != 0 && res.getFile() == null) {
++        // F_OK(==0) is always set, check if the file exists
++        if (res.getFile() == null) {
+

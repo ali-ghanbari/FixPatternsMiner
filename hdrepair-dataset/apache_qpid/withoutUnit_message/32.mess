@@ -1,0 +1,7 @@
+This is a fix for QPID-1854
+I have added a sender.close() inside the closed() method in the Connection.java
+This ensures the sender is closed and the IoSender thread is shutdown gracefully.
+
+
+git-svn-id: https://svn.apache.org/repos/asf/qpid/trunk@774305 13f79535-47bb-0310-9956-ffa450edef68
+

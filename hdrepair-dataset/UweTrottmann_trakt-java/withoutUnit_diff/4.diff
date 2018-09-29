@@ -1,0 +1,25 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index c39c62d..dbe11f4 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -3,0 +4,5 @@
++4.0.3 *(2015-01-04)*
++--------------------
++
++ * Only throw `CheckinInProgressException` if using a `checkin` method.
++
+diff --git a/pom.xml b/pom.xml
+index 1090ac6..b914791 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -16 +16 @@
+-    <version>4.0.2</version>
++    <version>4.0.3</version>
+diff --git a/src/main/java/com/uwetrottmann/trakt/v2/TraktErrorHandler.java b/src/main/java/com/uwetrottmann/trakt/v2/TraktErrorHandler.java
+index f3eacc9..e477674 100644
+--- a/src/main/java/com/uwetrottmann/trakt/v2/TraktErrorHandler.java
++++ b/src/main/java/com/uwetrottmann/trakt/v2/TraktErrorHandler.java
+@@ -25 +25 @@
+-            if (r.getStatus() == 409) {
++            if (r.getUrl().endsWith("/checkin") && r.getStatus() == 409) {
+

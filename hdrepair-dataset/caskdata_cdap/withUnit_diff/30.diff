@@ -1,0 +1,29 @@
+diff --git a/cdap-api/src/main/java/co/cask/cdap/api/dataset/lib/KeyValueTable.java b/cdap-api/src/main/java/co/cask/cdap/api/dataset/lib/KeyValueTable.java
+index 95443eb..1ed1e5b 100644
+--- a/cdap-api/src/main/java/co/cask/cdap/api/dataset/lib/KeyValueTable.java
++++ b/cdap-api/src/main/java/co/cask/cdap/api/dataset/lib/KeyValueTable.java
+@@ -146 +146 @@
+-  public boolean swap(byte[] key, byte[] oldValue, byte[] newValue) throws Exception {
++  public boolean compareAndSwap(byte[] key, byte[] oldValue, byte[] newValue) throws Exception {
+diff --git a/cdap-data-fabric/src/test/java/co/cask/cdap/api/dataset/lib/KeyValueTableTest.java b/cdap-data-fabric/src/test/java/co/cask/cdap/api/dataset/lib/KeyValueTableTest.java
+index 4cea902..4d39445 100644
+--- a/cdap-data-fabric/src/test/java/co/cask/cdap/api/dataset/lib/KeyValueTableTest.java
++++ b/cdap-data-fabric/src/test/java/co/cask/cdap/api/dataset/lib/KeyValueTableTest.java
+@@ -24 +23,0 @@
+-import co.cask.cdap.data2.dataset2.lib.table.CoreDatasetsModule;
+@@ -79 +78 @@
+-        Assert.assertFalse(kvTable.swap(KEY1, VAL1, VAL3));
++        Assert.assertFalse(kvTable.compareAndSwap(KEY1, VAL1, VAL3));
+@@ -83 +82 @@
+-        Assert.assertTrue(kvTable.swap(KEY1, VAL2, VAL3));
++        Assert.assertTrue(kvTable.compareAndSwap(KEY1, VAL2, VAL3));
+@@ -138 +137 @@
+-        Assert.assertFalse(kvTable.swap(KEY2, VAL1, VAL3));
++        Assert.assertFalse(kvTable.compareAndSwap(KEY2, VAL1, VAL3));
+@@ -148 +147 @@
+-        Assert.assertTrue(kvTable.swap(KEY2, VAL2, VAL3));
++        Assert.assertTrue(kvTable.compareAndSwap(KEY2, VAL2, VAL3));
+@@ -218 +217 @@
+-    Assert.assertFalse(kvTable.swap(KEY3, VAL1, VAL1));
++    Assert.assertFalse(kvTable.compareAndSwap(KEY3, VAL1, VAL1));
+

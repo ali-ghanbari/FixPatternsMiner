@@ -1,0 +1,21 @@
+diff --git a/core/src/main/java/org/sakuli/services/common/CommonResultServiceImpl.java b/core/src/main/java/org/sakuli/services/common/CommonResultServiceImpl.java
+index afc0114..c603c73 100644
+--- a/core/src/main/java/org/sakuli/services/common/CommonResultServiceImpl.java
++++ b/core/src/main/java/org/sakuli/services/common/CommonResultServiceImpl.java
+@@ -58 +58 @@
+-    private void cleanClipboard() {
++    protected void cleanClipboard() {
+diff --git a/core/src/test/java/org/sakuli/services/common/CommonResultServiceImplTest.java b/core/src/test/java/org/sakuli/services/common/CommonResultServiceImplTest.java
+index 4ac16d2..f65d78e 100644
+--- a/core/src/test/java/org/sakuli/services/common/CommonResultServiceImplTest.java
++++ b/core/src/test/java/org/sakuli/services/common/CommonResultServiceImplTest.java
+@@ -38,0 +39,3 @@
++import static org.mockito.Mockito.doNothing;
++import static org.mockito.Mockito.spy;
++
+@@ -41 +44 @@
+-    private CommonResultServiceImpl testling = new CommonResultServiceImpl();
++    private CommonResultServiceImpl testling = spy(new CommonResultServiceImpl());
+@@ -48,0 +52 @@
++        doNothing().when(testling).cleanClipboard();
+

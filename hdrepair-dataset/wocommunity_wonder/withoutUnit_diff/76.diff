@@ -1,0 +1,8 @@
+diff --git a/Frameworks/PlugIns/PostgresqlPlugIn/Sources/com/webobjects/jdbcadaptor/PostgresqlExpression.java b/Frameworks/PlugIns/PostgresqlPlugIn/Sources/com/webobjects/jdbcadaptor/PostgresqlExpression.java
+index 864bde9..abe8c7c 100644
+--- a/Frameworks/PlugIns/PostgresqlPlugIn/Sources/com/webobjects/jdbcadaptor/PostgresqlExpression.java
++++ b/Frameworks/PlugIns/PostgresqlPlugIn/Sources/com/webobjects/jdbcadaptor/PostgresqlExpression.java
+@@ -491 +491 @@
+-        	else if ("NSNumber".equals(eoattribute.valueClassName()) || "java.lang.Number".equals(eoattribute.valueClassName()) || "Number".equals(eoattribute.valueClassName())) {
++        	else if (!"bool".equals(eoattribute.externalType().toLowerCase()) && "NSNumber".equals(eoattribute.valueClassName()) || "java.lang.Number".equals(eoattribute.valueClassName()) || "Number".equals(eoattribute.valueClassName())) {
+

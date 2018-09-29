@@ -1,0 +1,8 @@
+diff --git a/src/lib/com/izforge/izpack/installer/PrivilegedRunner.java b/src/lib/com/izforge/izpack/installer/PrivilegedRunner.java
+index ae23b42..fe34c34 100644
+--- a/src/lib/com/izforge/izpack/installer/PrivilegedRunner.java
++++ b/src/lib/com/izforge/izpack/installer/PrivilegedRunner.java
+@@ -234 +234 @@
+-            return new File(URI.create(path)).getCanonicalPath();
++            return new File(URI.create(path).getSchemeSpecificPart()).getCanonicalPath();
+

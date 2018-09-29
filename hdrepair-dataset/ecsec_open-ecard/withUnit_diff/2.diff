@@ -1,0 +1,65 @@
+diff --git a/crypto/crypto-common/src/main/java/org/openecard/crypto/common/sal/GenericCryptoSignerFinder.java b/crypto/crypto-common/src/main/java/org/openecard/crypto/common/sal/GenericCryptoSignerFinder.java
+index d00d1cf..165cd6c 100644
+--- a/crypto/crypto-common/src/main/java/org/openecard/crypto/common/sal/GenericCryptoSignerFinder.java
++++ b/crypto/crypto-common/src/main/java/org/openecard/crypto/common/sal/GenericCryptoSignerFinder.java
+@@ -260,2 +260,3 @@
+-		    // concatenate with the certificate to use for TLS or signature creation
+-		    cert = ByteUtils.concatenate(cert, certChain);
++		    // cert contains the chain (if available) only because we can't read the certificate without using
++		    // the pin
++		    cert = certChain;
+diff --git a/ifd/ifd-core/src/test/java/org/openecard/ifd/scio/PINTest.java b/ifd/ifd-core/src/test/java/org/openecard/ifd/scio/PINTest.java
+index 30ffe6b..73e0b05 100644
+--- a/ifd/ifd-core/src/test/java/org/openecard/ifd/scio/PINTest.java
++++ b/ifd/ifd-core/src/test/java/org/openecard/ifd/scio/PINTest.java
+@@ -147 +147 @@
+-	String ctrlStr = "00 0F 89 47 04 0E04 02 FF 0407 00 000000 0D000000";
++	String ctrlStr = "3C 00 89 47 04 0E04 02 01 0704 00 000000 0D000000";
+@@ -158 +158 @@
+-	String ctrlStr = "00 0F 82 04 00 0404 02 FF 0407 00 000000 04000000";
++	String ctrlStr = "3C 00 82 04 00 0404 02 01 0704 00 000000 04000000";
+diff --git a/recognition/src/main/resources/cif-repo/CardInfo_eA-light_0-0-1.xml b/recognition/src/main/resources/cif-repo/CardInfo_eA-light_0-0-1.xml
+index 27473a2..60b367c 100644
+--- a/recognition/src/main/resources/cif-repo/CardInfo_eA-light_0-0-1.xml
++++ b/recognition/src/main/resources/cif-repo/CardInfo_eA-light_0-0-1.xml
+@@ -764,0 +765,3 @@
++							<iso:certificateRef>
++								<iso:DataSetName>Authentication_Certificate_CA</iso:DataSetName>
++							</iso:certificateRef>
+@@ -855,0 +859,35 @@
++				<iso:DataSetName>Authentication_Certificate_CA</iso:DataSetName>
++				<iso:DataSetACL>
++					<iso:AccessRule>
++						<iso:CardApplicationServiceName>NamedDataService</iso:CardApplicationServiceName>
++						<iso:Action>
++							<iso:NamedDataServiceAction>DSIRead</iso:NamedDataServiceAction>
++						</iso:Action>
++						<iso:SecurityCondition>
++							<iso:always>true</iso:always>
++						</iso:SecurityCondition>
++					</iso:AccessRule>
++					<iso:AccessRule>
++						<iso:CardApplicationServiceName>AuthorizationService</iso:CardApplicationServiceName>
++						<iso:Action>
++							<iso:AuthorizationServiceAction>ACLList</iso:AuthorizationServiceAction>
++						</iso:Action>
++						<iso:SecurityCondition>
++							<iso:always>true</iso:always>
++						</iso:SecurityCondition>
++					</iso:AccessRule>
++					<iso:AccessRule>
++						<iso:CardApplicationServiceName>NamedDataService</iso:CardApplicationServiceName>
++						<iso:Action>
++							<iso:NamedDataServiceAction>DataSetSelect</iso:NamedDataServiceAction>
++						</iso:Action>
++						<iso:SecurityCondition>
++							<iso:always>true</iso:always>
++						</iso:SecurityCondition>
++					</iso:AccessRule>
++				</iso:DataSetACL>
++				<iso:DataSetPath>
++					<iso:efIdOrPath>C100</iso:efIdOrPath>
++				</iso:DataSetPath>
++			</iso:DataSetInfo>
++			<iso:DataSetInfo>
+

@@ -1,0 +1,16 @@
+diff --git a/bundles/plugins/org.bonitasoft.studio.common/META-INF/MANIFEST.MF b/bundles/plugins/org.bonitasoft.studio.common/META-INF/MANIFEST.MF
+index 01efb19..5083a14 100644
+--- a/bundles/plugins/org.bonitasoft.studio.common/META-INF/MANIFEST.MF
++++ b/bundles/plugins/org.bonitasoft.studio.common/META-INF/MANIFEST.MF
+@@ -51 +51,2 @@
+- org.eclipse.e4.core.di;bundle-version="1.4.0"
++ org.eclipse.e4.core.di;bundle-version="1.4.0",
++ com.google.guava;bundle-version="11.0.1"
+diff --git a/bundles/plugins/org.bonitasoft.studio.common/src/org/bonitasoft/studio/common/extension/ExtensionContextInjectionFactory.java b/bundles/plugins/org.bonitasoft.studio.common/src/org/bonitasoft/studio/common/extension/ExtensionContextInjectionFactory.java
+index 49f7835..b60c143 100644
+--- a/bundles/plugins/org.bonitasoft.studio.common/src/org/bonitasoft/studio/common/extension/ExtensionContextInjectionFactory.java
++++ b/bundles/plugins/org.bonitasoft.studio.common/src/org/bonitasoft/studio/common/extension/ExtensionContextInjectionFactory.java
+@@ -17 +17 @@
+-import static org.assertj.core.util.Preconditions.checkNotNull;
++import static com.google.common.base.Preconditions.checkNotNull;
+

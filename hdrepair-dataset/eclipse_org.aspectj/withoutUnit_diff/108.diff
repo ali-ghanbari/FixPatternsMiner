@@ -1,0 +1,78 @@
+diff --git a/tests/bugs151/pr127299/ModelErrorConversion.aj b/tests/bugs151/pr127299/ModelErrorConversion.aj
+new file mode 100644
+index 0000000..3366e15
+--- /dev/null
++++ b/tests/bugs151/pr127299/ModelErrorConversion.aj
+@@ -0,0 +1,51 @@
++aspect ModelErrorConversion {
++
++
++  // convert exception types
++  after(Entity entity) throwing (HibernateException e): modelExec(entity) {
++      convertException(e, entity, thisJoinPoint);
++  }
++  after(Entity entity) throwing (ServiceException e): modelExec(entity) {
++      convertException(e, entity, thisJoinPoint);
++  }
++  after(Entity entity) throwing (SOAPException e): modelExec(entity) {
++      convertException(e, entity, thisJoinPoint);
++  }
++  after(Entity entity) throwing (SOAPFaultException e): modelExec(entity) {
++      convertException(e, entity, thisJoinPoint);
++  }
++
++  /** execution of any method in the model */
++  pointcut modelExecStatic() : 
++      execution(* model..*(..));
++
++  pointcut modelExec(Entity entity) : 
++      modelExecStatic() && this(entity);
++  // soften the checked exceptions
++  declare soft: ServiceException: modelExecStatic(); 
++  declare soft: SOAPException: modelExecStatic(); 
++
++
++  /** Converts exceptions to model exceptions, storing context */
++  private void convertException(Exception e, Entity entity, 
++          JoinPoint jp) {
++      ModelException me = new ModelException(e);
++      me.setEntity(entity);
++      me.setArgs(jp.getArgs());
++      // ModelException extends RuntimeException, so this is unchecked
++      throw me;
++  }
++}
++
++class HibernateException extends RuntimeException {}
++class ServiceException extends Exception {}
++class SOAPException extends Exception {}
++class SOAPFaultException extends RuntimeException {}
++
++class Entity {}
++
++class ModelException extends RuntimeException {
++    public ModelException(Throwable t) { super(t); }
++    public void setEntity(Entity entity) {}
++    public void setArgs(Object[] argz) {}
++}
+diff --git a/tests/src/org/aspectj/systemtest/ajc151/Ajc151Tests.java b/tests/src/org/aspectj/systemtest/ajc151/Ajc151Tests.java
+index 4407a81..b15102f 100644
+--- a/tests/src/org/aspectj/systemtest/ajc151/Ajc151Tests.java
++++ b/tests/src/org/aspectj/systemtest/ajc151/Ajc151Tests.java
+@@ -39,0 +40,2 @@
++  //public void testMissingImport_pr127299() { runTest("missing import gives funny message");}
++  public void testUnusedInterfaceMessage_pr120527() { runTest("incorrect unused interface message");}
+diff --git a/tests/src/org/aspectj/systemtest/ajc151/ajc151.xml b/tests/src/org/aspectj/systemtest/ajc151/ajc151.xml
+index 10102fc..140d66e 100644
+--- a/tests/src/org/aspectj/systemtest/ajc151/ajc151.xml
++++ b/tests/src/org/aspectj/systemtest/ajc151/ajc151.xml
+@@ -9,0 +10,8 @@
++    <ajc-test dir="bugs151/pr127299" title="missing import gives funny message">
++        <compile files="ModelErrorConversion.aj" options="-1.5"/>
++    </ajc-test>  
++    
++    <ajc-test dir="bugs151/pr120527" title="incorrect unused interface message">
++        <compile files="Bugs.aj" options="-warn:unusedPrivate"/>
++    </ajc-test>  
++    
+

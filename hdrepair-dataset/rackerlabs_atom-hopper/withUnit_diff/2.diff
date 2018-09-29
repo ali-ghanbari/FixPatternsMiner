@@ -1,0 +1,43 @@
+diff --git a/hopper/src/main/java/org/atomhopper/abdera/FeedAdapter.java b/hopper/src/main/java/org/atomhopper/abdera/FeedAdapter.java
+index 492c424..a619beb 100644
+--- a/hopper/src/main/java/org/atomhopper/abdera/FeedAdapter.java
++++ b/hopper/src/main/java/org/atomhopper/abdera/FeedAdapter.java
+@@ -137 +137 @@
+-            if ((StringUtils.isNotBlank(pageSizeString)) && (Integer.parseInt(pageSizeString) <= 0) && (Integer.parseInt(pageSizeString) <= 1000)) {
++            if ((StringUtils.isNotBlank(pageSizeString)) && ((Integer.parseInt(pageSizeString) <= 0) && (Integer.parseInt(pageSizeString) > 1000))) {
+diff --git a/test-suite/src/test/java/org/atomhopper/GetFeedIntegrationTest.java b/test-suite/src/test/java/org/atomhopper/GetFeedIntegrationTest.java
+index 1be6f1e..ea3ee79 100644
+--- a/test-suite/src/test/java/org/atomhopper/GetFeedIntegrationTest.java
++++ b/test-suite/src/test/java/org/atomhopper/GetFeedIntegrationTest.java
+@@ -55,2 +55 @@
+-
+-            System.out.println(new String(getFeedMethod.getResponseBody()));
++            //System.out.println(new String(getFeedMethod.getResponseBody()));
+@@ -63 +61,0 @@
+-
+@@ -65 +62,0 @@
+-
+@@ -71 +67,0 @@
+-
+@@ -73 +68,0 @@
+-
+@@ -75,0 +71,18 @@
++
++        @Test
++        public void shouldReturnWithFeedWithLimitOne() throws Exception {
++            final HttpMethod getFeedMethod = new GetMethod(urlAndPort + "/namespace/feed/?limit=1");
++            assertEquals("Getting a feed with a limit of 1 should return 200", HttpStatus.SC_OK, httpClient.executeMethod(getFeedMethod));
++        }
++
++        @Test
++        public void shouldErrorWithBadRequestLimitZero() throws Exception {
++            final HttpMethod getFeedMethod = new GetMethod(urlAndPort + "/namespace/feed/?limit=0");
++            assertEquals("Getting a feed with a limit of 0 should return 400", HttpStatus.SC_BAD_REQUEST, httpClient.executeMethod(getFeedMethod));
++        }
++
++        @Test
++        public void shouldErrorWithBadRequestLimitInvalid() throws Exception {
++            final HttpMethod getFeedMethod = new GetMethod(urlAndPort + "/namespace/feed/?limit=0.1");
++            assertEquals("Getting a feed with an invalid limit should return 400", HttpStatus.SC_BAD_REQUEST, httpClient.executeMethod(getFeedMethod));
++        }
+

@@ -1,0 +1,8 @@
+diff --git a/coeus-impl/src/main/java/co/kuali/coeus/sys/impl/persistence/SchemaSpyFilter.java b/coeus-impl/src/main/java/co/kuali/coeus/sys/impl/persistence/SchemaSpyFilter.java
+index a5b63da..b359920 100644
+--- a/coeus-impl/src/main/java/co/kuali/coeus/sys/impl/persistence/SchemaSpyFilter.java
++++ b/coeus-impl/src/main/java/co/kuali/coeus/sys/impl/persistence/SchemaSpyFilter.java
+@@ -129 +129 @@
+-        if (session != null && !getPermissionService().isAuthorizedByTemplate(getGlobalVariableService().getUserSession().getPrincipalId(),
++        if (session == null || !getPermissionService().isAuthorizedByTemplate(getGlobalVariableService().getUserSession().getPrincipalId(),
+

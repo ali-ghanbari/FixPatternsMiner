@@ -1,0 +1,16 @@
+core: Use container id for memory lock in import process.
+
+When importing a VM we use memory lock on the VM in the export domain so
+it will not get deleted in the process.
+
+When the import process is being done with clone, a new vm id is generated
+and the lock at the end command is being regenerated with the new
+VM guid instead of the original one from the export domain.
+
+The proposed fix is to use the container id from the parameters when
+generating the shared lock.
+
+Signed-off-by: Maor Lipchuk <mlipchuk@redhat.com>
+Bug-Url:  https://bugzilla.redhat.com/998907
+Change-Id: Ie849300bdc98020aeca90deeddafd12295e8211a
+

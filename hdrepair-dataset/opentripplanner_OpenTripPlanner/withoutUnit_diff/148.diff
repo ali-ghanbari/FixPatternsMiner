@@ -1,0 +1,8 @@
+diff --git a/opentripplanner-routing/src/main/java/org/opentripplanner/routing/algorithm/strategies/BidirectionalRemainingWeightHeuristic.java b/opentripplanner-routing/src/main/java/org/opentripplanner/routing/algorithm/strategies/BidirectionalRemainingWeightHeuristic.java
+index 57ed3f3..8750a98 100644
+--- a/opentripplanner-routing/src/main/java/org/opentripplanner/routing/algorithm/strategies/BidirectionalRemainingWeightHeuristic.java
++++ b/opentripplanner-routing/src/main/java/org/opentripplanner/routing/algorithm/strategies/BidirectionalRemainingWeightHeuristic.java
+@@ -97 +97 @@
+-                if (s.isAlightedLocal() || s.getNumBoardings() > s.getOptions().getMaxTransfers()) {
++                if (s.isAlightedLocal() || (!s.isOnboard() && s.getNumBoardings() > s.getOptions().getMaxTransfers())) {
+

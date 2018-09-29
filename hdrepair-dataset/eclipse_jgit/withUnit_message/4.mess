@@ -1,0 +1,13 @@
+Make sure checkout doesn't report conflicts on ignored paths
+
+In a situation where a certain path was ignored but a working tree file
+with this path existed jgit didn't allow to checkout a branch which
+didn't ignore this path but contained different content. JGit considered
+this to be a checkout conflict to prevent overwriting the file in the
+working tree and raised an error. This commit fixes this by ensuring
+that ignored dirty working tree files don't lead to a checkout conflict.
+
+Bug: 450169
+Change-Id: I90288d314ffac73c24a9c70a5181f8243bd4679a
+Signed-off-by: Matthias Sohn <matthias.sohn@sap.com>
+

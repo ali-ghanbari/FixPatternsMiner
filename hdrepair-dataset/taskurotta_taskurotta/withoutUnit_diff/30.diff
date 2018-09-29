@@ -1,0 +1,83 @@
+diff --git a/wf-backend-ora/pom.xml b/wf-backend-ora/pom.xml
+index 789f388..a897943 100644
+--- a/wf-backend-ora/pom.xml
++++ b/wf-backend-ora/pom.xml
+@@ -22,0 +23 @@
++                    <scope>compile</scope>
+diff --git a/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/storage/OraTaskDao.java b/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/storage/OraTaskDao.java
+index d736734..6b4fb0c 100644
+--- a/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/storage/OraTaskDao.java
++++ b/wf-backend-ora/src/main/java/ru/taskurotta/backend/ora/storage/OraTaskDao.java
+@@ -65 +65 @@
+-             PreparedStatement ps = connection.prepareStatement("SELECT  DESICION_JSON FROM DECISION WHERE TASK_ID = ?")
++             PreparedStatement ps = connection.prepareStatement("SELECT DECISION_JSON FROM DECISION WHERE TASK_ID = ?")
+diff --git a/wf-backend-ora/src/main/resources/script.sql b/wf-backend-ora/src/main/resources/script.sql
+index 3c47319..b36c7c8 100644
+--- a/wf-backend-ora/src/main/resources/script.sql
++++ b/wf-backend-ora/src/main/resources/script.sql
+@@ -105,3 +105,7 @@
+-CREATE OR REPLACE
+-PROCEDURE ADD_DECISION(P_TASK_ID  IN VARCHAR2, P_PROCESS_ID IN VARCHAR2, P_DECISION_JSON IN CLOB,
+-                       P_IS_ERROR IN NUMBER, P_DECISION_DATE IN NUMBER)
++create or replace
++PROCEDURE ADD_DECISION(
++    P_TASK_ID       IN VARCHAR2,
++    P_PROCESS_ID    IN VARCHAR2,
++    P_DECISION_JSON IN CLOB,
++    P_IS_ERROR      IN NUMBER,
++    P_DECISION_DATE IN NUMBER)
+@@ -109,19 +113,26 @@
+-  BEGIN
+-    MERGE INTO DECISION D
+-    USING
+-      (SELECT
+-         P_TASK_ID       AS TASK_ID,
+-         P_DECISION_JSON AS DECISION_JSON,
+-         P_IS_ERROR      AS IS_ERROR,
+-         P_DECISION_DATE AS DECISION_DATE,
+-         P_PROCESS_ID    AS PROCESS_ID
+-       FROM DUAL) S
+-    ON (D.TASK_ID = S.TASK_ID)
+-    WHEN MATCHED THEN
+-    UPDATE SET D.DECISION_JSON = S.DECISION_JSON,
+-      D.IS_ERROR = S.IS_ERROR,
+-      D.DECISION_DATE= S.DECISION_DATE
+-    WHEN NOT MATCHED THEN
+-    INSERT (TASK_ID, PROCESS_ID, DECISION_JSON, IS_ERROR, DECISION_DATE)
+-    VALUES (S.TASK_ID, S.PROCESS_ID, S.DECISION_JSON, S.IS_ERROR, S.DECISION_DATE);
+-  END;
++BEGIN
++  UPDATE DECISION
++  SET DECISION_JSON = P_DECISION_JSON,
++    IS_ERROR        = P_IS_ERROR,
++    DECISION_DATE   = P_DECISION_DATE
++  WHERE task_id     = P_TASK_ID;
++  IF ( sql%rowcount = 0 ) THEN
++    INSERT
++    INTO DECISION
++      (
++        TASK_ID,
++        PROCESS_ID,
++        DECISION_JSON,
++        IS_ERROR,
++        DECISION_DATE
++      )
++      VALUES
++      (
++        P_TASK_ID,
++        P_PROCESS_ID,
++        P_DECISION_JSON,
++        P_IS_ERROR,
++        P_DECISION_DATE
++      );
++  END IF;
++END;
+diff --git a/wf-dropwizard-assemble/wf-dropwizard-oracle-monkey/run.sh b/wf-dropwizard-assemble/wf-dropwizard-oracle-monkey/run.sh
+index 3c78e39..3966134 100644
+--- a/wf-dropwizard-assemble/wf-dropwizard-oracle-monkey/run.sh
++++ b/wf-dropwizard-assemble/wf-dropwizard-oracle-monkey/run.sh
+@@ -1 +1 @@
+-java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:./target/dependency/aspectjweaver-1.6.7.jar -jar target/wf-dropwizard-oracle-0.1.0-SNAPSHOT.jar server target/classes/TaskQueueConfig.yml
+\ No newline at end of file
++java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:./target/dependency/aspectjweaver-1.6.7.jar -jar target/wf-dropwizard-oracle-monkey-0.1.0-SNAPSHOT.jar server target/classes/TaskQueueConfig.yml
+

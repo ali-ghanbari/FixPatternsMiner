@@ -1,0 +1,8 @@
+diff --git a/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManager.java b/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManager.java
+index 71bfbe1..8b5399d 100644
+--- a/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManager.java
++++ b/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/cache/EhCacheCacheManager.java
+@@ -49 +49 @@
+-  public PathCache getPathCache(String cache) {
++  public synchronized PathCache getPathCache(String cache) {
+

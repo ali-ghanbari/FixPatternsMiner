@@ -1,0 +1,45 @@
+diff --git a/modules/library/api/src/main/java/org/geotools/geometry/jts/JTS.java b/modules/library/api/src/main/java/org/geotools/geometry/jts/JTS.java
+index 9297469..99e133e 100644
+--- a/modules/library/api/src/main/java/org/geotools/geometry/jts/JTS.java
++++ b/modules/library/api/src/main/java/org/geotools/geometry/jts/JTS.java
+@@ -264 +264 @@
+-        final double[] array = new double[transform.getSourceDimensions()];
++        final double[] array = new double[transform.getTargetDimensions()];
+diff --git a/modules/library/api/src/test/java/org/geotools/geometry/jts/JTSTest.java b/modules/library/api/src/test/java/org/geotools/geometry/jts/JTSTest.java
+index 44f5126..1aece10 100644
+--- a/modules/library/api/src/test/java/org/geotools/geometry/jts/JTSTest.java
++++ b/modules/library/api/src/test/java/org/geotools/geometry/jts/JTSTest.java
+@@ -35,0 +36 @@
++import org.geotools.referencing.crs.DefaultGeocentricCRS;
+@@ -38,0 +40 @@
++import org.opengis.referencing.crs.CoordinateReferenceSystem;
+@@ -39,0 +42 @@
++import org.opengis.referencing.operation.MathTransform;
+@@ -51 +54 @@
+-    
++
+@@ -168,0 +172,23 @@
++    
++    /**
++     * Added this test after a bug was reported in JTS.transform for converting
++     * between WGS84 (2D) and DefaultGeocentric.CARTESIAN (3D).
++     */
++    @Test
++    public void transformCoordinate2DCRSTo3D() throws Exception {
++        CoordinateReferenceSystem srcCRS = DefaultGeographicCRS.WGS84;
++        CoordinateReferenceSystem targetCRS = DefaultGeocentricCRS.CARTESIAN;
++        MathTransform transform = CRS.findMathTransform(srcCRS, targetCRS);
++
++        Coordinate srcCoord = new Coordinate(0, 0);
++        Coordinate dest0 = JTS.transform(srcCoord, null, transform);
++
++        srcCoord.x = 180;
++        Coordinate dest180 = JTS.transform(srcCoord, null, transform);
++
++        // Only a perfunctory check on the return values - mostly we
++        // just wanted to make sure there was no exception
++        assertEquals(dest0.x, -dest180.x, TOL);
++        assertEquals(dest0.y, dest180.y, TOL);
++        assertEquals(dest0.z, dest180.z, TOL);
++    }
+

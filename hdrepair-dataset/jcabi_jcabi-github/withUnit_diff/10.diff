@@ -1,0 +1,44 @@
+diff --git a/src/main/java/com/jcabi/github/mock/MkGists.java b/src/main/java/com/jcabi/github/mock/MkGists.java
+index 79120f8..c61d00e 100644
+--- a/src/main/java/com/jcabi/github/mock/MkGists.java
++++ b/src/main/java/com/jcabi/github/mock/MkGists.java
+@@ -92 +92 @@
+-                    String.format("%s/gist/id", this.xpath())
++                    String.format("%s/gist/id/text()", this.xpath())
+diff --git a/src/test/java/com/jcabi/github/mock/MkGistsTest.java b/src/test/java/com/jcabi/github/mock/MkGistsTest.java
+index 26480ce..a097e7e 100644
+--- a/src/test/java/com/jcabi/github/mock/MkGistsTest.java
++++ b/src/test/java/com/jcabi/github/mock/MkGistsTest.java
+@@ -32,0 +33 @@
++import com.jcabi.github.Gists;
+@@ -42,0 +44 @@
++ * @checkstyle MultipleStringLiterals (500 lines)
+@@ -63,0 +66,27 @@
++     * MkGists can work several gists.
++     * Test to check issue #128
++     * @throws Exception If some problem inside
++     */
++    @Test
++    public void worksWithSeveralGists() throws Exception {
++        final Gists gists = new MkGithub().gists();
++        final Gist gist = gists.create(
++            Collections.singletonList("test-file-name.txt")
++        );
++        final Gist othergist = gists.create(
++            Collections.singletonList("test-file-name2.txt")
++        );
++        final String file = "t.txt";
++        gist.write(file, "hello, everybody!");
++        othergist.write(file, "bye, everybody!");
++        MatcherAssert.assertThat(
++            gist.read(file),
++            Matchers.startsWith("hello, ")
++        );
++        MatcherAssert.assertThat(
++            othergist.read(file),
++            Matchers.startsWith("bye, ")
++        );
++    }
++
++    /**
+

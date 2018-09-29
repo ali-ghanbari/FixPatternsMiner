@@ -1,0 +1,26 @@
+diff --git a/src/main/java/datameer/awstasks/ssh/ScpDownloadCommand.java b/src/main/java/datameer/awstasks/ssh/ScpDownloadCommand.java
+index 39858a7..230aec6 100644
+--- a/src/main/java/datameer/awstasks/ssh/ScpDownloadCommand.java
++++ b/src/main/java/datameer/awstasks/ssh/ScpDownloadCommand.java
+@@ -68 +68 @@
+-        command += remoteFile;
++        command += "'" + remoteFile + "'";
+diff --git a/src/test/java/datameer/awstasks/ssh/JschRunnerTest.java b/src/test/java/datameer/awstasks/ssh/JschRunnerTest.java
+index 33466c7..f6e84a5 100644
+--- a/src/test/java/datameer/awstasks/ssh/JschRunnerTest.java
++++ b/src/test/java/datameer/awstasks/ssh/JschRunnerTest.java
+@@ -33,0 +34 @@
++import datameer.awstasks.AbstractTest;
+@@ -48 +49 @@
+-public class JschRunnerTest {
++public class JschRunnerTest extends AbstractTest {
+@@ -94,0 +96,8 @@
++    public void testOpen_WhitespaceInName() throws Exception {
++        File aFile = _tempFolder.newFile("a file");
++        JschRunner jschRunner = createJschRunner();
++        InputStream inputStream = jschRunner.openFile(aFile.getAbsolutePath());
++        inputStream.close();
++    }
++
++    @Test
+

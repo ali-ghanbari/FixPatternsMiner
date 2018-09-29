@@ -1,0 +1,42 @@
+diff --git a/modules/gfac-core/src/main/java/org/apache/airavata/core/gfac/context/invocation/ExecutionContext.java b/modules/gfac-core/src/main/java/org/apache/airavata/core/gfac/context/invocation/ExecutionContext.java
+index d96a943..0a9f140 100644
+--- a/modules/gfac-core/src/main/java/org/apache/airavata/core/gfac/context/invocation/ExecutionContext.java
++++ b/modules/gfac-core/src/main/java/org/apache/airavata/core/gfac/context/invocation/ExecutionContext.java
+@@ -61 +61 @@
+-     * @param AiravataRegistry
++     * @param AiravataRegistry2
+diff --git a/modules/gfac-core/src/test/java/org/apache/airavata/core/gfac/services/impl/SchedulerTest.java b/modules/gfac-core/src/test/java/org/apache/airavata/core/gfac/services/impl/SchedulerTest.java
+index 18dd1aa..9b7c47a 100644
+--- a/modules/gfac-core/src/test/java/org/apache/airavata/core/gfac/services/impl/SchedulerTest.java
++++ b/modules/gfac-core/src/test/java/org/apache/airavata/core/gfac/services/impl/SchedulerTest.java
+@@ -36,0 +37,2 @@
++import org.apache.airavata.persistance.registry.jpa.impl.AiravataJPARegistry;
++import org.apache.airavata.registry.api.AiravataRegistry2;
+@@ -37,0 +40 @@
++import org.apache.airavata.registry.api.util.RegistryUtils;
+@@ -47,0 +51 @@
++import java.net.URL;
+@@ -56 +60 @@
+-    private AiravataJCRRegistry jcrRegistry;
++    private AiravataRegistry2 jcrRegistry;
+@@ -64,3 +68 @@
+-        jcrRegistry = new AiravataJCRRegistry(null,
+-				"org.apache.jackrabbit.core.RepositoryFactoryImpl", "admin",
+-				"admin", config);
++        jcrRegistry = RegistryUtils.getRegistryFromConfig(new URL("test.properties"));
+@@ -127,2 +129,2 @@
+-		jcrRegistry.saveHostDescription(host);
+-		jcrRegistry.saveDeploymentDescription(serv.getType().getName(), host
++		jcrRegistry.addHostDescriptor(host);
++		jcrRegistry.addApplicationDescriptor(serv.getType().getName(), host
+@@ -130,4 +132,3 @@
+-		jcrRegistry.saveServiceDescription(serv);
+-		jcrRegistry.deployServiceOnHost(serv.getType().getName(), host
+-				.getType().getHostName());
+-
++		jcrRegistry.addServiceDescriptor(serv);
++//		jcrRegistry.addApplicationDescriptor(serv.getType().getName(), host
++//				.getType().getHostName());
+@@ -175 +175,0 @@
+-            jcrRegistry.getSession().logout();
+

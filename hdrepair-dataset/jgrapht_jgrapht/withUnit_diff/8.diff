@@ -1,0 +1,26 @@
+diff --git a/jgrapht-core/src/main/java/org/jgrapht/alg/MinSourceSinkCut.java b/jgrapht-core/src/main/java/org/jgrapht/alg/MinSourceSinkCut.java
+index 5e867b7..91497ad 100644
+--- a/jgrapht-core/src/main/java/org/jgrapht/alg/MinSourceSinkCut.java
++++ b/jgrapht-core/src/main/java/org/jgrapht/alg/MinSourceSinkCut.java
+@@ -128 +128 @@
+-			for(E edge: outEdges){
++			for(E edge: inEdges){
+diff --git a/jgrapht-core/src/test/java/org/jgrapht/alg/MinSourceSinkCutTest.java b/jgrapht-core/src/test/java/org/jgrapht/alg/MinSourceSinkCutTest.java
+index 532bf9b..420bbb1 100644
+--- a/jgrapht-core/src/test/java/org/jgrapht/alg/MinSourceSinkCutTest.java
++++ b/jgrapht-core/src/test/java/org/jgrapht/alg/MinSourceSinkCutTest.java
+@@ -108,0 +109,6 @@
++	    
++	    cutEdges=mc.getCutEdges();
++	    double weight=0;
++	    for(DefaultWeightedEdge e: cutEdges)
++	    	weight+=graph.getEdgeWeight(e);
++	    assertEquals(7.0, weight);
+@@ -156,0 +163,6 @@
++	    
++	    cutEdges=mc.getCutEdges();
++	    double weight=0;
++	    for(DefaultWeightedEdge e: cutEdges)
++	    	weight+=graph.getEdgeWeight(e);
++	    assertEquals(0.875, weight,0.000000001);
+

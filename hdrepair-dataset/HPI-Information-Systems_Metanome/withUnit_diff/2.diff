@@ -1,0 +1,14 @@
+diff --git a/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileOneLineFixture.java b/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileOneLineFixture.java
+index 29e5253..a041b76 100644
+--- a/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileOneLineFixture.java
++++ b/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileOneLineFixture.java
+@@ -38 +38 @@
+-		return new CsvFile(getExpectedRelationName(), new StringReader(getCsvInputString()), this.separator, this.quoteChar, 0, false);
++		return new CsvFile(getExpectedRelationName(), new StringReader(getCsvInputString()), this.separator, this.quoteChar, 1, false);
+diff --git a/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileTest.java b/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileTest.java
+index 8af71f5..d0a418d 100644
+--- a/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileTest.java
++++ b/backend/src/test/java/de/uni_potsdam/hpi/metanome/input/csv/CsvFileTest.java
+@@ -169,0 +170 @@
++		assertEquals(fixture.getExpectedStrings(), csvFileWithoutHeader.next());
+

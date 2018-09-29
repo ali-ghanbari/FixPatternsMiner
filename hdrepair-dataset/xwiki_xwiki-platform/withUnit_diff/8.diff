@@ -1,0 +1,49 @@
+diff --git a/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/store/XWikiHibernateBaseStore.java b/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/store/XWikiHibernateBaseStore.java
+index 2637b53..c084c0e 100644
+--- a/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/store/XWikiHibernateBaseStore.java
++++ b/xwiki-platform-core/xwiki-platform-oldcore/src/main/java/com/xpn/xwiki/store/XWikiHibernateBaseStore.java
+@@ -531 +531 @@
+-    private String[] addHibernateSequenceIfRequired(String[] schemaSQL, String schemaName, Session session)
++    protected String[] addHibernateSequenceIfRequired(String[] schemaSQL, String schemaName, Session session)
+diff --git a/xwiki-platform-core/xwiki-platform-oldcore/src/test/java/com/xpn/xwiki/store/XWikiHibernateStoreTest.java b/xwiki-platform-core/xwiki-platform-oldcore/src/test/java/com/xpn/xwiki/store/XWikiHibernateStoreTest.java
+index 546f88d..90a3ddf 100644
+--- a/xwiki-platform-core/xwiki-platform-oldcore/src/test/java/com/xpn/xwiki/store/XWikiHibernateStoreTest.java
++++ b/xwiki-platform-core/xwiki-platform-oldcore/src/test/java/com/xpn/xwiki/store/XWikiHibernateStoreTest.java
+@@ -34,0 +35,5 @@
++import org.hibernate.Session;
++import org.hibernate.SessionFactory;
++import org.hibernate.dialect.Dialect;
++import org.hibernate.engine.SessionFactoryImplementor;
++import org.hibernate.id.SequenceGenerator;
+@@ -232,0 +238,30 @@
++
++    @Test
++    public void addHibernateSequenceIfRequired() throws Exception
++    {
++        Session session = mock(Session.class);
++        SessionFactoryImplementor sessionFactory = mock(SessionFactoryImplementor.class);
++        Dialect dialect = mock(Dialect.class);
++        when(session.getSessionFactory()).thenReturn(sessionFactory);
++        when(sessionFactory.getDialect()).thenReturn(dialect);
++        when(dialect.getNativeIdentifierGeneratorClass()).thenReturn(SequenceGenerator.class);
++
++        String[] result = this.store.addHibernateSequenceIfRequired(new String[0], "schema", session);
++        assertEquals(1, result.length);
++        assertEquals("create sequence schema.hibernate_sequence", result[0]);
++    }
++
++    @Test
++    public void addHibernateSequenceIfRequiredWhenSequenceAlreadyPresent() throws Exception
++    {
++        Session session = mock(Session.class);
++        SessionFactoryImplementor sessionFactory = mock(SessionFactoryImplementor.class);
++        Dialect dialect = mock(Dialect.class);
++        when(session.getSessionFactory()).thenReturn(sessionFactory);
++        when(sessionFactory.getDialect()).thenReturn(dialect);
++        when(dialect.getNativeIdentifierGeneratorClass()).thenReturn(SequenceGenerator.class);
++
++        String[] result = this.store.addHibernateSequenceIfRequired(
++            new String[] {"create sequence schema.hibernate_sequence"}, "schema", session);
++        assertEquals(1, result.length);
++    }
+

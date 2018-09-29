@@ -1,0 +1,46 @@
+diff --git a/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java b/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java
+index 82de221..fb7f77f 100644
+--- a/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java
++++ b/tests/src/org/aspectj/systemtest/ajc150/Ajc150Tests.java
+@@ -68,0 +69 @@
++  public void testBadRenderer_pr86903() { runTest("bcelrenderer bad");}
+diff --git a/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml b/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml
+index bd50164..6e569be 100644
+--- a/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml
++++ b/tests/src/org/aspectj/systemtest/ajc150/ajc150.xml
+@@ -23,0 +24,5 @@
++    <ajc-test dir="bugs150/pr86903" title="bcelrenderer bad">
++      <compile files="GenericService.java,Service.java,Main.java,BadWormhole.java"/>
++      <run class="Main"/>
++    </ajc-test>
++    
+@@ -32 +37,13 @@
+-    <ajc-test dir="bugs150/pr114343/case2" title="field-get, generics and around advice - 2">
++    <ajc-test dir="bugs150/pr113947/case1" title="maws generic aspect - 1">
++        <compile files="AbstractListSupport.java,AnotherItem.java,Item.java,LinkedList.java,LinkedListItem.java,ListItem.java,StringList.java" options="-1.5">
++          <!-- the 'static ref' messages are a bit poor and ought to be eliminated... -->
++          <message kind="error" line="6" text="Cannot make a static reference to the non-static type M"/>
++          <message kind="error" line="6" text="Cannot make inter-type declarations on type variables"/>
++          <message kind="error" line="8" text="Cannot make a static reference to the non-static type I"/>
++          <message kind="error" line="8" text="Cannot make inter-type declarations on type variables"/>
++          <message kind="error" line="12" text="Cannot make a static reference to the non-static type M"/>
++          <message kind="error" line="12" text="Cannot make inter-type declarations on type variables"/>
++        </compile>
++    </ajc-test>
++
++   <ajc-test dir="bugs150/pr114343/case2" title="field-get, generics and around advice - 2">
+@@ -65,12 +82 @@
+-    
+-    <ajc-test dir="bugs150/pr113947/case1" title="maws generic aspect - 1">
+-        <compile files="AbstractListSupport.java,AnotherItem.java,Item.java,LinkedList.java,LinkedListItem.java,ListItem.java,StringList.java" options="-1.5">
+-          <!-- the 'static ref' messages are a bit poor and ought to be eliminated... -->
+-          <message kind="error" line="6" text="Cannot make a static reference to the non-static type M"/>
+-          <message kind="error" line="6" text="Cannot make inter-type declarations on type variables"/>
+-          <message kind="error" line="8" text="Cannot make a static reference to the non-static type I"/>
+-          <message kind="error" line="8" text="Cannot make inter-type declarations on type variables"/>
+-          <message kind="error" line="12" text="Cannot make a static reference to the non-static type M"/>
+-          <message kind="error" line="12" text="Cannot make inter-type declarations on type variables"/>
+-        </compile>
+-    </ajc-test>
++
+

@@ -1,0 +1,9 @@
+diff --git a/request-callback/src/main/java/org/talend/esb/mep/requestcallback/impl/RequestCallbackInInterceptor.java b/request-callback/src/main/java/org/talend/esb/mep/requestcallback/impl/RequestCallbackInInterceptor.java
+index c872bd3..fd3eaa8 100644
+--- a/request-callback/src/main/java/org/talend/esb/mep/requestcallback/impl/RequestCallbackInInterceptor.java
++++ b/request-callback/src/main/java/org/talend/esb/mep/requestcallback/impl/RequestCallbackInInterceptor.java
+@@ -150 +150,2 @@
+-		final Object wsdlLoc = message.getExchange().getEndpoint().get(Message.WSDL_DESCRIPTION);
++		//final Object wsdlLoc = message.getExchange().getEndpoint().get(Message.WSDL_DESCRIPTION);
++		final Object wsdlLoc = message.getContextualProperty("javax.xml.ws.wsdl.description");
+

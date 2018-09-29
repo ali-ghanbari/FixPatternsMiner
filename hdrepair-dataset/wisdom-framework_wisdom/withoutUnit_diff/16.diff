@@ -1,0 +1,45 @@
+diff --git a/extensions/wisdom-monitor/src/main/java/org/wisdom/monitor/extensions/dashboard/DashboardExtension.java b/extensions/wisdom-monitor/src/main/java/org/wisdom/monitor/extensions/dashboard/DashboardExtension.java
+index 61f7bf7..1e3bf50 100644
+--- a/extensions/wisdom-monitor/src/main/java/org/wisdom/monitor/extensions/dashboard/DashboardExtension.java
++++ b/extensions/wisdom-monitor/src/main/java/org/wisdom/monitor/extensions/dashboard/DashboardExtension.java
+@@ -108 +107,0 @@
+-        metrics.register("jvm.files", new FileDescriptorRatioGauge());
+diff --git a/extensions/wisdom-monitor/src/main/resources/templates/monitor/dashboard.thl.html b/extensions/wisdom-monitor/src/main/resources/templates/monitor/dashboard.thl.html
+index 126e89d..a479cb8 100644
+--- a/extensions/wisdom-monitor/src/main/resources/templates/monitor/dashboard.thl.html
++++ b/extensions/wisdom-monitor/src/main/resources/templates/monitor/dashboard.thl.html
+@@ -150 +150 @@
+-                <div class="col-md-6"><small>Scavenge count</small></div>
++                <div class="col-md-6"><small id="scavengeCountTitle">Scavenge count</small></div>
+@@ -154 +154 @@
+-                <div class="col-md-6"><small>Scavenge time</small></div>
++                <div class="col-md-6"><small id="scavengeTimeTitle">Scavenge time</small></div>
+@@ -523,5 +523,22 @@
+-    function updateGC(data) {
+-        var marksweep = data.gauges["jvm.garbage.PS-MarkSweep.count"].value;
+-        var marksweepTime = data.gauges["jvm.garbage.PS-MarkSweep.time"].value;
+-        var scavenge = data.gauges["jvm.garbage.PS-Scavenge.count"].value;
+-        var scavengeTime = data.gauges["jvm.garbage.PS-Scavenge.time"].value;
++   function updateGC(data) {
++	    var marksweep;
++		var marksweepTime;
++		if (data.gauges["jvm.garbage.PS-MarkSweep.count"] != undefined) {
++		    marksweep = data.gauges["jvm.garbage.PS-MarkSweep.count"].value;
++			marksweepTime = data.gauges["jvm.garbage.PS-MarkSweep.time"].value;
++		} else {
++			marksweep = data.gauges["jvm.garbage.MarkSweepCompact.count"].value;
++			marksweepTime = data.gauges["jvm.garbage.MarkSweepCompact.time"].value;
++		}
++		var scavenge;
++		var scavengeTime;
++		if (data.gauges["jvm.garbage.PS-Scavenge.count"] != undefined) {
++			scavenge = data.gauges["jvm.garbage.PS-Scavenge.count"].value;
++			scavengeTime = data.gauges["jvm.garbage.PS-Scavenge.time"].value;
++		} else {
++		    // We don't have scavenge, use count. But also update the text fields
++			$("#scavengeCountTitle").html("Copy Count");
++			$("#scavengeTimeTitle").html("Copy Time");
++			scavenge = data.gauges["jvm.garbage.Copy.count"].value;
++			scavengeTime = data.gauges["jvm.garbage.Copy.time"].value;
++		}
+

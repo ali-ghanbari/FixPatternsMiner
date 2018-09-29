@@ -1,0 +1,14 @@
+diff --git a/services/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/java/com/android/server/accessibility/AccessibilityManagerService.java
+index ebc2074..3a1a85b 100644
+--- a/services/java/com/android/server/accessibility/AccessibilityManagerService.java
++++ b/services/java/com/android/server/accessibility/AccessibilityManagerService.java
+@@ -1071 +1071 @@
+-        public Handler mHandler = new Handler() {
++        public Handler mHandler = new Handler(mMainHandler.getLooper()) {
+diff --git a/tools/aapt/AaptAssets.cpp b/tools/aapt/AaptAssets.cpp
+index 73705ae..f2fa3f5 100644
+--- a/tools/aapt/AaptAssets.cpp
++++ b/tools/aapt/AaptAssets.cpp
+@@ -124,0 +125 @@
++            n--;
+

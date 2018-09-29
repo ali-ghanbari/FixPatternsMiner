@@ -1,0 +1,8 @@
+diff --git a/opennms-dao/src/main/java/org/opennms/netmgt/dao/hibernate/LocationMonitorDaoHibernate.java b/opennms-dao/src/main/java/org/opennms/netmgt/dao/hibernate/LocationMonitorDaoHibernate.java
+index 988d813..a379116 100644
+--- a/opennms-dao/src/main/java/org/opennms/netmgt/dao/hibernate/LocationMonitorDaoHibernate.java
++++ b/opennms-dao/src/main/java/org/opennms/netmgt/dao/hibernate/LocationMonitorDaoHibernate.java
+@@ -294 +294 @@
+-                return session.createQuery("from OnmsLocationSpecificStatus status where status.locationMonitor = :locationMonitor and status.monitoredService = :monitoredService order by status.pollResult.timestamp")
++                return session.createQuery("from OnmsLocationSpecificStatus status where status.locationMonitor = :locationMonitor and status.monitoredService = :monitoredService order by status.pollResult.timestamp desc")
+

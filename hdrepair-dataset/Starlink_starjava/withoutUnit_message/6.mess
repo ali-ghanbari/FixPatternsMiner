@@ -1,0 +1,8 @@
+ttools: fix PlotDisplay graphics positioning
+
+Change the component offsets for drawing the graphics in
+PlotDisplay.paintComponent.  I don't really understand exactly where
+in the Swing API the component location is applied, but by trial and
+error doing it like this works, and doing it like it was done before
+painted the graphics in the wrong place if getLocation() was not (0,0).
+

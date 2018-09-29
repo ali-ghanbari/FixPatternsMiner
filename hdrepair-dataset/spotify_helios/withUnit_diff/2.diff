@@ -1,0 +1,53 @@
+diff --git a/helios-services/src/main/java/com/spotify/helios/agent/TaskConfig.java b/helios-services/src/main/java/com/spotify/helios/agent/TaskConfig.java
+index 390d1cf..1e257fa 100644
+--- a/helios-services/src/main/java/com/spotify/helios/agent/TaskConfig.java
++++ b/helios-services/src/main/java/com/spotify/helios/agent/TaskConfig.java
+@@ -65 +65 @@
+-  private static final int HOST_NAME_MAX = 64;
++  private static final int HOST_NAME_MAX = 63;
+diff --git a/helios-system-tests/src/main/java/com/spotify/helios/system/ContainerHostNameTest.java b/helios-system-tests/src/main/java/com/spotify/helios/system/ContainerHostNameTest.java
+index 81158d7..b08417e 100644
+--- a/helios-system-tests/src/main/java/com/spotify/helios/system/ContainerHostNameTest.java
++++ b/helios-system-tests/src/main/java/com/spotify/helios/system/ContainerHostNameTest.java
+@@ -23,0 +24,2 @@
++import com.google.common.base.Splitter;
++
+@@ -37,0 +40 @@
++import static java.lang.String.format;
+@@ -41,0 +45 @@
++import static org.junit.Assert.assertTrue;
+@@ -70,0 +75,33 @@
++
++  @Test
++  public void testLength() throws Exception {
++    startDefaultMaster();
++    startDefaultAgent(testHost());
++    awaitHostStatus(testHost(), UP, LONG_WAIT_MINUTES, MINUTES);
++
++    try (final DefaultDockerClient dockerClient = new DefaultDockerClient(DOCKER_HOST.uri())) {
++      final List<String> command = asList("hostname", "-f");
++
++      // make something absurdly long
++      final String jobName = testJobName
++          + "01234567890123456789012345678901234567890123456789012345678901234567890";
++
++      // Create job
++      final JobId jobId = createJob(jobName, testJobVersion, "busybox", command);
++
++      // deploy
++      deployJob(jobId, testHost());
++
++      final TaskStatus taskStatus = awaitTaskState(jobId, testHost(), EXITED);
++
++      final String log;
++      try (final LogStream logs = dockerClient.logs(taskStatus.getContainerId(), STDOUT, STDERR)) {
++        log = logs.readFully();
++      }
++
++      final List<String> hostnameParts = Splitter.on(".").splitToList(log.trim());
++      final int firstPartLen = hostnameParts.get(0).length();
++      assertTrue(format("first part of host name should be <= 63 long, was %s", firstPartLen),
++          firstPartLen <= 63);
++    }
++  }
+

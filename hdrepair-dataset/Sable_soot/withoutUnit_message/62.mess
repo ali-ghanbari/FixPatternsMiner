@@ -1,0 +1,27 @@
+Fix for this problem:
+
+
+
+Hi,
+
+I found a performance problem and a maybe-fix for it, which speeds up my
+analysis by 5x. The problem is that the active hierarchy is repeatedly
+computed when calling Scene.getActiveHierarchy(). The Scene caches the
+hierarchy to avoid this redundant computation, but unfortunately Body
+contains the following statement (line 701):
+
+        // FIXME: Work around for bug in soot
+        Scene.v().releaseActiveHierarchy();
+
+I.e., the cached hierarchy is deleted for each Body that is validated
+(I'm using the -validate option). Is this really necessary? The
+hierarchy shouldn't change while validating method bodies. As far as I
+can tell from running my own analyses, removing the statement doesn't
+change the behavior (except for avoiding the redundant computation).
+
+Does anyone remember the reason for the FIXME (it's from October 2004)?
+Can it be removed safely? Getting a 5x speedup with such a simple change
+would be great.
+
+Thanks,
+Michael

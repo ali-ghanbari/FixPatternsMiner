@@ -1,0 +1,8 @@
+diff --git a/classpath/src/main/java/org/springframework/roo/classpath/itd/AbstractMemberDiscoveringItdMetadataProvider.java b/classpath/src/main/java/org/springframework/roo/classpath/itd/AbstractMemberDiscoveringItdMetadataProvider.java
+index 5fd15fb..83d92ce 100644
+--- a/classpath/src/main/java/org/springframework/roo/classpath/itd/AbstractMemberDiscoveringItdMetadataProvider.java
++++ b/classpath/src/main/java/org/springframework/roo/classpath/itd/AbstractMemberDiscoveringItdMetadataProvider.java
+@@ -76 +76 @@
+-			Assert.isTrue(MetadataIdentificationUtils.getMetadataClass(localMid).equals(getProvidesType()), "Metadata identication string '" + localMid + "' is incompatible with this metadata provider's class");
++			Assert.isTrue(MetadataIdentificationUtils.getMetadataClass(localMid).equals(MetadataIdentificationUtils.getMetadataClass(getProvidesType())), "Metadata identication string '" + MetadataIdentificationUtils.getMetadataClass(localMid) + "' is incompatible with this metadata provider's class '" + MetadataIdentificationUtils.getMetadataClass(getProvidesType()) + "'");
+

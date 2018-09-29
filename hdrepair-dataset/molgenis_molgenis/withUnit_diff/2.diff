@@ -1,0 +1,50 @@
+diff --git a/molgenis-data/src/main/java/org/molgenis/data/validation/RepositoryValidationDecorator.java b/molgenis-data/src/main/java/org/molgenis/data/validation/RepositoryValidationDecorator.java
+index ccf7601..ed7a5c8 100644
+--- a/molgenis-data/src/main/java/org/molgenis/data/validation/RepositoryValidationDecorator.java
++++ b/molgenis-data/src/main/java/org/molgenis/data/validation/RepositoryValidationDecorator.java
+@@ -189 +189 @@
+-						if (oldValue != null) ((Entity) oldValue).getIdValue();
++						if (oldValue != null) oldValue = ((Entity) oldValue).getIdValue();
+diff --git a/molgenis-data/src/test/java/org/molgenis/data/validation/RepositoryValidationDecoratorTest.java b/molgenis-data/src/test/java/org/molgenis/data/validation/RepositoryValidationDecoratorTest.java
+index 10f844b..31e7706 100644
+--- a/molgenis-data/src/test/java/org/molgenis/data/validation/RepositoryValidationDecoratorTest.java
++++ b/molgenis-data/src/test/java/org/molgenis/data/validation/RepositoryValidationDecoratorTest.java
+@@ -94,0 +95,37 @@
++	@Test
++	public void checkReadonlyByUpdate_Xref()
++	{
++		Entity refEntity = new MapEntity("id");
++		refEntity.set("id", Integer.valueOf(10));
++
++		Entity refEntityNew = new MapEntity("idNew");
++		refEntity.set("id", Integer.valueOf(11));
++
++		Entity e1 = new MapEntity("id");
++		e1.set("id", Integer.valueOf(1));
++		e1.set("name", "e1");
++		e1.set("readonly-xref", refEntity);
++
++		DefaultEntityMetaData emd = new DefaultEntityMetaData("test");
++		emd.addAttribute("id").setIdAttribute(true).setDataType(MolgenisFieldTypes.INT).setReadOnly(true);
++		emd.addAttribute("readonly-xref").setDataType(MolgenisFieldTypes.XREF).setReadOnly(true);
++		emd.setLabelAttribute("name");
++		when(decoratedRepository.getEntityMetaData()).thenReturn(emd);
++
++		when(repositoryValidationDecorator.findOne(Integer.valueOf(1))).thenReturn(e1);
++
++		Entity e2 = new MapEntity("id");
++		e2.set("id", Integer.valueOf(1));
++		e2.set("readonly-xref", refEntity);
++		e2.set("name", "e2");
++		Set<ConstraintViolation> violations = repositoryValidationDecorator.checkReadonlyByUpdate(Arrays.asList(e2));
++		assertTrue(violations.isEmpty());
++
++		Entity e3 = new MapEntity("id");
++		e3.set("id", Integer.valueOf(1));
++		e3.set("readonly-xref", refEntityNew);
++		e3.set("name", "e3");
++		violations = repositoryValidationDecorator.checkReadonlyByUpdate(Arrays.asList(e3));
++		assertEquals(violations.size(), 1);
++	}
++
+

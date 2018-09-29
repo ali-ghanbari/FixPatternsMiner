@@ -1,0 +1,74 @@
+diff --git a/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/parser/parsing/auxiliary/parameters/ParameterList.java b/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/parser/parsing/auxiliary/parameters/ParameterList.java
+index 179155c..5e09246 100644
+--- a/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/parser/parsing/auxiliary/parameters/ParameterList.java
++++ b/plugins/groovy/src/org/jetbrains/plugins/groovy/lang/parser/parsing/auxiliary/parameters/ParameterList.java
+@@ -60,0 +61,2 @@
++    ParserUtils.getToken(builder, mNLS);
++
+diff --git a/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/parser/ExpressionsParsingTest.groovy b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/parser/ExpressionsParsingTest.groovy
+index cfc480c..12d4550 100644
+--- a/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/parser/ExpressionsParsingTest.groovy
++++ b/plugins/groovy/test/org/jetbrains/plugins/groovy/lang/parser/ExpressionsParsingTest.groovy
+@@ -42,0 +43 @@
++  public void testclosures$closparam6() throws Throwable { doTest(); }
+diff --git a/plugins/groovy/testdata/parsing/groovy/expressions/closures/closparam6.test b/plugins/groovy/testdata/parsing/groovy/expressions/closures/closparam6.test
+new file mode 100644
+index 0000000..57efaea
+--- /dev/null
++++ b/plugins/groovy/testdata/parsing/groovy/expressions/closures/closparam6.test
+@@ -0,0 +1,53 @@
++def cl= { def a, int x
++ 
++
++
++    ->
++
++    print a+x;
++}
++-----
++Groovy script
++  Variable definitions
++    Modifiers
++      PsiElement(def)('def')
++    PsiWhiteSpace(' ')
++    Variable
++      PsiElement(identifier)('cl')
++      PsiElement(=)('=')
++      PsiWhiteSpace(' ')
++      Closable block
++        PsiElement({)('{')
++        PsiWhiteSpace(' ')
++        Parameter list
++          Parameter
++            Modifiers
++              PsiElement(def)('def')
++            PsiWhiteSpace(' ')
++            PsiElement(identifier)('a')
++          PsiElement(,)(',')
++          PsiWhiteSpace(' ')
++          Parameter
++            Modifiers
++              <empty list>
++            Built in type
++              PsiElement(int)('int')
++            PsiWhiteSpace(' ')
++            PsiElement(identifier)('x')
++          PsiElement(new line)('\n \n\n\n    ')
++        PsiElement(->)('->')
++        PsiElement(new line)('\n\n    ')
++        Call expression
++          Reference expression
++            PsiElement(identifier)('print')
++          PsiWhiteSpace(' ')
++          Command arguments
++            Additive expression
++              Reference expression
++                PsiElement(identifier)('a')
++              PsiElement(+)('+')
++              Reference expression
++                PsiElement(identifier)('x')
++        PsiElement(;)(';')
++        PsiElement(new line)('\n')
++        PsiElement(})('}')
+\ No newline at end of file
+

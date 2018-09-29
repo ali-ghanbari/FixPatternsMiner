@@ -1,0 +1,8 @@
+diff --git a/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/ElasticSearchService.java b/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/ElasticSearchService.java
+index 95ce774..1c481ca 100644
+--- a/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/ElasticSearchService.java
++++ b/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/ElasticSearchService.java
+@@ -1242 +1242 @@
+-						long requestedHits = pageSize != 0 ? pageSize : totalHits;
++						long requestedHits = pageSize != 0 ? Math.min(pageSize, totalHits) : totalHits;
+

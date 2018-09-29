@@ -1,0 +1,149 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/type/FunctionTypeImpl.java b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/type/FunctionTypeImpl.java
+index d0446fe..3a4afd4 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/type/FunctionTypeImpl.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine/src/com/google/dart/engine/internal/type/FunctionTypeImpl.java
+@@ -56 +56 @@
+-    Iterator<Map.Entry<String, Type>> secondIterator = firstTypes.entrySet().iterator();
++    Iterator<Map.Entry<String, Type>> secondIterator = secondTypes.entrySet().iterator();
+diff --git a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/type/FunctionTypeImplTest.java b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/type/FunctionTypeImplTest.java
+index a44e92e..4395b5d 100644
+--- a/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/type/FunctionTypeImplTest.java
++++ b/dart/editor/tools/plugins/com.google.dart.engine_test/src/com/google/dart/engine/internal/type/FunctionTypeImplTest.java
+@@ -21,0 +22 @@
++import com.google.dart.engine.internal.resolver.TestTypeProvider;
+@@ -80 +81 @@
+-    // () -> void :< Function
++    // () -> void <: Function
+@@ -94 +95 @@
+-    // ! () -> void :< C
++    // ! () -> void <: C
+@@ -101 +102 @@
+-    // ! () -> void :< null
++    // ! () -> void <: null
+@@ -107 +108 @@
+-    // () -> void :< () -> void
++    // () -> void <: () -> void
+@@ -114,2 +115,2 @@
+-    // ({name:a}) -> void :< ({name:b}) -> void
+-    // ({name:b}) -> void :< ({name:a}) -> void
++    // ({name: A}) -> void <: ({name: B}) -> void
++    // ({name: B}) -> void <: ({name: A}) -> void
+@@ -125 +126 @@
+-    // ! ({name:a}) -> void :< ({name:b}) -> void
++    // ! ({name: A}) -> void <: ({name: B}) -> void
+@@ -143,2 +144,2 @@
+-    // ! ({name:a}) -> void :< ({diff:b}) -> void
+-    // ! ({diff:a}) -> void :< ({name:b}) -> void
++    // ! ({name: A}) -> void <: ({diff: B}) -> void
++    // ! ({diff: B}) -> void <: ({name: A}) -> void
+@@ -155 +156 @@
+-    // ({A:a, B:b}) -> void :< ({B:b, A:a}) -> void
++    // ({A: A, B: B}) -> void <: ({B: B, A: A}) -> void
+@@ -175 +176 @@
+-    // ! ({B:b}) -> void :< ({B:b, A:a}) -> void
++    // ! ({B: B}) -> void <: ({B: B, A: A}) -> void
+@@ -190 +191 @@
+-    // ({A:a, B:b}) -> void :< ({A:a}) -> void
++    // ({A: A, B: B}) -> void <: ({A: A}) -> void
+@@ -205 +206 @@
+-    // ! ({name:a}) -> void :< ({name:b, name2:b}) -> void
++    // ! ({name: A}) -> void <: ({name: B, name2: B}) -> void
+@@ -220 +221 @@
+-    // ({name:a, name2:a}) -> void :< ({name:b}) -> void
++    // ({name: A, name2: A}) -> void <: ({name: B}) -> void
+@@ -234 +235 @@
+-    // ([a]) -> void :< (a) -> void
++    // ([a]) -> void <: (a) -> void
+@@ -243 +244 @@
+-    // (a, [a]) -> void :< (a) -> void
++    // (a, [a]) -> void <: (a) -> void
+@@ -252 +253 @@
+-    // ([a]) -> void :< () -> void
++    // ([a]) -> void <: () -> void
+@@ -261 +262 @@
+-    // (a, b, [c, d, e]) -> void :< (a, b, c, [d]) -> void
++    // (a, b, [c, d, e]) -> void <: (a, b, c, [d]) -> void
+@@ -275,2 +276,2 @@
+-    // (a) -> void :< (b) -> void
+-    // (b) -> void :< (a) -> void
++    // (a) -> void <: (b) -> void
++    // (b) -> void <: (a) -> void
+@@ -286 +287 @@
+-    // ! (a) -> void :< (b) -> void
++    // ! (a) -> void <: (b) -> void
+@@ -294 +295 @@
+-    // ! (a) -> void :< (b, b) -> void
++    // ! (a) -> void <: (b, b) -> void
+@@ -304 +305 @@
+-    // ! (a, a) -> void :< (a) -> void
++    // ! (a, a) -> void <: (a) -> void
+@@ -315 +316 @@
+-    // () -> void :< Object
++    // () -> void <: Object
+@@ -323,2 +324,2 @@
+-    // ([a]) -> void :< ([b]) -> void
+-    // ([b]) -> void :< ([a]) -> void
++    // ([a]) -> void <: ([b]) -> void
++    // ([b]) -> void <: ([a]) -> void
+@@ -334 +335 @@
+-    // ! ([a]) -> void :< ([b]) -> void
++    // ! ([a]) -> void <: ([b]) -> void
+@@ -342 +343 @@
+-    // ! ([a]) -> void :< ([b, b]) -> void
++    // ! ([a]) -> void <: ([b, b]) -> void
+@@ -352 +353 @@
+-    // ([a, a]) -> void :< ([b]) -> void
++    // ([a, a]) -> void <: ([b]) -> void
+@@ -361 +362 @@
+-    // () -> void :< void
++    // () -> void <: void
+@@ -371,2 +372,2 @@
+-    // () -> A :< () -> B
+-    // () -> B :< () -> A
++    // () -> A <: () -> B
++    // () -> B <: () -> A
+@@ -382 +383 @@
+-    // ! () -> A :< () -> B
++    // ! () -> A <: () -> B
+@@ -387,0 +389,30 @@
++  public void test_isSubtypeOf_typeParameters_matchesBounds() {
++    TestTypeProvider provider = new TestTypeProvider();
++    InterfaceType boolType = provider.getBoolType();
++    InterfaceType stringType = provider.getStringType();
++
++    TypeVariableElementImpl variableB = new TypeVariableElementImpl(identifier("B"));
++    variableB.setBound(boolType);
++    TypeVariableTypeImpl typeB = new TypeVariableTypeImpl(variableB);
++
++    TypeVariableElementImpl variableS = new TypeVariableElementImpl(identifier("S"));
++    variableS.setBound(stringType);
++    TypeVariableTypeImpl typeS = new TypeVariableTypeImpl(variableS);
++
++    FunctionElementImpl functionAliasElement = new FunctionElementImpl(identifier("func"));
++    FunctionTypeImpl functionAliasType = new FunctionTypeImpl(functionAliasElement);
++    functionAliasElement.setType(functionAliasType);
++    functionAliasType.setReturnType(stringType);
++    functionAliasType.setNormalParameterTypes(new Type[] {typeB});
++    functionAliasType.setOptionalParameterTypes(new Type[] {typeS});
++
++    FunctionElementImpl functionElement = new FunctionElementImpl(identifier("f"));
++    FunctionTypeImpl functionType = new FunctionTypeImpl(functionElement);
++    functionElement.setType(functionType);
++    functionType.setReturnType(provider.getDynamicType());
++    functionType.setNormalParameterTypes(new Type[] {boolType});
++    functionType.setOptionalParameterTypes(new Type[] {stringType});
++
++    assertTrue(functionType.isAssignableTo(functionAliasType));
++  }
++
+@@ -389,2 +420,2 @@
+-    // ! (a) -> void :< ({name:a}) -> void
+-    // ! ({name:a}) -> void :< (a) -> void
++    // ! (a) -> void <: ({name: A}) -> void
++    // ! ({name: A}) -> void <: (a) -> void
+@@ -399,2 +430,2 @@
+-    // ! ([a]) -> void :< ({name:a}) -> void
+-    // ! ({name:a}) -> void :< ([a]) -> void
++    // ! ([a]) -> void <: ({name: A}) -> void
++    // ! ({name: A}) -> void <: ([a]) -> void
+

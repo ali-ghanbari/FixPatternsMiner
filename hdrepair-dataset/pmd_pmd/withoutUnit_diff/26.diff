@@ -1,0 +1,16 @@
+diff --git a/pmd/etc/changelog.txt b/pmd/etc/changelog.txt
+index eaddb72..312cb48 100644
+--- a/pmd/etc/changelog.txt
++++ b/pmd/etc/changelog.txt
+@@ -408 +408,2 @@
+-Fixed bug 2832322 -  cpd.xml file tag path attribute should be entity-encoded
++Fixed bug 1808110 - Fixed performance issues on PreserveStackTrace
++Fixed bug 2832322 - cpd.xml file tag path attribute should be entity-encoded
+diff --git a/pmd/src/net/sourceforge/pmd/lang/java/rule/design/PreserveStackTraceRule.java b/pmd/src/net/sourceforge/pmd/lang/java/rule/design/PreserveStackTraceRule.java
+index d0f666a..f02c2b0 100644
+--- a/pmd/src/net/sourceforge/pmd/lang/java/rule/design/PreserveStackTraceRule.java
++++ b/pmd/src/net/sourceforge/pmd/lang/java/rule/design/PreserveStackTraceRule.java
+@@ -126 +126 @@
+-			return catchStmt.hasDescendantMatchingXPath("descendant::StatementExpression/PrimaryExpression/PrimaryPrefix/Name[@Image = '" + node.getImage() + ".initCause']");
++			return catchStmt.hasDescendantMatchingXPath("./Block/BlockStatement/Statement/StatementExpression/PrimaryExpression/PrimaryPrefix/Name[@Image = '" + node.getImage() + ".initCause']");
+

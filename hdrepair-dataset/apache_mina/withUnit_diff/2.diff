@@ -1,0 +1,100 @@
+diff --git a/codec/src/main/java/org/apache/mina/codec/IoBuffer.java b/codec/src/main/java/org/apache/mina/codec/IoBuffer.java
+index a985060..1368620 100755
+--- a/codec/src/main/java/org/apache/mina/codec/IoBuffer.java
++++ b/codec/src/main/java/org/apache/mina/codec/IoBuffer.java
+@@ -584,2 +584 @@
+-        // FIXME: this is broken and untested (it should set the mark instead of limit)
+-        this.limit = position.duplicate();
++        this.mark = position.duplicate();
+diff --git a/codec/src/test/java/org/apache/mina/codec/IoBufferTest.java b/codec/src/test/java/org/apache/mina/codec/IoBufferTest.java
+index 3731cde..29e8475 100644
+--- a/codec/src/test/java/org/apache/mina/codec/IoBufferTest.java
++++ b/codec/src/test/java/org/apache/mina/codec/IoBufferTest.java
+@@ -33,0 +34 @@
++import java.nio.InvalidMarkException;
+@@ -585,0 +587,35 @@
++     * Test the mark() method
++     */
++    @Test
++    public void testMark() {
++        ByteBuffer bb1 = ByteBuffer.allocate(4);
++        bb1.put("0123".getBytes());
++        bb1.flip();
++
++        ByteBuffer bb2 = ByteBuffer.allocate(4);
++        bb2.put("4567".getBytes());
++        bb2.flip();
++
++        IoBuffer ioBuffer = IoBuffer.wrap(bb1, bb2);
++
++        ioBuffer.position(3);
++        ioBuffer.mark();
++
++        ioBuffer.position(6);
++        ioBuffer.reset();
++
++        ioBuffer.position(6);
++        ioBuffer.mark();
++
++        // we go backward, the mark should be discarded
++        ioBuffer.position(3);
++
++        try {
++            ioBuffer.reset();
++            fail("An InvalidMarkException should have been thrown");
++        } catch (InvalidMarkException ime) {
++            // 
++        }
++    }
++
++    /**
+@@ -652,0 +689,27 @@
++        }
++    }
++
++    /**
++     * Test set position method over a buffer
++     */
++    @Test
++    public void testSetPositionBuffer() {
++        ByteBuffer bb1 = ByteBuffer.allocate(4);
++        bb1.put("012".getBytes());
++        bb1.flip();
++
++        ByteBuffer bb2 = ByteBuffer.allocate(4);
++        bb2.put("3456".getBytes());
++        bb2.flip();
++
++        ByteBuffer bb3 = ByteBuffer.allocate(4);
++        bb3.put("789".getBytes());
++        bb3.flip();
++
++        // The resulting buffer will be seen as "0123456789"
++        IoBuffer ioBuffer = IoBuffer.wrap(bb1, bb2, bb3);
++
++        // Check with random positions
++        for (int i : new int[] { 4, 6, 7, 8, 3, 9, 1, 5, 0, 2 }) {
++            ioBuffer.position(i);
++            assertEquals('0' + i, ioBuffer.get());
+@@ -827 +890 @@
+-            
++
+@@ -861 +924 @@
+-            
++
+@@ -896 +959 @@
+-            ioBuffer.rewind();            
++            ioBuffer.rewind();
+@@ -930 +993 @@
+-            
++
+@@ -951 +1014 @@
+-            ioBuffer.rewind();            
++            ioBuffer.rewind();
+@@ -975 +1038 @@
+-            
++
+@@ -978 +1041 @@
+-            
++
+

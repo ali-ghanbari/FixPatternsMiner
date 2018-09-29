@@ -1,0 +1,22 @@
+diff --git a/src/test/java/teammates/test/cases/ui/browsertests/AdminAccountManagementPageUiTest.java b/src/test/java/teammates/test/cases/ui/browsertests/AdminAccountManagementPageUiTest.java
+index 708eb92..246d593 100644
+--- a/src/test/java/teammates/test/cases/ui/browsertests/AdminAccountManagementPageUiTest.java
++++ b/src/test/java/teammates/test/cases/ui/browsertests/AdminAccountManagementPageUiTest.java
+@@ -43,0 +44 @@
++        testViewRecentActionsLink();
+@@ -75 +76 @@
+-        logPage.goToPreviousPage(AdminAccountManagementPage.class);
++        logPage.closeCurrentWindowAndSwitchToParentWindow();
+@@ -91,0 +93,2 @@
++        browser.driver.get(accountsPageUrl.toString());;
++        
+@@ -102 +105 @@
+-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
++        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
+diff --git a/src/test/java/teammates/test/pageobjects/AdminAccountManagementPage.java b/src/test/java/teammates/test/pageobjects/AdminAccountManagementPage.java
+index 9500b38..af7317b 100644
+--- a/src/test/java/teammates/test/pageobjects/AdminAccountManagementPage.java
++++ b/src/test/java/teammates/test/pageobjects/AdminAccountManagementPage.java
+@@ -38,0 +39 @@
++        switchToNewWindow();
+

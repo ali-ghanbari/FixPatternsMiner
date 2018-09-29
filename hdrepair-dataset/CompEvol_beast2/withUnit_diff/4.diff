@@ -1,0 +1,23 @@
+diff --git a/src/beast/util/TreeParser.java b/src/beast/util/TreeParser.java
+index ac3fb80..df3857e 100644
+--- a/src/beast/util/TreeParser.java
++++ b/src/beast/util/TreeParser.java
+@@ -176 +176 @@
+-        if( m_taxonset.get() == null && labels != null ) {
++        if( m_taxonset.get() == null && labels != null && isLabelledNewickInput.get() ) {
+diff --git a/src/test/beast/util/TreeParserTest.java b/src/test/beast/util/TreeParserTest.java
+index 778ee37..ba49e67 100644
+--- a/src/test/beast/util/TreeParserTest.java
++++ b/src/test/beast/util/TreeParserTest.java
+@@ -39 +39 @@
+-            boolean isLabeled = true;
++        boolean isLabeled = true;
+@@ -41,3 +41,4 @@
+-            TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
+-
+-            assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
++        TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
++        System.out.println("adfgad");
++        assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
++        // fix condition for adding the taxa and fix tree parse test
+

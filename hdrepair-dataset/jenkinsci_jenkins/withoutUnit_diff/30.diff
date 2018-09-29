@@ -1,0 +1,88 @@
+diff --git a/core/src/main/java/hudson/ClassicPluginStrategy.java b/core/src/main/java/hudson/ClassicPluginStrategy.java
+index 578fe58..db9ed76 100644
+--- a/core/src/main/java/hudson/ClassicPluginStrategy.java
++++ b/core/src/main/java/hudson/ClassicPluginStrategy.java
+@@ -276 +276 @@
+-        new DetachedPlugin("matrix-auth","1.535.*","1.0")
++        new DetachedPlugin("matrix-auth","1.535.*","1.0.2")
+diff --git a/core/src/main/resources/hudson/security/table.css b/core/src/main/resources/hudson/security/table.css
+deleted file mode 100644
+index 3a83f93..0000000
+--- a/core/src/main/resources/hudson/security/table.css
++++ /dev/null
+@@ -1,60 +0,0 @@
+-/*
+- * The MIT License
+- * 
+- * Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi, Seiji Sogabe
+- * 
+- * Permission is hereby granted, free of charge, to any person obtaining a copy
+- * of this software and associated documentation files (the "Software"), to deal
+- * in the Software without restriction, including without limitation the rights
+- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+- * copies of the Software, and to permit persons to whom the Software is
+- * furnished to do so, subject to the following conditions:
+- * 
+- * The above copyright notice and this permission notice shall be included in
+- * all copies or substantial portions of the Software.
+- * 
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+- * THE SOFTWARE.
+- */
+-.global-matrix-authorization-strategy-table {
+-  border-collapse: collapse;
+-  border-spacing: 0;
+-  border: 1px solid #D3D7CF;
+-}
+-
+-.global-matrix-authorization-strategy-table TH {
+-  padding: 0.2em;
+-}
+-
+-.global-matrix-authorization-strategy-table TD.blank {
+-  vertical-align: middle;
+-  padding: 0.2em;
+-}
+-
+-.global-matrix-authorization-strategy-table .caption-row TH {
+-  font-weight: lighter;
+-  writing-mode: tb-rl; /* works in IE, not FF */
+-  padding: 0;
+-}
+-
+-.global-matrix-authorization-strategy-table TD {
+-  border: 1px solid #D3D7CF;
+-}
+-
+-.global-matrix-authorization-strategy-table TD.left-most {
+-  text-align: left;
+-  border-left: none;
+-  white-space: nowrap;
+-}
+-
+-.global-matrix-authorization-strategy-table TD.stop {
+-  border-top: 1px solid white;
+-  border-right: 1px solid white;
+-  border-bottom: 1px solid white;
+-  white-space: nowrap;
+-}
+diff --git a/test/pom.xml b/test/pom.xml
+index 53b5eaf..53873cc 100644
+--- a/test/pom.xml
++++ b/test/pom.xml
+@@ -87 +87 @@
+-      <version>1.0</version>
++      <version>1.0.2</version>
+diff --git a/war/pom.xml b/war/pom.xml
+index 1b3d4b3..1c278de 100644
+--- a/war/pom.xml
++++ b/war/pom.xml
+@@ -344 +344 @@
+-                  <version>1.0</version>
++                  <version>1.0.2</version>
+

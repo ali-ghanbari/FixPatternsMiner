@@ -1,0 +1,136 @@
+diff --git a/api/src/main/java/brooklyn/management/Task.java b/api/src/main/java/brooklyn/management/Task.java
+index 390efc6..d61df79 100644
+--- a/api/src/main/java/brooklyn/management/Task.java
++++ b/api/src/main/java/brooklyn/management/Task.java
+@@ -23,0 +24,3 @@
++    /** whether task has been submitted; submitted tasks are normally expected to start running then complete,
++     * but unsubmitted tasks are sometimes passed around for someone else to submit them */
++    public boolean isSubmitted();
+diff --git a/core/src/main/java/brooklyn/entity/basic/AbstractEntity.groovy b/core/src/main/java/brooklyn/entity/basic/AbstractEntity.groovy
+index cd42c5c..1f37a24 100644
+--- a/core/src/main/java/brooklyn/entity/basic/AbstractEntity.groovy
++++ b/core/src/main/java/brooklyn/entity/basic/AbstractEntity.groovy
+@@ -276 +276,4 @@
+-        return inheritableConfig.get(key);
++        Object v = inheritableConfig.get(key);
++        //if config is set as a task, we wait for the task to complete
++        while (v in Task) { v = v.get() }
++        v
+@@ -281 +284,6 @@
+-        return inheritableConfig.put(key, val);
++        T oldVal = inheritableConfig.put(key, val);
++        if ((val in Task) && (!(val.isSubmitted()))) {
++            //if config is set as a task, we make sure it starts running
++            getExecutionContext().submit(val)
++        }
++        oldVal
+diff --git a/core/src/main/java/brooklyn/event/basic/AttributeMap.groovy b/core/src/main/java/brooklyn/event/basic/AttributeMap.groovy
+index 3a0aa33..9f67da4 100644
+--- a/core/src/main/java/brooklyn/event/basic/AttributeMap.groovy
++++ b/core/src/main/java/brooklyn/event/basic/AttributeMap.groovy
+@@ -64 +64 @@
+-        Preconditions.checkNotNull(node, "node is null")
++        if (node==null) return null
+diff --git a/core/src/main/java/brooklyn/event/basic/BasicConfigKey.groovy b/core/src/main/java/brooklyn/event/basic/BasicConfigKey.groovy
+index c634821..0af4e4f 100644
+--- a/core/src/main/java/brooklyn/event/basic/BasicConfigKey.groovy
++++ b/core/src/main/java/brooklyn/event/basic/BasicConfigKey.groovy
+@@ -24,0 +25,2 @@
++    /** @deprecated class argument should be first */
++    @Deprecated 
+@@ -25,0 +28,3 @@
++        this(type, name, description)
++    }
++    public BasicConfigKey(Class<T> type, String name, String description=name) {
+diff --git a/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy b/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy
+index ff81f79..8d508b9 100644
+--- a/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy
++++ b/core/src/main/java/brooklyn/management/internal/LocalSubscriptionManager.groovy
+@@ -97,0 +98 @@
++        s
+@@ -186 +187 @@
+-        return "Subscription[$id;$subscriber@"+makeEntitySensorToken(producer,sensor)+"]"
++        return "Subscription[$id;$subscriber@"+LocalSubscriptionManager.makeEntitySensorToken(producer,sensor)+"]"
+diff --git a/core/src/main/java/brooklyn/util/task/BasicTask.groovy b/core/src/main/java/brooklyn/util/task/BasicTask.groovy
+index c25ac14..ddc7fdd 100644
+--- a/core/src/main/java/brooklyn/util/task/BasicTask.groovy
++++ b/core/src/main/java/brooklyn/util/task/BasicTask.groovy
+@@ -63,0 +64,2 @@
++    
++    String blockingDetails = null;
+@@ -156 +158 @@
+-    // future --------------------
++    // basic fields --------------------
+@@ -157,0 +160,4 @@
++    public boolean isSubmitted() {
++        return submitTimeUtc>=0
++    }
++    
+@@ -194,2 +200,2 @@
+-
+-    String blockingDetails = null;
++    
++    // future value --------------------
+diff --git a/core/src/main/java/brooklyn/util/task/ExecutionContext.groovy b/core/src/main/java/brooklyn/util/task/ExecutionContext.groovy
+index 7252933..029fa60 100644
+--- a/core/src/main/java/brooklyn/util/task/ExecutionContext.groovy
++++ b/core/src/main/java/brooklyn/util/task/ExecutionContext.groovy
+@@ -48 +48,2 @@
+-        if (m.tags==null) m.tags = []; m.tags << tags
++        if (m.tags==null) m.tags = []; 
++        m.tags.addAll(tags)
+diff --git a/core/src/test/java/brooklyn/entity/basic/AttributeTest.groovy b/core/src/test/java/brooklyn/entity/basic/AttributeTest.groovy
+new file mode 100644
+index 0000000..b53c16d
+--- /dev/null
++++ b/core/src/test/java/brooklyn/entity/basic/AttributeTest.groovy
+@@ -0,0 +1,26 @@
++package brooklyn.entity.basic;
++
++import org.testng.Assert;
++import org.testng.annotations.Test
++
++import brooklyn.entity.LocallyManagedEntity
++import brooklyn.event.AttributeSensor
++import brooklyn.event.basic.BasicAttributeSensor
++
++public class AttributeTest {
++    static AttributeSensor<String> COLOR = new BasicAttributeSensor<String>(String.class, "my.color");
++
++    @Test
++    public void canGetAndSetAttribute() {
++        LocallyManagedEntity e = []
++        e.updateAttribute(COLOR, "red")
++        Assert.assertEquals(e.getAttribute(COLOR), "red")
++    }
++    
++    @Test
++    public void missingAttributeIsNull() {
++        LocallyManagedEntity e = []
++        Assert.assertEquals(e.getAttribute(COLOR), null)
++    }
++
++}
+diff --git a/core/src/test/java/brooklyn/entity/hello/HelloEntity.groovy b/core/src/test/java/brooklyn/entity/hello/HelloEntity.groovy
+index 272d4b2..6f51620 100644
+--- a/core/src/test/java/brooklyn/entity/hello/HelloEntity.groovy
++++ b/core/src/test/java/brooklyn/entity/hello/HelloEntity.groovy
+@@ -4 +3,0 @@
+-
+@@ -10,0 +10 @@
++import brooklyn.event.basic.BasicConfigKey
+@@ -11,0 +12 @@
++import brooklyn.event.basic.ConfigKey
+@@ -13 +14,2 @@
+-class HelloEntity extends AbstractGroup {
++
++public class HelloEntity extends AbstractGroup {
+@@ -17,2 +19,5 @@
+-    public static Sensor<String> MY_NAME = new BasicAttributeSensor<String>(String.class, "my.name");
+-
++    public static ConfigKey<String> MY_NAME = new BasicConfigKey<String>(String.class, "my.name");
++    
++    /** this "person"'s favourite name */
++    public static Sensor<String> FAVOURITE_NAME = new BasicAttributeSensor<String>(String.class, "my.favourite.name");
++    
+

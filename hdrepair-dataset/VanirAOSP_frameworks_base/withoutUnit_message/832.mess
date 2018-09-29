@@ -1,0 +1,10 @@
+Delay rendering into Surface until draw completed.
+
+Hold off on updating surface with animation until the Surface draw has
+completed. Previously we were calling Surface.setAlpha/setLayer/
+setMatrix prior to the app drawing into the surface. This fixes a bug
+that caused a flash of the target animation image before the animation
+had begun.
+
+Change-Id: Id9142e09b0b22d631dc002eba4dc787455dea03a
+

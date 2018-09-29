@@ -1,0 +1,16 @@
+diff --git a/src/org/traccar/protocol/Gps103ProtocolDecoder.java b/src/org/traccar/protocol/Gps103ProtocolDecoder.java
+index eac3933..72be07b 100644
+--- a/src/org/traccar/protocol/Gps103ProtocolDecoder.java
++++ b/src/org/traccar/protocol/Gps103ProtocolDecoder.java
+@@ -44 +44 @@
+-            "(\\d{2})(\\d{2})(\\d{2})\\.(\\d{3})," + // Time UTC (HHMMSS.SSS)
++            "(\\d{2})(\\d{2})(\\d{2})\\.(\\d+)," + // Time UTC (HHMMSS.SSS)
+diff --git a/test/org/traccar/protocol/Gps103ProtocolDecoderTest.java b/test/org/traccar/protocol/Gps103ProtocolDecoderTest.java
+index b5365f8..c536c58 100644
+--- a/test/org/traccar/protocol/Gps103ProtocolDecoderTest.java
++++ b/test/org/traccar/protocol/Gps103ProtocolDecoderTest.java
+@@ -106,0 +107,3 @@
++        
++        verify(decoder.decode(null, null,
++                "imei:866989771979791,tracker,140527055653,,F,215653.00,A,5050.33113,N,00336.98783,E,0.066,0"));
+

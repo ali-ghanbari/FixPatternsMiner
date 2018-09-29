@@ -1,0 +1,15 @@
+diff --git a/mes-plugins/mes-plugins-production-per-shift/src/main/java/com/qcadoo/mes/productionPerShift/hooks/ProductionPerShiftDetailsHooks.java b/mes-plugins/mes-plugins-production-per-shift/src/main/java/com/qcadoo/mes/productionPerShift/hooks/ProductionPerShiftDetailsHooks.java
+index 34c9ac2..10d789b 100644
+--- a/mes-plugins/mes-plugins-production-per-shift/src/main/java/com/qcadoo/mes/productionPerShift/hooks/ProductionPerShiftDetailsHooks.java
++++ b/mes-plugins/mes-plugins-production-per-shift/src/main/java/com/qcadoo/mes/productionPerShift/hooks/ProductionPerShiftDetailsHooks.java
+@@ -372 +372 @@
+-        return new Date(startOrder.getTime() + day * MILLISECONDS_OF_ONE_DAY);
++        return new Date(startOrder.getTime() + (day - 1) * MILLISECONDS_OF_ONE_DAY);
+diff --git a/mes-plugins/mes-plugins-production-per-shift/src/main/resources/productionPerShift/model/progressForDay.xml b/mes-plugins/mes-plugins-production-per-shift/src/main/resources/productionPerShift/model/progressForDay.xml
+index 6200115..1bf1e26 100644
+--- a/mes-plugins/mes-plugins-production-per-shift/src/main/resources/productionPerShift/model/progressForDay.xml
++++ b/mes-plugins/mes-plugins-production-per-shift/src/main/resources/productionPerShift/model/progressForDay.xml
+@@ -14 +14 @@
+-	    </hooks>
++	</hooks>
+

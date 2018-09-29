@@ -1,0 +1,22 @@
+diff --git a/modules/http-server/src/main/java/org/glassfish/grizzly/http/server/filecache/FileCache.java b/modules/http-server/src/main/java/org/glassfish/grizzly/http/server/filecache/FileCache.java
+index eac1d9d..828e3d5 100644
+--- a/modules/http-server/src/main/java/org/glassfish/grizzly/http/server/filecache/FileCache.java
++++ b/modules/http-server/src/main/java/org/glassfish/grizzly/http/server/filecache/FileCache.java
+@@ -205 +205 @@
+-        entry.contentType = headers.getHeader("Content-type");
++        entry.contentType = response.getContentType();
+diff --git a/modules/http-server/src/test/java/org/glassfish/grizzly/http/server/FileCacheTest.java b/modules/http-server/src/test/java/org/glassfish/grizzly/http/server/FileCacheTest.java
+index d55332c..6082d08 100644
+--- a/modules/http-server/src/test/java/org/glassfish/grizzly/http/server/FileCacheTest.java
++++ b/modules/http-server/src/test/java/org/glassfish/grizzly/http/server/FileCacheTest.java
+@@ -130 +129,0 @@
+-//    @Ignore
+@@ -148,0 +148 @@
++                        res.setHeader("Content-Type", "text/xml");
+@@ -197,0 +198 @@
++            assertEquals("ContentType is wrong " + response2.getHttpHeader().getContentType(), "text/xml", response2.getHttpHeader().getContentType());
+@@ -208,2 +209 @@
+-
+-//    @Ignore
++    
+

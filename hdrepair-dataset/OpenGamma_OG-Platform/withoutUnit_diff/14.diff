@@ -1,0 +1,27 @@
+diff --git a/projects/OG-Web/src/main/java/com/opengamma/web/analytics/formatting/ValuePropertiesFormatter.java b/projects/OG-Web/src/main/java/com/opengamma/web/analytics/formatting/ValuePropertiesFormatter.java
+index a4b5e33..7bd0793 100644
+--- a/projects/OG-Web/src/main/java/com/opengamma/web/analytics/formatting/ValuePropertiesFormatter.java
++++ b/projects/OG-Web/src/main/java/com/opengamma/web/analytics/formatting/ValuePropertiesFormatter.java
+@@ -45 +45 @@
+-        output.put(LabelledMatrix2DFormatter.X_LABELS, Lists.newArrayList("Value", "Optional"));
++        output.put(LabelledMatrix2DFormatter.X_LABELS, Lists.newArrayList("Property", "Value", "Optional"));
+diff --git a/projects/OG-Web/web-engine/prototype/scripts/og/analytics/og.analytics.clipboard.js b/projects/OG-Web/web-engine/prototype/scripts/og/analytics/og.analytics.clipboard.js
+index cdf2262..386d5d5 100644
+--- a/projects/OG-Web/web-engine/prototype/scripts/og/analytics/og.analytics.clipboard.js
++++ b/projects/OG-Web/web-engine/prototype/scripts/og/analytics/og.analytics.clipboard.js
+@@ -14,0 +15 @@
++            DOUBLE_GADGET: function (value) {return value.v || '';},
+diff --git a/projects/OG-Web/web-engine/prototype/scripts/og/common/gadgets/og.common.gadgets.data.js b/projects/OG-Web/web-engine/prototype/scripts/og/common/gadgets/og.common.gadgets.data.js
+index dfae8b5..b4548a2 100644
+--- a/projects/OG-Web/web-engine/prototype/scripts/og/common/gadgets/og.common.gadgets.data.js
++++ b/projects/OG-Web/web-engine/prototype/scripts/og/common/gadgets/og.common.gadgets.data.js
+@@ -9 +9 @@
+-        var module = this, Grid = og.analytics.Grid, loading_template, formatters, char_width = 9,
++        var module = this, Grid = og.analytics.Grid, loading_template, formatters, char_width = 8,
+@@ -74 +74 @@
+-                    fixed_width = data.yLabels[rows.length - 1].length * char_width;
++                    fixed_width = Math.max.apply(null, data.yLabels.pluck('length')) * char_width;
+@@ -76 +76 @@
+-                    meta: meta(dataman, rows.length, cols, fixed_width),
++                    meta: meta(dataman, rows.length, cols, fixed_width, cols.length === 1 + data.matrix[0].length),
+

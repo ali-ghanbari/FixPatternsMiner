@@ -1,0 +1,8 @@
+diff --git a/opennms-services/src/main/java/org/opennms/netmgt/poller/pollables/PollableServiceConfig.java b/opennms-services/src/main/java/org/opennms/netmgt/poller/pollables/PollableServiceConfig.java
+index b139bc9..fc73f0e 100644
+--- a/opennms-services/src/main/java/org/opennms/netmgt/poller/pollables/PollableServiceConfig.java
++++ b/opennms-services/src/main/java/org/opennms/netmgt/poller/pollables/PollableServiceConfig.java
+@@ -228 +228 @@
+-                ThreadCategory.getInstance(getClass()).error("Downtime model is invalid on package " + m_pkg.getName() + ", cannot schedule service " + m_service);
++                LOG.error("Downtime model is invalid on package {}, cannot schedule service {}", m_pkg.getName(), m_service);
+

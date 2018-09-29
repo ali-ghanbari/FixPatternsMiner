@@ -1,0 +1,37 @@
+1154:
+
+This release features foaf-routing but it's disabled by default until we figure out a way to secure it (http://archives.freenetproject.org/message/20080718.144240.359e16d3.en.html).
+
+misc:
+	- generate some disk accesses in case we can't get enough entropy from the OS' PRNG to seed Yarrow (http://archives.freenetproject.org/message/20080718.112101.c0097b96.en.html) 
+	- optimize the temporary files deletion code
+	- backport of r21227 to trunk (fix to the logic of FECCodec in case we run OOM)
+	- reduce MAX_RECEIVE_SIZE to 1500 in UdpSocketHandler (might fix a weird problem people have experienced on macos when receiving jumbo-packets)
+	- make PacketThrottle handle up to 1M/s per peer
+	- fix a race-condition in the config framework
+
+fcp:
+	- implement bug #2443: Acknowledge SubscribeUSK
+
+content-filter:
+	- fix bug #2297: One should be able to link to /static
+	- fix bug #2451: "Could not parse own URI" on anarchophiles
+
+l10n:
+	- fix a stupid bug which prevents override files from being read
+	- fix a potential NPE
+	- update to the italian translation by Luke711
+	- update to the chinese translation by yongjhen
+
+updater:
+	- Hopefully fix a few locking-related bugs in the updater. (backport of r21089 and r21090 in a different way)
+
+Some logging improvements, changes to the unit tests... and other minor stuffs.
+
+Authors:
+	- nextgens
+	- toad (backported fixes)
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@21278 67a373e5-eb02-0410-a15c-ee090a768436
+

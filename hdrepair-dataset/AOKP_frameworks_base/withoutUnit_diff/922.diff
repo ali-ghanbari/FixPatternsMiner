@@ -1,0 +1,1793 @@
+diff --git a/api/current.xml b/api/current.xml
+index f49098e..def9281 100644
+--- a/api/current.xml
++++ b/api/current.xml
+@@ -148841,0 +148842,11 @@
++<field name="TWEET_TRANSACTION"
++ type="int"
++ transient="false"
++ volatile="false"
++ value="1599362900"
++ static="true"
++ final="true"
++ deprecated="not deprecated"
++ visibility="public"
++>
++</field>
+diff --git a/core/java/android/os/IBinder.java b/core/java/android/os/IBinder.java
+index 8876354..81defd6 100644
+--- a/core/java/android/os/IBinder.java
++++ b/core/java/android/os/IBinder.java
+@@ -112,0 +113,18 @@
++     * IBinder protocol transaction code: send a tweet to the target
++     * object.  The data in the parcel is intended to be delivered to
++     * a shared messaging service associated with the object; it can be
++     * anything, as long as it is not more than 130 UTF-8 characters to
++     * conservatively fit within common messaging services.  As part of
++     * {@link Build.VERSION_CODES#HONEYCOMB_MR2}, all Binder objects are
++     * expected to support this protocol for fully integrated tweeting
++     * across the platform.  To support older code, the default implementation
++     * logs the tweet to the main log as a simple emulation of broadcasting
++     * it publicly over the Internet.
++     * 
++     * <p>Also, upon completing the dispatch, the object must make a cup
++     * of tea, return it to the caller, and exclaim "jolly good message
++     * old boy!".
++     */
++    int TWEET_TRANSACTION   = ('_'<<24)|('T'<<16)|('W'<<8)|'T';
++
++    /**
+diff --git a/core/res/res/values-ar/strings.xml b/core/res/res/values-ar/strings.xml
+index 06d1086..5d46b8a 100644
+--- a/core/res/res/values-ar/strings.xml
++++ b/core/res/res/values-ar/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"تغيير سرعة المؤشر"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"للسماح لتطبيق ما بتغيير سرعة مؤشر الماوس أو اللوحة اللمسية في أي وقت. لا يجب استخدامه على الإطلاق للتطبيقات العادية."</string>
+diff --git a/core/res/res/values-bg/strings.xml b/core/res/res/values-bg/strings.xml
+index 3791aac..238d9b8 100644
+--- a/core/res/res/values-bg/strings.xml
++++ b/core/res/res/values-bg/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"промяна на скоростта на курсор"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Разрешава на приложението да променя скоростта на курсора на мишката или на тракпада по всяко време. Обичайните приложения не би трябвало никога да се нуждаят от това."</string>
+diff --git a/core/res/res/values-ca/strings.xml b/core/res/res/values-ca/strings.xml
+index 09d244d..f2ac1d2 100644
+--- a/core/res/res/values-ca/strings.xml
++++ b/core/res/res/values-ca/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"canvi de velocitat del punter"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Permet que una aplicació canviï la velocitat del punter del ratolí o del ratolí tàctil en qualsevol moment. Mai no s\'hauria de necessitar per a les aplicacions normals."</string>
+diff --git a/core/res/res/values-cs/strings.xml b/core/res/res/values-cs/strings.xml
+index c99c3c1..3cc182b 100644
+--- a/core/res/res/values-cs/strings.xml
++++ b/core/res/res/values-cs/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"změna rychlosti kurzoru"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Umožňuje aplikaci kdykoli změnit rychlost kurzoru myši nebo trackpadu. U běžných aplikací by to nikdy nemělo být potřeba."</string>
+diff --git a/core/res/res/values-da/strings.xml b/core/res/res/values-da/strings.xml
+index ae89b65..88dc4dd 100644
+--- a/core/res/res/values-da/strings.xml
++++ b/core/res/res/values-da/strings.xml
+@@ -143 +143 @@
+-    <string name="no_recent_tasks" msgid="279702952298056674">"Der er ingen nye programmer."</string>
++    <string name="no_recent_tasks" msgid="279702952298056674">"Der er ingen nye applikationer."</string>
+@@ -158 +158 @@
+-    <string name="permgroupdesc_costMoney" msgid="8193824940620517189">"Tillader, at et program kan gøre ting, som kan koste penge."</string>
++    <string name="permgroupdesc_costMoney" msgid="8193824940620517189">"Tillader, at en applikation kan gøre ting, som kan koste penge."</string>
+@@ -167 +167 @@
+-    <string name="permgroupdesc_network" msgid="5035763698958415998">"Tillader, at programmerne får adgang til forskellige netværksfunktioner."</string>
++    <string name="permgroupdesc_network" msgid="5035763698958415998">"Tillader, at applikationerne får adgang til forskellige netværksfunktioner."</string>
+@@ -182 +182 @@
+-    <string name="permdesc_statusBar" msgid="1365473595331989732">"Tillader, at et program deaktiverer statuslinjen eller tilføjer eller fjerner systemikoner."</string>
++    <string name="permdesc_statusBar" msgid="1365473595331989732">"Tillader, at en applikation deaktiverer statuslinjen eller tilføjer eller fjerner systemikoner."</string>
+@@ -184 +184 @@
+-    <string name="permdesc_statusBarService" msgid="4097605867643520920">"Tillader, at programmet er statusbjælken."</string>
++    <string name="permdesc_statusBarService" msgid="4097605867643520920">"Tillader, at applikationen er statusbjælken."</string>
+@@ -186 +186 @@
+-    <string name="permdesc_expandStatusBar" msgid="7088604400110768665">"Tillader, at et program udvider eller skjuler statuslinjen."</string>
++    <string name="permdesc_expandStatusBar" msgid="7088604400110768665">"Tillader, at en applikation udvider eller skjuler statuslinjen."</string>
+@@ -188 +188 @@
+-    <string name="permdesc_processOutgoingCalls" msgid="2228988201852654461">"Tillader, at et program behandler udgående opkald og ændrer det nummer, der ringes til. Ondsindede programmer kan overvåge, omdirigere eller forhindre udgående opkald."</string>
++    <string name="permdesc_processOutgoingCalls" msgid="2228988201852654461">"Tillader, at en applikation behandler udgående opkald og ændrer det nummer, der ringes til. Ondsindede applikationer kan overvåge, omdirigere eller forhindre udgående opkald."</string>
+@@ -190 +190 @@
+-    <string name="permdesc_receiveSms" msgid="6298292335965966117">"Tillader, at et program modtager og behandler sms-beskeder. Ondsindede programmer kan overvåge dine beskeder eller slette dem uden at vise dem til dig."</string>
++    <string name="permdesc_receiveSms" msgid="6298292335965966117">"Tillader, at en applikation modtager og behandler sms-beskeder. Ondsindede applikationer kan overvåge dine beskeder eller slette dem uden at vise dem til dig."</string>
+@@ -192 +192 @@
+-    <string name="permdesc_receiveMms" msgid="4563346832000174373">"Tillader, at et program modtager og behandler mms-beskeder. Ondsindede programmer kan overvåge dine beskeder eller slette dem uden at vise dem til dig."</string>
++    <string name="permdesc_receiveMms" msgid="4563346832000174373">"Tillader, at en applikation modtager og behandler mms-beskeder. Ondsindede applikationer kan overvåge dine beskeder eller slette dem uden at vise dem til dig."</string>
+@@ -194 +194 @@
+-    <string name="permdesc_sendSms" msgid="1946540351763502120">"Tillader, at et program at sender sms-beskeder. Ondsindede programmer kan eventuelt koste dig penge ved at sende beskeder uden din bekræftelse."</string>
++    <string name="permdesc_sendSms" msgid="1946540351763502120">"Tillader, at en applikation at sender sms-beskeder. Ondsindede applikationer kan eventuelt koste dig penge ved at sende beskeder uden din bekræftelse."</string>
+@@ -196,2 +196,2 @@
+-    <string name="permdesc_readSms" product="tablet" msgid="5836710350295631545">"Tillader, at et program læser sms-beskeder, der er gemt på din tabletcomputer eller dit SIM-kort. Ondsindede programmer kan eventuelt læse dine fortrolige beskeder."</string>
+-    <string name="permdesc_readSms" product="default" msgid="3002170087197294591">"Tillader, at et program læser sms-beskeder, der er gemt på din telefon eller dit SIM-kort. Ondsindede programmer kan eventuelt læse dine fortrolige beskeder."</string>
++    <string name="permdesc_readSms" product="tablet" msgid="5836710350295631545">"Tillader, at en applikation læser sms-beskeder, der er gemt på din tabletcomputer eller dit SIM-kort. Ondsindede applikationer kan eventuelt læse dine fortrolige beskeder."</string>
++    <string name="permdesc_readSms" product="default" msgid="3002170087197294591">"Tillader, at en applikation læser sms-beskeder, der er gemt på din telefon eller dit SIM-kort. Ondsindede applikationer kan eventuelt læse dine fortrolige beskeder."</string>
+@@ -199,2 +199,2 @@
+-    <string name="permdesc_writeSms" product="tablet" msgid="5332124772918835437">"Tillader, at et program skriver i sms-beskeder, der er gemt på din tabletcomputer eller dit SIM-kort. Ondsindede programmer kan eventuelt slette dine beskeder."</string>
+-    <string name="permdesc_writeSms" product="default" msgid="6299398896177548095">"Tillader, at et program skriver i sms-beskeder, der er gemt på din telefon eller dit SIM-kort. Ondsindede programmer kan eventuelt slette dine beskeder."</string>
++    <string name="permdesc_writeSms" product="tablet" msgid="5332124772918835437">"Tillader, at en applikation skriver i sms-beskeder, der er gemt på din tabletcomputer eller dit SIM-kort. Ondsindede applikationer kan eventuelt slette dine beskeder."</string>
++    <string name="permdesc_writeSms" product="default" msgid="6299398896177548095">"Tillader, at en applikation skriver i sms-beskeder, der er gemt på din telefon eller dit SIM-kort. Ondsindede applikationer kan eventuelt slette dine beskeder."</string>
+@@ -202,5 +202,5 @@
+-    <string name="permdesc_receiveWapPush" msgid="5979623826128082171">"Tillader, at et program modtager og behandler WAP-beskeder. Ondsindede programmer kan overvåge dine beskeder eller slette dem uden at vise dem til dig."</string>
+-    <string name="permlab_getTasks" msgid="5005277531132573353">"hent kørende programmer"</string>
+-    <string name="permdesc_getTasks" msgid="7048711358713443341">"Tillader, at et program henter oplysninger om nuværende og for nyligt kørende opgaver. Tillader, at eventuelt ondsindede programmer finder private oplysninger om andre programmer."</string>
+-    <string name="permlab_reorderTasks" msgid="5669588525059921549">"omorganiser kørende programmer"</string>
+-    <string name="permdesc_reorderTasks" msgid="126252774270522835">"Tillader, at et program flytter opgaver til forgrunden og baggrunden. Ondsindede programmer kan tvinge dem selv til forgrunden uden din kontrol."</string>
++    <string name="permdesc_receiveWapPush" msgid="5979623826128082171">"Tillader, at en applikation modtager og behandler WAP-beskeder. Ondsindede applikationer kan overvåge dine beskeder eller slette dem uden at vise dem til dig."</string>
++    <string name="permlab_getTasks" msgid="5005277531132573353">"hent kørende applikationer"</string>
++    <string name="permdesc_getTasks" msgid="7048711358713443341">"Tillader, at en applikation henter oplysninger om nuværende og for nyligt kørende opgaver. Tillader, at eventuelt ondsindede applikationer finder private oplysninger om andre applikationer."</string>
++    <string name="permlab_reorderTasks" msgid="5669588525059921549">"omorganiser kørende applikationer"</string>
++    <string name="permdesc_reorderTasks" msgid="126252774270522835">"Tillader, at en applikation flytter opgaver til forgrunden og baggrunden. Ondsindede applikationer kan tvinge dem selv til forgrunden uden din kontrol."</string>
+@@ -208 +208 @@
+-    <string name="permdesc_setDebugApp" msgid="5584310661711990702">"Tillader, at et program slår fejlretning af andet program til. Ondsindede programmer kan bruge dette til at standse andre programmer."</string>
++    <string name="permdesc_setDebugApp" msgid="5584310661711990702">"Tillader, at en applikation slår fejlretning af en anden applikation til. Ondsindede applikationer kan bruge dette til at standse andre applikationer."</string>
+@@ -210 +210 @@
+-    <string name="permdesc_changeConfiguration" msgid="3465121501528064399">"Tillader, at et program ændrer den nuværende konfiguration, f.eks. den lokale eller overordnede skrifttypestørrelse."</string>
++    <string name="permdesc_changeConfiguration" msgid="3465121501528064399">"Tillader, at en applikation ændrer den nuværende konfiguration, f.eks. den lokale eller overordnede skrifttypestørrelse."</string>
+@@ -212 +212 @@
+-    <string name="permdesc_enableCarMode" msgid="5673461159384850628">"Tillader et program at aktivere biltilstand."</string>
++    <string name="permdesc_enableCarMode" msgid="5673461159384850628">"Tillader en applikation at aktivere biltilstand."</string>
+@@ -214,5 +214,5 @@
+-    <string name="permdesc_killBackgroundProcesses" msgid="2908829602869383753">"Tillader et program at standse andre programmers baggrundsprocesser, selvom der ikke er mangel på hukommelse."</string>
+-    <string name="permlab_forceStopPackages" msgid="1447830113260156236">"tvangsstandse andre programmer"</string>
+-    <string name="permdesc_forceStopPackages" msgid="7263036616161367402">"Tillader, at et program tvangsstopper andre programmer."</string>
+-    <string name="permlab_forceBack" msgid="1804196839880393631">"tving programmet til at lukke"</string>
+-    <string name="permdesc_forceBack" msgid="6534109744159919013">"Tillader, at et program tvinger alle programmer, der er i forgrunden, til at lukke og køre i baggrunden. Bør aldrig være nødvendigt til normale programmer."</string>
++    <string name="permdesc_killBackgroundProcesses" msgid="2908829602869383753">"Tillader en applikation at standse andre programmers baggrundsprocesser, selvom der ikke er mangel på hukommelse."</string>
++    <string name="permlab_forceStopPackages" msgid="1447830113260156236">"tvangsstandse andre applikationer"</string>
++    <string name="permdesc_forceStopPackages" msgid="7263036616161367402">"Tillader, at en applikation tvangsstopper andre applikationer."</string>
++    <string name="permlab_forceBack" msgid="1804196839880393631">"tving applikationen til at lukke"</string>
++    <string name="permdesc_forceBack" msgid="6534109744159919013">"Tillader, at en applikation tvinger alle applikationer, der er i forgrunden, til at lukke og køre i baggrunden. Bør aldrig være nødvendigt til normale applikationer."</string>
+@@ -220 +220 @@
+-    <string name="permdesc_dump" msgid="2198776174276275220">"Tillader, at et program henter systemets interne tilstand. Ondsindede programmer kan hente en række private og sikre oplysninger, som de normalt aldrig bør have brug for."</string>
++    <string name="permdesc_dump" msgid="2198776174276275220">"Tillader, at en applikation henter systemets interne tilstand. Ondsindede applikationer kan hente en række private og sikre oplysninger, som de normalt aldrig bør have brug for."</string>
+@@ -224,3 +224,3 @@
+-    <string name="permdesc_stopAppSwitches" msgid="3857886086919033794">"Forhindrer brugeren i at skifte til et andet program."</string>
+-    <string name="permlab_runSetActivityWatcher" msgid="7811586187574696296">"overvåg og kontroller start af alle programmer"</string>
+-    <string name="permdesc_runSetActivityWatcher" msgid="2149363027173451218">"Tillader, at et program overvåger og kontrollerer, hvordan systemet starter aktiviteter. Ondsindede programmer kan fuldstændigt kompromittere systemet. Denne tilladelse er kun nødvendig til udvikling, aldrig til normal brug."</string>
++    <string name="permdesc_stopAppSwitches" msgid="3857886086919033794">"Forhindrer brugeren i at skifte til en anden applikation."</string>
++    <string name="permlab_runSetActivityWatcher" msgid="7811586187574696296">"overvåg og kontroller start af alle applikationer"</string>
++    <string name="permdesc_runSetActivityWatcher" msgid="2149363027173451218">"Tillader, at en applikation overvåger og kontrollerer, hvordan systemet starter aktiviteter. Ondsindede applikationer kan fuldstændigt kompromittere systemet. Denne tilladelse er kun nødvendig til udvikling, aldrig til normal brug."</string>
+@@ -228 +228 @@
+-    <string name="permdesc_broadcastPackageRemoved" msgid="3453286591439891260">"Tillader, at et program udsender en meddelelse om, at en programpakke er fjernet. Ondsindede programmer kan bruge dette til at afslutte et andet kørende program."</string>
++    <string name="permdesc_broadcastPackageRemoved" msgid="3453286591439891260">"Tillader, at en applikation udsender en meddelelse om, at en applikationspakke er fjernet. Ondsindede applikationer kan bruge dette til at afslutte en anden kørende applikation."</string>
+@@ -230 +230 @@
+-    <string name="permdesc_broadcastSmsReceived" msgid="9122419277306740155">"Tillader, at et program udsender en meddelelse om, at der er modtaget en sms-besked. Ondsindede programmer kan eventuelt bruge dette til at forfalske indgående sms-beskeder."</string>
++    <string name="permdesc_broadcastSmsReceived" msgid="9122419277306740155">"Tillader, at en applikation udsender en meddelelse om, at der er modtaget en sms-besked. Ondsindede applikationer kan eventuelt bruge dette til at forfalske indgående sms-beskeder."</string>
+@@ -232 +232 @@
+-    <string name="permdesc_broadcastWapPush" msgid="3955303669461378091">"Tillader, at et program udsender en meddelelse om, at der er modtaget en WAP PUSH-besked. Ondsindede programmer kan eventuelt bruge dette til at forfalske modtagelse af mms-besked eller i det skjulte erstatte indholdet på alle websider med ondsindede varianter."</string>
++    <string name="permdesc_broadcastWapPush" msgid="3955303669461378091">"Tillader, at en applikation udsender en meddelelse om, at der er modtaget en WAP PUSH-besked. Ondsindede applikationer kan eventuelt bruge dette til at forfalske modtagelse af mms-besked eller i det skjulte erstatte indholdet på alle websider med ondsindede varianter."</string>
+@@ -234 +234 @@
+-    <string name="permdesc_setProcessLimit" msgid="7824786028557379539">"Tillader, at et program kontrollerer det maksimale antal processer, der kan køre. Er aldrig nødvendigt til normale programmer."</string>
++    <string name="permdesc_setProcessLimit" msgid="7824786028557379539">"Tillader, at en applikation kontrollerer det maksimale antal processer, der kan køre. Er aldrig nødvendigt til normale applikationer."</string>
+@@ -236 +236 @@
+-    <string name="permdesc_setAlwaysFinish" msgid="8773936403987091620">"Tillader, at et program kontrollerer, om aktiviteter altid afsluttes, så snart de går i baggrunden. Aldrig nødvendigt til normale programmer."</string>
++    <string name="permdesc_setAlwaysFinish" msgid="8773936403987091620">"Tillader, at en applikation kontrollerer, om aktiviteter altid afsluttes, så snart de går i baggrunden. Aldrig nødvendigt til normale applikationer."</string>
+@@ -238 +238 @@
+-    <string name="permdesc_batteryStats" msgid="5847319823772230560">"Tillader ændring af indsamlede batteristatistikker. Ikke til brug for normale programmer."</string>
++    <string name="permdesc_batteryStats" msgid="5847319823772230560">"Tillader ændring af indsamlede batteristatistikker. Ikke til brug for normale applikationer."</string>
+@@ -240 +240 @@
+-    <string name="permdesc_backup" msgid="4837493065154256525">"Tillader, at et program kontrollerer systemets sikkerhedskopierings- og gendannelsesfunktion. Ikke til brug til normale programmer."</string>
++    <string name="permdesc_backup" msgid="4837493065154256525">"Tillader, at en applikation kontrollerer systemets sikkerhedskopierings- og gendannelsesfunktion. Ikke til brug til normale applikationer."</string>
+@@ -242 +242 @@
+-    <string name="permdesc_internalSystemWindow" msgid="5895082268284998469">"Tillader oprettelse af vinduer, der er beregnet til at blive brugt af den interne systembrugergrænseflade. Ikke til brug for normale programmer."</string>
++    <string name="permdesc_internalSystemWindow" msgid="5895082268284998469">"Tillader oprettelse af vinduer, der er beregnet til at blive brugt af den interne systembrugergrænseflade. Ikke til brug for normale applikationer."</string>
+@@ -244 +244 @@
+-    <string name="permdesc_systemAlertWindow" msgid="2884149573672821318">"Tillader, at et program viser vinduer med systemunderretninger. Ondsindede programmer kan overtage hele skærmen."</string>
++    <string name="permdesc_systemAlertWindow" msgid="2884149573672821318">"Tillader, at en applikation viser vinduer med systemunderretninger. Ondsindede applikationer kan overtage hele skærmen."</string>
+@@ -246 +246 @@
+-    <string name="permdesc_setAnimationScale" msgid="7181522138912391988">"Tillader, at et program altid kan ændre den globale animationshastighed (hurtigere eller langsommere animationer)."</string>
++    <string name="permdesc_setAnimationScale" msgid="7181522138912391988">"Tillader, at en applikation altid kan ændre den globale animationshastighed (hurtigere eller langsommere animationer)."</string>
+@@ -248 +248 @@
+-    <string name="permdesc_manageAppTokens" msgid="977127907524195988">"Tillader, at programmet opretter og administrerer sine egen tokens og gå uden om sin normale Z-rækkefølge. Bør aldrig være nødvendigt til normale programmer."</string>
++    <string name="permdesc_manageAppTokens" msgid="977127907524195988">"Tillader, at applikationen opretter og administrerer sine egen tokens og gå uden om sin normale Z-rækkefølge. Bør aldrig være nødvendigt til normale applikationer."</string>
+@@ -250,2 +250,2 @@
+-    <string name="permdesc_injectEvents" product="tablet" msgid="7200014808195664505">"Tillader, at et program leverer sine egne inputbegivenheder (tastetryk osv.) til andre programmer. Ondsindede programmer kan bruge dette til at overtage tabletcomputeren."</string>
+-    <string name="permdesc_injectEvents" product="default" msgid="3946098050410874715">"Tillader, at et program leverer sine egne inputbegivenheder (tastetryk osv.) til andre programmer. Ondsindede programmer kan bruge dette til at overtage telefonen."</string>
++    <string name="permdesc_injectEvents" product="tablet" msgid="7200014808195664505">"Tillader, at en applikation leverer sine egne inputbegivenheder (tastetryk osv.) til andre applikationer. Ondsindede applikationer kan bruge dette til at overtage tabletcomputeren."</string>
++    <string name="permdesc_injectEvents" product="default" msgid="3946098050410874715">"Tillader, at en applikation leverer sine egne inputbegivenheder (tastetryk osv.) til andre applikationer. Ondsindede applikationer kan bruge dette til at overtage telefonen."</string>
+@@ -253 +253 @@
+-    <string name="permdesc_readInputState" msgid="5132879321450325445">"Tillader, at et program registrerer taster, du trykker på, selv når du interagerer med andre programmer (f.eks. ved indtastning af adgangskode). Bør aldrig være nødvendigt til normale programmer."</string>
++    <string name="permdesc_readInputState" msgid="5132879321450325445">"Tillader, at en applikation registrerer taster, du trykker på, selv når du interagerer med andre applikationer (f.eks. ved indtastning af adgangskode). Bør aldrig være nødvendigt til normale applikationer."</string>
+@@ -255 +255 @@
+-    <string name="permdesc_bindInputMethod" msgid="3734838321027317228">"Tillader, at brugeren forpligter sig til en inputmetodes grænseflade på øverste niveau. Bør aldrig være nødvendig til normale programmer."</string>
++    <string name="permdesc_bindInputMethod" msgid="3734838321027317228">"Tillader, at brugeren forpligter sig til en inputmetodes grænseflade på øverste niveau. Bør aldrig være nødvendig til normale applikationer."</string>
+@@ -257 +257 @@
+-    <string name="permdesc_bindWallpaper" msgid="5287754520361915347">"Tillader, at brugeren forpligter sig til et tapets grænseflade på øverste niveau. Bør aldrig være nødvendig til normale programmer."</string>
++    <string name="permdesc_bindWallpaper" msgid="5287754520361915347">"Tillader, at brugeren forpligter sig til et tapets grænseflade på øverste niveau. Bør aldrig være nødvendig til normale applikationer."</string>
+@@ -261 +261 @@
+-    <string name="permdesc_bindDeviceAdmin" msgid="8714424333082216979">"Tillader brugeren at sende hensigter til en enhedsadministrator. Bør aldrig være nødvendigt for almindelige programmer."</string>
++    <string name="permdesc_bindDeviceAdmin" msgid="8714424333082216979">"Tillader brugeren at sende hensigter til en enhedsadministrator. Bør aldrig være nødvendigt for almindelige applikationer."</string>
+@@ -263,11 +263,9 @@
+-    <string name="permdesc_setOrientation" msgid="6335814461615851863">"Tillader, at et program ændrer rotationen af skærmen når som helst. Bør aldrig være nødvendigt til normale programmer."</string>
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
+-    <string name="permlab_signalPersistentProcesses" msgid="4255467255488653854">"send Linux-signaler til programmer"</string>
+-    <string name="permdesc_signalPersistentProcesses" msgid="3565530463215015289">"Tillader, at programmet kan anmode om, at det leverede signal sendes til alle vedholdende processer."</string>
+-    <string name="permlab_persistentActivity" msgid="8659652042401085862">"lad altid programmet køre"</string>
+-    <string name="permdesc_persistentActivity" msgid="5037199778265006008">"Tillader, at et program gør dele af sig selv vedholdende, så systemet ikke kan bruge det til andre programmer."</string>
+-    <string name="permlab_deletePackages" msgid="3343439331576348805">"slet programmer"</string>
+-    <string name="permdesc_deletePackages" msgid="3634943677518723314">"Tillader, at et program sletter Android-pakker. Ondsindede programmer kan bruge dette til at slette vigtige programmer."</string>
++    <string name="permdesc_setOrientation" msgid="6335814461615851863">"Tillader, at en applikation ændrer rotationen af skærmen når som helst. Bør aldrig være nødvendigt til normale applikationer."</string>
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"ændre markørens hastighed"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Tillader, at en applikation altid kan ændre muse- eller pegefeltmarkørens hastighed. Burde ikke være nødvendigt i normale applikationer."</string>
++    <string name="permlab_signalPersistentProcesses" msgid="4255467255488653854">"send Linux-signaler til applikationer"</string>
++    <string name="permdesc_signalPersistentProcesses" msgid="3565530463215015289">"Tillader, at applikationen kan anmode om, at det leverede signal sendes til alle vedholdende processer."</string>
++    <string name="permlab_persistentActivity" msgid="8659652042401085862">"lad altid applikationen køre"</string>
++    <string name="permdesc_persistentActivity" msgid="5037199778265006008">"Tillader, at en applikation gør dele af sig selv vedholdende, så systemet ikke kan bruge det til andre applikationer."</string>
++    <string name="permlab_deletePackages" msgid="3343439331576348805">"slet applikationer"</string>
++    <string name="permdesc_deletePackages" msgid="3634943677518723314">"Tillader, at en applikation sletter Android-pakker. Ondsindede applikationer kan bruge dette til at slette vigtige applikationer."</string>
+@@ -275 +273 @@
+-    <string name="permdesc_clearAppUserData" msgid="7546345080434325456">"Tillader, at et program rydder brugerdata."</string>
++    <string name="permdesc_clearAppUserData" msgid="7546345080434325456">"Tillader, at en applikation rydder brugerdata."</string>
+@@ -277 +275 @@
+-    <string name="permdesc_deleteCacheFiles" msgid="2283074077168165971">"Tillader, at et program sletter cachefiler."</string>
++    <string name="permdesc_deleteCacheFiles" msgid="2283074077168165971">"Tillader, at en applikation sletter cachefiler."</string>
+@@ -279,6 +277,6 @@
+-    <string name="permdesc_getPackageSize" msgid="5557253039670753437">"Tillader, at et program henter sin kode, data og cachestørrelser"</string>
+-    <string name="permlab_installPackages" msgid="335800214119051089">"installer programmer direkte"</string>
+-    <string name="permdesc_installPackages" msgid="526669220850066132">"Tillader, at et program installerer nye eller opdaterede Android-pakker. Ondsindede programmer kan bruge dette til at tilføje nye programmer med vilkårlige, effektive tilladelser."</string>
+-    <string name="permlab_clearAppCache" msgid="4747698311163766540">"slet alle cachedata for programmet"</string>
+-    <string name="permdesc_clearAppCache" product="tablet" msgid="3097119797652477973">"Tillader, at et program frigør plads på tabletcomputeren ved at slette filer i programmets cachemappe. Adgang er normalt meget begrænset til systemprocesser."</string>
+-    <string name="permdesc_clearAppCache" product="default" msgid="7740465694193671402">"Tillader, at et program frigør plads på telefonen ved at slette filer i programmets cachemappe. Adgang er normalt meget begrænset til systemprocesser."</string>
++    <string name="permdesc_getPackageSize" msgid="5557253039670753437">"Tillader, at en applikation henter sin kode, data og cachestørrelser"</string>
++    <string name="permlab_installPackages" msgid="335800214119051089">"installer applikationer direkte"</string>
++    <string name="permdesc_installPackages" msgid="526669220850066132">"Tillader, at en applikation installerer nye eller opdaterede Android-pakker. Ondsindede applikationer kan bruge dette til at tilføje nye applikationer med vilkårlige, effektive tilladelser."</string>
++    <string name="permlab_clearAppCache" msgid="4747698311163766540">"slet alle cachedata for applikationen"</string>
++    <string name="permdesc_clearAppCache" product="tablet" msgid="3097119797652477973">"Tillader, at en applikation frigør plads på tabletcomputeren ved at slette filer i programmets cachemappe. Adgang er normalt meget begrænset til systemprocesser."</string>
++    <string name="permdesc_clearAppCache" product="default" msgid="7740465694193671402">"Tillader, at en applikation frigør plads på telefonen ved at slette filer i programmets cachemappe. Adgang er normalt meget begrænset til systemprocesser."</string>
+@@ -286 +284 @@
+-    <string name="permdesc_movePackage" msgid="6323049291923925277">"Tillader, at et program flytter programressourcer fra interne til eksterne medier og omvendt."</string>
++    <string name="permdesc_movePackage" msgid="6323049291923925277">"Tillader, at en applikation flytter programressourcer fra interne til eksterne medier og omvendt."</string>
+@@ -288,2 +286,2 @@
+-    <string name="permdesc_readLogs" product="tablet" msgid="4077356893924755294">"Tillader, at et program læser fra systemets forskellige logfiler. Dermed kan generelle oplysninger om, hvad du laver med tabletcomputeren, registreres, også personlige eller private oplysninger."</string>
+-    <string name="permdesc_readLogs" product="default" msgid="8896449437464867766">"Tillader, at et program læser fra systemets forskellige logfiler. Dermed kan generelle oplysninger om, hvad du laver med telefonen, registreres, også personlige eller private oplysninger."</string>
++    <string name="permdesc_readLogs" product="tablet" msgid="4077356893924755294">"Tillader, at en applikation læser fra systemets forskellige logfiler. Dermed kan generelle oplysninger om, hvad du laver med tabletcomputeren, registreres, også personlige eller private oplysninger."</string>
++    <string name="permdesc_readLogs" product="default" msgid="8896449437464867766">"Tillader, at en applikation læser fra systemets forskellige logfiler. Dermed kan generelle oplysninger om, hvad du laver med telefonen, registreres, også personlige eller private oplysninger."</string>
+@@ -291 +289 @@
+-    <string name="permdesc_diagnostic" msgid="3121238373951637049">"Tillader, at et program læser og skriver til alle ressourcer, der ejes af diag-gruppen, som f.eks. flier i /dev. Dette kan muligvis påvirke systemets stabilitet og sikkerhed. Dette bør KUN bruges til hardwarespecifikke diagnosticeringer foretaget af producent eller udbyder."</string>
++    <string name="permdesc_diagnostic" msgid="3121238373951637049">"Tillader, at en applikation læser og skriver til alle ressourcer, der ejes af diag-gruppen, som f.eks. flier i /dev. Dette kan muligvis påvirke systemets stabilitet og sikkerhed. Dette bør KUN bruges til hardwarespecifikke diagnosticeringer foretaget af producent eller udbyder."</string>
+@@ -293,4 +291,4 @@
+-    <string name="permdesc_changeComponentState" product="tablet" msgid="4647419365510068321">"Tillader, at et program ændrer, om en komponent fra et andet program er aktiveret eller ej. Ondsindede programmer kan bruge dette til at deaktivere vigtige funktioner på tabletcomputeren. Denne tilladelse skal anvendes med forsigtighed, da det kan forårsage ubrugelige, inkonsekvente eller ustabile programkomponenter."</string>
+-    <string name="permdesc_changeComponentState" product="default" msgid="3443473726140080761">"Tillader, at et program ændrer, om en komponent fra et andet program er aktiveret eller ej. Ondsindede programmer kan bruge dette til at deaktivere vigtige funktioner på telefonen. Denne tilladelse skal anvendes med forsigtighed, da det kan forårsage ubrugelige eller ustabile programkomponenter."</string>
+-    <string name="permlab_setPreferredApplications" msgid="3393305202145172005">"angiv foretrukne programmer"</string>
+-    <string name="permdesc_setPreferredApplications" msgid="760008293501937546">"Tillader, at et program ændrer dine foretrukne programmer. Dette kan medføre, at ondsindede programmer ændrer kørende programmer i det skjulte og narrer dine eksisterende programmer til at indsamle personlige oplysninger fra dig."</string>
++    <string name="permdesc_changeComponentState" product="tablet" msgid="4647419365510068321">"Tillader, at en applikation ændrer, om en komponent fra en anden applikation er aktiveret eller ej. Ondsindede applikationer kan bruge dette til at deaktivere vigtige funktioner på tabletcomputeren. Denne tilladelse skal anvendes med forsigtighed, da det kan forårsage ubrugelige, inkonsekvente eller ustabile programkomponenter."</string>
++    <string name="permdesc_changeComponentState" product="default" msgid="3443473726140080761">"Tillader, at en applikation ændrer, om en komponent fra en anden applikation er aktiveret eller ej. Ondsindede applikationer kan bruge dette til at deaktivere vigtige funktioner på telefonen. Denne tilladelse skal anvendes med forsigtighed, da det kan forårsage ubrugelige eller ustabile programkomponenter."</string>
++    <string name="permlab_setPreferredApplications" msgid="3393305202145172005">"angiv foretrukne applikationer"</string>
++    <string name="permdesc_setPreferredApplications" msgid="760008293501937546">"Tillader, at en applikation ændrer dine foretrukne applikationer. Dette kan medføre, at ondsindede applikationer ændrer kørende applikationer i det skjulte og narrer dine eksisterende applikationer til at indsamle personlige oplysninger fra dig."</string>
+@@ -298 +296 @@
+-    <string name="permdesc_writeSettings" msgid="838789419871034696">"Tillader, at et program ændrer systemets indstillingsdata. Ondsindede programmer kan skade systemets konfiguration."</string>
++    <string name="permdesc_writeSettings" msgid="838789419871034696">"Tillader, at en applikation ændrer systemets indstillingsdata. Ondsindede applikationer kan skade systemets konfiguration."</string>
+@@ -300 +298 @@
+-    <string name="permdesc_writeSecureSettings" msgid="5497873143539034724">"Tillader, at et program ændrer systemernes sikre indstillingsdata. Ikke til brug til almindelige programmer."</string>
++    <string name="permdesc_writeSecureSettings" msgid="5497873143539034724">"Tillader, at en applikation ændrer systemernes sikre indstillingsdata. Ikke til brug til almindelige applikationer."</string>
+@@ -302 +300 @@
+-    <string name="permdesc_writeGservices" msgid="6602362746516676175">"Tillader, at et program ændrer kortet over Google-tjenester. Ikke til brug til normale programmer."</string>
++    <string name="permdesc_writeGservices" msgid="6602362746516676175">"Tillader, at en applikation ændrer kortet over Google-tjenester. Ikke til brug til normale applikationer."</string>
+@@ -304,2 +302,2 @@
+-    <string name="permdesc_receiveBootCompleted" product="tablet" msgid="7530977064379338199">"Tillader, at et program selv starter, når systemet er færdig med at starte. Dette kan gøre opstarten af tabletcomputeren langsommere og generelt gøre tabletcomputeren langsommere ved altid at lade programmet køre."</string>
+-    <string name="permdesc_receiveBootCompleted" product="default" msgid="698336728415008796">"Tillader, at et program starter selv, når systemet er færdig med at starte. Dette kan gøre startem af telefonen langsommere og generelt gøre telefonen langsommere ved altid at lade programmet køre."</string>
++    <string name="permdesc_receiveBootCompleted" product="tablet" msgid="7530977064379338199">"Tillader, at en applikation selv starter, når systemet er færdig med at starte. Dette kan gøre opstarten af tabletcomputeren langsommere og generelt gøre tabletcomputeren langsommere ved altid at lade applikationen køre."</string>
++    <string name="permdesc_receiveBootCompleted" product="default" msgid="698336728415008796">"Tillader, at en applikation starter selv, når systemet er færdig med at starte. Dette kan gøre startem af telefonen langsommere og generelt gøre telefonen langsommere ved altid at lade applikationen køre."</string>
+@@ -307,2 +305,2 @@
+-    <string name="permdesc_broadcastSticky" product="tablet" msgid="6322249605930062595">"Tillader, at et program sender klæbende udsendelser, der bliver tilbage, efter udsendelsen er slut. Ondsindede programmer kan gøre tabletcomputeren langsom eller ustabil ved at få den til at bruge for meget hukommelse."</string>
+-    <string name="permdesc_broadcastSticky" product="default" msgid="1920045289234052219">"Tillader, at et program sender klæbende udsendelser, der bliver tilbage, efter udsendelsen er slut. Ondsindede programmer kan gøre telefonen langsom eller ustabil ved at få den til at bruge for meget hukommelse."</string>
++    <string name="permdesc_broadcastSticky" product="tablet" msgid="6322249605930062595">"Tillader, at en applikation sender klæbende udsendelser, der bliver tilbage, efter udsendelsen er slut. Ondsindede applikationer kan gøre tabletcomputeren langsom eller ustabil ved at få den til at bruge for meget hukommelse."</string>
++    <string name="permdesc_broadcastSticky" product="default" msgid="1920045289234052219">"Tillader, at en applikation sender klæbende udsendelser, der bliver tilbage, efter udsendelsen er slut. Ondsindede applikationer kan gøre telefonen langsom eller ustabil ved at få den til at bruge for meget hukommelse."</string>
+@@ -310,2 +308,2 @@
+-    <string name="permdesc_readContacts" product="tablet" msgid="7596158687301157686">"Tillader, at et program læser alle kontaktdata (adresser), der er gemt på din tabletcomputer. Ondsindede programmer kan bruge dette til at sende dine data til andre mennesker."</string>
+-    <string name="permdesc_readContacts" product="default" msgid="3371591512896545975">"Tillader, at et program læser alle kontaktdata (adresser), der er gemt på din telefon. Ondsindede programmer kan bruge dette til at sende dine data til andre mennesker."</string>
++    <string name="permdesc_readContacts" product="tablet" msgid="7596158687301157686">"Tillader, at en applikation læser alle kontaktdata (adresser), der er gemt på din tabletcomputer. Ondsindede applikationer kan bruge dette til at sende dine data til andre mennesker."</string>
++    <string name="permdesc_readContacts" product="default" msgid="3371591512896545975">"Tillader, at en applikation læser alle kontaktdata (adresser), der er gemt på din telefon. Ondsindede applikationer kan bruge dette til at sende dine data til andre mennesker."</string>
+@@ -313,2 +311,2 @@
+-    <string name="permdesc_writeContacts" product="tablet" msgid="7782689510038568495">"Tillader, at et program ændrer kontaktdata (adresser), der er gemt på din tabletcomputer. Ondsindede programmer kan bruge dette til at slette eller ændre kontaktdata."</string>
+-    <string name="permdesc_writeContacts" product="default" msgid="3924383579108183601">"Tillader, at et program ændrer kontaktdata (adresser), der er gemt på din telefon. Ondsindede programmer kan bruge dette til at slette eller ændre kontaktdata."</string>
++    <string name="permdesc_writeContacts" product="tablet" msgid="7782689510038568495">"Tillader, at en applikation ændrer kontaktdata (adresser), der er gemt på din tabletcomputer. Ondsindede applikationer kan bruge dette til at slette eller ændre kontaktdata."</string>
++    <string name="permdesc_writeContacts" product="default" msgid="3924383579108183601">"Tillader, at en applikation ændrer kontaktdata (adresser), der er gemt på din telefon. Ondsindede applikationer kan bruge dette til at slette eller ændre kontaktdata."</string>
+@@ -316,2 +314,2 @@
+-    <string name="permdesc_readCalendar" product="tablet" msgid="5905870265734599678">"Tillader, at et program læser alle kalenderbegivenheder, der er gemt på din tabletcomputer. Ondsindede programmer kan bruge dette til at sende dine kalenderbegivenheder til andre mennesker."</string>
+-    <string name="permdesc_readCalendar" product="default" msgid="5533029139652095734">"Tillader, at et program læser alle kalenderbegivenheder, der er gemt på din telefon. Ondsindede programmer kan bruge dette til at sende dine kalenderbegivenheder til andre mennesker."</string>
++    <string name="permdesc_readCalendar" product="tablet" msgid="5905870265734599678">"Tillader, at en applikation læser alle kalenderbegivenheder, der er gemt på din tabletcomputer. Ondsindede applikationer kan bruge dette til at sende dine kalenderbegivenheder til andre mennesker."</string>
++    <string name="permdesc_readCalendar" product="default" msgid="5533029139652095734">"Tillader, at en applikation læser alle kalenderbegivenheder, der er gemt på din telefon. Ondsindede applikationer kan bruge dette til at sende dine kalenderbegivenheder til andre mennesker."</string>
+@@ -319 +317 @@
+-    <string name="permdesc_writeCalendar" msgid="2988871373544154221">"Tillader, at et program tilføjer eller ændrer begivenhederne i din kalender, hvilket kan sende e-mail til gæster. Ondsindede programmer kan bruge dette til at slette eller ændre dine kalenderbegivenheder eller til at sende e-mail til gæster."</string>
++    <string name="permdesc_writeCalendar" msgid="2988871373544154221">"Tillader, at en applikation tilføjer eller ændrer begivenhederne i din kalender, hvilket kan sende e-mail til gæster. Ondsindede applikationer kan bruge dette til at slette eller ændre dine kalenderbegivenheder eller til at sende e-mail til gæster."</string>
+@@ -321 +319 @@
+-    <string name="permdesc_accessMockLocation" msgid="7648286063459727252">"Opret imiterede placeringskilder til testning. Ondsindede programmer kan bruge dette til at tilsidesætte den returnerede placering og/eller status fra rigtige placeringskilder som f.eks. GPS eller netværksudbydere."</string>
++    <string name="permdesc_accessMockLocation" msgid="7648286063459727252">"Opret imiterede placeringskilder til testning. Ondsindede applikationer kan bruge dette til at tilsidesætte den returnerede placering og/eller status fra rigtige placeringskilder som f.eks. GPS eller netværksudbydere."</string>
+@@ -323 +321 @@
+-    <string name="permdesc_accessLocationExtraCommands" msgid="1948144701382451721">"Få adgang til ekstra kommandoer fra placeringsudbyder. Ondsindede programmer kan bruge dette til at gribe ind i driften af GPS\'en eller andre placeringskilder."</string>
++    <string name="permdesc_accessLocationExtraCommands" msgid="1948144701382451721">"Få adgang til ekstra kommandoer fra placeringsudbyder. Ondsindede applikationer kan bruge dette til at gribe ind i driften af GPS\'en eller andre placeringskilder."</string>
+@@ -325 +323 @@
+-    <string name="permdesc_installLocationProvider" msgid="5449175116732002106">"Opret imiterede placeringskilder til testning. Ondsindede programmer kan bruge dette til at tilsidesætte den returnerede placering og/eller status fra rigtige placeringskilder som f.eks. GPS eller netværksudbydere eller til at overvåge og rapportere din placering til en ekstern kilde."</string>
++    <string name="permdesc_installLocationProvider" msgid="5449175116732002106">"Opret imiterede placeringskilder til testning. Ondsindede applikationer kan bruge dette til at tilsidesætte den returnerede placering og/eller status fra rigtige placeringskilder som f.eks. GPS eller netværksudbydere eller til at overvåge og rapportere din placering til en ekstern kilde."</string>
+@@ -327,2 +325,2 @@
+-    <string name="permdesc_accessFineLocation" product="tablet" msgid="243973693233359681">"Få adgang til gode placeringskilder, som f.eks. Global Positioning System på tabletcomputeren, hvor det er tilgængeligt. Ondsindede programmer kan bruge dette til at finde ud af, hvor du er, og kan eventuelt bruge yderligere batterikapacitet."</string>
+-    <string name="permdesc_accessFineLocation" product="default" msgid="7411213317434337331">"Få adgang til gode placeringskilder, som f.eks. Global Positioning System på telefonen, når det er tilgængeligt. Ondsindede programmer kan bruge dette til at finde ud af, hvor du er og kan eventuelt bruge yderligere batterikapacitet."</string>
++    <string name="permdesc_accessFineLocation" product="tablet" msgid="243973693233359681">"Få adgang til gode placeringskilder, som f.eks. Global Positioning System på tabletcomputeren, hvor det er tilgængeligt. Ondsindede applikationer kan bruge dette til at finde ud af, hvor du er, og kan eventuelt bruge yderligere batterikapacitet."</string>
++    <string name="permdesc_accessFineLocation" product="default" msgid="7411213317434337331">"Få adgang til gode placeringskilder, som f.eks. Global Positioning System på telefonen, når det er tilgængeligt. Ondsindede applikationer kan bruge dette til at finde ud af, hvor du er og kan eventuelt bruge yderligere batterikapacitet."</string>
+@@ -330,2 +328,2 @@
+-    <string name="permdesc_accessCoarseLocation" product="tablet" msgid="3704633168985466045">"Få adgang til grove placeringskilder som f.eks. den mobile netværksdatabase for at finde en omtrentlig placering for tabletcomputeren, hvor det er muligt. Ondsindede programmer kan bruge dette til at finde ud af, hvor du omtrent er."</string>
+-    <string name="permdesc_accessCoarseLocation" product="default" msgid="8235655958070862293">"Få adgang til grove placeringskilder som f.eks. den mobile netværksdatabase for at finde en omtrentlig placering for telefonen, hvor det er muligt. Ondsindede programmer kan bruge dette til at finde ud af, hvor du omtrent er."</string>
++    <string name="permdesc_accessCoarseLocation" product="tablet" msgid="3704633168985466045">"Få adgang til grove placeringskilder som f.eks. den mobile netværksdatabase for at finde en omtrentlig placering for tabletcomputeren, hvor det er muligt. Ondsindede applikationer kan bruge dette til at finde ud af, hvor du omtrent er."</string>
++    <string name="permdesc_accessCoarseLocation" product="default" msgid="8235655958070862293">"Få adgang til grove placeringskilder som f.eks. den mobile netværksdatabase for at finde en omtrentlig placering for telefonen, hvor det er muligt. Ondsindede applikationer kan bruge dette til at finde ud af, hvor du omtrent er."</string>
+@@ -333 +331 @@
+-    <string name="permdesc_accessSurfaceFlinger" msgid="6805241830020733025">"Tillader, at et program bruger SurfaceFlinger-funktioner på lavt niveau."</string>
++    <string name="permdesc_accessSurfaceFlinger" msgid="6805241830020733025">"Tillader, at en applikation bruger SurfaceFlinger-funktioner på lavt niveau."</string>
+@@ -335 +333 @@
+-    <string name="permdesc_readFrameBuffer" msgid="7530020370469942528">"Tillader, at et program læser indholdet fra rammebufferen."</string>
++    <string name="permdesc_readFrameBuffer" msgid="7530020370469942528">"Tillader, at en applikation læser indholdet fra rammebufferen."</string>
+@@ -337 +335 @@
+-    <string name="permdesc_modifyAudioSettings" msgid="5793461287365991922">"Tillader, at et program ændrer globale lydindstillinger som f.eks. lydstyrke og kanalisering."</string>
++    <string name="permdesc_modifyAudioSettings" msgid="5793461287365991922">"Tillader, at en applikation ændrer globale lydindstillinger som f.eks. lydstyrke og kanalisering."</string>
+@@ -339 +337 @@
+-    <string name="permdesc_recordAudio" msgid="6493228261176552356">"Tillader, at et program får adgang til lydregistreringsstien."</string>
++    <string name="permdesc_recordAudio" msgid="6493228261176552356">"Tillader, at en applikation får adgang til lydregistreringsstien."</string>
+@@ -341 +339 @@
+-    <string name="permdesc_camera" msgid="6004878235852154239">"Tillader, at programmet tager billeder og optager video med kameraet. Dette giver programmet mulighed for altid at indsamle de billeder, kameraet ser."</string>
++    <string name="permdesc_camera" msgid="6004878235852154239">"Tillader, at applikationen tager billeder og optager video med kameraet. Dette giver applikationen mulighed for altid at indsamle de billeder, kameraet ser."</string>
+@@ -344,2 +342,2 @@
+-    <string name="permdesc_brick" product="tablet" msgid="7379164636920817963">"Tillader, at programmet deaktiverer hele tabletcomputeren permanent. Dette er meget farligt."</string>
+-    <string name="permdesc_brick" product="default" msgid="5569526552607599221">"Tillader, at programmet deaktiverer hele telefonen permanent. Dette er meget farligt."</string>
++    <string name="permdesc_brick" product="tablet" msgid="7379164636920817963">"Tillader, at applikationen deaktiverer hele tabletcomputeren permanent. Dette er meget farligt."</string>
++    <string name="permdesc_brick" product="default" msgid="5569526552607599221">"Tillader, at applikationen deaktiverer hele telefonen permanent. Dette er meget farligt."</string>
+@@ -348,2 +346,2 @@
+-    <string name="permdesc_reboot" product="tablet" msgid="4555793623560701557">"Tillader, at programmet tvinger tabletcomputeren til at genstarte."</string>
+-    <string name="permdesc_reboot" product="default" msgid="7914933292815491782">"Tillader, at programmet tvinger telefonen til at genstarte."</string>
++    <string name="permdesc_reboot" product="tablet" msgid="4555793623560701557">"Tillader, at applikationen tvinger tabletcomputeren til at genstarte."</string>
++    <string name="permdesc_reboot" product="default" msgid="7914933292815491782">"Tillader, at applikationen tvinger telefonen til at genstarte."</string>
+@@ -351 +349 @@
+-    <string name="permdesc_mount_unmount_filesystems" msgid="6253263792535859767">"Tillader, at programmet monterer eller demonterer filsystemer til flytbar lagring."</string>
++    <string name="permdesc_mount_unmount_filesystems" msgid="6253263792535859767">"Tillader, at applikationen monterer eller demonterer filsystemer til flytbar lagring."</string>
+@@ -353 +351 @@
+-    <string name="permdesc_mount_format_filesystems" msgid="574060044906047386">"Tillader, at et program formaterer flytbart lager."</string>
++    <string name="permdesc_mount_format_filesystems" msgid="574060044906047386">"Tillader, at en applikation formaterer flytbart lager."</string>
+@@ -355 +353 @@
+-    <string name="permdesc_asec_access" msgid="8820326551687285439">"Tillader, at programmet får oplysninger om internt lager."</string>
++    <string name="permdesc_asec_access" msgid="8820326551687285439">"Tillader, at applikationen får oplysninger om internt lager."</string>
+@@ -357 +355 @@
+-    <string name="permdesc_asec_create" msgid="2621346764995731250">"Tillader, at programmet opretter internt lager."</string>
++    <string name="permdesc_asec_create" msgid="2621346764995731250">"Tillader, at applikationen opretter internt lager."</string>
+@@ -359 +357 @@
+-    <string name="permdesc_asec_destroy" msgid="2746706889208066256">"Tillader, at programmet ødelægger internt lager."</string>
++    <string name="permdesc_asec_destroy" msgid="2746706889208066256">"Tillader, at applikationen ødelægger internt lager."</string>
+@@ -361 +359 @@
+-    <string name="permdesc_asec_mount_unmount" msgid="5934375590189368200">"Tillader, at programmet monterer/demonterer internt lager."</string>
++    <string name="permdesc_asec_mount_unmount" msgid="5934375590189368200">"Tillader, at applikationen monterer/demonterer internt lager."</string>
+@@ -363 +361 @@
+-    <string name="permdesc_asec_rename" msgid="2152829985238876790">"Tillader, at programmet omdøber internt lager."</string>
++    <string name="permdesc_asec_rename" msgid="2152829985238876790">"Tillader, at applikationen omdøber internt lager."</string>
+@@ -365 +363 @@
+-    <string name="permdesc_vibrate" msgid="2886677177257789187">"Lader programmet kontrollere vibratoren."</string>
++    <string name="permdesc_vibrate" msgid="2886677177257789187">"Lader applikationen kontrollere vibratoren."</string>
+@@ -367 +365 @@
+-    <string name="permdesc_flashlight" msgid="6433045942283802309">"Tillader, at programmet kontrollerer lommelygten."</string>
++    <string name="permdesc_flashlight" msgid="6433045942283802309">"Tillader, at applikationen kontrollerer lommelygten."</string>
+@@ -369 +367 @@
+-    <string name="permdesc_manageUsb" msgid="6148489202092166164">"Tillader, at programmet administrerer præferencer og tilladelser for USB-enheder."</string>
++    <string name="permdesc_manageUsb" msgid="6148489202092166164">"Tillader, at applikationen administrerer præferencer og tilladelser for USB-enheder."</string>
+@@ -373 +371 @@
+-    <string name="permdesc_hardware_test" msgid="3668894686500081699">"Tillader, at et program kontrollerer forskellige perifere enheder for at teste hardwaren."</string>
++    <string name="permdesc_hardware_test" msgid="3668894686500081699">"Tillader, at en applikation kontrollerer forskellige perifere enheder for at teste hardwaren."</string>
+@@ -375 +373 @@
+-    <string name="permdesc_callPhone" msgid="3369867353692722456">"Tillader, at programmet ringer til telefonnumre uden din indgriben. Ondsindede programmer kan forårsage uventede opkald på din telefonregning. Vær opmærksom på, at programmet ikke kan ringe til nødnumre."</string>
++    <string name="permdesc_callPhone" msgid="3369867353692722456">"Tillader, at applikationen ringer til telefonnumre uden din indgriben. Ondsindede applikationer kan forårsage uventede opkald på din telefonregning. Vær opmærksom på, at applikationen ikke kan ringe til nødnumre."</string>
+@@ -377 +375 @@
+-    <string name="permdesc_callPrivileged" msgid="244405067160028452">"Tillader, at programmet ringer til alle telefonnumre inklusive nødnumre uden din indgriben. Ondsindede programmer kan eventuelt foretage unødvendige og ulovlige opkald til nødtjenester."</string>
++    <string name="permdesc_callPrivileged" msgid="244405067160028452">"Tillader, at applikationen ringer til alle telefonnumre inklusive nødnumre uden din indgriben. Ondsindede applikationer kan eventuelt foretage unødvendige og ulovlige opkald til nødtjenester."</string>
+@@ -380 +378 @@
+-    <string name="permdesc_performCdmaProvisioning" msgid="6457447676108355905">"Tillader, at programmet starter CDMA-levering. Ondsindede programmer kan starte unødvendig CDMA-levering"</string>
++    <string name="permdesc_performCdmaProvisioning" msgid="6457447676108355905">"Tillader, at applikationen starter CDMA-levering. Ondsindede applikationer kan starte unødvendig CDMA-levering"</string>
+@@ -382 +380 @@
+-    <string name="permdesc_locationUpdates" msgid="2300018303720930256">"Tillader aktivering/deaktivering af placeringsdata fra radioen. Ikke til brug til normale programmer."</string>
++    <string name="permdesc_locationUpdates" msgid="2300018303720930256">"Tillader aktivering/deaktivering af placeringsdata fra radioen. Ikke til brug til normale applikationer."</string>
+@@ -384 +382 @@
+-    <string name="permdesc_checkinProperties" msgid="7150307006141883832">"Tillader læse/skrive-adgang til egenskaber, der er uploadet af kontroltjenesten. Ikke til brug til normale programmer."</string>
++    <string name="permdesc_checkinProperties" msgid="7150307006141883832">"Tillader læse/skrive-adgang til egenskaber, der er uploadet af kontroltjenesten. Ikke til brug til normale applikationer."</string>
+@@ -386 +384 @@
+-    <string name="permdesc_bindGadget" msgid="2098697834497452046">"Tillader, at programmet fortæller systemet, hvilke widgets der kan bruges af hvilke programmer. Med denne tilladelse kan programmer give adgang til personlige oplysninger til andre programmer. Ikke til brug til normale programmer."</string>
++    <string name="permdesc_bindGadget" msgid="2098697834497452046">"Tillader, at applikationen fortæller systemet, hvilke widgets der kan bruges af hvilke applikationer. Med denne tilladelse kan applikationer give adgang til personlige oplysninger til andre applikationer. Ikke til brug til normale applikationer."</string>
+@@ -388 +386 @@
+-    <string name="permdesc_modifyPhoneState" msgid="3302284561346956587">"Tillader, at programmet kontrollerer enhedens telefonfunktioner. Et program med denne tilladelse kan skifte netværk, slå telefonens radio til og fra og lignende uden nogensinde at informere dig."</string>
++    <string name="permdesc_modifyPhoneState" msgid="3302284561346956587">"Tillader, at applikationen kontrollerer enhedens telefonfunktioner. En applikation med denne tilladelse kan skifte netværk, slå telefonens radio til og fra og lignende uden nogensinde at informere dig."</string>
+@@ -390 +388 @@
+-    <string name="permdesc_readPhoneState" msgid="188877305147626781">"Tillader, at programmet får adgang til enhedens telefonfunktioner. Et program kan med denne tilladelse registrere denne telefons telefon- og serienummer, om et opkald er aktivt, nummeret som det opkald er forbundet til osv."</string>
++    <string name="permdesc_readPhoneState" msgid="188877305147626781">"Tillader, at applikationen får adgang til enhedens telefonfunktioner. En applikation kan med denne tilladelse registrere denne telefons telefon- og serienummer, om et opkald er aktivt, nummeret som det opkald er forbundet til osv."</string>
+@@ -393,2 +391,2 @@
+-    <string name="permdesc_wakeLock" product="tablet" msgid="4032181488045338551">"Tillader, at et program forhindrer tabletcomputeren i at gå i dvale."</string>
+-    <string name="permdesc_wakeLock" product="default" msgid="7584036471227467099">"Tillader, at et program forhindrer telefonen i at gå i dvale."</string>
++    <string name="permdesc_wakeLock" product="tablet" msgid="4032181488045338551">"Tillader, at en applikation forhindrer tabletcomputeren i at gå i dvale."</string>
++    <string name="permdesc_wakeLock" product="default" msgid="7584036471227467099">"Tillader, at en applikation forhindrer telefonen i at gå i dvale."</string>
+@@ -397,2 +395,2 @@
+-    <string name="permdesc_devicePower" product="tablet" msgid="3853773100100451905">"Tillader, at programmet slukker og tænder tabletcomputeren."</string>
+-    <string name="permdesc_devicePower" product="default" msgid="4577331933252444818">"Tillader, at programmet slukker og tænder telefonen."</string>
++    <string name="permdesc_devicePower" product="tablet" msgid="3853773100100451905">"Tillader, at applikationen slukker og tænder tabletcomputeren."</string>
++    <string name="permdesc_devicePower" product="default" msgid="4577331933252444818">"Tillader, at applikationen slukker og tænder telefonen."</string>
+@@ -403 +401 @@
+-    <string name="permdesc_setWallpaper" msgid="6417041752170585837">"Tillader, at programmet opsætter systemets tapet."</string>
++    <string name="permdesc_setWallpaper" msgid="6417041752170585837">"Tillader, at applikationen opsætter systemets tapet."</string>
+@@ -405 +403 @@
+-    <string name="permdesc_setWallpaperHints" msgid="6019479164008079626">"Tillader, at programmet opsætter størrelsestip for systemets tapet."</string>
++    <string name="permdesc_setWallpaperHints" msgid="6019479164008079626">"Tillader, at applikationen opsætter størrelsestip for systemets tapet."</string>
+@@ -407 +405 @@
+-    <string name="permdesc_masterClear" msgid="5033465107545174514">"Tillader, at et program nulstiller systemet fuldstændig til fabriksindstillingerne, sletter alle data, konfigurationer og installerede programmer."</string>
++    <string name="permdesc_masterClear" msgid="5033465107545174514">"Tillader, at en applikation nulstiller systemet fuldstændig til fabriksindstillingerne, sletter alle data, konfigurationer og installerede applikationer."</string>
+@@ -409,2 +407,2 @@
+-    <string name="permdesc_setTime" product="tablet" msgid="209693136361006073">"Tillader, at et program ændrer tabletcomputerens klokkeslæt."</string>
+-    <string name="permdesc_setTime" product="default" msgid="667294309287080045">"Tillader, at et program ændrer telefonens klokkeslæt."</string>
++    <string name="permdesc_setTime" product="tablet" msgid="209693136361006073">"Tillader, at en applikation ændrer tabletcomputerens klokkeslæt."</string>
++    <string name="permdesc_setTime" product="default" msgid="667294309287080045">"Tillader, at en applikation ændrer telefonens klokkeslæt."</string>
+@@ -412,2 +410,2 @@
+-    <string name="permdesc_setTimeZone" product="tablet" msgid="2522877107613885139">"Tillader, at et program ændrer tabletcomputerens tidszone."</string>
+-    <string name="permdesc_setTimeZone" product="default" msgid="1902540227418179364">"Tillader, at et program ændrer telefonens tidszone."</string>
++    <string name="permdesc_setTimeZone" product="tablet" msgid="2522877107613885139">"Tillader, at en applikation ændrer tabletcomputerens tidszone."</string>
++    <string name="permdesc_setTimeZone" product="default" msgid="1902540227418179364">"Tillader, at en applikation ændrer telefonens tidszone."</string>
+@@ -415 +413 @@
+-    <string name="permdesc_accountManagerService" msgid="6056903274106394752">"Tillader, at et program foretager opkald til kontogodkendere"</string>
++    <string name="permdesc_accountManagerService" msgid="6056903274106394752">"Tillader, at en applikation foretager opkald til kontogodkendere"</string>
+@@ -417,2 +415,2 @@
+-    <string name="permdesc_getAccounts" product="tablet" msgid="857622793935544694">"Tillader, at et program henter listen over konti, der er kendt af tabletcomputeren."</string>
+-    <string name="permdesc_getAccounts" product="default" msgid="6839262446413155394">"Tillader, at et program henter listen over konti, der er kendt af telefonen."</string>
++    <string name="permdesc_getAccounts" product="tablet" msgid="857622793935544694">"Tillader, at en applikation henter listen over konti, der er kendt af tabletcomputeren."</string>
++    <string name="permdesc_getAccounts" product="default" msgid="6839262446413155394">"Tillader, at en applikation henter listen over konti, der er kendt af telefonen."</string>
+@@ -420 +418 @@
+-    <string name="permdesc_authenticateAccounts" msgid="4006839406474208874">"Tillader, at et program bruger kontoadministratorens kontogodkendelsesegenskaber, bl.a. oprettelse af konti samt hentning og indstilling af deres adgangskoder."</string>
++    <string name="permdesc_authenticateAccounts" msgid="4006839406474208874">"Tillader, at en applikation bruger kontoadministratorens kontogodkendelsesegenskaber, bl.a. oprettelse af konti samt hentning og indstilling af deres adgangskoder."</string>
+@@ -422 +420 @@
+-    <string name="permdesc_manageAccounts" msgid="8804114016661104517">"Tillader, at et program foretager handlinger, f.eks. at tilføje og fjerne konti samt slette sin adgangskode."</string>
++    <string name="permdesc_manageAccounts" msgid="8804114016661104517">"Tillader, at en applikation foretager handlinger, f.eks. at tilføje og fjerne konti samt slette sin adgangskode."</string>
+@@ -424 +422 @@
+-    <string name="permdesc_useCredentials" msgid="7416570544619546974">"Tillader, at et program anmoder om godkendelsestokens"</string>
++    <string name="permdesc_useCredentials" msgid="7416570544619546974">"Tillader, at en applikation anmoder om godkendelsestokens"</string>
+@@ -426 +424 @@
+-    <string name="permdesc_accessNetworkState" msgid="558721128707712766">"Tillader, at et program viser tilstanden for alle netværk."</string>
++    <string name="permdesc_accessNetworkState" msgid="558721128707712766">"Tillader, at en applikation viser tilstanden for alle netværk."</string>
+@@ -428 +426 @@
+-    <string name="permdesc_createNetworkSockets" msgid="4593339106921772192">"Tillader, at et program opretter netværks-sockets."</string>
++    <string name="permdesc_createNetworkSockets" msgid="4593339106921772192">"Tillader, at en applikation opretter netværks-sockets."</string>
+@@ -430 +428 @@
+-    <string name="permdesc_writeApnSettings" msgid="7443433457842966680">"Tillader, at et program ændrer APN-indstillingerne, f.eks. enhver APNs Proxy og Port."</string>
++    <string name="permdesc_writeApnSettings" msgid="7443433457842966680">"Tillader, at en applikation ændrer APN-indstillingerne, f.eks. enhver APNs Proxy og Port."</string>
+@@ -432 +430 @@
+-    <string name="permdesc_changeNetworkState" msgid="4199958910396387075">"Tillader, at et program ændrer netværksforbindelsens tilstand."</string>
++    <string name="permdesc_changeNetworkState" msgid="4199958910396387075">"Tillader, at en applikation ændrer netværksforbindelsens tilstand."</string>
+@@ -434 +432 @@
+-    <string name="permdesc_changeTetherState" msgid="8905815579146349568">"Tillader, at et program ændrer tilstand for et bundet netværk."</string>
++    <string name="permdesc_changeTetherState" msgid="8905815579146349568">"Tillader, at en applikation ændrer tilstand for et bundet netværk."</string>
+@@ -436 +434 @@
+-    <string name="permdesc_changeBackgroundDataSetting" msgid="1001482853266638864">"Tillader, at et program ændrer brugerindstillingerne for baggrundsdata."</string>
++    <string name="permdesc_changeBackgroundDataSetting" msgid="1001482853266638864">"Tillader, at en applikation ændrer brugerindstillingerne for baggrundsdata."</string>
+@@ -438 +436 @@
+-    <string name="permdesc_accessWifiState" msgid="485796529139236346">"Tillader, at et program viser oplysninger om Wi-Fi-tilstanden."</string>
++    <string name="permdesc_accessWifiState" msgid="485796529139236346">"Tillader, at en applikation viser oplysninger om Wi-Fi-tilstanden."</string>
+@@ -440 +438 @@
+-    <string name="permdesc_changeWifiState" msgid="2950383153656873267">"Tillader, at et program opretter og afbryder forbindelsen fra Wi-Fi-adgangspunkter og foretager ændringer i konfigurerede Wi-Fi-netværk."</string>
++    <string name="permdesc_changeWifiState" msgid="2950383153656873267">"Tillader, at en applikation opretter og afbryder forbindelsen fra Wi-Fi-adgangspunkter og foretager ændringer i konfigurerede Wi-Fi-netværk."</string>
+@@ -442 +440 @@
+-    <string name="permdesc_changeWifiMulticastState" msgid="8199464507656067553">"Tillader, at et program modtager pakker, der ikke er direkte adresseret til din enhed. Dette kan være nyttigt, hvis du finder tjenester, der tilbydes i nærheden. Det bruger mere strøm end multicasttilstanden."</string>
++    <string name="permdesc_changeWifiMulticastState" msgid="8199464507656067553">"Tillader, at en applikation modtager pakker, der ikke er direkte adresseret til din enhed. Dette kan være nyttigt, hvis du finder tjenester, der tilbydes i nærheden. Det bruger mere strøm end multicasttilstanden."</string>
+@@ -444,2 +442,2 @@
+-    <string name="permdesc_bluetoothAdmin" product="tablet" msgid="3511795757324345837">"Tillader, at et program konfigurerer den lokale Bluetooth-tabletcomputer samt opdager og parrer med fjerne enheder."</string>
+-    <string name="permdesc_bluetoothAdmin" product="default" msgid="7256289774667054555">"Tillader, at et program konfigurerer den lokale Bluetooth-telefon samt opdager og parrer med fjerne enheder."</string>
++    <string name="permdesc_bluetoothAdmin" product="tablet" msgid="3511795757324345837">"Tillader, at en applikation konfigurerer den lokale Bluetooth-tabletcomputer samt opdager og parrer med fjerne enheder."</string>
++    <string name="permdesc_bluetoothAdmin" product="default" msgid="7256289774667054555">"Tillader, at en applikation konfigurerer den lokale Bluetooth-telefon samt opdager og parrer med fjerne enheder."</string>
+@@ -447,2 +445,2 @@
+-    <string name="permdesc_bluetooth" product="tablet" msgid="4191941825910543803">"Tillader, at et program viser konfigurationen af den lokale Bluetooth-tabletcomputer samt opretter og accepterer forbindelse med parrede enheder."</string>
+-    <string name="permdesc_bluetooth" product="default" msgid="762515380679392945">"Tillader, at et program viser konfigurationen af den lokale Bluetooth-telefon samt opretter og accepterer forbindelse med parrede enheder."</string>
++    <string name="permdesc_bluetooth" product="tablet" msgid="4191941825910543803">"Tillader, at en applikation viser konfigurationen af den lokale Bluetooth-tabletcomputer samt opretter og accepterer forbindelse med parrede enheder."</string>
++    <string name="permdesc_bluetooth" product="default" msgid="762515380679392945">"Tillader, at en applikation viser konfigurationen af den lokale Bluetooth-telefon samt opretter og accepterer forbindelse med parrede enheder."</string>
+@@ -450 +448 @@
+-    <string name="permdesc_nfc" msgid="9171401851954407226">"Tillader, at et program kommunikerer med tags, kort og læsere i Near Field Communication (NFC)."</string>
++    <string name="permdesc_nfc" msgid="9171401851954407226">"Tillader, at en applikation kommunikerer med tags, kort og læsere i Near Field Communication (NFC)."</string>
+@@ -452 +450 @@
+-    <string name="permdesc_disableKeyguard" msgid="3189763479326302017">"Tillader, at et program deaktiverer tastaturlåsen og al associeret adgangskodesikkerhed. Et legitimt eksempel på dette er, at telefonen deaktiverer tastaturlåsen, når der modtages et indgående telefonopkald, og genaktiverer tastaturlåsen, når opkaldet er afsluttet."</string>
++    <string name="permdesc_disableKeyguard" msgid="3189763479326302017">"Tillader, at en applikation deaktiverer tastaturlåsen og al associeret adgangskodesikkerhed. Et legitimt eksempel på dette er, at telefonen deaktiverer tastaturlåsen, når der modtages et indgående telefonopkald, og genaktiverer tastaturlåsen, når opkaldet er afsluttet."</string>
+@@ -454 +452 @@
+-    <string name="permdesc_readSyncSettings" msgid="5315925706353341823">"Tillader, at et program læser synkroniseringsindstillingerne, f.eks. om kontakter skal synkroniseres."</string>
++    <string name="permdesc_readSyncSettings" msgid="5315925706353341823">"Tillader, at en applikation læser synkroniseringsindstillingerne, f.eks. om kontakter skal synkroniseres."</string>
+@@ -456 +454 @@
+-    <string name="permdesc_writeSyncSettings" msgid="2498201614431360044">"Tillader, at et program ændrer indstillingerne for synkronisering, f.eks. kontakter skal synkroniseres."</string>
++    <string name="permdesc_writeSyncSettings" msgid="2498201614431360044">"Tillader, at en applikation ændrer indstillingerne for synkronisering, f.eks. kontakter skal synkroniseres."</string>
+@@ -458 +456 @@
+-    <string name="permdesc_readSyncStats" msgid="7511448343374465000">"Tillader, at et program læser synkroniseringsstatistikker, f.eks. oversigten over forrige synkroniseringer."</string>
++    <string name="permdesc_readSyncStats" msgid="7511448343374465000">"Tillader, at en applikation læser synkroniseringsstatistikker, f.eks. oversigten over forrige synkroniseringer."</string>
+@@ -460 +458 @@
+-    <string name="permdesc_subscribedFeedsRead" msgid="3622200625634207660">"Tillader, at et program får detaljer om de aktuelt synkroniserede feeds."</string>
++    <string name="permdesc_subscribedFeedsRead" msgid="3622200625634207660">"Tillader, at en applikation får detaljer om de aktuelt synkroniserede feeds."</string>
+@@ -462 +460 @@
+-    <string name="permdesc_subscribedFeedsWrite" msgid="8121607099326533878">"Tillader, at et program ændrer dine aktuelle synkroniserede feeds. Dette kan muligvis lade et ondsindet program ændre dine synkroniserede feeds."</string>
++    <string name="permdesc_subscribedFeedsWrite" msgid="8121607099326533878">"Tillader, at en applikation ændrer dine aktuelle synkroniserede feeds. Dette kan muligvis lade et ondsinden applikation ændre dine synkroniserede feeds."</string>
+@@ -464 +462 @@
+-    <string name="permdesc_readDictionary" msgid="1082972603576360690">"Tillader, at et program læser alle private ord, navne og sætninger, som brugeren eventuelt har gemt i brugerordbogen."</string>
++    <string name="permdesc_readDictionary" msgid="1082972603576360690">"Tillader, at en applikation læser alle private ord, navne og sætninger, som brugeren eventuelt har gemt i brugerordbogen."</string>
+@@ -466 +464 @@
+-    <string name="permdesc_writeDictionary" msgid="2241256206524082880">"Tillader, at et program skriver nye ord i brugerordbogen."</string>
++    <string name="permdesc_writeDictionary" msgid="2241256206524082880">"Tillader, at en applikation skriver nye ord i brugerordbogen."</string>
+@@ -470 +468 @@
+-    <string name="permdesc_sdcardWrite" product="default" msgid="6643963204976471878">"Tillader, at et program skriver til SD-kortet."</string>
++    <string name="permdesc_sdcardWrite" product="default" msgid="6643963204976471878">"Tillader, at en applikation skriver til SD-kortet."</string>
+@@ -474 +472 @@
+-    <string name="permdesc_cache_filesystem" msgid="1624734528435659906">"Tillader, at et program læser og skriver til cache-filsystemet."</string>
++    <string name="permdesc_cache_filesystem" msgid="1624734528435659906">"Tillader, at en applikation læser og skriver til cache-filsystemet."</string>
+@@ -476 +474 @@
+-    <string name="permdesc_use_sip" msgid="6320376185606661843">"Tillader, at et program anvender SIP-tjenesten til at foretage/modtage internetopkald."</string>
++    <string name="permdesc_use_sip" msgid="6320376185606661843">"Tillader, at en applikation anvender SIP-tjenesten til at foretage/modtage internetopkald."</string>
+@@ -679 +677 @@
+-    <string name="permdesc_readHistoryBookmarks" msgid="4981489815467617191">"Tillader, at programmet læser alle de webadresser, browseren har besøgt, og alle browserens bogmærker."</string>
++    <string name="permdesc_readHistoryBookmarks" msgid="4981489815467617191">"Tillader, at applikationen læser alle de webadresser, browseren har besøgt, og alle browserens bogmærker."</string>
+@@ -681,2 +679,2 @@
+-    <string name="permdesc_writeHistoryBookmarks" product="tablet" msgid="7193514090469945307">"Tillader, at et program ændrer browseroversigten eller bogmærker, der er gemt på din tabletcomputer. Ondsindede programmer kan bruge dette til at slette eller ændre din browsers data."</string>
+-    <string name="permdesc_writeHistoryBookmarks" product="default" msgid="945571990357114950">"Tillader, at et program ændrer browseroversigten eller bogmærker, der er gemt på din telefon. Ondsindede programmer kan bruge dette til at slette eller ændre din browsers data."</string>
++    <string name="permdesc_writeHistoryBookmarks" product="tablet" msgid="7193514090469945307">"Tillader, at en applikation ændrer browseroversigten eller bogmærker, der er gemt på din tabletcomputer. Ondsindede applikationer kan bruge dette til at slette eller ændre din browsers data."</string>
++    <string name="permdesc_writeHistoryBookmarks" product="default" msgid="945571990357114950">"Tillader, at en applikation ændrer browseroversigten eller bogmærker, der er gemt på din telefon. Ondsindede applikationer kan bruge dette til at slette eller ændre din browsers data."</string>
+@@ -684 +682 @@
+-    <string name="permdesc_setAlarm" msgid="5966966598149875082">"Tillader, at programmet angiver en alarm i et installeret alarmprogram. Nogle alarmprogrammer kan ikke implementere denne funktion."</string>
++    <string name="permdesc_setAlarm" msgid="5966966598149875082">"Tillader, at applikationen angiver en alarm i et installeret alarmprogram. Nogle alarmprogrammer kan ikke implementere denne funktion."</string>
+@@ -686 +684 @@
+-    <string name="permdesc_writeGeolocationPermissions" msgid="4011908282980861679">"Giver et program tilladelse til at ændre browserens tilladelser for geografisk placering. Skadelige programmer kan bruge dette til at tillade, at placeringsoplysninger sendes til vilkårlige websteder."</string>
++    <string name="permdesc_writeGeolocationPermissions" msgid="4011908282980861679">"Giver en applikation tilladelse til at ændre browserens tilladelser for geografisk placering. Skadelige applikationer kan bruge dette til at tillade, at placeringsoplysninger sendes til vilkårlige websteder."</string>
+@@ -819 +817 @@
+-    <string name="clearDefaultHintMsg" msgid="4815455344600932173">"Ryd standard i Startindstillinger &gt; Programmer &gt; Administrer programmer."</string>
++    <string name="clearDefaultHintMsg" msgid="4815455344600932173">"Ryd standard i Startindstillinger &gt; Applikationer &gt; Administrer applikationer."</string>
+@@ -821,2 +819,2 @@
+-    <string name="chooseUsbActivity" msgid="7892597146032121735">"Vælg et program for USB-enheden"</string>
+-    <string name="noApplications" msgid="1691104391758345586">"Der er ingen programmer, der kan foretage denne handling."</string>
++    <string name="chooseUsbActivity" msgid="7892597146032121735">"Vælg en applikation for USB-enheden"</string>
++    <string name="noApplications" msgid="1691104391758345586">"Der er ingen applikationer, der kan foretage denne handling."</string>
+@@ -827 +825 @@
+-    <string name="anr_activity_application" msgid="3538242413112507636">"Aktivitet <xliff:g id="ACTIVITY">%1$s</xliff:g> (i programmet <xliff:g id="APPLICATION">%2$s</xliff:g>) svarer ikke."</string>
++    <string name="anr_activity_application" msgid="3538242413112507636">"Aktivitet <xliff:g id="ACTIVITY">%1$s</xliff:g> (i applikationen <xliff:g id="APPLICATION">%2$s</xliff:g>) svarer ikke."</string>
+@@ -846,3 +844,3 @@
+-    <string name="heavy_weight_notification_detail" msgid="2423977499339403402">"Vælg for at skifte program"</string>
+-    <string name="heavy_weight_switcher_title" msgid="1135403633766694316">"Skift program?"</string>
+-    <string name="heavy_weight_switcher_text" msgid="4592075610079319667">"Der kører et andet program, der skal stoppes, før du kan starte et nyt."</string>
++    <string name="heavy_weight_notification_detail" msgid="2423977499339403402">"Vælg for at skifte applikation"</string>
++    <string name="heavy_weight_switcher_title" msgid="1135403633766694316">"Skift applikation?"</string>
++    <string name="heavy_weight_switcher_text" msgid="4592075610079319667">"Der kører en anden applikation, der skal stoppes, før du kan starte et nyt."</string>
+@@ -850 +848 @@
+-    <string name="old_app_description" msgid="942967900237208466">"Start ikke det nye program."</string>
++    <string name="old_app_description" msgid="942967900237208466">"Start ikke den nye applikation."</string>
+@@ -852 +850 @@
+-    <string name="new_app_description" msgid="6830398339826789493">"Stop det gamle program uden at gemme."</string>
++    <string name="new_app_description" msgid="6830398339826789493">"Stop den gamle applikation uden at gemme."</string>
+@@ -877 +875 @@
+-    <string name="sms_control_default_app_name" msgid="7630529934366549163">"Ukendt program"</string>
++    <string name="sms_control_default_app_name" msgid="7630529934366549163">"Ukendt applikation"</string>
+@@ -906 +904 @@
+-    <string name="dlg_confirm_kill_storage_users_text" msgid="3202838234780505886">"Hvis du slår USB-lagring til, vil nogle af de programmer, som du bruger, stoppe, og de kan være utilgængelige, indtil du slår USB-lagring til igen."</string>
++    <string name="dlg_confirm_kill_storage_users_text" msgid="3202838234780505886">"Hvis du slår USB-lagring til, vil nogle af de applikationer, som du bruger, stoppe, og de kan være utilgængelige, indtil du slår USB-lagring til igen."</string>
+@@ -946,3 +944,3 @@
+-    <string name="permdesc_pkgUsageStats" msgid="891553695716752835">"Tillader ændring af indsamlede brugerstatistikker for komponenter. Ikke til brug til normale programmer."</string>
+-    <string name="permlab_copyProtectedData" msgid="1660908117394854464">"Tillader kald af standardcontainertjeneste for at kopiere indhold. Ikke til brug for almindelige programmer."</string>
+-    <string name="permdesc_copyProtectedData" msgid="537780957633976401">"Tillader kald af standardcontainertjeneste for at kopiere indhold. Ikke til brug for almindelige programmer."</string>
++    <string name="permdesc_pkgUsageStats" msgid="891553695716752835">"Tillader ændring af indsamlede brugerstatistikker for komponenter. Ikke til brug til normale applikationer."</string>
++    <string name="permlab_copyProtectedData" msgid="1660908117394854464">"Tillader kald af standardcontainertjeneste for at kopiere indhold. Ikke til brug for almindelige applikationer."</string>
++    <string name="permdesc_copyProtectedData" msgid="537780957633976401">"Tillader kald af standardcontainertjeneste for at kopiere indhold. Ikke til brug for almindelige applikationer."</string>
+@@ -962 +960 @@
+-    <string name="grant_credentials_permission_message_header" msgid="6824538733852821001">"Følgende programmer anmoder om tilladelse til at få adgang til din konto nu og i fremtiden."</string>
++    <string name="grant_credentials_permission_message_header" msgid="6824538733852821001">"Følgende applikationer anmoder om tilladelse til at få adgang til din konto nu og i fremtiden."</string>
+diff --git a/core/res/res/values-de/strings.xml b/core/res/res/values-de/strings.xml
+index 3728fe9..2438a94 100644
+--- a/core/res/res/values-de/strings.xml
++++ b/core/res/res/values-de/strings.xml
+@@ -188 +188 @@
+-    <string name="permdesc_processOutgoingCalls" msgid="2228988201852654461">"Ermöglicht einer Anwendung, abgehende Anrufe zu verarbeiten und die zu wählende Nummer zu ändern. Schädliche Anwendungen können so abgehende Anrufe eventuell überwachen, umleiten oder verhindern."</string>
++    <string name="permdesc_processOutgoingCalls" msgid="2228988201852654461">"Ermöglicht einer App, abgehende Anrufe zu verarbeiten und die zu wählende Nummer zu ändern. Schädliche Anwendungen können so abgehende Anrufe eventuell überwachen, umleiten oder verhindern."</string>
+@@ -196,2 +196,2 @@
+-    <string name="permdesc_readSms" product="tablet" msgid="5836710350295631545">"Ermöglicht einer Anwendung, auf Ihrem Tablet oder Ihrer SIM-Karte gespeicherte SMS zu lesen. Schädliche Anwendungen lesen so möglicherweise Ihre vertraulichen Nachrichten."</string>
+-    <string name="permdesc_readSms" product="default" msgid="3002170087197294591">"Ermöglicht einer Anwendung, auf Ihrem Telefon oder Ihrer SIM-Karte gespeicherte Kurznachrichten zu lesen. Schädliche Anwendungen lesen so möglicherweise Ihre  vertraulichen Nachrichten."</string>
++    <string name="permdesc_readSms" product="tablet" msgid="5836710350295631545">"Ermöglicht einer App, auf Ihrem Tablet oder Ihrer SIM-Karte gespeicherte SMS zu lesen. Schädliche Anwendungen lesen so möglicherweise Ihre vertraulichen Nachrichten."</string>
++    <string name="permdesc_readSms" product="default" msgid="3002170087197294591">"Ermöglicht einer App, auf Ihrem Telefon oder Ihrer SIM-Karte gespeicherte Kurznachrichten zu lesen. Schädliche Anwendungen lesen so möglicherweise Ihre  vertraulichen Nachrichten."</string>
+@@ -199,2 +199,2 @@
+-    <string name="permdesc_writeSms" product="tablet" msgid="5332124772918835437">"Ermöglicht einer Anwendung, auf Ihrem Tablet oder Ihrer SIM-Karte gespeicherte SMS zu bearbeiten. Schädliche Anwendungen löschen möglicherweise Ihre Nachrichten."</string>
+-    <string name="permdesc_writeSms" product="default" msgid="6299398896177548095">"Ermöglicht einer Anwendung, auf Ihrem Telefon oder Ihrer SIM-Karte gespeicherte Kurznachrichten zu bearbeiten. Schädliche Anwendungen löschen möglicherweise Ihre Nachrichten."</string>
++    <string name="permdesc_writeSms" product="tablet" msgid="5332124772918835437">"Ermöglicht einer App, auf Ihrem Tablet oder Ihrer SIM-Karte gespeicherte SMS zu bearbeiten. Schädliche Anwendungen löschen möglicherweise Ihre Nachrichten."</string>
++    <string name="permdesc_writeSms" product="default" msgid="6299398896177548095">"Ermöglicht einer App, auf Ihrem Telefon oder Ihrer SIM-Karte gespeicherte Kurznachrichten zu bearbeiten. Schädliche Anwendungen löschen möglicherweise Ihre Nachrichten."</string>
+@@ -206 +206 @@
+-    <string name="permdesc_reorderTasks" msgid="126252774270522835">"Ermöglicht einer Anwendung, Aufgaben in den Vorder- und Hintergrund zu verschieben. Schädliche Anwendungen können so ohne Ihr Zutun eine Anzeige im Vordergrund erzwingen."</string>
++    <string name="permdesc_reorderTasks" msgid="126252774270522835">"Ermöglicht einer App, Aufgaben in den Vorder- und Hintergrund zu verschieben. Schädliche Anwendungen können so ohne Ihr Zutun eine Anzeige im Vordergrund erzwingen."</string>
+@@ -208 +208 @@
+-    <string name="permdesc_setDebugApp" msgid="5584310661711990702">"Ermöglicht einer Anwendung, die Fehlerbeseitigung für eine andere Anwendung zu aktivieren. Schädliche Anwendungen können so andere Anwendungen löschen."</string>
++    <string name="permdesc_setDebugApp" msgid="5584310661711990702">"Ermöglicht einer App, die Fehlerbeseitigung für eine andere Anwendung zu aktivieren. Schädliche Anwendungen können so andere Anwendungen löschen."</string>
+@@ -210 +210 @@
+-    <string name="permdesc_changeConfiguration" msgid="3465121501528064399">"Ermöglicht einer Anwendung, die aktuelle Konfiguration zu ändern, etwa das Gebietsschema oder die Schriftgröße"</string>
++    <string name="permdesc_changeConfiguration" msgid="3465121501528064399">"Ermöglicht einer App, die aktuelle Konfiguration zu ändern, etwa das Gebietsschema oder die Schriftgröße"</string>
+@@ -212 +212 @@
+-    <string name="permdesc_enableCarMode" msgid="5673461159384850628">"Ermöglicht einer Anwendung, den Automodus zu aktivieren"</string>
++    <string name="permdesc_enableCarMode" msgid="5673461159384850628">"Ermöglicht einer App, den Automodus zu aktivieren"</string>
+@@ -214 +214 @@
+-    <string name="permdesc_killBackgroundProcesses" msgid="2908829602869383753">"Ermöglicht einer Anwendung, Hintergrundprozesse anderer Anwendungen auch bei ausreichendem Speicher zu beenden."</string>
++    <string name="permdesc_killBackgroundProcesses" msgid="2908829602869383753">"Ermöglicht einer App, Hintergrundprozesse anderer Anwendungen auch bei ausreichendem Speicher zu beenden."</string>
+@@ -216 +216 @@
+-    <string name="permdesc_forceStopPackages" msgid="7263036616161367402">"Ermöglicht einer Anwendung, das Beenden anderer Anwendungen zu erzwingen"</string>
++    <string name="permdesc_forceStopPackages" msgid="7263036616161367402">"Ermöglicht einer App, das Beenden anderer Anwendungen zu erzwingen"</string>
+@@ -218 +218 @@
+-    <string name="permdesc_forceBack" msgid="6534109744159919013">"Ermöglicht einer Anwendung, alle Aktivitäten, die im Vordergrund ablaufen, zu beenden und in den Hintergrund zu schieben. Sollte nicht für normale Anwendungen benötigt werden."</string>
++    <string name="permdesc_forceBack" msgid="6534109744159919013">"Ermöglicht einer App, alle Aktivitäten, die im Vordergrund ablaufen, zu beenden und in den Hintergrund zu schieben. Sollte nicht für normale Anwendungen benötigt werden."</string>
+@@ -220 +220 @@
+-    <string name="permdesc_dump" msgid="2198776174276275220">"Ermöglicht einer Anwendung, den internen Status des Systems abzurufen. Schädliche Anwendungen rufen hierbei möglicherweise eine Vielzahl an privaten und geschützten Daten ab, die Sie in der Regel nicht benötigen würden."</string>
++    <string name="permdesc_dump" msgid="2198776174276275220">"Ermöglicht einer App, den internen Status des Systems abzurufen. Schädliche Anwendungen rufen hierbei möglicherweise eine Vielzahl an privaten und geschützten Daten ab, die Sie in der Regel nicht benötigen würden."</string>
+@@ -228 +228 @@
+-    <string name="permdesc_broadcastPackageRemoved" msgid="3453286591439891260">"Ermöglicht einer Anwendung, eine Benachrichtigung zur Entfernung eines Anwendungspakets zu senden. Schädliche Anwendungen können so laufende Anwendungen beenden."</string>
++    <string name="permdesc_broadcastPackageRemoved" msgid="3453286591439891260">"Ermöglicht einer App, eine Benachrichtigung zur Entfernung eines Anwendungspakets zu senden. Schädliche Anwendungen können so laufende Anwendungen beenden."</string>
+@@ -230 +230 @@
+-    <string name="permdesc_broadcastSmsReceived" msgid="9122419277306740155">"Ermöglicht einer Anwendung, eine Benachrichtigung zu senden, dass eine Kurzmitteilung empfangen wurde. Schädliche Anwendungen könnten diese Option verwenden, um den Eingang von Kurzmitteilungen zu erzwingen."</string>
++    <string name="permdesc_broadcastSmsReceived" msgid="9122419277306740155">"Ermöglicht einer App, eine Benachrichtigung zu senden, dass eine Kurzmitteilung empfangen wurde. Schädliche Anwendungen könnten diese Option verwenden, um den Eingang von Kurzmitteilungen zu erzwingen."</string>
+@@ -232 +232 @@
+-    <string name="permdesc_broadcastWapPush" msgid="3955303669461378091">"Ermöglicht einer Anwendung, eine Benachrichtigung zu senden, dass eine WAP PUSH-Nachricht empfangen wurde. Schädliche Anwendungen könnten diese Option verwenden, um den Erhalt von MMS-Mitteilungen zu erzwingen, oder um unbemerkt den Inhalt einer beliebigen Webseite durch schädliche Inhalte zu ersetzen."</string>
++    <string name="permdesc_broadcastWapPush" msgid="3955303669461378091">"Ermöglicht einer App, eine Benachrichtigung zu senden, dass eine WAP PUSH-Nachricht empfangen wurde. Schädliche Anwendungen könnten diese Option verwenden, um den Erhalt von MMS-Mitteilungen zu erzwingen, oder um unbemerkt den Inhalt einer beliebigen Webseite durch schädliche Inhalte zu ersetzen."</string>
+@@ -234 +234 @@
+-    <string name="permdesc_setProcessLimit" msgid="7824786028557379539">"Ermöglicht einer Anwendung, die maximale Anzahl an laufenden Prozessen zu steuern. Wird nicht für normale Anwendungen benötigt."</string>
++    <string name="permdesc_setProcessLimit" msgid="7824786028557379539">"Ermöglicht einer App, die maximale Anzahl an laufenden Prozessen zu steuern. Wird nicht für normale Anwendungen benötigt."</string>
+@@ -244 +244 @@
+-    <string name="permdesc_systemAlertWindow" msgid="2884149573672821318">"Ermöglicht einer Anwendung, Fenster mit Systemwarnungen anzuzeigen. Schädliche Anwendungen können so die Kontrolle über das gesamte Display übernehmen."</string>
++    <string name="permdesc_systemAlertWindow" msgid="2884149573672821318">"Ermöglicht einer App, Fenster mit Systemwarnungen anzuzeigen. Schädliche Anwendungen können so die Kontrolle über das gesamte Display übernehmen."</string>
+@@ -246 +246 @@
+-    <string name="permdesc_setAnimationScale" msgid="7181522138912391988">"Ermöglicht einer Anwendung, die allgemeine Animationsgeschwindigkeit (schnellere oder langsamere Animationen) jederzeit anzupassen"</string>
++    <string name="permdesc_setAnimationScale" msgid="7181522138912391988">"Ermöglicht einer App, die allgemeine Animationsgeschwindigkeit (schnellere oder langsamere Animationen) jederzeit anzupassen"</string>
+@@ -250,2 +250,2 @@
+-    <string name="permdesc_injectEvents" product="tablet" msgid="7200014808195664505">"Ermöglicht einer Anwendung, ihre eigenen Eingabeaktionen (Drücken von Tasten usw.) an andere Anwendungen zu liefern. Schädliche Anwendungen können so die Kontrolle über Ihr Tablet übernehmen."</string>
+-    <string name="permdesc_injectEvents" product="default" msgid="3946098050410874715">"Ermöglicht einer Anwendung, ihre eigenen Eingabeaktionen (Drücken von Tasten etc.) an andere Anwendungen zu liefern.  Schädliche Anwendungen können so die Kontrolle über Ihr Telefon übernehmen."</string>
++    <string name="permdesc_injectEvents" product="tablet" msgid="7200014808195664505">"Ermöglicht einer App, ihre eigenen Eingabeaktionen (Drücken von Tasten usw.) an andere Anwendungen zu liefern. Schädliche Anwendungen können so die Kontrolle über Ihr Tablet übernehmen."</string>
++    <string name="permdesc_injectEvents" product="default" msgid="3946098050410874715">"Ermöglicht einer App, ihre eigenen Eingabeaktionen (Drücken von Tasten etc.) an andere Anwendungen zu liefern.  Schädliche Anwendungen können so die Kontrolle über Ihr Telefon übernehmen."</string>
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"Zeigergeschwindigkeit ändern"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Ermöglicht einer App, jederzeit die Geschwindigkeit des Maus- bzw. Touchpad-Zeigers zu ändern. Sollte für normale Apps nicht benötigt werden."</string>
+@@ -271 +269 @@
+-    <string name="permdesc_persistentActivity" msgid="5037199778265006008">"Ermöglicht einer Anwendung, eigene Komponenten persistent zu machen, damit das System diese nicht für andere Anwendungen nutzen kann"</string>
++    <string name="permdesc_persistentActivity" msgid="5037199778265006008">"Ermöglicht einer App, eigene Komponenten persistent zu machen, damit das System diese nicht für andere Anwendungen nutzen kann"</string>
+@@ -273 +271 @@
+-    <string name="permdesc_deletePackages" msgid="3634943677518723314">"Ermöglicht einer Anwendung, Android-Pakete zu löschen. Schädliche Anwendungen können so wichtige Anwendungen löschen."</string>
++    <string name="permdesc_deletePackages" msgid="3634943677518723314">"Ermöglicht einer App, Android-Pakete zu löschen. Schädliche Anwendungen können so wichtige Anwendungen löschen."</string>
+@@ -275 +273 @@
+-    <string name="permdesc_clearAppUserData" msgid="7546345080434325456">"Ermöglicht einer Anwendung das Löschen von Nutzerdaten"</string>
++    <string name="permdesc_clearAppUserData" msgid="7546345080434325456">"Ermöglicht einer App das Löschen von Nutzerdaten"</string>
+@@ -277 +275 @@
+-    <string name="permdesc_deleteCacheFiles" msgid="2283074077168165971">"Ermöglicht einer Anwendung, Cache-Dateien zu löschen"</string>
++    <string name="permdesc_deleteCacheFiles" msgid="2283074077168165971">"Ermöglicht einer App, Cache-Dateien zu löschen"</string>
+@@ -279 +277 @@
+-    <string name="permdesc_getPackageSize" msgid="5557253039670753437">"Ermöglicht einer Anwendung, ihre Code-, Daten- und Cache-Größe abzurufen"</string>
++    <string name="permdesc_getPackageSize" msgid="5557253039670753437">"Ermöglicht einer App, ihre Code-, Daten- und Cache-Größe abzurufen"</string>
+@@ -281 +279 @@
+-    <string name="permdesc_installPackages" msgid="526669220850066132">"Ermöglicht einer Anwendung, neue oder aktualisierte Android-Pakete zu installieren. Schädliche Anwendungen können so neue Anwendungen mit beliebig umfangreichen Berechtigungen hinzufügen."</string>
++    <string name="permdesc_installPackages" msgid="526669220850066132">"Ermöglicht einer App, neue oder aktualisierte Android-Pakete zu installieren. Schädliche Anwendungen können so neue Anwendungen mit beliebig umfangreichen Berechtigungen hinzufügen."</string>
+@@ -283,2 +281,2 @@
+-    <string name="permdesc_clearAppCache" product="tablet" msgid="3097119797652477973">"Ermöglicht einer Anwendung, Tablet-Speicher durch das Löschen von Dateien im Cache-Verzeichnis der Anwendung freizugeben. Der Zugriff beschränkt sich in der Regel auf Systemprozesse."</string>
+-    <string name="permdesc_clearAppCache" product="default" msgid="7740465694193671402">"Ermöglicht einer Anwendung, Telefonspeicher durch das Löschen von Dateien im Cache-Verzeichnis der Anwendung freizugeben. Der Zugriff beschränkt sich in der Regel auf Systemprozesse."</string>
++    <string name="permdesc_clearAppCache" product="tablet" msgid="3097119797652477973">"Ermöglicht einer App, Tablet-Speicher durch das Löschen von Dateien im Cache-Verzeichnis der Anwendung freizugeben. Der Zugriff beschränkt sich in der Regel auf Systemprozesse."</string>
++    <string name="permdesc_clearAppCache" product="default" msgid="7740465694193671402">"Ermöglicht einer App, Telefonspeicher durch das Löschen von Dateien im Cache-Verzeichnis der Anwendung freizugeben. Der Zugriff beschränkt sich in der Regel auf Systemprozesse."</string>
+@@ -286 +284 @@
+-    <string name="permdesc_movePackage" msgid="6323049291923925277">"Ermöglicht einer Anwendung, Anwendungsressourcen von internen auf externe Medien zu verschieben und umgekehrt"</string>
++    <string name="permdesc_movePackage" msgid="6323049291923925277">"Ermöglicht einer App, Anwendungsressourcen von internen auf externe Medien zu verschieben und umgekehrt"</string>
+@@ -288,2 +286,2 @@
+-    <string name="permdesc_readLogs" product="tablet" msgid="4077356893924755294">"Ermöglicht einer Anwendung, die verschiedenen Protokolldateien des Systems zu lesen. So können allgemeine Informationen zu den auf Ihrem Tablet durchgeführten Aktionen eingesehen werden. Diese können persönliche oder geheime Daten enthalten."</string>
+-    <string name="permdesc_readLogs" product="default" msgid="8896449437464867766">"Ermöglicht einer Anwendung, die verschiedenen Protokolldateien des Systems zu lesen. So können allgemeine Informationen zu den auf Ihrem Telefon durchgeführten Aktionen eingesehen werden. Diese können persönliche oder geheime Daten enthalten."</string>
++    <string name="permdesc_readLogs" product="tablet" msgid="4077356893924755294">"Ermöglicht einer App, die verschiedenen Protokolldateien des Systems zu lesen. So können allgemeine Informationen zu den auf Ihrem Tablet durchgeführten Aktionen eingesehen werden. Diese können persönliche oder geheime Daten enthalten."</string>
++    <string name="permdesc_readLogs" product="default" msgid="8896449437464867766">"Ermöglicht einer App, die verschiedenen Protokolldateien des Systems zu lesen. So können allgemeine Informationen zu den auf Ihrem Telefon durchgeführten Aktionen eingesehen werden. Diese können persönliche oder geheime Daten enthalten."</string>
+@@ -291 +289 @@
+-    <string name="permdesc_diagnostic" msgid="3121238373951637049">"Ermöglicht einer Anwendung, alle Elemente in der Diagnosegruppe zu lesen und zu bearbeiten, etwa Dateien in \"/dev\". Dies könnte eine potenzielle Gefährdung für die Stabilität und Sicherheit des Systems darstellen und sollte NUR für Hardware-spezifische Diagnosen des Herstellers oder Netzbetreibers verwendet werden."</string>
++    <string name="permdesc_diagnostic" msgid="3121238373951637049">"Ermöglicht einer App, alle Elemente in der Diagnosegruppe zu lesen und zu bearbeiten, etwa Dateien in \"/dev\". Dies könnte eine potenzielle Gefährdung für die Stabilität und Sicherheit des Systems darstellen und sollte NUR für Hardware-spezifische Diagnosen des Herstellers oder Netzbetreibers verwendet werden."</string>
+@@ -293,2 +291,2 @@
+-    <string name="permdesc_changeComponentState" product="tablet" msgid="4647419365510068321">"Ermöglicht einer Anwendung, die Komponente einer anderen Anwendung nach Belieben zu aktivieren oder zu deaktivieren. Schädliche Anwendungen können so wichtige Funktionen des Tablets deaktivieren. Bei der Erteilung dieser Berechtigung ist Vorsicht geboten, da die Anwendungskomponenten unbrauchbar, inkonsistent und instabil werden können."</string>
+-    <string name="permdesc_changeComponentState" product="default" msgid="3443473726140080761">"Ermöglicht einer Anwendung, die Komponente einer anderen Anwendung nach Belieben zu aktivieren oder zu deaktivieren. Schädliche Anwendungen können so wichtige Funktionen des Telefons deaktivieren. Bei der Erteilung dieser Berechtigung ist Vorsicht geboten, da die Anwendungskomponenten unbrauchbar, inkonsistent oder instabil werden können."</string>
++    <string name="permdesc_changeComponentState" product="tablet" msgid="4647419365510068321">"Ermöglicht einer App, die Komponente einer anderen Anwendung nach Belieben zu aktivieren oder zu deaktivieren. Schädliche Anwendungen können so wichtige Funktionen des Tablets deaktivieren. Bei der Erteilung dieser Berechtigung ist Vorsicht geboten, da die Anwendungskomponenten unbrauchbar, inkonsistent und instabil werden können."</string>
++    <string name="permdesc_changeComponentState" product="default" msgid="3443473726140080761">"Ermöglicht einer App, die Komponente einer anderen Anwendung nach Belieben zu aktivieren oder zu deaktivieren. Schädliche Anwendungen können so wichtige Funktionen des Telefons deaktivieren. Bei der Erteilung dieser Berechtigung ist Vorsicht geboten, da die Anwendungskomponenten unbrauchbar, inkonsistent oder instabil werden können."</string>
+@@ -296 +294 @@
+-    <string name="permdesc_setPreferredApplications" msgid="760008293501937546">"Ermöglicht einer Anwendung, Ihre bevorzugten Einstellungen zu ändern. Schädliche Anwendungen können so laufende Anwendungen ohne Ihr Wissen ändern, damit die vorhandenen Anwendungen private Daten von Ihnen sammeln."</string>
++    <string name="permdesc_setPreferredApplications" msgid="760008293501937546">"Ermöglicht einer App, Ihre bevorzugten Einstellungen zu ändern. Schädliche Anwendungen können so laufende Anwendungen ohne Ihr Wissen ändern, damit die vorhandenen Anwendungen private Daten von Ihnen sammeln."</string>
+@@ -298 +296 @@
+-    <string name="permdesc_writeSettings" msgid="838789419871034696">"Ermöglicht einer Anwendung, die Einstellungsdaten des Systems zu ändern. Schädliche Anwendungen können so die Systemkonfiguration beschädigen."</string>
++    <string name="permdesc_writeSettings" msgid="838789419871034696">"Ermöglicht einer App, die Einstellungsdaten des Systems zu ändern. Schädliche Anwendungen können so die Systemkonfiguration beschädigen."</string>
+@@ -302 +300 @@
+-    <string name="permdesc_writeGservices" msgid="6602362746516676175">"Ermöglicht einer Anwendung, Änderungen an der Google Services Map vorzunehmen. Nicht für normale Anwendungen vorgesehen."</string>
++    <string name="permdesc_writeGservices" msgid="6602362746516676175">"Ermöglicht einer App, Änderungen an der Google Services Map vorzunehmen. Nicht für normale Anwendungen vorgesehen."</string>
+@@ -304,2 +302,2 @@
+-    <string name="permdesc_receiveBootCompleted" product="tablet" msgid="7530977064379338199">"Ermöglicht einer Anwendung, sich selbst zu starten, sobald das System gebootet wurde. Dadurch kann es länger dauern, bis das Tablet gestartet wird, und durch die ständige Aktivität der Anwendung wird die gesamte Leistung des Tablets beeinträchtigt."</string>
+-    <string name="permdesc_receiveBootCompleted" product="default" msgid="698336728415008796">"Ermöglicht einer Anwendung, sich selbst zu starten, sobald das System gebootet wurde. Dadurch kann es länger dauern, bis das Telefon gestartet wird, und durch die ständige Aktivität der Anwendung wird die gesamte Leistung des Telefons beeinträchtigt."</string>
++    <string name="permdesc_receiveBootCompleted" product="tablet" msgid="7530977064379338199">"Ermöglicht einer App, sich selbst zu starten, sobald das System gebootet wurde. Dadurch kann es länger dauern, bis das Tablet gestartet wird, und durch die ständige Aktivität der Anwendung wird die gesamte Leistung des Tablets beeinträchtigt."</string>
++    <string name="permdesc_receiveBootCompleted" product="default" msgid="698336728415008796">"Ermöglicht einer App, sich selbst zu starten, sobald das System gebootet wurde. Dadurch kann es länger dauern, bis das Telefon gestartet wird, und durch die ständige Aktivität der Anwendung wird die gesamte Leistung des Telefons beeinträchtigt."</string>
+@@ -307,2 +305,2 @@
+-    <string name="permdesc_broadcastSticky" product="tablet" msgid="6322249605930062595">"Ermöglicht einer Anwendung, dauerhafte Broadcasts zu senden, die auch nach dem Ende des Broadcasts bestehen bleiben. Schädliche Anwendungen können das Tablet langsam oder instabil machen, da zu viel Speicherplatz belegt wird."</string>
+-    <string name="permdesc_broadcastSticky" product="default" msgid="1920045289234052219">"Ermöglicht einer Anwendung, dauerhafte Broadcasts zu senden, die auch nach dem Ende des Broadcasts bestehen bleiben. Schädliche Anwendungen können das Telefon langsam oder unstabil machen, da zuviel Speicherplatz belegt wird."</string>
++    <string name="permdesc_broadcastSticky" product="tablet" msgid="6322249605930062595">"Ermöglicht einer App, dauerhafte Broadcasts zu senden, die auch nach dem Ende des Broadcasts bestehen bleiben. Schädliche Anwendungen können das Tablet langsam oder instabil machen, da zu viel Speicherplatz belegt wird."</string>
++    <string name="permdesc_broadcastSticky" product="default" msgid="1920045289234052219">"Ermöglicht einer App, dauerhafte Broadcasts zu senden, die auch nach dem Ende des Broadcasts bestehen bleiben. Schädliche Anwendungen können das Telefon langsam oder unstabil machen, da zuviel Speicherplatz belegt wird."</string>
+@@ -310,2 +308,2 @@
+-    <string name="permdesc_readContacts" product="tablet" msgid="7596158687301157686">"Ermöglicht einer Anwendung, alle auf Ihrem Tablet gespeicherten Kontaktdaten (Adressen) zu lesen. Schädliche Anwendungen können so Ihre Daten an andere Personen senden."</string>
+-    <string name="permdesc_readContacts" product="default" msgid="3371591512896545975">"Ermöglicht einer Anwendung, alle auf Ihrem Telefon gespeicherten Kontaktdaten (Adressen) zu lesen. Schädliche Anwendungen können so Ihre Daten an andere Personen senden."</string>
++    <string name="permdesc_readContacts" product="tablet" msgid="7596158687301157686">"Ermöglicht einer App, alle auf Ihrem Tablet gespeicherten Kontaktdaten (Adressen) zu lesen. Schädliche Anwendungen können so Ihre Daten an andere Personen senden."</string>
++    <string name="permdesc_readContacts" product="default" msgid="3371591512896545975">"Ermöglicht einer App, alle auf Ihrem Telefon gespeicherten Kontaktdaten (Adressen) zu lesen. Schädliche Anwendungen können so Ihre Daten an andere Personen senden."</string>
+@@ -313,2 +311,2 @@
+-    <string name="permdesc_writeContacts" product="tablet" msgid="7782689510038568495">"Ermöglicht einer Anwendung, die auf Ihrem Tablet gespeicherten Kontaktdaten (Adressen) zu ändern. Schädliche Anwendungen können so Ihre Kontaktdaten löschen oder verändern."</string>
+-    <string name="permdesc_writeContacts" product="default" msgid="3924383579108183601">"Ermöglicht einer Anwendung, die auf Ihrem Telefon gespeicherten Kontaktdaten (Adressen) zu ändern. Schädliche Anwendungen können so Ihre Kontaktdaten löschen oder verändern."</string>
++    <string name="permdesc_writeContacts" product="tablet" msgid="7782689510038568495">"Ermöglicht einer App, die auf Ihrem Tablet gespeicherten Kontaktdaten (Adressen) zu ändern. Schädliche Anwendungen können so Ihre Kontaktdaten löschen oder verändern."</string>
++    <string name="permdesc_writeContacts" product="default" msgid="3924383579108183601">"Ermöglicht einer App, die auf Ihrem Telefon gespeicherten Kontaktdaten (Adressen) zu ändern. Schädliche Anwendungen können so Ihre Kontaktdaten löschen oder verändern."</string>
+@@ -316,2 +314,2 @@
+-    <string name="permdesc_readCalendar" product="tablet" msgid="5905870265734599678">"Ermöglicht einer Anwendung, alle auf Ihrem Tablet gespeicherten Kalenderereignisse zu lesen. Schädliche Anwendungen können so Ihre Kalenderereignisse an andere Personen senden."</string>
+-    <string name="permdesc_readCalendar" product="default" msgid="5533029139652095734">"Ermöglicht einer Anwendung, alle auf Ihrem Telefon gespeicherten Kalenderereignisse zu lesen. Schädliche Anwendungen können so Ihre Kalenderereignisse an andere Personen senden."</string>
++    <string name="permdesc_readCalendar" product="tablet" msgid="5905870265734599678">"Ermöglicht einer App, alle auf Ihrem Tablet gespeicherten Kalenderereignisse zu lesen. Schädliche Anwendungen können so Ihre Kalenderereignisse an andere Personen senden."</string>
++    <string name="permdesc_readCalendar" product="default" msgid="5533029139652095734">"Ermöglicht einer App, alle auf Ihrem Telefon gespeicherten Kalenderereignisse zu lesen. Schädliche Anwendungen können so Ihre Kalenderereignisse an andere Personen senden."</string>
+@@ -319 +317 @@
+-    <string name="permdesc_writeCalendar" msgid="2988871373544154221">"Ermöglicht einer Anwendung, Einträge in Ihrem Kalender hinzuzufügen oder zu ändern, wodurch E-Mails an Gäste gesendet werden können. Schädliche Anwendungen können so Ihre Kalenderdaten löschen oder verändern oder E-Mails versenden."</string>
++    <string name="permdesc_writeCalendar" msgid="2988871373544154221">"Ermöglicht einer App, Einträge in Ihrem Kalender hinzuzufügen oder zu ändern, wodurch E-Mails an Gäste gesendet werden können. Schädliche Anwendungen können so Ihre Kalenderdaten löschen oder verändern oder E-Mails versenden."</string>
+@@ -333 +331 @@
+-    <string name="permdesc_accessSurfaceFlinger" msgid="6805241830020733025">"Ermöglicht einer Anwendung, die systemnahen SurfaceFlinger-Funktionen zu verwenden"</string>
++    <string name="permdesc_accessSurfaceFlinger" msgid="6805241830020733025">"Ermöglicht einer App, die systemnahen SurfaceFlinger-Funktionen zu verwenden"</string>
+@@ -335 +333 @@
+-    <string name="permdesc_readFrameBuffer" msgid="7530020370469942528">"Ermöglicht einer Anwendung, den Content des Frame-Puffers zu lesen"</string>
++    <string name="permdesc_readFrameBuffer" msgid="7530020370469942528">"Ermöglicht einer App, den Content des Frame-Puffers zu lesen"</string>
+@@ -373 +371 @@
+-    <string name="permdesc_hardware_test" msgid="3668894686500081699">"Ermöglicht einer Anwendung, verschiedene Peripherie-Geräte zu Hardware-Testzwecken zu steuern"</string>
++    <string name="permdesc_hardware_test" msgid="3668894686500081699">"Ermöglicht einer App, verschiedene Peripherie-Geräte zu Hardware-Testzwecken zu steuern"</string>
+@@ -388 +386 @@
+-    <string name="permdesc_modifyPhoneState" msgid="3302284561346956587">"Ermöglicht einer Anwendung, die Telefonfunktionen des Gerätes zu steuern. Eine Anwendung mit dieser Berechtigung kann unter anderem das Netzwerk wechseln oder die Mobilfunkverbindung des Telefons ein- und ausschalten, ohne Sie darüber zu informieren."</string>
++    <string name="permdesc_modifyPhoneState" msgid="3302284561346956587">"Ermöglicht einer App, die Telefonfunktionen des Gerätes zu steuern. Eine Anwendung mit dieser Berechtigung kann unter anderem das Netzwerk wechseln oder die Mobilfunkverbindung des Telefons ein- und ausschalten, ohne Sie darüber zu informieren."</string>
+@@ -393,2 +391,2 @@
+-    <string name="permdesc_wakeLock" product="tablet" msgid="4032181488045338551">"Ermöglicht einer Anwendung, den Standby-Modus des Tablets zu deaktivieren."</string>
+-    <string name="permdesc_wakeLock" product="default" msgid="7584036471227467099">"Ermöglicht einer Anwendung, den Standby-Modus des Telefons zu deaktivieren"</string>
++    <string name="permdesc_wakeLock" product="tablet" msgid="4032181488045338551">"Ermöglicht einer App, den Standby-Modus des Tablets zu deaktivieren."</string>
++    <string name="permdesc_wakeLock" product="default" msgid="7584036471227467099">"Ermöglicht einer App, den Standby-Modus des Telefons zu deaktivieren"</string>
+@@ -407 +405 @@
+-    <string name="permdesc_masterClear" msgid="5033465107545174514">"Ermöglicht einer Anwendung, das System komplett auf Werkseinstellung zurückzusetzen. Hierbei werden alle Daten, Konfigurationen und installierten Anwendungen gelöscht."</string>
++    <string name="permdesc_masterClear" msgid="5033465107545174514">"Ermöglicht einer App, das System komplett auf Werkseinstellung zurückzusetzen. Hierbei werden alle Daten, Konfigurationen und installierten Anwendungen gelöscht."</string>
+@@ -409,2 +407,2 @@
+-    <string name="permdesc_setTime" product="tablet" msgid="209693136361006073">"Ermöglicht einer Anwendung, die Uhrzeit des Tablets zu ändern"</string>
+-    <string name="permdesc_setTime" product="default" msgid="667294309287080045">"Ermöglicht einer Anwendung, die Uhrzeit des Telefons zu ändern"</string>
++    <string name="permdesc_setTime" product="tablet" msgid="209693136361006073">"Ermöglicht einer App, die Uhrzeit des Tablets zu ändern"</string>
++    <string name="permdesc_setTime" product="default" msgid="667294309287080045">"Ermöglicht einer App, die Uhrzeit des Telefons zu ändern"</string>
+@@ -412,2 +410,2 @@
+-    <string name="permdesc_setTimeZone" product="tablet" msgid="2522877107613885139">"Ermöglicht einer Anwendung, die Zeitzone des Tablets zu ändern."</string>
+-    <string name="permdesc_setTimeZone" product="default" msgid="1902540227418179364">"Ermöglicht einer Anwendung, die Zeitzone des Telefons zu ändern"</string>
++    <string name="permdesc_setTimeZone" product="tablet" msgid="2522877107613885139">"Ermöglicht einer App, die Zeitzone des Tablets zu ändern."</string>
++    <string name="permdesc_setTimeZone" product="default" msgid="1902540227418179364">"Ermöglicht einer App, die Zeitzone des Telefons zu ändern"</string>
+@@ -415 +413 @@
+-    <string name="permdesc_accountManagerService" msgid="6056903274106394752">"Ermöglicht einer Anwendung, Anrufe an Konto-Authentifizierer zu tätigen"</string>
++    <string name="permdesc_accountManagerService" msgid="6056903274106394752">"Ermöglicht einer App, Anrufe an Konto-Authentifizierer zu tätigen"</string>
+@@ -417,2 +415,2 @@
+-    <string name="permdesc_getAccounts" product="tablet" msgid="857622793935544694">"Ermöglicht einer Anwendung, eine Liste der dem Tablet bekannten Konten abzurufen."</string>
+-    <string name="permdesc_getAccounts" product="default" msgid="6839262446413155394">"Ermöglicht einer Anwendung, eine Liste der dem Telefon bekannten Konten abzurufen"</string>
++    <string name="permdesc_getAccounts" product="tablet" msgid="857622793935544694">"Ermöglicht einer App, eine Liste der dem Tablet bekannten Konten abzurufen."</string>
++    <string name="permdesc_getAccounts" product="default" msgid="6839262446413155394">"Ermöglicht einer App, eine Liste der dem Telefon bekannten Konten abzurufen"</string>
+@@ -420 +418 @@
+-    <string name="permdesc_authenticateAccounts" msgid="4006839406474208874">"Ermöglicht einer Anwendung, die Kontoauthentifizierungsfunktionen des Konto-Managers zu verwenden, einschließlich die Funktionen zum Erstellen von Konten und zum Abrufen und Einstellen der entsprechenden Passwörter"</string>
++    <string name="permdesc_authenticateAccounts" msgid="4006839406474208874">"Ermöglicht einer App, die Kontoauthentifizierungsfunktionen des Konto-Managers zu verwenden, einschließlich die Funktionen zum Erstellen von Konten und zum Abrufen und Einstellen der entsprechenden Passwörter"</string>
+@@ -422 +420 @@
+-    <string name="permdesc_manageAccounts" msgid="8804114016661104517">"Ermöglicht einer Anwendung, Konten hinzuzufügen und zu entfernen oder deren Passwörter zu löschen"</string>
++    <string name="permdesc_manageAccounts" msgid="8804114016661104517">"Ermöglicht einer App, Konten hinzuzufügen und zu entfernen oder deren Passwörter zu löschen"</string>
+@@ -424 +422 @@
+-    <string name="permdesc_useCredentials" msgid="7416570544619546974">"Ermöglicht einer Anwendung, Authentifizierungs-Token anzufordern"</string>
++    <string name="permdesc_useCredentials" msgid="7416570544619546974">"Ermöglicht einer App, Authentifizierungs-Token anzufordern"</string>
+@@ -426 +424 @@
+-    <string name="permdesc_accessNetworkState" msgid="558721128707712766">"Ermöglicht einer Anwendung, den Status aller Netzwerke anzuzeigen"</string>
++    <string name="permdesc_accessNetworkState" msgid="558721128707712766">"Ermöglicht einer App, den Status aller Netzwerke anzuzeigen"</string>
+@@ -428 +426 @@
+-    <string name="permdesc_createNetworkSockets" msgid="4593339106921772192">"Ermöglicht einer Anwendung, Netzwerk-Sockets einzurichten"</string>
++    <string name="permdesc_createNetworkSockets" msgid="4593339106921772192">"Ermöglicht einer App, Netzwerk-Sockets einzurichten"</string>
+@@ -430 +428 @@
+-    <string name="permdesc_writeApnSettings" msgid="7443433457842966680">"Ermöglicht einer Anwendung, die APN-Einstellungen wie Proxy und Port eines Zugriffspunkts zu ändern"</string>
++    <string name="permdesc_writeApnSettings" msgid="7443433457842966680">"Ermöglicht einer App, die APN-Einstellungen wie Proxy und Port eines Zugriffspunkts zu ändern"</string>
+@@ -432 +430 @@
+-    <string name="permdesc_changeNetworkState" msgid="4199958910396387075">"Ermöglicht einer Anwendung, den Status der Netzwerkkonnektivität zu ändern"</string>
++    <string name="permdesc_changeNetworkState" msgid="4199958910396387075">"Ermöglicht einer App, den Status der Netzwerkkonnektivität zu ändern"</string>
+@@ -434 +432 @@
+-    <string name="permdesc_changeTetherState" msgid="8905815579146349568">"Ermöglicht einer Anwendung, den Status der Tethering-Konnektivität zu ändern"</string>
++    <string name="permdesc_changeTetherState" msgid="8905815579146349568">"Ermöglicht einer App, den Status der Tethering-Konnektivität zu ändern"</string>
+@@ -436 +434 @@
+-    <string name="permdesc_changeBackgroundDataSetting" msgid="1001482853266638864">"Ermöglicht einer Anwendung, die Einstellung der Verwendung von Hintergrunddaten zu ändern"</string>
++    <string name="permdesc_changeBackgroundDataSetting" msgid="1001482853266638864">"Ermöglicht einer App, die Einstellung der Verwendung von Hintergrunddaten zu ändern"</string>
+@@ -438 +436 @@
+-    <string name="permdesc_accessWifiState" msgid="485796529139236346">"Ermöglicht einer Anwendung, die Informationen zum WLAN-Status einzusehen"</string>
++    <string name="permdesc_accessWifiState" msgid="485796529139236346">"Ermöglicht einer App, die Informationen zum WLAN-Status einzusehen"</string>
+@@ -440 +438 @@
+-    <string name="permdesc_changeWifiState" msgid="2950383153656873267">"Ermöglicht einer Anwendung, eine Verbindung zu den WLAN-Zugangspunkten herzustellen und diese zu trennen oder Änderungen an den konfigurierten WLAN-Netzwerken vorzunehmen"</string>
++    <string name="permdesc_changeWifiState" msgid="2950383153656873267">"Ermöglicht einer App, eine Verbindung zu den WLAN-Zugangspunkten herzustellen und diese zu trennen oder Änderungen an den konfigurierten WLAN-Netzwerken vorzunehmen"</string>
+@@ -442 +440 @@
+-    <string name="permdesc_changeWifiMulticastState" msgid="8199464507656067553">"Ermöglicht einer Anwendung, Datenpakete zu empfangen, die nicht direkt an Ihr Gerät gerichtet sind. Dies kann bei der Erkennung von in der Nähe angebotenen Diensten hilfreich sein. Diese Einstellung verbraucht mehr Energie als der Nicht-Multicast-Modus."</string>
++    <string name="permdesc_changeWifiMulticastState" msgid="8199464507656067553">"Ermöglicht einer App, Datenpakete zu empfangen, die nicht direkt an Ihr Gerät gerichtet sind. Dies kann bei der Erkennung von in der Nähe angebotenen Diensten hilfreich sein. Diese Einstellung verbraucht mehr Energie als der Nicht-Multicast-Modus."</string>
+@@ -444,2 +442,2 @@
+-    <string name="permdesc_bluetoothAdmin" product="tablet" msgid="3511795757324345837">"Ermöglicht einer Anwendung, das lokale Bluetooth-Tablet zu konfigurieren, Remote-Geräte zu erkennen und eine Verbindung zu diesen herzustellen."</string>
+-    <string name="permdesc_bluetoothAdmin" product="default" msgid="7256289774667054555">"Ermöglicht einer Anwendung, das lokale Bluetooth-Telefon zu konfigurieren, Remote-Geräte zu erkennen und eine Verbindung zu diesen herzustellen"</string>
++    <string name="permdesc_bluetoothAdmin" product="tablet" msgid="3511795757324345837">"Ermöglicht einer App, das lokale Bluetooth-Tablet zu konfigurieren, Remote-Geräte zu erkennen und eine Verbindung zu diesen herzustellen."</string>
++    <string name="permdesc_bluetoothAdmin" product="default" msgid="7256289774667054555">"Ermöglicht einer App, das lokale Bluetooth-Telefon zu konfigurieren, Remote-Geräte zu erkennen und eine Verbindung zu diesen herzustellen"</string>
+@@ -447,2 +445,2 @@
+-    <string name="permdesc_bluetooth" product="tablet" msgid="4191941825910543803">"Ermöglicht einer Anwendung, die Konfiguration des lokalen Bluetooth-Tablets einzusehen und Verbindungen mit Partnergeräten herzustellen und zu akzeptieren."</string>
+-    <string name="permdesc_bluetooth" product="default" msgid="762515380679392945">"Ermöglicht einer Anwendung, die Konfiguration des lokalen Bluetooth-Telefons einzusehen und Verbindungen mit Partnergeräten herzustellen und zu akzeptieren"</string>
++    <string name="permdesc_bluetooth" product="tablet" msgid="4191941825910543803">"Ermöglicht einer App, die Konfiguration des lokalen Bluetooth-Tablets einzusehen und Verbindungen mit Partnergeräten herzustellen und zu akzeptieren."</string>
++    <string name="permdesc_bluetooth" product="default" msgid="762515380679392945">"Ermöglicht einer App, die Konfiguration des lokalen Bluetooth-Telefons einzusehen und Verbindungen mit Partnergeräten herzustellen und zu akzeptieren"</string>
+@@ -450 +448 @@
+-    <string name="permdesc_nfc" msgid="9171401851954407226">"Ermöglicht einer Anwendung die Kommunikation mit Tags für Nahfeldkommunikation, Karten und Lesegeräte"</string>
++    <string name="permdesc_nfc" msgid="9171401851954407226">"Ermöglicht einer App die Kommunikation mit Tags für Nahfeldkommunikation, Karten und Lesegeräte"</string>
+@@ -452 +450 @@
+-    <string name="permdesc_disableKeyguard" msgid="3189763479326302017">"Ermöglicht einer Anwendung, die Tastensperre sowie den damit verbundenen Passwortschutz zu deaktivieren. So wird die Tastensperre vom Telefon deaktiviert, wenn ein Anruf eingeht, und nach Beendigung des Anrufs wieder aktiviert."</string>
++    <string name="permdesc_disableKeyguard" msgid="3189763479326302017">"Ermöglicht einer App, die Tastensperre sowie den damit verbundenen Passwortschutz zu deaktivieren. So wird die Tastensperre vom Telefon deaktiviert, wenn ein Anruf eingeht, und nach Beendigung des Anrufs wieder aktiviert."</string>
+@@ -454 +452 @@
+-    <string name="permdesc_readSyncSettings" msgid="5315925706353341823">"Ermöglicht einer Anwendung, die Synchronisierungseinstellungen zu lesen, etwa ob die Synchronisierung für Kontakte aktiviert ist oder nicht"</string>
++    <string name="permdesc_readSyncSettings" msgid="5315925706353341823">"Ermöglicht einer App, die Synchronisierungseinstellungen zu lesen, etwa ob die Synchronisierung für Kontakte aktiviert ist oder nicht"</string>
+@@ -456 +454 @@
+-    <string name="permdesc_writeSyncSettings" msgid="2498201614431360044">"Ermöglicht einer Anwendung, die Synchronisierungseinstellungen zu ändern, etwa ob die Synchronisierung für Kontakte aktiviert ist oder nicht"</string>
++    <string name="permdesc_writeSyncSettings" msgid="2498201614431360044">"Ermöglicht einer App, die Synchronisierungseinstellungen zu ändern, etwa ob die Synchronisierung für Kontakte aktiviert ist oder nicht"</string>
+@@ -458 +456 @@
+-    <string name="permdesc_readSyncStats" msgid="7511448343374465000">"Ermöglicht einer Anwendung, die Synchronisierungsstatistiken zu lesen, etwa den Verlauf der bereits durchgeführten Synchronisierungen"</string>
++    <string name="permdesc_readSyncStats" msgid="7511448343374465000">"Ermöglicht einer App, die Synchronisierungsstatistiken zu lesen, etwa den Verlauf der bereits durchgeführten Synchronisierungen"</string>
+@@ -460 +458 @@
+-    <string name="permdesc_subscribedFeedsRead" msgid="3622200625634207660">"Ermöglicht einer Anwendung, Details zu den zurzeit synchronisierten Feeds abzurufen"</string>
++    <string name="permdesc_subscribedFeedsRead" msgid="3622200625634207660">"Ermöglicht einer App, Details zu den zurzeit synchronisierten Feeds abzurufen"</string>
+@@ -462 +460 @@
+-    <string name="permdesc_subscribedFeedsWrite" msgid="8121607099326533878">"Ermöglicht einer Anwendung, Änderungen an den kürzlich synchronisierten Feeds vorzunehmen. Schädliche Anwendungen könnten so Ihre synchronisierten Feeds ändern."</string>
++    <string name="permdesc_subscribedFeedsWrite" msgid="8121607099326533878">"Ermöglicht einer App, Änderungen an den kürzlich synchronisierten Feeds vorzunehmen. Schädliche Anwendungen könnten so Ihre synchronisierten Feeds ändern."</string>
+@@ -464 +462 @@
+-    <string name="permdesc_readDictionary" msgid="1082972603576360690">"Ermöglicht einer Anwendung, alle privaten Wörter, Namen und Ausdrücke zu lesen, die ein Nutzer in seinem Wörterbuch gespeichert hat"</string>
++    <string name="permdesc_readDictionary" msgid="1082972603576360690">"Ermöglicht einer App, alle privaten Wörter, Namen und Ausdrücke zu lesen, die ein Nutzer in seinem Wörterbuch gespeichert hat"</string>
+@@ -466 +464 @@
+-    <string name="permdesc_writeDictionary" msgid="2241256206524082880">"Ermöglicht einer Anwendung, Ihrem Wörterbuch neue Einträge hinzuzufügen"</string>
++    <string name="permdesc_writeDictionary" msgid="2241256206524082880">"Ermöglicht einer App, Ihrem Wörterbuch neue Einträge hinzuzufügen"</string>
+@@ -470 +468 @@
+-    <string name="permdesc_sdcardWrite" product="default" msgid="6643963204976471878">"Ermöglicht einer Anwendung, auf die SD-Karte zu schreiben"</string>
++    <string name="permdesc_sdcardWrite" product="default" msgid="6643963204976471878">"Ermöglicht einer App, auf die SD-Karte zu schreiben"</string>
+@@ -472 +470 @@
+-    <string name="permdesc_mediaStorageWrite" product="default" msgid="8232008512478316233">"Ermöglicht einer Anwendung, den Inhalt des internen Medienspeichers zu ändern"</string>
++    <string name="permdesc_mediaStorageWrite" product="default" msgid="8232008512478316233">"Ermöglicht einer App, den Inhalt des internen Medienspeichers zu ändern"</string>
+@@ -476 +474 @@
+-    <string name="permdesc_use_sip" msgid="6320376185606661843">"Ermöglicht einer Anwendung die Verwendung des SIP-Dienstes zum Tätigen/Annehmen von Internetanrufen"</string>
++    <string name="permdesc_use_sip" msgid="6320376185606661843">"Ermöglicht einer App die Verwendung des SIP-Dienstes zum Tätigen/Annehmen von Internetanrufen"</string>
+@@ -681,2 +679,2 @@
+-    <string name="permdesc_writeHistoryBookmarks" product="tablet" msgid="7193514090469945307">"Ermöglicht einer Anwendung, den auf Ihrem Tablet gespeicherten Browserverlauf und die Lesezeichen zu ändern. Schädliche Anwendungen können so Ihre Browserdaten löschen oder ändern."</string>
+-    <string name="permdesc_writeHistoryBookmarks" product="default" msgid="945571990357114950">"Ermöglicht einer Anwendung, den auf Ihrem Telefon gespeicherten Browserverlauf und die Lesezeichen zu ändern. Schädliche Anwendungen können so Ihre Browserdaten löschen oder ändern."</string>
++    <string name="permdesc_writeHistoryBookmarks" product="tablet" msgid="7193514090469945307">"Ermöglicht einer App, den auf Ihrem Tablet gespeicherten Browserverlauf und die Lesezeichen zu ändern. Schädliche Anwendungen können so Ihre Browserdaten löschen oder ändern."</string>
++    <string name="permdesc_writeHistoryBookmarks" product="default" msgid="945571990357114950">"Ermöglicht einer App, den auf Ihrem Telefon gespeicherten Browserverlauf und die Lesezeichen zu ändern. Schädliche Anwendungen können so Ihre Browserdaten löschen oder ändern."</string>
+@@ -686 +684 @@
+-    <string name="permdesc_writeGeolocationPermissions" msgid="4011908282980861679">"Ermöglicht einer Anwendung, die Geolokalisierungsberechtigungen des Browsers zu ändern. Schädliche Anwendungen können dies nutzen, um das Senden von Standortinformationen an willkürliche Websites zuzulassen."</string>
++    <string name="permdesc_writeGeolocationPermissions" msgid="4011908282980861679">"Ermöglicht einer App, die Geolokalisierungsberechtigungen des Browsers zu ändern. Schädliche Anwendungen können dies nutzen, um das Senden von Standortinformationen an willkürliche Websites zuzulassen."</string>
+@@ -1007,2 +1005,2 @@
+-    <string name="media_checking" product="nosdcard" msgid="418188720009569693">"Der USB-Speicher wird derzeit überprüft."</string>
+-    <string name="media_checking" product="default" msgid="7334762503904827481">"Die SD-Karte wird derzeit überprüft."</string>
++    <string name="media_checking" product="nosdcard" msgid="418188720009569693">"Der USB-Speicher wird zurzeit überprüft."</string>
++    <string name="media_checking" product="default" msgid="7334762503904827481">"Die SD-Karte wird zurzeit überprüft."</string>
+@@ -1010,2 +1008,2 @@
+-    <string name="media_shared" product="nosdcard" msgid="5830814349250834225">"Der USB-Speicher wird derzeit von einem Computer verwendet."</string>
+-    <string name="media_shared" product="default" msgid="5706130568133540435">"Die SD-Karte wird derzeit von einem Computer verwendet."</string>
++    <string name="media_shared" product="nosdcard" msgid="5830814349250834225">"Der USB-Speicher wird zurzeit von einem Computer verwendet."</string>
++    <string name="media_shared" product="default" msgid="5706130568133540435">"Die SD-Karte wird zurzeit von einem Computer verwendet."</string>
+diff --git a/core/res/res/values-el/strings.xml b/core/res/res/values-el/strings.xml
+index 93447dd..71ac7bd 100644
+--- a/core/res/res/values-el/strings.xml
++++ b/core/res/res/values-el/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"αλλαγή ταχύτητας δείκτη"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Επιτρέπει σε μια εφαρμογή την αλλαγή της ταχύτητας του δείκτη του ποντικιού ή της επιφάνειας αφής ανά πάσα στιγμή. Υπό κανονικές συνθήκες, δεν απαιτείται για κανονικές εφαρμογές."</string>
+diff --git a/core/res/res/values-en-rGB/strings.xml b/core/res/res/values-en-rGB/strings.xml
+index 4a545d6..78e2b7f 100644
+--- a/core/res/res/values-en-rGB/strings.xml
++++ b/core/res/res/values-en-rGB/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"change pointer speed"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Allows an application to change the mouse or track pad pointer speed at any time. Should never be needed for normal applications."</string>
+diff --git a/core/res/res/values-es-rUS/strings.xml b/core/res/res/values-es-rUS/strings.xml
+index 749c8c0..94cf49a 100644
+--- a/core/res/res/values-es-rUS/strings.xml
++++ b/core/res/res/values-es-rUS/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"cambiar velocidad del puntero"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Permite que una aplicación modifique la velocidad del puntero del mouse o del trackpad en cualquier momento. Las aplicaciones normales nunca deberían necesitar este permiso."</string>
+diff --git a/core/res/res/values-es/strings.xml b/core/res/res/values-es/strings.xml
+index 498eccc..06ab109 100644
+--- a/core/res/res/values-es/strings.xml
++++ b/core/res/res/values-es/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"cambiar velocidad del puntero"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Permite que una aplicación modifique la velocidad del puntero del trackpad o del ratón en cualquier momento. Las aplicaciones normales nunca deberían necesitar este permiso."</string>
+diff --git a/core/res/res/values-fa/strings.xml b/core/res/res/values-fa/strings.xml
+index 703aa85..0c4338f 100644
+--- a/core/res/res/values-fa/strings.xml
++++ b/core/res/res/values-fa/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"تغییر سرعت اشاره گر"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"به یک برنامه کاربردی این امکان را می دهد تا سرعت اشاره گر ماوس یا پد لمسی را در هر زمان تغییر دهد. برای برنامه های معمولی به این حالت نیاز نخواهید داشت."</string>
+diff --git a/core/res/res/values-fi/strings.xml b/core/res/res/values-fi/strings.xml
+index 3009bad..dbbeeae 100644
+--- a/core/res/res/values-fi/strings.xml
++++ b/core/res/res/values-fi/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"muuta osoittimen nopeutta"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Antaa sovelluksen muuttaa hiiren tai ohjauslevyn osoittimen nopeutta milloin tahansa. Ei tavallisten sovelluksien käyttöön."</string>
+diff --git a/core/res/res/values-fr/strings.xml b/core/res/res/values-fr/strings.xml
+index b95bd52..c2d8500 100644
+--- a/core/res/res/values-fr/strings.xml
++++ b/core/res/res/values-fr/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"changer la vitesse du pointeur"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Permet à une application de modifier la vitesse du pointeur de la souris ou du pavé tactile à tout moment. Cette autorisation ne devrait jamais être nécessaire pour les applications standards."</string>
+diff --git a/core/res/res/values-hr/strings.xml b/core/res/res/values-hr/strings.xml
+index a655b40..8f37331 100644
+--- a/core/res/res/values-hr/strings.xml
++++ b/core/res/res/values-hr/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"promjena brzine pokazivača"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Omogućuje aplikaciji promjenu brzine pokazivača miša ili dodirne pločice u bilo koje vrijeme. Ne bi smjelo biti potrebno za normalne aplikacije."</string>
+diff --git a/core/res/res/values-hu/strings.xml b/core/res/res/values-hu/strings.xml
+index 5140c76..0d0322e 100644
+--- a/core/res/res/values-hu/strings.xml
++++ b/core/res/res/values-hu/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"mutató sebességének módosítása"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Lehetővé teszi, hogy az alkalmazás bármikor megváltoztassa az egér vagy az érintőpad mutatójának sebességét. Normál alkalmazásoknak soha nem lehet rá szükségük."</string>
+diff --git a/core/res/res/values-in/strings.xml b/core/res/res/values-in/strings.xml
+index 91814c5..fcc288a 100644
+--- a/core/res/res/values-in/strings.xml
++++ b/core/res/res/values-in/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"ubah kecepatan penunjuk"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Memungkinkan aplikasi mengubah kecepatan penunjuk mouse atau trackpad kapan saja. Tidak diperlukan untuk aplikasi normal."</string>
+diff --git a/core/res/res/values-it/strings.xml b/core/res/res/values-it/strings.xml
+index ba2530d..3fd7ec3 100644
+--- a/core/res/res/values-it/strings.xml
++++ b/core/res/res/values-it/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"cambio velocità del puntatore"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Consente a un\'applicazione di modificare la velocità del puntatore del mouse o del trackpad in qualsiasi momento. Non dovrebbe mai essere necessario per le normali applicazioni."</string>
+diff --git a/core/res/res/values-iw/strings.xml b/core/res/res/values-iw/strings.xml
+index 18ea9a0..b24ad33 100644
+--- a/core/res/res/values-iw/strings.xml
++++ b/core/res/res/values-iw/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"שינוי מהירות המצביע"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"מאפשר ליישום לשנות את מהירות מצביע העכבר או משטח העקיבה בכל עת. הגדרה זו אף פעם לא נחוצה עבור יישומים רגילים."</string>
+diff --git a/core/res/res/values-ja/strings.xml b/core/res/res/values-ja/strings.xml
+index 58485dd..5a87b30 100644
+--- a/core/res/res/values-ja/strings.xml
++++ b/core/res/res/values-ja/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"ポインタの速度の変更"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"マウスまたはトラックパッドのポインタの速度をいつでも変更することをアプリケーションに許可します。通常のアプリケーションではまったく必要ありません。"</string>
+diff --git a/core/res/res/values-ko/strings.xml b/core/res/res/values-ko/strings.xml
+index 70e44ea..e1d163b 100644
+--- a/core/res/res/values-ko/strings.xml
++++ b/core/res/res/values-ko/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"포인터 속도 변경"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"애플리케이션이 언제든지 마우스 또는 트랙패드 포인터의 속도를 변경할 수 있도록 합니다. 일반 애플리케이션에는 절대로 필요하지 않습니다."</string>
+diff --git a/core/res/res/values-lt/strings.xml b/core/res/res/values-lt/strings.xml
+index 54677e6..f2ebb7c 100644
+--- a/core/res/res/values-lt/strings.xml
++++ b/core/res/res/values-lt/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"keisti žymiklio greitį"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Galima programa bet kuriuo metu pakeisti pelės ar jutiklinės planšetės žymiklio greitį. Nereikalingas naudojant įprastas programas."</string>
+diff --git a/core/res/res/values-lv/strings.xml b/core/res/res/values-lv/strings.xml
+index b2eeaaf..301d9aa 100644
+--- a/core/res/res/values-lv/strings.xml
++++ b/core/res/res/values-lv/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"Rādītāja ātruma mainīšana"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Ļauj lietojumprogrammai jebkurā laikā mainīt peles vai skārienpaliktņa rādītāja ātrumu. Parastās lietojumprogrammās šī funkcija nav nepieciešama."</string>
+diff --git a/core/res/res/values-nb/strings.xml b/core/res/res/values-nb/strings.xml
+index b3bd82c..2c2a701 100644
+--- a/core/res/res/values-nb/strings.xml
++++ b/core/res/res/values-nb/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"endre pekerhastighet"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Tillater at en applikasjon endrer hastigheten til musen eller styreflatepekeren til enhver tid. Skal aldri være nødvendig ved normal bruk."</string>
+diff --git a/core/res/res/values-nl/strings.xml b/core/res/res/values-nl/strings.xml
+index a44615c..86342c0 100644
+--- a/core/res/res/values-nl/strings.xml
++++ b/core/res/res/values-nl/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"aanwijzersnelheid wijzigen"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Hiermee kan een app de snelheid van de muis- of trackpadaanwijzer op elk moment wijzigen. Dit zou voor normale apps niet nodig moeten zijn."</string>
+diff --git a/core/res/res/values-pl/strings.xml b/core/res/res/values-pl/strings.xml
+index 0664fdb..8187595 100644
+--- a/core/res/res/values-pl/strings.xml
++++ b/core/res/res/values-pl/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"zmiana szybkości wskaźnika"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Umożliwia aplikacji zmianę szybkości poruszania wskaźnikiem myszy lub panelu dotykowego w dowolnym momencie. Nie powinno to być nigdy wymagane przez zwykłe aplikacje."</string>
+diff --git a/core/res/res/values-pt-rPT/strings.xml b/core/res/res/values-pt-rPT/strings.xml
+index 0c5e58b..87492e5 100644
+--- a/core/res/res/values-pt-rPT/strings.xml
++++ b/core/res/res/values-pt-rPT/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"alterar a veloc. do ponteiro"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Permite que uma aplicação mude a velocidade do ponteiro do rato ou do trackpad a qualquer momento. Não deverá ser necessário em aplicações normais."</string>
+diff --git a/core/res/res/values-pt/strings.xml b/core/res/res/values-pt/strings.xml
+index 366993d..c3d2088 100644
+--- a/core/res/res/values-pt/strings.xml
++++ b/core/res/res/values-pt/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"alterar velocidade do ponteiro"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Permite que um aplicativo altere a velocidade do ponteiro do mouse ou do trackpad a qualquer momento. Nunca será necessário para aplicativos normais."</string>
+diff --git a/core/res/res/values-ro/strings.xml b/core/res/res/values-ro/strings.xml
+index a11cc88..93f7a25 100644
+--- a/core/res/res/values-ro/strings.xml
++++ b/core/res/res/values-ro/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"modifică viteza indicatorului"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Permite unei aplicaţii să modifice oricând viteza indicatorului mouse-ului sau a trackpadului. Nu ar trebui să fie necesară pentru aplicaţiile obişnuite."</string>
+diff --git a/core/res/res/values-ru/strings.xml b/core/res/res/values-ru/strings.xml
+index 9337d8b..5a4e934 100644
+--- a/core/res/res/values-ru/strings.xml
++++ b/core/res/res/values-ru/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"изменять скорость указателя"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Позволяет приложению изменять скорость указателя мыши или трекпада. Для большинства приложений это не требуется."</string>
+diff --git a/core/res/res/values-sk/strings.xml b/core/res/res/values-sk/strings.xml
+index b0d6981..a26145e 100644
+--- a/core/res/res/values-sk/strings.xml
++++ b/core/res/res/values-sk/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"zmena rýchlosti ukazovateľa"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Umožňuje aplikácii kedykoľvek zmeniť rýchlosť ukazovateľa myši alebo trackpadu. Bežné aplikácie by toto oprávnenie nemali nikdy požadovať."</string>
+diff --git a/core/res/res/values-sl/strings.xml b/core/res/res/values-sl/strings.xml
+index 3d88aca..51c254c 100644
+--- a/core/res/res/values-sl/strings.xml
++++ b/core/res/res/values-sl/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"spreminjanje hitrosti kazalca"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Dovoli programu, da kadar koli spremeni hitrost kazalca miške ali sledilne ploščice. Tega nikoli ni treba uporabiti za navadne programe."</string>
+diff --git a/core/res/res/values-sr/strings.xml b/core/res/res/values-sr/strings.xml
+index d64ac01..184f713 100644
+--- a/core/res/res/values-sr/strings.xml
++++ b/core/res/res/values-sr/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"промена брзине показивача"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Дозвољава апликацији да у било ком тренутку промени брзину показивача миша или показивачког уређаја са плочицом. Никада не би требало да буде потребно за обичне апликације."</string>
+diff --git a/core/res/res/values-sv/strings.xml b/core/res/res/values-sv/strings.xml
+index 7dc398c..ff59b5f 100644
+--- a/core/res/res/values-sv/strings.xml
++++ b/core/res/res/values-sv/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"ändra markörens hastighet"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Tillåter att en app när som helst ändrar hastigheten för musens eller styrplattans markör. Ska inte behövas för vanliga appar."</string>
+diff --git a/core/res/res/values-th/strings.xml b/core/res/res/values-th/strings.xml
+index 7cace44..943428a 100644
+--- a/core/res/res/values-th/strings.xml
++++ b/core/res/res/values-th/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"เปลี่ยนความเร็วของตัวชี้"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"อนุญาตให้แอปพลิเคชันเปลี่ยนความเร็วของตัวชี้ของเมาส์หรือแทร็กแพดได้ตลอดเวลา ไม่จำเป็นสำหรับแอปพลิเคชันทั่วไป"</string>
+diff --git a/core/res/res/values-tl/strings.xml b/core/res/res/values-tl/strings.xml
+index 9888b82..3cf8704 100644
+--- a/core/res/res/values-tl/strings.xml
++++ b/core/res/res/values-tl/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"baguhin ang bilis ng pointer"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Pinapayagan ang isang application na baguhin ang bilis ng mouse o trackpad pointer anumang oras. Dapat na hindi kailanman kailanganin para sa mga normal na application."</string>
+diff --git a/core/res/res/values-tr/strings.xml b/core/res/res/values-tr/strings.xml
+index 42587dd..6668c47 100644
+--- a/core/res/res/values-tr/strings.xml
++++ b/core/res/res/values-tr/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"işaretçi hızını değiştir"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Bir uygulamanın herhangi bir zamanda fare veya izleme yüzeyi işaretleme hızını değiştirmesine izin verir. Normal uygulamalar tarafından hiçbir zaman kullanılması gerekmez."</string>
+diff --git a/core/res/res/values-uk/strings.xml b/core/res/res/values-uk/strings.xml
+index 686e385..f95c6f9 100644
+--- a/core/res/res/values-uk/strings.xml
++++ b/core/res/res/values-uk/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"змінювати швидкість указівника"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Дозволяє програмі будь-коли змінювати швидкість вказівника миші чи сенсорної панелі. Ніколи не застосовується для звичайних програм."</string>
+diff --git a/core/res/res/values-vi/strings.xml b/core/res/res/values-vi/strings.xml
+index a334b4e..7b939ed 100644
+--- a/core/res/res/values-vi/strings.xml
++++ b/core/res/res/values-vi/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"thay đổi tốc độ con trỏ"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"Cho phép ứng dụng thay đổi tốc độ chuột hoặc con trỏ ô di chuột vào bất kỳ lúc nào. Không bao giờ cần cho các ứng dụng thông thường."</string>
+diff --git a/core/res/res/values-zh-rCN/strings.xml b/core/res/res/values-zh-rCN/strings.xml
+index 87a8c15..b919601 100644
+--- a/core/res/res/values-zh-rCN/strings.xml
++++ b/core/res/res/values-zh-rCN/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"更改指针速度"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"允许应用程序随时更改鼠标或触摸板的指针速度。普通应用程序不需要此权限。"</string>
+diff --git a/core/res/res/values-zh-rTW/strings.xml b/core/res/res/values-zh-rTW/strings.xml
+index c3e8c2a..5849115 100644
+--- a/core/res/res/values-zh-rTW/strings.xml
++++ b/core/res/res/values-zh-rTW/strings.xml
+@@ -264,4 +264,2 @@
+-    <!-- no translation found for permlab_setPointerSpeed (9175371613322562934) -->
+-    <skip />
+-    <!-- no translation found for permdesc_setPointerSpeed (137436038503379864) -->
+-    <skip />
++    <string name="permlab_setPointerSpeed" msgid="9175371613322562934">"變更指標速度"</string>
++    <string name="permdesc_setPointerSpeed" msgid="137436038503379864">"允許應用程式可以隨時變更滑鼠或觸控板指標的移動速度，一般應用程式不需使用這個選項。"</string>
+diff --git a/packages/SystemUI/res/values-ar/strings.xml b/packages/SystemUI/res/values-ar/strings.xml
+index 399a774..d71cf2b 100644
+--- a/packages/SystemUI/res/values-ar/strings.xml
++++ b/packages/SystemUI/res/values-ar/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-bg/strings.xml b/packages/SystemUI/res/values-bg/strings.xml
+index 0fddf23..88357d1 100644
+--- a/packages/SystemUI/res/values-bg/strings.xml
++++ b/packages/SystemUI/res/values-bg/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-ca/strings.xml b/packages/SystemUI/res/values-ca/strings.xml
+index 64f53d0..09519a2 100644
+--- a/packages/SystemUI/res/values-ca/strings.xml
++++ b/packages/SystemUI/res/values-ca/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-cs/strings.xml b/packages/SystemUI/res/values-cs/strings.xml
+index f1bab7e..0f73333 100644
+--- a/packages/SystemUI/res/values-cs/strings.xml
++++ b/packages/SystemUI/res/values-cs/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-da/strings.xml b/packages/SystemUI/res/values-da/strings.xml
+index 054b53c..99e67bc 100644
+--- a/packages/SystemUI/res/values-da/strings.xml
++++ b/packages/SystemUI/res/values-da/strings.xml
+@@ -42 +42 @@
+-    <string name="recent_tasks_empty" msgid="1905484479067697884">"Der er ingen nye programmer."</string>
++    <string name="recent_tasks_empty" msgid="1905484479067697884">"Der er ingen nye applikationer."</string>
+@@ -47,2 +47,2 @@
+-    <string name="usb_device_permission_prompt" msgid="3816016361969816903">"Vil du tillade, at programmet <xliff:g id="APPLICATION">%1$s</xliff:g> får adgang til USB-enheden?"</string>
+-    <string name="usb_accessory_permission_prompt" msgid="6888598803988889959">"Vil du tillade, at programmet <xliff:g id="APPLICATION">%1$s</xliff:g> får adgang til USB-ekstraudstyret?"</string>
++    <string name="usb_device_permission_prompt" msgid="3816016361969816903">"Vil du tillade, at applikationen <xliff:g id="APPLICATION">%1$s</xliff:g> får adgang til USB-enheden?"</string>
++    <string name="usb_accessory_permission_prompt" msgid="6888598803988889959">"Vil du tillade, at applikationen <xliff:g id="APPLICATION">%1$s</xliff:g> får adgang til USB-ekstraudstyret?"</string>
+@@ -51 +51 @@
+-    <string name="usb_accessory_uri_prompt" msgid="6332150684964235705">"Ingen inst. programmer virker med USB-ekstraudstyret. Få oplysninger om ekstraudstyret på <xliff:g id="URL">%1$s</xliff:g>"</string>
++    <string name="usb_accessory_uri_prompt" msgid="6332150684964235705">"Ingen inst. applikationer virker med USB-ekstraudstyret. Få oplysninger om ekstraudstyret på <xliff:g id="URL">%1$s</xliff:g>"</string>
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-de/strings.xml b/packages/SystemUI/res/values-de/strings.xml
+index 857d3a0..78b1652 100644
+--- a/packages/SystemUI/res/values-de/strings.xml
++++ b/packages/SystemUI/res/values-de/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-el/strings.xml b/packages/SystemUI/res/values-el/strings.xml
+index 424faab..4af57c1 100644
+--- a/packages/SystemUI/res/values-el/strings.xml
++++ b/packages/SystemUI/res/values-el/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-en-rGB/strings.xml b/packages/SystemUI/res/values-en-rGB/strings.xml
+index 8c84b67..7e1db15 100644
+--- a/packages/SystemUI/res/values-en-rGB/strings.xml
++++ b/packages/SystemUI/res/values-en-rGB/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-es-rUS/strings.xml b/packages/SystemUI/res/values-es-rUS/strings.xml
+index ae747d4..6528c38 100644
+--- a/packages/SystemUI/res/values-es-rUS/strings.xml
++++ b/packages/SystemUI/res/values-es-rUS/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-es/strings.xml b/packages/SystemUI/res/values-es/strings.xml
+index d58af48..a3c2302 100644
+--- a/packages/SystemUI/res/values-es/strings.xml
++++ b/packages/SystemUI/res/values-es/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-fa/strings.xml b/packages/SystemUI/res/values-fa/strings.xml
+index b763771..360bb8b 100644
+--- a/packages/SystemUI/res/values-fa/strings.xml
++++ b/packages/SystemUI/res/values-fa/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-fi/strings.xml b/packages/SystemUI/res/values-fi/strings.xml
+index 9255dbd..71deb4a 100644
+--- a/packages/SystemUI/res/values-fi/strings.xml
++++ b/packages/SystemUI/res/values-fi/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-fr/strings.xml b/packages/SystemUI/res/values-fr/strings.xml
+index c41acd3..46e4cd2 100644
+--- a/packages/SystemUI/res/values-fr/strings.xml
++++ b/packages/SystemUI/res/values-fr/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-hr/strings.xml b/packages/SystemUI/res/values-hr/strings.xml
+index eda1a93..cc44359 100644
+--- a/packages/SystemUI/res/values-hr/strings.xml
++++ b/packages/SystemUI/res/values-hr/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-hu/strings.xml b/packages/SystemUI/res/values-hu/strings.xml
+index 2261c2b..bc192d7 100644
+--- a/packages/SystemUI/res/values-hu/strings.xml
++++ b/packages/SystemUI/res/values-hu/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-in/strings.xml b/packages/SystemUI/res/values-in/strings.xml
+index 53bfc76..6e3d929 100644
+--- a/packages/SystemUI/res/values-in/strings.xml
++++ b/packages/SystemUI/res/values-in/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-it/strings.xml b/packages/SystemUI/res/values-it/strings.xml
+index 055e783..5153550 100644
+--- a/packages/SystemUI/res/values-it/strings.xml
++++ b/packages/SystemUI/res/values-it/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-iw/strings.xml b/packages/SystemUI/res/values-iw/strings.xml
+index 04fa686..9b0cab5 100644
+--- a/packages/SystemUI/res/values-iw/strings.xml
++++ b/packages/SystemUI/res/values-iw/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-ja/strings.xml b/packages/SystemUI/res/values-ja/strings.xml
+index 4ec1d1b..04e9906 100644
+--- a/packages/SystemUI/res/values-ja/strings.xml
++++ b/packages/SystemUI/res/values-ja/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-ko/strings.xml b/packages/SystemUI/res/values-ko/strings.xml
+index 8b80d9d..2511beb 100644
+--- a/packages/SystemUI/res/values-ko/strings.xml
++++ b/packages/SystemUI/res/values-ko/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-lt/strings.xml b/packages/SystemUI/res/values-lt/strings.xml
+index 4c7986c..8f86e85 100644
+--- a/packages/SystemUI/res/values-lt/strings.xml
++++ b/packages/SystemUI/res/values-lt/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-lv/strings.xml b/packages/SystemUI/res/values-lv/strings.xml
+index 2804ffa..0220d21 100644
+--- a/packages/SystemUI/res/values-lv/strings.xml
++++ b/packages/SystemUI/res/values-lv/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-nb/strings.xml b/packages/SystemUI/res/values-nb/strings.xml
+index 0dc1040..be5131c 100644
+--- a/packages/SystemUI/res/values-nb/strings.xml
++++ b/packages/SystemUI/res/values-nb/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-nl/strings.xml b/packages/SystemUI/res/values-nl/strings.xml
+index 4682f93..4ba77cb 100644
+--- a/packages/SystemUI/res/values-nl/strings.xml
++++ b/packages/SystemUI/res/values-nl/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-pl/strings.xml b/packages/SystemUI/res/values-pl/strings.xml
+index 198e3e3..7ed7e7c 100644
+--- a/packages/SystemUI/res/values-pl/strings.xml
++++ b/packages/SystemUI/res/values-pl/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-pt-rPT/strings.xml b/packages/SystemUI/res/values-pt-rPT/strings.xml
+index c79dbf0..d86cea6 100644
+--- a/packages/SystemUI/res/values-pt-rPT/strings.xml
++++ b/packages/SystemUI/res/values-pt-rPT/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-pt/strings.xml b/packages/SystemUI/res/values-pt/strings.xml
+index d37988f..9f3997a 100644
+--- a/packages/SystemUI/res/values-pt/strings.xml
++++ b/packages/SystemUI/res/values-pt/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-rm/strings.xml b/packages/SystemUI/res/values-rm/strings.xml
+index b41b9bd..4d0a43a 100644
+--- a/packages/SystemUI/res/values-rm/strings.xml
++++ b/packages/SystemUI/res/values-rm/strings.xml
+@@ -81,0 +82,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-ro/strings.xml b/packages/SystemUI/res/values-ro/strings.xml
+index afecb92..ea20ec7 100644
+--- a/packages/SystemUI/res/values-ro/strings.xml
++++ b/packages/SystemUI/res/values-ro/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-ru/strings.xml b/packages/SystemUI/res/values-ru/strings.xml
+index 623bb65..ff6b3c6 100644
+--- a/packages/SystemUI/res/values-ru/strings.xml
++++ b/packages/SystemUI/res/values-ru/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-sk/strings.xml b/packages/SystemUI/res/values-sk/strings.xml
+index 0250461..82e59a6 100644
+--- a/packages/SystemUI/res/values-sk/strings.xml
++++ b/packages/SystemUI/res/values-sk/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-sl/strings.xml b/packages/SystemUI/res/values-sl/strings.xml
+index d31a30b..713b6b2 100644
+--- a/packages/SystemUI/res/values-sl/strings.xml
++++ b/packages/SystemUI/res/values-sl/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-sr/strings.xml b/packages/SystemUI/res/values-sr/strings.xml
+index 2c44f67..6da66c2 100644
+--- a/packages/SystemUI/res/values-sr/strings.xml
++++ b/packages/SystemUI/res/values-sr/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-sv/strings.xml b/packages/SystemUI/res/values-sv/strings.xml
+index 343d6a8..4a5ea22 100644
+--- a/packages/SystemUI/res/values-sv/strings.xml
++++ b/packages/SystemUI/res/values-sv/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-th/strings.xml b/packages/SystemUI/res/values-th/strings.xml
+index 4db4e24..75c0140 100644
+--- a/packages/SystemUI/res/values-th/strings.xml
++++ b/packages/SystemUI/res/values-th/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-tl/strings.xml b/packages/SystemUI/res/values-tl/strings.xml
+index 8cd8cfa..8427d32 100644
+--- a/packages/SystemUI/res/values-tl/strings.xml
++++ b/packages/SystemUI/res/values-tl/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-tr/strings.xml b/packages/SystemUI/res/values-tr/strings.xml
+index 87ffc8b..9ff285a 100644
+--- a/packages/SystemUI/res/values-tr/strings.xml
++++ b/packages/SystemUI/res/values-tr/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-uk/strings.xml b/packages/SystemUI/res/values-uk/strings.xml
+index 6ebad57..52441de 100644
+--- a/packages/SystemUI/res/values-uk/strings.xml
++++ b/packages/SystemUI/res/values-uk/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-vi/strings.xml b/packages/SystemUI/res/values-vi/strings.xml
+index 13a5737..b367c56 100644
+--- a/packages/SystemUI/res/values-vi/strings.xml
++++ b/packages/SystemUI/res/values-vi/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-zh-rCN/strings.xml b/packages/SystemUI/res/values-zh-rCN/strings.xml
+index 099ed6b..b92b3b0 100644
+--- a/packages/SystemUI/res/values-zh-rCN/strings.xml
++++ b/packages/SystemUI/res/values-zh-rCN/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+diff --git a/packages/SystemUI/res/values-zh-rTW/strings.xml b/packages/SystemUI/res/values-zh-rTW/strings.xml
+index 1c06dc2..8989b2f 100644
+--- a/packages/SystemUI/res/values-zh-rTW/strings.xml
++++ b/packages/SystemUI/res/values-zh-rTW/strings.xml
+@@ -55,0 +56,8 @@
++    <!-- no translation found for compat_mode_on (6623839244840638213) -->
++    <skip />
++    <!-- no translation found for compat_mode_off (4434467572461327898) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_header (7020175705401506719) -->
++    <skip />
++    <!-- no translation found for compat_mode_help_body (4946726776359270040) -->
++    <skip />
+

@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/springframework/data/redis/cache/DefaultRedisCachePrefix.java b/src/main/java/org/springframework/data/redis/cache/DefaultRedisCachePrefix.java
+index f36ce3b..66e2437 100644
+--- a/src/main/java/org/springframework/data/redis/cache/DefaultRedisCachePrefix.java
++++ b/src/main/java/org/springframework/data/redis/cache/DefaultRedisCachePrefix.java
+@@ -41 +41 @@
+-		return serializer.serialize((delimiter != null ? cacheName.concat(":") : cacheName));
++		return serializer.serialize((delimiter != null ? cacheName.concat(delimiter) : cacheName.concat(":")));
+

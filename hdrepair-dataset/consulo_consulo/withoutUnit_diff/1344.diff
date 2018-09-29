@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/openapi/keymap/impl/ui/ActionsTreeUtil.java b/platform/platform-impl/src/com/intellij/openapi/keymap/impl/ui/ActionsTreeUtil.java
+index cf21150..98d4ed8 100644
+--- a/platform/platform-impl/src/com/intellij/openapi/keymap/impl/ui/ActionsTreeUtil.java
++++ b/platform/platform-impl/src/com/intellij/openapi/keymap/impl/ui/ActionsTreeUtil.java
+@@ -139 +139 @@
+-      final String id = ActionManager.getInstance().getId(action);
++      final String id = action instanceof ActionStub ? ((ActionStub)action).getId() : ActionManager.getInstance().getId(action);
+

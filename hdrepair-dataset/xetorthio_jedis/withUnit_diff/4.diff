@@ -1,0 +1,26 @@
+diff --git a/src/main/java/redis/clients/jedis/Pipeline.java b/src/main/java/redis/clients/jedis/Pipeline.java
+index ee680eb..98cab69 100755
+--- a/src/main/java/redis/clients/jedis/Pipeline.java
++++ b/src/main/java/redis/clients/jedis/Pipeline.java
+@@ -101,0 +102 @@
++        currentMulti = null;
+diff --git a/src/test/java/redis/clients/jedis/tests/PipeliningTest.java b/src/test/java/redis/clients/jedis/tests/PipeliningTest.java
+index ee9e365..c5ab782 100755
+--- a/src/test/java/redis/clients/jedis/tests/PipeliningTest.java
++++ b/src/test/java/redis/clients/jedis/tests/PipeliningTest.java
+@@ -243 +243,13 @@
+-        
++
++    }
++
++    @Test
++    public void testDiscardInPipeline() {
++        Pipeline pipeline = jedis.pipelined();
++        pipeline.multi();
++        pipeline.set("foo", "bar");
++        Response<String> discard = pipeline.discard();
++        Response<String> get = pipeline.get("foo");
++        pipeline.sync();
++        discard.get();
++        get.get();
+

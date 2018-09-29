@@ -1,0 +1,8 @@
+diff --git a/components/nexus-security/src/main/java/org/sonatype/security/internal/UserIdMdcHelper.java b/components/nexus-security/src/main/java/org/sonatype/security/internal/UserIdMdcHelper.java
+index baefe6c..af9198e 100644
+--- a/components/nexus-security/src/main/java/org/sonatype/security/internal/UserIdMdcHelper.java
++++ b/components/nexus-security/src/main/java/org/sonatype/security/internal/UserIdMdcHelper.java
+@@ -42 +42 @@
+-    return !Strings.isNullOrEmpty(userId) || UNKNOWN.equals(userId);
++    return !(Strings.isNullOrEmpty(userId) || UNKNOWN.equals(userId));
+

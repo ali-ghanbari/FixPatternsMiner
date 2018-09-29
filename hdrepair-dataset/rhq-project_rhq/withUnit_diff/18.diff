@@ -1,0 +1,34 @@
+diff --git a/modules/core/domain/src/main/java/org/rhq/core/domain/resource/Agent.java b/modules/core/domain/src/main/java/org/rhq/core/domain/resource/Agent.java
+index a7b8b19..f675a06 100644
+--- a/modules/core/domain/src/main/java/org/rhq/core/domain/resource/Agent.java
++++ b/modules/core/domain/src/main/java/org/rhq/core/domain/resource/Agent.java
+@@ -130 +130 @@
+-    private long lastAvailabilityReport;
++    private Long lastAvailabilityReport;
+diff --git a/modules/core/domain/src/test/java/org/rhq/core/domain/resource/test/AgentTest.java b/modules/core/domain/src/test/java/org/rhq/core/domain/resource/test/AgentTest.java
+index e7dbc7f..5a5d4ad 100644
+--- a/modules/core/domain/src/test/java/org/rhq/core/domain/resource/test/AgentTest.java
++++ b/modules/core/domain/src/test/java/org/rhq/core/domain/resource/test/AgentTest.java
+@@ -21 +20,0 @@
+-import java.util.Date;
+@@ -26 +24,0 @@
+-import javax.persistence.TemporalType;
+@@ -72 +70 @@
+-            assert reports.get(i).getLastAvailabilityReport() == agent3.getLastAvailabilityReport();
++            assert reports.get(i).getLastAvailabilityReport().equals(agent3.getLastAvailabilityReport());
+@@ -78 +76 @@
+-            assert reports.get(i).getLastAvailabilityReport() == agent4.getLastAvailabilityReport();
++            assert reports.get(i).getLastAvailabilityReport().equals(agent4.getLastAvailabilityReport());
+@@ -93 +91 @@
+-            assert reports.get(i).getLastAvailabilityReport() == agent3.getLastAvailabilityReport();
++            assert reports.get(i).getLastAvailabilityReport().equals(agent3.getLastAvailabilityReport());
+@@ -99 +97 @@
+-            assert reports.get(i).getLastAvailabilityReport() == agent4.getLastAvailabilityReport();
++            assert reports.get(i).getLastAvailabilityReport().equals(agent4.getLastAvailabilityReport());
+@@ -105 +103 @@
+-            q.setParameter("dateThreshold", new Date(now - 1), TemporalType.TIMESTAMP);
++            q.setParameter("dateThreshold", now - 1);
+@@ -110 +108 @@
+-            q.setParameter("dateThreshold", new Date(now - 10000), TemporalType.TIMESTAMP);
++            q.setParameter("dateThreshold", now - 10000);
+

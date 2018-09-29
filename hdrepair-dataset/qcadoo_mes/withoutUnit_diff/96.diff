@@ -1,0 +1,24 @@
+diff --git a/mes-plugins/mes-plugins-orders/src/main/java/com/qcadoo/mes/orders/states/OrderStatesService.java b/mes-plugins/mes-plugins-orders/src/main/java/com/qcadoo/mes/orders/states/OrderStatesService.java
+index 61a2d89..4cd9715 100755
+--- a/mes-plugins/mes-plugins-orders/src/main/java/com/qcadoo/mes/orders/states/OrderStatesService.java
++++ b/mes-plugins/mes-plugins-orders/src/main/java/com/qcadoo/mes/orders/states/OrderStatesService.java
+@@ -166 +166 @@
+-            for (ErrorMessage message : order.getGlobalErrors()) {
++            for (ErrorMessage message : order.getErrors().values()) {
+diff --git a/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/orderDetails.xml b/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/orderDetails.xml
+index 9f6c5b9..3830117 100644
+--- a/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/orderDetails.xml
++++ b/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/orderDetails.xml
+@@ -392,2 +392,2 @@
+-<!-- 		<beforeRender class="com.qcadoo.mes.orders.states.OrderStatesService" -->
+-<!-- 			method="setFieldsRequired" /> -->
++		<beforeRender class="com.qcadoo.mes.orders.states.OrderStatesService"
++			method="setFieldsRequired" />
+diff --git a/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/ordersList.xml b/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/ordersList.xml
+index 01d07ea..722e6fe 100644
+--- a/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/ordersList.xml
++++ b/mes-plugins/mes-plugins-orders/src/main/resources/orders/view/ordersList.xml
+@@ -142 +142 @@
+- 									print.enable();
++ 									if (selectedEntitiesArray.length == 1) print.enable();
+

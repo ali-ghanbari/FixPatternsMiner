@@ -1,0 +1,21 @@
+Set job output k-v along with Mapper output k-v
+
+Hadoop2Compiler (but not Hadoop1Compiler) uses ChainMapper and
+ChainReducer to string work together inside a single job.
+
+Hadoop2Compiler has an addMap method that creates a reducerless job.
+This method failed to set the job's output key and value classes, nor
+did ChainMapper.addMapper, so these jobs used the defaults that ship
+with Hadoop.  These are almost always wrong for Titan-Hadoop jobs.
+
+Some output formats don't care about the configured k-v classes
+(e.g. TextOutputFormat), but SequenceFileOutputFormat definitely does.
+
+This change sets the job output k-v classes to match the Mapper k-v
+classes passed into Hadoop2Compiler.addMap.  If a reducer is later
+added to the job, ChainReducer.setReducer overwrites the job output
+k-v, so I think this is safe.
+
+fixes #806
+fixes #826
+

@@ -1,0 +1,19 @@
+diff --git a/src/main/java/com/github/nkzawa/parseqs/ParseQS.java b/src/main/java/com/github/nkzawa/parseqs/ParseQS.java
+index eec7cf3..33f2320 100644
+--- a/src/main/java/com/github/nkzawa/parseqs/ParseQS.java
++++ b/src/main/java/com/github/nkzawa/parseqs/ParseQS.java
+@@ -29 +29 @@
+-                    pair.length > 0 ? Global.decodeURIComponent(pair[1]) : "");
++                    pair.length > 1 ? Global.decodeURIComponent(pair[1]) : "");
+diff --git a/src/test/java/com/github/nkzawa/parseqs/ParseQSTest.java b/src/test/java/com/github/nkzawa/parseqs/ParseQSTest.java
+index bec7b6a..2f2272b 100644
+--- a/src/test/java/com/github/nkzawa/parseqs/ParseQSTest.java
++++ b/src/test/java/com/github/nkzawa/parseqs/ParseQSTest.java
+@@ -27,0 +28,6 @@
++
++        queryObject = ParseQS.decode("woot=");
++        assertThat(queryObject.get("woot"), is(""));
++
++        queryObject = ParseQS.decode("woot");
++        assertThat(queryObject.get("woot"), is(""));
+

@@ -1,0 +1,8 @@
+diff --git a/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java b/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java
+index 2e4f84b..5e4c8a1 100644
+--- a/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java
++++ b/SingularityService/src/main/java/com/hubspot/singularity/scheduler/SingularityDeployChecker.java
+@@ -140 +140 @@
+-        deployResult = new SingularityDeployResult(DeployState.FAILED_INTERNAL_STATE, String.format("Deploy had state %s but failed to persist it correctly", deployResult.getDeployState()));
++        deployResult = new SingularityDeployResult(DeployState.FAILED_INTERNAL_STATE, Optional.of(String.format("Deploy had state %s but failed to persist it correctly", deployResult.getDeployState())), deployResult.getLbUpdate(), deployResult.getTimestamp());
+

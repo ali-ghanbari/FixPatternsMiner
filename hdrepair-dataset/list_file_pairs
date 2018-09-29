@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for buggyJavaFile in */modifiedFiles/*/old/*.java; do
+    fixedJavaFile=$(dirname $(dirname $buggyJavaFile))"/fix/"$(basename $buggyJavaFile)
+    echo $(pwd)"/"$buggyJavaFile","$(pwd)"/"$fixedJavaFile
+done
+

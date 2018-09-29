@@ -1,0 +1,40 @@
+diff --git a/index.txt b/index.txt
+index 20d0996..5e5b4db 100644
+--- a/index.txt
++++ b/index.txt
+@@ -114,0 +115,8 @@
++2.4 Commands starting with 'g'                                          *g*
++
++tag             char          note action in Normal mode        ~
++------------------------------------------------------------------------------
++|gg|            gg              1  cursor to line N, default first line
++|gi|            gi              2  like "i", but first move to the |'^| mark
++
++==============================================================================
+diff --git a/src/com/maddyhome/idea/vim/group/ChangeGroup.java b/src/com/maddyhome/idea/vim/group/ChangeGroup.java
+index 51f57b3..b144acc 100644
+--- a/src/com/maddyhome/idea/vim/group/ChangeGroup.java
++++ b/src/com/maddyhome/idea/vim/group/ChangeGroup.java
+@@ -214 +214 @@
+-    int offset = CommandGroups.getInstance().getMotion().moveCaretToMark(editor, context, '^');
++    int offset = CommandGroups.getInstance().getMotion().moveCaretToMark(editor, '^');
+diff --git a/test/org/jetbrains/plugins/ideavim/action/ChangeActionTest.java b/test/org/jetbrains/plugins/ideavim/action/ChangeActionTest.java
+index 8916dc9..7bb5335 100644
+--- a/test/org/jetbrains/plugins/ideavim/action/ChangeActionTest.java
++++ b/test/org/jetbrains/plugins/ideavim/action/ChangeActionTest.java
+@@ -87,0 +88,14 @@
++  // VIM-85 |i| |gi| |gg|
++  public void testInsertAtPreviousAction() {
++    final List<KeyStroke> keys = stringToKeys("ihello");
++    keys.add(KeyStroke.getKeyStroke("ESCAPE"));
++    keys.addAll(stringToKeys("gggi world! "));
++    doTest(keys,
++           "one\n" +
++           "two <caret>three\n" +
++           "four\n",
++           "one\n" +
++           "two hello world! three\n" +
++           "four\n");
++  }
++
+

@@ -1,0 +1,37 @@
+diff --git a/build.gradle b/build.gradle
+index 53fd851..8d2e26a 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -5 +5 @@
+-version="2.04"
++version="2.05"
+diff --git a/pom.xml b/pom.xml
+index 59b9614..0b5c128 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -13 +13 @@
+-    <version>2.04</version>
++    <version>2.05</version>
+diff --git a/src/main/java/org/nustaq/serialization/FSTObjectInput.java b/src/main/java/org/nustaq/serialization/FSTObjectInput.java
+index 1427e6c..ad91468 100644
+--- a/src/main/java/org/nustaq/serialization/FSTObjectInput.java
++++ b/src/main/java/org/nustaq/serialization/FSTObjectInput.java
+@@ -946,0 +947 @@
++                        codec.readVersionTag(); // consume dummy version tag as created by defaultWriteObject
+diff --git a/src/test/ser/SpecialsTest.java b/src/test/ser/SpecialsTest.java
+index 80eb5c7..3be01cf 100644
+--- a/src/test/ser/SpecialsTest.java
++++ b/src/test/ser/SpecialsTest.java
+@@ -11,0 +12 @@
++import java.io.File;
+@@ -103 +104 @@
+-            test(conf, new Subject());
++            test(conf, new Object[] {new Subject(), "no corruption"});
+@@ -106 +107 @@
+-            test( conf, localhost);
++            test( conf, new Object[] { localhost, "dummy" });
+@@ -126 +127,2 @@
+-            test(conf, new HTMLEditorKit());
++            test(conf, new Object[] { new HTMLEditorKit(), "no corruption" });
++            test(conf, new Object[] { new File("/tmp"), "no corruption" });
+

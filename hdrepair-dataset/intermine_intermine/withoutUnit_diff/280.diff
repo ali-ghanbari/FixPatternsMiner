@@ -1,0 +1,22 @@
+diff --git a/intermine/web/main/src/org/intermine/web/struts/CollectionDetailsAction.java b/intermine/web/main/src/org/intermine/web/struts/CollectionDetailsAction.java
+index 3eb2546..775075f 100644
+--- a/intermine/web/main/src/org/intermine/web/struts/CollectionDetailsAction.java
++++ b/intermine/web/main/src/org/intermine/web/struts/CollectionDetailsAction.java
+@@ -119,0 +120 @@
++                        .addParameter("noSelect", "true")
+diff --git a/intermine/webapp/main/resources/webapp/table.jsp b/intermine/webapp/main/resources/webapp/table.jsp
+index e3fadfc..472cd0c 100644
+--- a/intermine/webapp/main/resources/webapp/table.jsp
++++ b/intermine/webapp/main/resources/webapp/table.jsp
+@@ -18,0 +19,4 @@
++<c:set var="isWebCollection"
++       value="${resultsTable.webTableClass.name == 'org.intermine.web.struts.WebPathCollection'}"/>
++<c:set var="noBagSave"
++       value="${!empty param.noSelect}"/>
+@@ -277 +281 @@
+-                  <c:if test="${column.selectable}">
++                    <c:if test="${column.selectable && ((!isWebCollection) || (! noBagSave && status.count<=1))}">
+@@ -391 +395 @@
+-                      <c:if test="${column.selectable}">
++                       <c:if test="${column.selectable && ((!isWebCollection) || (! noBagSave && status2.count<=1))}">
+

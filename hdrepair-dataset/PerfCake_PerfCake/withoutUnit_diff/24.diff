@@ -1,0 +1,26 @@
+diff --git a/pom.xml b/pom.xml
+index 3fccdf9..cf678c3 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -243,0 +244,4 @@
++                     <argument>-sd</argument>
++                     <argument>${basedir}/src/main/resources/scenarios</argument>
++                     <argument>-md</argument>
++                     <argument>${basedir}/src/main/resources/messages</argument>
+diff --git a/src/main/java/org/perfcake/util/Utils.java b/src/main/java/org/perfcake/util/Utils.java
+index b03ed0f..edf4b94 100644
+--- a/src/main/java/org/perfcake/util/Utils.java
++++ b/src/main/java/org/perfcake/util/Utils.java
+@@ -47 +47 @@
+-   public static final File resourcesDir = new File("src/main/resources");
++   public static final File resourcesDir = new File("resources");
+diff --git a/src/main/scripts/perfcake.sh b/src/main/scripts/perfcake.sh
+index aa067da..c5bb60a 100755
+--- a/src/main/scripts/perfcake.sh
++++ b/src/main/scripts/perfcake.sh
+@@ -144,0 +145,4 @@
++# Set the PerfCake working directory
++cd "$PERFCAKE_HOME"
++
++# Run PerfCake
+

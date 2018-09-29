@@ -1,0 +1,21 @@
+diff --git a/src/main/java/org/candlepin/policy/js/compliance/ComplianceStatus.java b/src/main/java/org/candlepin/policy/js/compliance/ComplianceStatus.java
+index c4f25f2..c272481 100644
+--- a/src/main/java/org/candlepin/policy/js/compliance/ComplianceStatus.java
++++ b/src/main/java/org/candlepin/policy/js/compliance/ComplianceStatus.java
+@@ -142 +142 @@
+-        if (!partiallyCompliantProducts.isEmpty() && nonCompliantProducts.isEmpty()) {
++        if (nonCompliantProducts.isEmpty()) {
+diff --git a/src/test/java/org/candlepin/policy/js/compliance/ComplianceRulesTest.java b/src/test/java/org/candlepin/policy/js/compliance/ComplianceRulesTest.java
+index bd1b698..c49bd05 100644
+--- a/src/test/java/org/candlepin/policy/js/compliance/ComplianceRulesTest.java
++++ b/src/test/java/org/candlepin/policy/js/compliance/ComplianceRulesTest.java
+@@ -401 +401 @@
+-        assertEquals("invalid", status.getStatus());
++        assertEquals("partial", status.getStatus());
+@@ -613 +613 @@
+-        assertEquals("invalid", status.getStatus());
++        assertEquals("partial", status.getStatus());
+@@ -972 +972 @@
+-        assertEquals("invalid", status.getStatus());
++        assertEquals("partial", status.getStatus());
+

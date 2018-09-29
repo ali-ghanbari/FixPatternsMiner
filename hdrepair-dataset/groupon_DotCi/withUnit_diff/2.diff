@@ -1,0 +1,46 @@
+diff --git a/src/main/java/com/groupon/jenkins/dynamic/organizationcontainer/OrganizationContainer.java b/src/main/java/com/groupon/jenkins/dynamic/organizationcontainer/OrganizationContainer.java
+index 591b22c..a2e6dd4 100644
+--- a/src/main/java/com/groupon/jenkins/dynamic/organizationcontainer/OrganizationContainer.java
++++ b/src/main/java/com/groupon/jenkins/dynamic/organizationcontainer/OrganizationContainer.java
+@@ -85 +85 @@
+-    protected OrganizationContainer(ItemGroup parent, String name) {
++    public OrganizationContainer(ItemGroup parent, String name) {
+diff --git a/src/test/java/com/groupon/jenkins/github/services/GithubRepositoryServiceTest.java b/src/test/java/com/groupon/jenkins/github/services/GithubRepositoryServiceTest.java
+index 81876a4..c925f4b 100644
+--- a/src/test/java/com/groupon/jenkins/github/services/GithubRepositoryServiceTest.java
++++ b/src/test/java/com/groupon/jenkins/github/services/GithubRepositoryServiceTest.java
+@@ -29,0 +30 @@
++import java.net.MalformedURLException;
+@@ -53 +54 @@
+-    public void setup() {
++    public void setup() throws MalformedURLException {
+@@ -54,0 +56 @@
++        when(githubRepository.getHtmlUrl()).thenReturn(new URL("http://github.com/meow"));
+diff --git a/src/test/java/com/groupon/jenkins/mongo/DynamicProjectRepositoryTest.java b/src/test/java/com/groupon/jenkins/mongo/DynamicProjectRepositoryTest.java
+index ab1352d..23c74fd 100644
+--- a/src/test/java/com/groupon/jenkins/mongo/DynamicProjectRepositoryTest.java
++++ b/src/test/java/com/groupon/jenkins/mongo/DynamicProjectRepositoryTest.java
+@@ -29,0 +30,2 @@
++import com.groupon.jenkins.dynamic.organizationcontainer.OrganizationContainer;
++import jenkins.model.Jenkins;
+@@ -36,2 +38 @@
+-import static org.mockito.Mockito.mock;
+-import static org.mockito.Mockito.when;
++import static org.mockito.Mockito.*;
+@@ -44,0 +46 @@
++import java.net.URL;
+@@ -99 +101,3 @@
+-        DynamicProject project = repo.getProjectById(new ObjectId("5451e5ee30047b534b7bd50b"));
++        DynamicProject project = spy( repo.getProjectById(new ObjectId("5451e5ee30047b534b7bd50b")));
++        OrganizationContainer parent = new OrganizationContainer(Jenkins.getInstance(), "groupon");
++        doReturn(parent).when(project).getParent();
+@@ -118,0 +123 @@
++        when(ghRepository.getHtmlUrl()).thenReturn(new URL("http://github.com/meow"));
+diff --git a/src/test/java/com/groupon/jenkins/mongo/MongoRepositoryTest.java b/src/test/java/com/groupon/jenkins/mongo/MongoRepositoryTest.java
+index 9519e34..5d14590 100644
+--- a/src/test/java/com/groupon/jenkins/mongo/MongoRepositoryTest.java
++++ b/src/test/java/com/groupon/jenkins/mongo/MongoRepositoryTest.java
+@@ -140 +140 @@
+-        PowerMockito.when(ghRepository.getHtmlUrl()).thenReturn(new URL("git@github.com:groupon/DotCi.git"));
++        PowerMockito.when(ghRepository.getHtmlUrl()).thenReturn(new URL("https://github.com/groupon/DotCi"));
+

@@ -1,0 +1,24 @@
+diff --git a/smoke-test/src/test/java/org/opennms/smoketest/AdminPageTest.java b/smoke-test/src/test/java/org/opennms/smoketest/AdminPageTest.java
+index 44cbd54..dac3c80 100644
+--- a/smoke-test/src/test/java/org/opennms/smoketest/AdminPageTest.java
++++ b/smoke-test/src/test/java/org/opennms/smoketest/AdminPageTest.java
+@@ -137,2 +137,2 @@
+-        assertEquals("Edit Default Foreign Source", selenium.getValue("css=input[type=button]"));
+-        assertEquals("Reset Default Foreign Source", selenium.getValue("//input[@value='Reset Default Foreign Source']"));
++        assertEquals("Edit Default Foreign Source Definition", selenium.getValue("css=input[type=button]"));
++        assertEquals("Reset Default Foreign Source Definition", selenium.getValue("//input[@value='Reset Default Foreign Source']"));
+diff --git a/smoke-test/src/test/java/org/opennms/smoketest/NodeListPageTest.java b/smoke-test/src/test/java/org/opennms/smoketest/NodeListPageTest.java
+index aadbbc7..d837062 100644
+--- a/smoke-test/src/test/java/org/opennms/smoketest/NodeListPageTest.java
++++ b/smoke-test/src/test/java/org/opennms/smoketest/NodeListPageTest.java
+@@ -16 +16 @@
+-        assertTrue(selenium.isTextPresent("<h3>Nodes</h3>"));
++        assertTrue(selenium.getHtmlSource().contains("<h3>Nodes</h3>"));
+diff --git a/smoke-test/src/test/java/org/opennms/smoketest/OpenNMSSeleniumTestCase.java b/smoke-test/src/test/java/org/opennms/smoketest/OpenNMSSeleniumTestCase.java
+index c4ea072..f70e591 100644
+--- a/smoke-test/src/test/java/org/opennms/smoketest/OpenNMSSeleniumTestCase.java
++++ b/smoke-test/src/test/java/org/opennms/smoketest/OpenNMSSeleniumTestCase.java
+@@ -26 +26 @@
+-        selenium.click("link=admin");
++        selenium.click("link=Admin");
+

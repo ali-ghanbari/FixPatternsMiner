@@ -1,0 +1,87 @@
+diff --git a/src/org/hyperic/hq/events/Resources.properties b/src/org/hyperic/hq/events/Resources.properties
+index e3da7ef..42c98ad 100644
+--- a/src/org/hyperic/hq/events/Resources.properties
++++ b/src/org/hyperic/hq/events/Resources.properties
+@@ -6 +6 @@
+-alert.sortField.def=Alert
++alert.sortField.def=Alert Definition
+diff --git a/src/org/hyperic/hq/events/server/session/AlertDefSortField.java b/src/org/hyperic/hq/events/server/session/AlertDefSortField.java
+index 06834ba..fd7a723 100644
+--- a/src/org/hyperic/hq/events/server/session/AlertDefSortField.java
++++ b/src/org/hyperic/hq/events/server/session/AlertDefSortField.java
+@@ -127 +127 @@
+-            return true;
++            return false;
+diff --git a/src/org/hyperic/hq/galerts/Resources.properties b/src/org/hyperic/hq/galerts/Resources.properties
+index a465bab..82a0312 100644
+--- a/src/org/hyperic/hq/galerts/Resources.properties
++++ b/src/org/hyperic/hq/galerts/Resources.properties
+@@ -7 +7 @@
+-galert.sortField.def=Alert
++galert.sortField.def=Alert Definition
+diff --git a/ui_plugins/alertcenter/etc/alertcenter_i18n.properties b/ui_plugins/alertcenter/etc/alertcenter_i18n.properties
+index e91d818..f86253e 100644
+--- a/ui_plugins/alertcenter/etc/alertcenter_i18n.properties
++++ b/ui_plugins/alertcenter/etc/alertcenter_i18n.properties
+@@ -2,8 +2,12 @@
+-GroupAlerts=Group Alerts
+-GroupDefs=Group
+-ClassicAlerts=Alerts
+-PlainDefs=Plain
+-TypeBasedDefs=Resource Template
+-ClassicDefs=Alert Definitions
+-TypeDefs=Resource Type Alert Definitions
+-GroupDefsTitle=Group Alert Definitions
++ClassicAlertsSelect=Resource
++ClassicAlertsTable=Resource Alerts
++GroupAlertsSelect=Group
++GroupAlertsTable=Group Alerts
++
++GroupDefsSelect=Group
++ClassicDefsSelect=Resource
++TypeBasedDefsSelect=Resource Type
++ClassicDefsTable=Resource Alert Definitions
++TypeDefsTable=Resource Type Alert Definitions
++GroupDefsTable=Group Alert Definitions
++
+diff --git a/ui_plugins/alertcenter/views/alert/index.gsp b/ui_plugins/alertcenter/views/alert/index.gsp
+index bdc2104..3afe95d 100644
+--- a/ui_plugins/alertcenter/views/alert/index.gsp
++++ b/ui_plugins/alertcenter/views/alert/index.gsp
+@@ -71,2 +71,2 @@
+-                <option value='1'>${l.ClassicAlerts}</option>
+-                <option value='2'>${l.GroupAlerts}</option>
++                <option value='1'>${l.ClassicAlertsSelect}</option>
++                <option value='2'>${l.GroupAlertsSelect}</option>
+@@ -95 +95 @@
+-          <%= dojoTable(id:'Alerts', title:l.ClassicAlerts,
++          <%= dojoTable(id:'Alerts', title:l.ClassicAlertsTable,
+@@ -100 +100 @@
+-          <%= dojoTable(id:'GroupAlerts', title:l.GroupAlerts,
++          <%= dojoTable(id:'GroupAlerts', title:l.GroupAlertsTable,
+@@ -120,2 +120,2 @@
+-                <option value='1'>${l.PlainDefs}</option>
+-                <option value='3'>${l.GroupDefs}</option>
++                <option value='1'>${l.ClassicDefsSelect}</option>
++                <option value='3'>${l.GroupDefsSelect}</option>
+@@ -123 +123 @@
+-                  <option value='2'>${l.TypeBasedDefs}</option>
++                  <option value='2'>${l.TypeBasedDefsSelect}</option>
+@@ -130 +129,0 @@
+-              <span><strong>${l.ExcludeTypeBased}:</strong></span>
+@@ -132,0 +132 @@
++              <span><strong>${l.ExcludeTypeBased}</strong></span>
+@@ -138 +137,0 @@
+-              <span><strong>${l.OnlyShowDisabled}:</strong></span>
+@@ -140,0 +140 @@
++              <span><strong>${l.OnlyShowDisabled}</strong></span>
+@@ -148 +148 @@
+-          <%= dojoTable(id:'Defs', title:l.ClassicDefs,
++          <%= dojoTable(id:'Defs', title:l.ClassicDefsTable,
+@@ -155 +155 @@
+-            <%= dojoTable(id:'TypeDefs', title:l.TypeDefs,
++            <%= dojoTable(id:'TypeDefs', title:l.TypeDefsTable,
+@@ -162 +162 @@
+-          <%= dojoTable(id:'GalertDefs', title:l.GroupDefsTitle,
++          <%= dojoTable(id:'GalertDefs', title:l.GroupDefsTable,
+

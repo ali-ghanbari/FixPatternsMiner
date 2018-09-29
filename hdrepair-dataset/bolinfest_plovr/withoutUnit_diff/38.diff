@@ -1,0 +1,36 @@
+diff --git a/src/org/plovr/Config.java b/src/org/plovr/Config.java
+index 53c3d74..121f3d7 100644
+--- a/src/org/plovr/Config.java
++++ b/src/org/plovr/Config.java
+@@ -303 +303 @@
+-    private Charset outputCharset = Charsets.UTF_8;
++    private Charset outputCharset = Charsets.US_ASCII;
+diff --git a/src/org/plovr/options.soy b/src/org/plovr/options.soy
+index f8cae6c..4615ebd 100644
+--- a/src/org/plovr/options.soy
++++ b/src/org/plovr/options.soy
+@@ -154,5 +154,12 @@
+-    Defaults to <code>"UTF-8"</code>.
+-    Does not default to <code>"US-ASCII"</code> because there are many characters
+-    in <code>datetimesymbols.js</code> in the Closure Library that cannot be
+-    represented in ASCII.
+-    In order to make sure that your JavaScript code is interpreted with the
++    Defaults to <code>"US-ASCII"</code>.
++    Although <code>datetimesymbols.js</code> in the Closure Library contains
++    many non-ASCII characters, all of them are in string literals, so the
++    Closure Compiler is able to represent them using the ASCII charset by
++    escaping them. For example, the string <code>'sábado'</code> that contains
++    the non-ASCII character <code>'á'</code> will be output as{sp}
++    <code>'s\u00e1bado'</code>.
++    <p>
++    If you use a lot of international characters in your strings, then you
++    may want to consider setting this to <code>"UTF-8"</code>.
++    Though if you do so,
++    in order to make sure that your JavaScript code is interpreted with the
+diff --git a/www/__common.soy b/www/__common.soy
+index 7f8d4fd..b444e6a 100644
+--- a/www/__common.soy
++++ b/www/__common.soy
+@@ -14,0 +15 @@
++  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+

@@ -1,0 +1,8 @@
+diff --git a/indexing-service/src/main/java/io/druid/indexing/overlord/scaling/SimpleResourceManagementStrategy.java b/indexing-service/src/main/java/io/druid/indexing/overlord/scaling/SimpleResourceManagementStrategy.java
+index 25afe9f..50d612b 100644
+--- a/indexing-service/src/main/java/io/druid/indexing/overlord/scaling/SimpleResourceManagementStrategy.java
++++ b/indexing-service/src/main/java/io/druid/indexing/overlord/scaling/SimpleResourceManagementStrategy.java
+@@ -203 +203 @@
+-                                >= config.getWorkerIdleTimeout().getMillis();
++                                >= config.getWorkerIdleTimeout().toStandardDuration().getMillis();
+

@@ -1,0 +1,20 @@
+diff --git a/pmd/etc/changelog.txt b/pmd/etc/changelog.txt
+index 98f0f18..84f2546 100644
+--- a/pmd/etc/changelog.txt
++++ b/pmd/etc/changelog.txt
+@@ -24,0 +25 @@
++Fixed bug 1561784 - AbstractOptimizationRule no longer throws ClassCastExceptions on certain postfix expressions.
+diff --git a/pmd/src/net/sourceforge/pmd/rules/optimization/AbstractOptimizationRule.java b/pmd/src/net/sourceforge/pmd/rules/optimization/AbstractOptimizationRule.java
+index 8f76ebb..e3ea5b9 100644
+--- a/pmd/src/net/sourceforge/pmd/rules/optimization/AbstractOptimizationRule.java
++++ b/pmd/src/net/sourceforge/pmd/rules/optimization/AbstractOptimizationRule.java
+@@ -85 +85 @@
+-                    if (second.jjtGetNumChildren() == 0) {
++                    if (second.jjtGetNumChildren() == 0 || !(second.jjtGetChild(0) instanceof ASTName)) {
+diff --git a/pmd/xdocs/credits.xml b/pmd/xdocs/credits.xml
+index 95170e1..7392a54 100644
+--- a/pmd/xdocs/credits.xml
++++ b/pmd/xdocs/credits.xml
+@@ -51,0 +52 @@
++            <li>Robert Simmons - Reported bug in optimizations package along with suggestions for fix</li>
+

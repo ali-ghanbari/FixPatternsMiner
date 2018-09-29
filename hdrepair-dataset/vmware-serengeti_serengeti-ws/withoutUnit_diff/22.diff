@@ -1,0 +1,8 @@
+diff --git a/server/cluster-mgmt/src/main/java/com/vmware/bdd/manager/ClusterConfigManager.java b/server/cluster-mgmt/src/main/java/com/vmware/bdd/manager/ClusterConfigManager.java
+index 8d35c9a..ade822e 100644
+--- a/server/cluster-mgmt/src/main/java/com/vmware/bdd/manager/ClusterConfigManager.java
++++ b/server/cluster-mgmt/src/main/java/com/vmware/bdd/manager/ClusterConfigManager.java
+@@ -1110 +1110 @@
+-          throw ClusterConfigException.INVALID_SPEC(e.getFailedMsgList());
++         throw new ClusterConfigException(e, e.getMessage() + e.getFailedMsgList().toString());
+

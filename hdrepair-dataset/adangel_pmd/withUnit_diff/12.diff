@@ -1,0 +1,21 @@
+diff --git a/pmd/regress/test/net/sourceforge/pmd/MockRule.java b/pmd/regress/test/net/sourceforge/pmd/MockRule.java
+index d2b3822..888696e 100644
+--- a/pmd/regress/test/net/sourceforge/pmd/MockRule.java
++++ b/pmd/regress/test/net/sourceforge/pmd/MockRule.java
+@@ -71 +71 @@
+-    public boolean isInclude()
++    public boolean include()
+diff --git a/pmd/regress/test/net/sourceforge/pmd/RuleSetReadWriteTest.java b/pmd/regress/test/net/sourceforge/pmd/RuleSetReadWriteTest.java
+index 85b84f4..fffd046 100644
+--- a/pmd/regress/test/net/sourceforge/pmd/RuleSetReadWriteTest.java
++++ b/pmd/regress/test/net/sourceforge/pmd/RuleSetReadWriteTest.java
+@@ -43 +43 @@
+-            m_ruleSetIn = (new RuleSetReader(m_inputStream)).read();
++            m_ruleSetIn = (new RuleSetReader()).read(m_inputStream, "foo");
+@@ -45 +45 @@
+-            m_ruleSetOut = (new RuleSetReader(m_inputStream)).read();
++            m_ruleSetOut = (new RuleSetReader()).read(m_inputStream, "foo");
+@@ -119 +119 @@
+-                assertEquals("Rule includes are equal.", ruleIn.isInclude(), ruleOut.isInclude());
++                assertEquals("Rule includes are equal.", ruleIn.include(), ruleOut.include());
+

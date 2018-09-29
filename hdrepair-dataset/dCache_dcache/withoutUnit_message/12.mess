@@ -1,0 +1,19 @@
+shell: fix shell oracle for configuration keys with a space
+
+The shell oracle is built to speed up POSIX shell querying of
+configuration properties.  If the property key contains a
+space then the resulting oracle is broken and prevents
+any 'dcache' command from working.
+
+Target: master
+Patch: https://rb.dcache.org/r/7592/
+Acked-by: Gerd Behrmann
+Requires-book: no
+Requires-notes: yes
+Request: 2.11
+Request: 2.10
+Request: 2.9
+Request: 2.8
+Request: 2.7
+Request: 2.6
+

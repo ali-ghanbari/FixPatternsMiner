@@ -1,0 +1,8 @@
+diff --git a/jetty-servlet/src/main/java/org/eclipse/jetty/servlet/DefaultServlet.java b/jetty-servlet/src/main/java/org/eclipse/jetty/servlet/DefaultServlet.java
+index e8e644a..6896f57 100644
+--- a/jetty-servlet/src/main/java/org/eclipse/jetty/servlet/DefaultServlet.java
++++ b/jetty-servlet/src/main/java/org/eclipse/jetty/servlet/DefaultServlet.java
+@@ -392 +392 @@
+-        boolean endsWithSlash=request.getRequestURI().endsWith(URIUtil.SLASH);
++        boolean endsWithSlash=(pathInfo==null?request.getServletPath():pathInfo).endsWith(URIUtil.SLASH);
+

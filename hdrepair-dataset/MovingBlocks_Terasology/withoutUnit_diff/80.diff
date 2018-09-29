@@ -1,0 +1,80 @@
+diff --git a/src/org/terasology/data/shaders/blur_frag.glsl b/src/org/terasology/data/shaders/blur_frag.glsl
+index f2893a8..58f14ed 100644
+--- a/src/org/terasology/data/shaders/blur_frag.glsl
++++ b/src/org/terasology/data/shaders/blur_frag.glsl
+@@ -6 +6 @@
+-    vec2 vTexelSize = vec2( 1.0/1024.0, 1.0/1024.0 );
++    const vec2 vTexelSize = vec2( 1.0/1024.0, 1.0/1024.0 );
+@@ -8,7 +8,7 @@
+-    vec2 vTaps[12] = vec2[](
+-        vec2(-0.326212,-0.40581),vec2(-0.840144,-0.07358),
+-        vec2(-0.695914,0.457137),vec2(-0.203345,0.620716),
+-        vec2(0.96234,-0.194983),vec2(0.473434,-0.480026),
+-        vec2(0.519456,0.767022),vec2(0.185461,-0.893124),
+-        vec2(0.507431,0.064425),vec2(0.89642,0.412458),
+-        vec2(-0.32194,-0.932615),vec2(-0.791559,-0.59771)
++    const vec2 vTaps[12] = vec2[12](
++        vec2(-0.326212,-0.40581), vec2(-0.840144,-0.07358),
++        vec2(-0.695914,0.457137), vec2(-0.203345,0.620716),
++        vec2(0.96234,-0.194983), vec2(0.473434,-0.480026),
++        vec2(0.519456,0.767022), vec2(0.185461,-0.893124),
++        vec2(0.507431,0.064425), vec2(0.89642,0.412458),
++        vec2(-0.32194,-0.932615), vec2(-0.791559,-0.59771)
+diff --git a/src/org/terasology/data/shaders/post_frag.glsl b/src/org/terasology/data/shaders/post_frag.glsl
+index 7721727..a574cb0 100644
+--- a/src/org/terasology/data/shaders/post_frag.glsl
++++ b/src/org/terasology/data/shaders/post_frag.glsl
+@@ -11,2 +11,2 @@
+-    float cNear = 0.1;
+-    float cZFar = 512.0;
++    const float cNear = 0.1;
++    const float cZFar = 512.0;
+diff --git a/src/org/terasology/data/shaders/sky_frag.glsl b/src/org/terasology/data/shaders/sky_frag.glsl
+index ca9d855..295f6f0 100644
+--- a/src/org/terasology/data/shaders/sky_frag.glsl
++++ b/src/org/terasology/data/shaders/sky_frag.glsl
+@@ -17 +17 @@
+-    clrYxy.x = 1.0 - exp ( -clrYxy.x / colorExp );
++    clrYxy.x = 1.0 - exp (-clrYxy.x / colorExp);
+@@ -19 +19 @@
+-    float	ratio    = clrYxy.x / clrYxy.z;
++    float ratio = clrYxy.x / clrYxy.z;
+@@ -21 +21 @@
+-    vec3	XYZ;
++    vec3 XYZ;
+@@ -27,3 +27,3 @@
+-    const vec3 rCoeffs = vec3 ( 3.240479, -1.53715, -0.49853  );
+-    const vec3 gCoeffs = vec3 ( -0.969256, 1.875991, 0.041556 );
+-    const vec3 bCoeffs = vec3 ( 0.055684, -0.204043, 1.057311 );
++    const vec3 rCoeffs = vec3 (3.240479, -1.53715, -0.49853);
++    const vec3 gCoeffs = vec3 (-0.969256, 1.875991, 0.041556);
++    const vec3 bCoeffs = vec3 (0.055684, -0.204043, 1.057311);
+@@ -31 +31 @@
+-    return vec3 ( dot ( rCoeffs, XYZ ), dot ( gCoeffs, XYZ ), dot ( bCoeffs, XYZ ));
++    return vec3 (dot(rCoeffs, XYZ), dot(gCoeffs, XYZ), dot(bCoeffs, XYZ));
+@@ -34 +34 @@
+-void main (){
++void main () {
+@@ -37,3 +37,3 @@
+-    vec3 l                  = normalize (sunPos.xyz);
+-    float sunHighlight      = pow(max(0.0, dot(l, v)), 256.0) * 512.0;
+-    float posSunY           = 0.0;
++    vec3 l = normalize (sunPos.xyz);
++    float sunHighlight = pow(max(0.0, dot(l, v)), 256.0) * 512.0;
++    float posSunY = 0.0;
+@@ -48 +48 @@
+-    if (alpha < 0.0){
++    if (alpha < 0.0)
+@@ -50 +49,0 @@
+-    }
+@@ -52 +51 @@
+-    vec4 skyColor = vec4	( clamp ( convertColor (), 0.0, 1.0 ) + sunHighlight, 1.0 );
++    vec4 skyColor = vec4(clamp(convertColor(), 0.0, 1.0) + sunHighlight, 1.0);
+diff --git a/src/org/terasology/game/Terasology.java b/src/org/terasology/game/Terasology.java
+index 58a0522..04f3e5c 100755
+--- a/src/org/terasology/game/Terasology.java
++++ b/src/org/terasology/game/Terasology.java
+@@ -266 +266 @@
+-     * @param title
++     * @param title The title of the world
+

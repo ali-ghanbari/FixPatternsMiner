@@ -1,0 +1,33 @@
+diff --git a/server/src/com/thoughtworks/go/server/database/DatabaseStrategy.java b/server/src/com/thoughtworks/go/server/database/DatabaseStrategy.java
+index f1d392b..b5a3854 100644
+--- a/server/src/com/thoughtworks/go/server/database/DatabaseStrategy.java
++++ b/server/src/com/thoughtworks/go/server/database/DatabaseStrategy.java
+@@ -88 +88 @@
+-            throw new RuntimeException("could not locate database provider:" + databaseProvider);
++            throw new RuntimeException(String.format("Failed loading database provider [%s]", databaseProvider), e);
+diff --git a/server/test/unit/com/thoughtworks/go/server/database/DatabaseStrategyTest.java b/server/test/unit/com/thoughtworks/go/server/database/DatabaseStrategyTest.java
+index f241ae3..8ba154a 100644
+--- a/server/test/unit/com/thoughtworks/go/server/database/DatabaseStrategyTest.java
++++ b/server/test/unit/com/thoughtworks/go/server/database/DatabaseStrategyTest.java
+@@ -24,0 +25 @@
++import static org.hamcrest.Matchers.instanceOf;
+@@ -27,2 +28,2 @@
+-import static org.mockito.Mockito.mock;
+-import static org.mockito.Mockito.when;
++import static org.junit.Assert.fail;
++import static org.mockito.Mockito.*;
+@@ -84,0 +86,13 @@
++
++    @Test
++    public void shouldThrowUpWhenFailedToLoadDatabaseProvider() throws Exception {
++        when(systemEnvironment.getDatabaseProvider()).thenReturn("some.random.provider");
++        try {
++            new DatabaseStrategy(systemEnvironment);
++            fail("Should have thrown exception");
++        } catch (RuntimeException e) {
++            assertThat(e.getMessage(), is("Failed loading database provider [some.random.provider]"));
++            assertThat(e.getCause(), is(instanceOf(ClassNotFoundException.class)));
++            assertThat(e.getCause().getMessage(), is("some.random.provider"));
++        }
++    }
+

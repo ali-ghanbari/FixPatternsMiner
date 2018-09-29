@@ -1,0 +1,157 @@
+diff --git a/TODO.txt b/TODO.txt
+index d473bdc..39849c8 100644
+--- a/TODO.txt
++++ b/TODO.txt
+@@ -3,0 +4,6 @@
++* add parser bugs to JIRA...
++
++	referrring to your own class name - ClassExpressionTest
++	referrring to the classname of another Groovy class which is compiled in the same compile run
++	(and so isn't necessary available on the classpath at the time of building)	
++	
+@@ -99,4 +104,0 @@
+-* looks like a bug on generated methods, should use param name over any field name
+-	- also it looks like there's various unnecessary stuff (creation of tuples) when invoking
+-	methods
+-	
+@@ -107,0 +110,4 @@
++* looks like a bug on generated methods, should use param name over any field name
++	- also it looks like there's various unnecessary stuff (creation of tuples) when invoking
++	methods
++	
+diff --git a/src/main/groovy/gdo/DataSet.java b/src/main/groovy/gdo/DataSet.java
+index bf0e416..fde1b23 100644
+--- a/src/main/groovy/gdo/DataSet.java
++++ b/src/main/groovy/gdo/DataSet.java
+@@ -101 +101 @@
+-        System.out.println(statement.getText());
++        //System.out.println(statement.getText());
+diff --git a/src/test/groovy/LogicTest.groovy b/src/test/groovy/LogicTest.groovy
+new file mode 100644
+index 0000000..da2b953
+--- /dev/null
++++ b/src/test/groovy/LogicTest.groovy
+@@ -0,0 +1,77 @@
++class LogicTest extends GroovyTestCase {
++
++    void testAndWithTrue() {
++
++        x = false
++        n = 2
++        
++        if ( n > 1 && n < 10 ) {
++            x = true
++        }
++
++        assert x == true
++    }
++
++    /** @todo parser
++    void testAndWithFalse() {
++
++        x = false
++        n = 20
++        
++        if ( n > 1 && n < 10 ) {
++            x = true
++        }
++
++        assert x == false
++
++        n = -1
++        
++        if ( n > 1 && n < 10 ) {
++            x = true
++        }
++
++        assert x == false
++	}
++
++    void testOrWithTrue() {
++
++        x = false
++        n = 2
++        
++        if ( n > 1 || n < 10 ) {
++            x = true
++        }
++
++        assert x == true
++
++        x = false
++        n = 0
++        
++        if ( n > 1 || n == 0 ) {
++            x = true
++        }
++
++        assert x == true
++    }
++
++    void testOrWithFalse() {
++
++        x = false
++        n = 11
++        
++        if ( n < 10 || n > 20 ) {
++            x = true
++        }
++
++        assert x == false
++
++        n = 11
++        
++        if ( n < 10 || n > 20 ) {
++            x = true
++        }
++    
++        assert x == false
++    }
++    */
++}
+diff --git a/src/test/groovy/MapConstructionTest.groovy b/src/test/groovy/MapConstructionTest.groovy
+index 721ec25..96f0379 100644
+--- a/src/test/groovy/MapConstructionTest.groovy
++++ b/src/test/groovy/MapConstructionTest.groovy
+@@ -25 +24,0 @@
+-    /** @todo parser
+@@ -34,3 +32,0 @@
+-
+-    */
+-    
+diff --git a/src/test/groovy/gdo/PersonTest.groovy b/src/test/groovy/gdo/PersonTest.groovy
+index d1104f9..f6ced19 100644
+--- a/src/test/groovy/gdo/PersonTest.groovy
++++ b/src/test/groovy/gdo/PersonTest.groovy
+@@ -4,0 +5,2 @@
++    property type
++    
+@@ -6 +8 @@
+-        persons = new DataSet(Person)
++        persons = new DataSet(type)
+@@ -14 +16 @@
+-        persons = new DataSet(Person)
++        persons = new DataSet(type)
+@@ -24 +26 @@
+-        persons = new DataSet(Person)
++        persons = new DataSet(type)
+@@ -26 +28 @@
+-        blogs = persons.findAll { return ((it.size < 10) && (it.lastName == "Bloggs")) }
++        blogs = persons.findAll { it.size < 10 && it.lastName == "Bloggs" }
+@@ -28 +30 @@
+-        /** @todo bug
++        /** @todo bug in Groovy where the && is not parsed
+@@ -31,0 +34,4 @@
++    }
++ 
++    protected compareFn(value) {
++        value > 1 && value < 10
+@@ -37,0 +44,7 @@
++    
++    protected void setUp() {
++        /** @todo parser & code gen bug 
++        type = Person
++        */
++        type = getClass().getClassLoader().loadClass("groovy.gdo.Person")
++    }
+

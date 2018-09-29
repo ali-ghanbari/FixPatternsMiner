@@ -1,0 +1,20 @@
+diff --git a/src/main/java/com/jcabi/github/Content.java b/src/main/java/com/jcabi/github/Content.java
+index fb4763d..17d4601 100644
+--- a/src/main/java/com/jcabi/github/Content.java
++++ b/src/main/java/com/jcabi/github/Content.java
+@@ -177 +177 @@
+-         * @return decoded content
++         * @return Decoded content
+diff --git a/src/test/java/com/jcabi/github/ContentTest.java b/src/test/java/com/jcabi/github/ContentTest.java
+index d5d421c..59635af 100644
+--- a/src/test/java/com/jcabi/github/ContentTest.java
++++ b/src/test/java/com/jcabi/github/ContentTest.java
+@@ -226 +226 @@
+-        final String prop = "dGVzdCBlbmNvZGU=";
++        final String prop = "dGVzdCBlbmNvZGXigqw=";
+@@ -233,2 +233,2 @@
+-            new String(new Content.Smart(content).decoded()),
+-            Matchers.is("test encode")
++            new String(new Content.Smart(content).decoded(), "UTF-8"),
++            Matchers.is("test encode\u20ac")
+

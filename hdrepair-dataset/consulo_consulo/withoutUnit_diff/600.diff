@@ -1,0 +1,8 @@
+diff --git a/platform/platform-api/src/com/intellij/ui/tabs/impl/singleRow/ScrollableSingleRowLayout.java b/platform/platform-api/src/com/intellij/ui/tabs/impl/singleRow/ScrollableSingleRowLayout.java
+index 4661611..098fe95 100644
+--- a/platform/platform-api/src/com/intellij/ui/tabs/impl/singleRow/ScrollableSingleRowLayout.java
++++ b/platform/platform-api/src/com/intellij/ui/tabs/impl/singleRow/ScrollableSingleRowLayout.java
+@@ -83 +83 @@
+-    if (myScrollSelectionInViewPending || !data.layoutSize.equals(myLastSingRowLayout.layoutSize)) {
++    if (myScrollSelectionInViewPending || myLastSingRowLayout == null || !data.layoutSize.equals(myLastSingRowLayout.layoutSize)) {
+

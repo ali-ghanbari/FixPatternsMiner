@@ -1,0 +1,8 @@
+diff --git a/xml/impl/src/com/intellij/codeInsight/editorActions/XmlSlashTypedHandler.java b/xml/impl/src/com/intellij/codeInsight/editorActions/XmlSlashTypedHandler.java
+index ea4b0a8..b4c34dd 100644
+--- a/xml/impl/src/com/intellij/codeInsight/editorActions/XmlSlashTypedHandler.java
++++ b/xml/impl/src/com/intellij/codeInsight/editorActions/XmlSlashTypedHandler.java
+@@ -75 +75 @@
+-        element = file.findElementAt(offset - 1);
++        element = file.getViewProvider().findElementAt(offset - 1, file.getLanguage());
+

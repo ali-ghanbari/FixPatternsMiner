@@ -1,0 +1,32 @@
+diff --git a/CONTRIBUTORS b/CONTRIBUTORS
+index addc8e6..428c76a 100644
+--- a/CONTRIBUTORS
++++ b/CONTRIBUTORS
+@@ -32,0 +33 @@
++cpeisert [gmail.com] (Christopher Peisert)
+diff --git a/src/com/google/javascript/jscomp/Compiler.java b/src/com/google/javascript/jscomp/Compiler.java
+index b76bbb5..d98be4a 100644
+--- a/src/com/google/javascript/jscomp/Compiler.java
++++ b/src/com/google/javascript/jscomp/Compiler.java
+@@ -1285 +1284,0 @@
+-          !options.skipAllPasses &&
+diff --git a/test/com/google/javascript/jscomp/CommandLineRunnerTest.java b/test/com/google/javascript/jscomp/CommandLineRunnerTest.java
+index 9662afc..a2a89ad 100644
+--- a/test/com/google/javascript/jscomp/CommandLineRunnerTest.java
++++ b/test/com/google/javascript/jscomp/CommandLineRunnerTest.java
+@@ -623,0 +624,14 @@
++  public void testDependencySortingWhitespaceMode() {
++    args.add("--manage_closure_dependencies");
++    args.add("--compilation_level=WHITESPACE_ONLY");
++    test(new String[] {
++          "goog.require('beer');",
++          "goog.provide('beer');\ngoog.require('hops');",
++          "goog.provide('hops');",
++         },
++         new String[] {
++          "goog.provide('hops');",
++          "goog.provide('beer');\ngoog.require('hops');",
++          "goog.require('beer');"
++         });
++  }
+

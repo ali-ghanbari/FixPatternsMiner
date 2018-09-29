@@ -1,0 +1,8 @@
+diff --git a/astrid/plugin-src/com/todoroo/astrid/gtasks/auth/GtasksLoginActivity.java b/astrid/plugin-src/com/todoroo/astrid/gtasks/auth/GtasksLoginActivity.java
+index 91fcb58..a15f50a 100644
+--- a/astrid/plugin-src/com/todoroo/astrid/gtasks/auth/GtasksLoginActivity.java
++++ b/astrid/plugin-src/com/todoroo/astrid/gtasks/auth/GtasksLoginActivity.java
+@@ -125 +125 @@
+-        final Account a = accountManager.getAccountByName(nameArray[position]);
++        final Account a = accountManager.getAccountByName(nameArray[position - 1]); // Subtract 1 because apparently android counts the header view as part of the adapter.
+

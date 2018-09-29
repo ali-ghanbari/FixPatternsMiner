@@ -1,0 +1,201 @@
+diff --git a/js/js.translator/src/org/jetbrains/k2js/translate/intrinsic/functions/factories/TopLevelFIF.java b/js/js.translator/src/org/jetbrains/k2js/translate/intrinsic/functions/factories/TopLevelFIF.java
+index 297610d..e585904 100644
+--- a/js/js.translator/src/org/jetbrains/k2js/translate/intrinsic/functions/factories/TopLevelFIF.java
++++ b/js/js.translator/src/org/jetbrains/k2js/translate/intrinsic/functions/factories/TopLevelFIF.java
+@@ -84 +84 @@
+-            return "get";
++            return "get_s9cetl$";
+diff --git a/js/js.translator/testFiles/maps.js b/js/js.translator/testFiles/maps.js
+index 5d42f73..06ff4f6 100644
+--- a/js/js.translator/testFiles/maps.js
++++ b/js/js.translator/testFiles/maps.js
+@@ -237 +237 @@
+-        this.get = function (key) {
++        this.get_s9cetl$ = function (key) {
+@@ -255 +255 @@
+-        this.containsKey = function (key) {
++        this.containsKey_s9cetl$ = function (key) {
+@@ -265 +265 @@
+-        this.containsValue = function (value) {
++        this.containsValue_s9cetl$ = function (value) {
+@@ -309 +309 @@
+-        this.remove = function (key) {
++        this.remove_s9cetl$ = function (key) {
+@@ -350 +350 @@
+-        this.putAll = function (hashtable, conflictCallback) {
++        this.putAll_s9c68p$ = function (hashtable, conflictCallback) {
+@@ -453 +453 @@
+-            get: function (key) {
++            get_s9cetl$: function (key) {
+@@ -464 +464 @@
+-            remove: function (key) {
++            remove_s9cetl$: function (key) {
+@@ -569 +569 @@
+-            return hashTable.remove(o) ? o : null;
++            return hashTable.remove_s9cetl$(o) ? o : null;
+diff --git a/libraries/stdlib/test/js/MapJsTest.kt b/libraries/stdlib/test/js/MapJsTest.kt
+index 5c564f9..4b71c73 100644
+--- a/libraries/stdlib/test/js/MapJsTest.kt
++++ b/libraries/stdlib/test/js/MapJsTest.kt
+@@ -15 +15 @@
+-        val data = HashMap<String, Int>()
++        val data = emptyMap()
+@@ -25 +25 @@
+-        val data = HashMap<String, Int>()
++        val data = emptyMutableMap()
+@@ -34,0 +35,44 @@
++    test fun emptyMapGet() {
++        val map = emptyMap()
++        assertEquals(null, map.get("foo"), """failed on map.get("foo")""")
++        assertEquals(null, map["bar"], """failed on map["bar"]""")
++    }
++
++    test fun mapGet() {
++        val map = createTestMap()
++        for (i in KEYS.indices) {
++            assertEquals(VALUES[i], map.get(KEYS[i]), """failed on map.get(KEYS[$i])""")
++            assertEquals(VALUES[i], map[KEYS[i]], """failed on map[KEYS[$i]]""")
++        }
++
++        assertEquals(null, map.get("foo"))
++    }
++
++    /* TODO: fix after switch to use compiled stdlib (need drop js.Map<K,V>.set(V))
++    test fun mapPut() {
++        val map = emptyMutableMap()
++
++        map.put("foo", 1)
++        assertEquals(1, map["foo"])
++        assertEquals(null, map["bar"])
++
++        map["bar"] = 2
++        assertEquals(1, map["foo"])
++        assertEquals(2, map["bar"])
++
++        map["foo"] = 0
++        assertEquals(0, map["foo"])
++        assertEquals(2, map["bar"])
++    }
++    */
++
++    test fun sizeAndEmptyForEmptyMap() {
++        val data = emptyMap()
++
++        assertTrue(data.isEmpty())
++        assertTrue(data.empty)
++
++        assertEquals(0, data.size())
++        assertEquals(0, data.size)
++    }
++
+@@ -36,3 +80,7 @@
+-        val data = HashMap<String, Int>()
+-        assertTrue{ data.empty }
+-        assertEquals(data.size, 0)
++        val data = createTestMap()
++
++        assertFalse(data.isEmpty())
++        assertFalse(data.empty)
++
++        assertEquals(KEYS.size, data.size())
++        assertEquals(KEYS.size, data.size)
+@@ -42,2 +90,2 @@
+-    test fun emptyHashMapValues() {
+-        val emptyMap = HashMap<String, Int>()
++    test fun emptyMapValues() {
++        val emptyMap = emptyMap()
+@@ -47,2 +95,2 @@
+-    test fun hashMapValues() {
+-        val map = createTestHashMap()
++    test fun mapValues() {
++        val map = createTestMap()
+@@ -52,2 +100,2 @@
+-    test fun hashMapKeySet() {
+-        val map = createTestHashMap()
++    test fun mapKeySet() {
++        val map = createTestMap()
+@@ -57,2 +105,14 @@
+-    test fun hashMapContainsValue() {
+-        val map = createTestHashMap()
++    test fun mapContainsKey() {
++        val map = createTestMap()
++
++        assertTrue(map.containsKey(KEYS[0]) &&
++                   map.containsKey(KEYS[1]) &&
++                   map.containsKey(KEYS[2]) &&
++                   map.containsKey(KEYS[3]))
++
++        assertFalse(map.containsKey("foo") ||
++                    map.containsKey(1))
++    }
++
++    test fun mapContainsValue() {
++        val map = createTestMap()
+@@ -61,3 +121,3 @@
+-            map.containsValue(VALUES[1]) &&
+-            map.containsValue(VALUES[2]) &&
+-            map.containsValue(VALUES[3]))
++                   map.containsValue(VALUES[1]) &&
++                   map.containsValue(VALUES[2]) &&
++                   map.containsValue(VALUES[3]))
+@@ -66 +126 @@
+-            map.containsValue("five"))
++                    map.containsValue(5))
+@@ -69,8 +129,3 @@
+-    test fun hashMapSize() {
+-        val map = createTestHashMap()
+-        assertEquals(KEYS.size, map.size)
+-    }
+-
+-    test fun hashMapPutAll() {
+-        val map = createTestHashMap()
+-        val newMap = HashMap<String, Int>()
++    test fun mapPutAll() {
++        val map = createTestMap()
++        val newMap = emptyMutableMap()
+@@ -80,0 +136,5 @@
++    test fun mapRemove() {
++        val map = createTestMutableMap()
++        val last = KEYS.size() - 1
++        val first = 0
++        val mid = KEYS.size() / 2
+@@ -82,6 +142,16 @@
+-    fun createTestHashMap(): HashMap<String, Int> {
+-        val map = HashMap<String, Int>()
+-        for (i in KEYS.indices) {
+-            map.put(KEYS[i], VALUES[i])
+-        }
+-        return map
++        assertEquals(KEYS.size(), map.size())
++
++        assertEquals(null, map.remove("foo"))
++        assertEquals(VALUES[mid], map.remove(KEYS[mid]))
++        assertEquals(null, map.remove(KEYS[mid]))
++        assertEquals(VALUES[last], map.remove(KEYS[last]))
++        assertEquals(VALUES[first], map.remove(KEYS[first]))
++
++        assertEquals(KEYS.size() - 3, map.size())
++    }
++
++    test fun mapClear() {
++        val map = createTestMutableMap()
++        assertFalse(map.isEmpty())
++        map.clear()
++        assertTrue(map.isEmpty())
+@@ -234,0 +305,15 @@
++    // Helpers
++
++    fun emptyMap(): Map<String, Int> = HashMap<String, Int>()
++    fun emptyMutableMap(): MutableMap<String, Int> = HashMap<String, Int>()
++
++    fun createTestMap(): Map<String, Int> = createTestHashMap()
++    fun createTestMutableMap(): MutableMap<String, Int> = createTestHashMap()
++
++    fun createTestHashMap(): HashMap<String, Int> {
++        val map = HashMap<String, Int>()
++        for (i in KEYS.indices) {
++            map.put(KEYS[i], VALUES[i])
++        }
++        return map
++    }
+

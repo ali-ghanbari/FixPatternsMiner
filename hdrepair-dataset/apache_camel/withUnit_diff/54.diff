@@ -1,0 +1,55 @@
+diff --git a/camel-core/src/main/java/org/apache/camel/converter/stream/CachedOutputStream.java b/camel-core/src/main/java/org/apache/camel/converter/stream/CachedOutputStream.java
+index 391ff04..3ebcc4f 100644
+--- a/camel-core/src/main/java/org/apache/camel/converter/stream/CachedOutputStream.java
++++ b/camel-core/src/main/java/org/apache/camel/converter/stream/CachedOutputStream.java
+@@ -74,0 +75,2 @@
++                        // close the stream first and than delete the file
++                        close();
+diff --git a/camel-core/src/test/java/org/apache/camel/component/file/strategy/GenericFileDeleteProcessStrategyTest.java b/camel-core/src/test/java/org/apache/camel/component/file/strategy/GenericFileDeleteProcessStrategyTest.java
+index 4fa037e..e5a3394 100644
+--- a/camel-core/src/test/java/org/apache/camel/component/file/strategy/GenericFileDeleteProcessStrategyTest.java
++++ b/camel-core/src/test/java/org/apache/camel/component/file/strategy/GenericFileDeleteProcessStrategyTest.java
+@@ -26,0 +27 @@
++import org.apache.camel.util.FileUtil;
+@@ -52,2 +53,2 @@
+-
+-            if ("target/foo/boom.txt".equals(name)) {
++            // The file name should be normalized
++            if (FileUtil.normalizePath("target/foo/boom.txt").equals(name)) {
+diff --git a/camel-core/src/test/java/org/apache/camel/converter/stream/CachedOutputStreamTest.java b/camel-core/src/test/java/org/apache/camel/converter/stream/CachedOutputStreamTest.java
+index c0ad068..55f420a 100644
+--- a/camel-core/src/test/java/org/apache/camel/converter/stream/CachedOutputStreamTest.java
++++ b/camel-core/src/test/java/org/apache/camel/converter/stream/CachedOutputStreamTest.java
+@@ -112 +112,4 @@
+-        
++        // windows can't delet the file which is open , so we close the stream first
++        if (System.getProperty("os.name").startsWith("Windows")) {
++            ((InputStream)cache).close();
++        }
+@@ -114 +116,0 @@
+-
+@@ -115,0 +118 @@
++        
+diff --git a/camel-core/src/test/java/org/apache/camel/processor/ChoiceWithEndTest.java b/camel-core/src/test/java/org/apache/camel/processor/ChoiceWithEndTest.java
+index 7aaedd9..242f5d4 100644
+--- a/camel-core/src/test/java/org/apache/camel/processor/ChoiceWithEndTest.java
++++ b/camel-core/src/test/java/org/apache/camel/processor/ChoiceWithEndTest.java
+@@ -23,0 +24 @@
++import org.apache.camel.Route;
+@@ -33 +34 @@
+-        Navigate<Processor> nav = context.getRoutes().get(0).navigate();
++        Navigate<Processor> nav = getRoute("direct://start").navigate();
+@@ -46,0 +48,12 @@
++    
++    private Route getRoute(String routeEndpointURI) {
++        Route answer = null;
++        for (Route route : context.getRoutes()) {
++            if (routeEndpointURI.equals(route.getEndpoint().getEndpointUri())) {
++                answer = route;
++                break;
++            }
++        }
++        return answer;
++        
++    }
+

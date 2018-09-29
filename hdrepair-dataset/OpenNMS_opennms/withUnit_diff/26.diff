@@ -1,0 +1,14 @@
+diff --git a/opennms-provision/opennms-detector-lineoriented/src/test/java/org/opennms/netmgt/provision/detector/AsyncDetectorFileDescriptorLeakTest.java b/opennms-provision/opennms-detector-lineoriented/src/test/java/org/opennms/netmgt/provision/detector/AsyncDetectorFileDescriptorLeakTest.java
+index 7ba72dc..7152879 100644
+--- a/opennms-provision/opennms-detector-lineoriented/src/test/java/org/opennms/netmgt/provision/detector/AsyncDetectorFileDescriptorLeakTest.java
++++ b/opennms-provision/opennms-detector-lineoriented/src/test/java/org/opennms/netmgt/provision/detector/AsyncDetectorFileDescriptorLeakTest.java
+@@ -102 +102 @@
+-        m_server.setTimeout(10000);
++        m_server.setTimeout(0);
+diff --git a/opennms-provision/opennms-mock-simpleserver/src/main/java/org/opennms/netmgt/provision/server/SimpleServer.java b/opennms-provision/opennms-mock-simpleserver/src/main/java/org/opennms/netmgt/provision/server/SimpleServer.java
+index cff9ba7..f33875f 100644
+--- a/opennms-provision/opennms-mock-simpleserver/src/main/java/org/opennms/netmgt/provision/server/SimpleServer.java
++++ b/opennms-provision/opennms-mock-simpleserver/src/main/java/org/opennms/netmgt/provision/server/SimpleServer.java
+@@ -159,0 +160 @@
++        getServerThread().setDaemon(true);
+

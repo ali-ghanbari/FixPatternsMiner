@@ -1,0 +1,95 @@
+diff --git a/hornetq-server/src/main/java/org/hornetq/core/server/NodeManager.java b/hornetq-server/src/main/java/org/hornetq/core/server/NodeManager.java
+index ccace35..dc5d191 100644
+--- a/hornetq-server/src/main/java/org/hornetq/core/server/NodeManager.java
++++ b/hornetq-server/src/main/java/org/hornetq/core/server/NodeManager.java
+@@ -41 +41 @@
+-   private final Object nodeIDGuard = "";
++   private final Object nodeIDGuard = new Object();
+diff --git a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/cluster/failover/FailoverTest.java b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/cluster/failover/FailoverTest.java
+index dad13d9..e3b1fce 100644
+--- a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/cluster/failover/FailoverTest.java
++++ b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/cluster/failover/FailoverTest.java
+@@ -87 +87,2 @@
+-   protected ClientSession createSession(ClientSessionFactory sf, boolean autoCommitSends, boolean autoCommitAcks) throws Exception
++   protected ClientSession
++            createSession(ClientSessionFactory sf1, boolean autoCommitSends, boolean autoCommitAcks) throws Exception
+@@ -89 +90 @@
+-      return addClientSession(sf.createSession(autoCommitSends, autoCommitAcks));
++      return addClientSession(sf1.createSession(autoCommitSends, autoCommitAcks));
+@@ -92 +93 @@
+-   protected ClientSession createSession(ClientSessionFactory sf) throws Exception
++   protected ClientSession createSession(ClientSessionFactory sf1) throws Exception
+@@ -94 +95 @@
+-      return addClientSession(sf.createSession());
++      return addClientSession(sf1.createSession());
+@@ -97 +98 @@
+-   protected ClientSession createSession(ClientSessionFactory sf,
++   protected ClientSession createSession(ClientSessionFactory sf1,
+@@ -102 +103 @@
+-      return addClientSession(sf.createSession(xa, autoCommitSends, autoCommitAcks));
++      return addClientSession(sf1.createSession(xa, autoCommitSends, autoCommitAcks));
+@@ -115 +116 @@
+-      ClientSessionFactoryInternal sf = (ClientSessionFactoryInternal)createSessionFactory(locator);
++      ClientSessionFactoryInternal sf1 = (ClientSessionFactoryInternal)createSessionFactory(locator);
+@@ -117 +118 @@
+-      final ClientSession session = createSession(sf, true, true);
++      final ClientSession session = createSession(sf1, true, true);
+@@ -160 +160,0 @@
+-      log.info("crashing session");
+@@ -162,0 +163 @@
++      backupServer.getServer().waitForActivation(5, TimeUnit.SECONDS);
+@@ -168 +169 @@
+-         assertNotNull(m);
++         assertNotNull("message #=" + i, m);
+@@ -185 +186 @@
+-      ClientSessionFactoryInternal sf = (ClientSessionFactoryInternal)createSessionFactory(locator);
++      ClientSessionFactoryInternal sf1 = (ClientSessionFactoryInternal)createSessionFactory(locator);
+@@ -187 +188 @@
+-      final ClientSession session = createSession(sf, true, true);
++      final ClientSession session = createSession(sf1, true, true);
+@@ -258 +259 @@
+-      ClientSessionFactoryInternal sf = (ClientSessionFactoryInternal)createSessionFactory(locator);
++      ClientSessionFactoryInternal sf1 = (ClientSessionFactoryInternal)createSessionFactory(locator);
+@@ -260 +261 @@
+-      final ClientSession session = createSession(sf, true, true);
++      final ClientSession session = createSession(sf1, true, true);
+@@ -375 +376 @@
+-      ClientSessionFactoryInternal sf = (ClientSessionFactoryInternal)createSessionFactory(locator);
++      ClientSessionFactoryInternal sf1 = (ClientSessionFactoryInternal)createSessionFactory(locator);
+@@ -377 +378 @@
+-      final ClientSession session = createSession(sf, true, false, false);
++      final ClientSession session = createSession(sf1, true, false, false);
+@@ -429 +430 @@
+-      ClientSessionFactoryInternal sf = (ClientSessionFactoryInternal)createSessionFactory(locator);
++      ClientSessionFactoryInternal sf1 = (ClientSessionFactoryInternal)createSessionFactory(locator);
+@@ -431 +432 @@
+-      final ClientSession session = createSession(sf, true, false, false);
++      final ClientSession session = createSession(sf1, true, false, false);
+@@ -2230,3 +2231 @@
+-   // Private -------------------------------------------------------
+-
+-   private ClientSession sendAndConsume(final ClientSessionFactory sf, final boolean createQueue) throws Exception
++   private ClientSession sendAndConsume(final ClientSessionFactory sf1, final boolean createQueue) throws Exception
+@@ -2234 +2233 @@
+-      ClientSession session = createSession(sf, false, true, true);
++      ClientSession session = createSession(sf1, false, true, true);
+diff --git a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/server/LVQRecoveryTest.java b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/server/LVQRecoveryTest.java
+index 9016423..352d652 100644
+--- a/tests/integration-tests/src/test/java/org/hornetq/tests/integration/server/LVQRecoveryTest.java
++++ b/tests/integration-tests/src/test/java/org/hornetq/tests/integration/server/LVQRecoveryTest.java
+@@ -29,0 +30 @@
++import org.hornetq.tests.util.UnitTestCase;
+@@ -221 +222 @@
+-      locator = HornetQClient.createServerLocatorWithoutHA(new TransportConfiguration(ServiceTestBase.INVM_CONNECTOR_FACTORY));
++      locator = HornetQClient.createServerLocatorWithoutHA(new TransportConfiguration(UnitTestCase.INVM_CONNECTOR_FACTORY));
+@@ -240,3 +241,3 @@
+-      AddressSettings qs = new AddressSettings();
+-      qs.setLastValueQueue(true);
+-      server.getAddressSettingsRepository().addMatch(address.toString(), qs);
++      AddressSettings qs1 = new AddressSettings();
++      qs1.setLastValueQueue(true);
++      server.getAddressSettingsRepository().addMatch(address.toString(), qs1);
+@@ -245 +246 @@
+-      locator = HornetQClient.createServerLocatorWithoutHA(new TransportConfiguration(ServiceTestBase.INVM_CONNECTOR_FACTORY));
++      locator = HornetQClient.createServerLocatorWithoutHA(new TransportConfiguration(UnitTestCase.INVM_CONNECTOR_FACTORY));
+

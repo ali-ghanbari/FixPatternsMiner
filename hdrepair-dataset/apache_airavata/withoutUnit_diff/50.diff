@@ -1,0 +1,26 @@
+diff --git a/airavata-api/airavata-api-server/src/main/java/org/apache/airavata/api/server/handler/ApplicationCatalogHandler.java b/airavata-api/airavata-api-server/src/main/java/org/apache/airavata/api/server/handler/ApplicationCatalogHandler.java
+index 6b205bb..050748d 100644
+--- a/airavata-api/airavata-api-server/src/main/java/org/apache/airavata/api/server/handler/ApplicationCatalogHandler.java
++++ b/airavata-api/airavata-api-server/src/main/java/org/apache/airavata/api/server/handler/ApplicationCatalogHandler.java
+@@ -217,0 +218 @@
++				d.setResourceJobManager(ResourceJobManager.SLURM);
+diff --git a/airavata-api/airavata-client-sdks/airavata-php-sdk/src/main/resources/samples/list-compute-resources.php b/airavata-api/airavata-client-sdks/airavata-php-sdk/src/main/resources/samples/list-compute-resources.php
+index fa71430..4ff8a6f 100644
+--- a/airavata-api/airavata-client-sdks/airavata-php-sdk/src/main/resources/samples/list-compute-resources.php
++++ b/airavata-api/airavata-client-sdks/airavata-php-sdk/src/main/resources/samples/list-compute-resources.php
+@@ -36,0 +37 @@
++use Airavata\Model\AppCatalog\ResourceJobManager;
+@@ -39 +40 @@
+-$transport = new TSocket('gw111.iu.xsede.org', 8931);
++$transport = new TSocket('localhost', 8931);
+@@ -64,0 +66,7 @@
++			case JobSubmissionProtocol::GSISSH:
++				$gsissh_data=$airavataclient->getGSISSHJobSubmissionProtocol($protocol_data_id);
++				echo "\t\t\tResource Job Manager : ".ResourceJobManager::$__names[$gsissh_data->resourceJobManager]."\n";
++				echo "\t\t\tInstalled Path : ".$gsissh_data->installedPath."\n";
++				echo "\t\t\tSSH port : ".$gsissh_data->sshPort."\n";
++				echo "\t\t\tMonitor Mode : ".$gsissh_data->monitorMode."\n";
++				break;
+@@ -88 +95,0 @@
+-
+

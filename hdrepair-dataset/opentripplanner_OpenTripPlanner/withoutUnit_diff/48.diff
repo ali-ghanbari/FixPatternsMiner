@@ -1,0 +1,106 @@
+diff --git a/otp-core/src/main/java/org/opentripplanner/standalone/GrizzlyServer.java b/otp-core/src/main/java/org/opentripplanner/standalone/GrizzlyServer.java
+index d7601b9..11e897f 100644
+--- a/otp-core/src/main/java/org/opentripplanner/standalone/GrizzlyServer.java
++++ b/otp-core/src/main/java/org/opentripplanner/standalone/GrizzlyServer.java
+@@ -150,3 +150 @@
+-        /* 1. A Grizzly wrapper around the Jersey WebApplication. 
+-              We cannot set the context path to /otp-rest-servlet/ws
+-              https://java.net/jira/browse/GRIZZLY-1481?focusedCommentId=360385&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#action_360385 */
++        /* 1. A Grizzly wrapper around the Jersey WebApplication. */
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/config.js b/otp-leaflet-client/src/main/webapp/js/otp/config.js
+index 5cb3588..e3a0243 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/config.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/config.js
+@@ -7 +7 @@
+-     * The OTP web service locations
++     * Used to construct OTP web service URLs
+@@ -9 +9 @@
+-    hostname : "",
++    hostname : "", // including protocol part
+@@ -12 +12,5 @@
+-
++    
++    // root for client images and templates
++    resourcePath : "", 
++    // location of OTP API root on host
++    restService : "otp-rest-servlet/default/", 
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/core/Map.js b/otp-leaflet-client/src/main/webapp/js/otp/core/Map.js
+index 135f955..ef4c10c 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/core/Map.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/core/Map.js
+@@ -74 +74 @@
+-            var url = otp.config.hostname + '/' + otp.config.restService + '/ws/metadata';
++            var url = otp.config.hostname + '/' + otp.config.restService + 'metadata';
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/core/TransitIndex.js b/otp-leaflet-client/src/main/webapp/js/otp/core/TransitIndex.js
+index 9af7745..8e7ef8c 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/core/TransitIndex.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/core/TransitIndex.js
+@@ -35 +35 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/agencyIds';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/agencyIds';
+@@ -66 +66 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/routes';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/routes';
+@@ -118 +118 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/routeData';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/routeData';
+@@ -144 +144 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/variantForTrip';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/variantForTrip';
+@@ -195 +195 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/stopTimesForStop';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/stopTimesForStop';
+@@ -221 +221 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/stopsInRectangle';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/stopsInRectangle';
+@@ -244 +244 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/stopData';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/stopData';
+@@ -267 +267 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/transit/stopsByName';
++        var url = otp.config.hostname + '/' + otp.config.restService + 'transit/stopsByName';
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/core/Webapp.js b/otp-leaflet-client/src/main/webapp/js/otp/core/Webapp.js
+index d27b687..b93f766 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/core/Webapp.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/core/Webapp.js
+@@ -44,4 +43,0 @@
+-        otp.config.resourcePath = otp.config.resourcePath || "";
+-        otp.config.restService = otp.config.restService || "otp-rest-servlet";
+-
+-
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/modules/alerts/AnalystLegendWidget.js b/otp-leaflet-client/src/main/webapp/js/otp/modules/alerts/AnalystLegendWidget.js
+index 751df5e..7d43e07 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/modules/alerts/AnalystLegendWidget.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/modules/alerts/AnalystLegendWidget.js
+@@ -40 +40 @@
+-	    this.img.attr('src', otp.config.hostname+'/otp-rest-servlet/ws/legend.png?width='+this.imgWidth+'&height='+this.imgHeight+'&styles='
++	    this.img.attr('src', otp.config.hostname+'/otp-rest-servlet/legend.png?width='+this.imgWidth+'&height='+this.imgHeight+'&styles='
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystLegendWidget.js b/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystLegendWidget.js
+index 9f87570..683dd68 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystLegendWidget.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystLegendWidget.js
+@@ -40 +40 @@
+-	    this.img.attr('src', otp.config.hostname+'/' + otp.config.restService + '/ws/legend.png?width='
++	    this.img.attr('src', otp.config.hostname+'/' + otp.config.restService + '/legend.png?width='
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystModule.js b/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystModule.js
+index 1337b77..ff2fca3 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystModule.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/modules/analyst/AnalystModule.js
+@@ -30 +30 @@
+-        this.analystUrl = otp.config.hostname + "/" + otp.config.restService + "/ws/tile/{z}/{x}/{y}.png";
++        this.analystUrl = otp.config.hostname + "/" + otp.config.restService + "/tile/{z}/{x}/{y}.png";
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/modules/bikeshare/BikeShareModule.js b/otp-leaflet-client/src/main/webapp/js/otp/modules/bikeshare/BikeShareModule.js
+index 7ab0afd..d419da0 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/modules/bikeshare/BikeShareModule.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/modules/bikeshare/BikeShareModule.js
+@@ -39 +39 @@
+-    url: otp.config.hostname + '/' + otp.config.restService + '/ws/bike_rental',
++    url: otp.config.hostname + '/' + otp.config.restService + '/bike_rental',
+diff --git a/otp-leaflet-client/src/main/webapp/js/otp/modules/planner/PlannerModule.js b/otp-leaflet-client/src/main/webapp/js/otp/modules/planner/PlannerModule.js
+index 2f06693..65ae12d 100644
+--- a/otp-leaflet-client/src/main/webapp/js/otp/modules/planner/PlannerModule.js
++++ b/otp-leaflet-client/src/main/webapp/js/otp/modules/planner/PlannerModule.js
+@@ -277 +277 @@
+-        var url = otp.config.hostname + '/' + otp.config.restService + '/ws/' + apiMethod;
++        var url = otp.config.hostname + '/' + otp.config.restService + apiMethod;
+

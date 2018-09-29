@@ -1,0 +1,40 @@
+diff --git a/src/ServidorAplicacao/Servico/sop/DeleteExam.java b/src/ServidorAplicacao/Servico/sop/DeleteExam.java
+index 257024b..89e32cc 100755
+--- a/src/ServidorAplicacao/Servico/sop/DeleteExam.java
++++ b/src/ServidorAplicacao/Servico/sop/DeleteExam.java
+@@ -59,0 +60 @@
++			result = true;
+diff --git a/src_tests/ServidorAplicacao/Servicos/sop/DeleteExamServiceTest.java b/src_tests/ServidorAplicacao/Servicos/sop/DeleteExamServiceTest.java
+index f1dfd3c..f28ca9f 100755
+--- a/src_tests/ServidorAplicacao/Servicos/sop/DeleteExamServiceTest.java
++++ b/src_tests/ServidorAplicacao/Servicos/sop/DeleteExamServiceTest.java
+@@ -69,2 +69,2 @@
+-		beginning.set(Calendar.MONTH, Calendar.MARCH);
+-		beginning.set(Calendar.DAY_OF_MONTH, 19);
++		beginning.set(Calendar.MONTH, Calendar.JUNE);
++		beginning.set(Calendar.DAY_OF_MONTH, 27);
+@@ -76,2 +76,2 @@
+-		end.set(Calendar.MONTH, Calendar.MARCH);
+-		end.set(Calendar.DAY_OF_MONTH, 19);
++		end.set(Calendar.MONTH, Calendar.JUNE);
++		end.set(Calendar.DAY_OF_MONTH, 27);
+@@ -84,3 +84,6 @@
+-		InfoExam infoExam = new InfoExam(beginning, beginning, null, season);
+-		List infoExecutionCourses = new ArrayList();
+-		infoExecutionCourses.add(infoExecutionCourse);
++		//InfoExam infoExam = new InfoExam(beginning, end, null, season);
++		InfoExam infoExam = new InfoExam();
++		infoExam.setIdInternal(new Integer(5));
++		//List infoExecutionCourses = new ArrayList();
++		//infoExecutionCourses.add(infoExecutionCourse);
++
+@@ -90 +93 @@
+-		infoViewExam.setInfoExecutionCourses(infoExecutionCourses);
++		//infoViewExam.setInfoExecutionCourses(infoExecutionCourses);
+diff --git a/src_tests/ServidorApresentacao/sop/ChooseExamDayAndShiftDispatchActionTest.java b/src_tests/ServidorApresentacao/sop/ChooseExamDayAndShiftDispatchActionTest.java
+index c7ef722..318d075 100755
+--- a/src_tests/ServidorApresentacao/sop/ChooseExamDayAndShiftDispatchActionTest.java
++++ b/src_tests/ServidorApresentacao/sop/ChooseExamDayAndShiftDispatchActionTest.java
+@@ -112,0 +113 @@
++		addRequestParameter(SessionConstants.NEXT_PAGE, "viewExams");
+

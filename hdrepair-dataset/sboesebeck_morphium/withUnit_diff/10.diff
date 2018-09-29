@@ -1,0 +1,39 @@
+diff --git a/test/de/caluga/test/mongo/suite/BasicFunctionalityTest.java b/test/de/caluga/test/mongo/suite/BasicFunctionalityTest.java
+index 636251e..41202e8 100644
+--- a/test/de/caluga/test/mongo/suite/BasicFunctionalityTest.java
++++ b/test/de/caluga/test/mongo/suite/BasicFunctionalityTest.java
+@@ -15,0 +16 @@
++import java.util.Map;
+@@ -193,2 +194,4 @@
+-        assert (MorphiumSingleton.get().getStatistics().get("X-Entries for: de.caluga.test.mongo.suite.UncachedObject") == null) : "Cached Uncached Object?!?!?!";
+-        assert (MorphiumSingleton.get().getStatistics().get("X-Entries for: de.caluga.test.mongo.suite.CachedObject") > 0) : "No Cached Object cached?!?!?!";
++        Map<String, Double> statistics = MorphiumSingleton.get().getStatistics();
++        Double uc = statistics.get("X-Entries for: de.caluga.test.mongo.suite.UncachedObject");
++        assert (uc == null || uc == 0) : "Cached Uncached Object?!?!?!";
++        assert (statistics.get("X-Entries for: de.caluga.test.mongo.suite.CachedObject") > 0) : "No Cached Object cached?!?!?!";
+diff --git a/test/de/caluga/test/mongo/suite/CachedObject.java b/test/de/caluga/test/mongo/suite/CachedObject.java
+index 58b2f63..c2430de 100644
+--- a/test/de/caluga/test/mongo/suite/CachedObject.java
++++ b/test/de/caluga/test/mongo/suite/CachedObject.java
+@@ -15 +15 @@
+-@Cache(clearOnWrite = true, maxEntries = 20000, overridable = false, readCache = true, writeCache = true, strategy = Cache.ClearStrategy.LRU, timeout = 1000)
++@Cache(clearOnWrite = true, maxEntries = 20000, overridable = false, readCache = true, writeCache = true, strategy = Cache.ClearStrategy.LRU, timeout = 5000)
+diff --git a/test/de/caluga/test/mongo/suite/MongoTest.java b/test/de/caluga/test/mongo/suite/MongoTest.java
+index da7f4b1..d61fe8b 100644
+--- a/test/de/caluga/test/mongo/suite/MongoTest.java
++++ b/test/de/caluga/test/mongo/suite/MongoTest.java
+@@ -8,0 +9,2 @@
++import java.util.Map;
++
+@@ -36 +37,0 @@
+-//
+@@ -37,0 +39,8 @@
++            Map<String, Double> stats = MorphiumSingleton.get().getStatistics();
++            Double ent = stats.get("X-Entries for: de.caluga.test.mongo.suite.CachedObject");
++            assert (ent == null || ent == 0) : "Still cache entries???";
++            ent = stats.get("X-Entries for: de.caluga.test.mongo.suite.UncachedObject");
++            assert (ent == null || ent == 0) : "Uncached Object cached?";
++
++            //make sure everything is really written to disk
++            Thread.sleep(1000);
+

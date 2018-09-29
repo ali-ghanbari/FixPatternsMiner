@@ -1,0 +1,54 @@
+diff --git a/chapter7/cxf/code_first/pom.xml b/chapter7/cxf/code_first/pom.xml
+index d9c392d..9a76407 100644
+--- a/chapter7/cxf/code_first/pom.xml
++++ b/chapter7/cxf/code_first/pom.xml
+@@ -51 +51 @@
+-      <version>2.2.6</version>
++      <version>2.2.7</version>
+diff --git a/chapter7/cxf/code_first/src/main/java/camelinaction/order/OrderEndpoint.java b/chapter7/cxf/code_first/src/main/java/camelinaction/order/OrderEndpoint.java
+index a19b7d1..74daaf2 100644
+--- a/chapter7/cxf/code_first/src/main/java/camelinaction/order/OrderEndpoint.java
++++ b/chapter7/cxf/code_first/src/main/java/camelinaction/order/OrderEndpoint.java
+@@ -7 +7 @@
+-    public String order(String partName, String amount, String customerName);
++    public String order(String partName, int amount, String customerName);
+diff --git a/chapter7/cxf/code_first/src/test/java/camelinaction/OrderTest.java b/chapter7/cxf/code_first/src/test/java/camelinaction/OrderTest.java
+index af4b6a7..eea48b5 100644
+--- a/chapter7/cxf/code_first/src/test/java/camelinaction/OrderTest.java
++++ b/chapter7/cxf/code_first/src/test/java/camelinaction/OrderTest.java
+@@ -38 +38 @@
+-        List<String> params = new ArrayList<String>();
++        List<Object> params = new ArrayList<Object>();
+@@ -40 +40 @@
+-        params.add("1");
++        params.add(1);
+diff --git a/chapter7/cxf/contract_first/pom.xml b/chapter7/cxf/contract_first/pom.xml
+index 6ef1f41..9934f39 100644
+--- a/chapter7/cxf/contract_first/pom.xml
++++ b/chapter7/cxf/contract_first/pom.xml
+@@ -51 +51 @@
+-      <version>2.2.6</version>
++      <version>2.2.7</version>
+@@ -75 +75 @@
+-        <version>2.2.6</version>
++        <version>2.2.7</version>
+diff --git a/chapter7/cxf/contract_first/src/main/resources/wsdl/order.wsdl b/chapter7/cxf/contract_first/src/main/resources/wsdl/order.wsdl
+index 974828f..08897fb 100644
+--- a/chapter7/cxf/contract_first/src/main/resources/wsdl/order.wsdl
++++ b/chapter7/cxf/contract_first/src/main/resources/wsdl/order.wsdl
+@@ -39 +39 @@
+-    <wsdl:part name="amount" element="tns:partName"/>
++    <wsdl:part name="amount" element="tns:amount"/>
+diff --git a/chapter7/cxf/contract_first/src/test/java/camelinaction/OrderTest.java b/chapter7/cxf/contract_first/src/test/java/camelinaction/OrderTest.java
+index af4b6a7..c5c7b38 100644
+--- a/chapter7/cxf/contract_first/src/test/java/camelinaction/OrderTest.java
++++ b/chapter7/cxf/contract_first/src/test/java/camelinaction/OrderTest.java
+@@ -25,0 +26 @@
++
+@@ -38 +39 @@
+-        List<String> params = new ArrayList<String>();
++        List<Object> params = new ArrayList<Object>();
+@@ -40 +41 @@
+-        params.add("1");
++        params.add(1);
+

@@ -1,0 +1,8 @@
+diff --git a/src/java/org/lwjgl/opengl/LinuxDisplay.java b/src/java/org/lwjgl/opengl/LinuxDisplay.java
+index 966839d..5694346 100644
+--- a/src/java/org/lwjgl/opengl/LinuxDisplay.java
++++ b/src/java/org/lwjgl/opengl/LinuxDisplay.java
+@@ -302 +302 @@
+-		if (xembedded) return 0; // ignore X errors in xembeded mode to fix browser issues like dragging or switching tabs 
++		if (xembedded && request_code == 42) return 0; // ignore X error in xembeded mode to fix a browser issue when dragging or switching tabs 
+

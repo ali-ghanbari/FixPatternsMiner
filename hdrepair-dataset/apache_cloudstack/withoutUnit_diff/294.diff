@@ -1,0 +1,9 @@
+diff --git a/server/src/com/cloud/network/element/NetscalerElement.java b/server/src/com/cloud/network/element/NetscalerElement.java
+index e3150e6..bd37ccc 100644
+--- a/server/src/com/cloud/network/element/NetscalerElement.java
++++ b/server/src/com/cloud/network/element/NetscalerElement.java
+@@ -169,2 +169 @@
+-            // TODO: handle out of capacity exception gracefully in case of multple providers available
+-            return false;
++            throw new ResourceUnavailableException("There are no NetScaler load balancer devices with the free capacity for implementing this network", DataCenter.class, guestConfig.getDataCenterId());
+

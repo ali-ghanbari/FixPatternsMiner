@@ -1,0 +1,11 @@
+Bug 1729: Make BlockingQueue events in EventDispatcherImpl volatile
+
+Just like queue in PipelineOrchestratorImpl, events in EventDispatcherImpl
+should be volatile since it is expected to be modified by different threads.
+
+Ref gerrit in which Madhu fixes a similar issue in PipelineOrchestratorImpl:
+https://git.opendaylight.org/gerrit/#/c/10843/
+
+Change-Id: I923cb974788b0425e28af7823bf6cd23aeeb0f5f
+Signed-off-by: Flavio Fernandes <ffernand@redhat.com>
+

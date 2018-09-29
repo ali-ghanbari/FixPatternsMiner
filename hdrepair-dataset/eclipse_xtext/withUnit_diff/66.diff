@@ -1,0 +1,47 @@
+diff --git a/plugins/org.eclipse.xtext.xtend2.ui/src/org/eclipse/xtext/xtend2/ui/autoedit/TokenTypeToPartitionMapper.java b/plugins/org.eclipse.xtext.xtend2.ui/src/org/eclipse/xtext/xtend2/ui/autoedit/TokenTypeToPartitionMapper.java
+index 00b878c..24942a7 100644
+--- a/plugins/org.eclipse.xtext.xtend2.ui/src/org/eclipse/xtext/xtend2/ui/autoedit/TokenTypeToPartitionMapper.java
++++ b/plugins/org.eclipse.xtext.xtend2.ui/src/org/eclipse/xtext/xtend2/ui/autoedit/TokenTypeToPartitionMapper.java
+@@ -23,0 +24 @@
++		SL_COMMENT_PARTITION, 
+diff --git a/tests/org.eclipse.xtext.xtend2.ui.tests/src-longrunning/org/eclipse/xtext/xtend2/ui/tests/autoedit/AutoEditInCodeBlockTest.java b/tests/org.eclipse.xtext.xtend2.ui.tests/src-longrunning/org/eclipse/xtext/xtend2/ui/tests/autoedit/AutoEditInCodeBlockTest.java
+index 800ebe3..e4f0c54 100644
+--- a/tests/org.eclipse.xtext.xtend2.ui.tests/src-longrunning/org/eclipse/xtext/xtend2/ui/tests/autoedit/AutoEditInCodeBlockTest.java
++++ b/tests/org.eclipse.xtext.xtend2.ui.tests/src-longrunning/org/eclipse/xtext/xtend2/ui/tests/autoedit/AutoEditInCodeBlockTest.java
+@@ -373,0 +374,35 @@
++	
++	@Override
++	public void testBug335634_01() throws Exception {
++		XtextEditor editor = openEditor("// /*|\ntest");
++		pressKey(editor, '\n');
++		assertState("// /*\n\t|\ntest", editor);
++	}
++	
++	@Override
++	public void testSingleLineComment_01() throws Exception {
++		XtextEditor editor = openEditor("  // test|test");
++		pressKey(editor, '\n');
++		assertState("  // test\n\t|test", editor);
++	}
++	
++	@Override
++	public void testSingleLineComment_02() throws Exception {
++		XtextEditor editor = openEditor("  // test|test\n");
++		pressKey(editor, '\n');
++		assertState("  // test\n\t|test\n", editor);
++	}
++	
++	@Override
++	public void testSingleLineComment_03() throws Exception {
++		XtextEditor editor = openEditor("  // test|");
++		pressKey(editor, '\n');
++		assertState("  // test\n\t|", editor);
++	}
++	
++	@Override
++	public void testSingleLineComment_04() throws Exception {
++		XtextEditor editor = openEditor("  // test|\n");
++		pressKey(editor, '\n');
++		assertState("  // test\n\t|\n", editor);
++	}
+

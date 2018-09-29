@@ -1,0 +1,8 @@
+diff --git a/compiler/cli/src/org/jetbrains/jet/compiler/JetCoreEnvironment.java b/compiler/cli/src/org/jetbrains/jet/compiler/JetCoreEnvironment.java
+index 1c899a1..bd0ac7e 100644
+--- a/compiler/cli/src/org/jetbrains/jet/compiler/JetCoreEnvironment.java
++++ b/compiler/cli/src/org/jetbrains/jet/compiler/JetCoreEnvironment.java
+@@ -83 +83 @@
+-                if(!file.isFile() || file.getPath().endsWith(".jar"))
++                if(file.exists() && (!file.isFile() || file.getPath().endsWith(".jar")))
+

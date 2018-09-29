@@ -1,0 +1,124 @@
+diff --git a/plugins/org.eclipse.xtend.ide/src/org/eclipse/xtend/ide/editor/model/XtendDocumentTokenSource.java b/plugins/org.eclipse.xtend.ide/src/org/eclipse/xtend/ide/editor/model/XtendDocumentTokenSource.java
+index a10f297..1c257c5 100644
+--- a/plugins/org.eclipse.xtend.ide/src/org/eclipse/xtend/ide/editor/model/XtendDocumentTokenSource.java
++++ b/plugins/org.eclipse.xtend.ide/src/org/eclipse/xtend/ide/editor/model/XtendDocumentTokenSource.java
+@@ -33 +33 @@
+-	protected void initializeMultilineTokenType(@Named(LexerUIBindings.HIGHLIGHTING) ITokenDefProvider tokenDefProvider) {
++	public void setTokenDefProvider(@Named(LexerUIBindings.HIGHLIGHTING) ITokenDefProvider tokenDefProvider) {
+diff --git a/tests/org.eclipse.xtend.ide.tests/src/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.xtend b/tests/org.eclipse.xtend.ide.tests/src/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.xtend
+index 3fe3e0d..de0b925 100644
+--- a/tests/org.eclipse.xtend.ide.tests/src/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.xtend
++++ b/tests/org.eclipse.xtend.ide.tests/src/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.xtend
+@@ -3 +3 @@
+-import org.eclipse.xtext.junit4.ui.AbstractDamagerRepairerTest
++import org.eclipse.jface.text.Document
+@@ -4,0 +5 @@
++import org.eclipse.xtext.junit4.ui.AbstractDamagerRepairerTest
+@@ -5,0 +7,4 @@
++import org.eclipse.xtend.ide.editor.model.XtendDocumentTokenSource
++import org.eclipse.xtext.ui.editor.model.XtextDocument
++import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider
++import org.eclipse.xtend.core.parser.antlr.XtendAntlrTokenFileProvider
+@@ -25 +30 @@
+-		assertEquals(5, 15, check("text ''rich\ntext'''", 5, 0, "'"))
++		assertEquals(4, 16, check("text ''rich\ntext'''", 5, 0, "'"))
+@@ -65 +70 @@
+-		assertEquals(5, 16, check("text 'string\ntext'text", 5, 1, ""))
++		assertEquals(4, 17, check("text 'string\ntext'text", 5, 1, ""))
+@@ -70 +75 @@
+-		assertEquals(5, 16, check("text string\ntext'text", 5, 1, "'"))
++		assertEquals(4, 17, check("text string\ntext'text", 5, 1, "'"))
+@@ -75 +80 @@
+-		assertEquals(5, 25, check("text string\ntext'text''string", 5, 0, "'"))
++		assertEquals(4, 26, check("text string\ntext'text''string", 5, 0, "'"))
+@@ -82,0 +88,11 @@
++	override Document createDocument(String before) throws Exception {
++		val source = new XtendDocumentTokenSource => [
++			tokenDefProvider = new AntlrTokenDefProvider => [
++				antlrTokenFileProvider = new XtendAntlrTokenFileProvider
++			]
++			lexer = [|createLexer]
++		]
++		val document = new XtextDocument(source, null)
++		document.set(before)
++		document
++	}
+diff --git a/tests/org.eclipse.xtend.ide.tests/xtend-gen/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.java b/tests/org.eclipse.xtend.ide.tests/xtend-gen/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.java
+index 95c87d1..680a451 100644
+--- a/tests/org.eclipse.xtend.ide.tests/xtend-gen/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.java
++++ b/tests/org.eclipse.xtend.ide.tests/xtend-gen/org/eclipse/xtend/ide/tests/editor/PresentationDamagerTest.java
+@@ -2,0 +3,2 @@
++import com.google.inject.Provider;
++import org.eclipse.jface.text.Document;
+@@ -3,0 +6 @@
++import org.eclipse.xtend.core.parser.antlr.XtendAntlrTokenFileProvider;
+@@ -4,0 +8 @@
++import org.eclipse.xtend.ide.editor.model.XtendDocumentTokenSource;
+@@ -5,0 +10 @@
++import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider;
+@@ -6,0 +12 @@
++import org.eclipse.xtext.ui.editor.model.XtextDocument;
+@@ -7,0 +14,2 @@
++import org.eclipse.xtext.xbase.lib.ObjectExtensions;
++import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+@@ -41 +49 @@
+-      this.assertEquals(5, 15, _check);
++      this.assertEquals(4, 16, _check);
+@@ -121 +129 @@
+-      this.assertEquals(5, 16, _check);
++      this.assertEquals(4, 17, _check);
+@@ -131 +139 @@
+-      this.assertEquals(5, 16, _check);
++      this.assertEquals(4, 17, _check);
+@@ -141 +149 @@
+-      this.assertEquals(5, 25, _check);
++      this.assertEquals(4, 26, _check);
+@@ -155,0 +164,33 @@
++  
++  public Document createDocument(final String before) throws Exception {
++    XtextDocument _xblockexpression = null;
++    {
++      XtendDocumentTokenSource _xtendDocumentTokenSource = new XtendDocumentTokenSource();
++      final Procedure1<XtendDocumentTokenSource> _function = new Procedure1<XtendDocumentTokenSource>() {
++          public void apply(final XtendDocumentTokenSource it) {
++            AntlrTokenDefProvider _antlrTokenDefProvider = new AntlrTokenDefProvider();
++            final Procedure1<AntlrTokenDefProvider> _function = new Procedure1<AntlrTokenDefProvider>() {
++                public void apply(final AntlrTokenDefProvider it) {
++                  XtendAntlrTokenFileProvider _xtendAntlrTokenFileProvider = new XtendAntlrTokenFileProvider();
++                  it.setAntlrTokenFileProvider(_xtendAntlrTokenFileProvider);
++                }
++              };
++            AntlrTokenDefProvider _doubleArrow = ObjectExtensions.<AntlrTokenDefProvider>operator_doubleArrow(_antlrTokenDefProvider, _function);
++            it.setTokenDefProvider(_doubleArrow);
++            final Provider<Lexer> _function_1 = new Provider<Lexer>() {
++                public Lexer get() {
++                  Lexer _createLexer = PresentationDamagerTest.this.createLexer();
++                  return _createLexer;
++                }
++              };
++            it.setLexer(_function_1);
++          }
++        };
++      final XtendDocumentTokenSource source = ObjectExtensions.<XtendDocumentTokenSource>operator_doubleArrow(_xtendDocumentTokenSource, _function);
++      XtextDocument _xtextDocument = new XtextDocument(source, null);
++      final XtextDocument document = _xtextDocument;
++      document.set(before);
++      _xblockexpression = (document);
++    }
++    return _xblockexpression;
++  }
+diff --git a/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/editor/DamagerRepairerPerformanceTest.java b/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/editor/DamagerRepairerPerformanceTest.java
+index b22d36d..9f9f0e9 100644
+--- a/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/editor/DamagerRepairerPerformanceTest.java
++++ b/tests/org.eclipse.xtext.ui.tests/tests/org/eclipse/xtext/ui/tests/editor/DamagerRepairerPerformanceTest.java
+@@ -77 +77 @@
+-			assertEquals(Math.max(0, offset), Math.min(doc.getLength(), text.length()));
++			assertEquals(Math.max(0, offset - 1), Math.min(doc.getLength(), text.length() + 1));
+@@ -82 +82 @@
+-			assertEquals(Math.max(0, offset), Math.min(doc.getLength(), text.length()));
++			assertEquals(Math.max(0, offset - 1), Math.min(doc.getLength(), text.length() + 1));
+@@ -118,0 +119 @@
++		tester.insertAndCheck("abc ", 0);
+@@ -126,0 +128 @@
++		tester.insertAndCheck("abc ", 0);
+

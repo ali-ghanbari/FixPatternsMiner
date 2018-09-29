@@ -1,0 +1,28 @@
+diff --git a/platform/util/src/com/intellij/util/text/CharArrayUtil.java b/platform/util/src/com/intellij/util/text/CharArrayUtil.java
+index ef94e3e..145e554 100644
+--- a/platform/util/src/com/intellij/util/text/CharArrayUtil.java
++++ b/platform/util/src/com/intellij/util/text/CharArrayUtil.java
+@@ -116 +116 @@
+-      if (buffer.hasArray() && !buffer.isReadOnly() && buffer.arrayOffset() == 0) {
++      if (buffer.hasArray() && !buffer.isReadOnly() && buffer.arrayOffset() == 0 && buffer.position() == 0) {
+diff --git a/platform/util/testSrc/com/intellij/util/text/StringUtilTest.java b/platform/util/testSrc/com/intellij/util/text/StringUtilTest.java
+index 9204fd0..c34e384 100644
+--- a/platform/util/testSrc/com/intellij/util/text/StringUtilTest.java
++++ b/platform/util/testSrc/com/intellij/util/text/StringUtilTest.java
+@@ -20,0 +21 @@
++import java.nio.CharBuffer;
+@@ -95,0 +97,13 @@
++  
++  public void testCopyHeapCharBuffer() {
++    String s = "abcde";
++    CharBuffer buffer = CharBuffer.allocate(s.length());
++    buffer.append(s);
++    buffer.rewind();
++
++    assertNotNull(CharArrayUtil.fromSequenceWithoutCopying(buffer));
++    assertNotNull(CharArrayUtil.fromSequenceWithoutCopying(buffer.subSequence(0, 5)));
++    //assertNull(CharArrayUtil.fromSequenceWithoutCopying(buffer.subSequence(0, 4))); // end index is not checked
++    assertNull(CharArrayUtil.fromSequenceWithoutCopying(buffer.subSequence(1, 5)));
++    assertNull(CharArrayUtil.fromSequenceWithoutCopying(buffer.subSequence(1, 2)));
++  }
+

@@ -1,0 +1,8 @@
+diff --git a/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java b/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java
+index 1be6466..c757316 100644
+--- a/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java
++++ b/jcommune-service/src/main/java/org/jtalks/jcommune/service/bb2htmlprocessors/BBForeignLinksPostprocessor.java
+@@ -62 +62 @@
+-            if (!href.contains(serverName)) {
++            if (!href.contains(serverName) && href.split("(http|ftp|https)://", 2).length == 2) {
+

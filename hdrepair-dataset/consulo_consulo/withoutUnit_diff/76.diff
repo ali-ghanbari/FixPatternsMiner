@@ -1,0 +1,20 @@
+diff --git a/.idea/runConfigurations/IDEA.xml b/.idea/runConfigurations/IDEA.xml
+index a026bc6..5d9126f 100644
+--- a/.idea/runConfigurations/IDEA.xml
++++ b/.idea/runConfigurations/IDEA.xml
+@@ -20,0 +21,5 @@
++    <RunnerSettings RunnerId="Debug">
++      <option name="DEBUG_PORT" value="" />
++      <option name="TRANSPORT" value="0" />
++      <option name="LOCAL" value="true" />
++    </RunnerSettings>
+@@ -25,0 +31 @@
++    <ConfigurationWrapper RunnerId="Debug" />
+diff --git a/platform/lang-impl/src/com/intellij/openapi/roots/ui/OrderEntryAppearanceServiceImpl.java b/platform/lang-impl/src/com/intellij/openapi/roots/ui/OrderEntryAppearanceServiceImpl.java
+index 0f2d62f..8bd5e73 100644
+--- a/platform/lang-impl/src/com/intellij/openapi/roots/ui/OrderEntryAppearanceServiceImpl.java
++++ b/platform/lang-impl/src/com/intellij/openapi/roots/ui/OrderEntryAppearanceServiceImpl.java
+@@ -66 +66 @@
+-        return FileAppearanceService.getInstance().forInvalidUrl(oldSdkName != null ? oldSdkName : provider.getName());
++        return FileAppearanceService.getInstance().forInvalidUrl(oldSdkName != null ? oldSdkName : provider == null ? NO_SDK : provider.getName());
+

@@ -1,0 +1,16 @@
+diff --git a/modules/cstl-admin/grunt/src/js/restapi.js b/modules/cstl-admin/grunt/src/js/restapi.js
+index fd2a82c..7a2821f 100644
+--- a/modules/cstl-admin/grunt/src/js/restapi.js
++++ b/modules/cstl-admin/grunt/src/js/restapi.js
+@@ -195 +195,2 @@
+-            changePublication:  {method: 'POST',    url: '@cstl/api/1/metadata/changePublication/:ispublished'}
++            changePublication:  {method: 'POST',    url: '@cstl/api/1/metadata/changePublication/:ispublished'},
++            getMetadataJson :   {method: 'GET',     url: '@cstl/api/1/metadata/metadataJson/iso/:metadataId/:prune'}
+diff --git a/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java b/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java
+index cadd749..fd8b0b1 100644
+--- a/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java
++++ b/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java
+@@ -437 +437 @@
+-    @Path("metadataJson/iso/{metadataId}/{prune}")
++    @Path("/metadataJson/iso/{metadataId}/{prune}")
+

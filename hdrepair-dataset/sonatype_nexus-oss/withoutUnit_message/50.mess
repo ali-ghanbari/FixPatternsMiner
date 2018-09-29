@@ -1,0 +1,11 @@
+NXCM-5283: Explicitly relocate obr bundle
+
+As ObrProxy actually does that, it relocates all
+the cached bundles to "/bundles" folder. Still, it relied
+on a fact that post-retrieval the item associated request
+is still tied to original one (only referenced).
+
+After NEXUS-5511 fix, this is not the case anymore, so
+after the request.popRequestPath an explicit setting
+is needed to be done too.
+

@@ -1,0 +1,8 @@
+diff --git a/transports/jms/src/main/java/org/mule/transport/jms/Jms102bSupport.java b/transports/jms/src/main/java/org/mule/transport/jms/Jms102bSupport.java
+index 9a60fcb..90a135f 100644
+--- a/transports/jms/src/main/java/org/mule/transport/jms/Jms102bSupport.java
++++ b/transports/jms/src/main/java/org/mule/transport/jms/Jms102bSupport.java
+@@ -108 +108 @@
+-            throw new IllegalArgumentException("Connection and domain type do not match");
++            return connection.createSession(transacted, ackMode);
+

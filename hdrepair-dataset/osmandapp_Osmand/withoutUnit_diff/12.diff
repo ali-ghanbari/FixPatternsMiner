@@ -1,0 +1,9 @@
+diff --git a/OsmAnd/src/net/osmand/plus/activities/MapActivity.java b/OsmAnd/src/net/osmand/plus/activities/MapActivity.java
+index 2ef40d0..13b25a3 100644
+--- a/OsmAnd/src/net/osmand/plus/activities/MapActivity.java
++++ b/OsmAnd/src/net/osmand/plus/activities/MapActivity.java
+@@ -162 +162,2 @@
+-		getMyApplication().getLocationProvider().redownloadAGPS();
++		//next line destroys AGPS data if no Internet is present! AGPS must never be re-downloaed without prior Internet connectivity check!
++		//getMyApplication().getLocationProvider().redownloadAGPS();
+

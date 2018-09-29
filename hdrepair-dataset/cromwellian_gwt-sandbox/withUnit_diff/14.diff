@@ -1,0 +1,27 @@
+diff --git a/user/super/com/google/gwt/emul/java/util/TreeMap.java b/user/super/com/google/gwt/emul/java/util/TreeMap.java
+index 1c6ffcd..f379021 100644
+--- a/user/super/com/google/gwt/emul/java/util/TreeMap.java
++++ b/user/super/com/google/gwt/emul/java/util/TreeMap.java
+@@ -237 +237,2 @@
+-      return (isRed ? "R: " : "B: ") + key + "=" + value;
++      // for compatibility with the real Jre: issue 3422
++      return key + "=" + value;
+diff --git a/user/test/com/google/gwt/emultest/java/util/TreeMapStringStringTest.java b/user/test/com/google/gwt/emultest/java/util/TreeMapStringStringTest.java
+index 8f7f714..3568063 100644
+--- a/user/test/com/google/gwt/emultest/java/util/TreeMapStringStringTest.java
++++ b/user/test/com/google/gwt/emultest/java/util/TreeMapStringStringTest.java
+@@ -18,0 +19 @@
++import java.util.Map;
+@@ -21,0 +23 @@
++import java.util.TreeMap;
+@@ -120,0 +123,9 @@
++  // checks for compatibility with real Jre's Entry.toString(): issue 3422
++  public void testTreeMapEntryToString() {
++    Map<String, String> treeMap = new TreeMap<String, String>();
++    treeMap.put("bar", "barValue");
++
++    assertEquals("bar=barValue",
++        treeMap.entrySet().iterator().next().toString());
++  }
++  
+

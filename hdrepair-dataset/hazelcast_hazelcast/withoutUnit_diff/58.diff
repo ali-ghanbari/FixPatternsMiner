@@ -1,0 +1,8 @@
+diff --git a/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicOperationScheduler.java b/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicOperationScheduler.java
+index 8740012..9f0ecd7 100644
+--- a/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicOperationScheduler.java
++++ b/hazelcast/src/main/java/com/hazelcast/spi/impl/BasicOperationScheduler.java
+@@ -277 +277 @@
+-                responseThread.process(packet);
++                responseThread.workQueue.add(packet);
+

@@ -1,0 +1,16 @@
+config: fix check-config for single files
+
+A recent commit introduced the check-config command to verify a 
+dCache configuration against the property annotations.  
+Unfortunately, this patch missed assigning the LNR.  Without this, 
+the filename and line-numbers are missing in the warning and error 
+messages.
+
+This patch adds the missing assignment.
+
+Target: trunk
+Patch: http://rb.dcache.org/r/3097/
+Acked-by: Karsten Schwank
+
+
+

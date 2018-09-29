@@ -1,0 +1,51 @@
+diff --git a/platform/util/src/com/intellij/util/xmlb/XmlSerializerImpl.java b/platform/util/src/com/intellij/util/xmlb/XmlSerializerImpl.java
+index 3a1cda4..26613b7 100644
+--- a/platform/util/src/com/intellij/util/xmlb/XmlSerializerImpl.java
++++ b/platform/util/src/com/intellij/util/xmlb/XmlSerializerImpl.java
+@@ -74 +74 @@
+-  private static Binding _getClassBinding(Class<?> aClass, Type originalType, final Accessor accessor) {
++  private static synchronized Binding _getClassBinding(Class<?> aClass, Type originalType, final Accessor accessor) {
+diff --git a/platform/util/testSrc/com/intellij/util/xmlb/XmlSerializerTest.java b/platform/util/testSrc/com/intellij/util/xmlb/XmlSerializerTest.java
+index 5879e22..be50223 100644
+--- a/platform/util/testSrc/com/intellij/util/xmlb/XmlSerializerTest.java
++++ b/platform/util/testSrc/com/intellij/util/xmlb/XmlSerializerTest.java
+@@ -20,0 +21 @@
++import junit.framework.AssertionFailedError;
+@@ -25,0 +27 @@
++import java.util.concurrent.atomic.AtomicReference;
+@@ -440,0 +443,34 @@
++  public void testParallelDeserialization() throws InterruptedException {
++    final Element e = new Element("root").addContent(new Element("name").setText("x"));
++    XmlSerializer.deserialize(e, BeanWithArray.class);//to initialize XmlSerializerImpl.ourBindings
++    Thread[] threads = new Thread[5];
++    final AtomicReference<AssertionFailedError> exc = new AtomicReference<AssertionFailedError>();
++    for (int i = 0; i < threads.length; i++) {
++      threads[i] = new Thread("XmlSerializerTest#testParallelDeserialization-" + i) {
++        @Override
++        public void run() {
++          try {
++            for (int j = 0; j < 10; j++) {
++              BeanWithFieldWithTagAnnotation bean = XmlSerializer.deserialize(e, BeanWithFieldWithTagAnnotation.class);
++              assertNotNull(bean);
++              assertEquals("x", bean.STRING_V);
++            }
++          }
++          catch (AssertionFailedError e) {
++            exc.set(e);
++          }
++        }
++      };
++    }
++    for (Thread thread : threads) {
++      thread.start();
++    }
++    for (Thread thread : threads) {
++      thread.join();
++    }
++    AssertionFailedError error = exc.get();
++    if (error != null) {
++      throw error;
++    }
++  }
++
+

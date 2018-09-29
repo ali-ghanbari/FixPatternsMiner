@@ -1,0 +1,103 @@
+diff --git a/rultor-web/src/main/java/com/rultor/web/ButtonRs.java b/rultor-web/src/main/java/com/rultor/web/ButtonRs.java
+index eb0113e..d3e5b60 100644
+--- a/rultor-web/src/main/java/com/rultor/web/ButtonRs.java
++++ b/rultor-web/src/main/java/com/rultor/web/ButtonRs.java
+@@ -168 +168 @@
+-                            .path(this.stand).build()
++                            .segment("s", this.stand).build()
+diff --git a/rultor-web/src/test/java/com/rultor/web/ButtonRsTest.java b/rultor-web/src/test/java/com/rultor/web/ButtonRsTest.java
+index 79eaa49..0a951c9 100644
+--- a/rultor-web/src/test/java/com/rultor/web/ButtonRsTest.java
++++ b/rultor-web/src/test/java/com/rultor/web/ButtonRsTest.java
+@@ -37,0 +38 @@
++import java.util.concurrent.atomic.AtomicBoolean;
+@@ -65,11 +66 @@
+-                    return String.format(
+-                        // @checkstyle StringLiteralsConcatenation (8 lines)
+-                        // @checkstyle LineLength (1 line)
+-                        "<page><widgets><widget class=\"com.rultor.widget.BuildHealth\"><builds><build>"
+-                            + "  <coordinates><rule>%s</rule></coordinates>"
+-                            + "  <duration>1212602</duration>"
+-                            + "  <code>0</code>"
+-                            + "  <health>0.6153846153846154</health>"
+-                            + "</build></builds></widget></widgets></page>",
+-                        rule
+-                    );
++                    return ButtonRsTest.this.page(rule);
+@@ -83,0 +75,14 @@
++        context(res);
++        MatcherAssert.assertThat(
++            URLConnection.guessContentTypeFromStream(
++                new ByteArrayInputStream((byte[]) res.button().getEntity())
++            ),
++            Matchers.equalTo(MediaType.PNG.toString())
++        );
++    }
++
++    /**
++     * Setup servlet context.
++     * @param res Page to setup the context.
++     */
++    private void context(final ButtonRs res) {
+@@ -92,5 +97,18 @@
+-        MatcherAssert.assertThat(
+-            URLConnection.guessContentTypeFromStream(
+-                new ByteArrayInputStream((byte[]) res.button().getEntity())
+-            ),
+-            Matchers.equalTo(MediaType.PNG.toString())
++    }
++
++    /**
++     * Generate build health page.
++     * @param rule Rule to use in page.
++     * @return Page source.
++     */
++    private String page(final String rule) {
++        return String.format(
++            // @checkstyle StringLiteralsConcatenation (8 lines)
++            // @checkstyle LineLength (1 line)
++            "<page><widgets><widget class=\"com.rultor.widget.BuildHealth\"><builds><build>"
++                + "  <coordinates><rule>%s</rule></coordinates>"
++                + "  <duration>1212602</duration>"
++                + "  <code>0</code>"
++                + "  <health>0.6153846153846154</health>"
++                + "</build></builds></widget></widgets></page>",
++            rule
+@@ -98,0 +117,36 @@
++
++    /**
++     * ButtonRs calls correct URL for image data.
++     * @throws Exception In case of error.
++     */
++    @Test
++    public void getsDataFromAppropriateUrl() throws Exception {
++        final String stand = "stnd";
++        final String base = "http://localhost";
++        final String rule = "rule";
++        final AtomicBoolean called = new AtomicBoolean(false);
++        final ButtonRs res = new ButtonRs(
++            new ButtonRs.Build() {
++                @Override
++                public String info(final URI uri) {
++                    MatcherAssert.assertThat(
++                        uri.toString(),
++                        Matchers.equalTo(
++                            String.format("%s/s/%s", base, stand)
++                        )
++                    );
++                    called.set(true);
++                    return ButtonRsTest.this.page(rule);
++                }
++            }
++        );
++        res.setUriInfo(
++            new UriInfoMocker().withBaseUri(URI.create(base)).mock()
++        );
++        res.setHttpHeaders(new HttpHeadersMocker().mock());
++        res.setStand(stand);
++        res.setRule(rule);
++        this.context(res);
++        res.button();
++        MatcherAssert.assertThat(called.get(), Matchers.is(true));
++    }
+

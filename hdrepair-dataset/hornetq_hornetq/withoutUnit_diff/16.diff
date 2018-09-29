@@ -1,0 +1,229 @@
+diff --git a/examples/jms/client-side-failoverlistener/readme.html b/examples/jms/client-side-failoverlistener/readme.html
+new file mode 100644
+index 0000000..b67642b
+--- /dev/null
++++ b/examples/jms/client-side-failoverlistener/readme.html
+@@ -0,0 +1,94 @@
++<html>
++  <head>
++    <title>HornetQ Client Side Failover Listener Example</title>
++    <link rel="stylesheet" type="text/css" href="../common/common.css" />
++    <link rel="stylesheet" type="text/css" href="../common/prettify.css" />
++    <script type="text/javascript" src="../common/prettify.js"></script>
++  </head>
++  <body onload="prettyPrint()">
++     <h1>Client Side Kickoff Example</h1>
++
++     <p>This example demonstrates how you can listen on failover event on the client side.</p>
++
++     <p>In this example there are two nodes running in a cluster, both server will be running for start,
++        but after a while the first server will crash. This will trigger an fail oever event.</p>
++         
++     <h2>Example step-by-step</h2>
++     <p><em>To run the example, simply type <code>mvn verify</code> from this directory</em></p>
++     <ol>
++        <li>First we need to get an initial context so we can look-up the JMS connection factory and destination objects from JNDI. This initial context will get its properties from <a href="src/main/resources/hornetq/server0/client-jndi.properties">client-jndi.properties</a></li>
++        <pre class="prettyprint">
++            <code>InitialContext initialContext = getContext(0);</code>
++        </pre>
++
++        <li>We look up the JMS Queue object from JNDI</li>
++        <pre class="prettyprint">
++            <code>Queue queue = (Queue)initialContext.lookup("/queue/exampleQueue");</code>
++        </pre>
++
++        <li>We look up a JMS Connection Factory object from JNDI on server 0</li>
++        <pre class="prettyprint">
++            <code>ConnectionFactory connectionFactory = (ConnectionFactory)initialContext.lookup("/ConnectionFactory");</code>
++        </pre>
++        
++        <li>We create a JMS connection from the same connection factory, wait a little while to make sure broadcasts from all nodes have reached the client</li>
++        <pre class="prettyprint">
++            <code>
++            Thread.sleep(5000);
++            connectionA = connectionFactory.createConnection();
++            ((HornetQConnection)connectionA).setFailoverListener(new FailoverListenerImpl());
++			</code>
++        </pre>
++
++        <li>We create JMS Sessions</li>
++        <pre class="prettyprint">
++            <code>Session sessionA = connectionA.createSession(false, Session.AUTO_ACKNOWLEDGE);</code>
++       </pre>
++
++        <li>We create JMS MessageProducer objects on the sessions</li>
++        <pre class="prettyprint">
++            <code>MessageProducer producerA = sessionA.createProducer(queue);</code>
++        </pre>
++
++        <li>We send some messages on each producer</li>
++        <pre class="prettyprint">
++            <code>
++            final int numMessages = 10;
++
++            for (int i = 0; i < numMessages; i++)
++            {
++               TextMessage messageA = sessionA.createTextMessage("A:This is text message " + i);
++               producerA.send(messageA);
++               System.out.println("Sent message: " + messageA.getText());
++            }
++		 </code>
++        </pre>
++            
++        <li>We start the connection to consume messages</li>
++        <pre class="prettyprint">
++              <code>connectionA.start();</code>
++        </pre>
++
++        <li>We consume messages from the session A, one at a time. We reached message no 5 the first server will crash</li>
++        <pre class="prettyprint">
++            <code>consume(sessionA, queue, numMessages, "A");</code>
++        </pre>
++        
++        <li>And finally, <b>always</b> remember to close your JMS connections and resources after use, in a <code>finally</code> block. Closing a JMS connection will automatically close all of its sessions, consumers, producer and browser objects</li>
++
++        <pre class="prettyprint">
++           <code>
++           if (connectionA != null)
++           {
++              connectionA.close();
++           }
++
++           if (initialContext != null)
++           {
++              initialContext.close();
++           }
++		 </code>
++        </pre>
++     </ol>
++  </body>
++</html>
+\ No newline at end of file
+diff --git a/examples/jms/client-side-load-balancing/readme.html b/examples/jms/client-side-load-balancing/readme.html
+index 683ed4b..7793546 100644
+--- a/examples/jms/client-side-load-balancing/readme.html
++++ b/examples/jms/client-side-load-balancing/readme.html
+@@ -33 +33 @@
+-        <pre class="prettyprint">>
++        <pre class="prettyprint">
+diff --git a/examples/jms/clustered-grouping/readme.html b/examples/jms/clustered-grouping/readme.html
+index 087b70d..f8ebf87 100644
+--- a/examples/jms/clustered-grouping/readme.html
++++ b/examples/jms/clustered-grouping/readme.html
+@@ -39 +39,2 @@
+-     <code>&lt;cluster-connections&gt;
++     <code>
++       &lt;cluster-connections&gt;
+@@ -133 +134,2 @@
+-           <code>connection0.start();
++           <code>
++         connection0.start();
+@@ -147 +149,2 @@
+-           <code>MessageProducer producer0 = session0.createProducer(queue);
++           <code>
++         MessageProducer producer0 = session0.createProducer(queue);
+@@ -156 +159,2 @@
+-           <code>final int numMessages = 10;
++           <code>
++         final int numMessages = 10;
+@@ -196 +200,2 @@
+-           <code>for (int i = 0; i < numMessages * 3; i++)
++           <code>
++         for (int i = 0; i < numMessages * 3; i++)
+@@ -207 +212,2 @@
+-           <code>if (connection0 != null)
++           <code>
++         if (connection0 != null)
+diff --git a/examples/jms/clustered-static-oneway/readme.html b/examples/jms/clustered-static-oneway/readme.html
+index 5eb4708..7372621 100644
+--- a/examples/jms/clustered-static-oneway/readme.html
++++ b/examples/jms/clustered-static-oneway/readme.html
+@@ -186 +186 @@
+-      TextMessage message2 = (TextMessage)consumer2.receive(5000);
++	   TextMessage message2 = (TextMessage)consumer2.receive(5000);
+@@ -188 +188 @@
+-      System.out.println("Got message: " + message2.getText() + " from node " + con2Node);
++	   System.out.println("Got message: " + message2.getText() + " from node " + con2Node);
+@@ -197,2 +197,2 @@
+-	finally
+-	{
++    finally
++    {
+@@ -223 +223 @@
+-	}
++    }
+diff --git a/examples/jms/consumer-rate-limit/readme.html b/examples/jms/consumer-rate-limit/readme.html
+index c980b19..3b454df 100644
+--- a/examples/jms/consumer-rate-limit/readme.html
++++ b/examples/jms/consumer-rate-limit/readme.html
+@@ -125 +125 @@
+-         System.out.println("Actual consume rate was " + rate + " messages per second");           
++   System.out.println("Actual consume rate was " + rate + " messages per second");           
+diff --git a/examples/jms/divert/src/main/resources/hornetq/server0/hornetq-configuration.xml b/examples/jms/divert/src/main/resources/hornetq/server0/hornetq-configuration.xml
+index 3205bcb..e963cb2 100644
+--- a/examples/jms/divert/src/main/resources/hornetq/server0/hornetq-configuration.xml
++++ b/examples/jms/divert/src/main/resources/hornetq/server0/hornetq-configuration.xml
+@@ -52 +52,2 @@
+-      <divert name="order-divert">                 
++      <divert name="order-divert">
++	     <routing-name>order-divert</routing-name>
+@@ -58,0 +60 @@
++	     <routing-name>prices-divert</routing-name>
+diff --git a/examples/jms/jaas/pom.xml b/examples/jms/jaas/pom.xml
+index d77fc17..053ac06 100644
+--- a/examples/jms/jaas/pom.xml
++++ b/examples/jms/jaas/pom.xml
+@@ -26,0 +27,5 @@
++         <groupId>org.hornetq</groupId>
++         <artifactId>hornetq-server</artifactId>
++         <version>${project.version}</version>
++      </dependency>
++      <dependency>
+diff --git a/examples/jms/message-counters/readme.html b/examples/jms/message-counters/readme.html
+index dbfad4c..18b8d0c 100644
+--- a/examples/jms/message-counters/readme.html
++++ b/examples/jms/message-counters/readme.html
+@@ -99,9 +99,10 @@
+-            <code>private void displayMessageCounter(MessageCounterInfo counter)
+-                {
+-                   System.out.format("%s (sample updated at %s)\n",  counter.getName(), counter.getUdpateTimestamp());
+-                   System.out.format("   %s message(s) added to the queue (since last sample: %s)\n", counter.getCount(), 
+-                                                                                                      counter.getCountDelta());
+-                   System.out.format("   %s message(s) in the queue (since last sample: %s)\n", counter.getDepth(),
+-                                                                                                counter.getDepthDelta());
+-                   System.out.format("   last message added at %s\n\n", counter.getLastAddTimestamp());
+-                }</code>
++            <code>
++            private void displayMessageCounter(MessageCounterInfo counter)
++            {
++               System.out.format("%s (sample updated at %s)\n",  counter.getName(), counter.getUdpateTimestamp());
++               System.out.format("   %s message(s) added to the queue (since last sample: %s)\n", counter.getCount(), 
++                                                                                                  counter.getCountDelta());
++               System.out.format("   %s message(s) in the queue (since last sample: %s)\n", counter.getDepth(),
++                                                                                            counter.getDepthDelta());
++               System.out.format("   last message added at %s\n\n", counter.getLastAddTimestamp());
++            }</code>
+diff --git a/examples/jms/stomp-websockets/src/main/java/org/hornetq/jms/example/StompWebSocketExample.java b/examples/jms/stomp-websockets/src/main/java/org/hornetq/jms/example/StompWebSocketExample.java
+index 16f7619..f18858b 100644
+--- a/examples/jms/stomp-websockets/src/main/java/org/hornetq/jms/example/StompWebSocketExample.java
++++ b/examples/jms/stomp-websockets/src/main/java/org/hornetq/jms/example/StompWebSocketExample.java
+@@ -63 +63 @@
+-         System.out.println("Open up the index.html file in a browser and press enter");
++         System.out.println("Open up the chat/index.html file in a browser and press enter");
+diff --git a/hornetq-server/src/main/resources/schema/hornetq-configuration.xsd b/hornetq-server/src/main/resources/schema/hornetq-configuration.xsd
+index b390c9c..b627bd3 100644
+--- a/hornetq-server/src/main/resources/schema/hornetq-configuration.xsd
++++ b/hornetq-server/src/main/resources/schema/hornetq-configuration.xsd
+@@ -783 +783 @@
+-        <xsd:element name="group-address" type="xsd:string" maxOccurs="1" minOccurs="1">
++        <xsd:element name="group-address" type="xsd:string" maxOccurs="1" minOccurs="0">
+@@ -789 +789 @@
+-        <xsd:element name="group-port" type="xsd:int" maxOccurs="1" minOccurs="1">
++        <xsd:element name="group-port" type="xsd:int" maxOccurs="1" minOccurs="0">
+@@ -830 +830 @@
+-        <xsd:element name="group-address" type="xsd:string" maxOccurs="1" minOccurs="1">
++        <xsd:element name="group-address" type="xsd:string" maxOccurs="1" minOccurs="0">
+@@ -835 +835 @@
+-        <xsd:element name="group-port" type="xsd:int" maxOccurs="1" minOccurs="1">
++        <xsd:element name="group-port" type="xsd:int" maxOccurs="1" minOccurs="0">
+

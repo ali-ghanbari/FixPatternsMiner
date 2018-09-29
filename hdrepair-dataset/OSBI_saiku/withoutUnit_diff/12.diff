@@ -1,0 +1,39 @@
+diff --git a/saiku-core/saiku-web/src/main/java/org/saiku/web/export/JSConverter.java b/saiku-core/saiku-web/src/main/java/org/saiku/web/export/JSConverter.java
+index 5a5d84f..2db1eb7 100644
+--- a/saiku-core/saiku-web/src/main/java/org/saiku/web/export/JSConverter.java
++++ b/saiku-core/saiku-web/src/main/java/org/saiku/web/export/JSConverter.java
+@@ -45,0 +46,2 @@
++        content = content.replaceAll("&nbsp;", " ");
++        content = content.replaceAll("&nbsp", " ");
+diff --git a/saiku-ui/css/saiku/src/styles.css b/saiku-ui/css/saiku/src/styles.css
+index a8d212a..9b570fa 100755
+--- a/saiku-ui/css/saiku/src/styles.css
++++ b/saiku-ui/css/saiku/src/styles.css
+@@ -2158 +2158 @@
+-width:90px !important;
++width:120px !important;
+@@ -2165,0 +2166,3 @@
++.tablerow {
++margin-bottom: 20px;
++}
+diff --git a/saiku-ui/js/saiku/plugins/AdminConsole/plugin.js b/saiku-ui/js/saiku/plugins/AdminConsole/plugin.js
+index 7aaea5e..41fd8ac 100644
+--- a/saiku-ui/js/saiku/plugins/AdminConsole/plugin.js
++++ b/saiku-ui/js/saiku/plugins/AdminConsole/plugin.js
+@@ -792 +792,14 @@
+-        } else {
++        }
++		else if($(this.el).find(".drivertype").val() === 'MONGO'){
++            var name = $(this.el).find("input[name='connname']").val();
++            var schema = $(this.el).find("select[name='mongoschema']").val();
++            var mondrianschema = $(this.el).find(".schemaselect").val();
++			var c = "type=OLAP\n"+
++			"name="+name+"\n"+
++			"driver=mondrian.olap4j.MondrianOlap4jDriver\n"+
++			"location=jdbc:mondrian:Jdbc=jdbc:calcite:model=mongo:///etc/mongoschema/"+schema+";Catalog=mondrian://"+mondrianschema+";JdbcDrivers=net.hydromatic.optiq.jdbc.Driver;\n"+
++			"username=admin\n"+
++			"password=admin";
++			conn.set({"advanced": c});
++		}
++		else {
+

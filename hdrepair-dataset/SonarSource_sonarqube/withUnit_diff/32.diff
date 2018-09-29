@@ -1,0 +1,39 @@
+diff --git a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/timemachine/NewViolationsDecorator.java b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/timemachine/NewViolationsDecorator.java
+index 5f98199..c491fea 100644
+--- a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/timemachine/NewViolationsDecorator.java
++++ b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/timemachine/NewViolationsDecorator.java
+@@ -171 +171 @@
+-    return !violation.getCreatedAt().before(date);
++    return violation.getCreatedAt()!= null && violation.getCreatedAt().after(date);
+diff --git a/plugins/sonar-core-plugin/src/test/java/org/sonar/plugins/core/timemachine/NewViolationsDecoratorTest.java b/plugins/sonar-core-plugin/src/test/java/org/sonar/plugins/core/timemachine/NewViolationsDecoratorTest.java
+index 34e6963..0ac22ac 100644
+--- a/plugins/sonar-core-plugin/src/test/java/org/sonar/plugins/core/timemachine/NewViolationsDecoratorTest.java
++++ b/plugins/sonar-core-plugin/src/test/java/org/sonar/plugins/core/timemachine/NewViolationsDecoratorTest.java
+@@ -21,0 +22 @@
++import com.google.common.collect.Lists;
+@@ -111,2 +112,2 @@
+-    assertThat(decorator.countViolations(violations, fiveDaysAgo), is(3));
+-    assertThat(decorator.countViolations(violations, tenDaysAgo), is(6));
++    assertThat(decorator.countViolations(violations, fiveDaysAgo), is(1)); // 1 rightNow
++    assertThat(decorator.countViolations(violations, tenDaysAgo), is(3)); // 1 rightNow + 2 fiveDaysAgo
+@@ -144,0 +146 @@
++    // remember : period1 is 5daysAgo, period2 is 10daysAgo
+@@ -146,3 +148,3 @@
+-    verify(context).saveMeasure(argThat(new IsVariationMeasure(CoreMetrics.NEW_CRITICAL_VIOLATIONS, 1.0, 2.0)));
+-    verify(context).saveMeasure(argThat(new IsVariationMeasure(CoreMetrics.NEW_MAJOR_VIOLATIONS, 1.0, 2.0)));
+-    verify(context).saveMeasure(argThat(new IsVariationMeasure(CoreMetrics.NEW_MINOR_VIOLATIONS, 1.0, 2.0)));
++    verify(context).saveMeasure(argThat(new IsVariationMeasure(CoreMetrics.NEW_CRITICAL_VIOLATIONS, 1.0, 1.0)));
++    verify(context).saveMeasure(argThat(new IsVariationMeasure(CoreMetrics.NEW_MAJOR_VIOLATIONS, 0.0, 1.0)));
++    verify(context).saveMeasure(argThat(new IsVariationMeasure(CoreMetrics.NEW_MINOR_VIOLATIONS, 0.0, 1.0)));
+@@ -158,3 +160,4 @@
+-    verify(context).saveMeasure(argThat(new IsVariationRuleMeasure(CoreMetrics.NEW_VIOLATIONS, rule1, RulePriority.CRITICAL, 1.0, 2.0)));
+-    verify(context).saveMeasure(argThat(new IsVariationRuleMeasure(CoreMetrics.NEW_VIOLATIONS, rule2, RulePriority.MAJOR, 1.0, 2.0)));
+-    verify(context).saveMeasure(argThat(new IsVariationRuleMeasure(CoreMetrics.NEW_VIOLATIONS, rule3, RulePriority.MINOR, 1.0, 2.0)));
++    // remember : period1 is 5daysAgo, period2 is 10daysAgo
++    verify(context).saveMeasure(argThat(new IsVariationRuleMeasure(CoreMetrics.NEW_VIOLATIONS, rule1, RulePriority.CRITICAL, 1.0, 1.0)));
++    verify(context).saveMeasure(argThat(new IsVariationRuleMeasure(CoreMetrics.NEW_VIOLATIONS, rule2, RulePriority.MAJOR, 0.0, 1.0)));
++    verify(context).saveMeasure(argThat(new IsVariationRuleMeasure(CoreMetrics.NEW_VIOLATIONS, rule3, RulePriority.MINOR, 0.0, 1.0)));
+@@ -164 +167 @@
+-    List<Violation> violations = new ArrayList<Violation>();
++    List<Violation> violations = Lists.newLinkedList();
+

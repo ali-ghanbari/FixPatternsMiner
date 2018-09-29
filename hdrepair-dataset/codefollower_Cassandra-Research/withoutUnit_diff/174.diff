@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/db/compaction/LeveledManifest.java b/src/java/org/apache/cassandra/db/compaction/LeveledManifest.java
+index fcbd5cb..5f22109 100644
+--- a/src/java/org/apache/cassandra/db/compaction/LeveledManifest.java
++++ b/src/java/org/apache/cassandra/db/compaction/LeveledManifest.java
+@@ -482 +482 @@
+-            return candidates;
++            return candidates.size() > 1 ? candidates : Collections.<SSTableReader>emptyList();
+

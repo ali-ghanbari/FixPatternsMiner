@@ -1,0 +1,8 @@
+diff --git a/java/java-impl/src/com/intellij/codeInsight/completion/MemberLookupHelper.java b/java/java-impl/src/com/intellij/codeInsight/completion/MemberLookupHelper.java
+index afde766..8403668 100644
+--- a/java/java-impl/src/com/intellij/codeInsight/completion/MemberLookupHelper.java
++++ b/java/java-impl/src/com/intellij/codeInsight/completion/MemberLookupHelper.java
+@@ -59 +59 @@
+-    String pkg = StringUtil.getPackageName(qname);
++    String pkg = qname == null ? "" : StringUtil.getPackageName(qname);
+

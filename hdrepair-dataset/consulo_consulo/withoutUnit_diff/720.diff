@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/openapi/wm/impl/InternalDecorator.java b/platform/platform-impl/src/com/intellij/openapi/wm/impl/InternalDecorator.java
+index 87b1f19..ea2d1bc 100644
+--- a/platform/platform-impl/src/com/intellij/openapi/wm/impl/InternalDecorator.java
++++ b/platform/platform-impl/src/com/intellij/openapi/wm/impl/InternalDecorator.java
+@@ -439 +439 @@
+-      if (mgr.isToolWindowRegistered(((ToolWindowImpl)myWindow).getId())) return new Insets(0, 0, 0, 0);
++      if (!mgr.isToolWindowRegistered(((ToolWindowImpl)myWindow).getId())) return new Insets(0, 0, 0, 0);
+

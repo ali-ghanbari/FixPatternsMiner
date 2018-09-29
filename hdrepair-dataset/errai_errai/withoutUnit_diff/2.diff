@@ -1,0 +1,60 @@
+diff --git a/errai-demos/errai-jpa-demo-grocery-list/pom.xml b/errai-demos/errai-jpa-demo-grocery-list/pom.xml
+index 0e18355..9c482a1 100644
+--- a/errai-demos/errai-jpa-demo-grocery-list/pom.xml
++++ b/errai-demos/errai-jpa-demo-grocery-list/pom.xml
+@@ -56,8 +56,6 @@
+-    <weld.version>1.1.6.Final</weld.version>
+-    <mvel.version>2.1.7.Final</mvel.version>
+-    <jetty.version>6.1.25</jetty.version>
+-    <slf4j.version>1.6.1</slf4j.version>
+-    <log4j.version>1.2.16</log4j.version>
+-    <cdiapi.version>1.0-SP4</cdiapi.version>
+-    <servletapi.version>1.0.0.Final</servletapi.version>
+-    <jbosslogging.version>3.1.0.GA</jbosslogging.version>
++    <weld.version>2.2.9.Final</weld.version>
++    <mvel.version>2.2.4.Final</mvel.version>
++    <jetty.version>6.1.26</jetty.version>
++    <slf4j.version>1.7.10</slf4j.version>
++    <cdiapi.version>1.2</cdiapi.version>
++    <servletapi.version>1.0.2.Final</servletapi.version>
+@@ -65,3 +63,2 @@
+-    <uel.impl.version>2.1.2-b04</uel.impl.version>
+-    <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+-    <maven.deploy.plugin.version>2.7</maven.deploy.plugin.version>    
++    <maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
++    <maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
+@@ -140,6 +136,0 @@
+-    </dependency>
+-
+-    <dependency>
+-      <groupId>com.google.gwt</groupId>
+-      <artifactId>gwt-incubator</artifactId>
+-      <version>2.0.1</version>
+@@ -371,0 +363,12 @@
++          <artifactId>weld-servlet</artifactId>
++          <version>${weld.version}</version>
++        </dependency>
++
++        <dependency>
++          <groupId>com.google.gwt</groupId>
++          <artifactId>gwt-codeserver</artifactId>
++          <version>${gwt.version}</version>
++        </dependency>
++
++        <dependency>
++          <groupId>org.jboss.weld.servlet</groupId>
+diff --git a/errai-demos/errai-jpa-demo-grocery-list/src/main/java/org/jboss/errai/demo/grocery/client/local/StorePage.java b/errai-demos/errai-jpa-demo-grocery-list/src/main/java/org/jboss/errai/demo/grocery/client/local/StorePage.java
+index 507e41f..3628e65 100644
+--- a/errai-demos/errai-jpa-demo-grocery-list/src/main/java/org/jboss/errai/demo/grocery/client/local/StorePage.java
++++ b/errai-demos/errai-jpa-demo-grocery-list/src/main/java/org/jboss/errai/demo/grocery/client/local/StorePage.java
+@@ -72 +71,0 @@
+-import com.google.gwt.gen2.picker.client.SliderBar;
+diff --git a/errai-demos/errai-jpa-demo-grocery-list/src/main/webapp/index.html b/errai-demos/errai-jpa-demo-grocery-list/src/main/webapp/index.html
+index f6719da..051e25f 100644
+--- a/errai-demos/errai-jpa-demo-grocery-list/src/main/webapp/index.html
++++ b/errai-demos/errai-jpa-demo-grocery-list/src/main/webapp/index.html
+@@ -18,0 +19 @@
++<html>
+@@ -36 +36,0 @@
+-  </script>
+

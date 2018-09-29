@@ -1,0 +1,42 @@
+diff --git a/hk2/hk2-api/src/main/java/org/glassfish/hk2/api/AnnotationLiteral.java b/hk2/hk2-api/src/main/java/org/glassfish/hk2/api/AnnotationLiteral.java
+index 9bf07a1..bfe028c 100644
+--- a/hk2/hk2-api/src/main/java/org/glassfish/hk2/api/AnnotationLiteral.java
++++ b/hk2/hk2-api/src/main/java/org/glassfish/hk2/api/AnnotationLiteral.java
+@@ -64,0 +65,10 @@
++ * <p>
++ * An extension of AnnotationLiteral must do two things:<OL>
++ * <LI>Must have the target annotation as its generic type</LI>
++ * <LI>Must implement the target type</LI>
++ * </OL>
++ * </p>
++ * In particular, in-line anonymous extensions of AnnotationLiteral will not
++ * work because in-line anonymous extensions of AnnotationLiteral cannot implement
++ * the target annotation
++ * 
+diff --git a/hk2/hk2-api/src/test/java/org/glassfish/hk2/tests/literal/AnnotationLiteralTest.java b/hk2/hk2-api/src/test/java/org/glassfish/hk2/tests/literal/AnnotationLiteralTest.java
+index 817d90b..ba16e40 100644
+--- a/hk2/hk2-api/src/test/java/org/glassfish/hk2/tests/literal/AnnotationLiteralTest.java
++++ b/hk2/hk2-api/src/test/java/org/glassfish/hk2/tests/literal/AnnotationLiteralTest.java
+@@ -113 +113 @@
+-    @Test @Ignore
++    @Test
+@@ -123 +123 @@
+-        Assert.assertEquals((new AnnotationLiteral<Q>(){}).hashCode(), qJdk.hashCode());
++        Assert.assertEquals(new QImpl().hashCode(), qJdk.hashCode());
+@@ -126 +126 @@
+-        Assert.assertTrue((new AnnotationLiteral<Q>(){}).equals(qJdk));
++        Assert.assertTrue(new QImpl().equals(qJdk));
+@@ -128,2 +128,10 @@
+-        // Currently fails, looks like a bug in the JDK
+-        Assert.assertTrue(qJdk.equals(new AnnotationLiteral<Q>(){}));
++        Assert.assertTrue(qJdk.equals(new QImpl()));
++    }
++    
++    public class QImpl extends AnnotationLiteral<Q> implements Q {
++
++        /**
++         * 
++         */
++        private static final long serialVersionUID = 4372411188097605709L;
++        
+

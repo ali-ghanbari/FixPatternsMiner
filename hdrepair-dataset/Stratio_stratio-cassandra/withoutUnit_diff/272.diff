@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/db/SystemTable.java b/src/java/org/apache/cassandra/db/SystemTable.java
+index 0daa35b..fbd65bb 100644
+--- a/src/java/org/apache/cassandra/db/SystemTable.java
++++ b/src/java/org/apache/cassandra/db/SystemTable.java
+@@ -310 +310 @@
+-        return c.value().get(0) == 1;
++        return c.value().get(c.value().position()) == 1;
+

@@ -1,0 +1,8 @@
+diff --git a/provisioning/provisioning-impl/src/main/java/com/evolveum/midpoint/provisioning/impl/ShadowCache.java b/provisioning/provisioning-impl/src/main/java/com/evolveum/midpoint/provisioning/impl/ShadowCache.java
+index 88bdb96..fbc2471 100644
+--- a/provisioning/provisioning-impl/src/main/java/com/evolveum/midpoint/provisioning/impl/ShadowCache.java
++++ b/provisioning/provisioning-impl/src/main/java/com/evolveum/midpoint/provisioning/impl/ShadowCache.java
+@@ -571 +571 @@
+-            if (!(change.getObjectDelta().getChangeType() == ChangeType.DELETE)) {
++            if (change.getObjectDelta() != null && !(change.getObjectDelta().getChangeType() == ChangeType.DELETE)) {
+

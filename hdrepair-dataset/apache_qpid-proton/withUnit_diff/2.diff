@@ -1,0 +1,84 @@
+diff --git a/proton-j/src/main/java/org/apache/qpid/proton/codec/EncoderImpl.java b/proton-j/src/main/java/org/apache/qpid/proton/codec/EncoderImpl.java
+index 77f0efc..fd0be07 100644
+--- a/proton-j/src/main/java/org/apache/qpid/proton/codec/EncoderImpl.java
++++ b/proton-j/src/main/java/org/apache/qpid/proton/codec/EncoderImpl.java
+@@ -791 +791 @@
+-            else if ((c & 0xD800) != 0xD800 || (c & 0xDC00) == 0xDC00)     /* U+0800..U+FFFF - excluding surrogate pairs */
++            else if ((c & 0xD800) != 0xD800 || (c > 0xDBFF))     /* U+0800..U+FFFF - excluding surrogate pairs */
+diff --git a/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java b/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java
+index 7a44063..90cfe26 100644
+--- a/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java
++++ b/proton-j/src/test/java/org/apache/qpid/proton/codec/StringTypeTest.java
+@@ -29,0 +30,2 @@
++import java.util.LinkedList;
++import java.util.List;
+@@ -40,0 +43,2 @@
++
++    private static final List<String> TEST_DATA = generateTestData();
+@@ -94 +98 @@
+-        for (final String input : generateTestData())
++        for (final String input : TEST_DATA)
+@@ -111 +115 @@
+-        for (final String input : generateTestData())
++        for (final String input : TEST_DATA)
+@@ -125 +129 @@
+-    private Set<String> generateTestData()
++    private static List<String> generateTestData()
+@@ -127 +131,3 @@
+-        return new HashSet<String>()
++        return new LinkedList<String>()
++        {
++            private static final long serialVersionUID = 7331717267070233454L;
+@@ -129,2 +135,21 @@
+-                private static final long serialVersionUID = 7331717267070233454L;
+-
++                // non-surrogate pair blocks
++                addAll(getAllStringsFromUnicodeBlocks(UnicodeBlock.BASIC_LATIN,
++                                                     UnicodeBlock.LATIN_1_SUPPLEMENT,
++                                                     UnicodeBlock.GREEK,
++                                                     UnicodeBlock.LETTERLIKE_SYMBOLS));
++                // blocks with surrogate pairs
++                //TODO: restore others when Java 7 is baseline
++                addAll(getAllStringsFromUnicodeBlocks(UnicodeBlock.LINEAR_B_SYLLABARY,
++                                                     /*UnicodeBlock.MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS,*/
++                                                     UnicodeBlock.MUSICAL_SYMBOLS,
++                                                     /*UnicodeBlock.EMOTICONS,*/
++                                                     /*UnicodeBlock.PLAYING_CARDS,*/
++                                                     UnicodeBlock.BOX_DRAWING,
++                                                     UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS,
++                                                     UnicodeBlock.PRIVATE_USE_AREA,
++                                                     UnicodeBlock.SUPPLEMENTARY_PRIVATE_USE_AREA_A,
++                                                     UnicodeBlock.SUPPLEMENTARY_PRIVATE_USE_AREA_B));
++                // some additional combinations of characters that could cause problems to the encoder
++                String[] boxDrawing = getAllStringsFromUnicodeBlocks(UnicodeBlock.BOX_DRAWING).toArray(new String[0]);
++                String[] halfFullWidthForms = getAllStringsFromUnicodeBlocks(UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS).toArray(new String[0]);
++                for (int i = 0; i < halfFullWidthForms.length; i++)
+@@ -132,22 +157 @@
+-                    // non-surrogate pair blocks
+-                    addAll(getAllStringsFromUnicodeBlocks(UnicodeBlock.BASIC_LATIN,
+-                                                         UnicodeBlock.LATIN_1_SUPPLEMENT,
+-                                                         UnicodeBlock.GREEK,
+-                                                         UnicodeBlock.LETTERLIKE_SYMBOLS));
+-                    // blocks with surrogate pairs
+-                    //TODO: restore others when Java 7 is baseline
+-                    addAll(getAllStringsFromUnicodeBlocks(/*UnicodeBlock.MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS,*/
+-                                                         UnicodeBlock.MUSICAL_SYMBOLS,
+-                                                         /*UnicodeBlock.EMOTICONS,*/
+-                                                         /*UnicodeBlock.PLAYING_CARDS,*/
+-                                                         UnicodeBlock.BOX_DRAWING,
+-                                                         UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS,
+-                                                         UnicodeBlock.SUPPLEMENTARY_PRIVATE_USE_AREA_A,
+-                                                         UnicodeBlock.SUPPLEMENTARY_PRIVATE_USE_AREA_B));
+-                    // some additional combinations of characters that could cause problems to the encoder
+-                    String[] boxDrawing = getAllStringsFromUnicodeBlocks(UnicodeBlock.BOX_DRAWING).toArray(new String[0]);
+-                    String[] halfFullWidthForms = getAllStringsFromUnicodeBlocks(UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS).toArray(new String[0]);
+-                    for (int i = 0; i < halfFullWidthForms.length; i++)
+-                    {
+-                        add(halfFullWidthForms[i] + boxDrawing[i % boxDrawing.length]);
+-                    }
++                    add(halfFullWidthForms[i] + boxDrawing[i % boxDrawing.length]);
+@@ -155 +159,2 @@
+-            };
++            }
++        };
+

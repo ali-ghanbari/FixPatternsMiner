@@ -1,0 +1,104 @@
+diff --git a/app-fabric/src/test/java/co/cask/cdap/SleepingWorkflowApp.java b/app-fabric/src/test/java/co/cask/cdap/SleepingWorkflowApp.java
+index 92deeea..6416bb7 100644
+--- a/app-fabric/src/test/java/co/cask/cdap/SleepingWorkflowApp.java
++++ b/app-fabric/src/test/java/co/cask/cdap/SleepingWorkflowApp.java
+@@ -97 +97 @@
+-        Thread.sleep(100);
++        Thread.sleep(2000);
+diff --git a/app-fabric/src/test/java/co/cask/cdap/internal/app/services/http/handlers/AppFabricHttpHandlerTest.java b/app-fabric/src/test/java/co/cask/cdap/internal/app/services/http/handlers/AppFabricHttpHandlerTest.java
+index c99d341..b9fc588 100644
+--- a/app-fabric/src/test/java/co/cask/cdap/internal/app/services/http/handlers/AppFabricHttpHandlerTest.java
++++ b/app-fabric/src/test/java/co/cask/cdap/internal/app/services/http/handlers/AppFabricHttpHandlerTest.java
+@@ -140,2 +140 @@
+-  private void testHistory(Class<?> app, String appId, String runnableType, String runnableId,
+-                           boolean waitStop, int duration)
++  private void testHistory(Class<?> app, String appId, String runnableType, String runnableId)
+@@ -145,12 +144,6 @@
+-      Assert.assertEquals(200,
+-          doPost("/v2/apps/" + appId + "/" + runnableType + "/" + runnableId + "/start", null)
+-              .getStatusLine().getStatusCode()
+-      );
+-      if (waitStop) {
+-        TimeUnit.SECONDS.sleep(duration);
+-      } else {
+-        Assert.assertEquals(200,
+-            doPost("/v2/apps/" + appId + "/" + runnableType + "/" + runnableId + "/stop", null)
+-                .getStatusLine().getStatusCode()
+-        );
+-      }
++      // first run
++      Assert.assertEquals(200, getRunnableStartStop(runnableType, appId, runnableId, "start"));
++      waitState(runnableType, appId, runnableId, "RUNNING");
++      Assert.assertEquals(200, getRunnableStartStop(runnableType, appId, runnableId, "stop"));
++      waitState(runnableType, appId, runnableId, "STOPPED");
++
+@@ -159,12 +152,6 @@
+-      Assert.assertEquals(200,
+-          doPost("/v2/apps/" + appId + "/" + runnableType + "/" + runnableId + "/start", null)
+-              .getStatusLine().getStatusCode()
+-      );
+-      if (waitStop) {
+-        TimeUnit.SECONDS.sleep(duration);
+-      } else {
+-        Assert.assertEquals(200,
+-            doPost("/v2/apps/" + appId + "/" + runnableType + "/" + runnableId + "/stop", null)
+-                .getStatusLine().getStatusCode()
+-        );
+-      }
++
++      // second run
++      Assert.assertEquals(200, getRunnableStartStop(runnableType, appId, runnableId, "start"));
++      waitState(runnableType, appId, runnableId, "RUNNING");
++      Assert.assertEquals(200, getRunnableStartStop(runnableType, appId, runnableId, "stop"));
++      waitState(runnableType, appId, runnableId, "STOPPED");
+@@ -265 +252 @@
+-    testHistory(WordCountApp.class, "WordCountApp", "flows", "WordCountFlow", false, 0);
++    testHistory(WordCountApp.class, "WordCountApp", "flows", "WordCountFlow");
+@@ -273 +260 @@
+-    testHistory(WordCountApp.class, "WordCountApp", "procedures", "WordFrequency", false, 0);
++    testHistory(WordCountApp.class, "WordCountApp", "procedures", "WordFrequency");
+@@ -282 +269 @@
+-    testHistory(DummyAppWithTrackingTable.class, "dummy", "mapreduce", "dummy-batch", false, 0);
++    testHistory(DummyAppWithTrackingTable.class, "dummy", "mapreduce", "dummy-batch");
+@@ -291 +278,20 @@
+-    testHistory(SleepingWorkflowApp.class, "SleepWorkflowApp", "workflows", "SleepWorkflow", true, 2);
++    try {
++      deploy(SleepingWorkflowApp.class);
++      // first run
++      Assert.assertEquals(200, getRunnableStartStop("workflows", "SleepWorkflowApp", "SleepWorkflow", "start"));
++      waitState("workflows", "SleepWorkflowApp", "SleepWorkflow", "RUNNING");
++      // workflow stops by itself after actions are done
++      waitState("workflows", "SleepWorkflowApp", "SleepWorkflow", "STOPPED");
++
++      // second run
++      Assert.assertEquals(200, getRunnableStartStop("workflows", "SleepWorkflowApp", "SleepWorkflow", "start"));
++      waitState("workflows", "SleepWorkflowApp", "SleepWorkflow", "RUNNING");
++      // workflow stops by itself after actions are done
++      waitState("workflows", "SleepWorkflowApp", "SleepWorkflow", "STOPPED");
++
++      String url = String.format("/v2/apps/%s/%s/%s/history", "SleepWorkflowApp", "workflows", "SleepWorkflow");
++      historyStatusWithRetry(url, 2);
++
++    } finally {
++      Assert.assertEquals(200, doDelete("/v2/apps/SleepWorkflowApp").getStatusLine().getStatusCode());
++    }
+@@ -381,0 +388,7 @@
++    // workflow will stop itself
++    waitState("workflows", "SleepWorkflowApp", "SleepWorkflow", "STOPPED");
++
++    // removing apps
++    Assert.assertEquals(200, doDelete("/v2/apps/WordCountApp").getStatusLine().getStatusCode());
++    Assert.assertEquals(200, doDelete("/v2/apps/dummy").getStatusLine().getStatusCode());
++    Assert.assertEquals(200, doDelete("/v2/apps/SleepWorkflowApp").getStatusLine().getStatusCode());
+@@ -564 +576,0 @@
+-      Assert.assertNotNull(map.get("specification"));
+@@ -1230 +1242,2 @@
+-    while (trials++ < 5) {
++    // it may take a while for workflow/mr to start...
++    while (trials++ < 20) {
+@@ -1238 +1251 @@
+-    Assert.assertTrue(trials < 5);
++    Assert.assertTrue(trials < 20);
+@@ -1239,0 +1253 @@
++
+

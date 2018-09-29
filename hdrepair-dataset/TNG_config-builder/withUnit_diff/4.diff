@@ -1,0 +1,37 @@
+diff --git a/src/test/java/com/tngtech/configbuilder/ConfigBuilderIntegrationTest.java b/src/test/java/com/tngtech/configbuilder/ConfigBuilderIntegrationTest.java
+index 4f2cb8f..1b38026 100644
+--- a/src/test/java/com/tngtech/configbuilder/ConfigBuilderIntegrationTest.java
++++ b/src/test/java/com/tngtech/configbuilder/ConfigBuilderIntegrationTest.java
+@@ -7,0 +8 @@
++import org.junit.After;
+@@ -12,0 +14,4 @@
++import java.io.ByteArrayOutputStream;
++import java.io.IOException;
++import java.io.OutputStream;
++import java.io.PrintStream;
+@@ -18,0 +24 @@
++import static org.junit.Assert.assertTrue;
+@@ -22,0 +29,2 @@
++
++    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+@@ -28,0 +37,6 @@
++        System.setOut(new PrintStream(outContent));
++    }
++
++    @After
++    public void tearDown() {
++        System.setOut(null);
+@@ -56,0 +71 @@
++        assertTrue(outContent.toString().contains("config validated"));
+@@ -90,0 +106 @@
++
+@@ -92,0 +109 @@
++        assertTrue(outContent.toString().contains("config validated"));
+diff --git a/src/test/java/com/tngtech/configbuilder/testclasses/TestConfig.java b/src/test/java/com/tngtech/configbuilder/testclasses/TestConfig.java
+index f516bd7..4226e47 100644
+--- a/src/test/java/com/tngtech/configbuilder/testclasses/TestConfig.java
++++ b/src/test/java/com/tngtech/configbuilder/testclasses/TestConfig.java
+@@ -127 +127 @@
+-
++        System.out.println("config validated");
+

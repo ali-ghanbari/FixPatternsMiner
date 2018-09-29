@@ -1,0 +1,59 @@
+diff --git a/core/java/android/webkit/WebTextView.java b/core/java/android/webkit/WebTextView.java
+index 0f24edc..d3e7290 100644
+--- a/core/java/android/webkit/WebTextView.java
++++ b/core/java/android/webkit/WebTextView.java
+@@ -1177 +1177 @@
+-                inputType = EditorInfo.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS;
++                inputType |= EditorInfo.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS;
+diff --git a/docs/html/sdk/index.jd b/docs/html/sdk/index.jd
+index 7c1c86d..e7b8fbb 100644
+--- a/docs/html/sdk/index.jd
++++ b/docs/html/sdk/index.jd
+@@ -34,2 +34,12 @@
+-<p>To get started, download the appropriate package from the table above, then read the guide to <a
+-href="installing.html">Installing the SDK</a>.</p>
++<p class="online-message">To get started, download the appropriate package from the table above,
++then read the guide to <a href="installing.html">Installing the SDK</a>.</p>
++
++<!-- non-inline style and based on only one selector so that
++     it can be overriden by the sdkpage.cs template -->
++<style type="text/css">
++  .offline-message { display:none; }
++</style>
++      
++<p class="offline-message">For more information about how to set up your
++development environment, read the guide to <a href="installing.html">Installing the SDK</a>.</p>
++
+diff --git a/docs/html/sdk/sdk_toc.cs b/docs/html/sdk/sdk_toc.cs
+index d1c0679..286307a 100644
+--- a/docs/html/sdk/sdk_toc.cs
++++ b/docs/html/sdk/sdk_toc.cs
+@@ -2,2 +2 @@
+-<ul><?cs
+-  if:android.whichdoc == "online" ?>
++<ul>
+@@ -15 +14,2 @@
+-    <ul>
++    <ul><?cs
++  if:android.whichdoc == "online" ?>
+@@ -25 +25,2 @@
+-        </a></li>
++        </a></li><?cs 
++  /if ?>
+@@ -36 +36,0 @@
+-
+@@ -38,2 +38 @@
+-  </li>
+-  <?cs /if ?><?cs
++  </li><?cs
+diff --git a/libs/hwui/OpenGLRenderer.cpp b/libs/hwui/OpenGLRenderer.cpp
+index ffcae1c..d9d7d23 100644
+--- a/libs/hwui/OpenGLRenderer.cpp
++++ b/libs/hwui/OpenGLRenderer.cpp
+@@ -66 +66 @@
+-    { SkXfermode::kClear_Mode,   GL_ZERO,                 GL_ONE_MINUS_SRC_ALPHA },
++    { SkXfermode::kClear_Mode,   GL_ZERO,                 GL_ZERO },
+@@ -84 +84 @@
+-    { SkXfermode::kClear_Mode,   GL_ONE_MINUS_DST_ALPHA,  GL_ZERO },
++    { SkXfermode::kClear_Mode,   GL_ZERO,                 GL_ZERO },
+

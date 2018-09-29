@@ -1,0 +1,28 @@
+1060: (Partly because of UPnP and plugins, partly because of accidentally deploying a trunk build)
+Plugin management code:
+- Support unloading IP detector plugins, port forwarding plugins. So unloading JSTUN or UPnP will no longer silently leave them running and therefore break later load attempts.
+- Fix FileUtil.writeTo (make the tempfile in the target dir so rename works) -> fix <plugin name># loading. Try 5 times to get the jar even if loaded using <plugin name>#.
+- Significant refactoring. Fix various bugs at the same time.
+- Simpler, faster, smaller code.
+- Less nested locking, other synchronization fixes/changes/additions, remove unnecessary internal polling for set() in PluginHandler.
+- Move some code around.
+- Stop using Thread's to identify plugins (even the threadless ones!). Don't create a Thread unless we really need one; they're probably quite heavy.
+- PluginStarter should know its PluginInfoWrapper
+- Javadocs
+- Threadless plugins were not being removed properly - terminate() wasn't being called.
+- Wait up to 60 seconds for threaded plugins to finish after asking them to exit.
+- Indicate stopping plugins on plugins page.
+- Unregister plugin from web interface etc when asked to kill it, only remove from the plugin list after completely finished exiting.
+- Register for callbacks just after start for threadless plugins to avoid NPEs caused by not having the PluginRespirator yet. Register just before with threaded plugins for the same reason - will occasionally get NPEs if the plugin needs the PR and doesn't explicitly check.
+- Logging, indenting.
+Trivial optimisations:
+- Remove unnecessary double buffering in FileUtil.writeTo.
+Web interface:
+- Close HTTP connection after sending an error because of a throwable in a plugin - we don't know whether it already tried to send something.
+XMLSpider:
+- Delete some dead code
+UPnP:
+- Don't hold the lock while doing expensive operations.
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@15074 67a373e5-eb02-0410-a15c-ee090a768436
+

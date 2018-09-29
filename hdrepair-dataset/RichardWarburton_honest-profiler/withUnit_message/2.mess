@@ -1,0 +1,8 @@
+Clear stack before reuse (not total fix)
+
+This stops methods ending up as part of other people's stack traces, but
+doesn't stop them from getting entirely lost.
+
+This fixes the "Thread.run" bug, where lots of leaves would be followed
+by Thread.run, instead of just ending as they should.
+

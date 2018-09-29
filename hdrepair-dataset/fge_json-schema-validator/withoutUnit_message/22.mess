@@ -1,0 +1,11 @@
+SchemaRegistry: fix stupid error in .get()
+
+The element to put should use the supplied URI, not the downloaded container's
+URI.
+
+This also means there are still two bugs in there:
+
+* you can use any URI as a key, but we should only allow absolute URIs;
+* you can insert with a given URI while the container has another, which leads
+  to a discrepancy.
+

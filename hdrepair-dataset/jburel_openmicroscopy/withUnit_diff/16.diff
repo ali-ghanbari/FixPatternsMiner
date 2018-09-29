@@ -1,0 +1,15 @@
+diff --git a/components/server/src/ome/logic/PojosImpl.java b/components/server/src/ome/logic/PojosImpl.java
+index 3100599..8bc4d91 100644
+--- a/components/server/src/ome/logic/PojosImpl.java
++++ b/components/server/src/ome/logic/PojosImpl.java
+@@ -94 +94 @@
+-            + "in (:list)";
++            + "where p in (:list)";
+diff --git a/components/server/test/ome/server/itests/MetadataServiceTest.java b/components/server/test/ome/server/itests/MetadataServiceTest.java
+index 8f8d302..879bbe7 100644
+--- a/components/server/test/ome/server/itests/MetadataServiceTest.java
++++ b/components/server/test/ome/server/itests/MetadataServiceTest.java
+@@ -117 +117 @@
+-        assertTrue(s.size() == 2);
++        assertEquals(2, s.size());
+

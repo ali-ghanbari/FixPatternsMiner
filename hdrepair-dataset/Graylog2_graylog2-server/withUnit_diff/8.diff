@@ -1,0 +1,15 @@
+diff --git a/src/test/java/org/graylog2/TestHelper.java b/src/test/java/org/graylog2/TestHelper.java
+index cd4780b..f040d60 100644
+--- a/src/test/java/org/graylog2/TestHelper.java
++++ b/src/test/java/org/graylog2/TestHelper.java
+@@ -50 +50 @@
+-        ByteArrayInputStream compressMe = new ByteArrayInputStream(what.getBytes());
++        ByteArrayInputStream compressMe = new ByteArrayInputStream(what.getBytes("UTF-8"));
+diff --git a/src/test/java/org/graylog2/inputs/gelf/GELFMessageTest.java b/src/test/java/org/graylog2/inputs/gelf/GELFMessageTest.java
+index 3d50fbe..23c5bee 100644
+--- a/src/test/java/org/graylog2/inputs/gelf/GELFMessageTest.java
++++ b/src/test/java/org/graylog2/inputs/gelf/GELFMessageTest.java
+@@ -32 +32 @@
+-    public final static String GELF_JSON = "{\"message\":\"foo\",\"host\":\"bar\",\"_lol_utf8\":\"ü\"}";
++    public final static String GELF_JSON = "{\"message\":\"foo\",\"host\":\"bar\",\"_lol_utf8\":\"\u00FC\"}";
+

@@ -1,0 +1,15 @@
+diff --git a/core/src/main/java/hudson/scm/NullSCM.java b/core/src/main/java/hudson/scm/NullSCM.java
+index 05940f1..419c5fb 100644
+--- a/core/src/main/java/hudson/scm/NullSCM.java
++++ b/core/src/main/java/hudson/scm/NullSCM.java
+@@ -53 +53 @@
+-    public boolean checkout(AbstractBuild build, Launcher launcher, FilePath remoteDir, BuildListener listener, File changeLogFile) throws IOException, InterruptedException {
++    public boolean checkout(AbstractBuild<?,?> build, Launcher launcher, FilePath remoteDir, BuildListener listener, File changeLogFile) throws IOException, InterruptedException {
+diff --git a/test/src/test/java/hudson/triggers/SCMTriggerTest.java b/test/src/test/java/hudson/triggers/SCMTriggerTest.java
+index db156a7..c3ab40f 100644
+--- a/test/src/test/java/hudson/triggers/SCMTriggerTest.java
++++ b/test/src/test/java/hudson/triggers/SCMTriggerTest.java
+@@ -82 +82 @@
+-        public boolean checkout(AbstractBuild build, Launcher launcher, FilePath remoteDir, BuildListener listener, File changeLogFile) throws IOException, InterruptedException {
++        public boolean checkout(AbstractBuild<?,?> build, Launcher launcher, FilePath remoteDir, BuildListener listener, File changeLogFile) throws IOException, InterruptedException {
+

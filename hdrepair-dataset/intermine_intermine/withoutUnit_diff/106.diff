@@ -1,0 +1,34 @@
+diff --git a/bio/webapp/resources/webapp/model/orthologueLinkDisplayer.jsp b/bio/webapp/resources/webapp/model/orthologueLinkDisplayer.jsp
+index 2b2111e..bc90299 100644
+--- a/bio/webapp/resources/webapp/model/orthologueLinkDisplayer.jsp
++++ b/bio/webapp/resources/webapp/model/orthologueLinkDisplayer.jsp
+@@ -10 +10 @@
+-function getInterMineOrthologueLinks(mine, organisms, identifierList) {
++function getInterMineListLinks(mine, organisms, identifierList) {
+@@ -27 +27 @@
+-    <div id="intermine_orthologue_links_${mine}_waiting"><b>${mine}<img src="images/wait30.gif" title="Searching..."/></div>
++    <div id="intermine_orthologue_links_${mine}_waiting"><b>${mine}</b><img src="images/wait30.gif" title="Searching..."/></div>
+@@ -30 +30 @@
+-        getInterMineOrthologueLinks('${mine}', '${organisms}', '${identifierList}');
++        getInterMineListLinks('${mine}', '${organisms}', '${identifierList}');
+diff --git a/flymine/dbmodel/resources/keyword_search.properties b/flymine/dbmodel/resources/keyword_search.properties
+index 9bb8428..fce5927 100644
+--- a/flymine/dbmodel/resources/keyword_search.properties
++++ b/flymine/dbmodel/resources/keyword_search.properties
+@@ -4 +4 @@
+-index.references.Gene = pathways omimDiseases proteins.proteinDomains goAnnotation.ontologyTerm
++index.references.Gene = pathways proteins.proteinDomains goAnnotation.ontologyTerm
+diff --git a/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml b/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
+index f9e08a6..987470c 100644
+--- a/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
++++ b/flymine/webapp/resources/webapp/WEB-INF/webconfig-model.xml
+@@ -223 +222,0 @@
+-      <fieldconfig fieldExpr="inParanoidScore"/>
+diff --git a/intermine/web/main/src/org/intermine/dwr/AjaxServices.java b/intermine/web/main/src/org/intermine/dwr/AjaxServices.java
+index a01222e..52b2e53 100644
+--- a/intermine/web/main/src/org/intermine/dwr/AjaxServices.java
++++ b/intermine/web/main/src/org/intermine/dwr/AjaxServices.java
+@@ -669 +669 @@
+-    public static String getInterMineOrthologueLinks(String mineName, String organisms,
++    public static String getInterMineListLinks(String mineName, String organisms,
+

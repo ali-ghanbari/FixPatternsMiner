@@ -1,0 +1,14 @@
+diff --git a/src/main/java/com/palantir/stash/stashbot/managers/JenkinsManager.java b/src/main/java/com/palantir/stash/stashbot/managers/JenkinsManager.java
+index 058779c..44d01b8 100644
+--- a/src/main/java/com/palantir/stash/stashbot/managers/JenkinsManager.java
++++ b/src/main/java/com/palantir/stash/stashbot/managers/JenkinsManager.java
+@@ -229 +229 @@
+-                + " (" + user + "@" + url + " pw: " + password + ")");
++                + " (" + user + "@" + url + " pw: " + password.replaceAll(".", "*") + ")");
+diff --git a/src/test/java/com/palantir/stash/stashbot/managers/JenkinsManagerTest.java b/src/test/java/com/palantir/stash/stashbot/managers/JenkinsManagerTest.java
+index e0d7458..d374820 100644
+--- a/src/test/java/com/palantir/stash/stashbot/managers/JenkinsManagerTest.java
++++ b/src/test/java/com/palantir/stash/stashbot/managers/JenkinsManagerTest.java
+@@ -122,0 +123 @@
++        Mockito.when(jsc.getPassword()).thenReturn("jenkins_password");
+

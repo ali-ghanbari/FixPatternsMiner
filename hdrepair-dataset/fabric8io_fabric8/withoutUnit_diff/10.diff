@@ -1,0 +1,51 @@
+diff --git a/docs/appLibrary.md b/docs/appLibrary.md
+index adbb3aa..d63843b 100644
+--- a/docs/appLibrary.md
++++ b/docs/appLibrary.md
+@@ -15 +15,11 @@
+-* the Library tab allows you to explore all your installed Apps, browse the documentation and drag and drop apps from the internet or file system to or from the App Library to install or share Apps between environments or people.
+\ No newline at end of file
++* the Library tab allows you to explore all your installed Apps, browse the documentation and drag and drop apps from the internet or file system to or from the App Library to install or share Apps between environments or people.
++
++### Running on Kubernetes/OpenShift
++
++If you start [fabric8 using these instructions](openShiftDocker.html) then it should be started by default.
++
++If not you can run the App Library on any kubernetes environment as follows:
++
++    kube apply -f  http://central.maven.org/maven2/io/fabric8/jube/images/fabric8/app-library/2.0.29/app-library-2.0.29-kubernetes.json
++
++Then make sure you have [run the console](console.html)
+diff --git a/docs/console.md b/docs/console.md
+index ca55adf..46ffb5a 100644
+--- a/docs/console.md
++++ b/docs/console.md
+@@ -9,2 +9 @@
+-    kube create -f http://central.maven.org/maven2/io/fabric8/jube/images/fabric8/console/2.0.27/console-2.0.27-kubernetes.json
+-
++    kube apply -f http://central.maven.org/maven2/io/fabric8/jube/images/fabric8/console/2.0.29/console-2.0.29-kubernetes.json
+diff --git a/fabric8-apt/ReadMe.md b/fabric8-apt/ReadMe.md
+index 69eed82..85246f0 100644
+--- a/fabric8-apt/ReadMe.md
++++ b/fabric8-apt/ReadMe.md
+@@ -25 +25 @@
+-        <version>2.0.26</version>
++        <version>2.0.29</version>
+diff --git a/fabric8-apt/src/main/java/io/fabric8/tools/apt/JsonSchemaTypes.java b/fabric8-apt/src/main/java/io/fabric8/tools/apt/JsonSchemaTypes.java
+index 8628b1c..5a448fb 100644
+--- a/fabric8-apt/src/main/java/io/fabric8/tools/apt/JsonSchemaTypes.java
++++ b/fabric8-apt/src/main/java/io/fabric8/tools/apt/JsonSchemaTypes.java
+@@ -20,2 +19,0 @@
+-import javax.lang.model.element.Element;
+-import javax.lang.model.type.TypeMirror;
+diff --git a/pom.xml b/pom.xml
+index 09b9b06..80ed053 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -211,2 +210,0 @@
+-        <jboss.forge.version>2.13.0.Final</jboss.forge.version>
+-<!-- use same version of forge as in eclipse
+@@ -213,0 +212,2 @@
++<!-- use same version of forge as in eclipse
++        <jboss.forge.version>2.13.0.Final</jboss.forge.version>
+

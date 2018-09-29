@@ -1,0 +1,142 @@
+diff --git a/src/test/java/org/kuali/kra/KraTestBase.java b/src/test/java/org/kuali/kra/KraTestBase.java
+index 5bb73cc..d5572e6 100644
+--- a/src/test/java/org/kuali/kra/KraTestBase.java
++++ b/src/test/java/org/kuali/kra/KraTestBase.java
+@@ -99,0 +100,2 @@
++                ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_submission_type.sql", delimiter = ";")
++                ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_revision_type.sql", delimiter = ";")
+diff --git a/src/test/java/org/kuali/kra/proposaldevelopment/web/S2sOpportunityWebTest.java b/src/test/java/org/kuali/kra/proposaldevelopment/web/S2sOpportunityWebTest.java
+index 33911c8..744f25d 100644
+--- a/src/test/java/org/kuali/kra/proposaldevelopment/web/S2sOpportunityWebTest.java
++++ b/src/test/java/org/kuali/kra/proposaldevelopment/web/S2sOpportunityWebTest.java
+@@ -27,12 +27,12 @@
+-@PerTestUnitTestData(
+-        @UnitTestData(
+-            sqlStatements = {
+-                    @UnitTestSql("delete from S2S_SUBMISSION_TYPE")
+-                    ,@UnitTestSql("delete from S2S_REVISION_TYPE")    
+-            },
+-            sqlFiles = {
+-                @UnitTestFile(filename = "classpath:sql/dml/load_s2s_submission_type.sql", delimiter = ";")
+-                ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_revision_type.sql", delimiter = ";")
+-            }
+-        )
+-    )
++//@PerTestUnitTestData(
++//        @UnitTestData(
++//            sqlStatements = {
++//                    @UnitTestSql("delete from S2S_SUBMISSION_TYPE")
++//                    ,@UnitTestSql("delete from S2S_REVISION_TYPE")    
++//            },
++//            sqlFiles = {
++//                @UnitTestFile(filename = "classpath:sql/dml/load_s2s_submission_type.sql", delimiter = ";")
++//                ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_revision_type.sql", delimiter = ";")
++//            }
++//        )
++//    )
+@@ -39,0 +40,2 @@
++    private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "APP-S2S-TEST-SF424-V2";
++    private static final String VALID_CFDA_NUMBER_00_000 = "00.000";
+@@ -54,2 +56,2 @@
+-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
++        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);//changing it to 00.000
++        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -61,2 +63,2 @@
+-        assertContains(page2,"84.264");
+-        assertContains(page2,"ED-GRANTS-102003-003");
++        assertContains(page2,VALID_CFDA_NUMBER_00_000);
++        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -74 +76 @@
+-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");                
++        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);                
+@@ -80 +82 @@
+-        assertContains(page2,"84.264");
++        assertContains(page2,VALID_CFDA_NUMBER_00_000);
+@@ -92 +94 @@
+-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
++        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -98 +100 @@
+-        assertContains(page2,"ED-GRANTS-102003-003");           
++        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);           
+@@ -154,2 +156,2 @@
+-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
++        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
++        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -159 +161 @@
+-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);
++        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);
+@@ -161,2 +163,2 @@
+-        assertContains(page2,"84.264");
+-        assertContains(page2,"ED-GRANTS-102003-003");
++        assertContains(page2,VALID_CFDA_NUMBER_00_000);
++        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -169,2 +171,2 @@
+-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),"ED-GRANTS-102003-003");
+-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
++        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
++        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+@@ -187,2 +189,2 @@
+-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
++        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
++        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -192 +194 @@
+-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);        
++        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);        
+@@ -194,2 +196,2 @@
+-        assertContains(page2,"84.264");
+-        assertContains(page2,"ED-GRANTS-102003-003");
++        assertContains(page2,VALID_CFDA_NUMBER_00_000);
++        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -218,2 +220,2 @@
+-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
++        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
++        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -223 +225 @@
+-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);        
++        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);        
+@@ -225,2 +227,2 @@
+-        assertContains(page2,"84.264");
+-        assertContains(page2,"ED-GRANTS-102003-003");
++        assertContains(page2,VALID_CFDA_NUMBER_00_000);
++        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -235,2 +237,2 @@
+-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),"ED-GRANTS-102003-003");
+-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
++        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
++        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+@@ -255,2 +257,2 @@
+-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
++        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
++        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -260 +262 @@
+-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);        
++        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);        
+@@ -262,2 +264,2 @@
+-        assertContains(page2,"84.264");
+-        assertContains(page2,"ED-GRANTS-102003-003");
++        assertContains(page2,VALID_CFDA_NUMBER_00_000);
++        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -287,2 +289,2 @@
+-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
++        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
++        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -292 +294 @@
+-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);
++        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);
+@@ -294,2 +296,2 @@
+-        assertContains(page2,"84.264");
+-        assertContains(page2,"ED-GRANTS-102003-003");
++        assertContains(page2,VALID_CFDA_NUMBER_00_000);
++        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+@@ -302,2 +304,2 @@
+-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),"ED-GRANTS-102003-003");
+-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
++        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
++        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+

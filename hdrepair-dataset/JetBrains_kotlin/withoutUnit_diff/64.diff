@@ -1,0 +1,27 @@
+diff --git a/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java b/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
+index f177573..83a8df6 100644
+--- a/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
++++ b/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
+@@ -206,0 +207 @@
++        factories.put(PROJECTION_IN_IMMEDIATE_ARGUMENT_TO_SUPERTYPE, RemoveModifierFix.createRemoveProjectionFactory(false));
+diff --git a/idea/testData/quickfix/typeProjection/afterProjectionInImmediateArgumentToSupertype.kt b/idea/testData/quickfix/typeProjection/afterProjectionInImmediateArgumentToSupertype.kt
+new file mode 100644
+index 0000000..ab4e941
+--- /dev/null
++++ b/idea/testData/quickfix/typeProjection/afterProjectionInImmediateArgumentToSupertype.kt
+@@ -0,0 +1,4 @@
++// "Remove 'in' modifier" "true"
++trait A<T> {}
++
++class B : A<Int> {}
+diff --git a/idea/testData/quickfix/typeProjection/beforeProjectionInImmediateArgumentToSupertype.kt b/idea/testData/quickfix/typeProjection/beforeProjectionInImmediateArgumentToSupertype.kt
+new file mode 100644
+index 0000000..7706db7
+--- /dev/null
++++ b/idea/testData/quickfix/typeProjection/beforeProjectionInImmediateArgumentToSupertype.kt
+@@ -0,0 +1,4 @@
++// "Remove 'in' modifier" "true"
++trait A<T> {}
++
++class B : A<<caret>in Int> {}
+

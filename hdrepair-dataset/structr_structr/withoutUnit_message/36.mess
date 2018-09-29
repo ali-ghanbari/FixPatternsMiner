@@ -1,0 +1,2 @@
+This fixes a bug when trying to remove all values from a collection property by PUTting null or an empty collection ('[]'). The input value null or [] gets always converted to an empty collection and thus, was not handled in the first block after 'collection != null'. Adding the check for emtpy collection should fix this.
+

@@ -1,0 +1,9 @@
+diff --git a/src/main/java/org/opentripplanner/routing/graph/Graph.java b/src/main/java/org/opentripplanner/routing/graph/Graph.java
+index 02e8e6c..60e3c76 100644
+--- a/src/main/java/org/opentripplanner/routing/graph/Graph.java
++++ b/src/main/java/org/opentripplanner/routing/graph/Graph.java
+@@ -410 +410,2 @@
+-                long t = sd.getAsDate().getTime() / 1000;
++                // Adjust for timezone, assuming there is only one per graph.
++                long t = sd.getAsDate(getTimeZone()).getTime() / 1000;
+

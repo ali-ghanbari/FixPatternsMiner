@@ -1,0 +1,26 @@
+diff --git a/compiler/testData/cli/help.out b/compiler/testData/cli/help.out
+index d917c1f..68e88a4 100644
+--- a/compiler/testData/cli/help.out
++++ b/compiler/testData/cli/help.out
+@@ -19,0 +20 @@
++  -kotlinHome [String] Path to Kotlin compiler home directory, used for annotations and runtime libraries discovery
+diff --git a/compiler/testData/cli/wrongArgument.out b/compiler/testData/cli/wrongArgument.out
+index 4f4c71d..370e716 100644
+--- a/compiler/testData/cli/wrongArgument.out
++++ b/compiler/testData/cli/wrongArgument.out
+@@ -20,0 +21 @@
++  -kotlinHome [String] Path to Kotlin compiler home directory, used for annotations and runtime libraries discovery
+diff --git a/idea/tests/org/jetbrains/jet/plugin/compilerMessages/JetCompilerMessagingTest.java b/idea/tests/org/jetbrains/jet/plugin/compilerMessages/JetCompilerMessagingTest.java
+index 12c4389..60fcaa9 100644
+--- a/idea/tests/org/jetbrains/jet/plugin/compilerMessages/JetCompilerMessagingTest.java
++++ b/idea/tests/org/jetbrains/jet/plugin/compilerMessages/JetCompilerMessagingTest.java
+@@ -72,0 +73 @@
++        checker.expect(Message.stats().textStartsWith("Using Kotlin home directory"));
+diff --git a/idea/tests/org/jetbrains/jet/plugin/compilerMessages/Message.java b/idea/tests/org/jetbrains/jet/plugin/compilerMessages/Message.java
+index a522645..d1896c2 100644
+--- a/idea/tests/org/jetbrains/jet/plugin/compilerMessages/Message.java
++++ b/idea/tests/org/jetbrains/jet/plugin/compilerMessages/Message.java
+@@ -113 +113 @@
+-        Assert.assertEquals(other.message, this.message);
++        Assert.assertEquals(this.message, other.message);
+

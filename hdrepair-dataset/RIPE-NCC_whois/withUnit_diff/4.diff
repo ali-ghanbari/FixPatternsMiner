@@ -1,0 +1,36 @@
+diff --git a/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDao.java b/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDao.java
+index f83d402..c07d2d6 100644
+--- a/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDao.java
++++ b/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDao.java
+@@ -196 +196 @@
+-        return getByKey(type, key.toString());
++        return getByKeyOrNull(type, key.toString());
+diff --git a/whois-commons/src/test/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDaoTest.java b/whois-commons/src/test/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDaoTest.java
+index 8b94d14..effc151 100644
+--- a/whois-commons/src/test/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDaoTest.java
++++ b/whois-commons/src/test/java/net/ripe/db/whois/common/dao/jdbc/JdbcRpslObjectDaoTest.java
+@@ -4,0 +5 @@
++import net.ripe.db.whois.common.domain.CIString;
+@@ -23,0 +25 @@
++import static org.hamcrest.Matchers.nullValue;
+@@ -123 +125 @@
+-    public void nonexistentIrtLookup() {
++     public void nonexistentIrtLookup() {
+@@ -126,0 +129,16 @@
++    @Test
++    public void getByKeyOrNullIrtLookupReturnsNull() {
++        final RpslObject result = subject.getByKeyOrNull(ObjectType.IRT, CIString.ciString("nonexistent"));
++
++        assertThat(result, is(nullValue()));
++    }
++
++    @Test
++    public void getByKeyOrNullIrtLookup() {
++        databaseHelper.addObject("irt:DEV-IRT");
++
++        final RpslObject result = subject.getByKeyOrNull(ObjectType.IRT, CIString.ciString("DEV-IRT"));
++
++        assertThat(result.getKey().toString(), is("DEV-IRT"));
++    }
++
+

@@ -1,0 +1,46 @@
+diff --git a/examples/org.eclipse.xtext.xtext.ui.examples/contents/org.eclipse.xtext.example.domainmodel.ui/src/org/eclipse/xtext/example/ui/quickfix/DomainmodelQuickfixProvider.java b/examples/org.eclipse.xtext.xtext.ui.examples/contents/org.eclipse.xtext.example.domainmodel.ui/src/org/eclipse/xtext/example/ui/quickfix/DomainmodelQuickfixProvider.java
+index 42e6f3e..3c808d7 100644
+--- a/examples/org.eclipse.xtext.xtext.ui.examples/contents/org.eclipse.xtext.example.domainmodel.ui/src/org/eclipse/xtext/example/ui/quickfix/DomainmodelQuickfixProvider.java
++++ b/examples/org.eclipse.xtext.xtext.ui.examples/contents/org.eclipse.xtext.example.domainmodel.ui/src/org/eclipse/xtext/example/ui/quickfix/DomainmodelQuickfixProvider.java
+@@ -19 +19 @@
+-		acceptor.accept(issue, "Capitalize name of '" + issue.getData()[0] + "'", "Capizalize name of type", "upcase.png", new IModification() {
++		acceptor.accept(issue, "Capitalize name", "Capitalize name  of '" + issue.getData()[0] + "'", "upcase.png", new IModification() {
+diff --git a/plugins/org.eclipse.xtext.doc/doc/060-validation.textile b/plugins/org.eclipse.xtext.doc/doc/060-validation.textile
+index c8f73de..1bf3454 100644
+--- a/plugins/org.eclipse.xtext.doc/doc/060-validation.textile
++++ b/plugins/org.eclipse.xtext.doc/doc/060-validation.textile
+@@ -67 +67 @@
+-        DomainmodelPackage.TYPE__NAME, INVALID_TYPE_NAME);
++        DomainmodelPackage.TYPE__NAME, INVALID_TYPE_NAME, type.getName());
+@@ -74,7 +74,9 @@
+-public class DomainmodelQuickfixProvider extends AbstractDeclarativeQuickfixProvider {
+-
+-  @Fix(code = DomainmodelJavaValidator.INVALID_TYPE_NAME, label = "Capitalize name",
+-       description = "Capitalize name of type")
+-  public void fixName(Type type, IMarker marker) {
+-    type.setName(type.getName().toUpperCase());
+-  }
++@Fix(DomainmodelJavaValidator.INVALID_TYPE_NAME)
++public void fixName(final Issue issue, IssueResolutionAcceptor acceptor) {
++		acceptor.accept(issue, "Capitalize name", "Capitalize name  of '" + issue.getData()[0] + "'", "upcase.png", new IModification() {
++		public void apply(IModificationContext context) throws BadLocationException {
++			IXtextDocument xtextDocument = context.getXtextDocument();
++			String firstLetter = xtextDocument.get(issue.getOffset(), 1);
++			xtextDocument.replace(issue.getOffset(), 1, Strings.toFirstUpper(firstLetter));
++	}
++	});
+@@ -85 +87 @@
+-The ${org.eclipse.xtext.ui.core/src/org.eclipse.xtext.ui.core.editor.quickfix.Fix} annotation accepts the following arguments:
++The first three parameters given to the ${org.eclipse.xtext.ui/src/org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor} define the UI representation of the quickfix. As the document is not necessarily loaded when the quickfix is offered, we need to provide any additional data from the model that we want to refer to in the UI when creating the issue in the validator above. In this case, we provided the existing type name.
+@@ -87,4 +89 @@
+-* *code* - the code of the validation this fix is applicable to
+-* *label* - the label text to display for this fix in the editor
+-* *description* - the description to display for this fix
+-* *icon* - the name of the icon file (in the UI plug-in's @icons@ directory) to display for this fix
++The actual model modification is implemented in the ${org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/model/edit/IModification}. The ${org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/model/edit/IModificationContext} provides access to the erroneous document.  
+@@ -92,3 +91 @@
+-In addition to the @Fix@ annotation our fix method also needs to have the correct signature: Its first argument needs to be of a type which is compatible with the type of the object the validation was created for (the validation's _source_) and its second argument is of type _IMarker_.
+-
+-The fix method will be invoked inside a modification transaction and the first argument will be passed as the actual object the validation was created for and the second argument will be passed as the Eclipse marker that corresponds to the validation. This makes it very easy for the fix method to modify the model as necessary. After the method returns the model as well as the Xtext editor's content will be updated accordingly. If the method fails (throws an exception) the change will not be committed.
++If you prefer to implement the quickfix in terms of the semantic model use a ${org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/model/edit/ISemanticModification.java} instead. Its @apply(EObject, IModificationContext)@ method will be invoked inside a modification transaction and the first argument will be the erroneous semantic element. This makes it very easy for the fix method to modify the model as necessary. After the method returns the model as well as the Xtext editor's content will be updated accordingly. If the method fails (throws an exception) the change will not be committed.
+

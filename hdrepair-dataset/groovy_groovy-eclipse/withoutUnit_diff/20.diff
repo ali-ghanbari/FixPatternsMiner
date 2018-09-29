@@ -1,0 +1,8 @@
+diff --git a/base/org.eclipse.jdt.groovy.core/src/org/codehaus/jdt/groovy/internal/compiler/ast/JDTClassNode.java b/base/org.eclipse.jdt.groovy.core/src/org/codehaus/jdt/groovy/internal/compiler/ast/JDTClassNode.java
+index 3073c72..e9d1bdc 100644
+--- a/base/org.eclipse.jdt.groovy.core/src/org/codehaus/jdt/groovy/internal/compiler/ast/JDTClassNode.java
++++ b/base/org.eclipse.jdt.groovy.core/src/org/codehaus/jdt/groovy/internal/compiler/ast/JDTClassNode.java
+@@ -319 +319 @@
+-				addAnnotation(new AnnotationNode(ClassHelper.make(annotation.getClass())));
++				addAnnotation(new AnnotationNode(resolver.convertToClassNode(annotation.getAnnotationType())));
+

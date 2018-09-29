@@ -1,0 +1,19 @@
+diff --git a/mule/src/main/java/org/mule/umo/FutureMessageResult.java b/mule/src/main/java/org/mule/umo/FutureMessageResult.java
+index 0f32b22..9f0ecb3 100644
+--- a/mule/src/main/java/org/mule/umo/FutureMessageResult.java
++++ b/mule/src/main/java/org/mule/umo/FutureMessageResult.java
+@@ -36,7 +36,6 @@
+-     * spawning a Thread for each invocation it uses a single pooled daemon Thread
+-     * with an unbounded queue, so "truly" concurrent operation of multiple Futures
+-     * or otherwise customized execution behaviour requires calling the
+-     * {@link #FutureMessageResult(Callable, UMOTransformer, ExecutorService)}
+-     * constructor and passing in a custom {@link ExecutorService}. This is strongly
+-     * recommended in order to provide better control over concurrency, resource
+-     * consumption and possible overruns.
++     * spawning a Thread for each invocation it uses a single daemon Thread with an
++     * unbounded queue, so "truly" concurrent operation of multiple Futures or
++     * otherwise customized execution behaviour requires calling the
++     * {@link #setExecutorService(ExecutorService)} method and passing in a custom
++     * {@link ExecutorService}. This is strongly recommended in order to provide
++     * better control over concurrency, resource consumption and possible overruns.
+

@@ -1,0 +1,21 @@
+diff --git a/engine-rest/src/main/java/org/camunda/bpm/engine/rest/DeploymentRestService.java b/engine-rest/src/main/java/org/camunda/bpm/engine/rest/DeploymentRestService.java
+index b7fb218..3698312 100644
+--- a/engine-rest/src/main/java/org/camunda/bpm/engine/rest/DeploymentRestService.java
++++ b/engine-rest/src/main/java/org/camunda/bpm/engine/rest/DeploymentRestService.java
+@@ -41,0 +42 @@
++  @Path("/create")
+diff --git a/engine-rest/src/test/java/org/camunda/bpm/engine/rest/AbstractDeploymentRestServiceInteractionTest.java b/engine-rest/src/test/java/org/camunda/bpm/engine/rest/AbstractDeploymentRestServiceInteractionTest.java
+index be8bdd2..dccf62c 100644
+--- a/engine-rest/src/test/java/org/camunda/bpm/engine/rest/AbstractDeploymentRestServiceInteractionTest.java
++++ b/engine-rest/src/test/java/org/camunda/bpm/engine/rest/AbstractDeploymentRestServiceInteractionTest.java
+@@ -43 +43,2 @@
+-  protected static final String DEPLOYMENT_URL = TEST_RESOURCE_ROOT_PATH + "/deployment/{id}";
++  protected static final String RESEOURCE_URL = TEST_RESOURCE_ROOT_PATH + "/deployment";
++  protected static final String DEPLOYMENT_URL = RESEOURCE_URL + "/{id}";
+@@ -47 +48 @@
+-  protected static final String CREATE_DEPLOYMENT_URL = TEST_RESOURCE_ROOT_PATH + "/deployment";
++  protected static final String CREATE_DEPLOYMENT_URL = TEST_RESOURCE_ROOT_PATH + "/deployment/create";
+@@ -313 +314 @@
+-    assertTrue(returnedLink.get("href").endsWith(CREATE_DEPLOYMENT_URL + "/" + mockDeployment.getId()));
++    assertTrue(returnedLink.get("href").endsWith(RESEOURCE_URL + "/" + mockDeployment.getId()));
+

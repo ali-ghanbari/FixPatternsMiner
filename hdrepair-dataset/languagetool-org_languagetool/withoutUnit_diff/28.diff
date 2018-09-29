@@ -1,0 +1,46 @@
+diff --git a/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java b/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
+index 32fd60e..a751fe1 100644
+--- a/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
++++ b/languagetool-language-modules/de/src/main/java/org/languagetool/rules/de/CaseRule.java
+@@ -83,0 +84 @@
++    exceptions.add("Üblichen");
+diff --git a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+index ee1f261..e22a468 100644
+--- a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
++++ b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+@@ -23132,0 +23133,34 @@
++        <rulegroup id="DES_UEBLICHEN" name="Groß-/Kleinschreibung: 'des üblichen (Üblichen)'">
++            <rule>
++                <pattern case_sensitive="yes">
++                    <token regexp="yes">des|vom</token>
++                    <marker>
++                        <token regexp="yes">üblichen</token>
++                    </marker>
++                    <token>
++                        <exception postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
++                        <exception regexp="yes">,|oder|und</exception>
++                        <exception postag_regexp="yes" postag="ADJ:.*"/>
++                    </token>
++                </pattern>
++                <message>&subanfang;<suggestion>Üblichen</suggestion>&subende;</message>
++                <short>&prgk;.</short>
++                <example type="incorrect" correction="Üblichen">Im Rahmen des <marker>üblichen</marker>.</example>
++                <example type="correct">Im Rahmen des <marker>Üblichen</marker>.</example>
++                <example type="correct">Im Rahmen des <marker>üblichen</marker> Verfahrens.</example>
++            </rule>
++            <rule>
++                <pattern case_sensitive="yes">
++                    <token regexp="yes">des|vom</token>
++                    <marker>
++                        <token regexp="yes">Üblichen</token>
++                    </marker>
++                    <token postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
++                </pattern>
++                <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
++                <short>&prgk;.</short>
++                <example type="incorrect" correction="üblichen">Im Rahmen des <marker>Üblichen</marker> Verfahrens.</example>
++                <example type="correct">Im Rahmen des <marker>üblichen</marker> Verfahrens.</example>
++                <example type="correct">Im Rahmen des <marker>Üblichen</marker>.</example>
++            </rule>
++        </rulegroup>
+

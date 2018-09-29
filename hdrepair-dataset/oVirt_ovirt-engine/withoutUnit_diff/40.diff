@@ -1,0 +1,26 @@
+diff --git a/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/VmConditionFieldAutoCompleter.java b/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/VmConditionFieldAutoCompleter.java
+index 3946ab3..e2bd8ea 100644
+--- a/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/VmConditionFieldAutoCompleter.java
++++ b/backend/manager/modules/searchbackend/src/main/java/org/ovirt/engine/core/searchbackend/VmConditionFieldAutoCompleter.java
+@@ -133 +133 @@
+-        sortableFieldDict.put(IP, StringFormat.format("fn_get_comparable_ip_list(%s)", getDbFieldName(IP)));
++        sortableFieldDict.put(IP, "vm_ip_inet_array");
+diff --git a/packaging/dbscripts/create_functions.sql b/packaging/dbscripts/create_functions.sql
+index c920285..f102974 100644
+--- a/packaging/dbscripts/create_functions.sql
++++ b/packaging/dbscripts/create_functions.sql
+@@ -897 +897 @@
+-    WHEN ($1 IS NULL) OR ($1 ~ E'^\s*$') THEN
++    WHEN ($1 IS NULL) OR ($1 ~ E'^\\s*$') THEN
+@@ -900 +900 @@
+-        RETURN regexp_split_to_array(trim(both from $1), E'\s+')::inet[];
++        RETURN regexp_split_to_array(trim(both from $1), E'\\s+')::inet[];
+diff --git a/packaging/dbscripts/create_views.sql b/packaging/dbscripts/create_views.sql
+index 1924137..a55d860 100644
+--- a/packaging/dbscripts/create_views.sql
++++ b/packaging/dbscripts/create_views.sql
+@@ -980,0 +981 @@
++    fn_get_comparable_ip_list(vm_ip) as vm_ip_inet_array,
+@@ -1143,0 +1145 @@
++    vms.vm_ip_inet_array,
+

@@ -1,0 +1,15 @@
+Project: fix copy/paste bug, found by FindBugs
+
+Project.java:2512, DLS_DEAD_LOCAL_STORE_SHADOWS_FIELD, Priority: High
+
+DLS: Dead store to target rather than field with same name in
+aQute.bnd.build.Project.getCommonJavac(boolean)
+
+This instruction assigns a value to a local variable, but the value is
+not read or used in any subsequent instruction. Often, this indicates
+an error, because the value computed is never used. There is a field with
+the same name as the local variable. Did you mean to assign to that
+variable instead?
+
+Signed-off-by: Ferry Huberts <ferry.huberts@pelagic.nl>
+

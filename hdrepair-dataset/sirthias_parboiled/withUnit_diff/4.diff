@@ -1,0 +1,46 @@
+diff --git a/build.xml b/build.xml
+index b8b6900..3a7fbf6 100644
+--- a/build.xml
++++ b/build.xml
+@@ -26 +26 @@
+-        <javacn debug="on" destdir="build/main" source="1.5" target="1.5" encoding="utf8">
++        <javacn debug="on" destdir="build/main" source="1.5" target="1.5" encoding="utf8" includeantruntime="false">
+@@ -35 +35 @@
+-        <javacn debug="on" destdir="build/examples" source="1.5" target="1.5" encoding="utf8">
++        <javacn debug="on" destdir="build/examples" source="1.5" target="1.5" encoding="utf8" includeantruntime="false">
+@@ -45 +45 @@
+-        <javacn debug="on" destdir="build/tests" source="1.5" target="1.5" encoding="utf8">
++        <javacn debug="on" destdir="build/tests" source="1.5" target="1.5" encoding="utf8" includeantruntime="false">
+diff --git a/examples/org/parboiled/examples/abc/AbcParser.java b/examples/org/parboiled/examples/abc/AbcParser.java
+index 7402d28..359e300 100644
+--- a/examples/org/parboiled/examples/abc/AbcParser.java
++++ b/examples/org/parboiled/examples/abc/AbcParser.java
+@@ -24,3 +24,3 @@
+- * S ← &(A c) a+ B !(a|b|c)
+- * A ← a A? b
+- * B ← b B? c
++ * S <- &(A c) a+ B !(a|b|c)
++ * A <- a A? b
++ * B <- b B? c
+diff --git a/test/org/parboiled/support/ParseTreeUtilsTest.java b/test/org/parboiled/support/ParseTreeUtilsTest.java
+index 77dc989..1475c8d 100644
+--- a/test/org/parboiled/support/ParseTreeUtilsTest.java
++++ b/test/org/parboiled/support/ParseTreeUtilsTest.java
+@@ -18,0 +19 @@
++import com.google.common.base.Predicate;
+@@ -21 +21,0 @@
+-import org.parboiled.matchers.Matcher;
+@@ -23 +23 @@
+-import static org.parboiled.support.ParseTreeUtils.*;
++import org.parboiled.matchers.Matcher;
+@@ -25 +24,0 @@
+-import static org.testng.Assert.assertEquals;
+@@ -32,2 +31,2 @@
+-import com.google.common.base.Predicate;
+-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
++import static org.parboiled.support.ParseTreeUtils.*;
++import static org.testng.Assert.assertEquals;
+@@ -48 +47 @@
+-            throw new NotImplementedException();
++            throw new UnsupportedOperationException();
+

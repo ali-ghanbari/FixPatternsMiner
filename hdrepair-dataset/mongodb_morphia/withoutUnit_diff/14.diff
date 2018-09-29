@@ -1,0 +1,8 @@
+diff --git a/morphia/src/main/java/com/google/code/morphia/converters/CharacterConverter.java b/morphia/src/main/java/com/google/code/morphia/converters/CharacterConverter.java
+index ad0a688..9035537 100644
+--- a/morphia/src/main/java/com/google/code/morphia/converters/CharacterConverter.java
++++ b/morphia/src/main/java/com/google/code/morphia/converters/CharacterConverter.java
+@@ -39 +39 @@
+-        return String.valueOf(value);
++        return value == null || value.equals('\0') ? null : String.valueOf(value);
+

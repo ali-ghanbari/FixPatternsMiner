@@ -1,0 +1,16 @@
+diff --git a/sql/src/main/java/io/crate/metadata/doc/DocIndexMetaData.java b/sql/src/main/java/io/crate/metadata/doc/DocIndexMetaData.java
+index 39fb245..9dc36b4 100644
+--- a/sql/src/main/java/io/crate/metadata/doc/DocIndexMetaData.java
++++ b/sql/src/main/java/io/crate/metadata/doc/DocIndexMetaData.java
+@@ -259 +259 @@
+-            if (columnDataType == DataType.OBJECT) {
++            if (columnDataType == DataType.OBJECT || columnDataType == DataType.OBJECT_ARRAY) {
+diff --git a/sql/src/test/java/org/cratedb/integrationtests/TransportSQLActionTest.java b/sql/src/test/java/org/cratedb/integrationtests/TransportSQLActionTest.java
+index 388f336..40a2a43 100644
+--- a/sql/src/test/java/org/cratedb/integrationtests/TransportSQLActionTest.java
++++ b/sql/src/test/java/org/cratedb/integrationtests/TransportSQLActionTest.java
+@@ -752,0 +753,3 @@
++
++        execute("select objects['name'] from t1 where objects['name'] = ?", new Object[]{"foo"});
++        assertThat(response.rowCount(), is(1L));
+

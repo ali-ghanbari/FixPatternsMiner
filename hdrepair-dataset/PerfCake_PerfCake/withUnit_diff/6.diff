@@ -1,0 +1,99 @@
+diff --git a/src/main/java/org/perfcake/validation/FileQueue.java b/src/main/java/org/perfcake/validation/FileQueue.java
+index 780ba3c..22e096f 100644
+--- a/src/main/java/org/perfcake/validation/FileQueue.java
++++ b/src/main/java/org/perfcake/validation/FileQueue.java
+@@ -73 +73 @@
+-         if (fileExists) {
++         if (fileExists && file.length() > 0) {
+diff --git a/src/test/java/org/perfcake/parsing/ScenarioParserTest.java b/src/test/java/org/perfcake/parsing/ScenarioParserTest.java
+index d6ea3de..2aa52b2 100644
+--- a/src/test/java/org/perfcake/parsing/ScenarioParserTest.java
++++ b/src/test/java/org/perfcake/parsing/ScenarioParserTest.java
+@@ -72 +72 @@
+-         Properties scenarioProperties = scenarioParser.parseScenarioProperties();
++         final Properties scenarioProperties = scenarioParser.parseScenarioProperties();
+@@ -76 +76 @@
+-      } catch (PerfCakeException e) {
++      } catch (final PerfCakeException e) {
+@@ -85 +85 @@
+-         MessageSenderManager senderManager = scenarioParser.parseSender(THREADS);
++         final MessageSenderManager senderManager = scenarioParser.parseSender(THREADS);
+@@ -89 +89 @@
+-      } catch (PerfCakeException e) {
++      } catch (final PerfCakeException e) {
+@@ -98 +98 @@
+-         AbstractMessageGenerator generator = scenarioParser.parseGenerator();
++         final AbstractMessageGenerator generator = scenarioParser.parseGenerator();
+@@ -100 +100 @@
+-         LongtermMessageGenerator lmg = (LongtermMessageGenerator) generator;
++         final LongtermMessageGenerator lmg = (LongtermMessageGenerator) generator;
+@@ -109 +109 @@
+-      } catch (PerfCakeException e) {
++      } catch (final PerfCakeException e) {
+@@ -119 +119 @@
+-         List<MessageTemplate> messageStore = scenarioParser.parseMessages();
++         final List<MessageTemplate> messageStore = scenarioParser.parseMessages();
+@@ -123 +123 @@
+-         MessageTemplate mts1 = messageStore.get(0);
++         final MessageTemplate mts1 = messageStore.get(0);
+@@ -125 +125 @@
+-         Message m1 = mts1.getMessage();
++         final Message m1 = mts1.getMessage();
+@@ -129 +129 @@
+-         Properties headers1 = m1.getHeaders();
++         final Properties headers1 = m1.getHeaders();
+@@ -135 +135 @@
+-         Properties properties1 = m1.getProperties();
++         final Properties properties1 = m1.getProperties();
+@@ -141 +141 @@
+-         List<String> validatorIdList1 = mts1.getValidatorIdList();
++         final List<String> validatorIdList1 = mts1.getValidatorIdList();
+@@ -147 +147 @@
+-         MessageTemplate mts2 = messageStore.get(1);
++         final MessageTemplate mts2 = messageStore.get(1);
+@@ -149 +149 @@
+-         Message m2 = mts2.getMessage();
++         final Message m2 = mts2.getMessage();
+@@ -153 +153 @@
+-         Properties headers2 = m2.getHeaders();
++         final Properties headers2 = m2.getHeaders();
+@@ -156 +156 @@
+-         Properties properties2 = m2.getProperties();
++         final Properties properties2 = m2.getProperties();
+@@ -159 +159 @@
+-         List<String> validatorIdList2 = mts2.getValidatorIdList();
++         final List<String> validatorIdList2 = mts2.getValidatorIdList();
+@@ -164 +164 @@
+-         List<MessageTemplate> emptyMessageStore = noMessagesScenarioParser.parseMessages();
++         final List<MessageTemplate> emptyMessageStore = noMessagesScenarioParser.parseMessages();
+@@ -167 +167 @@
+-      } catch (PerfCakeException e) {
++      } catch (final PerfCakeException e) {
+@@ -176 +176 @@
+-         ReportManager reportManager = scenarioParser.parseReporting();
++         final ReportManager reportManager = scenarioParser.parseReporting();
+@@ -179 +179 @@
+-         Reporter reporter = reportManager.getReporters().toArray(new Reporter[0])[0];
++         final Reporter reporter = reportManager.getReporters().toArray(new Reporter[0])[0];
+@@ -181 +181 @@
+-         Destination destination = reporter.getDestinations().iterator().next();
++         final Destination destination = reporter.getDestinations().iterator().next();
+@@ -187 +187 @@
+-         for (BoundPeriod<Destination> period : reporter.getReportingPeriods()) {
++         for (final BoundPeriod<Destination> period : reporter.getReportingPeriods()) {
+@@ -204 +204 @@
+-      } catch (PerfCakeException e) {
++      } catch (final PerfCakeException e) {
+@@ -218 +218 @@
+-      } catch (PerfCakeException e) {
++      } catch (final PerfCakeException e) {
+diff --git a/src/test/java/org/perfcake/validation/StringUtilTest.java b/src/test/java/org/perfcake/validation/StringUtilTest.java
+index 7b65385..d96ac3c 100644
+--- a/src/test/java/org/perfcake/validation/StringUtilTest.java
++++ b/src/test/java/org/perfcake/validation/StringUtilTest.java
+@@ -77,2 +77,2 @@
+-      final String str = " Ahoj,    \n" + "  \t \"toto je monstózní test'  \n" + "\n" + "EOF";
+-      final String res = "Ahoj,\n" + "toto je monstózní test\n" + "EOF\n";
++      final String str = " Ahoj,    \n" + "  \t \"toto je monstrózní test'  \n" + "\n" + "EOF";
++      final String res = "Ahoj,\n" + "\"toto je monstrózní test'\n" + "EOF\n";
+

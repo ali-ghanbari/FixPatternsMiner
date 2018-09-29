@@ -1,0 +1,15 @@
+diff --git a/app/controllers/PullRequestApp.java b/app/controllers/PullRequestApp.java
+index b1b8713..d5e7bfb 100755
+--- a/app/controllers/PullRequestApp.java
++++ b/app/controllers/PullRequestApp.java
+@@ -442 +442 @@
+-            if (comment.hasValidCommitId()) {
++            if (comment.line != null && comment.hasValidCommitId()) {
+diff --git a/app/views/git/partial_comments.scala.html b/app/views/git/partial_comments.scala.html
+index cb89fb9..c0411a0 100644
+--- a/app/views/git/partial_comments.scala.html
++++ b/app/views/git/partial_comments.scala.html
+@@ -56 +56 @@
+-            @if(isAllowed(UserApp.currentUser(), comment.asResource(), Operation.DELETE) && (!comment.hasValidCommitId || !hasDiff(comment))){
++            @if(isAllowed(UserApp.currentUser(), comment.asResource(), Operation.DELETE) && !isLineComment(comment)){
+

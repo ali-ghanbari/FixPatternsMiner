@@ -1,0 +1,125 @@
+diff --git a/src/main/java/btrplace/solver/choco/constraint/CSpread.java b/src/main/java/btrplace/solver/choco/constraint/CSpread.java
+index 0973783..814ea90 100644
+--- a/src/main/java/btrplace/solver/choco/constraint/CSpread.java
++++ b/src/main/java/btrplace/solver/choco/constraint/CSpread.java
+@@ -158 +158 @@
+-        if (cstr.isContinuous()) {
++        if (cstr.isContinuous() && cstr.isSatisfied(plan.getOrigin()).equals(SatConstraint.Sat.SATISFIED)) {
+diff --git a/src/test/java/btrplace/solver/choco/constraint/CSpreadTest.java b/src/test/java/btrplace/solver/choco/constraint/CSpreadTest.java
+index 36b0626..d8ea8bb 100644
+--- a/src/test/java/btrplace/solver/choco/constraint/CSpreadTest.java
++++ b/src/test/java/btrplace/solver/choco/constraint/CSpreadTest.java
+@@ -24,0 +25 @@
++import btrplace.plan.DefaultReconfigurationPlan;
+@@ -25,0 +27 @@
++import btrplace.plan.action.MigrateVM;
+@@ -32,4 +34 @@
+-import java.util.ArrayList;
+-import java.util.Collections;
+-import java.util.List;
+-import java.util.UUID;
++import java.util.*;
+@@ -105,0 +105,102 @@
++
++    @Test
++    public void testGetMisplaced() {
++        UUID n1 = UUID.randomUUID();
++        UUID n2 = UUID.randomUUID();
++
++        UUID vm1 = UUID.randomUUID();
++        UUID vm2 = UUID.randomUUID();
++        UUID vm3 = UUID.randomUUID();
++
++        Mapping map = new DefaultMapping();
++        map.addOnlineNode(n1);
++        map.addOnlineNode(n2);
++        map.addRunningVM(vm1, n1);
++        map.addRunningVM(vm2, n2);
++        map.addRunningVM(vm3, n1);
++        Set<UUID> vms = new HashSet<UUID>();
++        vms.add(vm1);
++        vms.add(vm2);
++        Spread s = new Spread(vms);
++        CSpread cs = new CSpread(s);
++        Model mo = new DefaultModel(map);
++        Assert.assertTrue(cs.getMisPlacedVMs(mo).isEmpty());
++        vms.add(vm3);
++        Assert.assertEquals(map.getRunningVMs(n1), cs.getMisPlacedVMs(mo));
++    }
++
++    /**
++     * test isSatisfied() in the discrete and the continuous mode.
++     */
++    @Test
++    public void testDiscreteIsSatisfied() {
++        UUID n1 = UUID.randomUUID();
++        UUID n2 = UUID.randomUUID();
++        UUID n3 = UUID.randomUUID();
++        UUID n4 = UUID.randomUUID();
++        UUID vm1 = UUID.randomUUID();
++        UUID vm2 = UUID.randomUUID();
++        UUID vm3 = UUID.randomUUID();
++
++        Mapping map = new DefaultMapping();
++        map.addOnlineNode(n1);
++        map.addOnlineNode(n2);
++        map.addOnlineNode(n3);
++        map.addOnlineNode(n4);
++        map.addRunningVM(vm1, n1);
++        map.addRunningVM(vm2, n2);
++        map.addRunningVM(vm3, n1);
++
++        Model mo = new DefaultModel(map);
++
++        //Discrete satisfaction.
++        Spread s = new Spread(map.getAllVMs());
++        s.setContinuous(false);
++        CSpread cs = new CSpread(s);
++
++        ReconfigurationPlan p = new DefaultReconfigurationPlan(mo);
++        Assert.assertFalse(cs.isSatisfied(p));
++        p.add(new MigrateVM(vm1, n1, n3, 0, 1));
++        Assert.assertTrue(cs.isSatisfied(p));
++
++        MigrateVM m1 = new MigrateVM(vm1, n3, n2, 1, 2);
++        p.add(m1);
++
++        MigrateVM m2 = new MigrateVM(vm2, n2, n4, 2, 3);
++        p.add(m2);
++
++        Assert.assertTrue(cs.isSatisfied(p));
++    }
++
++    @Test
++    public void testContinuousIsSatisfied() {
++        UUID n1 = UUID.randomUUID();
++        UUID n2 = UUID.randomUUID();
++        UUID n3 = UUID.randomUUID();
++        UUID vm1 = UUID.randomUUID();
++        UUID vm2 = UUID.randomUUID();
++
++        Mapping map = new DefaultMapping();
++        map.addOnlineNode(n1);
++        map.addOnlineNode(n2);
++        map.addOnlineNode(n3);
++        map.addRunningVM(vm1, n1);
++        map.addRunningVM(vm2, n2);
++
++        //Discrete satisfaction.
++        Spread s = new Spread(map.getAllVMs());
++        s.setContinuous(true);
++        CSpread cs = new CSpread(s);
++
++        ReconfigurationPlan p = new DefaultReconfigurationPlan(new DefaultModel(map));
++        Assert.assertTrue(cs.isSatisfied(p));
++
++        MigrateVM m1 = new MigrateVM(vm1, n1, n2, 1, 2);
++        p.add(m1);
++        Assert.assertFalse(cs.isSatisfied(p));
++        MigrateVM m2 = new MigrateVM(vm2, n2, n3, 0, 1);
++        p.add(m2);
++        Assert.assertTrue(cs.isSatisfied(p));
++
++
++    }
+

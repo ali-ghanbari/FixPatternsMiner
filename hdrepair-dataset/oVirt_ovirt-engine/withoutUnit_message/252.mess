@@ -1,0 +1,17 @@
+core: fix storage pool ID association with tasks
+
+The following patch fixes the association of storage
+pool ID to its task after the task is created at VDSM.
+Without this fix, the storage_pool_id column at async_tasks
+table will have entries of EMPTY guids.
+
+Bare in mind that when a place holder is created, the
+async task creation info does not have the storage pool ID information.
+IRS broker commands (i.e - CopyImage) create an async task creation info
+object with storage pool ID, once the task is created at SPM and the task ID
+is returned to engine.
+
+Change-Id: I1b8f06e7c3b16504f76f6188f3d99fa5e80eedd4
+Bug-Url: https://bugzilla.redhat.com/990524
+Signed-off-by: Yair Zaslavsky <yzaslavs@redhat.com>
+

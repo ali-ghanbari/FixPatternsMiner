@@ -1,0 +1,10 @@
+diff --git a/core/data/src/main/java/imagej/data/display/DefaultImageDisplay.java b/core/data/src/main/java/imagej/data/display/DefaultImageDisplay.java
+index 74a36fb..26e3bb1 100644
+--- a/core/data/src/main/java/imagej/data/display/DefaultImageDisplay.java
++++ b/core/data/src/main/java/imagej/data/display/DefaultImageDisplay.java
+@@ -434 +434,3 @@
+-			eventService.publish(new AxisPositionEvent(this, axis));
++			// NB: BDZ changed from publish() to publishLater(). This fixes bug #1234.
++			// We may want to change order of events to allow publish() instead.
++			eventService.publishLater(new AxisPositionEvent(this, axis));
+

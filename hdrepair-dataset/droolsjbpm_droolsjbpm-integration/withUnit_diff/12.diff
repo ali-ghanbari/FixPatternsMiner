@@ -1,0 +1,40 @@
+diff --git a/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/rule/PolicyApprovalRulesTest.java b/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/rule/PolicyApprovalRulesTest.java
+index 9deb546..bdaf133 100644
+--- a/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/rule/PolicyApprovalRulesTest.java
++++ b/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/rule/PolicyApprovalRulesTest.java
+@@ -50 +50 @@
+-        ReleaseId releaseId = createKJarWithMultipleResources( "org.drools.KBase1", new String[]{rules}, new ResourceType[] {ResourceType.DRL} );
++        ReleaseId releaseId = createKJarWithMultipleResources( "KBase1", new String[]{rules}, new ResourceType[] {ResourceType.DRL} );
+@@ -54 +54 @@
+-        .newKieSession(releaseId, "org.drools.KBase1.KSession1")
++        .newKieSession(releaseId, "KBase1.KSession1")
+@@ -78 +78 @@
+-        ReleaseId releaseId = createKJarWithMultipleResources( "org.drools.KBase1", new String[]{rules}, new ResourceType[] {ResourceType.DRL} );
++        ReleaseId releaseId = createKJarWithMultipleResources( "KBase1", new String[]{rules}, new ResourceType[] {ResourceType.DRL} );
+@@ -82 +82 @@
+-        .newKieSession(releaseId, "org.drools.KBase1.KSession1")
++        .newKieSession(releaseId, "KBase1.KSession1")
+@@ -106 +106 @@
+-        ReleaseId releaseId = createKJarWithMultipleResources( "org.drools.KBase1", new String[]{rules}, new ResourceType[] {ResourceType.DRL} );
++        ReleaseId releaseId = createKJarWithMultipleResources( "KBase1", new String[]{rules}, new ResourceType[] {ResourceType.DRL} );
+@@ -110 +110 @@
+-        .newKieSession(releaseId, "org.drools.KBase1.KSession1")
++        .newKieSession(releaseId, "KBase1.KSession1")
+diff --git a/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/PolicyApprovalWorkflowTest.java b/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/PolicyApprovalWorkflowTest.java
+index be364c6..b2323f6 100644
+--- a/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/PolicyApprovalWorkflowTest.java
++++ b/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/PolicyApprovalWorkflowTest.java
+@@ -58 +58 @@
+-        ReleaseId releaseId = createKJarWithMultipleResources( "org.drools.KBase1", new String[]{process}, new ResourceType[] {ResourceType.BPMN2} );
++        ReleaseId releaseId = createKJarWithMultipleResources( "KBase1", new String[]{process}, new ResourceType[] {ResourceType.BPMN2} );
+@@ -62 +62 @@
+-        .newKieSession(releaseId, "org.drools.KBase1.KSession1")
++        .newKieSession(releaseId, "KBase1.KSession1")
+diff --git a/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/SimulateTestBase.java b/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/SimulateTestBase.java
+index 7e34f5a..ad7ab64 100644
+--- a/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/SimulateTestBase.java
++++ b/droolsjbpm-integration-examples/src/test/java/org/drools/examples/carinsurance/workflow/SimulateTestBase.java
+@@ -76 +76 @@
+-            kfs.write( "src/kbases/" + id + "/org/test/res" + i + "." + type, res );
++            kfs.write( "src/main/resources/" + id + "/org/test/res" + i + "." + type, res );
+

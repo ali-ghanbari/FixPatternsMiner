@@ -1,0 +1,18 @@
+diff --git a/apis/cloudstack/src/main/java/org/jclouds/cloudstack/domain/PortForwardingRule.java b/apis/cloudstack/src/main/java/org/jclouds/cloudstack/domain/PortForwardingRule.java
+index b00d9c5..bea2c61 100644
+--- a/apis/cloudstack/src/main/java/org/jclouds/cloudstack/domain/PortForwardingRule.java
++++ b/apis/cloudstack/src/main/java/org/jclouds/cloudstack/domain/PortForwardingRule.java
+@@ -140 +140 @@
+-   private Set<String> CIDRs;
++   private Set<String> CIDRs = ImmutableSet.of();
+diff --git a/apis/cloudstack/src/test/java/org/jclouds/cloudstack/parse/ListNetworksResponseTest.java b/apis/cloudstack/src/test/java/org/jclouds/cloudstack/parse/ListNetworksResponseTest.java
+index 8176c0f..13c291c 100644
+--- a/apis/cloudstack/src/test/java/org/jclouds/cloudstack/parse/ListNetworksResponseTest.java
++++ b/apis/cloudstack/src/test/java/org/jclouds/cloudstack/parse/ListNetworksResponseTest.java
+@@ -51,0 +52 @@
++                  .account("adrian")
+@@ -69 +70,2 @@
+-                  .domain("cs3cloud.internal")
++                  .domain("ROOT")
++                  .domainId(1)
+

@@ -1,0 +1,189 @@
+diff --git a/checkstyle.xml b/checkstyle.xml
+index e84383f..dcb8e58 100644
+--- a/checkstyle.xml
++++ b/checkstyle.xml
+@@ -85,0 +86,4 @@
++    <module name="IllegalImport">
++      <property name="illegalPkgs" value="junit.framework"/>
++    </module>
++
+diff --git a/examples/Ticker/src/test/java/com/continuuity/examples/ticker/TimeUtilTest.java b/examples/Ticker/src/test/java/com/continuuity/examples/ticker/TimeUtilTest.java
+index e0b3f95..743d3e3 100644
+--- a/examples/Ticker/src/test/java/com/continuuity/examples/ticker/TimeUtilTest.java
++++ b/examples/Ticker/src/test/java/com/continuuity/examples/ticker/TimeUtilTest.java
+@@ -18 +18 @@
+-import junit.framework.Assert;
++import org.junit.Assert;
+diff --git a/examples/Ticker/src/test/java/com/continuuity/examples/ticker/tick/TickDataParserTest.java b/examples/Ticker/src/test/java/com/continuuity/examples/ticker/tick/TickDataParserTest.java
+index 353c1be..e86c568 100644
+--- a/examples/Ticker/src/test/java/com/continuuity/examples/ticker/tick/TickDataParserTest.java
++++ b/examples/Ticker/src/test/java/com/continuuity/examples/ticker/tick/TickDataParserTest.java
+@@ -18 +18 @@
+-import junit.framework.Assert;
++import org.junit.Assert;
+diff --git a/explore/src/test/java/com/continuuity/hive/HiveClientTestUtils.java b/explore/src/test/java/com/continuuity/hive/HiveClientTestUtils.java
+index 69fc5fc..ede05b6 100644
+--- a/explore/src/test/java/com/continuuity/hive/HiveClientTestUtils.java
++++ b/explore/src/test/java/com/continuuity/hive/HiveClientTestUtils.java
+@@ -4 +4 @@
+-import junit.framework.Assert;
++import org.junit.Assert;
+diff --git a/explore/src/test/java/com/continuuity/hive/HiveServerTest.java b/explore/src/test/java/com/continuuity/hive/HiveServerTest.java
+index f34d727..d9cf63a 100644
+--- a/explore/src/test/java/com/continuuity/hive/HiveServerTest.java
++++ b/explore/src/test/java/com/continuuity/hive/HiveServerTest.java
+@@ -5 +4,0 @@
+-import junit.framework.Assert;
+@@ -6,0 +6 @@
++import org.junit.Assert;
+diff --git a/explore/src/test/java/com/continuuity/hive/data2/HiveServerIntegrationTest.java b/explore/src/test/java/com/continuuity/hive/data2/HiveServerIntegrationTest.java
+index ac2f229..471ed3b 100644
+--- a/explore/src/test/java/com/continuuity/hive/data2/HiveServerIntegrationTest.java
++++ b/explore/src/test/java/com/continuuity/hive/data2/HiveServerIntegrationTest.java
+@@ -30 +29,0 @@
+-import junit.framework.Assert;
+@@ -32,0 +32 @@
++import org.junit.Assert;
+diff --git a/explore/src/test/java/com/continuuity/hive/objectinspector/FullMapEqualComparerTest.java b/explore/src/test/java/com/continuuity/hive/objectinspector/FullMapEqualComparerTest.java
+index 3519ee2..0610da9 100644
+--- a/explore/src/test/java/com/continuuity/hive/objectinspector/FullMapEqualComparerTest.java
++++ b/explore/src/test/java/com/continuuity/hive/objectinspector/FullMapEqualComparerTest.java
+@@ -20 +19,0 @@
+-import junit.framework.TestCase;
+@@ -25,0 +25,2 @@
++import org.junit.Assert;
++import org.junit.Test;
+@@ -30 +31 @@
+-public class FullMapEqualComparerTest extends TestCase {
++public class FullMapEqualComparerTest {
+@@ -39,0 +41 @@
++  @Test
+@@ -52 +54 @@
+-      assertTrue(rc12 > 0);
++      Assert.assertTrue(rc12 > 0);
+@@ -54 +56 @@
+-      assertTrue(rc21 > 0);
++      Assert.assertTrue(rc21 > 0);
+@@ -58 +60 @@
+-      assertTrue(rc12 > 0);
++      Assert.assertTrue(rc12 > 0);
+@@ -60 +62 @@
+-      assertTrue(rc21 > 0);
++      Assert.assertTrue(rc21 > 0);
+@@ -64 +66 @@
+-      assertTrue(rc12 > 0);
++      Assert.assertTrue(rc12 > 0);
+@@ -66 +68 @@
+-      assertTrue(rc21 < 0);
++      Assert.assertTrue(rc21 < 0);
+@@ -70,0 +73 @@
++  @Test
+@@ -89 +92 @@
+-      assertTrue(rc12 > 0);
++      Assert.assertTrue(rc12 > 0);
+@@ -91 +94 @@
+-      assertTrue(rc23 > 0);
++      Assert.assertTrue(rc23 > 0);
+@@ -93 +96 @@
+-      assertTrue(rc13 < 0);
++      Assert.assertTrue(rc13 < 0);
+@@ -97 +100 @@
+-      assertTrue(rc12 > 0);
++      Assert.assertTrue(rc12 > 0);
+@@ -99 +102 @@
+-      assertTrue(rc23 > 0);
++      Assert.assertTrue(rc23 > 0);
+@@ -101 +104 @@
+-      assertTrue(rc13 < 0);
++      Assert.assertTrue(rc13 < 0);
+@@ -105 +108 @@
+-      assertTrue(rc12 > 0);
++      Assert.assertTrue(rc12 > 0);
+@@ -107 +110 @@
+-      assertTrue(rc23 > 0);
++      Assert.assertTrue(rc23 > 0);
+@@ -109 +112 @@
+-      assertTrue(rc13 > 0);
++      Assert.assertTrue(rc13 > 0);
+diff --git a/explore/src/test/java/com/continuuity/hive/objectinspector/ObjectInspectorFactoryTest.java b/explore/src/test/java/com/continuuity/hive/objectinspector/ObjectInspectorFactoryTest.java
+index 6ef062b..d8aa497 100644
+--- a/explore/src/test/java/com/continuuity/hive/objectinspector/ObjectInspectorFactoryTest.java
++++ b/explore/src/test/java/com/continuuity/hive/objectinspector/ObjectInspectorFactoryTest.java
+@@ -6 +5,0 @@
+-import junit.framework.Assert;
+@@ -10,0 +10 @@
++import org.junit.Assert;
+diff --git a/explore/src/test/java/com/continuuity/hive/objectinspector/SimpleMapEqualComparerTest.java b/explore/src/test/java/com/continuuity/hive/objectinspector/SimpleMapEqualComparerTest.java
+index 4520c33..40ef58a 100644
+--- a/explore/src/test/java/com/continuuity/hive/objectinspector/SimpleMapEqualComparerTest.java
++++ b/explore/src/test/java/com/continuuity/hive/objectinspector/SimpleMapEqualComparerTest.java
+@@ -20 +19,0 @@
+-import junit.framework.Assert;
+@@ -31,0 +31 @@
++import org.junit.Assert;
+diff --git a/explore/src/test/java/com/continuuity/hive/objectinspector/StandardObjectInspectorsTest.java b/explore/src/test/java/com/continuuity/hive/objectinspector/StandardObjectInspectorsTest.java
+index 7528d8a..6acc74e 100644
+--- a/explore/src/test/java/com/continuuity/hive/objectinspector/StandardObjectInspectorsTest.java
++++ b/explore/src/test/java/com/continuuity/hive/objectinspector/StandardObjectInspectorsTest.java
+@@ -22 +21,0 @@
+-import junit.framework.Assert;
+@@ -32,0 +32 @@
++import org.junit.Assert;
+diff --git a/explore/src/test/java/com/continuuity/hive/objectinspector/UnionStructObjectInspectorTest.java b/explore/src/test/java/com/continuuity/hive/objectinspector/UnionStructObjectInspectorTest.java
+index f054af8..4ea6352 100644
+--- a/explore/src/test/java/com/continuuity/hive/objectinspector/UnionStructObjectInspectorTest.java
++++ b/explore/src/test/java/com/continuuity/hive/objectinspector/UnionStructObjectInspectorTest.java
+@@ -20 +19,0 @@
+-import junit.framework.TestCase;
+@@ -25,0 +25,2 @@
++import org.junit.Assert;
++import org.junit.Test;
+@@ -35 +36 @@
+-public class UnionStructObjectInspectorTest extends TestCase {
++public class UnionStructObjectInspectorTest {
+@@ -36,0 +38 @@
++  @Test
+@@ -69 +71 @@
+-      assertEquals(usoi1, usoi2);
++      Assert.assertEquals(usoi1, usoi2);
+@@ -72 +74 @@
+-      assertEquals(Category.STRUCT, usoi1.getCategory());
++      Assert.assertEquals(Category.STRUCT, usoi1.getCategory());
+@@ -74 +76 @@
+-      assertEquals(5, fields.size());
++      Assert.assertEquals(5, fields.size());
+@@ -77,4 +79,4 @@
+-          assertEquals(fieldNames1.get(i).toLowerCase(), fields.get(i)
+-              .getFieldName());
+-          assertEquals(fieldObjectInspectors1.get(i), fields.get(i)
+-              .getFieldObjectInspector());
++          Assert.assertEquals(fieldNames1.get(i).toLowerCase(), fields.get(i)
++            .getFieldName());
++          Assert.assertEquals(fieldObjectInspectors1.get(i), fields.get(i)
++            .getFieldObjectInspector());
+@@ -82,4 +84,4 @@
+-          assertEquals(fieldNames2.get(i - 3).toLowerCase(), fields.get(i)
+-              .getFieldName());
+-          assertEquals(fieldObjectInspectors2.get(i - 3), fields.get(i)
+-              .getFieldObjectInspector());
++          Assert.assertEquals(fieldNames2.get(i - 3).toLowerCase(), fields.get(i)
++            .getFieldName());
++          Assert.assertEquals(fieldObjectInspectors2.get(i - 3), fields.get(i)
++            .getFieldObjectInspector());
+@@ -88,2 +90,2 @@
+-      assertEquals(fields.get(1), usoi1.getStructFieldRef("secondString"));
+-      assertEquals(fields.get(4), usoi1.getStructFieldRef("fifthLong"));
++      Assert.assertEquals(fields.get(1), usoi1.getStructFieldRef("secondString"));
++      Assert.assertEquals(fields.get(4), usoi1.getStructFieldRef("fifthLong"));
+@@ -93 +95 @@
+-        assertNull(usoi1.getStructFieldData(null, fields.get(i)));
++        Assert.assertNull(usoi1.getStructFieldData(null, fields.get(i)));
+@@ -103 +105 @@
+-      struct2.add(new Long(111));
++      struct2.add(111);
+@@ -112,2 +114,2 @@
+-        assertEquals(all.get(i), usoi1
+-            .getStructFieldData(struct, fields.get(i)));
++        Assert.assertEquals(all.get(i), usoi1
++          .getStructFieldData(struct, fields.get(i)));
+

@@ -1,0 +1,58 @@
+diff --git a/src/main/java/com/tdunning/math/stats/ArrayDigest.java b/src/main/java/com/tdunning/math/stats/ArrayDigest.java
+index 1d08163..8aaac83 100644
+--- a/src/main/java/com/tdunning/math/stats/ArrayDigest.java
++++ b/src/main/java/com/tdunning/math/stats/ArrayDigest.java
+@@ -795 +795 @@
+-                newPage.addAt(pageSize / 2, x, w, history);
++                newPage.addAt(newPage.active, x, w, history);
+diff --git a/src/test/java/com/tdunning/math/stats/AVLTreeDigestTest.java b/src/test/java/com/tdunning/math/stats/AVLTreeDigestTest.java
+index 97b2e56..2589bfc 100644
+--- a/src/test/java/com/tdunning/math/stats/AVLTreeDigestTest.java
++++ b/src/test/java/com/tdunning/math/stats/AVLTreeDigestTest.java
+@@ -494,0 +495,5 @@
++    @Test
++    public void testSorted() {
++        final TDigest digest = factory.create();
++        sorted(digest);
++    }
+diff --git a/src/test/java/com/tdunning/math/stats/ArrayDigestTest.java b/src/test/java/com/tdunning/math/stats/ArrayDigestTest.java
+index abe5333..0c4df55 100644
+--- a/src/test/java/com/tdunning/math/stats/ArrayDigestTest.java
++++ b/src/test/java/com/tdunning/math/stats/ArrayDigestTest.java
+@@ -608,0 +609,6 @@
++    @Test
++    public void testSorted() {
++        final TDigest digest = factory.create();
++        sorted(digest);
++    }
++
+diff --git a/src/test/java/com/tdunning/math/stats/TDigestTest.java b/src/test/java/com/tdunning/math/stats/TDigestTest.java
+index dd6f892..edc47c7 100644
+--- a/src/test/java/com/tdunning/math/stats/TDigestTest.java
++++ b/src/test/java/com/tdunning/math/stats/TDigestTest.java
+@@ -355,0 +356,14 @@
++
++    protected void sorted(TDigest digest) {
++        Random gen = RandomUtils.getRandom();
++        for (int i = 0; i < 10000; ++i) {
++            digest.add(gen.nextDouble(), 1 + gen.nextInt(10));
++        }
++        Centroid previous = null;
++        for (Centroid centroid : digest.centroids()) {
++            if (previous != null) {
++                assertTrue(previous.mean() <= centroid.mean());
++            }
++            previous = centroid;
++        }
++    }
+diff --git a/src/test/java/com/tdunning/math/stats/TreeDigestTest.java b/src/test/java/com/tdunning/math/stats/TreeDigestTest.java
+index e0b1691..aaff9ff 100644
+--- a/src/test/java/com/tdunning/math/stats/TreeDigestTest.java
++++ b/src/test/java/com/tdunning/math/stats/TreeDigestTest.java
+@@ -498,0 +499,5 @@
++    @Test
++    public void testSorted() {
++        final TDigest digest = factory.create();
++        sorted(digest);
++    }
+

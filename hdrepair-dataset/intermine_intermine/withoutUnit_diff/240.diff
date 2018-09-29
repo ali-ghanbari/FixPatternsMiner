@@ -1,0 +1,36 @@
+diff --git a/intermine/web/main/src/org/intermine/web/logic/widget/EnrichmentWidget.java b/intermine/web/main/src/org/intermine/web/logic/widget/EnrichmentWidget.java
+index f4945e1..01c0f10 100644
+--- a/intermine/web/main/src/org/intermine/web/logic/widget/EnrichmentWidget.java
++++ b/intermine/web/main/src/org/intermine/web/logic/widget/EnrichmentWidget.java
+@@ -199 +199 @@
+-                "", label, "p-Value"
++                label, "p-Value"
+diff --git a/intermine/webapp/main/resources/webapp/js/widget.js b/intermine/webapp/main/resources/webapp/js/widget.js
+index 7fa09cf..86759d0 100644
+--- a/intermine/webapp/main/resources/webapp/js/widget.js
++++ b/intermine/webapp/main/resources/webapp/js/widget.js
+@@ -50,0 +51,10 @@
++
++	  // checkbox
++	  var checkboxCell = document.createElement("th");
++	  var formName = "widgetaction" + widget.id;
++	  var checky = "<input type=\"checkbox\" name=\"select_all\" id=\"selected_all" + widget.id + "\"";
++          checky += " onclick=\"toggleAllChecks('" + formName + "', " + widget.id + ")\">";
++	  checkboxCell.innerHTML = checky;
++	  row.appendChild(checkboxCell);
++
++      // column names
+@@ -53,8 +63 @@
+-	    if (i == 0) {
+-	       var formName = "widgetaction" + widget.id;
+-	       var checky = "<input type=\"checkbox\" name=\"select_all\" id=\"selected_all" + widget.id + "\"";
+-               checky += " onclick=\"toggleAllChecks('" + formName + "', " + widget.id + ")\">";
+-	       cell.innerHTML = checky;
+-	    } else {
+-	       cell.innerHTML = widget.columns[i];
+-	    }
++	    cell.innerHTML = widget.columns[i];
+@@ -63,2 +65,0 @@
+-
+-	  row.appendChild(document.createElement("th"));
+

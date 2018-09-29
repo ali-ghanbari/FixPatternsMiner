@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/jenkins/model/GlobalProjectNamingStrategyConfiguration.java b/core/src/main/java/jenkins/model/GlobalProjectNamingStrategyConfiguration.java
+index 8d15aa0..616d3bd 100644
+--- a/core/src/main/java/jenkins/model/GlobalProjectNamingStrategyConfiguration.java
++++ b/core/src/main/java/jenkins/model/GlobalProjectNamingStrategyConfiguration.java
+@@ -49 +49 @@
+-                Class clazz = Class.forName(className);
++                Class clazz = Class.forName(className, true, Jenkins.getInstance().getPluginManager().uberClassLoader);
+

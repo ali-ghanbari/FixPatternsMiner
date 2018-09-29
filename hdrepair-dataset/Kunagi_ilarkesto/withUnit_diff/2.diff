@@ -1,0 +1,21 @@
+diff --git a/src/main/java/ilarkesto/core/time/Tm.java b/src/main/java/ilarkesto/core/time/Tm.java
+index b275819..d3f2ad5 100644
+--- a/src/main/java/ilarkesto/core/time/Tm.java
++++ b/src/main/java/ilarkesto/core/time/Tm.java
+@@ -72 +72 @@
+-		return date.getDay();
++		return date.getDay() + 1;
+diff --git a/src/test/java/ilarkesto/core/time/TmTest.java b/src/test/java/ilarkesto/core/time/TmTest.java
+index bca9e05..5e47a8b 100644
+--- a/src/test/java/ilarkesto/core/time/TmTest.java
++++ b/src/test/java/ilarkesto/core/time/TmTest.java
+@@ -18,0 +19 @@
++import java.util.Calendar;
+@@ -36,0 +38,6 @@
++	public void getWeekday() {
++		assertEquals(Tm.getWeekday(birthday), Calendar.FRIDAY);
++		assertEquals(Tm.getWeekday(armageddon), Calendar.FRIDAY);
++	}
++
++	@Test
+

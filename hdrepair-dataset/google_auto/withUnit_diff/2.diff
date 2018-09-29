@@ -1,0 +1,110 @@
+diff --git a/value/src/main/java/com/google/auto/value/processor/AutoValueProcessor.java b/value/src/main/java/com/google/auto/value/processor/AutoValueProcessor.java
+index f564e34..f813a21 100644
+--- a/value/src/main/java/com/google/auto/value/processor/AutoValueProcessor.java
++++ b/value/src/main/java/com/google/auto/value/processor/AutoValueProcessor.java
+@@ -130,0 +131,3 @@
++      } catch (RuntimeException e) {
++        // Don't propagate this exception, which will confusingly crash the compiler.
++        reportError("@AutoValue processor threw an exception: " + e, type);
+diff --git a/value/src/test/java/com/google/auto/value/processor/CompilationErrorsTest.java b/value/src/test/java/com/google/auto/value/processor/CompilationErrorsTest.java
+index 69b1b56..0859eb3 100644
+--- a/value/src/test/java/com/google/auto/value/processor/CompilationErrorsTest.java
++++ b/value/src/test/java/com/google/auto/value/processor/CompilationErrorsTest.java
+@@ -17,0 +18,13 @@
++import com.google.common.base.Charsets;
++import com.google.common.base.Predicates;
++import com.google.common.collect.ArrayListMultimap;
++import com.google.common.collect.ImmutableList;
++import com.google.common.collect.ImmutableMultimap;
++import com.google.common.collect.Iterables;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Multimap;
++import com.google.common.io.Files;
++import com.google.common.reflect.Reflection;
++
++import junit.framework.TestCase;
++
+@@ -20,0 +34,3 @@
++import java.lang.reflect.InvocationHandler;
++import java.lang.reflect.Method;
++import java.util.Collection;
+@@ -22,0 +39 @@
++import java.util.Map;
+@@ -23,0 +41,2 @@
++import java.util.concurrent.atomic.AtomicBoolean;
++import java.util.regex.Pattern;
+@@ -34,8 +52,0 @@
+-import junit.framework.TestCase;
+-
+-import com.google.common.base.Charsets;
+-import com.google.common.collect.ImmutableList;
+-import com.google.common.collect.Lists;
+-import com.google.common.io.Files;
+-
+-
+@@ -48 +58,0 @@
+-  // - forbidding abstract methods other than getters
+@@ -250,0 +261,34 @@
++  public void testExceptionBecomesError() throws Exception {
++    // Ensure that if the annotation processor code gets an unexpected exception, it is converted
++    // into a compiler error rather than being propagated. Otherwise the output can be very
++    // confusing to the user who stumbles into a bug that causes an exception, whether in
++    // AutoValueProcessor or javac.
++    // We inject an exception by rigging fileManager to throw when the processor tries to output
++    // the generated class for an otherwise correct @AutoValue class.
++    final AtomicBoolean exceptionWasThrown = new AtomicBoolean();
++    final String message = "I don't understand the question, and I won't respond to it";
++    final StandardJavaFileManager realFileManager = fileManager;
++    InvocationHandler errorInjectionHandler = new InvocationHandler() {
++      @Override
++      public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
++        if (method.getName().equals("getJavaFileForOutput")) {
++          exceptionWasThrown.set(true);
++          throw new UnsupportedOperationException(message);
++        } else {
++          return method.invoke(realFileManager, args);
++        }
++      }
++    };
++    fileManager = Reflection.newProxy(StandardJavaFileManager.class, errorInjectionHandler);
++    String testSourceCode =
++        "package foo.bar;\n" +
++        "import com.google.auto.value.AutoValue;\n" +
++        "@AutoValue\n" +
++        "public abstract class Empty {\n" +
++        "}\n";
++    assertCompilationResultIs(
++        ImmutableMultimap.of(Diagnostic.Kind.ERROR, Pattern.compile(message, Pattern.LITERAL)),
++        ImmutableList.of(testSourceCode));
++    assertTrue(exceptionWasThrown.get());
++  }
++
+@@ -261 +305,2 @@
+-    assertCompilationResultIs(EnumSet.of(Diagnostic.Kind.ERROR), testSourceCode);
++    assertCompilationResultIs(ImmutableMultimap.of(Diagnostic.Kind.ERROR, Pattern.compile("")),
++        testSourceCode);
+@@ -266 +311 @@
+-    assertCompilationResultIs(EnumSet.noneOf(Diagnostic.Kind.class), testSourceCode);
++    assertCompilationResultIs(ImmutableMultimap.<Diagnostic.Kind, Pattern>of(), testSourceCode);
+@@ -270 +315 @@
+-      Set<Diagnostic.Kind> expectedDiagnosticKinds,
++      Multimap<Diagnostic.Kind, Pattern> expectedDiagnostics,
+@@ -310 +355 @@
+-    Set<Diagnostic.Kind> diagnosticKinds = EnumSet.noneOf(Diagnostic.Kind.class);
++    Multimap<Diagnostic.Kind, String> diagnostics = ArrayListMultimap.create();
+@@ -317 +362 @@
+-        diagnosticKinds.add(diagnostic.getKind());
++        diagnostics.put(diagnostic.getKind(), diagnostic.getMessage(null));
+@@ -320,3 +365,8 @@
+-    assertEquals("Compilation result: " + diagnosticCollector.getDiagnostics(),
+-        expectedDiagnosticKinds, diagnosticKinds);
+-    assertEquals(diagnosticKinds.contains(Diagnostic.Kind.ERROR), !compiledOk);
++    assertEquals(diagnostics.containsKey(Diagnostic.Kind.ERROR), !compiledOk);
++    assertEquals("Diagnostic kinds should match: " + diagnostics,
++        expectedDiagnostics.keySet(), diagnostics.keySet());
++    for (Map.Entry<Diagnostic.Kind, Pattern> expectedDiagnostic : expectedDiagnostics.entries()) {
++      Collection<String> actualDiagnostics = diagnostics.get(expectedDiagnostic.getKey());
++      assertTrue("Diagnostics should contain " + expectedDiagnostic + ": " + diagnostics,
++          Iterables.any(actualDiagnostics, Predicates.contains(expectedDiagnostic.getValue())));
++    }
+

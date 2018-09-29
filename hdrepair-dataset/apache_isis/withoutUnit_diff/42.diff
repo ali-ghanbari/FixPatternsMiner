@@ -1,0 +1,8 @@
+diff --git a/framework/runtimes/dflt/runtime/src/main/java/org/apache/isis/runtimes/dflt/runtime/persistence/query/PersistenceQueryFindByPattern.java b/framework/runtimes/dflt/runtime/src/main/java/org/apache/isis/runtimes/dflt/runtime/persistence/query/PersistenceQueryFindByPattern.java
+index bf306e9..ee21da7 100644
+--- a/framework/runtimes/dflt/runtime/src/main/java/org/apache/isis/runtimes/dflt/runtime/persistence/query/PersistenceQueryFindByPattern.java
++++ b/framework/runtimes/dflt/runtime/src/main/java/org/apache/isis/runtimes/dflt/runtime/persistence/query/PersistenceQueryFindByPattern.java
+@@ -90 +90 @@
+-                if (reqd != search) {
++                if (!reqd.getObject().equals(search.getObject())) {
+

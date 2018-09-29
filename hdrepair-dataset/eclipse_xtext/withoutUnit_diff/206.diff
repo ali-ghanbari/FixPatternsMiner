@@ -1,0 +1,96 @@
+diff --git a/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/formatting/FormatterFragment.xpt b/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/formatting/FormatterFragment.xpt
+index 7e7cc53..db2c307 100755
+--- a/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/formatting/FormatterFragment.xpt
++++ b/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/formatting/FormatterFragment.xpt
+@@ -52 +52 @@
+-		�gaFQName()� f = (�gaFQName()�) getGrammarAccess();
++//		�gaFQName()� f = (�gaFQName()�) getGrammarAccess();
+diff --git a/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/ui/generator/quickfix/QuickfixProviderFragment.xpt b/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/ui/generator/quickfix/QuickfixProviderFragment.xpt
+index fe15ea3..4e37195 100644
+--- a/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/ui/generator/quickfix/QuickfixProviderFragment.xpt
++++ b/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/ui/generator/quickfix/QuickfixProviderFragment.xpt
+@@ -23,3 +22,0 @@
+-import org.eclipse.xtext.ui.editor.quickfix.Fix;
+-import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
+-import org.eclipse.xtext.validation.Issue;
+diff --git a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/JavaProjectFactory.java b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/JavaProjectFactory.java
+index a6e9653..ad802b0 100644
+--- a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/JavaProjectFactory.java
++++ b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/util/JavaProjectFactory.java
+@@ -54 +54 @@
+-				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER")));
++				classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5")));
+diff --git a/plugins/org.eclipse.xtext.xtext.ui/plugin.xml b/plugins/org.eclipse.xtext.xtext.ui/plugin.xml
+index 4511e5b..bdc6882 100644
+--- a/plugins/org.eclipse.xtext.xtext.ui/plugin.xml
++++ b/plugins/org.eclipse.xtext.xtext.ui/plugin.xml
+@@ -256,2 +256,9 @@
+-			// the following fragment tries to use the Antlr Generator fragment which can be installed via update manager from http://download.itemis.com/updates/
+-			fragment = AntlrDelegatingFragment {}
++			/* 
++			 * The antlr parser generator fragment.
++			 * If you don't already have it get it from http://download.itemis.com/updates/
++			 */ 
++			fragment = de.itemis.xtext.antlr.XtextAntlrGeneratorFragment {
++//				options = {
++//					backtrack = true
++//				}
++			}
+@@ -267,4 +274,2 @@
+-			/*
+-			fragment = scoping.ImportURIScopingFragment {}
+-			fragment = exporting.SimpleNamesFragment {}
+-			*/
++//			fragment = scoping.ImportURIScopingFragment {}
++//			fragment = exporting.SimpleNamesFragment {}
+@@ -274,0 +280 @@
++			fragment = builder.BuilderIntegrationFragment {}	
+@@ -286,21 +291,0 @@
+-
+-			// java-based API for content assistance 
+-			fragment = contentAssist.JavaBasedContentAssistFragment {}
+-			
+-			// the following fragment tries to use the Antlr based content assist 
+-			//     fragment which can be downloaded from http://www.itemis.com 
+-			//     and will be ignored if it's not available. 
+-			fragment = DelegatingGeneratorFragment { 
+-				delegate = "de.itemis.xtext.antlr.XtextAntlrUiGeneratorFragment"
+-				message="You are generating without ANTLR. It is highly recommended to download and use the plugin \'de.itemis.xtext.antlr\' \n\t using the update site http:\//download.itemis.com/updates/."
+-			}
+-
+-			fragment = builder.BuilderIntegrationFragment {}
+-
+-			// project wizard (optional) 
+-			/*
+-			fragment = projectWizard.SimpleProjectWizardFragment {
+-				generatorProjectName = "${projectName}.generator" 
+-				modelFileExtension = file.extensions
+-			}
+-			*/
+@@ -309 +294,13 @@
+-			fragment = quickfix.QuickfixProviderFragment {}			
++			fragment = quickfix.QuickfixProviderFragment {}
++					
++			// content assist API  
++			fragment = contentAssist.JavaBasedContentAssistFragment {}
++			
++			// generates a more lightweight antlr parser and lexer for content assist  
++			fragment =  de.itemis.xtext.antlr.XtextAntlrUiGeneratorFragment {}
++
++			// project wizard (optional) 
++//			fragment = projectWizard.SimpleProjectWizardFragment {
++//				generatorProjectName = "${projectName}.generator" 
++//				modelFileExtension = file.extensions
++//			}		
+diff --git a/plugins/org.eclipse.xtext.xtext.ui/src/org/eclipse/xtext/xtext/ui/wizard/project/GeneratorProject.xpt b/plugins/org.eclipse.xtext.xtext.ui/src/org/eclipse/xtext/xtext/ui/wizard/project/GeneratorProject.xpt
+index ed06050..903331a 100755
+--- a/plugins/org.eclipse.xtext.xtext.ui/src/org/eclipse/xtext/xtext/ui/wizard/project/GeneratorProject.xpt
++++ b/plugins/org.eclipse.xtext.xtext.ui/src/org/eclipse/xtext/xtext/ui/wizard/project/GeneratorProject.xpt
+@@ -17,0 +18,4 @@
++�FILE "../plugin.xml"�<?xml version="1.0" encoding="UTF-8"?>
++<?eclipse version="3.0"?>
++�ENDFILE�
++
+@@ -36,0 +41 @@
++
+

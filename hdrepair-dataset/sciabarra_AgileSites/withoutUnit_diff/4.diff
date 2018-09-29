@@ -1,0 +1,57 @@
+diff --git a/README.md b/README.md
+index b2515c4..cb6447d 100644
+--- a/README.md
++++ b/README.md
+@@ -42 +42 @@
+-## Save yourself from a [manual deployment](http://www.agilesites.org/about.html#Deploy) with a build and an installer
++## Save yourself from [manual deployment](http://www.agilesites.org/about.html#Deploy) with a build and an installer
+diff --git a/api/src/main/java/wcs/java/Asset.java b/api/src/main/java/wcs/java/Asset.java
+index 6e234f3..a0569c9 100644
+--- a/api/src/main/java/wcs/java/Asset.java
++++ b/api/src/main/java/wcs/java/Asset.java
+@@ -356 +356 @@
+-		return editString(attribute, 1, nn(params), arg("editor", "ckeditor"));
++		return editString(attribute, n, nn(params), arg("editor", "ckeditor"));
+diff --git a/doc/reference/Releases.md b/doc/reference/Releases.md
+index e25a179..37a13f8 100644
+--- a/doc/reference/Releases.md
++++ b/doc/reference/Releases.md
+@@ -5 +5,7 @@
+-## [version 1.0]
++## 1.0.0a
++
++- fixed a bug in editText
++- now generated projects does not rquire scala ide anymore
++
++
++## 1.0.0
+@@ -11 +17 @@
+-## [version 0.5]
++## branch 0.5
+@@ -21 +27 @@
+-## version 0.3
++## branch 0.3
+@@ -31 +37 @@
+-## version 0.2, 
++## branch 0.2, 
+@@ -43 +49 @@
+-## version 0.1 
++## branch 0.1 
+diff --git a/project/AgileSitesBuild.scala b/project/AgileSitesBuild.scala
+index b424938..5ca182d 100644
+--- a/project/AgileSitesBuild.scala
++++ b/project/AgileSitesBuild.scala
+@@ -19 +19 @@
+-  val addFilterSetup = "scala-library*" || "agilesites-core*" || "junit*" //|| "specs2*"
++  val addFilterSetup = "scala-library*" || "agilesites-core*" || "junit*" 
+@@ -52 +52 @@
+-    scalaVersion := "2.10.0",
++    scalaVersion := "2.10.1",
+@@ -83 +83,3 @@
+-      name := "agilesites-api"))
++     name := "agilesites-api",
++     EclipseKeys.projectFlavor := EclipseProjectFlavor.Java))
++
+@@ -90,0 +93 @@
++      EclipseKeys.projectFlavor := EclipseProjectFlavor.Java,
+

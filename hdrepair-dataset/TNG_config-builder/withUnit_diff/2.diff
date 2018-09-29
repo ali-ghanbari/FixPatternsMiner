@@ -1,0 +1,42 @@
+diff --git a/README.md b/README.md
+index f495397..ee19d1d 100644
+--- a/README.md
++++ b/README.md
+@@ -198 +198 @@
+-Config myConfig = new ConfigBuilder<Config>(Config.class).withCommandLineArgs(args).build();
++Config myConfig = ConfigBuilder.on(Config.class).withCommandLineArgs(args).build();
+diff --git a/src/main/java/com/tngtech/configbuilder/ConfigBuilder.java b/src/main/java/com/tngtech/configbuilder/ConfigBuilder.java
+index ece3183..4a4544f 100644
+--- a/src/main/java/com/tngtech/configbuilder/ConfigBuilder.java
++++ b/src/main/java/com/tngtech/configbuilder/ConfigBuilder.java
+@@ -286,0 +287,6 @@
++    /**
++     * Gets an instance of the ConfigBuilder for a given config class
++     *
++     * @param clazz config class for which the config builder is instantiated.
++     * @return ConfigBuilder instance for config class
++     */
+diff --git a/src/test/java/com/tngtech/configbuilder/annotation/propertyloaderconfiguration/PropertyFiltersProcessorTest.java b/src/test/java/com/tngtech/configbuilder/annotation/propertyloaderconfiguration/PropertyFiltersProcessorTest.java
+index 75841e0..c5ec87a 100644
+--- a/src/test/java/com/tngtech/configbuilder/annotation/propertyloaderconfiguration/PropertyFiltersProcessorTest.java
++++ b/src/test/java/com/tngtech/configbuilder/annotation/propertyloaderconfiguration/PropertyFiltersProcessorTest.java
+@@ -5,3 +5 @@
+-import com.tngtech.propertyloader.impl.filters.DecryptingFilter;
+-import com.tngtech.propertyloader.impl.filters.ValueModifyingFilter;
+-import com.tngtech.propertyloader.impl.filters.VariableResolvingFilter;
++import com.tngtech.propertyloader.impl.filters.*;
+@@ -70 +68,7 @@
+-    @SuppressWarnings("unchecked") Class<? extends PropertyLoaderFilter>[] classes = new Class[]{VariableResolvingFilter.class, DecryptingFilter.class};
++    @SuppressWarnings("unchecked") Class<? extends PropertyLoaderFilter>[] classes = new Class[]{
++            VariableResolvingFilter.class,
++            DecryptingFilter.class,
++            EnvironmentResolvingFilter.class,
++            WarnOnSurroundingWhitespace.class,
++            ThrowIfPropertyHasToBeDefined.class
++    };
+@@ -78,0 +83,4 @@
++    order.verify(filterContainer).withEnvironmentResolvingFilter();
++    order.verify(filterContainer).withWarnOnSurroundingWhitespace();
++    order.verify(filterContainer).withWarnIfPropertyHasToBeDefined();
++    order.verifyNoMoreInteractions();
+

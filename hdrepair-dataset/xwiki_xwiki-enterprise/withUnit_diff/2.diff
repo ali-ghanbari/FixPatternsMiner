@@ -1,0 +1,28 @@
+diff --git a/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/SectionTest.java b/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/SectionTest.java
+index 633ef9c..1ac9a3f 100644
+--- a/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/SectionTest.java
++++ b/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/SectionTest.java
+@@ -125 +125 @@
+-        wikiEditPage.clickCancel();
++        vp = wikiEditPage.clickCancel();
+@@ -127,0 +128 @@
++        wikiEditPage = vp.editSection(3).editWiki();
+@@ -129,2 +130,2 @@
+-            vp.editSection(3).editWiki().getContent());
+-        wikiEditPage.clickCancel();
++            wikiEditPage.getContent());
++        vp = wikiEditPage.clickCancel();
+@@ -135,2 +136,2 @@
+-        Assert.assertEquals("= Section7 = Content7",
+-            vp.editSection(4).editWiki().getContent());
++        wikiEditPage = vp.editSection(4).editWiki();
++        Assert.assertEquals("= Section7 = Content7", wikiEditPage.getContent());
+diff --git a/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/framework/elements/BasePage.java b/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/framework/elements/BasePage.java
+index eaf6828..baa7b95 100644
+--- a/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/framework/elements/BasePage.java
++++ b/xwiki-enterprise-test/xwiki-enterprise-test-ui/src/test/it/org/xwiki/test/ui/framework/elements/BasePage.java
+@@ -105,0 +106,3 @@
++        // For some unknown reason sometimes the menuId cannot be found so wait for it to be visible before finding it.
++        waitUntilElementIsVisible(By.id(menuId));
++
+

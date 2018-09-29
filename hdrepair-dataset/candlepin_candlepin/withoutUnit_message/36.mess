@@ -1,0 +1,4 @@
+Make the cache of serializers global.
+
+If candlepin needs to create serializers with every call, then we loose alot of performance due to reflection being used to create the new serilaizer. I believe we fixed this as one point, but now the code is creating a new provider with each call which defeated the old caching model. Making the cache a singleton.
+

@@ -1,0 +1,40 @@
+diff --git a/pom.xml b/pom.xml
+index 0f094f6..08e4b67 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -133 +133 @@
+-            <version>4.10</version>
++            <version>4.11</version>
+@@ -144 +144 @@
+-            <version>1.2.16</version>
++            <version>1.2.17</version>
+diff --git a/src/de/caluga/morphium/Morphium.java b/src/de/caluga/morphium/Morphium.java
+index 68f4173..69e4e80 100644
+--- a/src/de/caluga/morphium/Morphium.java
++++ b/src/de/caluga/morphium/Morphium.java
+@@ -378,0 +379 @@
++                        cnt++;
+diff --git a/test/de/caluga/test/mongo/suite/IndexTest.java b/test/de/caluga/test/mongo/suite/IndexTest.java
+index c3ace84..2db38db 100644
+--- a/test/de/caluga/test/mongo/suite/IndexTest.java
++++ b/test/de/caluga/test/mongo/suite/IndexTest.java
+@@ -46 +46 @@
+-        Thread.sleep(5000);
++        Thread.sleep(1000);
+@@ -61,0 +62 @@
++                assert (i.get("unique") == null || !(Boolean) i.get("unique"));
+@@ -63,0 +65 @@
++                assert (i.get("unique") == null || !(Boolean) i.get("unique"));
+@@ -65,0 +68 @@
++                assert (i.get("unique") == null || !(Boolean) i.get("unique"));
+@@ -67,0 +71 @@
++                assert (i.get("unique") == null || !(Boolean) i.get("unique"));
+@@ -69,0 +74 @@
++                assert (i.get("unique") == null || !(Boolean) i.get("unique"));
+@@ -71,0 +77,2 @@
++                assert ((Boolean) i.get("unique"));
++
+@@ -79 +86 @@
+-    @Index({"-name, timer", "-name, -timer", "lst:2d"})
++    @Index(value = {"-name, timer", "-name, -timer", "lst:2d", "name:text"}, options = {"unique:1", "", "", ""})
+

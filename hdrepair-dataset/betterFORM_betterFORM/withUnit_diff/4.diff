@@ -1,0 +1,117 @@
+diff --git a/core/src/main/java/de/betterform/xml/xforms/model/submission/AttributeOrValueChild.java b/core/src/main/java/de/betterform/xml/xforms/model/submission/AttributeOrValueChild.java
+index e3349fd..3152ea5 100644
+--- a/core/src/main/java/de/betterform/xml/xforms/model/submission/AttributeOrValueChild.java
++++ b/core/src/main/java/de/betterform/xml/xforms/model/submission/AttributeOrValueChild.java
+@@ -34 +34 @@
+-		Element child = (Element) DOMUtil.getFirstChildByTagNameNS(this.parentEl, NamespaceConstants.XFORMS_NS, this.name);
++		Element child = (Element) DOMUtil.findFirstChildNS(this.parentEl, NamespaceConstants.XFORMS_NS, this.name);
+diff --git a/core/src/test/java/de/betterform/xml/xforms/model/submission/SubmissionResourceTest.java b/core/src/test/java/de/betterform/xml/xforms/model/submission/SubmissionResourceTest.java
+new file mode 100644
+index 0000000..7c18b65
+--- /dev/null
++++ b/core/src/test/java/de/betterform/xml/xforms/model/submission/SubmissionResourceTest.java
+@@ -0,0 +1,70 @@
++/*
++ * Copyright (c) 2012. betterFORM Project - http://www.betterform.de
++ * Licensed under the terms of BSD License
++ */
++
++package de.betterform.xml.xforms.model.submission;
++
++import de.betterform.xml.events.DOMEventNames;
++import de.betterform.xml.xforms.BetterFormTestCase;
++import de.betterform.xml.xforms.XFormsElement;
++import de.betterform.xml.xforms.XFormsProcessorImpl;
++import de.betterform.xml.xforms.xpath.saxon.function.XPathFunctionContext;
++import de.betterform.xml.xpath.impl.saxon.XPathUtil;
++import org.w3c.dom.Document;
++
++/**
++ * Created by IntelliJ IDEA.
++ * @author Lars Windauer
++ * @author Joern Turner
++ * Date: May 5, 2009
++
++ */
++public class SubmissionResourceTest extends BetterFormTestCase {
++/*
++    static {
++        org.apache.log4j.BasicConfigurator.configure();
++    }
++*/
++
++    public void testSubmissionResource() throws Exception{
++
++        XFormsElement element = ((XFormsProcessorImpl) this.processor).lookup("s-test");
++        assertNotNull(element);
++        assertEquals("echo:foo",((Submission)element).getResource());
++        assertEquals( element.getXFormsAttribute("resource"),"echo:foo");
++
++
++
++    }
++
++
++    /**
++     * Sets up the test.
++     *
++     * @throws Exception in any error occurred during setup.
++     */
++    protected void setUp() throws Exception {
++        super.setUp();
++
++    }
++
++    /**
++     * Tears down the test.
++     *
++     * @throws Exception in any error occurred during setup.
++     */
++    protected void tearDown() throws Exception {
++
++        super.tearDown();
++    }
++
++    protected String getTestCaseURI() {
++        return "SubmissionResourceTest.xhtml";
++    }
++
++    protected XPathFunctionContext getDefaultFunctionContext() {
++        return null;
++    }
++
++}
+diff --git a/core/src/test/resources/de/betterform/xml/xforms/model/submission/SubmissionResourceTest.xhtml b/core/src/test/resources/de/betterform/xml/xforms/model/submission/SubmissionResourceTest.xhtml
+new file mode 100644
+index 0000000..22ab0e2
+--- /dev/null
++++ b/core/src/test/resources/de/betterform/xml/xforms/model/submission/SubmissionResourceTest.xhtml
+@@ -0,0 +1,26 @@
++<?xml version="1.0" encoding="UTF-8"?><html xmlns:xf="http://www.w3.org/2002/xforms" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events">
++
++    <head>
++        <meta http-equiv="Content-Type" content="text/xml; charset=UTF-8" />
++
++        <title>Default Alert Handler - inline alerts</title>
++    </head>
++
++    <body class="soria" style="margin:30px">
++        <div style="display:none">
++            <xf:model>
++                <xf:instance xmlns="">
++                    <data>
++                        <a></a>
++                    </data>
++                </xf:instance>
++                <xf:submission id="s-test" resource="echo:foo" method="GET" replace="none" validate="true">
++                    <xf:load show="new">
++                        <xf:resource value="'bar'"/>
++                    </xf:load>
++                </xf:submission>
++
++            </xf:model>
++        </div>
++    </body>
++</html>
+\ No newline at end of file
+

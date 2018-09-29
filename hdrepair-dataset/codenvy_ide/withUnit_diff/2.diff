@@ -1,0 +1,32 @@
+diff --git a/codenvy-ide-api/src/main/java/com/codenvy/ide/api/ui/action/ActionManager.java b/codenvy-ide-api/src/main/java/com/codenvy/ide/api/ui/action/ActionManager.java
+index 4a5b609..b50dc7e 100644
+--- a/codenvy-ide-api/src/main/java/com/codenvy/ide/api/ui/action/ActionManager.java
++++ b/codenvy-ide-api/src/main/java/com/codenvy/ide/api/ui/action/ActionManager.java
+@@ -57 +57 @@
+-     * Registers the specified action with the specified id. Note that IDEA's keymaps
++     * Registers the specified action with the specified id. Note that IDE keymaps
+diff --git a/codenvy-ide-core/src/test/java/com/codenvy/ide/action/ActionManagerTest.java b/codenvy-ide-core/src/test/java/com/codenvy/ide/action/ActionManagerTest.java
+index 8c53302..37cd70b 100644
+--- a/codenvy-ide-core/src/test/java/com/codenvy/ide/action/ActionManagerTest.java
++++ b/codenvy-ide-core/src/test/java/com/codenvy/ide/action/ActionManagerTest.java
+@@ -34 +33,0 @@
+-import static org.junit.Assert.assertEquals;
+@@ -55,8 +53,0 @@
+-    public void shouldRegister() {
+-        DefaultActionGroup defaultActionGroup = new DefaultActionGroup(actionManager);
+-        actionManager.registerAction(IdeActions.GROUP_MAIN_MENU, defaultActionGroup);
+-        Action action = actionManager.getAction(IdeActions.GROUP_MAIN_MENU);
+-        assertEquals(defaultActionGroup, action);
+-    }
+-
+-    @Test
+@@ -77,8 +67,0 @@
+-    }
+-
+-    @Test
+-    public void shouldProvideId() {
+-        DefaultActionGroup defaultActionGroup = new DefaultActionGroup(actionManager);
+-        actionManager.registerAction(IdeActions.GROUP_MAIN_MENU, defaultActionGroup);
+-        String id = actionManager.getId(defaultActionGroup);
+-        assertEquals(IdeActions.GROUP_MAIN_MENU, id);
+

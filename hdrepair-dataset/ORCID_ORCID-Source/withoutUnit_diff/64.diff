@@ -1,0 +1,15 @@
+diff --git a/orcid-web/src/main/java/org/orcid/frontend/web/forms/ChangePersonalInfoForm.java b/orcid-web/src/main/java/org/orcid/frontend/web/forms/ChangePersonalInfoForm.java
+index 5e51090..fa0b580 100644
+--- a/orcid-web/src/main/java/org/orcid/frontend/web/forms/ChangePersonalInfoForm.java
++++ b/orcid-web/src/main/java/org/orcid/frontend/web/forms/ChangePersonalInfoForm.java
+@@ -336 +336 @@
+-        orcidProfile.getOrcidBio().getContactDetails().getAddress().getCountry().setContent(isoCountryCode);
++        orcidProfile.getOrcidBio().getContactDetails().getAddress().getCountry().setContent(StringUtils.isBlank(isoCountryCode) ? null : isoCountryCode);
+diff --git a/orcid-web/src/main/resources/freemarker/manage_bio_settings.ftl b/orcid-web/src/main/resources/freemarker/manage_bio_settings.ftl
+index 8b97ecb..7f6db4c 100644
+--- a/orcid-web/src/main/resources/freemarker/manage_bio_settings.ftl
++++ b/orcid-web/src/main/resources/freemarker/manage_bio_settings.ftl
+@@ -101 +101 @@
+-	                    		<#if changePersonalInfoForm.isoCountryCode = key>
++	                    		<#if (changePersonalInfoForm.isoCountryCode)! = key>
+

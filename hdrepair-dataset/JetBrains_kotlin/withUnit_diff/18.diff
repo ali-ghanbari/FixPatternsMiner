@@ -1,0 +1,97 @@
+diff --git a/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesInconsistentGenericTypes.txt b/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesInconsistentGenericTypes.txt
+index 507ad35..604e401 100644
+--- a/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesInconsistentGenericTypes.txt
++++ b/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesInconsistentGenericTypes.txt
+@@ -10 +10 @@
+-        public open override /*2*/ fun foo(): jet.MutableList<jet.String?>
++        public open override /*2*/ fun foo(): jet.MutableList<jet.String>
+diff --git a/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesVarargAndNot.java b/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesVarargAndNot.java
+index 33668f7..b834712 100644
+--- a/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesVarargAndNot.java
++++ b/compiler/testData/loadJavaCustom/kotlinSignature/TwoSuperclassesVarargAndNot.java
+@@ -16,0 +17 @@
++        @KotlinSignature("fun foo(s : Array<out String?>?)")
+diff --git a/compiler/testData/loadJavaCustom/subclassWithRawType/SubclassWithRawType.txt b/compiler/testData/loadJavaCustom/subclassWithRawType/SubclassWithRawType.txt
+index d8e2d55..0d6b937 100644
+--- a/compiler/testData/loadJavaCustom/subclassWithRawType/SubclassWithRawType.txt
++++ b/compiler/testData/loadJavaCustom/subclassWithRawType/SubclassWithRawType.txt
+@@ -5,2 +5,2 @@
+-        public abstract override /*1*/ fun array1(): jet.Array<jet.List<jet.String?>?>?
+-        public abstract override /*1*/ fun array2(): jet.Array<jet.List<jet.Any?>?>?
++        public abstract override /*1*/ fun array1(): jet.Array<jet.List<jet.String?>>?
++        public abstract override /*1*/ fun array2(): jet.Array<jet.List<jet.Any>>?
+@@ -8 +8 @@
+-        public abstract override /*1*/ fun boundWildcard2(): jet.MutableList<in jet.List<jet.Any?>?>?
++        public abstract override /*1*/ fun boundWildcard2(): jet.MutableList<in jet.List<jet.Any>?>?
+@@ -10,2 +10,2 @@
+-        public abstract override /*1*/ fun simple2(): jet.MutableList<out jet.List<jet.String?>?>?
+-        public abstract override /*1*/ fun simple3(): jet.MutableList<out jet.Any?>?
++        public abstract override /*1*/ fun simple2(): jet.MutableList<out jet.List<jet.String>?>?
++        public abstract override /*1*/ fun simple3(): jet.MutableList<out jet.Any>?
+@@ -15,2 +15,2 @@
+-        public abstract fun array1(): jet.Array<jet.List<jet.Any?>?>?
+-        public abstract fun array2(): jet.Array<jet.List<jet.String?>?>?
++        public abstract fun array1(): jet.Array<jet.List<jet.Any?>>?
++        public abstract fun array2(): jet.Array<jet.List<jet.String>>?
+@@ -18 +18 @@
+-        public abstract fun boundWildcard2(): jet.MutableList<in jet.List<jet.String?>?>?
++        public abstract fun boundWildcard2(): jet.MutableList<in jet.List<jet.String>?>?
+@@ -21 +21 @@
+-        public abstract fun simple3(): jet.MutableList<jet.String?>?
++        public abstract fun simple3(): jet.MutableList<jet.String>?
+diff --git a/compiler/tests/org/jetbrains/jet/jvm/compiler/AbstractLoadJavaTest.java b/compiler/tests/org/jetbrains/jet/jvm/compiler/AbstractLoadJavaTest.java
+index 34035f6..ce6d46f 100644
+--- a/compiler/tests/org/jetbrains/jet/jvm/compiler/AbstractLoadJavaTest.java
++++ b/compiler/tests/org/jetbrains/jet/jvm/compiler/AbstractLoadJavaTest.java
+@@ -52,0 +53,8 @@
++        checkLoadedNamespaces(txtFile, nsa, nsbAndBindingContext);
++    }
++
++    public static void checkLoadedNamespaces(
++            File txtFile,
++            NamespaceDescriptor nsa,
++            Pair<NamespaceDescriptor, BindingContext> nsbAndBindingContext
++    ) {
+diff --git a/compiler/tests/org/jetbrains/jet/jvm/compiler/AnnotationJavaDescriptorResolverTest.java b/compiler/tests/org/jetbrains/jet/jvm/compiler/AnnotationJavaDescriptorResolverTest.java
+index 49c1241..14a6bac 100644
+--- a/compiler/tests/org/jetbrains/jet/jvm/compiler/AnnotationJavaDescriptorResolverTest.java
++++ b/compiler/tests/org/jetbrains/jet/jvm/compiler/AnnotationJavaDescriptorResolverTest.java
+@@ -110 +110 @@
+-                                           DEFAULT_PACKAGE + ".MyAnnotation2", "jet.Array<jet.String?>?", "[\"test\", \"test2\"]");
++                                           DEFAULT_PACKAGE + ".MyAnnotation2", "jet.Array<jet.String>?", "[\"test\", \"test2\"]");
+@@ -166 +166 @@
+-        checkArrayCompileTimeConstant((ArrayValue) actualCompileTimeConstant, "jet.Array<java.lang.annotation.ElementType?>?",
++        checkArrayCompileTimeConstant((ArrayValue) actualCompileTimeConstant, "jet.Array<java.lang.annotation.ElementType>?",
+@@ -179 +179 @@
+-        checkArrayCompileTimeConstant((ArrayValue) actualCompileTimeConstant, "jet.Array<jet.String?>?", "jet.String", values);
++        checkArrayCompileTimeConstant((ArrayValue) actualCompileTimeConstant, "jet.Array<jet.String>?", "jet.String", values);
+@@ -192 +192 @@
+-        checkArrayCompileTimeConstant((ArrayValue) actualCompileTimeConstant, "jet.Array<jet.String?>?", "jet.String", values);
++        checkArrayCompileTimeConstant((ArrayValue) actualCompileTimeConstant, "jet.Array<jet.String>?", "jet.String", values);
+diff --git a/compiler/tests/org/jetbrains/jet/jvm/compiler/LoadJavaCustomTest.java b/compiler/tests/org/jetbrains/jet/jvm/compiler/LoadJavaCustomTest.java
+index 233ed32..3e1078d 100644
+--- a/compiler/tests/org/jetbrains/jet/jvm/compiler/LoadJavaCustomTest.java
++++ b/compiler/tests/org/jetbrains/jet/jvm/compiler/LoadJavaCustomTest.java
+@@ -43 +42,0 @@
+-import org.jetbrains.jet.lang.resolve.lazy.LazyResolveTestUtil;
+@@ -82,0 +82 @@
++
+@@ -85,2 +85 @@
+-        NamespaceComparator.compareNamespaces(javaNamespace, javaNamespace, NamespaceComparator.DONT_INCLUDE_METHODS_OF_OBJECT, expected);
+-        ExpectedLoadErrorsUtil.checkForLoadErrors(javaNamespace, javaNamespaceAndBindingContext.second);
++        AbstractLoadJavaTest.checkLoadedNamespaces(expected, javaNamespace, javaNamespaceAndBindingContext);
+diff --git a/idea/testData/codeInsight/overrideImplement/javaParameters/foo/Impl.kt.after b/idea/testData/codeInsight/overrideImplement/javaParameters/foo/Impl.kt.after
+index 7ccbabb..a289c19 100644
+--- a/idea/testData/codeInsight/overrideImplement/javaParameters/foo/Impl.kt.after
++++ b/idea/testData/codeInsight/overrideImplement/javaParameters/foo/Impl.kt.after
+@@ -5 +5 @@
+-    public override fun fooBar(i: Int, s: Array<out String?>?, foo: Any?) {
++    public override fun fooBar(i: Int, s: Array<out String>?, foo: Any?) {
+diff --git a/idea/testData/codeInsight/overrideImplement/overrideJavaMethod/foo/Impl.kt.after b/idea/testData/codeInsight/overrideImplement/overrideJavaMethod/foo/Impl.kt.after
+index c399baf..8fdb670 100644
+--- a/idea/testData/codeInsight/overrideImplement/overrideJavaMethod/foo/Impl.kt.after
++++ b/idea/testData/codeInsight/overrideImplement/overrideJavaMethod/foo/Impl.kt.after
+@@ -5 +5 @@
+-    public override fun getAnswer(array: Array<out String?>?, number: Int, value: Any?): Int {
++    public override fun getAnswer(array: Array<out String>?, number: Int, value: Any?): Int {
+

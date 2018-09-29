@@ -1,0 +1,28 @@
+diff --git a/subprojects/core/src/main/groovy/org/gradle/api/internal/tasks/CommandLineOptionReader.java b/subprojects/core/src/main/groovy/org/gradle/api/internal/tasks/CommandLineOptionReader.java
+index 44b3d33..47e099f 100644
+--- a/subprojects/core/src/main/groovy/org/gradle/api/internal/tasks/CommandLineOptionReader.java
++++ b/subprojects/core/src/main/groovy/org/gradle/api/internal/tasks/CommandLineOptionReader.java
+@@ -59 +59 @@
+-                && !String.class.isAssignableFrom(parameterType)
++                && !parameterType.isAssignableFrom(String.class)
+diff --git a/subprojects/core/src/test/groovy/org/gradle/api/internal/tasks/CommandLineOptionReaderTest.groovy b/subprojects/core/src/test/groovy/org/gradle/api/internal/tasks/CommandLineOptionReaderTest.groovy
+index 710a1ed..7f4d3ba 100644
+--- a/subprojects/core/src/test/groovy/org/gradle/api/internal/tasks/CommandLineOptionReaderTest.groovy
++++ b/subprojects/core/src/test/groovy/org/gradle/api/internal/tasks/CommandLineOptionReaderTest.groovy
+@@ -45,3 +45,7 @@
+-        options[2].option.description() == "string value"
+-        options[2].availableValuesType == String
+-        options[2].annotatedMethod.name == "setStringValue"
++        options[2].option.description() == "object value"
++        options[2].availableValuesType == Object
++        options[2].annotatedMethod.name == "setObjectValue"
++
++        options[3].option.description() == "string value"
++        options[3].availableValuesType == String
++        options[3].annotatedMethod.name == "setStringValue"
+@@ -87,0 +92,4 @@
++        @CommandLineOption(options = "objectValue", description = "object value")
++        public void setObjectValue(Object value) {
++        }
++
+

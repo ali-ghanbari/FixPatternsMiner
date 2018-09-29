@@ -1,0 +1,22 @@
+Revert "Revert "Boot up optimization for phoneprocess""
+
+This revert makes telephony start _way_ too late, ranging from 5 to 20 (and
+more, depending on model) seconds after the rest of the system, which
+leads to all sorts of funky race conditions between boot-time processes
+
+- Automatic language change after manual SetupWizard selection (SIM lang is
+  read too late)
+- SIM PIN dialog comes up after you've been able to go through lockscreen
+- Extraneous "configuration change" dialogs in MSIM hardware
+- Collision between encryption and SIM PIN unlocks (sometimes with
+  lost input focus, leading to an unusable device)
+
+Applying this patch brings telephony start-up time to sub-second (up to a
+couple of seconds) times, which is what's expected. The revert "fixed"
+a problem by pushing back the whole phone process for various seconds,
+which isn't really acceptable on a phone. :)
+
+This reverts commit 14597f0760382fce1fa39b1778449ab82f3370ad.
+
+Change-Id: I0db3ef866fd617770d8353aa1297d604578e3bf1
+

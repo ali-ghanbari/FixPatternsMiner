@@ -1,0 +1,68 @@
+diff --git a/hazelcast-client/src/main/java/com/hazelcast/client/connection/nio/ClientConnectionManagerImpl.java b/hazelcast-client/src/main/java/com/hazelcast/client/connection/nio/ClientConnectionManagerImpl.java
+index 6576f35..1f0ed4b 100644
+--- a/hazelcast-client/src/main/java/com/hazelcast/client/connection/nio/ClientConnectionManagerImpl.java
++++ b/hazelcast-client/src/main/java/com/hazelcast/client/connection/nio/ClientConnectionManagerImpl.java
+@@ -100 +100 @@
+-                    ClassLoaderUtil.newInstance(Credentials.class, config.getClassLoader(), credentialsClassname);
++                    c = ClassLoaderUtil.newInstance(config.getClassLoader(), credentialsClassname);
+diff --git a/hazelcast-client/src/test/java/com/hazelcast/client/ClientIssueTest.java b/hazelcast-client/src/test/java/com/hazelcast/client/ClientIssueTest.java
+index 1539d29..16d9760 100644
+--- a/hazelcast-client/src/test/java/com/hazelcast/client/ClientIssueTest.java
++++ b/hazelcast-client/src/test/java/com/hazelcast/client/ClientIssueTest.java
+@@ -19,0 +20 @@
++import com.hazelcast.client.config.ClientSecurityConfig;
+@@ -23,0 +25 @@
++import com.hazelcast.security.UsernamePasswordCredentials;
+@@ -174,0 +177 @@
++
+@@ -206 +209 @@
+-    public void testIssue821(){
++    public void testIssue821() {
+@@ -219 +222 @@
+-        } catch (HazelcastException ignored){
++        } catch (HazelcastException ignored) {
+@@ -236 +239 @@
+-        LifecycleListener listener = new LifecycleListener(){
++        LifecycleListener listener = new LifecycleListener() {
+@@ -239 +242 @@
+-                if (state != null && state.equals(event.getState())){
++                if (state != null && state.equals(event.getState())) {
+@@ -271 +274 @@
+-                for (int i=0; i<event.getMembers().size(); i++){
++                for (int i = 0; i < event.getMembers().size(); i++) {
+@@ -316 +318,0 @@
+-
+@@ -325 +326,0 @@
+-
+@@ -337 +338 @@
+-            if ("value1".equals(value)){
++            if ("value1".equals(value)) {
+@@ -348 +349 @@
+-            if ("oldValue".equals(oldValue) && "newValue".equals(newValue)){
++            if ("oldValue".equals(oldValue) && "newValue".equals(newValue)) {
+@@ -358 +359 @@
+-            if ("value2".equals(removedValue)){
++            if ("value2".equals(removedValue)) {
+@@ -368,0 +370,21 @@
++    @Test
++    public void testCredentials() {
++        final Config config = new Config();
++        config.getGroupConfig().setName("foo").setPassword("bar");
++        final HazelcastInstance instance = Hazelcast.newHazelcastInstance(config);
++
++        final ClientConfig clientConfig = new ClientConfig();
++        final ClientSecurityConfig securityConfig = clientConfig.getSecurityConfig();
++        securityConfig.setCredentialsClassname(MyCredentials.class.getName());
++
++        final HazelcastInstance client = HazelcastClient.newHazelcastClient(clientConfig);
++
++    }
++
++    public static class MyCredentials extends UsernamePasswordCredentials {
++
++        public MyCredentials() {
++            super("foo", "bar");
++        }
++    }
++
+

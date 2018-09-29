@@ -1,0 +1,8 @@
+diff --git a/codenvy-ide-core/src/main/java/com/codenvy/ide/wizard/project/NewProjectWizardPresenter.java b/codenvy-ide-core/src/main/java/com/codenvy/ide/wizard/project/NewProjectWizardPresenter.java
+index 23d110e..3d4c803 100644
+--- a/codenvy-ide-core/src/main/java/com/codenvy/ide/wizard/project/NewProjectWizardPresenter.java
++++ b/codenvy-ide-core/src/main/java/com/codenvy/ide/wizard/project/NewProjectWizardPresenter.java
+@@ -145 +145 @@
+-        projectService.updateProject(project.getPath(), projectDescriptor, new AsyncRequestCallback<ProjectDescriptor>() {
++        projectService.updateProject(project.getPath(), projectDescriptor, new AsyncRequestCallback<ProjectDescriptor>(dtoUnmarshallerFactory.newUnmarshaller(ProjectDescriptor.class)) {
+

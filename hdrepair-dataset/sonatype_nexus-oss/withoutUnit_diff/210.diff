@@ -1,0 +1,9 @@
+diff --git a/src/main/java/org/sonatype/scheduling/PlexusThreadFactory.java b/src/main/java/org/sonatype/scheduling/PlexusThreadFactory.java
+index 8329ff2..ea5474f 100644
+--- a/src/main/java/org/sonatype/scheduling/PlexusThreadFactory.java
++++ b/src/main/java/org/sonatype/scheduling/PlexusThreadFactory.java
+@@ -59 +59,2 @@
+-        result.setContextClassLoader( plexusContainer.getLookupRealm() );
++        // using plexusContainer.getLookupRealm() is NOT Thread pool friendly, it uses a ThreadLocal
++        // result.setContextClassLoader( plexusContainer.getLookupRealm() );
+

@@ -1,0 +1,539 @@
+diff --git a/application/src/main/frontend/src/app/facilities/facilityEdit.tpl.html b/application/src/main/frontend/src/app/facilities/facilityEdit.tpl.html
+index beea3c7..427d707 100644
+--- a/application/src/main/frontend/src/app/facilities/facilityEdit.tpl.html
++++ b/application/src/main/frontend/src/app/facilities/facilityEdit.tpl.html
+@@ -15,3 +15,2 @@
+-<div class="row">
+-	<h3 class="h3-first">{{"facilities.basic_info" | translate}}</h3>
+-</div>
++
++<h3 class="h3-first">{{"facilities.basic_info" | translate}}</h3>
+@@ -63 +61,0 @@
+-
+@@ -85,0 +84,2 @@
++</div>
++<div class="row">
+@@ -92,3 +92 @@
+-<div class="row">
+-	<h3>{{ "facilities.openingHours.heading" | translate }}</h3>
+-</div>
++<h3>{{ "facilities.openingHours.heading" | translate }}</h3>
+@@ -106,6 +104,3 @@
+-<div class="row">
+-	<h3>{{"facilities.capacity.heading" | translate}}</h3>
+-</div>
+-<div class="row">
+-	<h4>{{"facilities.capacity.built" | translate}}</h4>
+-</div>
++<h3>{{"facilities.capacity.heading" | translate}}</h3>
++<h4>{{"facilities.capacity.built" | translate}}</h4>
++
+@@ -147 +142 @@
+-	<p>{{ "facilities.unavailableCapacities.disclaimer" | translate }}</p>
++	<p class="smallMarginBottom">{{ "facilities.unavailableCapacities.disclaimer" | translate }}</p>
+@@ -150 +145 @@
+-	<div class="column2 first-column">
++	<div class="column2 first-column smallMarginBottom">
+@@ -180,3 +175 @@
+-<div class="row">
+-	<h3>{{"facilities.contacts.heading" | translate}}</h3>
+-</div>
++<h3>{{"facilities.contacts.heading" | translate}}</h3>
+@@ -202 +195 @@
+-<div class="row"><h3>{{"facilities.paymentInfo.heading" | translate }}</h3></div>
++<h3>{{"facilities.paymentInfo.heading" | translate }}</h3>
+@@ -222,0 +216,2 @@
++
++<h3>{{"facilities.services.heading" | translate}}</h3>
+@@ -224 +218,0 @@
+-	<h3>{{"facilities.services.heading" | translate}}</h3>
+diff --git a/application/src/main/frontend/src/app/facilities/facilityView.tpl.html b/application/src/main/frontend/src/app/facilities/facilityView.tpl.html
+index 28fdfac..2fa0ca8 100644
+--- a/application/src/main/frontend/src/app/facilities/facilityView.tpl.html
++++ b/application/src/main/frontend/src/app/facilities/facilityView.tpl.html
+@@ -2,8 +2,8 @@
+-	<headline>
+-		<span class="wdFacilityNameFi">{{viewCtrl.facility.name.fi}}</span>
+-	</headline>
+-	<actions>
+-		<facility-view-navi></facility-view-navi>
+-	</actions>
+-	<content>
+-		<div class="row wdFacilityView">
++<headline>
++	<span class="wdFacilityNameFi">{{viewCtrl.facility.name.fi}}</span>
++</headline>
++<actions>
++	<facility-view-navi></facility-view-navi>
++</actions>
++<content>
++<div class="row wdFacilityView">
+@@ -11,19 +11,19 @@
+-			<div class="row">
+-				<h3 class="h3-first">{{ "facilities.basic_info" | translate }}</h3>
+-				<h4>{{ "facilities.name.label" | translate }}</h4>
+-			</div>
+-			<div class="row facilityName">
+-				<multilingual-view value="viewCtrl.facility.name"></multilingual-view>
+-			</div>
+-			<div class="row">
+-				<div class="column3 first-column wdAliasesBlock" ng-show="viewCtrl.facility.aliases.length !== 0">
+-					<h4>{{ "facilities.aliases.label" | translate }}</h4>
+-					<p class="wdAliases">{{viewCtrl.facility.aliases | joinBy: ", "}}</p>
+-				</div>
+-			</div>
+-			<div class="row">
+-				<h4>{{ "operators.label" | translate }}</h4>
+-			</div>
+-			<div class="row operatorName">
+-				<multilingual-view value="viewCtrl.operator.name"></multilingual-view>
+-			</div>
++<div class="row">
++	<h3 class="h3-first">{{ "facilities.basic_info" | translate }}</h3>
++	<h4>{{ "facilities.name.label" | translate }}</h4>
++</div>
++<div class="row facilityName">
++	<multilingual-view value="viewCtrl.facility.name"></multilingual-view>
++</div>
++<div class="row">
++	<div class="column3 first-column wdAliasesBlock" ng-show="viewCtrl.facility.aliases.length !== 0">
++		<h4>{{ "facilities.aliases.label" | translate }}</h4>
++		<p class="wdAliases">{{viewCtrl.facility.aliases | joinBy: ", "}}</p>
++	</div>
++</div>
++<div class="row">
++	<h4>{{ "operators.label" | translate }}</h4>
++</div>
++<div class="row operatorName">
++	<multilingual-view value="viewCtrl.operator.name"></multilingual-view>
++</div>
+@@ -31,6 +31,6 @@
+-			<div class="row">
+-				<h4>{{ "facilities.status.label" | translate }}</h4>
+-			</div>
+-			<div class="row">
+-				{{ "facilityStatuses." + viewCtrl.facility.status + ".label" | translate }}
+-			</div>
++<div class="row">
++	<h4>{{ "facilities.status.label" | translate }}</h4>
++</div>
++<div class="row">
++	{{ "facilityStatuses." + viewCtrl.facility.status + ".label" | translate }}
++</div>
+@@ -38,8 +38,8 @@
+-			<div ng-show="viewCtrl.facility.statusDescription">
+-				<div class="row">
+-					<h4>{{ "facilities.statusDescription.label" | translate }}</h4>
+-				</div>
+-				<div class="row">
+-					<multilingual-view value="viewCtrl.facility.statusDescription"></multilingual-view>
+-				</div>
+-			</div>
++<div ng-show="viewCtrl.facility.statusDescription">
++	<div class="row">
++		<h4>{{ "facilities.statusDescription.label" | translate }}</h4>
++	</div>
++	<div class="row">
++		<multilingual-view value="viewCtrl.facility.statusDescription"></multilingual-view>
++	</div>
++</div>
+@@ -47,6 +46,0 @@
+-			<div class="row">
+-				<h3>{{"facilities.location" | translate}}</h3>
+-				<div class="map-container">
+-					<facility-map ng-model="viewCtrl.facility" no-tiles="{{features['mapNoTiles']}}"></facility-map>
+-				</div>
+-			</div>
+@@ -54,15 +48,22 @@
+-			<div ng-show="viewCtrl.hasOpeningHoursByDayType() || viewCtrl.hasOpeningHoursInfo()">
+-				<div class="row">
+-					<h3>{{"facilities.openingHours.heading" | translate}}</h3>
+-				</div>
+-				<div ng-show="viewCtrl.hasOpeningHoursByDayType()">
+-					<div class="row">
+-						<div class="column3 first-column">
+-							<div class="panel panel-default row">
+-								<table id="opening-hours" class="table table-bordered table-striped table-condensed">
+-									<tbody>
+-									<tr ng-repeat="dayType in viewCtrl.dayTypes">
+-										<td class="day-type">
+-											{{ dayType.label }}
+-										</td>
+-										<td class="from-until">
++<h3 class="h3-view">{{"facilities.location.label" | translate}}</h3>
++<div class="row">
++	<div class="map-container">
++		<facility-map ng-model="viewCtrl.facility" no-tiles="{{features['mapNoTiles']}}"></facility-map>
++	</div>
++</div>
++
++<div ng-show="viewCtrl.hasOpeningHoursByDayType() || viewCtrl.hasOpeningHoursInfo()">
++	<div class="row">
++		<h3>{{"facilities.openingHours.heading" | translate}}</h3>
++	</div>
++	<div ng-show="viewCtrl.hasOpeningHoursByDayType()">
++		<div class="row">
++			<div class="column3 first-column">
++				<div class="panel panel-default row">
++					<table id="opening-hours" class="table table-bordered table-striped table-condensed">
++						<tbody>
++						<tr ng-repeat="dayType in viewCtrl.dayTypes">
++							<td class="day-type">
++								{{ dayType.label }}
++							</td>
++							<td class="from-until">
+@@ -77,12 +78,4 @@
+-										</td>
+-									</tr>
+-									</tbody>
+-								</table>
+-							</div>
+-						</div>
+-					</div>
+-				</div>
+-				<div ng-show="viewCtrl.hasOpeningHoursInfo()">
+-					<div class="row"><h4>{{"facilities.openingHours.info.label" | translate }}</h4></div>
+-					<div class="row"><multilingual-view id="wdOpeningHoursDetail" value="viewCtrl.facility.openingHours.info"></multilingual-view></div>
+-					<div class="row"><multilingual-view id="wdOpeningHoursUrl"value="viewCtrl.facility.openingHours.url"></multilingual-view></div>
++							</td>
++						</tr>
++						</tbody>
++					</table>
+@@ -90,0 +84,8 @@
++		</div>
++	</div>
++	<div ng-show="viewCtrl.hasOpeningHoursInfo()">
++		<div class="row"><h4>{{"facilities.openingHours.info.label" | translate }}</h4></div>
++		<div class="row"><multilingual-view id="wdOpeningHoursDetail" value="viewCtrl.facility.openingHours.info"></multilingual-view></div>
++		<div class="row"><multilingual-view id="wdOpeningHoursUrl"value="viewCtrl.facility.openingHours.url"></multilingual-view></div>
++	</div>
++</div>
+@@ -92,12 +93,8 @@
+-			<div ng-show="viewCtrl.hasCapacities()">
+-				<div class="row">
+-					<h3>{{"facilities.capacity.heading" | translate}}</h3>
+-				</div>
+-				<div class="row">
+-					<h4>{{"facilities.capacity.built" | translate}}</h4>
+-				</div>
+-				<div class="row">
+-					<div class="column2 first-column">
+-						<capacities-table capacities="viewCtrl.facility.builtCapacity"></capacities-table>
+-					</div>
+-				</div>
++<div ng-show="viewCtrl.hasCapacities()">
++	<h3 class="h3-view">{{"facilities.capacity.heading" | translate}}</h3>
++	<h4>{{"facilities.capacity.built" | translate}}</h4>
++	<div class="row">
++		<div class="column2 first-column">
++			<capacities-table capacities="viewCtrl.facility.builtCapacity"></capacities-table>
++		</div>
++	</div>
+@@ -105,18 +102,22 @@
+-				<div ng-show="viewCtrl.facility.pricing.length > 0">
+-					<div class="row smallMargin">
+-						<h4 translate="facilities.pricing.label"></h4>
+-					</div>
+-					<div class="row">
+-						<div class="column first-column">
+-							<div class="panel panel-default row">
+-								<table id="pricing" class="table table-bordered table-striped table-condensed">
+-									<thead>
+-									<tr>
+-										<th colspan="3" translate="facilities.pricing.capacity"></th>
+-										<th colspan="4" translate="facilities.pricing.time.title"></th>
+-										<th colspan="4" translate="facilities.pricing.price.title"></th>
+-									</tr>
+-									<tr>
+-										<th id="facilities-view-pricing-capacityType" translate="facilities.pricing.capacityType.title"></th>
+-										<th id="facilities-view-pricing-usage" translate="facilities.pricing.usage.title"></th>
+-										<th id="facilities-pricing-maxCapacity" translate="facilities.pricing.maxCapacity.title"></th>
++	<div ng-show="viewCtrl.facility.pricing.length > 0">
++		<div class="row smallMargin">
++			<h4 translate="facilities.pricing.label"></h4>
++		</div>
++		<div class="row">
++			<div class="column first-column">
++				<div class="panel panel-default row">
++					<table id="pricing" class="table table-bordered table-striped table-condensed">
++						<thead>
++						<tr>
++							<th colspan="3" translate="facilities.pricing.capacity"></th>
++							<th colspan="4" translate="facilities.pricing.time.title"></th>
++							<th colspan="4" translate="facilities.pricing.price.title"></th>
++						</tr>
++						<tr>
++							<th id="facilities-view-pricing-capacityType" translate="facilities.pricing.capacityType.title"></th>
++							<th id="facilities-view-pricing-usage" translate="facilities.pricing.usage.title"></th>
++							<th id="facilities-pricing-maxCapacity" translate="facilities.pricing.maxCapacity.title"></th>
++							<th id="facilities-view-pricing-dayType" translate="facilities.pricing.dayType.title"></th>
++							<th id="facilities-pricing-h24" translate="facilities.pricing.h24"></th>
++							<th id="facilities-view-pricing-from" translate="facilities.pricing.time.from.title"></th>
++							<th id="facilities-view-pricing-until" translate="facilities.pricing.time.until.title"></th>
+@@ -124,4 +125,19 @@
+-										<th id="facilities-view-pricing-dayType" translate="facilities.pricing.dayType.title"></th>
+-										<th id="facilities-pricing-h24" translate="facilities.pricing.h24"></th>
+-										<th id="facilities-view-pricing-from" translate="facilities.pricing.time.from.title"></th>
+-										<th id="facilities-view-pricing-until" translate="facilities.pricing.time.until.title"></th>
++							<th id="facilities-pricing-free" translate="facilities.pricing.free"></th>
++							<th translate="facilities.pricing.price.fi.title"></th>
++							<th translate="facilities.pricing.price.sv.title"></th>
++							<th translate="facilities.pricing.price.en.title"></th>
++						</tr>
++						</thead>
++						<tbody>
++						<tr ng-repeat="pricing in viewCtrl.facility.pricing">
++							<td>
++								<div ng-hide="viewCtrl.isRepeatingValue(viewCtrl.facility.pricing, $index, 'capacityType')">
++									{{ 'capacityTypes.' + pricing.capacityType + '.label' | translate }}
++								</div>
++							</td>
++							<td>
++								<div ng-hide="viewCtrl.isRepeatingValue(viewCtrl.facility.pricing, $index, ['capacityType', 'usage'])">
++									{{ 'usages.' + pricing.usage + '.label' | translate }}
++								</div>
++							</td>
++							<td class="text-right">{{ pricing.maxCapacity }}</td>
+@@ -129,19 +145,6 @@
+-										<th id="facilities-pricing-free" translate="facilities.pricing.free"></th>
+-										<th translate="facilities.pricing.price.fi.title"></th>
+-										<th translate="facilities.pricing.price.sv.title"></th>
+-										<th translate="facilities.pricing.price.en.title"></th>
+-									</tr>
+-									</thead>
+-									<tbody>
+-									<tr ng-repeat="pricing in viewCtrl.facility.pricing">
+-										<td>
+-											<div ng-hide="viewCtrl.isRepeatingValue(viewCtrl.facility.pricing, $index, 'capacityType')">
+-												{{ 'capacityTypes.' + pricing.capacityType + '.label' | translate }}
+-											</div>
+-										</td>
+-										<td>
+-											<div ng-hide="viewCtrl.isRepeatingValue(viewCtrl.facility.pricing, $index, ['capacityType', 'usage'])">
+-												{{ 'usages.' + pricing.usage + '.label' | translate }}
+-											</div>
+-										</td>
+-										<td class="text-right">{{ pricing.maxCapacity }}</td>
++							<td>{{ 'dayTypes.' + pricing.dayType + '.label' | translate }}</td>
++							<td>
++								<div class="centeredCell" ng-show="viewCtrl.is24h(pricing)">&#x2713;</div>
++							</td>
++							<td><span ng-hide="viewCtrl.is24h(pricing)">{{ pricing.time.from }}</span></td>
++							<td><span ng-hide="viewCtrl.is24h(pricing)">{{ pricing.time.until }}</span></td>
+@@ -149,19 +152,9 @@
+-										<td>{{ 'dayTypes.' + pricing.dayType + '.label' | translate }}</td>
+-										<td>
+-											<div class="centeredCell" ng-show="viewCtrl.is24h(pricing)">&#x2713;</div>
+-										</td>
+-										<td><span ng-hide="viewCtrl.is24h(pricing)">{{ pricing.time.from }}</span></td>
+-										<td><span ng-hide="viewCtrl.is24h(pricing)">{{ pricing.time.until }}</span></td>
+-
+-										<td>
+-											<div class="centeredCell" ng-show="viewCtrl.isFree(pricing)">&#x2713;</div>
+-										</td>
+-										<td class="tableText">{{ pricing.price.fi }}</td>
+-										<td class="tableText">{{ pricing.price.sv }}</td>
+-										<td class="tableText">{{ pricing.price.en }}</td>
+-									</tr>
+-									</tbody>
+-								</table>
+-							</div>
+-						</div>
+-					</div>
++							<td>
++								<div class="centeredCell" ng-show="viewCtrl.isFree(pricing)">&#x2713;</div>
++							</td>
++							<td class="tableText">{{ pricing.price.fi }}</td>
++							<td class="tableText">{{ pricing.price.sv }}</td>
++							<td class="tableText">{{ pricing.price.en }}</td>
++						</tr>
++						</tbody>
++					</table>
+@@ -203,23 +195,0 @@
+-
+-			<div class="row contacts">
+-				<h3>{{"facilities.contacts.heading" | translate}}</h3>
+-				<facility-contact-view contact="viewCtrl.contacts[viewCtrl.facility.contacts.emergency]" contact-type="emergency"></facility-contact-view>
+-				<facility-contact-view contact="viewCtrl.contacts[viewCtrl.facility.contacts.operator]" contact-type="operator"></facility-contact-view>
+-				<facility-contact-view contact="viewCtrl.contacts[viewCtrl.facility.contacts.service]" contact-type="service"></facility-contact-view>
+-			</div>
+-
+-			<div class="wdPaymentInfo" ng-show="viewCtrl.hasPaymentInfo()">
+-				<div class="row"><h3>{{"facilities.paymentInfo.heading" | translate }}</h3></div>
+-				<div class="row" ng-show="viewCtrl.hasPaymentMethods()"><h4>{{"facilities.paymentInfo.paymentMethods.label" | translate }}</h4></div>
+-				<div class="row wdPaymentMethodNames" ng-show="viewCtrl.hasPaymentMethods()">{{viewCtrl.getPaymentMethodNames() | joinBy: ", "}}</div>
+-				<div class="wdPaymentInfoDetails" ng-show="viewCtrl.hasPaymentInfoDetails()">
+-					<div class="row"><h4>{{"facilities.paymentInfo.details.heading" | translate }}</h4></div>
+-					<div class="row"><multilingual-view class="wdPaymentInfoDetail" value="viewCtrl.facility.paymentInfo.detail"></multilingual-view></div>
+-					<div class="row"><multilingual-view class="wdPaymentInfoUrl"value="viewCtrl.facility.paymentInfo.url"></multilingual-view></div>
+-				</div>
+-			</div>
+-
+-			<div class="row wdServices" ng-show="viewCtrl.hasServices()">
+-				<h3>{{"facilities.services.heading" | translate}}</h3>
+-				<p class="wdService">{{viewCtrl.getServiceNames() | joinBy: ", "}}</p>
+-			</div>
+@@ -227 +197,27 @@
+-	</content>
++	</div>
++</div>
++
++<div class="row contacts">
++	<h3 class="h3-view">{{"facilities.contacts.heading" | translate}}</h3>
++	<facility-contact-view contact="viewCtrl.contacts[viewCtrl.facility.contacts.emergency]" contact-type="emergency"></facility-contact-view>
++	<facility-contact-view contact="viewCtrl.contacts[viewCtrl.facility.contacts.operator]" contact-type="operator"></facility-contact-view>
++	<facility-contact-view contact="viewCtrl.contacts[viewCtrl.facility.contacts.service]" contact-type="service"></facility-contact-view>
++</div>
++
++<div class="wdPaymentInfo" ng-show="viewCtrl.hasPaymentInfo()">
++	<h3 class="h3-view">{{"facilities.paymentInfo.heading" | translate }}</h3>
++	<div ng-show="viewCtrl.hasPaymentMethods()"><h4>{{"facilities.paymentInfo.paymentMethods.label" | translate }}</h4></div>
++	<div class="row wdPaymentMethodNames" ng-show="viewCtrl.hasPaymentMethods()">{{viewCtrl.getPaymentMethodNames() | joinBy: ", "}}</div>
++	<div class="wdPaymentInfoDetails" ng-show="viewCtrl.hasPaymentInfoDetails()">
++		<div class="row"><h4>{{"facilities.paymentInfo.details.heading" | translate }}</h4></div>
++		<div class="row"><multilingual-view class="wdPaymentInfoDetail" value="viewCtrl.facility.paymentInfo.detail"></multilingual-view></div>
++		<div class="row"><multilingual-view class="wdPaymentInfoUrl"value="viewCtrl.facility.paymentInfo.url"></multilingual-view></div>
++	</div>
++</div>
++
++<div class="row wdServices" ng-show="viewCtrl.hasServices()">
++	<h3 class="h3-view">{{"facilities.services.heading" | translate}}</h3>
++	<p class="wdService">{{viewCtrl.getServiceNames() | joinBy: ", "}}</p>
++</div>
++</div>
++</content>
+diff --git a/application/src/main/frontend/src/app/facilities/pricingList.tpl.html b/application/src/main/frontend/src/app/facilities/pricingList.tpl.html
+index ab651db..4278b5e 100644
+--- a/application/src/main/frontend/src/app/facilities/pricingList.tpl.html
++++ b/application/src/main/frontend/src/app/facilities/pricingList.tpl.html
+@@ -84 +84 @@
+-<div class="row rowWithSmallMargin">
++<div class="row smallMargin">
+diff --git a/application/src/main/frontend/src/app/hubs/hubView.tpl.html b/application/src/main/frontend/src/app/hubs/hubView.tpl.html
+index 660b5a4..d681423 100644
+--- a/application/src/main/frontend/src/app/hubs/hubView.tpl.html
++++ b/application/src/main/frontend/src/app/hubs/hubView.tpl.html
+@@ -24 +24 @@
+-				<h3>{{"hubs.location.label" | translate}}</h3>
++				<h3 class="h3-view">{{"hubs.location.label" | translate}}</h3>
+@@ -37 +37 @@
+-				<h3 class="wdFacilitiesTotal" ng-show="viewCtrl.hasCapacities()">{{"hubs.facilitiesTotal" | translate}}</h3>
++				<h3 class="h3-view wdFacilitiesTotal" ng-show="viewCtrl.hasCapacities()">{{"hubs.facilitiesTotal" | translate}}</h3>
+diff --git a/application/src/main/frontend/src/app/layout/mainLayout.tpl.html b/application/src/main/frontend/src/app/layout/mainLayout.tpl.html
+index 2466f0a..3f424dd 100644
+--- a/application/src/main/frontend/src/app/layout/mainLayout.tpl.html
++++ b/application/src/main/frontend/src/app/layout/mainLayout.tpl.html
+@@ -20 +20 @@
+-		<div class="secondary-navi-column navi-column-responsive text-right last-column">
++		<div class="secondary-navi-column text-right last-column">
+diff --git a/application/src/main/frontend/src/sass/_fonts_and_links.scss b/application/src/main/frontend/src/sass/_fonts_and_links.scss
+index 068bdae..df1f956 100644
+--- a/application/src/main/frontend/src/sass/_fonts_and_links.scss
++++ b/application/src/main/frontend/src/sass/_fonts_and_links.scss
+@@ -16 +16 @@
+-  margin-top: 50px;
++  margin-top: 40px;
+@@ -21 +21,5 @@
+-  margin-top: 10px;
++  margin-top: 0;
++}
++
++.h3-view {
++  margin-top: 55px;
+diff --git a/application/src/main/frontend/src/sass/_layouts.scss b/application/src/main/frontend/src/sass/_layouts.scss
+index 260898d..b4d750e 100644
+--- a/application/src/main/frontend/src/sass/_layouts.scss
++++ b/application/src/main/frontend/src/sass/_layouts.scss
+@@ -40,4 +40,2 @@
+-  @extend .col-lg-4;
+-  @extend .col-md-5;
+-  @extend .col-sm-6;
+-  @extend .col-xs-7;
++  @extend .col-md-4;
++  @extend .col-xs-6;
+@@ -53,3 +50,0 @@
+-  @extend .col-lg-6;
+-  @extend .col-md-10;
+-  @extend .col-sm-9;
+@@ -95,3 +89,0 @@
+-  @extend .col-lg-2;
+-  @extend .col-md-2;
+-  @extend .col-sm-3;
+@@ -113,2 +105,2 @@
+-  padding-top:40px;
+-  padding-bottom: 40px;
++  padding-top: 50px;
++  padding-bottom: 50px;
+@@ -142,0 +135,4 @@
++.smallMarginBottom {
++  margin-bottom: 25px;
++}
++
+@@ -145,2 +140,0 @@
+-  @extend .col-lg-6;
+-  @extend .col-md-6;
+@@ -154,2 +147,0 @@
+-  @extend .col-lg-4;
+-  @extend .col-md-4;
+@@ -171,3 +162,0 @@
+-  @extend .col-lg-6;
+-  @extend .col-md-6;
+-  @extend .col-sm-6;
+diff --git a/application/src/main/frontend/src/sass/_map.scss b/application/src/main/frontend/src/sass/_map.scss
+index 37466d9..56a2b0e 100644
+--- a/application/src/main/frontend/src/sass/_map.scss
++++ b/application/src/main/frontend/src/sass/_map.scss
+@@ -3,0 +4 @@
++  margin-bottom: 25px;
+diff --git a/application/src/main/java/fi/hsl/parkandride/core/domain/FacilityInfo.java b/application/src/main/java/fi/hsl/parkandride/core/domain/FacilityInfo.java
+index 31e6ad3..71588d3 100644
+--- a/application/src/main/java/fi/hsl/parkandride/core/domain/FacilityInfo.java
++++ b/application/src/main/java/fi/hsl/parkandride/core/domain/FacilityInfo.java
+@@ -37 +37 @@
+-    public FacilityStatus status = IN_OPERATION;
++    public FacilityStatus status;
+diff --git a/application/src/test/java/fi/hsl/parkandride/back/FacilityDaoTest.java b/application/src/test/java/fi/hsl/parkandride/back/FacilityDaoTest.java
+index d5a4d75..4ee215b 100644
+--- a/application/src/test/java/fi/hsl/parkandride/back/FacilityDaoTest.java
++++ b/application/src/test/java/fi/hsl/parkandride/back/FacilityDaoTest.java
+@@ -249,0 +250 @@
++        f1.status = IN_OPERATION;
+@@ -256,0 +258 @@
++        f2.status = IN_OPERATION;
+diff --git a/application/src/test/java/fi/hsl/parkandride/core/domain/ViolationTest.java b/application/src/test/java/fi/hsl/parkandride/core/domain/ViolationTest.java
+index 186d9d7..65fe98b 100644
+--- a/application/src/test/java/fi/hsl/parkandride/core/domain/ViolationTest.java
++++ b/application/src/test/java/fi/hsl/parkandride/core/domain/ViolationTest.java
+@@ -2,0 +3 @@
++import static fi.hsl.parkandride.core.domain.FacilityStatus.IN_OPERATION;
+@@ -30,0 +32 @@
++        f.status = IN_OPERATION;
+@@ -45,0 +48 @@
++        f.status = IN_OPERATION;
+diff --git a/application/src/test/java/fi/hsl/parkandride/itest/UtilizationITest.java b/application/src/test/java/fi/hsl/parkandride/itest/UtilizationITest.java
+index dbdb18d..3ff8a78 100644
+--- a/application/src/test/java/fi/hsl/parkandride/itest/UtilizationITest.java
++++ b/application/src/test/java/fi/hsl/parkandride/itest/UtilizationITest.java
+@@ -3,0 +4 @@
++import static fi.hsl.parkandride.core.domain.FacilityStatus.IN_OPERATION;
+@@ -66,0 +68 @@
++        f.status = IN_OPERATION;
+diff --git a/etc/protractor/fixtures/facilities.fixture.js b/etc/protractor/fixtures/facilities.fixture.js
+index 2addece..bb91735 100644
+--- a/etc/protractor/fixtures/facilities.fixture.js
++++ b/etc/protractor/fixtures/facilities.fixture.js
+@@ -26,0 +27 @@
++            "status": "IN_OPERATION",
+@@ -79,0 +81 @@
++            "status": "IN_OPERATION",
+@@ -112,0 +115 @@
++        "status": "IN_OPERATION",
+@@ -139,0 +143 @@
++        "status": "IN_OPERATION",
+diff --git a/etc/protractor/specs/facilities/facilityView.spec.js b/etc/protractor/specs/facilities/facilityView.spec.js
+index 401a79a..222eafc 100644
+--- a/etc/protractor/specs/facilities/facilityView.spec.js
++++ b/etc/protractor/specs/facilities/facilityView.spec.js
+@@ -93,0 +94 @@
++            "status": "IN_OPERATION",
+

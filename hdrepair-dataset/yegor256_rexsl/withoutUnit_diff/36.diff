@@ -1,0 +1,50 @@
+diff --git a/rexsl/pom.xml b/rexsl/pom.xml
+index 524cca4..7ef9d39 100644
+--- a/rexsl/pom.xml
++++ b/rexsl/pom.xml
+@@ -351 +350,0 @@
+-                                        <sourcepath>src/main/java</sourcepath>
+@@ -378,0 +378,12 @@
++                                            <configuration>
++                                                <sourcepath>src/main/java</sourcepath>
++                                            </configuration>
++                                        </reportSet>
++                                        <reportSet>
++                                            <id>mock</id>
++                                            <reports>
++                                                <report>test-javadoc</report>
++                                            </reports>
++                                            <configuration>
++                                                <sourcepath>src/mock/java</sourcepath>
++                                            </configuration>
+diff --git a/rexsl/rexsl-test/src/site/apt/index.apt.vm b/rexsl/rexsl-test/src/site/apt/index.apt.vm
+index 66ca29a..afe0544 100644
+--- a/rexsl/rexsl-test/src/site/apt/index.apt.vm
++++ b/rexsl/rexsl-test/src/site/apt/index.apt.vm
+@@ -59,0 +60,18 @@
++
++  This module also contains a very useful Mocking tool in   {{{./testapidocs/com/rexsl/test/ContainerMocker.html}<<<com.rexsl.test.ContainerMocker>>>}}. To use it you should include this dependencies into your project:
++
+++--
++<dependency>
++  <groupId>com.rexsl</groupId>
++  <artifactId>rexsl-test</artifactId>
++  <version>${releasedVersion}</version>
++  <classifier>mock</classifier>
++  <scope>test</scope>
++</dependency>
++<dependency>
++  <groupId>com.sun.grizzly</groupId>
++  <artifactId>grizzly-servlet-webserver</artifactId>
++  <version>1.9.10</version>
++  <scope>test</scope>
++</dependency>
+++--
+diff --git a/rexsl/rexsl-w3c/src/main/java/com/rexsl/w3c/BaseValidator.java b/rexsl/rexsl-w3c/src/main/java/com/rexsl/w3c/BaseValidator.java
+index d96c639..22c1510 100644
+--- a/rexsl/rexsl-w3c/src/main/java/com/rexsl/w3c/BaseValidator.java
++++ b/rexsl/rexsl-w3c/src/main/java/com/rexsl/w3c/BaseValidator.java
+@@ -112,2 +111,0 @@
+-        } catch (java.io.UnsupportedEncodingException ex) {
+-            throw new IllegalArgumentException(ex);
+

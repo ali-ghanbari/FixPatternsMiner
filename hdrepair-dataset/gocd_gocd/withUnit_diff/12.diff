@@ -1,0 +1,17 @@
+diff --git a/common/test/com/thoughtworks/go/util/command/HgUrlArgumentTest.java b/common/test/com/thoughtworks/go/util/command/HgUrlArgumentTest.java
+index 134addb..740f2a8 100644
+--- a/common/test/com/thoughtworks/go/util/command/HgUrlArgumentTest.java
++++ b/common/test/com/thoughtworks/go/util/command/HgUrlArgumentTest.java
+@@ -59,0 +60,4 @@
++    @Test
++    public void shouldNotModifyWindowsFileSystemPath() throws Exception {
++        assertThat(new HgUrlArgument("c:\\foobar").defaultRemoteUrl(), is("c:\\foobar"));
++    }
+diff --git a/config/config-api/src/com/thoughtworks/go/util/command/HgUrlArgument.java b/config/config-api/src/com/thoughtworks/go/util/command/HgUrlArgument.java
+index edd2e5c..fd29e0d 100644
+--- a/config/config-api/src/com/thoughtworks/go/util/command/HgUrlArgument.java
++++ b/config/config-api/src/com/thoughtworks/go/util/command/HgUrlArgument.java
+@@ -56 +56 @@
+-            throw new RuntimeException(e);
++            return sanitizedUrl;
+

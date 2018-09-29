@@ -1,0 +1,9 @@
+diff --git a/sonar-core/src/main/java/org/sonar/core/rule/RuleParamDto.java b/sonar-core/src/main/java/org/sonar/core/rule/RuleParamDto.java
+index 7d14369..5cfc054 100644
+--- a/sonar-core/src/main/java/org/sonar/core/rule/RuleParamDto.java
++++ b/sonar-core/src/main/java/org/sonar/core/rule/RuleParamDto.java
+@@ -95 +95,2 @@
+-    return new RuleParamDto();
++    // Should eventually switch to RuleKey (RuleKey is available before insert)
++    return new RuleParamDto().setRuleId(rule.getId());
+

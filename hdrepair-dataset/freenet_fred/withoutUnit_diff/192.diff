@@ -1,0 +1,8 @@
+diff --git a/src/freenet/node/PeerMessageQueue.java b/src/freenet/node/PeerMessageQueue.java
+index 22793b4..b65187b 100644
+--- a/src/freenet/node/PeerMessageQueue.java
++++ b/src/freenet/node/PeerMessageQueue.java
+@@ -850 +850 @@
+-		if(queuesByPriority[DMT.PRIORITY_BULK_DATA].getNextUrgentTime(Long.MAX_VALUE, now, PacketSender.MAX_COALESCING_DELAY_BULK) > now) {
++		if(queuesByPriority[DMT.PRIORITY_BULK_DATA].getNextUrgentTime(Long.MAX_VALUE, now, PacketSender.MAX_COALESCING_DELAY_BULK) <= now) {
+

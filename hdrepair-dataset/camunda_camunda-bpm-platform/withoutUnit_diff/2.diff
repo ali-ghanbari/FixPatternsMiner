@@ -1,0 +1,11 @@
+diff --git a/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/DeployCmd.java b/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/DeployCmd.java
+index 14c4cfb..4ad551d 100644
+--- a/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/DeployCmd.java
++++ b/engine/src/main/java/org/camunda/bpm/engine/impl/cmd/DeployCmd.java
+@@ -77 +77,4 @@
+-  public Deployment execute(final CommandContext commandContext) {
++  // synchronized: ensure serial processing of multiple deployments on the same node.
++  // We experienced deadlock situations with highly concurrent deployment of multiple
++  // applications on Jboss & Wildfly in combination with H2.
++  public synchronized Deployment execute(final CommandContext commandContext) {
+

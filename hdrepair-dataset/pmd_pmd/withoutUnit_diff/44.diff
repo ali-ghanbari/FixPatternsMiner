@@ -1,0 +1,22 @@
+diff --git a/pmd/etc/changelog.txt b/pmd/etc/changelog.txt
+index f8dd04e..ad9f02e 100644
+--- a/pmd/etc/changelog.txt
++++ b/pmd/etc/changelog.txt
+@@ -12,0 +13 @@
++Fixed bug 1579615 - OverrideBothEqualsAndHashcode no longer throws an Exception on equals methods that don't have Object as a parameter type.
+diff --git a/pmd/src/net/sourceforge/pmd/rules/OverrideBothEqualsAndHashcode.java b/pmd/src/net/sourceforge/pmd/rules/OverrideBothEqualsAndHashcode.java
+index f7c8174..82e11ff 100644
+--- a/pmd/src/net/sourceforge/pmd/rules/OverrideBothEqualsAndHashcode.java
++++ b/pmd/src/net/sourceforge/pmd/rules/OverrideBothEqualsAndHashcode.java
+@@ -76 +76 @@
+-        } else if (iFormalParams == 1 && node.hasImageEqualTo("equals") && (paramName.equals("Object") || paramName.equals("java.lang.Object"))) {
++        } else if (iFormalParams == 1 && node.hasImageEqualTo("equals") && ("Object".equals(paramName) || "java.lang.Object".equals(paramName))) {
+diff --git a/pmd/xdocs/credits.xml b/pmd/xdocs/credits.xml
+index 48f758c..e76cda4 100644
+--- a/pmd/xdocs/credits.xml
++++ b/pmd/xdocs/credits.xml
+@@ -54,0 +55 @@
++            <li>Wouter Zelle - Fixed bug in OverrideBothEqualsAndHashcode, wrote BrokenNullCheck rule, fixed a false positive in InefficientStringBuffering, fixed a false positive in NonThreadSafeSingleton, a nice patch to clean up some of the Ant task properties and fix a TextRenderer bug, rewrote PositionLiteralsFirstInComparisons in XPath, Renderer improvement suggestions, wrote NonThreadSafeSingleton rule, wrote DefaultPackage rule, worked thru ASTMethodDeclaration.isSyntacticallyX design, reported docs bug 1292689 for UnnecessaryLocalBeforeReturn, reported leftover ExceptionTypeChecking source file, rewrote UselessOverridingMethod in Java, UselessOverridingMethod rule, ProperLogger rule, nifty code to allow variables in XPath rules, externalInfoUrl data for all rules in basic and unusedcode rulesets, some very nifty XSLT, improvements to UseCorrectExceptionLogging, designed and implemented the "externalInfoUrl" feature in the rule definitions, fixed a devious bug in RuleSetFactory, AvoidPrintStackTrace, initial implementation of SimplifyConditional</li>
+@@ -64 +64,0 @@
+-            <li>Wouter Zelle - Wrote BrokenNullCheck rule, fixed a false positive in InefficientStringBuffering, fixed a false positive in NonThreadSafeSingleton, a nice patch to clean up some of the Ant task properties and fix a TextRenderer bug, rewrote PositionLiteralsFirstInComparisons in XPath, Renderer improvement suggestions, wrote NonThreadSafeSingleton rule, wrote DefaultPackage rule, worked thru ASTMethodDeclaration.isSyntacticallyX design, reported docs bug 1292689 for UnnecessaryLocalBeforeReturn, reported leftover ExceptionTypeChecking source file, rewrote UselessOverridingMethod in Java, UselessOverridingMethod rule, ProperLogger rule, nifty code to allow variables in XPath rules, externalInfoUrl data for all rules in basic and unusedcode rulesets, some very nifty XSLT, improvements to UseCorrectExceptionLogging, designed and implemented the "externalInfoUrl" feature in the rule definitions, fixed a devious bug in RuleSetFactory, AvoidPrintStackTrace, initial implementation of SimplifyConditional</li>
+

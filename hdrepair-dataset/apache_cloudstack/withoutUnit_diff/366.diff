@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/upgrade/dao/Upgrade229to2210.java b/server/src/com/cloud/upgrade/dao/Upgrade229to2210.java
+index b7ba2e9..7d5e4a8 100644
+--- a/server/src/com/cloud/upgrade/dao/Upgrade229to2210.java
++++ b/server/src/com/cloud/upgrade/dao/Upgrade229to2210.java
+@@ -76 +76 @@
+-            pstmt = conn.prepareStatement("select id, prev_snap_id from snapshots where sechost_id is NULL and prev_snap_id is not NULL order by id");
++            pstmt = conn.prepareStatement("select id, prev_snap_id from snapshots where sechost_id is NULL and prev_snap_id is not NULL and status=\"BackedUp\" and removed is NULL order by id");
+

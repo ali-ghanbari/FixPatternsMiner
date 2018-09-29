@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/hudson/maven/MavenBuild.java b/core/src/main/java/hudson/maven/MavenBuild.java
+index 4263d03..73c109b 100644
+--- a/core/src/main/java/hudson/maven/MavenBuild.java
++++ b/core/src/main/java/hudson/maven/MavenBuild.java
+@@ -442 +442 @@
+-                if(tup.isBuilding() || tup.isInQueue())
++                if(tup!=getProject() && (tup.isBuilding() || tup.isInQueue()))
+

@@ -1,0 +1,35 @@
+diff --git a/public/java/src/org/broadinstitute/sting/gatk/datasources/reads/BAMScheduler.java b/public/java/src/org/broadinstitute/sting/gatk/datasources/reads/BAMScheduler.java
+index dca4cc7..bcb7266 100644
+--- a/public/java/src/org/broadinstitute/sting/gatk/datasources/reads/BAMScheduler.java
++++ b/public/java/src/org/broadinstitute/sting/gatk/datasources/reads/BAMScheduler.java
+@@ -259 +259 @@
+-                if(dataSource.getHeader().getSequence(locus.getContig()).getSequenceIndex() == lastReferenceSequenceLoaded)
++                if(!GenomeLoc.isUnmapped(locus) && dataSource.getHeader().getSequence(locus.getContig()).getSequenceIndex() == lastReferenceSequenceLoaded)
+diff --git a/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java b/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java
+index 3fb3308..a836441 100644
+--- a/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java
++++ b/public/java/test/org/broadinstitute/sting/utils/interval/IntervalIntegrationTest.java
+@@ -85,0 +86,22 @@
++    @Test
++    public void testMixedMappedAndUnmapped() {
++        WalkerTest.WalkerTestSpec spec = new WalkerTest.WalkerTestSpec(
++                "-T PrintReads" +
++                        " -I " + validationDataLocation + "MV1994.bam" +
++                        " -R " + validationDataLocation + "Escherichia_coli_K12_MG1655.fasta" +
++                        " -L Escherichia_coli_K12:4630000-4639675" +
++                        " -L unmapped" +
++                        " -U",
++                        0, // two output files
++                        Collections.<String>emptyList());
++
++        // our base file
++        File baseOutputFile = createTempFile("testUnmappedReadInclusion",".bam");
++        spec.setOutputFileLocation(baseOutputFile);
++        spec.addAuxFile("083ef1e9ded868e0d12c05a1354c0319",createTempFileFromBase(baseOutputFile.getAbsolutePath()));
++        spec.addAuxFile("fa90ff91ac0cc689c71a3460a3530b8b", createTempFileFromBase(baseOutputFile.getAbsolutePath().substring(0,baseOutputFile.getAbsolutePath().indexOf(".bam"))+".bai"));
++
++        executeTest("testUnmappedReadInclusion",spec);
++    }
++
++
+

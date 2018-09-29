@@ -1,0 +1,8 @@
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/servlets/filters/pathProcessors/SiteElementPathProcessor.java b/src/net/sourceforge/fenixedu/presentationTier/servlets/filters/pathProcessors/SiteElementPathProcessor.java
+index 1594c84..3a510bf 100644
+--- a/src/net/sourceforge/fenixedu/presentationTier/servlets/filters/pathProcessors/SiteElementPathProcessor.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/servlets/filters/pathProcessors/SiteElementPathProcessor.java
+@@ -20 +20 @@
+-        return StringUtils.normalize(name.toLowerCase().replace(' ', '-').replace('/', '-'));
++        return name != null ? StringUtils.normalize(name.toLowerCase().replace(' ', '-').replace('/', '-')) : "";
+

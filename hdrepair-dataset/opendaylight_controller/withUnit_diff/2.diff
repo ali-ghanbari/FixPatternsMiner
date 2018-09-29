@@ -1,0 +1,126 @@
+diff --git a/features/flow/pom.xml b/features/flow/pom.xml
+index 53b45d2..d4a3f02 100644
+--- a/features/flow/pom.xml
++++ b/features/flow/pom.xml
+@@ -27,20 +26,0 @@
+-  <dependency>
+-      <groupId>org.opendaylight.controller.md</groupId>
+-      <artifactId>statistics-manager-config</artifactId>
+-      <version>${mdsal.version}</version>
+-      <type>xml</type>
+-      <classifier>config</classifier>
+-  </dependency>
+-
+-    <dependency>
+-      <groupId>org.opendaylight.controller.model</groupId>
+-      <artifactId>model-flow-base</artifactId>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.opendaylight.controller.model</groupId>
+-      <artifactId>model-flow-service</artifactId>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.opendaylight.controller.model</groupId>
+-      <artifactId>model-flow-statistics</artifactId>
+-    </dependency>
+@@ -55,20 +35 @@
+-    <dependency>
+-      <groupId>org.opendaylight.controller.md</groupId>
+-      <artifactId>topology-manager</artifactId>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.opendaylight.controller.md</groupId>
+-      <artifactId>topology-lldp-discovery</artifactId>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.opendaylight.controller.md</groupId>
+-      <artifactId>statistics-manager</artifactId>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.opendaylight.controller.md</groupId>
+-      <artifactId>inventory-manager</artifactId>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.opendaylight.controller.md</groupId>
+-      <artifactId>forwardingrules-manager</artifactId>
+-    </dependency>
++
+diff --git a/features/flow/src/main/resources/features.xml b/features/flow/src/main/resources/features.xml
+index cf54e8b..860d0c2 100644
+--- a/features/flow/src/main/resources/features.xml
++++ b/features/flow/src/main/resources/features.xml
+@@ -9,3 +8,0 @@
+-        <bundle>mvn:org.opendaylight.controller.model/model-flow-base/${project.version}</bundle>
+-        <bundle>mvn:org.opendaylight.controller.model/model-flow-service/${project.version}</bundle>
+-        <bundle>mvn:org.opendaylight.controller.model/model-flow-statistics/${project.version}</bundle>
+@@ -15,12 +11,0 @@
+-    <feature name='odl-flow-services' version='${project.version}' description="OpenDaylight :: Flow :: Services">
+-        <feature version='${project.version}'>odl-mdsal-broker</feature>
+-        <feature version='${project.version}'>odl-flow-model</feature>
+-        <bundle>mvn:org.opendaylight.controller.md/topology-manager/${project.version}</bundle>
+-        <bundle>mvn:org.opendaylight.controller.md/topology-lldp-discovery/${project.version}</bundle>
+-        <bundle>mvn:org.opendaylight.controller.md/statistics-manager/${project.version}</bundle>
+-        <bundle>mvn:org.opendaylight.controller.md/inventory-manager/${project.version}</bundle>
+-        <bundle>mvn:org.opendaylight.controller.md/forwardingrules-manager/${project.version}</bundle>
+-        <bundle>mvn:org.opendaylight.controller/liblldp/${sal.version}</bundle>
+-        <configfile finalname="${config.configfile.directory}/${config.statistics.manager.configfile}">mvn:org.opendaylight.controller.md/statistics-manager-config/${mdsal.version}/xml/config</configfile>
+-    </feature>
+-
+diff --git a/opendaylight/md-sal/sal-binding-broker/pom.xml b/opendaylight/md-sal/sal-binding-broker/pom.xml
+index 9346e22..1cf0f7f 100644
+--- a/opendaylight/md-sal/sal-binding-broker/pom.xml
++++ b/opendaylight/md-sal/sal-binding-broker/pom.xml
+@@ -52,0 +53 @@
++      <scope>test</scope>
+@@ -56,0 +58 @@
++      <scope>test</scope>
+@@ -60,0 +63 @@
++      <scope>test</scope>
+diff --git a/opendaylight/md-sal/sal-binding-it/src/main/java/org/opendaylight/controller/test/sal/binding/it/TestHelper.java b/opendaylight/md-sal/sal-binding-it/src/main/java/org/opendaylight/controller/test/sal/binding/it/TestHelper.java
+index 96f52bd..9f5bdd4 100644
+--- a/opendaylight/md-sal/sal-binding-it/src/main/java/org/opendaylight/controller/test/sal/binding/it/TestHelper.java
++++ b/opendaylight/md-sal/sal-binding-it/src/main/java/org/opendaylight/controller/test/sal/binding/it/TestHelper.java
+@@ -159,2 +158,0 @@
+-                mavenBundle(CONTROLLER_MODELS, "model-flow-base").versionAsInProject(), // //
+-                mavenBundle(CONTROLLER_MODELS, "model-flow-service").versionAsInProject(), // //
+diff --git a/opendaylight/md-sal/sal-binding-it/src/test/java/org/opendaylight/controller/test/sal/binding/it/NotificationTest.java b/opendaylight/md-sal/sal-binding-it/src/test/java/org/opendaylight/controller/test/sal/binding/it/NotificationTest.java
+index e1d5d00..4120809 100644
+--- a/opendaylight/md-sal/sal-binding-it/src/test/java/org/opendaylight/controller/test/sal/binding/it/NotificationTest.java
++++ b/opendaylight/md-sal/sal-binding-it/src/test/java/org/opendaylight/controller/test/sal/binding/it/NotificationTest.java
+@@ -168 +167,0 @@
+-     *
+diff --git a/opendaylight/md-sal/samples/toaster-it/src/test/java/org/opendaylight/controller/sample/toaster/it/ToasterTest.java b/opendaylight/md-sal/samples/toaster-it/src/test/java/org/opendaylight/controller/sample/toaster/it/ToasterTest.java
+index 30f1762..93b398f 100644
+--- a/opendaylight/md-sal/samples/toaster-it/src/test/java/org/opendaylight/controller/sample/toaster/it/ToasterTest.java
++++ b/opendaylight/md-sal/samples/toaster-it/src/test/java/org/opendaylight/controller/sample/toaster/it/ToasterTest.java
+@@ -34 +33,0 @@
+-import static org.opendaylight.controller.test.sal.binding.it.TestHelper.flowCapableModelBundles;
+@@ -70 +68,0 @@
+-                flowCapableModelBundles(),
+diff --git a/opendaylight/md-sal/samples/toaster-provider/pom.xml b/opendaylight/md-sal/samples/toaster-provider/pom.xml
+index 08f0988..dd98103 100644
+--- a/opendaylight/md-sal/samples/toaster-provider/pom.xml
++++ b/opendaylight/md-sal/samples/toaster-provider/pom.xml
+@@ -66,0 +67,21 @@
++    <dependency>
++      <groupId>com.google.guava</groupId>
++      <artifactId>guava</artifactId>
++    </dependency>
++    <dependency>
++      <groupId>org.opendaylight.yangtools</groupId>
++      <artifactId>yang-binding</artifactId>
++    </dependency>
++    <dependency>
++      <groupId>org.opendaylight.yangtools.model</groupId>
++      <artifactId>yang-ext</artifactId>
++    </dependency>
++    <dependency>
++      <groupId>org.opendaylight.yangtools.model</groupId>
++      <artifactId>ietf-yang-types</artifactId>
++    </dependency>
++    <dependency>
++      <groupId>org.opendaylight.yangtools.model</groupId>
++      <artifactId>opendaylight-l2-types</artifactId>
++    </dependency>
++
+

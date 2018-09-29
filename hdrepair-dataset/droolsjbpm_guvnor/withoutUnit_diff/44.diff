@@ -1,0 +1,66 @@
+diff --git a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AddCommandWidget.ui.xml b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AddCommandWidget.ui.xml
+index f52a88c..5928a08 100644
+--- a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AddCommandWidget.ui.xml
++++ b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AddCommandWidget.ui.xml
+@@ -24,4 +24,4 @@
+-  <gwt:HTMLPanel>
+-    <div style="width: 100%;">
+-      <div>
+-        <gwt:PushButton ui:field="addInsertBulkDataButton" styleName="{simulationResources.style.addCommandButton}">
++  <gwt:VerticalPanel styleName="{simulationResources.style.addCommandWidget}">
++    <gwt:cell>
++      <gwt:FlowPanel>
++        <gwt:PushButton ui:field="addInsertBulkDataButton" addStyleNames="{simulationResources.style.addCommandButton}">
+@@ -31,3 +31,5 @@
+-      </div>
+-      <div>
+-        <gwt:PushButton ui:field="addFireAllRulesButton" styleName="{simulationResources.style.addCommandButton}">
++      </gwt:FlowPanel>
++    </gwt:cell>
++    <gwt:cell>
++      <gwt:FlowPanel>
++        <gwt:PushButton ui:field="addFireAllRulesButton" addStyleNames="{simulationResources.style.addCommandButton}">
+@@ -37,3 +39,5 @@
+-      </div>
+-      <div>
+-        <gwt:PushButton ui:field="addAssertBulkDataButton" styleName="{simulationResources.style.addCommandButton}">
++      </gwt:FlowPanel>
++    </gwt:cell>
++    <gwt:cell>
++      <gwt:FlowPanel>
++        <gwt:PushButton ui:field="addAssertBulkDataButton" addStyleNames="{simulationResources.style.addCommandButton}">
+@@ -43,3 +47,3 @@
+-      </div>
+-    </div>
+-  </gwt:HTMLPanel>
++      </gwt:FlowPanel>
++    </gwt:cell>
++  </gwt:VerticalPanel>
+diff --git a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AssertRuleFiredCommandWidget.ui.xml b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AssertRuleFiredCommandWidget.ui.xml
+index 0f750d7..0de2be6 100644
+--- a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AssertRuleFiredCommandWidget.ui.xml
++++ b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/command/AssertRuleFiredCommandWidget.ui.xml
+@@ -24 +24 @@
+-  <gwt:HorizontalPanel spacing="10">
++  <gwt:FlowPanel>
+@@ -31 +31 @@
+-  </gwt:HorizontalPanel>
++  </gwt:FlowPanel>
+diff --git a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/Simulation.css b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/Simulation.css
+index 7dbc4d3..869329a 100644
+--- a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/Simulation.css
++++ b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/Simulation.css
+@@ -36,0 +37,3 @@
++.addCommandWidget {
++    width: 100%;
++}
+@@ -44,0 +48,2 @@
++    margin-left: 5px;
++    vertical-align: middle;
+diff --git a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/SimulationStyle.java b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/SimulationStyle.java
+index 8f12e0b..257188b 100644
+--- a/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/SimulationStyle.java
++++ b/guvnor-webapp-drools/src/main/java/org/drools/guvnor/client/simulation/resources/SimulationStyle.java
+@@ -29,0 +30 @@
++    String addCommandWidget();
+

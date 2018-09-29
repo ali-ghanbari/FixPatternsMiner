@@ -1,0 +1,10 @@
+Set WINDOW_CLOSE_TIMEOUT to 500 ms
+
+It turned out that 100 was not enough on the spartan slaves. And we
+did use 500 ms before, but for some reason it was changed back from
+500 to 100 in ec84ae7f. The review for OPDRV-195 that the merge was
+supposed to fix did not contain 500 so it was not seen there. Seems
+like a mistake during the merge.
+
+On the slaves we saw times of more than 200 ms for linux desktop.
+

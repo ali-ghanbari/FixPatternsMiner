@@ -1,0 +1,67 @@
+diff --git a/test/src/com/redhat/ceylon/compiler/java/test/issues/IssuesTest_1500_1999.java b/test/src/com/redhat/ceylon/compiler/java/test/issues/IssuesTest_1500_1999.java
+index cf41571..ab1f649 100644
+--- a/test/src/com/redhat/ceylon/compiler/java/test/issues/IssuesTest_1500_1999.java
++++ b/test/src/com/redhat/ceylon/compiler/java/test/issues/IssuesTest_1500_1999.java
+@@ -286 +285,0 @@
+-    @Ignore
+diff --git a/test/src/com/redhat/ceylon/compiler/java/test/issues/bug16xx/Bug1603.ceylon b/test/src/com/redhat/ceylon/compiler/java/test/issues/bug16xx/Bug1603.ceylon
+index 37208fb..3f5e867 100644
+--- a/test/src/com/redhat/ceylon/compiler/java/test/issues/bug16xx/Bug1603.ceylon
++++ b/test/src/com/redhat/ceylon/compiler/java/test/issues/bug16xx/Bug1603.ceylon
+@@ -19,0 +20 @@
++@noanno
+@@ -32,7 +33,8 @@
+-    shared Boolean m2(Object element) {
+-        if (is Integer element, 
+-            is Integer first) {
+-            return first+length < element <= first;
+-        }
+-        return false;
+-    }
++    // This is now disallowed by the typechecker
++    //shared Boolean m2(Object element) {
++    //    if (is Integer element, 
++    //        is Integer first) {
++    //        return first+length < element <= first;
++    //    }
++    //    return false;
++    //}
+diff --git a/test/src/com/redhat/ceylon/compiler/java/test/issues/bug16xx/Bug1603.src b/test/src/com/redhat/ceylon/compiler/java/test/issues/bug16xx/Bug1603.src
+new file mode 100644
+index 0000000..69939b5
+--- /dev/null
++++ b/test/src/com/redhat/ceylon/compiler/java/test/issues/bug16xx/Bug1603.src
+@@ -0,0 +1,31 @@
++package com.redhat.ceylon.compiler.java.test.issues.bug16xx;
++
++class Bug1603<Element extends .ceylon.language.Ordinal<? extends Element> & .ceylon.language.Comparable<? super Element> & .ceylon.language.Summable<Element>> implements .com.redhat.ceylon.compiler.java.runtime.model.ReifiedType {
++    
++    Bug1603(final .com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor $reified$Element, final Element first, final long length) {
++        this.$reified$Element = $reified$Element;
++        this.first = first;
++    }
++    private final .com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor $reified$Element;
++    private final Element first;
++    
++    public final Element getFirst() {
++        return first;
++    }
++    
++    public final boolean m1(final .java.lang.Object element) {
++        .java.lang.Object element$1;
++        if ((element$1 = element) instanceof .ceylon.language.Integer) {
++            final long element$2 = ((.ceylon.language.Integer)element$1).longValue();
++            if ((Element)getFirst() instanceof .ceylon.language.Integer) {
++                return .ceylon.language.Integer.instance(element$2).compare((.ceylon.language.Integer)getFirst()) != .ceylon.language.larger_.get_();
++            }
++        }
++        return false;
++    }
++    
++    @.java.lang.Override
++    public .com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor $getType$() {
++        return .com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor.klass(.com.redhat.ceylon.compiler.java.test.issues.bug16xx.Bug1603.class, $reified$Element);
++    }
++}
+\ No newline at end of file
+

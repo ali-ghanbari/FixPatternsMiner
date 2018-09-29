@@ -1,0 +1,18 @@
+diff --git a/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerGlobalNamesTest.java b/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerGlobalNamesTest.java
+index c9161b0..c350bfd 100644
+--- a/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerGlobalNamesTest.java
++++ b/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerGlobalNamesTest.java
+@@ -63 +63 @@
+-    public void frogs() throws NodeFactoryException, PropertyEnricherException {
++    public void anura() throws NodeFactoryException, PropertyEnricherException {
+@@ -66 +66 @@
+-        List<String> ids = LinkerTestUtil.assertHasOther("Anura", 7, nodeFactory, RelTypes.SAME_AS);
++        List<String> ids = LinkerTestUtil.assertHasOther("Anura", 14, nodeFactory, RelTypes.SAME_AS);
+diff --git a/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerTestUtil.java b/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerTestUtil.java
+index 3149925..71ed310 100644
+--- a/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerTestUtil.java
++++ b/eol-globi-data-tool/src/test/java/org/eol/globi/tool/LinkerTestUtil.java
+@@ -30 +30 @@
+-        assertThat("expected [" + expectedCount + "] relationships for " + name, counter, is(expectedCount));
++        assertThat("expected [" + expectedCount + "] relationships for [" + name + "]: [" + externalIds.toString() + "]", counter, is(expectedCount));
+

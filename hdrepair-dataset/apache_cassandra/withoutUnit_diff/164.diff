@@ -1,0 +1,16 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 9712791..82f503c 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -10,0 +11 @@
++ * fix get_count returns incorrect value with TTL (CASSANDRA-5099)
+diff --git a/src/java/org/apache/cassandra/thrift/CassandraServer.java b/src/java/org/apache/cassandra/thrift/CassandraServer.java
+index d9965d1..4e61e9a 100644
+--- a/src/java/org/apache/cassandra/thrift/CassandraServer.java
++++ b/src/java/org/apache/cassandra/thrift/CassandraServer.java
+@@ -453,2 +453,2 @@
+-            //   - The last page wasn't full
+-            if (remaining == 0 || columns.size() < predicate.slice_range.count)
++            //   - last fetched page only contains the column we already fetched
++            if (remaining == 0 || ((columns.size() == 1) && (firstName.equals(predicate.slice_range.start))))
+

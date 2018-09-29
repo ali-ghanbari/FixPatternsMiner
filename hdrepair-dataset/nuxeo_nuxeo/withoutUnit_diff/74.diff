@@ -1,0 +1,47 @@
+diff --git a/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/filemanager/FileManageActionsBean.java b/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/filemanager/FileManageActionsBean.java
+index 3da64d8..b80e466 100644
+--- a/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/filemanager/FileManageActionsBean.java
++++ b/nuxeo-platform-webapp-core/src/main/java/org/nuxeo/ecm/webapp/filemanager/FileManageActionsBean.java
+@@ -640,0 +641 @@
++                    // File tempFile = uploadItem.getFile();
+diff --git a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/single_directory_tree_explorer.xhtml b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/single_directory_tree_explorer.xhtml
+index 636fc56..fe7471e 100644
+--- a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/single_directory_tree_explorer.xhtml
++++ b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/single_directory_tree_explorer.xhtml
+@@ -30 +30 @@
+-        <rich:recursiveTreeNodesAdaptor
++        <rich:treeModelRecursiveAdaptor
+@@ -47 +47 @@
+-        </rich:recursiveTreeNodesAdaptor>
++        </rich:treeModelRecursiveAdaptor>
+diff --git a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/tree_explorer.xhtml b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/tree_explorer.xhtml
+index 0241266..aa99e39 100644
+--- a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/tree_explorer.xhtml
++++ b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/incl/tree_explorer.xhtml
+@@ -17 +17 @@
+-        <a4j:commandLink action="#{treeActions.reset}" reRender="treeNav">
++        <a4j:commandLink action="#{treeActions.reset()}" reRender="treeNav">
+@@ -36 +36 @@
+-              <rich:recursiveTreeNodesAdaptor
++              <rich:treeModelRecursiveAdaptor
+@@ -63 +63 @@
+-              </rich:recursiveTreeNodesAdaptor>
++              </rich:treeModelRecursiveAdaptor>
+diff --git a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/search/search_path_tree_explorer.xhtml b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/search/search_path_tree_explorer.xhtml
+index a9e4cc2..44b53f0 100644
+--- a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/search/search_path_tree_explorer.xhtml
++++ b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/search/search_path_tree_explorer.xhtml
+@@ -75 +75 @@
+-                <rich:recursiveTreeNodesAdaptor
++                <rich:treeModelRecursiveAdaptor
+@@ -87 +87 @@
+-                </rich:recursiveTreeNodesAdaptor>
++                </rich:treeModelRecursiveAdaptor>
+diff --git a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/widgets/contributors_widget.xhtml b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/widgets/contributors_widget.xhtml
+index 070e85c..b60d218 100644
+--- a/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/widgets/contributors_widget.xhtml
++++ b/nuxeo-platform-webapp/src/main/resources/web/nuxeo.war/widgets/contributors_widget.xhtml
+@@ -9 +9 @@
+-<c:set var="andLabel" value=" #{messages['label.and']} " scope="page" />
++<c:set var="andLabel" value=" #{messages['label.and']} " scope="view" />
+

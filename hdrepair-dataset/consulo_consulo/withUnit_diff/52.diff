@@ -1,0 +1,64 @@
+diff --git a/plugins/ruby/src/org/jetbrains/plugins/ruby/testing/sm/runner/ui/SMTestRunnerResultsForm.java b/plugins/ruby/src/org/jetbrains/plugins/ruby/testing/sm/runner/ui/SMTestRunnerResultsForm.java
+index bce65bf..9320804 100644
+--- a/plugins/ruby/src/org/jetbrains/plugins/ruby/testing/sm/runner/ui/SMTestRunnerResultsForm.java
++++ b/plugins/ruby/src/org/jetbrains/plugins/ruby/testing/sm/runner/ui/SMTestRunnerResultsForm.java
+@@ -276 +276 @@
+-    myTreeBuilder.performUpdate();
++    myTreeBuilder.updateFromRoot();
+diff --git a/plugins/ruby/testSrc/org/jetbrains/plugins/ruby/testing/sm/runner/GeneralToSMTRunnerEventsConvertorTest.java b/plugins/ruby/testSrc/org/jetbrains/plugins/ruby/testing/sm/runner/GeneralToSMTRunnerEventsConvertorTest.java
+index fe659b4..500a15e 100644
+--- a/plugins/ruby/testSrc/org/jetbrains/plugins/ruby/testing/sm/runner/GeneralToSMTRunnerEventsConvertorTest.java
++++ b/plugins/ruby/testSrc/org/jetbrains/plugins/ruby/testing/sm/runner/GeneralToSMTRunnerEventsConvertorTest.java
+@@ -312,26 +312,25 @@
+-  //public void testRuby_1767() throws InterruptedException {
+-  //  TestConsoleProperties.HIDE_PASSED_TESTS.set(myConsoleProperties, true);
+-  //
+-  //  myEventsProcessor.onSuiteStarted("suite");
+-  //  myResultsViewer.performUpdate();
+-  //
+-  //  myEventsProcessor.onTestStarted("test_failed");
+-  //  myResultsViewer.performUpdate();
+-  //  myEventsProcessor.onTestFailure("test_failed", "", "", false);
+-  //  myResultsViewer.performUpdate();
+-  //  myEventsProcessor.onTestFinished("test_failed", 10);
+-  //  myResultsViewer.performUpdate();
+-  //
+-  //  myEventsProcessor.onTestStarted("test");
+-  //  myResultsViewer.performUpdate();
+-  //  assertEquals(2, myTreeModel.getChildCount(myTreeModel.getChild(myTreeModel.getRoot(), 0)));
+-  //
+-  //  myEventsProcessor.onTestFinished("test", 10);
+-  //  assertEquals(2, myTreeModel.getChildCount(myTreeModel.getChild(myTreeModel.getRoot(), 0)));
+-  //
+-  //  myEventsProcessor.onSuiteFinished("suite");
+-  //  myEventsProcessor.onFinishTesting();
+-  //
+-  //  //TODO[romeo]: investigate why test doesn't work...
+-  //  assertEquals(1, myTreeModel.getChildCount(myTreeModel.getChild(myTreeModel.getRoot(), 0)));
+-  //}
++  public void testRuby_1767() throws InterruptedException {
++    TestConsoleProperties.HIDE_PASSED_TESTS.set(myConsoleProperties, true);
++
++    myEventsProcessor.onSuiteStarted("suite");
++    myResultsViewer.performUpdate();
++
++    myEventsProcessor.onTestStarted("test_failed");
++    myResultsViewer.performUpdate();
++    myEventsProcessor.onTestFailure("test_failed", "", "", false);
++    myResultsViewer.performUpdate();
++    myEventsProcessor.onTestFinished("test_failed", 10);
++    myResultsViewer.performUpdate();
++
++    myEventsProcessor.onTestStarted("test");
++    myResultsViewer.performUpdate();
++    assertEquals(2, myTreeModel.getChildCount(myTreeModel.getChild(myTreeModel.getRoot(), 0)));
++
++    myEventsProcessor.onTestFinished("test", 10);
++    assertEquals(2, myTreeModel.getChildCount(myTreeModel.getChild(myTreeModel.getRoot(), 0)));
++
++    myEventsProcessor.onSuiteFinished("suite");
++    myEventsProcessor.onFinishTesting();
++
++    assertEquals(1, myTreeModel.getChildCount(myTreeModel.getChild(myTreeModel.getRoot(), 0)));
++  }
+

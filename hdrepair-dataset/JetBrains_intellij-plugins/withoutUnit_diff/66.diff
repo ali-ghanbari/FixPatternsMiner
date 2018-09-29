@@ -1,0 +1,8 @@
+diff --git a/struts2/plugin/src/com/intellij/lang/ognl/OgnlLanguageInjector.java b/struts2/plugin/src/com/intellij/lang/ognl/OgnlLanguageInjector.java
+index 5091ab7..b039e0c 100644
+--- a/struts2/plugin/src/com/intellij/lang/ognl/OgnlLanguageInjector.java
++++ b/struts2/plugin/src/com/intellij/lang/ognl/OgnlLanguageInjector.java
+@@ -91 +91 @@
+-      final int length = (closingBraceIdx != -1 ? closingBraceIdx + 1 : textLength) - startOffset;
++      final int length = (closingBraceIdx != -1 && closingBraceIdx > nextStartOffset ? closingBraceIdx + 1 : textLength) - startOffset;
+

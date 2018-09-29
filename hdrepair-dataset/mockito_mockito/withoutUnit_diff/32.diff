@@ -1,0 +1,188 @@
+diff --git a/doc/EasymockComparison.txt b/doc/EasymockComparison.txt
+new file mode 100644
+index 0000000..31b8fd0
+--- /dev/null
++++ b/doc/EasymockComparison.txt
+@@ -0,0 +1,74 @@
++=Mockito vs EasyMock=
++
++  List mock = createNiceMock(List.class);				List mock = mock(List.class);
++  
++  expect(mock.add("one")).andStubReturn(true);			stub(mock.add("one")).toReturn(true);
++  
++  mock.clear();
++  
++  replay(mock);
++  
++  someCodeThatInteractsWithMock();						someCodeThatInteractsWithMock();
++  
++                                                        verify(easy).clear();
++  
++  verify(easy);											verifyNoMoreInteractions(mock);
++  
++===Mockito's similarities:===
++
++  * allow the same level verification as EasyMock (unexpected invocations, redundant invocations, strict verification)
++  
++  * argument matchers are exactly the same (anyInt(), anyObject(), etc.)
++
++===Mockito's differences:===
++
++  * only one kind of mock (no nice/default/strict mocks). 
++  Using EasyMock metaphor: Mockito mocks can be nice or strict - but it depends on how you verify mocks, not how you create them.
++  Because there is only one kind of mock - it is easier to share setup 
++  (situations where mocks are fields in test class but different test methods require different kinds of mocks)
++  
++  * no record/replay modes - no need for them. There only 2 things you can do with Mockito mocks - verify or stub. 
++  Stubbing goes before execution and verification afterwards.
++
++  * all mocks are 'nice' (even nicer than EasyMocks, because collection-returning methods return empty collections instead of nulls).
++  Even though mocks are nice, you can verify them as strictly as you want and detect any unwanted interaction.
++  
++  * verification is explicit - verification errors point exactly what interaction failed.
++  
++  * stubbed methods replay all the time with stubbed value no matter how many times they are called.
++   Works exactly like EasyMock's andStubReturn(), andStubThrow().
++  
++  * only one way of creating mocks (no MockControl object)
++  
++  * single jar distribution 
++  
++=Strict verification=  
++    
++  Control control = createStrictControl();  
++  
++  List one = control.createMock(List.class);				List one = mock(List.class);
++  List two = control.createMock(List.class);				List two = mock(List.class);
++  
++  expect(one.add("one")).andReturn(true);
++  expect(two.add("two")).andReturn(true);
++  
++  control.replay();
++  
++  someCodeThatInteractsWithMocks();							someCodeThatInteractsWithMocks();
++
++                                                            Strictly strictly = strictly(one, two);
++                                                            
++                                                            strictly.verify(one).add("one");
++                                                            strictly.verify(two).add("two");
++  
++  control.verify();											verifyNoMoreInteractions(one, two);
++  
++  
++=Stubbing void methods=
++
++  List mock = createNiceMock(List.class);					List mock = mock(List.class);
++  
++  mock.clear();												stubVoid(mock).toThrow(new Exception()).on().clear();
++  expectLastCall().andThrow(new Exception());
++  
++  replay(mock);
+\ No newline at end of file
+diff --git a/doc/home.txt b/doc/home.txt
+index 69fd4a3..cc08b13 100644
+--- a/doc/home.txt
++++ b/doc/home.txt
+@@ -13 +13 @@
+-Put mockito-all-1.0.jar on classpath  
++Put mockito-all-x.jar on classpath  
+@@ -43,2 +43,2 @@
+-  * Single-jar distribution (mockito-all-1.0.jar) includes java source inside jar
+-  * Zip distribution (mockito-1.0.zip) contains javadoc and all jars    
++  * Single-jar distribution (mockito-all-x.jar) includes java source inside jar
++  * Zip distribution (mockito-x.zip) contains javadoc and all jars    
+diff --git a/doc/jars-info.txt b/doc/jars-info.txt
+index 5634f1a..bdb943a 100644
+--- a/doc/jars-info.txt
++++ b/doc/jars-info.txt
+@@ -2 +2 @@
+- - put 'mockito-all-1.0.jar' on your path (cglib and objenesis are expanded into single jar)
++ - put 'mockito-all-x.jar' on your path (cglib and objenesis are expanded into single jar)
+diff --git a/doc/vsEasymock.txt b/doc/vsEasymock.txt
+deleted file mode 100644
+index 31b8fd0..0000000
+--- a/doc/vsEasymock.txt
++++ /dev/null
+@@ -1,74 +0,0 @@
+-=Mockito vs EasyMock=
+-
+-  List mock = createNiceMock(List.class);				List mock = mock(List.class);
+-  
+-  expect(mock.add("one")).andStubReturn(true);			stub(mock.add("one")).toReturn(true);
+-  
+-  mock.clear();
+-  
+-  replay(mock);
+-  
+-  someCodeThatInteractsWithMock();						someCodeThatInteractsWithMock();
+-  
+-                                                        verify(easy).clear();
+-  
+-  verify(easy);											verifyNoMoreInteractions(mock);
+-  
+-===Mockito's similarities:===
+-
+-  * allow the same level verification as EasyMock (unexpected invocations, redundant invocations, strict verification)
+-  
+-  * argument matchers are exactly the same (anyInt(), anyObject(), etc.)
+-
+-===Mockito's differences:===
+-
+-  * only one kind of mock (no nice/default/strict mocks). 
+-  Using EasyMock metaphor: Mockito mocks can be nice or strict - but it depends on how you verify mocks, not how you create them.
+-  Because there is only one kind of mock - it is easier to share setup 
+-  (situations where mocks are fields in test class but different test methods require different kinds of mocks)
+-  
+-  * no record/replay modes - no need for them. There only 2 things you can do with Mockito mocks - verify or stub. 
+-  Stubbing goes before execution and verification afterwards.
+-
+-  * all mocks are 'nice' (even nicer than EasyMocks, because collection-returning methods return empty collections instead of nulls).
+-  Even though mocks are nice, you can verify them as strictly as you want and detect any unwanted interaction.
+-  
+-  * verification is explicit - verification errors point exactly what interaction failed.
+-  
+-  * stubbed methods replay all the time with stubbed value no matter how many times they are called.
+-   Works exactly like EasyMock's andStubReturn(), andStubThrow().
+-  
+-  * only one way of creating mocks (no MockControl object)
+-  
+-  * single jar distribution 
+-  
+-=Strict verification=  
+-    
+-  Control control = createStrictControl();  
+-  
+-  List one = control.createMock(List.class);				List one = mock(List.class);
+-  List two = control.createMock(List.class);				List two = mock(List.class);
+-  
+-  expect(one.add("one")).andReturn(true);
+-  expect(two.add("two")).andReturn(true);
+-  
+-  control.replay();
+-  
+-  someCodeThatInteractsWithMocks();							someCodeThatInteractsWithMocks();
+-
+-                                                            Strictly strictly = strictly(one, two);
+-                                                            
+-                                                            strictly.verify(one).add("one");
+-                                                            strictly.verify(two).add("two");
+-  
+-  control.verify();											verifyNoMoreInteractions(one, two);
+-  
+-  
+-=Stubbing void methods=
+-
+-  List mock = createNiceMock(List.class);					List mock = mock(List.class);
+-  
+-  mock.clear();												stubVoid(mock).toThrow(new Exception()).on().clear();
+-  expectLastCall().andThrow(new Exception());
+-  
+-  replay(mock);
+\ No newline at end of file
+diff --git a/src/org/mockito/Matchers.java b/src/org/mockito/Matchers.java
+index cf6ddf0..e1313d9 100644
+--- a/src/org/mockito/Matchers.java
++++ b/src/org/mockito/Matchers.java
+@@ -49,0 +50 @@
++        //TODO every matcher should have a link to documentation about matchers
+

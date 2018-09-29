@@ -1,0 +1,15 @@
+diff --git a/src/main/java/org/apache/ibatis/parsing/GenericTokenParser.java b/src/main/java/org/apache/ibatis/parsing/GenericTokenParser.java
+index 71eb1ad..0d6c3e7 100644
+--- a/src/main/java/org/apache/ibatis/parsing/GenericTokenParser.java
++++ b/src/main/java/org/apache/ibatis/parsing/GenericTokenParser.java
+@@ -42 +42 @@
+-          builder.append(src, offset, start - 1).append(openToken);
++          builder.append(src, offset, start - offset - 1).append(openToken);
+diff --git a/src/test/java/org/apache/ibatis/parsing/GenericTokenParserTest.java b/src/test/java/org/apache/ibatis/parsing/GenericTokenParserTest.java
+index 9dcf1c3..67b928c 100644
+--- a/src/test/java/org/apache/ibatis/parsing/GenericTokenParserTest.java
++++ b/src/test/java/org/apache/ibatis/parsing/GenericTokenParserTest.java
+@@ -75,0 +76,2 @@
++    assertEquals("null ${skipped} variable", parser.parse("${skipped} \\${skipped} variable"));
++    assertEquals("The null is ${skipped} variable", parser.parse("The ${skipped} is \\${skipped} variable"));
+

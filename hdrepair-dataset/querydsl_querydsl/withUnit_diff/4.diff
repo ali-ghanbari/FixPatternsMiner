@@ -1,0 +1,46 @@
+diff --git a/querydsl-apt/src/main/java/com/mysema/query/apt/ExtendedTypeFactory.java b/querydsl-apt/src/main/java/com/mysema/query/apt/ExtendedTypeFactory.java
+index b840a12..18054e1 100644
+--- a/querydsl-apt/src/main/java/com/mysema/query/apt/ExtendedTypeFactory.java
++++ b/querydsl-apt/src/main/java/com/mysema/query/apt/ExtendedTypeFactory.java
+@@ -117,0 +118 @@
++                case ANNOTATION_TYPE:
+diff --git a/querydsl-apt/src/test/java/com/mysema/query/domain/AnnotationTypeTest.java b/querydsl-apt/src/test/java/com/mysema/query/domain/AnnotationTypeTest.java
+new file mode 100644
+index 0000000..326503f
+--- /dev/null
++++ b/querydsl-apt/src/test/java/com/mysema/query/domain/AnnotationTypeTest.java
+@@ -0,0 +1,33 @@
++package com.mysema.query.domain;
++
++import java.lang.annotation.Annotation;
++
++import javax.persistence.Embeddable;
++import javax.persistence.EmbeddedId;
++import javax.persistence.Entity;
++import javax.persistence.Id;
++import javax.persistence.MappedSuperclass;
++
++import org.junit.Ignore;
++
++@Ignore
++public class AnnotationTypeTest {
++
++    @MappedSuperclass
++    public static abstract class BaseObject<T extends Annotation> {
++        
++    }
++
++    @Entity
++    public static class Person extends BaseObject<javax.persistence.Id> {
++        @Id
++        private Long id;
++    }
++
++    @Embeddable
++    public static class Address extends BaseObject<javax.persistence.EmbeddedId> {
++        @EmbeddedId
++        private String street;
++    }
++    
++}
+

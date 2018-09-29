@@ -1,0 +1,8 @@
+diff --git a/cdap-data-fabric/src/main/java/co/cask/cdap/data2/transaction/stream/inmemory/InMemoryStreamConsumerStateStore.java b/cdap-data-fabric/src/main/java/co/cask/cdap/data2/transaction/stream/inmemory/InMemoryStreamConsumerStateStore.java
+index d699db2..7e22845 100644
+--- a/cdap-data-fabric/src/main/java/co/cask/cdap/data2/transaction/stream/inmemory/InMemoryStreamConsumerStateStore.java
++++ b/cdap-data-fabric/src/main/java/co/cask/cdap/data2/transaction/stream/inmemory/InMemoryStreamConsumerStateStore.java
+@@ -85 +85 @@
+-      vals[i] = columnValue.getValue();
++      vals[i] = columnValue.getValue().length > 0 ? columnValue.getValue() : null;
+

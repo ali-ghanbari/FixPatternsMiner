@@ -1,0 +1,561 @@
+diff --git a/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/custom/IvyUrlResolverIntegrationTest.groovy b/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/custom/IvyUrlResolverIntegrationTest.groovy
+index f9d2964..e3ff9e1 100644
+--- a/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/custom/IvyUrlResolverIntegrationTest.groovy
++++ b/subprojects/core-impl/src/integTest/groovy/org/gradle/integtests/resolve/custom/IvyUrlResolverIntegrationTest.groovy
+@@ -27 +27 @@
+-        server.expectUserAgent(null) // custom resolver uses apache/ivy as useragent strings
++        server.expectUserAgent(null) // custom resolver uses apache/ivy as user agent strings
+diff --git a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyHttpPublishIntegrationTest.groovy b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyHttpPublishIntegrationTest.groovy
+index 6719171..1f22d18 100644
+--- a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyHttpPublishIntegrationTest.groovy
++++ b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyHttpPublishIntegrationTest.groovy
+@@ -23,2 +23,2 @@
+-import org.gradle.test.fixtures.ivy.IvyFileModule
+-import org.gradle.test.fixtures.ivy.IvyModule
++import org.gradle.test.fixtures.ivy.IvyHttpModule
++import org.gradle.test.fixtures.ivy.IvyHttpRepository
+@@ -28 +27,0 @@
+-import org.gradle.util.TextUtil
+@@ -43,3 +41,0 @@
+-    @Rule
+-    public final HttpServer server = new HttpServer()
+-
+@@ -46,0 +43 @@
++    @Rule HttpServer server = new HttpServer()
+@@ -48 +45,2 @@
+-    private IvyModule module
++    private IvyHttpModule module
++    private IvyHttpRepository ivyHttpRepo
+@@ -51,2 +49,2 @@
+-        module = ivyRepo.module("org.gradle", "publish", "2")
+-        module.moduleDir.mkdirs()
++        ivyHttpRepo = new IvyHttpRepository(server, ivyRepo)
++        module = ivyHttpRepo.module("org.gradle", "publish", "2")
+@@ -68 +66 @@
+-            url "http://localhost:${server.port}"
++            url "${ivyHttpRepo.uri}"
+@@ -73,4 +70,0 @@
+-        when:
+-        expectUpload('/org.gradle/publish/2/publish-2.jar', module, module.jarFile, HttpStatus.ORDINAL_200_OK)
+-        expectUpload('/org.gradle/publish/2/ivy-2.xml', module, module.ivyFile, HttpStatus.ORDINAL_201_Created)
+-
+@@ -78 +72,7 @@
+-        succeeds 'uploadArchives'
++        module.expectJarPut()
++        module.expectJarSha1Put()
++        module.expectIvyPut(HttpStatus.ORDINAL_201_Created)
++        module.expectIvySha1Put(HttpStatus.ORDINAL_201_Created)
++
++        when:
++        run 'uploadArchives'
+@@ -81,3 +81 @@
+-        module.ivyFile.assertIsFile()
+-        module.assertChecksumPublishedFor(module.ivyFile)
+-
++        module.assertIvyAndJarFilePublished()
+@@ -85,5 +82,0 @@
+-        module.assertChecksumPublishedFor(module.jarFile)
+-        and:
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/ivy-2.xml")
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/publish-2.jar")
+-    }
+@@ -90,0 +84,4 @@
++        and:
++        progressLogging.uploadProgressLogged(module.ivyFileUri)
++        progressLogging.uploadProgressLogged(module.jarFileUri)
++    }
+@@ -109 +106 @@
+-            url "http://localhost:${server.port}"
++            url "${ivyHttpRepo.uri}"
+@@ -115 +112 @@
+-        when:
++        and:
+@@ -117,2 +114,7 @@
+-        expectUpload('/org.gradle/publish/2/publish-2.jar', module, module.jarFile, 'testuser', 'password')
+-        expectUpload('/org.gradle/publish/2/ivy-2.xml', module, module.ivyFile, 'testuser', 'password')
++        module.expectJarPut('testuser', 'password')
++        module.expectJarSha1Put('testuser', 'password')
++        module.expectIvyPut('testuser', 'password')
++        module.expectIvySha1Put('testuser', 'password')
++
++        when:
++        run 'uploadArchives'
+@@ -121,5 +123 @@
+-        succeeds 'uploadArchives'
+-
+-        and:
+-        module.ivyFile.assertIsFile()
+-        module.assertChecksumPublishedFor(module.ivyFile)
++        module.assertIvyAndJarFilePublished()
+@@ -127 +124,0 @@
+-        module.assertChecksumPublishedFor(module.jarFile)
+@@ -130,2 +127,2 @@
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/ivy-2.xml")
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/publish-2.jar")
++        progressLogging.uploadProgressLogged(module.ivyFileUri)
++        progressLogging.uploadProgressLogged(module.jarFileUri)
+@@ -142 +139 @@
+-        when:
++        and:
+@@ -152 +149 @@
+-            url "http://localhost:${server.port}"
++            url "${ivyHttpRepo.uri}"
+@@ -160 +157 @@
+-        server.allowPut('/org.gradle/publish/2/publish-2.jar', 'testuser', 'password')
++        server.allowPut('/repo/org.gradle/publish/2/publish-2.jar', 'testuser', 'password')
+@@ -162 +159 @@
+-        then:
++        when:
+@@ -165 +162 @@
+-        and:
++        then:
+@@ -188 +185 @@
+-            url "${repositoryUrl}"
++            url "${ivyHttpRepo.uri}"
+@@ -229 +226 @@
+-                artifactPattern "http://localhost:${server.port}/primary/[module]/[artifact]-[revision].[ext]"
++                artifactPattern "${ivyHttpRepo.artifactPattern}"
+@@ -231 +228 @@
+-                ivyPattern "http://localhost:${server.port}/primary-ivy/[module]/ivy-[revision].xml"
++                ivyPattern "${ivyHttpRepo.ivyPattern}"
+@@ -237,0 +235,6 @@
++        and:
++        module.expectJarPut()
++        module.expectJarSha1Put()
++        module.expectIvyPut()
++        module.expectIvySha1Put()
++
+@@ -239,2 +242 @@
+-        expectUpload('/primary/publish/publish-2.jar', module, module.jarFile, HttpStatus.ORDINAL_200_OK)
+-        expectUpload('/primary-ivy/publish/ivy-2.xml', module, module.ivyFile)
++        run 'uploadArchives'
+@@ -243,4 +245 @@
+-        succeeds 'uploadArchives'
+-
+-        and:
+-        module.ivyFile.assertIsFile()
++        module.assertIvyAndJarFilePublished()
+@@ -253 +252 @@
+-        def toolsJar = TextUtil.escapeString(Jvm.current().toolsJar)
++        def toolsJar = Jvm.current().toolsJar
+@@ -265,2 +264,2 @@
+-    tools(file('$toolsJar')) {
+-        name 'tools'
++    tools(file('${toolsJar.toURI()}')) {
++        name 'publish'
+@@ -277 +276 @@
+-            url "http://localhost:${server.port}"
++            url "${ivyHttpRepo.uri}"
+@@ -282,0 +282,6 @@
++        and:
++        module.expectJarPut('testuser', 'password')
++        module.expectJarSha1Put('testuser', 'password')
++        module.expectIvyPut('testuser', 'password')
++        module.expectIvySha1Put('testuser', 'password')
++
+@@ -284,3 +289 @@
+-        def uploadedToolsJar = module.moduleDir.file('toolsJar')
+-        expectUpload('/org.gradle/publish/2/tools-2.jar', module, uploadedToolsJar, 'testuser', 'password')
+-        expectUpload('/org.gradle/publish/2/ivy-2.xml', module, module.ivyFile, 'testuser', 'password')
++        run 'uploadTools'
+@@ -289,6 +292,2 @@
+-        succeeds 'uploadTools'
+-
+-        and:
+-        module.ivyFile.assertIsFile()
+-        uploadedToolsJar.assertIsCopyOf(new TestFile(toolsJar));
+-
++        module.assertIvyAndJarFilePublished()
++        module.jarFile.assertIsCopyOf(new TestFile(toolsJar))
+@@ -309 +308 @@
+-            url "http://localhost:${server.port}"
++            url "${ivyHttpRepo.uri}"
+@@ -314,2 +313,2 @@
+-        when:
+-        server.expectPut("/org.gradle/publish/2/publish-2.jar", module.jarFile, HttpStatus.ORDINAL_500_Internal_Server_Error)
++        and:
++        module.expectJarPut(HttpStatus.ORDINAL_500_Internal_Server_Error)
+@@ -317 +316 @@
+-        then:
++        when:
+@@ -320 +319 @@
+-        and:
++        then:
+@@ -323,10 +321,0 @@
+-    }
+-
+-    private void expectUpload(String path, IvyFileModule module, TestFile file, int statusCode = HttpStatus.ORDINAL_200_OK) {
+-        server.expectPut(path, file, statusCode)
+-        server.expectPut("${path}.sha1", module.sha1File(file), statusCode)
+-    }
+-
+-    private void expectUpload(String path, IvyFileModule module, TestFile file, String username, String password) {
+-        server.expectPut(path, username, password, file)
+-        server.expectPut("${path}.sha1", username, password, module.sha1File(file))
+diff --git a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyLocalPublishIntegrationTest.groovy b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyLocalPublishIntegrationTest.groovy
+index 26dbd40..9f1335e 100644
+--- a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyLocalPublishIntegrationTest.groovy
++++ b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyLocalPublishIntegrationTest.groovy
+@@ -44,3 +44 @@
+-        module.ivyFile.assertIsFile()
+-        module.assertChecksumPublishedFor(module.ivyFile)
+-
++        module.assertIvyAndJarFilePublished()
+@@ -48 +45,0 @@
+-        module.assertChecksumPublishedFor(module.jarFile)
+diff --git a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyUrlResolverPublishIntegrationTest.groovy b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyUrlResolverPublishIntegrationTest.groovy
+new file mode 100644
+index 0000000..695e956
+--- /dev/null
++++ b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/publish/ivy/IvyUrlResolverPublishIntegrationTest.groovy
+@@ -0,0 +1,72 @@
++/*
++ * Copyright 2012 the original author or authors.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++package org.gradle.integtests.publish.ivy
++
++import org.gradle.integtests.fixtures.AbstractIntegrationSpec
++import org.gradle.integtests.fixtures.executer.ProgressLoggingFixture
++import org.gradle.test.fixtures.ivy.IvyHttpModule
++import org.gradle.test.fixtures.ivy.IvyHttpRepository
++import org.gradle.test.fixtures.server.http.HttpServer
++import org.junit.Rule
++
++public class IvyUrlResolverPublishIntegrationTest extends AbstractIntegrationSpec {
++    @Rule ProgressLoggingFixture progressLogging = new ProgressLoggingFixture(executer, temporaryFolder)
++    @Rule HttpServer server = new HttpServer()
++
++    private IvyHttpModule module
++    private IvyHttpRepository ivyHttpRepo
++
++    def setup() {
++        ivyHttpRepo = new IvyHttpRepository(server, ivyRepo)
++        module = ivyHttpRepo.module("org.gradle", "publish", "2")
++    }
++
++    public void canPublishToAnHttpRepository() {
++        given:
++        server.start()
++
++        settingsFile << 'rootProject.name = "publish"'
++        buildFile << """
++apply plugin: 'java'
++version = '2'
++group = 'org.gradle'
++
++uploadArchives {
++    repositories {
++        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
++            addIvyPattern("${ivyHttpRepo.ivyPattern}")
++            addArtifactPattern("${ivyHttpRepo.artifactPattern}")
++        }
++    }
++}
++"""
++
++        and:
++        module.expectJarPut();
++        module.expectIvyPut();
++
++        when:
++        run 'uploadArchives'
++
++        then:
++        module.ivyFile.assertIsFile()
++        module.jarFile.assertIsCopyOf(file('build/libs/publish-2.jar'))
++
++        and:
++        progressLogging.uploadProgressLogged(module.jarFileUri)
++        progressLogging.uploadProgressLogged(module.ivyFileUri)
++    }
++}
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
+index c28754a..2322d8d 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyFileModule.groovy
+@@ -214,0 +215,3 @@
++        for (name in names) {
++            assertChecksumPublishedFor(moduleDir.file(name))
++        }
+@@ -230,0 +234,5 @@
++    void assertIvyAndJarFilePublished() {
++        assertArtifactsPublished(ivyFile.name, jarFile.name)
++        assertPublished()
++    }
++
+@@ -232 +240 @@
+-        assert ivyFile.assertExists()
++        assert ivyFile.assertIsFile()
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
+index 52dca48..d3eba6c 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyHttpModule.groovy
+@@ -20,0 +21 @@
++import org.mortbay.jetty.HttpStatus
+@@ -107,0 +109,8 @@
++    void expectIvyPut(int status = HttpStatus.ORDINAL_200_OK) {
++        server.expectPut("$prefix/$ivyFile.name", ivyFile, status)
++    }
++
++    void expectIvyPut(String userName, String password) {
++        server.expectPut("$prefix/$ivyFile.name", userName, password, ivyFile)
++    }
++
+@@ -113,0 +123,8 @@
++    }
++
++    void expectIvySha1Put(int status = HttpStatus.ORDINAL_200_OK) {
++        server.expectPut("$prefix/${ivyFile.name}.sha1", backingModule.sha1File(ivyFile), status)
++    }
++
++    void expectIvySha1Put(String userName, String password) {
++        server.expectPut("$prefix/${ivyFile.name}.sha1", userName, password, backingModule.sha1File(ivyFile))
+@@ -135,0 +153,8 @@
++    void expectJarPut(int status = HttpStatus.ORDINAL_200_OK) {
++        server.expectPut("$prefix/$jarFile.name", jarFile, status)
++    }
++
++    void expectJarPut(String userName, String password) {
++        server.expectPut("$prefix/$jarFile.name", userName, password, jarFile)
++    }
++
+@@ -141,0 +167,8 @@
++    }
++
++    void expectJarSha1Put() {
++        server.expectPut("$prefix/${jarFile.name}.sha1", backingModule.sha1File(jarFile))
++    }
++
++    void expectJarSha1Put(String userName, String password) {
++        server.expectPut("$prefix/${jarFile.name}.sha1", userName, password, backingModule.sha1File(jarFile))
+@@ -171,0 +205,4 @@
++
++    void assertIvyAndJarFilePublished() {
++        backingModule.assertIvyAndJarFilePublished()
++    }
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
+index 9d1e47b..f79f83a 100644
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/ivy/IvyModule.java
+@@ -51,0 +52,5 @@
++
++    /**
++     * Assert that exactly the ivy.xml and jar file for this module, plus checksum files, have been published.
++     */
++    void assertIvyAndJarFilePublished();
+diff --git a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy
+index 289c797..2fa4d94 100755
+--- a/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy
++++ b/subprojects/internal-integ-testing/src/main/groovy/org/gradle/test/fixtures/server/http/HttpServer.groovy
+@@ -488,0 +489 @@
++                destFile.parentFile.mkdirs()
+diff --git a/subprojects/ivy/src/integTest/groovy/org/gradle/api/publish/ivy/IvyPublishHttpIntegTest.groovy b/subprojects/ivy/src/integTest/groovy/org/gradle/api/publish/ivy/IvyPublishHttpIntegTest.groovy
+index 054fd5c..e438628 100644
+--- a/subprojects/ivy/src/integTest/groovy/org/gradle/api/publish/ivy/IvyPublishHttpIntegTest.groovy
++++ b/subprojects/ivy/src/integTest/groovy/org/gradle/api/publish/ivy/IvyPublishHttpIntegTest.groovy
+@@ -23 +23,2 @@
+-import org.gradle.test.fixtures.ivy.IvyFileModule
++import org.gradle.test.fixtures.ivy.IvyHttpModule
++import org.gradle.test.fixtures.ivy.IvyHttpRepository
+@@ -26 +26,0 @@
+-import org.gradle.util.TextUtil
+@@ -41,3 +40,0 @@
+-    @Rule
+-    public final HttpServer server = new HttpServer()
+-
+@@ -44,0 +42 @@
++    @Rule HttpServer server = new HttpServer()
+@@ -46 +44,2 @@
+-    private IvyFileModule module
++    private IvyHttpModule module
++    private IvyHttpRepository ivyHttpRepo
+@@ -49,2 +48,2 @@
+-        module = ivyRepo.module("org.gradle", "publish", "2")
+-        module.moduleDir.mkdirs()
++        ivyHttpRepo = new IvyHttpRepository(server, ivyRepo)
++        module = ivyHttpRepo.module("org.gradle", "publish", "2")
+@@ -67 +66 @@
+-                    ivy { url "http://localhost:${server.port}" }
++                    ivy { url "${ivyHttpRepo.uri}" }
+@@ -77,4 +75,0 @@
+-        when:
+-        expectUpload('/org.gradle/publish/2/publish-2.jar', module, module.jarFile, HttpStatus.ORDINAL_200_OK)
+-        expectUpload('/org.gradle/publish/2/ivy-2.xml', module, module.ivyFile, HttpStatus.ORDINAL_201_Created)
+-
+@@ -81,0 +77,6 @@
++        module.expectJarPut()
++        module.expectJarSha1Put()
++        module.expectIvyPut(HttpStatus.ORDINAL_201_Created)
++        module.expectIvySha1Put(HttpStatus.ORDINAL_201_Created)
++
++        when:
+@@ -85,3 +86 @@
+-        module.ivyFile.assertIsFile()
+-        module.assertChecksumPublishedFor(module.ivyFile)
+-
++        module.assertIvyAndJarFilePublished()
+@@ -89,5 +87,0 @@
+-        module.assertChecksumPublishedFor(module.jarFile)
+-        and:
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/ivy-2.xml")
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/publish-2.jar")
+-    }
+@@ -94,0 +89,4 @@
++        and:
++        progressLogging.uploadProgressLogged(module.ivyFileUri)
++        progressLogging.uploadProgressLogged(module.jarFileUri)
++    }
+@@ -116 +114 @@
+-                        url "http://localhost:${server.port}"
++                        url "${ivyHttpRepo.uri}"
+@@ -127 +125 @@
+-        when:
++        and:
+@@ -129,2 +127,7 @@
+-        expectUpload('/org.gradle/publish/2/publish-2.jar', module, module.jarFile, 'testuser', 'password')
+-        expectUpload('/org.gradle/publish/2/ivy-2.xml', module, module.ivyFile, 'testuser', 'password')
++        module.expectJarPut('testuser', 'password')
++        module.expectJarSha1Put('testuser', 'password')
++        module.expectIvyPut('testuser', 'password')
++        module.expectIvySha1Put('testuser', 'password')
++
++        when:
++        run 'publish'
+@@ -133,5 +136 @@
+-        succeeds 'publish'
+-
+-        and:
+-        module.ivyFile.assertIsFile()
+-        module.assertChecksumPublishedFor(module.ivyFile)
++        module.assertIvyAndJarFilePublished()
+@@ -139 +137,0 @@
+-        module.assertChecksumPublishedFor(module.jarFile)
+@@ -142,2 +140,2 @@
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/ivy-2.xml")
+-        progressLogging.uploadProgressLogged("http://localhost:${server.port}/org.gradle/publish/2/publish-2.jar")
++        progressLogging.uploadProgressLogged(module.ivyFileUri)
++        progressLogging.uploadProgressLogged(module.jarFileUri)
+@@ -154 +152 @@
+-        when:
++        and:
+@@ -165 +163 @@
+-                        url "http://localhost:${server.port}"
++                        url "${ivyHttpRepo.uri}"
+@@ -178 +176 @@
+-        server.allowPut('/org.gradle/publish/2/publish-2.jar', 'testuser', 'password')
++        server.allowPut('/repo/org.gradle/publish/2/publish-2.jar', 'testuser', 'password')
+@@ -180 +178 @@
+-        then:
++        when:
+@@ -183 +181 @@
+-        and:
++        then:
+@@ -209 +207 @@
+-                        url "${repositoryUrl}"
++                        url "${ivyHttpRepo.uri}"
+@@ -220 +218 @@
+-        when:
++        and:
+@@ -223 +221 @@
+-        then:
++        when:
+@@ -226 +224 @@
+-        and:
++        then:
+@@ -257 +255 @@
+-                        artifactPattern "http://localhost:${server.port}/primary/[module]/[artifact]-[revision].[ext]"
++                        artifactPattern "${ivyHttpRepo.artifactPattern}"
+@@ -259 +257 @@
+-                        ivyPattern "http://localhost:${server.port}/primary-ivy/[module]/ivy-[revision].xml"
++                        ivyPattern "${ivyHttpRepo.ivyPattern}"
+@@ -270,0 +269,6 @@
++        and:
++        module.expectJarPut()
++        module.expectJarSha1Put()
++        module.expectIvyPut()
++        module.expectIvySha1Put()
++
+@@ -272,2 +276 @@
+-        expectUpload('/primary/publish/publish-2.jar', module, module.jarFile, HttpStatus.ORDINAL_200_OK)
+-        expectUpload('/primary-ivy/publish/ivy-2.xml', module, module.ivyFile)
++        run 'publish'
+@@ -276,4 +279 @@
+-        succeeds 'publish'
+-
+-        and:
+-        module.ivyFile.assertIsFile()
++        module.assertIvyAndJarFilePublished()
+@@ -286 +286 @@
+-        def toolsJar = TextUtil.escapeString(Jvm.current().toolsJar)
++        def toolsJar = Jvm.current().toolsJar
+@@ -302 +302 @@
+-                        url "http://localhost:${server.port}"
++                        url "${ivyHttpRepo.uri}"
+@@ -309,2 +309,2 @@
+-                                artifact('$toolsJar') {
+-                                    name 'tools'
++                                artifact('${toolsJar.toURI()}') {
++                                    name 'publish'
+@@ -318,0 +319,6 @@
++        and:
++        module.expectJarPut('testuser', 'password')
++        module.expectJarSha1Put('testuser', 'password')
++        module.expectIvyPut('testuser', 'password')
++        module.expectIvySha1Put('testuser', 'password')
++
+@@ -320,3 +326 @@
+-        def uploadedToolsJar = module.moduleDir.file('toolsJar')
+-        expectUpload('/org.gradle/publish/2/tools-2.jar', module, uploadedToolsJar, 'testuser', 'password')
+-        expectUpload('/org.gradle/publish/2/ivy-2.xml', module, module.ivyFile, 'testuser', 'password')
++        run 'publish'
+@@ -325,3 +328,0 @@
+-        succeeds 'publish'
+-
+-        and:
+@@ -329,2 +330 @@
+-        uploadedToolsJar.assertIsCopyOf(new TestFile(toolsJar));
+-
++        module.jarFile.assertIsCopyOf(new TestFile(toolsJar))
+@@ -348 +348 @@
+-                        url "http://localhost:${server.port}"
++                        url "${ivyHttpRepo.uri}"
+@@ -358,5 +357,0 @@
+-        when:
+-        server.expectPut("/org.gradle/publish/2/publish-2.jar", module.jarFile, HttpStatus.ORDINAL_500_Internal_Server_Error)
+-
+-        then:
+-        fails ':publish'
+@@ -364,0 +360,6 @@
++        module.expectJarPut(HttpStatus.ORDINAL_500_Internal_Server_Error)
++
++        when:
++        fails ':publish'
++
++        then:
+@@ -368,11 +369 @@
+-
+-    private void expectUpload(String path, IvyFileModule module, TestFile file, int statusCode = HttpStatus.ORDINAL_200_OK) {
+-        server.expectPut(path, file, statusCode)
+-        server.expectPut("${path}.sha1", module.sha1File(file), statusCode)
+-    }
+-
+-    private void expectUpload(String path, IvyFileModule module, TestFile file, String username, String password) {
+-        server.expectPut(path, username, password, file)
+-        server.expectPut("${path}.sha1", username, password, module.sha1File(file))
+-    }
+-}
++}
+\ No newline at end of file
+

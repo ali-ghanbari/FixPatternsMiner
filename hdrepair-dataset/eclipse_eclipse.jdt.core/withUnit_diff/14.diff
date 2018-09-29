@@ -1,0 +1,126 @@
+diff --git a/org.eclipse.jdt.core.tests.model/src/org/eclipse/jdt/core/tests/formatter/FormatterCommentsBugsTest.java b/org.eclipse.jdt.core.tests.model/src/org/eclipse/jdt/core/tests/formatter/FormatterCommentsBugsTest.java
+index 0071786..9b89e5d 100644
+--- a/org.eclipse.jdt.core.tests.model/src/org/eclipse/jdt/core/tests/formatter/FormatterCommentsBugsTest.java
++++ b/org.eclipse.jdt.core.tests.model/src/org/eclipse/jdt/core/tests/formatter/FormatterCommentsBugsTest.java
+@@ -3628 +3628 @@
+-public void testBug251133_Line01() throws JavaModelException {
++public void testBug251133() throws JavaModelException {
+@@ -3641,2 +3641,4 @@
+-public void testBug251133_Line02() throws JavaModelException {
+-	this.formatterPrefs.never_indent_line_comments_on_first_column = true;
++public void testBug251133a() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = true;
++	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = true;
++	this.formatterPrefs.never_indent_line_comments_on_first_column = false;
+@@ -3644,3 +3646,2 @@
+-		"public class X01 {\n" + 
+-		"//		int		a    =  	  1;\n" + 
+-		"//    int     b	=	  	2;\n" + 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
+@@ -3649,3 +3650,2 @@
+-		"public class X01 {\n" + 
+-		"// int a = 1;\n" + 
+-		"// int b = 2;\n" + 
++		"public class X {\n" + 
++		"	// first column comment\n" + 
+@@ -3655,2 +3655,4 @@
+-public void testBug251133_Line03() throws JavaModelException {
+-	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = false;
++public void testBug251133b() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = true;
++	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = true;
++	this.formatterPrefs.never_indent_line_comments_on_first_column = true;
+@@ -3658,3 +3660,16 @@
+-		"public class X01 {\n" + 
+-		"//		int		a    =  	  1;\n" + 
+-		"//    int     b	=	  	2;\n" + 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
++		"}";
++	formatSource(source,
++		"public class X {\n" + 
++		"// first column comment\n" + 
++		"}"
++	);
++}
++public void testBug251133c() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = true;
++	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = false;
++	this.formatterPrefs.never_indent_line_comments_on_first_column = false;
++	String source = 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
+@@ -3664,2 +3679,2 @@
+-public void testBug251133_Line04() throws JavaModelException {
+-	this.formatterPrefs.never_indent_line_comments_on_first_column = false;
++public void testBug251133d() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = true;
+@@ -3666,0 +3682 @@
++	this.formatterPrefs.never_indent_line_comments_on_first_column = true;
+@@ -3668,3 +3684,54 @@
+-		"public class X01 {\n" + 
+-		"//		int		a    =  	  1;\n" + 
+-		"//    int     b	=	  	2;\n" + 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
++		"}";
++	formatSource(source);
++}
++public void testBug251133e() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = false;
++	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = true;
++	this.formatterPrefs.never_indent_line_comments_on_first_column = false;
++	String source = 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
++		"}";
++	formatSource(source,
++		"public class X {\n" + 
++		"	//		first	  	column  	  comment		\n" + 
++		"}"
++	);
++}
++public void testBug251133f() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = false;
++	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = true;
++	this.formatterPrefs.never_indent_line_comments_on_first_column = true;
++	String source = 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
++		"}";
++	formatSource(source,
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
++		"}"
++	);
++}
++public void testBug251133g() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = false;
++	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = false;
++	this.formatterPrefs.never_indent_line_comments_on_first_column = false;
++	String source = 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
++		"}";
++	formatSource(source,
++		"public class X {\n" + 
++		"	//		first	  	column  	  comment		\n" + 
++		"}"
++	);
++}
++public void testBug251133h() throws JavaModelException {
++	this.formatterPrefs.comment_format_line_comment = false;
++	this.formatterPrefs.comment_format_line_comment_starting_on_first_column = false;
++	this.formatterPrefs.never_indent_line_comments_on_first_column = true;
++	String source = 
++		"public class X {\n" + 
++		"//		first	  	column  	  comment		\n" + 
+diff --git a/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/Scribe.java b/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/Scribe.java
+index d9d0181..ceb09dd 100644
+--- a/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/Scribe.java
++++ b/org.eclipse.jdt.core/formatter/org/eclipse/jdt/internal/formatter/Scribe.java
+@@ -2473 +2473 @@
+-					(!this.formatter.preferences.comment_format_line_comment_starting_on_first_column ||
++					((includesLineComments && !this.formatter.preferences.comment_format_line_comment_starting_on_first_column) ||
+

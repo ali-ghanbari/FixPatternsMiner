@@ -1,0 +1,38 @@
+VTPM and DpC: fix TunnelZone membership management
+
+This change fixes the tunnel zone management problems in
+VirtualToPhysicalMapper and DatapathController described in #400. It
+changes the protocol used between both actors to subscribe to and notify
+membership changes to avoid missed updates.
+
+VirtualToPhysicalMapper:
+
+  * TunnelZones no longer keeps TunnelZone objects, but a new
+    ZoneMembers object which contains the full list of known members at
+    all times. This list is adjusted every time a ZoneChanged message
+    is received from the TunnelZoneManager.
+  * When TunnelZoneRequest is received, the whole ZoneMembers object is
+    sent to the requester. (the first requester will get this message
+    when the TunnelZoneManger sends the first ZoneChanged message to the
+    VTPM, instead of right away).
+  * From that point on, that subscriber will receive forwards of all the
+    ZoneChanged messages sent by the TunnelZoneManager.
+  * When an TunnelZoneUnsubscribe request is received, the requester is
+    removed from the subscriber list.
+
+DatapathController:
+
+  * Handling of received Host objects now makes a diff of the list of
+    TunnelZones. For new tunnel zones, it sends a TunnelZoneRequest to
+    the VTPM. For dropped zones, an unsubscribe request is made and
+    dropAllTunnelsInZone() is invoked.
+  * Handling of ZoneChanged message ignores updates relative to this
+    host, those are handled by the Host handling described above.
+  * Upon reception of a ZoneMembers object, tunnels are opened to all
+    peers.
+  * ZoneChanged messages are handled by closing/opening tunnels to the
+    changed peer as necessary.
+
+Change-Id: Ib1ce868d28bfbf48243ad05a93797554bce10433
+Signed-off-by: Guillermo Ontanon <guillermo@midokura.jp>
+

@@ -1,0 +1,9 @@
+diff --git a/beam-core/src/main/java/org/esa/beam/util/io/WildcardMatcher.java b/beam-core/src/main/java/org/esa/beam/util/io/WildcardMatcher.java
+index 339c3fc..5bd677a 100644
+--- a/beam-core/src/main/java/org/esa/beam/util/io/WildcardMatcher.java
++++ b/beam-core/src/main/java/org/esa/beam/util/io/WildcardMatcher.java
+@@ -91 +91,2 @@
+-            if (matcher.matches(file.getCanonicalPath())) {
++            // check for both to catch symlinks as well
++            if (matcher.matches(file.getCanonicalPath()) || matcher.matches(file.getPath())) {
+

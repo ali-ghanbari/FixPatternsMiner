@@ -1,0 +1,21 @@
+Speed up user-switching wallpaper changes
+
+Previous work in ImageWallpaper cached the bitmap for a user
+to avoid reloading it (an expensive operation on large-display devices)
+when we could simply re-use it. User switching still caused a reload, however,
+since the place where we cache the bitmap (ImageWallpaper) is in an instance
+that is re-created on user-switch.
+
+A simple fix is to have the ImageWallpaper stop telling the WallpaperManager
+to erase its own cache of the bitmap prior to re-loading it. That step is
+unnecessary, since a bitmap that is cached can be assumed to be valid. A wallpaper
+change will correctly null out that cached version, so if the cached bitmap
+is non-null, then we can simply use it as-is.
+
+The fix is to remove the call to forgetLoadedWallpaper() and allow the caching
+mechanism to do its job.
+
+Issue #7986933 user switching on lock screen is slow (sometimes like molasses)
+
+Change-Id: I447754ab85337bc8ae59b4ad6c3e6c2b30e13735
+

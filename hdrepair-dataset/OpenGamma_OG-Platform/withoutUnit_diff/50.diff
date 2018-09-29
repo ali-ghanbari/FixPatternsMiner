@@ -1,0 +1,22 @@
+diff --git a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/HibernateSecurityMasterDetailProvider.java b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/HibernateSecurityMasterDetailProvider.java
+index f687ac1..64cfa73 100644
+--- a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/HibernateSecurityMasterDetailProvider.java
++++ b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/HibernateSecurityMasterDetailProvider.java
+@@ -207 +207 @@
+-          s_logger.debug("no detail found for security {}", base.getUniqueId());
++          s_logger.warn("no detail found for security {}", base.getUniqueId());
+diff --git a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityIndexOptionSecurityBean.hbm.xml b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityIndexOptionSecurityBean.hbm.xml
+index 6f27afa..0f344fc 100644
+--- a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityIndexOptionSecurityBean.hbm.xml
++++ b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityIndexOptionSecurityBean.hbm.xml
+@@ -6 +6 @@
+-  <union-subclass name="EquityIndexOptionSecurityBean" extends="com.opengamma.masterdb.security.hibernate.SecurityBean" table="sec_equityoption">
++  <union-subclass name="EquityIndexOptionSecurityBean" extends="com.opengamma.masterdb.security.hibernate.SecurityBean" table="sec_equityindexoption">
+diff --git a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityOptionSecurityBean.hbm.xml b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityOptionSecurityBean.hbm.xml
+index b398bb6..a5fed41 100644
+--- a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityOptionSecurityBean.hbm.xml
++++ b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/hibernate/option/EquityOptionSecurityBean.hbm.xml
+@@ -6 +6 @@
+-  <union-subclass name="EquityOptionSecurityBean" extends="com.opengamma.masterdb.security.hibernate.SecurityBean" table="sec_equityindexoption">
++  <union-subclass name="EquityOptionSecurityBean" extends="com.opengamma.masterdb.security.hibernate.SecurityBean" table="sec_equityoption">
+

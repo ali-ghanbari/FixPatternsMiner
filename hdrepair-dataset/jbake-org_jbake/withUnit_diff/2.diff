@@ -1,0 +1,17 @@
+diff --git a/src/main/java/org/jbake/app/Parser.java b/src/main/java/org/jbake/app/Parser.java
+index e119466..f7253ed 100644
+--- a/src/main/java/org/jbake/app/Parser.java
++++ b/src/main/java/org/jbake/app/Parser.java
+@@ -175 +175 @@
+-                String[] parts = line.split("=");
++                String[] parts = line.split("=",2);
+diff --git a/src/test/java/org/jbake/app/ParserTest.java b/src/test/java/org/jbake/app/ParserTest.java
+index 1d0e036..72ebb4f 100644
+--- a/src/test/java/org/jbake/app/ParserTest.java
++++ b/src/test/java/org/jbake/app/ParserTest.java
+@@ -35 +35 @@
+-	private String validHeader = "title=This is a Title\nstatus=draft\ntype=post\ndate=2013-09-02\n~~~~~~";
++	private String validHeader = "title=This is a Title = This is a valid Title\nstatus=draft\ntype=post\ndate=2013-09-02\n~~~~~~";
+@@ -122,0 +123 @@
++		Assert.assertEquals("This is a Title = This is a valid Title", map.get("title"));
+

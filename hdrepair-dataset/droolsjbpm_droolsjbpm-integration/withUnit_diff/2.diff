@@ -1,0 +1,30 @@
+diff --git a/kie-remote/kie-remote-services/src/main/java/org/kie/remote/services/jms/RequestMessageBean.java b/kie-remote/kie-remote-services/src/main/java/org/kie/remote/services/jms/RequestMessageBean.java
+index e49820d..30d7835 100644
+--- a/kie-remote/kie-remote-services/src/main/java/org/kie/remote/services/jms/RequestMessageBean.java
++++ b/kie-remote/kie-remote-services/src/main/java/org/kie/remote/services/jms/RequestMessageBean.java
+@@ -92 +92 @@
+-    private BackupIdentityProviderProducer backupIdentityProviderProducer;
++    protected BackupIdentityProviderProducer backupIdentityProviderProducer;
+diff --git a/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsStartProcessEveryStrategyTest.java b/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsStartProcessEveryStrategyTest.java
+index c34713a..4f58165 100644
+--- a/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsStartProcessEveryStrategyTest.java
++++ b/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsStartProcessEveryStrategyTest.java
+@@ -30,0 +31 @@
++import org.kie.remote.services.jms.request.BackupIdentityProviderProducer;
+@@ -34,0 +36 @@
++import org.mockito.Mockito;
+@@ -70,0 +73,2 @@
++
++        this.backupIdentityProviderProducer = Mockito.mock(BackupIdentityProviderProducer.class);
+diff --git a/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsTaskAndAuditDeploymentIdTest.java b/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsTaskAndAuditDeploymentIdTest.java
+index 791ea82..a5d5a4c 100644
+--- a/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsTaskAndAuditDeploymentIdTest.java
++++ b/kie-remote/kie-remote-services/src/test/java/org/kie/remote/services/jms/JmsTaskAndAuditDeploymentIdTest.java
+@@ -32,0 +33 @@
++import org.kie.remote.services.jms.request.BackupIdentityProviderProducer;
+@@ -35,0 +37 @@
++import org.mockito.Mockito;
+@@ -63,0 +66,2 @@
++
++        this.backupIdentityProviderProducer = Mockito.mock(BackupIdentityProviderProducer.class);
+

@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/kuali/kra/budget/calculator/LineItemCalculator.java b/src/main/java/org/kuali/kra/budget/calculator/LineItemCalculator.java
+index dfc191e..79ce580 100644
+--- a/src/main/java/org/kuali/kra/budget/calculator/LineItemCalculator.java
++++ b/src/main/java/org/kuali/kra/budget/calculator/LineItemCalculator.java
+@@ -121 +121 @@
+-        boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:lineItemCostSharing.multiply(daysFactor));
++        boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:lineItemCostSharing.multiply(daysFactor).divide(new BudgetDecimal((double) 100.0)));
+

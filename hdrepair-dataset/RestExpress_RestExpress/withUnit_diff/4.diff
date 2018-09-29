@@ -1,0 +1,54 @@
+diff --git a/core/src/java/org/restexpress/Request.java b/core/src/java/org/restexpress/Request.java
+index 447aa75..ce9a1aa 100644
+--- a/core/src/java/org/restexpress/Request.java
++++ b/core/src/java/org/restexpress/Request.java
+@@ -84,0 +85 @@
++        this.queryStringMap = new HashMap<String, String>();
+diff --git a/core/test/java/org/restexpress/RequestTest.java b/core/test/java/org/restexpress/RequestTest.java
+index bc1be28..3d521ee 100644
+--- a/core/test/java/org/restexpress/RequestTest.java
++++ b/core/test/java/org/restexpress/RequestTest.java
+@@ -18,4 +18,4 @@
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertNotNull;
+-import static org.junit.Assert.assertNull;
+-import static org.junit.Assert.assertTrue;
++import org.jboss.netty.buffer.ChannelBuffers;
++import org.jboss.netty.handler.codec.http.*;
++import org.junit.*;
++import org.restexpress.exception.BadRequestException;
+@@ -24,2 +24 @@
+-import java.util.List;
+-import java.util.Map;
++import java.util.*;
+@@ -27,10 +26 @@
+-import org.jboss.netty.buffer.ChannelBuffers;
+-import org.jboss.netty.handler.codec.http.DefaultHttpRequest;
+-import org.jboss.netty.handler.codec.http.HttpMethod;
+-import org.jboss.netty.handler.codec.http.HttpRequest;
+-import org.jboss.netty.handler.codec.http.HttpVersion;
+-import org.junit.Before;
+-import org.junit.Test;
+-import org.restexpress.ContentType;
+-import org.restexpress.Request;
+-import org.restexpress.exception.BadRequestException;
++import static org.junit.Assert.*;
+@@ -95 +85,2 @@
+-		assertNull(m);
++		assertNotNull(m);
++        assertTrue(m.isEmpty());
+@@ -103 +94,2 @@
+-		assertNull(m);
++        assertNotNull(m);
++        assertTrue(m.isEmpty());
+@@ -267,0 +260,9 @@
++
++    @Test
++    public void shouldNotReturnNullWhenNoQueryString() {
++        Request noQueryRequest = new Request(
++                new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/noquery"),
++                null, null
++        );
++        assertNotNull(noQueryRequest.getQueryStringMap());
++    }
+

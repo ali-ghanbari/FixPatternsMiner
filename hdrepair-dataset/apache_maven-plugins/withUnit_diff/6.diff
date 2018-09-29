@@ -1,0 +1,87 @@
+diff --git a/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java b/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java
+index f3a8b77..f8443c9 100644
+--- a/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java
++++ b/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java
+@@ -43 +42,0 @@
+-import org.codehaus.plexus.util.xml.Xpp3Dom;
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/CimReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/CimReportTest.java
+index a7395be..6ccb47f 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/CimReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/CimReportTest.java
+@@ -41 +41 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -59 +59 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/DependenciesReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/DependenciesReportTest.java
+index 96399d3..1097d27 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/DependenciesReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/DependenciesReportTest.java
+@@ -42 +42 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -60 +60 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/IssueTrackingReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/IssueTrackingReportTest.java
+index 356e447..5f7a124 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/IssueTrackingReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/IssueTrackingReportTest.java
+@@ -42 +42 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -60 +60 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/LicenseReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/LicenseReportTest.java
+index b717363..6414cd8 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/LicenseReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/LicenseReportTest.java
+@@ -41 +41 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -59 +59 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/MailingListsReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/MailingListsReportTest.java
+index d313839..f292df2 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/MailingListsReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/MailingListsReportTest.java
+@@ -46 +46 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -64 +64 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ProjectSummaryReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ProjectSummaryReportTest.java
+index 1e1f7ec..72ad0ed 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ProjectSummaryReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ProjectSummaryReportTest.java
+@@ -41 +41 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -59 +59 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ScmReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ScmReportTest.java
+index cceb696..3bbdf78 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ScmReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/ScmReportTest.java
+@@ -41 +41 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -59 +59 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+diff --git a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/TeamListReportTest.java b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/TeamListReportTest.java
+index b5eb8b3..03d3302 100644
+--- a/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/TeamListReportTest.java
++++ b/maven-project-info-reports-plugin/src/test/java/org/apache/maven/report/projectinfo/TeamListReportTest.java
+@@ -41 +41 @@
+-    private static final WebConversation webConversation = new WebConversation();
++    private static final WebConversation WEB_CONVERSATION = new WebConversation();
+@@ -59 +59 @@
+-        WebResponse response = webConversation.getResponse( request );
++        WebResponse response = WEB_CONVERSATION.getResponse( request );
+

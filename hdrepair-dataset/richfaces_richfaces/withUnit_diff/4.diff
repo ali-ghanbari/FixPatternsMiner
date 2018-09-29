@@ -1,0 +1,14 @@
+diff --git a/validator/ui/src/test/java/org/richfaces/component/GraphValidationTest.java b/validator/ui/src/test/java/org/richfaces/component/GraphValidationTest.java
+index e9ad8f2..d23f51b 100644
+--- a/validator/ui/src/test/java/org/richfaces/component/GraphValidationTest.java
++++ b/validator/ui/src/test/java/org/richfaces/component/GraphValidationTest.java
+@@ -46 +46 @@
+-        HtmlPage page = submitValueAndCheckMessage("", equalTo(GraphBean.SHORT_MSG));
++        HtmlPage page = submitValueAndCheckMessage("", containsString(GraphBean.SHORT_MSG));
+diff --git a/validator/ui/src/test/java/org/richfaces/component/IntegrationTestBase.java b/validator/ui/src/test/java/org/richfaces/component/IntegrationTestBase.java
+index 3b25106..29336b7 100644
+--- a/validator/ui/src/test/java/org/richfaces/component/IntegrationTestBase.java
++++ b/validator/ui/src/test/java/org/richfaces/component/IntegrationTestBase.java
+@@ -54,0 +55 @@
++        System.out.println(page.asXml());
+

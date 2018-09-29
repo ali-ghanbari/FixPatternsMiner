@@ -1,0 +1,8 @@
+diff --git a/lttng/org.eclipse.linuxtools.tmf.core/src/org/eclipse/linuxtools/tmf/core/analysis/TmfAnalysisModuleOutputs.java b/lttng/org.eclipse.linuxtools.tmf.core/src/org/eclipse/linuxtools/tmf/core/analysis/TmfAnalysisModuleOutputs.java
+index 70914d7..bc32aad 100644
+--- a/lttng/org.eclipse.linuxtools.tmf.core/src/org/eclipse/linuxtools/tmf/core/analysis/TmfAnalysisModuleOutputs.java
++++ b/lttng/org.eclipse.linuxtools.tmf.core/src/org/eclipse/linuxtools/tmf/core/analysis/TmfAnalysisModuleOutputs.java
+@@ -82 +82 @@
+-                            listener = new TmfNewAnalysisOutputListener(output, null, (Class<? extends IAnalysisModule>) childCe.createExecutableExtension(CLASS_ATTR).getClass());
++                            listener = new TmfNewAnalysisOutputListener(output, null, childCe.createExecutableExtension(CLASS_ATTR).getClass().asSubclass(IAnalysisModule.class));
+

@@ -1,0 +1,15 @@
+diff --git a/bundles/extensions/validation/core/src/main/java/org/apache/sling/validation/impl/ValidationServiceImpl.java b/bundles/extensions/validation/core/src/main/java/org/apache/sling/validation/impl/ValidationServiceImpl.java
+index a1b5e9e..46c7979 100644
+--- a/bundles/extensions/validation/core/src/main/java/org/apache/sling/validation/impl/ValidationServiceImpl.java
++++ b/bundles/extensions/validation/core/src/main/java/org/apache/sling/validation/impl/ValidationServiceImpl.java
+@@ -135 +135 @@
+-        return new ValidationResultImpl(); //validate(resource, model, "");
++        return validate(resource, model, "");
+diff --git a/bundles/extensions/validation/core/src/test/java/org/apache/sling/validation/impl/ValidationServiceImplTest.java b/bundles/extensions/validation/core/src/test/java/org/apache/sling/validation/impl/ValidationServiceImplTest.java
+index c30fe1e..d0420e5 100644
+--- a/bundles/extensions/validation/core/src/test/java/org/apache/sling/validation/impl/ValidationServiceImplTest.java
++++ b/bundles/extensions/validation/core/src/test/java/org/apache/sling/validation/impl/ValidationServiceImplTest.java
+@@ -494 +494 @@
+-                assertFalse(vr.isValid());
++                assertFalse("resource should have been considered invalid", vr.isValid());
+

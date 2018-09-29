@@ -1,0 +1,10 @@
+diff --git a/src/com/redhat/ceylon/compiler/java/codegen/Invocation.java b/src/com/redhat/ceylon/compiler/java/codegen/Invocation.java
+index b833497..c239a50 100644
+--- a/src/com/redhat/ceylon/compiler/java/codegen/Invocation.java
++++ b/src/com/redhat/ceylon/compiler/java/codegen/Invocation.java
+@@ -1178,0 +1179,4 @@
++                } else if(gen.typeFact().isIterableType(param.getType())){
++                    // must be an iterable we need to fill with empty
++                    // FIXME: deal with this erasure bug later
++                    argExpr = gen.make().TypeCast(gen.makeJavaType(gen.typeFact().getIterableDeclaration().getType(), AbstractTransformer.JT_RAW), gen.makeEmpty());
+

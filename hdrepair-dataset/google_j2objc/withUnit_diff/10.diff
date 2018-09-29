@@ -1,0 +1,83 @@
+diff --git a/jre_emul/Classes/java/lang/reflect/Constructor.m b/jre_emul/Classes/java/lang/reflect/Constructor.m
+index f14ca2c..ed73fbd 100644
+--- a/jre_emul/Classes/java/lang/reflect/Constructor.m
++++ b/jre_emul/Classes/java/lang/reflect/Constructor.m
+@@ -92,4 +91,0 @@
+-- (NSString *)internalName {
+-  return [class_ objcName];
+-}
+-
+diff --git a/jre_emul/Classes/java/lang/reflect/ExecutableMember.m b/jre_emul/Classes/java/lang/reflect/ExecutableMember.m
+index a7152a2..f6b0f72 100644
+--- a/jre_emul/Classes/java/lang/reflect/ExecutableMember.m
++++ b/jre_emul/Classes/java/lang/reflect/ExecutableMember.m
+@@ -176,3 +176 @@
+-  // can't call an abstract method
+-  [self doesNotRecognizeSelector:_cmd];
+-  return nil;
++  return NSStringFromSelector(selector_);
+diff --git a/jre_emul/Classes/java/lang/reflect/Method.m b/jre_emul/Classes/java/lang/reflect/Method.m
+index 4d1660d..61d052c 100644
+--- a/jre_emul/Classes/java/lang/reflect/Method.m
++++ b/jre_emul/Classes/java/lang/reflect/Method.m
+@@ -82,4 +81,0 @@
+-- (NSString *)internalName {
+-  return NSStringFromSelector(selector_);
+-}
+-
+diff --git a/jre_emul/Tests/java/lang/reflect/ReflectionTest.java b/jre_emul/Tests/java/lang/reflect/ReflectionTest.java
+index 4f9738f..487b5e1 100644
+--- a/jre_emul/Tests/java/lang/reflect/ReflectionTest.java
++++ b/jre_emul/Tests/java/lang/reflect/ReflectionTest.java
+@@ -34,0 +35,5 @@
++import java.lang.annotation.ElementType;
++import java.lang.annotation.Retention;
++import java.lang.annotation.RetentionPolicy;
++import java.lang.annotation.Target;
++
+@@ -42 +47,10 @@
+-  static class NoEquals {};
++  @Target({ElementType.CONSTRUCTOR})
++  @Retention(RetentionPolicy.RUNTIME)
++  @interface Mumble {}
++
++  static class NoEquals {
++    public NoEquals() {}
++
++    @Mumble
++    public NoEquals(String s) {}
++  }
+@@ -64,0 +79,15 @@
++  // Verify non-default constructor annotations are returned. Issue 473
++  // reported that the annotations for the default constructor are always
++  // returned, regardless of whether the constructor had parameters.
++  public void testNonDefaultConstructorAnnotations() {
++    Constructor<?>[] constructors = NoEquals.class.getDeclaredConstructors();
++    for (Constructor<?> c : constructors) {
++      if (c.getParameterTypes().length == 0) {
++        // Default constructor should not have a Mumble annotation.
++        assertNull(c.getAnnotation(Mumble.class));
++      } else {
++        assertNotNull(c.getAnnotation(Mumble.class));
++      }
++    }
++  }
++
+diff --git a/translator/src/main/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGenerator.java b/translator/src/main/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGenerator.java
+index 4d80688..b913e7f 100644
+--- a/translator/src/main/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGenerator.java
++++ b/translator/src/main/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGenerator.java
+@@ -153 +153 @@
+-      sb.append(NameTable.getFullName(method.getDeclaringClass()));
++      sb.append("init");
+diff --git a/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java b/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java
+index 056ddcc..b5b3f33 100644
+--- a/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java
++++ b/translator/src/test/java/com/google/devtools/j2objc/gen/ObjectiveCImplementationGeneratorTest.java
+@@ -560 +560 @@
+-        "+ (IOSObjectArray *)__annotations_Test {",
++        "+ (IOSObjectArray *)__annotations_init {",
+@@ -571 +571 @@
+-        "+ (IOSObjectArray *)__annotations_TestWithInt_ {",
++        "+ (IOSObjectArray *)__annotations_initWithInt_ {",
+

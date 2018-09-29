@@ -1,0 +1,8 @@
+Stopping Face Unlock immediately on detaching from window fixes 7338808
+
+The refactoring broke my fix for 7222226.  We need to stop Face Unlock without
+any messaging delay when the window is detached to avoid it starting with an
+invalid window, or stopping right after it restarts.
+
+Change-Id: Iea23989ec2ab3ad7d1a57e2d1fb85163a6396024
+

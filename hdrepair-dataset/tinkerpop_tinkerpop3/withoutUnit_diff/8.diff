@@ -1,0 +1,8 @@
+diff --git a/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java b/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java
+index 46a6cc4..879c683 100644
+--- a/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java
++++ b/neo4j-gremlin/src/main/java/com/tinkerpop/gremlin/neo4j/process/graph/util/Neo4jGraphTraversal.java
+@@ -35 +35 @@
+-        if (this.locked) throw Exceptions.traversalIsLocked();
++        if (this.getTraversalEngine().isPresent()) throw Exceptions.traversalIsLocked();
+

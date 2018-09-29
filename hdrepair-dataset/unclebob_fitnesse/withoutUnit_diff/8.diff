@@ -1,0 +1,23 @@
+diff --git a/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/content.txt b/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/content.txt
+index 6bb749b..7c493b2 100644
+--- a/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/content.txt
++++ b/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/content.txt
+@@ -10 +10 @@
+-The matching algorithm is ''relative'' which means that if the table rows have the following order !style_code({A, B, C}) and the query returns !style_code({B, C, A}) then rows !style_code(B) and !style_code(C) will be green, and only row !style_code[!style_red(A)] will be marked in red as ''out of order: row 3''.  The row number in the error message is the ordinal position (based on 1) of that row in the query result.
++The matching algorithm is ''relative'' which means that if the table rows have the following order !style_code({A, B, C}) and the query returns !style_code({B, C, A}) then rows !style_code(B) and !style_code(C) will be green, and only row !style_code[A] will be marked in red as ''out of order: row 3''.  The row number in the error message is the ordinal position (based on 1) of that row in the query result.
+diff --git a/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/properties.xml b/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/properties.xml
+index cc008a4..e6155a8 100644
+--- a/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/properties.xml
++++ b/FitNesseRoot/FitNesse/UserGuide/SliM/OrderedQueryTable/properties.xml
+@@ -5,2 +4,0 @@
+-	<Help/>
+-	<LastModified>20090304135001</LastModified>
+@@ -11 +8,0 @@
+-	<Suites/>
+diff --git a/src/fitnesse/testsystems/slim/tables/OrderedQueryTable.java b/src/fitnesse/testsystems/slim/tables/OrderedQueryTable.java
+index eca72f7..cb3241c 100644
+--- a/src/fitnesse/testsystems/slim/tables/OrderedQueryTable.java
++++ b/src/fitnesse/testsystems/slim/tables/OrderedQueryTable.java
+@@ -19,0 +20 @@
++      getTestContext().increment(testResult.getExecutionResult());
+

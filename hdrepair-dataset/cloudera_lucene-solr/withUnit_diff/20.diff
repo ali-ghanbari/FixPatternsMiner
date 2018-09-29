@@ -1,0 +1,70 @@
+diff --git a/solr/CHANGES.txt b/solr/CHANGES.txt
+index aeb7116..0d7bb5f 100644
+--- a/solr/CHANGES.txt
++++ b/solr/CHANGES.txt
+@@ -415 +415,4 @@
+-* SOLR-2047: ReplicationHandler should accept bool type for enable flag. (koji)  
++* SOLR-2047: ReplicationHandler should accept bool type for enable flag. (koji)
++
++* SOLR-1630: Fix spell checking collation issue related to token positions (rmuir, gsingers) 
++
+diff --git a/solr/src/java/org/apache/solr/handler/component/SpellCheckComponent.java b/solr/src/java/org/apache/solr/handler/component/SpellCheckComponent.java
+index 4b0c8c4..f2d8dd0 100644
+--- a/solr/src/java/org/apache/solr/handler/component/SpellCheckComponent.java
++++ b/solr/src/java/org/apache/solr/handler/component/SpellCheckComponent.java
+@@ -452,0 +453,2 @@
++        // we are replacing the query in order, but injected terms might cause illegal offsets due to previous replacements.
++        if (tok.getPositionIncrement() == 0) continue;
+diff --git a/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java b/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java
+index 949fc8c..4f6d51b 100644
+--- a/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java
++++ b/solr/src/test/org/apache/solr/handler/component/SpellCheckComponentTest.java
+@@ -59,0 +60 @@
++    assertNull(h.validateUpdate(adoc("id", "9", "lowerfilt", "pixmaa")));
+@@ -237,0 +239,24 @@
++  
++  @Test
++  public void testCollate2() throws Exception {
++    SolrCore core = h.getCore();
++    SearchComponent speller = core.getSearchComponent("spellcheck");
++    assertTrue("speller is null and it shouldn't be", speller != null);
++
++    ModifiableSolrParams params = new ModifiableSolrParams();
++    params.add(CommonParams.QT, "spellCheckCompRH");
++    params.add(SpellCheckComponent.SPELLCHECK_BUILD, "true");
++    params.add(CommonParams.Q, "pixma-a-b-c-d-e-f-g");
++    params.add(SpellCheckComponent.COMPONENT_NAME, "true");
++    params.add(SpellCheckComponent.SPELLCHECK_COLLATE, "true");
++
++    SolrRequestHandler handler = core.getRequestHandler("spellCheckCompRH");
++    SolrQueryResponse rsp = new SolrQueryResponse();
++    rsp.add("responseHeader", new SimpleOrderedMap());
++    handler.handleRequest(new LocalSolrQueryRequest(core, params), rsp);
++    NamedList values = rsp.getValues();
++    NamedList spellCheck = (NamedList) values.get("spellcheck");
++    NamedList suggestions = (NamedList) spellCheck.get("suggestions");
++    String collation = (String) suggestions.get("collation");
++    assertEquals("pixmaa", collation);
++  }
+diff --git a/solr/src/test/test-files/solr/conf/schema.xml b/solr/src/test/test-files/solr/conf/schema.xml
+index f53e7b4..7f380e9 100644
+--- a/solr/src/test/test-files/solr/conf/schema.xml
++++ b/solr/src/test/test-files/solr/conf/schema.xml
+@@ -199,0 +200,8 @@
++    <fieldtype name="lowerpunctfilt" class="solr.TextField">
++      <analyzer>
++        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
++        <filter name="syn" class="solr.SynonymFilterFactory" synonyms="synonyms.txt" expand="true"/>
++        <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"/>
++        <filter class="solr.LowerCaseFilterFactory"/>
++      </analyzer>
++    </fieldtype>
+diff --git a/solr/src/test/test-files/solr/conf/solrconfig.xml b/solr/src/test/test-files/solr/conf/solrconfig.xml
+index d42edff..6115c5a 100644
+--- a/solr/src/test/test-files/solr/conf/solrconfig.xml
++++ b/solr/src/test/test-files/solr/conf/solrconfig.xml
+@@ -336 +336,2 @@
+-    <str name="queryAnalyzerFieldType">lowerfilt</str>
++    <!-- This is slightly different from the field value so we can test dealing with token offset changes -->
++    <str name="queryAnalyzerFieldType">lowerpunctfilt</str>
+

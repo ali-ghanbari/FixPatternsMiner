@@ -1,0 +1,39 @@
+diff --git a/src/main/groovy/util/Proxy.java b/src/main/groovy/util/Proxy.java
+index 67417b0..7303f82 100644
+--- a/src/main/groovy/util/Proxy.java
++++ b/src/main/groovy/util/Proxy.java
+@@ -59 +59 @@
+-            return InvokerHelper.getMetaClass(adaptee).invokeMethod(adaptee, name, args);
++            return InvokerHelper.invokeMethod(adaptee, name, args);
+diff --git a/src/test/groovy/util/ProxyTest.groovy b/src/test/groovy/util/ProxyTest.groovy
+index 46920d8..50a2afc 100644
+--- a/src/test/groovy/util/ProxyTest.groovy
++++ b/src/test/groovy/util/ProxyTest.groovy
+@@ -56,0 +57,26 @@
++  
++  void testMultipleWrapping() {
++    assertScript """
++        import groovy.util.Proxy
++        
++        class Proxy1 extends Proxy {
++            def foo() { "Foo" }
++        }
++        
++        class Proxy2 extends Proxy {
++            def bar() { "Bar" }
++        }
++        
++        class Obj {
++            def baz() { "Baz" }
++        }
++        
++        def proxy1 = new Proxy1()
++        def proxy2 = new Proxy2()
++        proxy1.adaptee = proxy2
++        proxy2.adaptee = new Obj()
++        
++        assert proxy1.foo() == "Foo"
++        assert proxy1.bar() == "Bar"
++    """
++  }
+

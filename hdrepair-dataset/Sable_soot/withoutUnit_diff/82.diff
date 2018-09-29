@@ -1,0 +1,8 @@
+diff --git a/src/soot/toDex/DexPrinter.java b/src/soot/toDex/DexPrinter.java
+index 02b5c36..0cece66 100755
+--- a/src/soot/toDex/DexPrinter.java
++++ b/src/soot/toDex/DexPrinter.java
+@@ -294 +294 @@
+-			int tryLength = stmtV.getOffset(endStmt) - startCodeAddress + 1;
++			int tryLength = stmtV.getOffset(endStmt) - startCodeAddress; // FIXME this is not that simple - a jimple stmt belongs to 1 to N dex insns, so the length could be bigger
+

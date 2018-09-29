@@ -1,0 +1,32 @@
+diff --git a/maven-changes-plugin/src/main/java/org/apache/maven/plugin/changes/ChangesMojo.java b/maven-changes-plugin/src/main/java/org/apache/maven/plugin/changes/ChangesMojo.java
+index d87b040..92e3cf9 100644
+--- a/maven-changes-plugin/src/main/java/org/apache/maven/plugin/changes/ChangesMojo.java
++++ b/maven-changes-plugin/src/main/java/org/apache/maven/plugin/changes/ChangesMojo.java
+@@ -78,2 +78,2 @@
+-     * &lt;issueManagement&gt;&lt;url&gt; value from the POM, and removing the context path. %ISSUE% :
+-     * this is the issue number.
++     * &lt;issueManagement&gt;/&lt;url&gt; value from the POM, and removing the last '/'
++     * and everything that comes after it. %ISSUE% : this is the issue number.
+diff --git a/maven-changes-plugin/src/site/apt/usage.apt b/maven-changes-plugin/src/site/apt/usage.apt
+index 8b02472..0a2b2f6 100644
+--- a/maven-changes-plugin/src/site/apt/usage.apt
++++ b/maven-changes-plugin/src/site/apt/usage.apt
+@@ -128,0 +129,17 @@
++** Linking to Your Issue Management System
++
++  If you use the <<<issue>>> attribute in your <<<changes.xml>>> file and have
++  the <<<\<issueManagement\>>>> element configured in your <<<pom.xml>>>, the
++  report will contain links to the issues in your issue management system. The
++  default configuration produces links to JIRA, but that can be
++  {{{changes-report-mojo.html}configured}}.
++
++  <<Note:>> If you have
++  another issue tracker, make sure that your <<<\<issueManagement\>/\<url\>>>> is
++  correct. In particular, make sure that it has a trailing slash if it needs one.
++  The plugin can't add this for you, because it needs to handle different issue
++  management systems. If your issue management system is at
++  <<<http://www.company.com/bugzilla/>>>
++  the links will not work if you enter <<<http://www.company.com/bugzilla>>>
++  in your <<<pom.xml>>>.
++
+

@@ -1,0 +1,10 @@
+diff --git a/src/plugins/WebOfTrust/util/TransferThread.java b/src/plugins/WebOfTrust/util/TransferThread.java
+index 8a4f33f..e37bb00 100644
+--- a/src/plugins/WebOfTrust/util/TransferThread.java
++++ b/src/plugins/WebOfTrust/util/TransferThread.java
+@@ -124 +124,3 @@
+-        assert (!mJob.isTerminated());
++        // We do not do this because some unit tests intentionally terminate() us before they run.
++        /*  assert (!mJob.isTerminated()) : "Should not be called after terminate()!"; */
++        
+

@@ -1,0 +1,36 @@
+diff --git a/core/src/main/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfiguration.java b/core/src/main/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfiguration.java
+index 1b405ed..f87c334 100644
+--- a/core/src/main/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfiguration.java
++++ b/core/src/main/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfiguration.java
+@@ -14 +14 @@
+-	private static final String DEFAULT_PROFILE_PREFIX = DEFAULT_PROFILE+".";
++	static final String DEFAULT_PROFILE_PREFIX = DEFAULT_PROFILE+".";
+diff --git a/core/src/test/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfigurationTest.java b/core/src/test/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfigurationTest.java
+index 5bc2efe..cf4a0b5 100644
+--- a/core/src/test/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfigurationTest.java
++++ b/core/src/test/java/de/holisticon/util/tracee/configuration/PropertiesBasedTraceeFilterConfigurationTest.java
+@@ -25 +25 @@
+-		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + AsyncDispatch.name())).thenReturn(".*");
++		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + AsyncDispatch.name())).thenReturn(".*");
+@@ -31 +31 @@
+-		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + AsyncDispatch.name())).thenReturn("a,b,c");
++		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + AsyncDispatch.name())).thenReturn("a,b,c");
+@@ -37 +37 @@
+-		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + AsyncDispatch.name())).thenReturn("b[oa]+b");
++		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + AsyncDispatch.name())).thenReturn("b[oa]+b");
+@@ -49 +49 @@
+-		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + AsyncDispatch.name())).thenReturn(" \t\n");
++		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + AsyncDispatch.name())).thenReturn(" \t\n");
+@@ -55 +55 @@
+-		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + AsyncDispatch.name())).thenReturn("a");
++		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + AsyncDispatch.name())).thenReturn("a");
+@@ -61 +61 @@
+-		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + GENERATE_REQUEST_ID)).thenReturn("1");
++		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + GENERATE_REQUEST_ID)).thenReturn("1");
+@@ -67 +67 @@
+-		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + GENERATE_REQUEST_ID)).thenReturn("false");
++		when(propertyChain.getProperty(TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + GENERATE_REQUEST_ID)).thenReturn("false");
+@@ -73 +73 @@
+-		when(propertyChain.getProperty((TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE + GENERATE_SESSION_ID))).thenReturn("42");
++		when(propertyChain.getProperty((TRACEE_CONFIG_PREFIX + DEFAULT_PROFILE_PREFIX + GENERATE_SESSION_ID))).thenReturn("42");
+

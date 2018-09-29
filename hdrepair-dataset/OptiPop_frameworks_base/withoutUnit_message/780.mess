@@ -1,0 +1,10 @@
+Fix for bug 6716343. Use correct offset for mPos reset.
+
+The mPos field in the MeasuredText object is relative to the start of
+the text (mTextStart), but the pos passed in by the caller of the
+setPos() method is relative to the character sequence. When spans
+overlap break boundaries and the paragraph doesn't start at 0, the
+result is an out of bounds error. This fix uses the correct offset.
+
+Change-Id: I12c7a2311a9bdbbea7ab21554a922b7f665a17bf
+

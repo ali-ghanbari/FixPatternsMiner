@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java b/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java
+index 8bb7afc..825fd26 100644
+--- a/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java
++++ b/platform/lang-impl/src/com/intellij/execution/rmi/RemoteProcessSupport.java
+@@ -315 +315 @@
+-      if (info != null && info.handler != null && info.handler == handler) {
++      if (info != null && (handler == null || info.handler == handler)) {
+

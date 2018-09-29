@@ -1,0 +1,15 @@
+diff --git a/build_dataBaseUtils.xml b/build_dataBaseUtils.xml
+index 60c4613..b6f44c3 100755
+--- a/build_dataBaseUtils.xml
++++ b/build_dataBaseUtils.xml
+@@ -41 +41 @@
+-		
++		<ant antfile="build_compile.xml" target="compile-tools"/>
+diff --git a/src_tools/pt/utl/ist/codeGenerator/database/DataInitializer.java b/src_tools/pt/utl/ist/codeGenerator/database/DataInitializer.java
+index 03efb31..7bcb41d 100755
+--- a/src_tools/pt/utl/ist/codeGenerator/database/DataInitializer.java
++++ b/src_tools/pt/utl/ist/codeGenerator/database/DataInitializer.java
+@@ -150 +150 @@
+-	    new AccountabilityType(accountabilityTypeEnum, new MultiLanguageString(accountabilityTypeEnum.getName()));
++	    new AccountabilityType(accountabilityTypeEnum, new MultiLanguageString(Language.getDefaultLanguage(), accountabilityTypeEnum.getName()));
+

@@ -1,0 +1,14 @@
+diff --git a/modules/shipment/src/main/java/org/openlmis/order/task/OrderFtpSender.java b/modules/shipment/src/main/java/org/openlmis/order/task/OrderFtpSender.java
+index fa07837..a763cb4 100644
+--- a/modules/shipment/src/main/java/org/openlmis/order/task/OrderFtpSender.java
++++ b/modules/shipment/src/main/java/org/openlmis/order/task/OrderFtpSender.java
+@@ -35,0 +36 @@
++
+diff --git a/modules/shipment/src/test/java/org/openlmis/order/task/OrderFtpSenderTest.java b/modules/shipment/src/test/java/org/openlmis/order/task/OrderFtpSenderTest.java
+index 63f4b79..d5c8d53 100644
+--- a/modules/shipment/src/test/java/org/openlmis/order/task/OrderFtpSenderTest.java
++++ b/modules/shipment/src/test/java/org/openlmis/order/task/OrderFtpSenderTest.java
+@@ -51 +51 @@
+-    verify(producerTemplate).sendBodyAndHeader("ftp://username@serverhost:serverport/localfolderpath?password=password&passiveMode=false", file, Exchange.FILE_NAME, fileName);
++    verify(producerTemplate).sendBodyAndHeader("ftp://username@serverhost:serverport/localfolderpath?password=password&passiveMode=true", file, Exchange.FILE_NAME, fileName);
+

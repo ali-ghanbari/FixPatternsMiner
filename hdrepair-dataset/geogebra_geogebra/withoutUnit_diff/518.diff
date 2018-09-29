@@ -1,0 +1,10 @@
+diff --git a/web/src/geogebra/web/util/NumberFormatWeb.java b/web/src/geogebra/web/util/NumberFormatWeb.java
+index 91b60f5..ceec652 100644
+--- a/web/src/geogebra/web/util/NumberFormatWeb.java
++++ b/web/src/geogebra/web/util/NumberFormatWeb.java
+@@ -37 +37,3 @@
+-		return ret;
++		// GWT uses the locale to decide . or , as decimal separator
++		// we must always have .
++		return ret.replace(',', '.');
+

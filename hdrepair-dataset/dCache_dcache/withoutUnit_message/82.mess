@@ -1,0 +1,29 @@
+nfs: fix NPE on restarting door
+
+When restarting the NFS door (after deploying a modified dCache 
+server) I observed the following NullPointerException:
+
+04 Dec 2011 19:35:29 (NFSv41-discordia) [] Exception during FilterChain execution
+java.lang.NullPointerException: null
+        at org.dcache.xdr.gss.GssSessionManager.destroyContext(GssSessionManager.java:57)
+        at org.dcache.xdr.gss.GssProtocolFilter.handleRead(GssProtocolFilter.java:108)
+        at org.glassfish.grizzly.filterchain.ExecutorResolver$9.execute(ExecutorResolver.java:119)
+        at org.glassfish.grizzly.filterchain.DefaultFilterChain.executeFilter(DefaultFilterChain.java:286)
+        [...]
+
+The problem is due to the client attempting to destroy a context that 
+doesn't exist or rather, that the door has forgotten about due to 
+being restarted.
+
+The patch fixes the problem by considering the situation equivalent to 
+the client attempting to destroy a context that has not be 
+established.  Hopefully, the client can recover from that situation.
+
+Target: trunk
+Request: 2.0
+Request: 1.9.12
+Patch: http://rb.dcache.org/r/4010/
+Acked-by: Tigran Mkrtchyan
+
+
+

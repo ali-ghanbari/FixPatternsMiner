@@ -1,0 +1,18 @@
+diff --git a/src/org/openstreetmap/josm/data/validation/tests/UnclosedWays.java b/src/org/openstreetmap/josm/data/validation/tests/UnclosedWays.java
+index 3efa9a2..9c83cea 100644
+--- a/src/org/openstreetmap/josm/data/validation/tests/UnclosedWays.java
++++ b/src/org/openstreetmap/josm/data/validation/tests/UnclosedWays.java
+@@ -95 +95 @@
+-        if (test != null) {
++        if (test != null && !"track".contains(test)) {
+diff --git a/styles/standard/elemstyles.xml b/styles/standard/elemstyles.xml
+index 0cd0068..3e1027d 100644
+--- a/styles/standard/elemstyles.xml
++++ b/styles/standard/elemstyles.xml
+@@ -1358 +1358 @@
+-		<area colour="manmade#d8d8d8"/>
++		<area colour="manmade#d8d8d8" closed="true"/>
+@@ -1492 +1492 @@
+-		<area colour="leisure#c7f1a3"/>
++		<area colour="leisure#c7f1a3" closed="true"/>
+

@@ -1,0 +1,20 @@
+diff --git a/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/XtextDamagerRepairer.java b/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/XtextDamagerRepairer.java
+index 508cdeb..ed68064 100644
+--- a/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/XtextDamagerRepairer.java
++++ b/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/XtextDamagerRepairer.java
+@@ -96 +96 @@
+-			end = Math.max(end, actual.getCurrent().getStopIndex());
++			end = Math.max(end, actual.getCurrent().getStopIndex()+1);
+diff --git a/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/XtextDamageRepairerTest.java b/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/XtextDamageRepairerTest.java
+index db467a0..faf1920 100644
+--- a/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/XtextDamageRepairerTest.java
++++ b/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/XtextDamageRepairerTest.java
+@@ -90,0 +91,7 @@
++	public void testMlEndOfLine() throws Exception {
++		String model = "/* foo ";
++		String end = "*/";
++		
++		assertEquals(0,(model+end).length(), check(model+end,0,model.length(),model));
++	}
++	
+

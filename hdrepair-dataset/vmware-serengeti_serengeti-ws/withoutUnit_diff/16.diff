@@ -1,0 +1,15 @@
+diff --git a/common/src/main/resources/serengeti-errmsg.properties b/common/src/main/resources/serengeti-errmsg.properties
+index 323a5ba..7b11dbb 100644
+--- a/common/src/main/resources/serengeti-errmsg.properties
++++ b/common/src/main/resources/serengeti-errmsg.properties
+@@ -244 +244 @@
+-CLUSTER.EXTRA_PACKAGES_NOT_FOUND = You must add packages {0} to the serengeti management server before cluster creation. Please refer to section "Install RPMs in the Serengeti Management Server Yum Repository" in the Admin Guide for more details.
++CLUSTER.EXTRA_PACKAGES_NOT_FOUND = You must add packages {0} to the serengeti management server before cluster creation. Refer to section "Install RPMs in the Serengeti Management Server Yum Repository" in the Administrator's Guide for more details.
+diff --git a/server/serengeti/src/main/java/com/vmware/bdd/rest/RestResource.java b/server/serengeti/src/main/java/com/vmware/bdd/rest/RestResource.java
+index a0fa7b5..5c1510b 100644
+--- a/server/serengeti/src/main/java/com/vmware/bdd/rest/RestResource.java
++++ b/server/serengeti/src/main/java/com/vmware/bdd/rest/RestResource.java
+@@ -1235 +1235 @@
+-         if ( rpmList.length != extraRequiredPackages.size() ) {
++         if ( !hs.isEmpty() ) {
+

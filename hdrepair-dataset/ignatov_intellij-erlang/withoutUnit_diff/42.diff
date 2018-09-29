@@ -1,0 +1,26 @@
+diff --git a/src/org/intellij/erlang/formatter/ErlangIndentProcessor.java b/src/org/intellij/erlang/formatter/ErlangIndentProcessor.java
+index 08622af..222946b 100644
+--- a/src/org/intellij/erlang/formatter/ErlangIndentProcessor.java
++++ b/src/org/intellij/erlang/formatter/ErlangIndentProcessor.java
+@@ -108 +108 @@
+-      return insideCall ? Indent.getContinuationIndent() : Indent.getNormalIndent();
++      return insideCall ? Indent.getNormalIndent() : Indent.getNoneIndent();
+diff --git a/testData/formatter/125-after.erl b/testData/formatter/125-after.erl
+index 1203889..4fb773b 100644
+--- a/testData/formatter/125-after.erl
++++ b/testData/formatter/125-after.erl
+@@ -2 +2 @@
+-    price = Price, iurl = Iurl, landing_page_url = Landing}) -> ok.
+\ No newline at end of file
++  price = Price, iurl = Iurl, landing_page_url = Landing}) -> ok.
+\ No newline at end of file
+diff --git a/testData/formatter/171-after.erl b/testData/formatter/171-after.erl
+index f85f7ec..63c0536 100644
+--- a/testData/formatter/171-after.erl
++++ b/testData/formatter/171-after.erl
+@@ -3,2 +3,2 @@
+-      ip = Ip,
+-      carrier = Carrier
++    ip = Ip,
++    carrier = Carrier
+

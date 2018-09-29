@@ -1,0 +1,89 @@
+diff --git a/xtab/org.eclipse.birt.report.item.crosstab.core/plugin.xml b/xtab/org.eclipse.birt.report.item.crosstab.core/plugin.xml
+index 8b36c8a..1586a58 100644
+--- a/xtab/org.eclipse.birt.report.item.crosstab.core/plugin.xml
++++ b/xtab/org.eclipse.birt.report.item.crosstab.core/plugin.xml
+@@ -171,0 +172,12 @@
++         <propertyVisibility
++               name="grandTotal"
++               visibility="hide">
++         </propertyVisibility>
++         <propertyVisibility
++               name="views"
++               visibility="hide">
++         </propertyVisibility>
++         <propertyVisibility
++               name="members"
++               visibility="hide">
++         </propertyVisibility>
+@@ -181,0 +194 @@
++               displayNameID="Element.Dimension"
+@@ -195 +208,5 @@
+-         </property></reportItem>
++         </property>
++         <propertyVisibility
++               name="levels"
++               visibility="hide">
++         </propertyVisibility></reportItem>
+@@ -204,0 +222 @@
++               displayNameID="Element.Level"
+@@ -218,0 +237 @@
++               defaultValue="none"
+@@ -219,0 +239 @@
++               displayNameID="Element.SortType"
+@@ -225,0 +246 @@
++               defaultValue="asc"
+@@ -226,0 +248 @@
++               displayNameID="Element.SortDirection"
+@@ -242,0 +265 @@
++               displayNameID="Element.PageBreakBefore"
+@@ -250,0 +274 @@
++               displayNameID="Element.PageBreakAfter"
+@@ -257,0 +282 @@
++               displayNameID="Element.AggregationHeaderLocation"
+@@ -289,0 +315,8 @@
++         <propertyVisibility
++               name="member"
++               visibility="hide">
++         </propertyVisibility>
++         <propertyVisibility
++               name="aggregationHeader"
++               visibility="hide">
++         </propertyVisibility>
+@@ -299,0 +333 @@
++               displayNameID="Element.Measure"
+@@ -333,0 +368,12 @@
++         <propertyVisibility
++               name="detail"
++               visibility="hide">
++         </propertyVisibility>
++         <propertyVisibility
++               name="aggregations"
++               visibility="hide">
++         </propertyVisibility>
++         <propertyVisibility
++               name="header"
++               visibility="hide">
++         </propertyVisibility>
+diff --git a/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/i18n/nls.properties b/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/i18n/nls.properties
+index 4b41a39..9baf080 100644
+--- a/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/i18n/nls.properties
++++ b/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/i18n/nls.properties
+@@ -7,0 +8 @@
++Element.AggregationHeaderLocation=Aggregation Header Location
+@@ -8,0 +10,4 @@
++Element.PageBreakBefore=Page Break Before
++Element.PageBreakAfter=Page Break After
++Element.SortDirection=Sort Direction
++Element.SortType=Sort Type
+@@ -12,0 +18,3 @@
++Element.Dimension=Dimension
++Element.Level=Level
++Element.Measure=Measure
+diff --git a/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/re/executor/IColumnWalker.java b/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/re/executor/IColumnWalker.java
+index 77cc937..66aa1f6 100644
+--- a/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/re/executor/IColumnWalker.java
++++ b/xtab/org.eclipse.birt.report.item.crosstab.core/src/org/eclipse/birt/report/item/crosstab/core/re/executor/IColumnWalker.java
+@@ -22 +22 @@
+-	boolean IGNORE_TOTAL_COLUMN_WITHOUT_AGGREGATION = false;
++	boolean IGNORE_TOTAL_COLUMN_WITHOUT_AGGREGATION = true;
+

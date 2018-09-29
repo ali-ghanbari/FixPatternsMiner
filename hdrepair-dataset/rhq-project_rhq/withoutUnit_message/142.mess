@@ -1,0 +1,4 @@
+some plugin classes (apache lifecycle listener) need the data dir set
+without this fix, when running mvn build in the validate-all-plugins module, the apache plugin writes Apache/httpd.aug under the validate-all-plugins directory.
+now it puts it in the /tmp dir since that's what we now set the data dir to
+

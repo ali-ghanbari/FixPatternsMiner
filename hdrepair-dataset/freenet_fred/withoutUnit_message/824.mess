@@ -1,0 +1,58 @@
+1027:
+- Global stuff:
+-- Fix the alchemy on the throttles. We were multiplying the load limiting window size by the number of backed off peers. We should multiply it by the number of routable peers (1 if they are all backed off). Although I'm not sure this makes sense, it is what I thought we had implemented before xmas...
+-- Pre-emptive rejection: Lots of accuracy fixes for the stats which output liability estimation is based on (NodeStats.successful*).
+--- Don't report bytes sent on a local fetch, or bytes received on a local insert. Reason: We are using these stats to decide whether to accept a remote request, which will have both a Handler and a Sender, any data will be relayed. However this does not mean that the other part of a local request's transferred bytes can't be accurate for our purposes.
+--- Correct the default stats in the light of the above.
+--- SuccessfulSskInsertBytesReceivedAverage was serialising from SuccessfulChkInsertBytesReceivedAverage
+--- We were reporting sent bytes as received bytes various places. Also some places we would report even though we'd thrown an error.
+--- Take into account overhead of non-request data transfer (just using a fudge factor for now, same as high level bwlimits).
+--- Really send messages synchronously (1 minute timeout, and call AsyncMessageCallback.sent()) when completing an SSK request handler, so we know how many bytes were sent before we report it.
+--- Include the message which creates the *Handler in the total received bytes. Also a minor sync fix.
+- Localisation
+-- New config node.l10n for the node language.
+-- Currently we (partially) support english, french, polish. It should be possible to support any language, at least left-to-right ones, so please contact us if you can help.
+-- Hooks exist for some of the user interface: the queue page, config options.
+-- Translation Helper plugin makes it (relatively) easy to contribute translations. Not working yet because of Properties issues.
+-- TODO: Change to the file format (Properties is no good for this), fix Translation Helper.
+- FCP direct disk access changes
+-- TestDDA: protocol by which the client can prove to the node that it can read/write a specific directory. Mandatory !! If you send a request to do a DDA upload/download, you may get an error suggesting you do a TestDDA first.
+-- New error for the purpose: DIRECT_DISK_ACCESS_DENIED = 25.
+-- Note that this does not work for directories the node doesn't have write access to: Clients will be asked to use UploadFrom=direct in such cases for now.
+-- Alternate mechanism (for ClientPut only so far): FileHash = Base64(NodeHello.identifier + '-' + request Identifier + '-' + file data). If this is correct then the request will be let through even without a successful TestDDA.
+- FCP other changes
+-- PeerNode: Don't add 'idle' to peer node exported volatile data if the peer has never been connected with.
+-- Full (final modulo l10n issues) API for getting/setting configs
+-- RemovePeer only available to clients with full access!
+-- Change default on ignoreTooManyPathComponents to *FALSE*. A request for a key with extra path components via FCP will now result in a GetFailed including the correct key.
+- Web interface
+-- Offer node reference both as a binary .fref file and as text on the darknet page
+-- Better stats page: organise boxes better, refactor, show original and real window size, show pre-emptive rejection reasons
+-- Support for themes external to the node: fproxy.CSSOverride option
+-- Config: support for enumerable options i.e. dropdown boxes listing every possible value for those string options that have a limited number of possible values
+-- Minor restricted mode fixes
+- Plugins:
+-- Incompatible API change: Refactor PluginHTTPException. Several subtypes for different uses: redirects, downloads, access denied, not found. Exception itself is also changed.
+-- All plugins updated.
+- Report accurately when decoded single key data is too big (we were returning a bucket error instead of TOO_BIG).
+- Check for existence of a file when starting an upload from the queue page.
+- Config options to allow insecure SSKs and CHKs (defaults to true): allowInsecureCHKs, allowInsecureSSKs.
+- forceWrite fproxy.allowedHosts and fproxy.bindTo
+- Improve build.xml: add junit to classpath.
+- Delete some dead code.
+- Minor changes to node restarting in fproxy.
+- forceWrite fproxy.allowedHosts and fproxy.bindTo
+- Some unit tests for DSA.java. ** reverted???
+- Use lower case for HTML tag names
+- Debugging code, logging, minor refactoring
+
+Related:
+- alexlehm added new perl FCP library to apps/perlFreenet
+- some further progress on UP&P plugin (not working yet)
+- further progress on MDNSDiscovery plugin (auto-discovery of nodes on a LAN etc)
+- improvements to installer: show a progress bar, fix on OS/X, more fixes, minor optimisations, bundle JRE 6, run as a dedicated regular user on Windows
+- Various changes to the website
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@12774 67a373e5-eb02-0410-a15c-ee090a768436
+

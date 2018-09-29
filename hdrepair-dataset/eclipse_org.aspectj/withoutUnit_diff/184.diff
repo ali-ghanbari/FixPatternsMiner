@@ -1,0 +1,46 @@
+diff --git a/tests/ajcTests.xml b/tests/ajcTests.xml
+index a2e0b3c..ba710c8 100644
+--- a/tests/ajcTests.xml
++++ b/tests/ajcTests.xml
+@@ -5661,0 +5662,7 @@
++    
++    <ajc-test dir="new" pr="29934"
++      title="can't apply around advice to the execution of around advice"
++      keywords="from-resolved_10x">
++        <compile files="CflowCycles.java"/>
++        <run class="CflowCycles"/>
++    </ajc-test>
+diff --git a/tests/ajcTestsFailing.xml b/tests/ajcTestsFailing.xml
+index b7fadc1..5964c4a 100644
+--- a/tests/ajcTestsFailing.xml
++++ b/tests/ajcTestsFailing.xml
+@@ -16,7 +15,0 @@
+-    
+-    <ajc-test dir="new" pr="29934"
+-      title="can't apply around advice to the execution of around advice"
+-      keywords="from-resolved_10x">
+-        <compile files="CflowCycles.java"/>
+-        <run class="CflowCycles"/>
+-    </ajc-test>
+diff --git a/tests/jimTests.xml b/tests/jimTests.xml
+index 53a3a9e..e55e54f 100644
+--- a/tests/jimTests.xml
++++ b/tests/jimTests.xml
+@@ -3 +3,6 @@
+-
++    <ajc-test dir="new" pr="29934"
++      title="can't apply around advice to the execution of around advice"
++      keywords="from-resolved_10x">
++        <compile files="CflowCycles.java"/>
++        <run class="CflowCycles"/>
++    </ajc-test>
+diff --git a/weaver/src/org/aspectj/weaver/bcel/BcelShadow.java b/weaver/src/org/aspectj/weaver/bcel/BcelShadow.java
+index f0b0742..6059e7d 100644
+--- a/weaver/src/org/aspectj/weaver/bcel/BcelShadow.java
++++ b/weaver/src/org/aspectj/weaver/bcel/BcelShadow.java
+@@ -1208,0 +1209,4 @@
++		// We can't inline around methods if they have around advice on them, this
++		// is because the weaving will extract the body and hence the proceed call.
++		//??? should consider optimizations to recognize simple cases that don't require body extraction
++		enclosingMethod.setCanInline(false);
+

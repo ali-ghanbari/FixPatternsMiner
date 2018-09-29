@@ -1,0 +1,39 @@
+diff --git a/choco-solver/src/main/java/solver/constraints/SatFactory.java b/choco-solver/src/main/java/solver/constraints/SatFactory.java
+index 9a1c73d..c527bf7 100644
+--- a/choco-solver/src/main/java/solver/constraints/SatFactory.java
++++ b/choco-solver/src/main/java/solver/constraints/SatFactory.java
+@@ -129 +129 @@
+-        sat.addClause(SatSolver.negated(lit));
++        sat.addClause(lit);
+diff --git a/choco-solver/src/test/java/solver/constraints/nary/SatTest.java b/choco-solver/src/test/java/solver/constraints/nary/SatTest.java
+index 0a0a6f9..5153541 100644
+--- a/choco-solver/src/test/java/solver/constraints/nary/SatTest.java
++++ b/choco-solver/src/test/java/solver/constraints/nary/SatTest.java
+@@ -35,0 +36 @@
++import util.ESat;
+@@ -151,0 +153,24 @@
++
++    @Test(groups = "1s")
++    public void test10() {
++        Solver solver = new Solver();
++        BoolVar b1;
++        b1 = VF.bool("b1", solver);
++        SatFactory.addTrue(b1);
++        //        SMF.log(solver, true, true);
++        solver.findAllSolutions();
++        Assert.assertEquals(solver.getMeasures().getSolutionCount(), 1);
++        Assert.assertEquals(b1.getBooleanValue(), ESat.TRUE);
++    }
++
++    @Test(groups = "1s")
++    public void test11() {
++        Solver solver = new Solver();
++        BoolVar b1;
++        b1 = VF.bool("b1", solver);
++        SatFactory.addFalse(b1);
++        //        SMF.log(solver, true, true);
++        solver.findAllSolutions();
++        Assert.assertEquals(solver.getMeasures().getSolutionCount(), 1);
++        Assert.assertEquals(b1.getBooleanValue(), ESat.FALSE);
++    }
+

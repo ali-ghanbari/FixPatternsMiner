@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/db/compaction/LazilyCompactedRow.java b/src/java/org/apache/cassandra/db/compaction/LazilyCompactedRow.java
+index 0d33b22..0ad3de2 100644
+--- a/src/java/org/apache/cassandra/db/compaction/LazilyCompactedRow.java
++++ b/src/java/org/apache/cassandra/db/compaction/LazilyCompactedRow.java
+@@ -115 +115 @@
+-                                      reducer == null ? maxRowTombstone.markedForDeleteAt : Math.max(maxRowTombstone.markedForDeleteAt, reducer.maxTimestampSeen),
++                                      reducer == null ? emptyColumnFamily.maxTimestamp() : Math.max(emptyColumnFamily.maxTimestamp(), reducer.maxTimestampSeen),
+

@@ -1,0 +1,15 @@
+diff --git a/server/src/com/cloud/api/auth/SAML2LoginAPIAuthenticatorCmd.java b/server/src/com/cloud/api/auth/SAML2LoginAPIAuthenticatorCmd.java
+index 1f88c1c..ce97cfd 100644
+--- a/server/src/com/cloud/api/auth/SAML2LoginAPIAuthenticatorCmd.java
++++ b/server/src/com/cloud/api/auth/SAML2LoginAPIAuthenticatorCmd.java
+@@ -328 +328 @@
+-                            resp.addCookie(new Cookie("userfullname", URLEncoder.encode(loginResponse.getFirstName() + " " + loginResponse.getLastName(), HttpUtils.UTF_8)));
++                            resp.addCookie(new Cookie("userfullname", loginResponse.getFirstName() + "%20" + loginResponse.getLastName()));
+diff --git a/ui/scripts/cloudStack.js b/ui/scripts/cloudStack.js
+index 420c137..edc7c21 100644
+--- a/ui/scripts/cloudStack.js
++++ b/ui/scripts/cloudStack.js
+@@ -135 +135 @@
+-                    if (g_sessionKey[0] === '"' && g_sessionKey[g_sessionKey.length-1] === '"') {
++                    if (g_sessionKey && g_sessionKey[0] === '"' && g_sessionKey[g_sessionKey.length-1] === '"') {
+

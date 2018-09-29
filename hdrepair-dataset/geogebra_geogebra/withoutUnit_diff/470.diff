@@ -1,0 +1,29 @@
+diff --git a/desktop/geogebra/gui/app/GeoGebraFrame.java b/desktop/geogebra/gui/app/GeoGebraFrame.java
+index 3fce0b1..cb658e8 100644
+--- a/desktop/geogebra/gui/app/GeoGebraFrame.java
++++ b/desktop/geogebra/gui/app/GeoGebraFrame.java
+@@ -448 +448 @@
+-				//app.getPythonBridge();
++				app.getPythonBridge();
+diff --git a/desktop/geogebra/plugin/jython/pyggb.py b/desktop/geogebra/plugin/jython/pyggb.py
+index bb1d14a..d933511 100644
+--- a/desktop/geogebra/plugin/jython/pyggb.py
++++ b/desktop/geogebra/plugin/jython/pyggb.py
+@@ -27,2 +27,2 @@
+-        global selection
+-        self.api = api = APIProxy(raw_api)
++        self.api = APIProxy(raw_api)
++        self.ggbApi = APIProxy(raw_api.getGgbApi())
+@@ -29,0 +30,5 @@
++        self.reinit()
++    
++    def reinit(self):
++        global selection
++        api = self.api
+@@ -38 +43 @@
+-            'ggbApplet': APIProxy(raw_api.getGgbApi()),
++            'ggbApplet': self.ggbApi,
+@@ -182 +187 @@
+-        self(init)
++        self.reinit()
+

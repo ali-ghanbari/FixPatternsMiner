@@ -1,0 +1,173 @@
+diff --git a/modules/enterprise/server/itests-2/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java b/modules/enterprise/server/itests-2/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java
+index b32ad30..e42fe46 100644
+--- a/modules/enterprise/server/itests-2/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java
++++ b/modules/enterprise/server/itests-2/src/test/java/org/rhq/enterprise/server/core/CoreServerServiceImplTest.java
+@@ -22,0 +23 @@
++import java.io.BufferedInputStream;
+@@ -23,0 +25,2 @@
++import java.io.FileInputStream;
++import java.io.FileNotFoundException;
+@@ -24,0 +28 @@
++import java.io.IOException;
+@@ -27,0 +32,4 @@
++import java.util.jar.Attributes;
++import java.util.jar.JarEntry;
++import java.util.jar.JarOutputStream;
++import java.util.jar.Manifest;
+@@ -41,0 +50 @@
++import org.rhq.core.util.stream.StreamUtil;
+@@ -104,0 +114,2 @@
++    private static final String VERSION = "1.2.3";
++    private static final String BUILD = "12345";
+@@ -147 +158 @@
+-        agentVersion = new AgentVersion("1.2.3", "12345");
++        agentVersion = new AgentVersion(VERSION, BUILD);
+@@ -492,0 +504,140 @@
++    /** Exercises the agentUpdateVersionFile mechanism.
++     *  verify that one is created if none exists before.
++     */
++    @Test
++    public void testAgentUpateVersionFile() {
++        AgentManagerLocal agentManager = LookupUtil.getAgentManager();
++        String AGENT_VERSION = "rhq-agent.latest.version";
++        String AGENT_BUILD = "rhq-agent.latest.build-number";
++        String RHQ_AGENT_LATEST_MD5 = "rhq-agent.latest.md5";
++        String version = VERSION;
++        String build = BUILD;
++
++        try {
++            File updateFile = agentManager.getAgentUpdateVersionFile();
++            Properties props = new Properties();
++            FileInputStream inStream = new FileInputStream(updateFile);
++            try {
++                props.load(inStream);
++            } finally {
++                inStream.close();
++            }
++            //check that properties present
++            boolean locatedAgentVersion = false;
++            boolean locatedAgentBuild = false;
++            for (Object property : props.keySet()) {
++                if (property.toString().equals(AGENT_VERSION)) {
++                    locatedAgentVersion = true;
++                } else if (property.toString().equals(AGENT_BUILD)) {
++                    locatedAgentBuild = true;
++                }
++            }
++            assert locatedAgentVersion : AGENT_VERSION + " was not found.";
++            assert locatedAgentBuild : AGENT_BUILD + " was not found.";
++
++            //Now delete the file and test that it's recreated properly
++            File testLocation = new File(getTempDir(), "CoreServerServiceImplTest");
++            File serverVersionFile = new File(testLocation,
++                "rhq-downloads/rhq-agent/rhq-server-agent-versions.properties");
++            File agentVersionFile = new File(testLocation,
++                "rhq-downloads/rhq-agent/rhq-agent-update-version.properties");
++            FileInputStream fin = new FileInputStream(serverVersionFile);
++            FileOutputStream fout = new FileOutputStream(agentVersionFile);
++            StreamUtil.copy(fin, fout, false);
++            serverVersionFile.delete();
++            assert !serverVersionFile.exists() : "The default test file location still exists. Unable to proceed.";
++            assert agentVersionFile.exists() : "The agent properties file was not created. Unable to proceed.";
++
++            //update the mocked components necessary for regeneration
++            DummyCoreServerTweaked mbean = new DummyCoreServerTweaked(version, build);
++            prepareCustomServerService(mbean, CoreServerMBean.OBJECT_NAME);
++            //generate fake agent file.
++            File agentBinaryFile = new File(testLocation, "rhq-downloads/rhq-agent/agent.jar");
++            buildFakeAgentJar(agentVersionFile, agentBinaryFile);
++            assert agentBinaryFile.exists() : "Failed to build fake agent file:" + agentBinaryFile.getCanonicalPath();
++
++            //trigger the file regeneration
++            updateFile = agentManager.getAgentUpdateVersionFile();
++
++            //check values
++            props = new Properties();
++            inStream = new FileInputStream(updateFile);
++            try {
++                props.load(inStream);
++            } finally {
++                inStream.close();
++            }
++
++            locatedAgentVersion = false;
++            locatedAgentBuild = false;
++            for (Object property : props.keySet()) {
++                if (property.toString().equals(AGENT_VERSION)) {
++                    locatedAgentVersion = true;
++                } else if (property.toString().equals(AGENT_BUILD)) {
++                    locatedAgentBuild = true;
++                }
++            }
++            //Verify regenerated bits. It's more than we deliver with a release
++            assert locatedAgentVersion : AGENT_VERSION + " was not found.";
++            assert props.getProperty(AGENT_VERSION).equals(version) : "Version field did not match. Expected '"
++                + version + "' but got '" + props.getProperty(AGENT_VERSION) + "'.";
++            assert locatedAgentBuild : AGENT_BUILD + " was not found.";
++            assert props.getProperty(AGENT_BUILD).equals(build) : "Version field did not match. Expected '" + version
++                + "' but got '" + props.getProperty(AGENT_BUILD) + "'.";
++            assert props.getProperty(RHQ_AGENT_LATEST_MD5) != null : "MD5 value not located.";
++            assert props.getProperty(RHQ_AGENT_LATEST_MD5).trim().length() > 0 : "No checksum value was located.";
++
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++    }
++
++    private void buildFakeAgentJar(File binaryContents, File agentBinaryFile) throws FileNotFoundException, IOException {
++        Manifest manifest = new Manifest();
++        manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "54321");
++        JarOutputStream target = new JarOutputStream(new FileOutputStream(agentBinaryFile), manifest);
++
++        //include the file passed in as contents of the jar.
++        BufferedInputStream in = null;
++        try {
++            JarEntry entry = new JarEntry("/" + binaryContents.getName());
++
++            entry.setTime(binaryContents.lastModified());
++            target.putNextEntry(entry);
++            in = new BufferedInputStream(new FileInputStream(binaryContents));
++
++            byte[] buffer = new byte[1024];
++            while (true) {
++                int count = in.read(buffer);
++                if (count == -1)
++                    break;
++                target.write(buffer, 0, count);
++            }
++            target.closeEntry();
++        } finally {
++            if (in != null)
++                in.close();
++        }
++        target.close();
++    }
++
++    private class DummyCoreServerTweaked extends DummyCoreServer {
++        private String version;
++        private String build;
++
++        @Override
++        public String getVersion() {
++            return this.version;
++        }
++
++        @Override
++        public String getBuildNumber() {
++            return this.build;
++        }
++
++        public DummyCoreServerTweaked(String version, String build) {
++            this.version = version;
++            this.build = build;
++        }
++    }
++
+diff --git a/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/AgentManagerBean.java b/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/AgentManagerBean.java
+index c0bec93..4ea8583 100644
+--- a/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/AgentManagerBean.java
++++ b/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/core/AgentManagerBean.java
+@@ -522 +522 @@
+-                JarEntry binaryJarFileEntry = binaryJarFile.getJarEntry("rhq-agent-update-version.properties");
++                JarEntry binaryJarFileEntry = binaryJarFile.getJarEntry("/rhq-agent-update-version.properties");
+

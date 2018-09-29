@@ -1,0 +1,8 @@
+diff --git a/hydra-mq/src/main/java/com/addthis/hydra/mq/MeshMessageProducer.java b/hydra-mq/src/main/java/com/addthis/hydra/mq/MeshMessageProducer.java
+index c3fcf0f..b862af7 100644
+--- a/hydra-mq/src/main/java/com/addthis/hydra/mq/MeshMessageProducer.java
++++ b/hydra-mq/src/main/java/com/addthis/hydra/mq/MeshMessageProducer.java
+@@ -129 +129 @@
+-                        Bytes.writeString("{items:" + size()+",keys:\""+routing+"\"}", out);
++                        out.write(Bytes.toBytes("{items:" + size()+",keys:\""+routing+"\"}"));
+

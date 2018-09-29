@@ -1,0 +1,84 @@
+diff --git a/molgenis-app/src/main/java/org/molgenis/app/WebAppDatabasePopulatorServiceImpl.java b/molgenis-app/src/main/java/org/molgenis/app/WebAppDatabasePopulatorServiceImpl.java
+index 4397f23..86dcdba 100644
+--- a/molgenis-app/src/main/java/org/molgenis/app/WebAppDatabasePopulatorServiceImpl.java
++++ b/molgenis-app/src/main/java/org/molgenis/app/WebAppDatabasePopulatorServiceImpl.java
+@@ -64,0 +65 @@
++		runtimePropertyMap.put("plugin.dataexplorer.genomebrowser", "false");
+diff --git a/molgenis-dataexplorer/src/main/resources/js/dataexplorer-data.js b/molgenis-dataexplorer/src/main/resources/js/dataexplorer-data.js
+index 8d095f1..0295d26 100644
+--- a/molgenis-dataexplorer/src/main/resources/js/dataexplorer-data.js
++++ b/molgenis-dataexplorer/src/main/resources/js/dataexplorer-data.js
+@@ -118 +118 @@
+-		return molgenis.ie9 !== true && genomebrowserStartAttribute !== undefined && genomebrowserChromosomeAttribute !== undefined;
++		return molgenis.ie9 !== true && genomebrowserStartAttribute !== undefined && genomebrowserChromosomeAttribute !== undefined && molgenis.dataexplorer.settings["genomebrowser"] !== 'false';
+@@ -329,6 +329,8 @@
+-			function setLocation(chr, viewStart, viewEnd){
+-				var maxViewWidth = 999999999;
+-				if(chr){
+-					viewStart = viewStart && viewStart > 0 ? viewStart : 1;
+-					viewEnd = viewEnd && viewEnd > 0 ? viewEnd : viewStart + maxViewWidth;
+-					genomeBrowser.setLocation(chr, viewStart, viewEnd);
++			if(molgenis.dataexplorer.settings["genomebrowser"] !== 'false'){
++				function setLocation(chr, viewStart, viewEnd){
++					var maxViewWidth = 999999999;
++					if(chr){
++						viewStart = viewStart && viewStart > 0 ? viewStart : 1;
++						viewEnd = viewEnd && viewEnd > 0 ? viewEnd : viewStart + maxViewWidth;
++						genomeBrowser.setLocation(chr, viewStart, viewEnd);
++					}
+@@ -335,0 +338,16 @@
++				
++				// TODO implement elegant solution for genome browser specific code
++				$.each(data.filters, function() {
++					if(this.getComplexFilterElements && this.getComplexFilterElements()[0]){
++						if(this.attribute === genomebrowserStartAttribute){
++							setLocation(genomeBrowser.chr,
++									parseInt(this.getComplexFilterElements()[0].simpleFilter.fromValue),
++									parseInt(this.getComplexFilterElements()[0].simpleFilter.toValue));
++						}
++						else if(this.attribute === genomebrowserChromosomeAttribute){
++							setLocation(this.getComplexFilterElements()[0].simpleFilter.getValues()[0],
++									genomeBrowser.viewStart,
++									genomeBrowser.viewEnd);
++						}
++					}
++				});
+@@ -337,16 +354,0 @@
+-			
+-			// TODO implement elegant solution for genome browser specific code
+-			$.each(data.filters, function() {
+-				if(this.getComplexFilterElements && this.getComplexFilterElements()[0]){
+-					if(this.attribute === genomebrowserStartAttribute){
+-						setLocation(genomeBrowser.chr,
+-								parseInt(this.getComplexFilterElements()[0].simpleFilter.fromValue),
+-								parseInt(this.getComplexFilterElements()[0].simpleFilter.toValue));
+-					}
+-					else if(this.attribute === genomebrowserChromosomeAttribute){
+-						setLocation(this.getComplexFilterElements()[0].simpleFilter.getValues()[0],
+-								genomeBrowser.viewStart,
+-								genomeBrowser.viewEnd);
+-					}
+-				}
+-			});
+diff --git a/molgenis-pathways/src/test/java/org/molgenis/pathways/service/WikiPathwaysServiceTest.java b/molgenis-pathways/src/test/java/org/molgenis/pathways/service/WikiPathwaysServiceTest.java
+index 96cd9ee..358c9e4 100644
+--- a/molgenis-pathways/src/test/java/org/molgenis/pathways/service/WikiPathwaysServiceTest.java
++++ b/molgenis-pathways/src/test/java/org/molgenis/pathways/service/WikiPathwaysServiceTest.java
+@@ -102 +102 @@
+-		String svg = "<svg>bl\u00ebah</svg>";
++		String svg = "<svg>bl\u00ebah</svg> ";
+@@ -124 +124 @@
+-		assertEquals(wikiPathwaysService.getUncoloredPathwayImage("WP1234"), "<svg>WP1234\u00eb</svg>");
++		assertEquals(wikiPathwaysService.getUncoloredPathwayImage("WP1234"), "<svg>WP1234\u00eb</svg> ");
+@@ -126 +126 @@
+-		assertEquals(wikiPathwaysService.getUncoloredPathwayImage("WP1234"), "<svg>WP1234\u00eb</svg>");
++		assertEquals(wikiPathwaysService.getUncoloredPathwayImage("WP1234"), "<svg>WP1234\u00eb</svg> ");
+diff --git a/molgenis-r/src/main/resources/templates/molgenis.r.ftl b/molgenis-r/src/main/resources/templates/molgenis.r.ftl
+index 3390d64..2a79d80 100644
+--- a/molgenis-r/src/main/resources/templates/molgenis.r.ftl
++++ b/molgenis-r/src/main/resources/templates/molgenis.r.ftl
+@@ -89 +89,2 @@
+-  dataFrame <- read.csv(url)
++	csv <- getURL(url)
++	dataFrame <- read.csv(textConnection(csv))
+

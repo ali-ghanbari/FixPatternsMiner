@@ -1,0 +1,8 @@
+diff --git a/modules/requisition/src/main/java/org/openlmis/rnr/repository/mapper/RequisitionMapper.java b/modules/requisition/src/main/java/org/openlmis/rnr/repository/mapper/RequisitionMapper.java
+index eaab5c1..3a090a0 100644
+--- a/modules/requisition/src/main/java/org/openlmis/rnr/repository/mapper/RequisitionMapper.java
++++ b/modules/requisition/src/main/java/org/openlmis/rnr/repository/mapper/RequisitionMapper.java
+@@ -202 +202 @@
+-          " FROM Requisitions R INNER JOIN requisition_status_changes RSC ON R.id = RSC.rnrId AND RSC.status = 'SUBMITTED' " +
++          " FROM Requisitions R INNER JOIN  (select status, rnrId, max(createdDate) createdDate from requisition_status_changes group by rnrId, status) RSC ON R.id = RSC.rnrId AND RSC.status = 'SUBMITTED' " +
+

@@ -1,0 +1,57 @@
+diff --git a/analytics/src/main/java/de/benjaminborbe/analytics/dao/AnalyticsReportValidator.java b/analytics/src/main/java/de/benjaminborbe/analytics/dao/AnalyticsReportValidator.java
+index 36b2c94..a637d8a 100644
+--- a/analytics/src/main/java/de/benjaminborbe/analytics/dao/AnalyticsReportValidator.java
++++ b/analytics/src/main/java/de/benjaminborbe/analytics/dao/AnalyticsReportValidator.java
+@@ -33 +33 @@
+-				if (!Character.isLetter(c) && c != AnalyticsReportDao.SEPERATOR) {
++				if (!Character.isLetterOrDigit(c) || c == AnalyticsReportDao.SEPERATOR) {
+diff --git a/analytics/src/test/java/de/benjaminborbe/analytics/dao/AnalyticsReportValidatorUnitTest.java b/analytics/src/test/java/de/benjaminborbe/analytics/dao/AnalyticsReportValidatorUnitTest.java
+new file mode 100644
+index 0000000..7e29371
+--- /dev/null
++++ b/analytics/src/test/java/de/benjaminborbe/analytics/dao/AnalyticsReportValidatorUnitTest.java
+@@ -0,0 +1,43 @@
++package de.benjaminborbe.analytics.dao;
++
++import static org.hamcrest.CoreMatchers.is;
++import static org.junit.Assert.assertThat;
++
++import org.easymock.EasyMock;
++import org.junit.Test;
++import org.slf4j.Logger;
++
++import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
++import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
++import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
++
++public class AnalyticsReportValidatorUnitTest {
++
++	@Test
++	public void testValidateName() throws Exception {
++		final Logger logger = EasyMock.createNiceMock(Logger.class);
++		EasyMock.replay(logger);
++
++		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
++
++		final AnalyticsReportValidator va = new AnalyticsReportValidator(validationConstraintValidator);
++		final AnalyticsReportBean bean = new AnalyticsReportBean();
++
++		assertThat(va.validate(bean).size(), is(3));
++
++		bean.setId(new AnalyticsReportIdentifier("1337"));
++		assertThat(va.validate(bean).size(), is(2));
++
++		bean.setAggregation(AnalyticsReportAggregation.SUM);
++		assertThat(va.validate(bean).size(), is(1));
++
++		bean.setName("testReport");
++		assertThat(va.validate(bean).size(), is(0));
++
++		bean.setName("testReport1");
++		assertThat(va.validate(bean).size(), is(0));
++
++		bean.setName("testReport" + AnalyticsReportDao.SEPERATOR);
++		assertThat(va.validate(bean).size(), is(1));
++	}
++}
+

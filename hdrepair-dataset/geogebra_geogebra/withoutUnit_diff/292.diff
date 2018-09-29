@@ -1,0 +1,10 @@
+diff --git a/common/src/geogebra/common/kernel/prover/ProverBotanasMethod.java b/common/src/geogebra/common/kernel/prover/ProverBotanasMethod.java
+index ed7d9be..9096379 100644
+--- a/common/src/geogebra/common/kernel/prover/ProverBotanasMethod.java
++++ b/common/src/geogebra/common/kernel/prover/ProverBotanasMethod.java
+@@ -218,2 +218,2 @@
+-		// If Singular is not available, let's try Giac
+-		if (App.singularWS != null && App.singularWS.isAvailable()) {
++		// If Singular is not available, let's try Giac (mainly on web)
++		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
+

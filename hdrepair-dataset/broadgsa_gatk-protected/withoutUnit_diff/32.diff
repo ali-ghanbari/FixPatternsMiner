@@ -1,0 +1,12 @@
+diff --git a/protected/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedArgumentCollection.java b/protected/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedArgumentCollection.java
+index 4fae3d6..04c5587 100644
+--- a/protected/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedArgumentCollection.java
++++ b/protected/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedArgumentCollection.java
+@@ -98 +98,5 @@
+-    @Argument(fullName = "max_deletion_fraction", shortName = "deletions", doc = "Maximum fraction of reads with deletions spanning this locus for it to be callable [to disable, set to < 0 or > 1; default:0.05]", required = false)
++    /**
++     * If the fraction of reads with deletions spanning a locus is greater than this value, the site will not be considered callable and will be skipped.
++     * To disable the use of this parameter, set its value to >1.
++     */
++    @Argument(fullName = "max_deletion_fraction", shortName = "deletions", doc = "Maximum fraction of reads with deletions spanning this locus for it to be callable", required = false)
+

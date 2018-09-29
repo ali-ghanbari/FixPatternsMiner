@@ -1,0 +1,10 @@
+diff --git a/tests/DumpRenderTree2/src/com/android/dumprendertree2/LayoutTestsExecutor.java b/tests/DumpRenderTree2/src/com/android/dumprendertree2/LayoutTestsExecutor.java
+index 089af0d..97d7cca 100644
+--- a/tests/DumpRenderTree2/src/com/android/dumprendertree2/LayoutTestsExecutor.java
++++ b/tests/DumpRenderTree2/src/com/android/dumprendertree2/LayoutTestsExecutor.java
+@@ -385 +385,3 @@
+-        webViewSettings.setAppCacheMaxSize(Long.MAX_VALUE);
++        // Use of larger values causes unexplained AppCache database corruption.
++        // TODO: Investigate what's really going on here.
++        webViewSettings.setAppCacheMaxSize(100 * 1024 * 1024);
+

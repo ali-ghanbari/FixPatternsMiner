@@ -1,0 +1,32 @@
+diff --git a/src/main/java/org/rythmengine/template/TemplateBase.java b/src/main/java/org/rythmengine/template/TemplateBase.java
+index 1ecdcfb..ba9df2a 100755
+--- a/src/main/java/org/rythmengine/template/TemplateBase.java
++++ b/src/main/java/org/rythmengine/template/TemplateBase.java
+@@ -1821 +1821 @@
+-        public static <T extends Comparable> __Itr<T> valueOf(Range range) {
++        public static <T extends Comparable<T>> __Itr<T> valueOf(Range<T> range) {
+diff --git a/src/test/java/org/rythmengine/issue/GhIssueTest.java b/src/test/java/org/rythmengine/issue/GhIssueTest.java
+index 79af1a9..9672bb8 100644
+--- a/src/test/java/org/rythmengine/issue/GhIssueTest.java
++++ b/src/test/java/org/rythmengine/issue/GhIssueTest.java
+@@ -43 +43 @@
+-    }
++    } 
+@@ -255,0 +256,10 @@
++    private boolean isProcessAlive(Process p) {
++        try {
++            p.exitValue();
++            return false;
++        } catch (Exception e) {
++            e.printStackTrace();
++            return true;
++        }
++    }
++
+@@ -264 +274 @@
+-        assertFalse(p.isAlive());
++        assertFalse(isProcessAlive(p));
+@@ -279 +289 @@
+-        assertFalse(p.isAlive());
++        assertFalse(isProcessAlive(p));
+

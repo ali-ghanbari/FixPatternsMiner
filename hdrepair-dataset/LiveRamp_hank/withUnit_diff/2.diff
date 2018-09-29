@@ -1,0 +1,41 @@
+diff --git a/src/java/com/rapleaf/hank/compress/JavaGzipCompressionCodec.java b/src/java/com/rapleaf/hank/compress/JavaGzipCompressionCodec.java
+index 31d4e47..d7bc8eb 100644
+--- a/src/java/com/rapleaf/hank/compress/JavaGzipCompressionCodec.java
++++ b/src/java/com/rapleaf/hank/compress/JavaGzipCompressionCodec.java
+@@ -38 +38 @@
+-      while (true) {
++      while (curOff < dst.length - dstOff) {
+diff --git a/test/java/com/rapleaf/hank/IntegrationTest.java b/test/java/com/rapleaf/hank/IntegrationTest.java
+index 9430d19..369ccdf 100644
+--- a/test/java/com/rapleaf/hank/IntegrationTest.java
++++ b/test/java/com/rapleaf/hank/IntegrationTest.java
+@@ -41,0 +42 @@
++import com.rapleaf.hank.compress.JavaGzipCompressionCodec;
+@@ -52,0 +54 @@
++import com.rapleaf.hank.coordinator.DomainGroupConfigVersion;
+@@ -53,0 +56 @@
++import com.rapleaf.hank.coordinator.RingGroupConfig;
+@@ -236,0 +240 @@
++    pw.println("compression_codec: " + JavaGzipCompressionCodec.class.getName());
+@@ -402 +406 @@
+-    domainGroupConfig.createNewVersion(versionMap);
++    final DomainGroupConfigVersion newVersion = domainGroupConfig.createNewVersion(versionMap);
+@@ -407 +411,16 @@
+-    Thread.sleep(15000);
++    coord = config.getCoordinator();
++    final RingGroupConfig ringGroupConfig = coord.getRingGroupConfig("rg1");
++    for (int i = 0; i < 30; i++) {
++      if (ringGroupConfig.isUpdating()) {
++        LOG.info("Ring group is still updating. Sleeping...");
++      } else {
++        if (ringGroupConfig.getCurrentVersion() == newVersion.getVersionNumber()) {
++          break;
++        } else {
++          LOG.info("Ring group is not yet at the correct version. Continuing to wait.");
++        }
++      }
++      Thread.sleep(1000);
++    }
++
++    assertFalse("ring group failed to finish updating after 30secs", ringGroupConfig.isUpdating());
+

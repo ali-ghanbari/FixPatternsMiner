@@ -1,0 +1,67 @@
+diff --git a/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/main/java/org/apache/archiva/rest/services/DefaultBrowseService.java b/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/main/java/org/apache/archiva/rest/services/DefaultBrowseService.java
+index d30463e..5545add 100644
+--- a/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/main/java/org/apache/archiva/rest/services/DefaultBrowseService.java
++++ b/archiva-modules/archiva-web/archiva-rest/archiva-rest-services/src/main/java/org/apache/archiva/rest/services/DefaultBrowseService.java
+@@ -74 +73,0 @@
+-
+diff --git a/archiva-modules/archiva-web/archiva-web-common/src/main/resources/org/apache/archiva/i18n/default.properties b/archiva-modules/archiva-web/archiva-web-common/src/main/resources/org/apache/archiva/i18n/default.properties
+index 4caaa68..de07b45 100644
+--- a/archiva-modules/archiva-web/archiva-web-common/src/main/resources/org/apache/archiva/i18n/default.properties
++++ b/archiva-modules/archiva-web/archiva-web-common/src/main/resources/org/apache/archiva/i18n/default.properties
+@@ -184,0 +185,3 @@
++#browse
++browse.repository=Browse Repository
++
+diff --git a/archiva-modules/archiva-web/archiva-webapp-js/pom.xml b/archiva-modules/archiva-web/archiva-webapp-js/pom.xml
+index a2c25f4..2224e2f 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-js/pom.xml
++++ b/archiva-modules/archiva-web/archiva-webapp-js/pom.xml
+@@ -560,2 +560,2 @@
+-                <cssSourceFile>bootstrap.css</cssSourceFile>
+-                <cssSourceFile>archiva.2.0.1.css</cssSourceFile>
++                <cssSourceFile>bootstrap.2.0.1.css</cssSourceFile>
++                <cssSourceFile>archiva.css</cssSourceFile>
+diff --git a/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/search.js b/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/search.js
+index cdcb8ac..d3c03dd 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/search.js
++++ b/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/search.js
+@@ -50 +50 @@
+-          ko.applyBindings(browseTopViewModel,mainContent.find("#browse_result" ).get(0));
++          ko.applyBindings(browseTopViewModel,mainContent.get(0));
+@@ -68 +68 @@
+-            browseResult.html($("#browse-groups-div-tmpl" ).tmpl());
++            //browseResult.html($("#browse-groups-div-tmpl" ).tmpl());
+@@ -71 +71 @@
+-            ko.applyBindings(browseGroupsViewModel,mainContent.find("#browse-groups-div" ).get(0));
++            ko.applyBindings(browseGroupsViewModel,mainContent.get(0));
+diff --git a/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/templates/search.html b/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/templates/search.html
+index e065450..119b2a4 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/templates/search.html
++++ b/archiva-modules/archiva-web/archiva-webapp-js/src/main/webapp/js/archiva/templates/search.html
+@@ -23 +23 @@
+-      <h2>${$.i18n.prop('browse.groups')}</h2>
++      <h2>${$.i18n.prop('browse.repository')}</h2>
+@@ -27,15 +27,3 @@
+-
+-  </div>
+-  <div id="browse_result" class="well" data-bind='template:{name:"browse-top-tmpl"}'>
+-
+-  </div>
+-</script>
+-
+-<script id="browse-top-tmpl" type="text/html">
+-  <div>
+-    <ul>
+-      {{each(i,browseIdEntry) browseIdEntries}}
+-        <li class="browse-list">
+-          <a href="#" data-bind="click: function(){displayGroupId(browseIdEntry.name)}">&nbsp;${browseIdEntry.name}</a>
+-        </li>
+-      {{/each}}
++    <ul class="breadcrumb">
++      <li><a href="#"><i class="icon-home"/>&nbsp;</a>&nbsp;<span class="divider">/</span></li>
++      <li><a href="#">org</a>&nbsp;<span class="divider">/</span></li>
+@@ -43,0 +32,3 @@
++  <div id="browse_result" class="well" data-bind='template:{name:"browse-groups-tmpl"}'>
++
++  </div>
+

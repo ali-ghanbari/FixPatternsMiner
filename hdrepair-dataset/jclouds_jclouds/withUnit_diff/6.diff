@@ -1,0 +1,31 @@
+diff --git a/apis/filesystem/src/test/java/org/jclouds/filesystem/FilesystemBlobStoreTest.java b/apis/filesystem/src/test/java/org/jclouds/filesystem/FilesystemBlobStoreTest.java
+index 8b9849b..c8e953f 100644
+--- a/apis/filesystem/src/test/java/org/jclouds/filesystem/FilesystemBlobStoreTest.java
++++ b/apis/filesystem/src/test/java/org/jclouds/filesystem/FilesystemBlobStoreTest.java
+@@ -526,0 +527,18 @@
++    @Test(dataProvider = "ignoreOnMacOSX")
++    public void testListDirectoryBlobsS3FS() {
++        blobStore.createContainerInLocation(null, CONTAINER_NAME);
++        checkForContainerContent(CONTAINER_NAME, null);
++
++        String d = TestUtils.createRandomBlobKey("directory-", "");
++        blobStore.putBlob(CONTAINER_NAME, createDirBlob(d + File.separator));
++        assertTrue(blobStore.blobExists(CONTAINER_NAME, d + File.separator));
++
++        ListContainerOptions options = ListContainerOptions.Builder
++                .withDetails()
++                .inDirectory("");
++        PageSet<? extends StorageMetadata> res = blobStore.list(CONTAINER_NAME, options);
++        assertTrue(res.size() == 1);
++        assertEquals(res.iterator().next().getName(), d);
++    }
++
++
+diff --git a/blobstore/src/main/java/org/jclouds/blobstore/config/LocalBlobStore.java b/blobstore/src/main/java/org/jclouds/blobstore/config/LocalBlobStore.java
+index 4a69653..e779bb9 100644
+--- a/blobstore/src/main/java/org/jclouds/blobstore/config/LocalBlobStore.java
++++ b/blobstore/src/main/java/org/jclouds/blobstore/config/LocalBlobStore.java
+@@ -264 +264 @@
+-               if (prefix != null) {
++               if (prefix != null && !prefix.isEmpty()) {
+

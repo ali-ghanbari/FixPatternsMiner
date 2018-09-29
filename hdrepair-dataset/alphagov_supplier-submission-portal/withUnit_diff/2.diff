@@ -1,0 +1,18 @@
+diff --git a/app/uk/gov/gds/dm/Security.java b/app/uk/gov/gds/dm/Security.java
+index 10a4842..3271481 100644
+--- a/app/uk/gov/gds/dm/Security.java
++++ b/app/uk/gov/gds/dm/Security.java
+@@ -143 +143 @@
+-            "digital-marketplace-development\\+test-supplier-\\d+@digital.cabinet-office.gov.uk"
++            ".*@digital\\.cabinet-office\\.gov\\.uk"
+diff --git a/test/unit/SecurityTest.java b/test/unit/SecurityTest.java
+index 74f7fce..81ee464 100644
+--- a/test/unit/SecurityTest.java
++++ b/test/unit/SecurityTest.java
+@@ -16 +16 @@
+-        String testEmail = "digital-marketplace-development+test-supplier-100@digital.cabinet-office.gov.uk";
++        String testEmail = "gds-email@digital.cabinet-office.gov.uk";
+@@ -19 +19 @@
+-        String nonTestEmail = "invalid-email@digital.cabinet-office.gov.uk";
++        String nonTestEmail = "invalid-email@example.com";
+

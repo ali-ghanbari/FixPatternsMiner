@@ -1,0 +1,23 @@
+diff --git a/assembly/src/main/filtered-resources/etc/config.properties b/assembly/src/main/filtered-resources/etc/config.properties
+index 2472ed4..5cc8009 100644
+--- a/assembly/src/main/filtered-resources/etc/config.properties
++++ b/assembly/src/main/filtered-resources/etc/config.properties
+@@ -63,7 +62,0 @@
+-# Hack for FELIX-1628
+-# As fileinstall does not load the properties into CM soon enough,
+-# the Main class does this job asap
+-#
+-karaf.cm.dir=${karaf.base}/etc
+-
+-#
+diff --git a/main/src/main/java/org/apache/felix/karaf/main/Main.java b/main/src/main/java/org/apache/felix/karaf/main/Main.java
+index 8f864bb..048d7b2 100644
+--- a/main/src/main/java/org/apache/felix/karaf/main/Main.java
++++ b/main/src/main/java/org/apache/felix/karaf/main/Main.java
+@@ -117,5 +116,0 @@
+-     * ConfigAdmin properties directory
+-     */
+-    public static final String PROPERTY_CM_DIRECTORY = "karaf.cm.dir";
+-
+-    /**
+

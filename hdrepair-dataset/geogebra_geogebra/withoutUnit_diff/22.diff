@@ -1,0 +1,13 @@
+diff --git a/common/src/main/java/org/geogebra/common/kernel/StringTemplate.java b/common/src/main/java/org/geogebra/common/kernel/StringTemplate.java
+index d10ade2..9c6037d 100644
+--- a/common/src/main/java/org/geogebra/common/kernel/StringTemplate.java
++++ b/common/src/main/java/org/geogebra/common/kernel/StringTemplate.java
+@@ -685 +685,6 @@
+-			casPrintFormPI = Unicode.PI_STRING;
++			// don't want to use exact value otherwise Giac will do an exact
++			// calculation when we want approx
++			// eg Integral[sin(x) / (1 + a� - 2a cos(x)), 0, pi] in the Algebra
++			// View
++			// #5129
++			casPrintFormPI = "3.141592653589793";
+

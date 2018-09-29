@@ -1,0 +1,27 @@
+diff --git a/src/main/java/de/cubeisland/engine/reflect/codec/YamlCodec.java b/src/main/java/de/cubeisland/engine/reflect/codec/YamlCodec.java
+index 542f656..29d25fd 100644
+--- a/src/main/java/de/cubeisland/engine/reflect/codec/YamlCodec.java
++++ b/src/main/java/de/cubeisland/engine/reflect/codec/YamlCodec.java
+@@ -280 +280 @@
+-                convertListNode(writer, (ListNode)listedNode, offset);
++                convertListNode(writer, (ListNode)listedNode, offset + 1);
+diff --git a/src/test/java/de/cubeisland/engine/reflect/ReflectedTest.java b/src/test/java/de/cubeisland/engine/reflect/ReflectedTest.java
+index 4a0a573..bd360fb 100644
+--- a/src/test/java/de/cubeisland/engine/reflect/ReflectedTest.java
++++ b/src/test/java/de/cubeisland/engine/reflect/ReflectedTest.java
+@@ -94,0 +95,14 @@
++        public List<List<Double>> doubleListInList = new ArrayList<List<Double>>()
++        {
++            {
++                ArrayList<Double> doubles = new ArrayList<Double>();
++                add(doubles);
++                doubles.add(0.0);
++                doubles.add(1.0);
++                doubles = new ArrayList<Double>();
++                add(doubles);
++                doubles.add(0.0);
++                doubles.add(1.0);
++            }
++        };
++
+

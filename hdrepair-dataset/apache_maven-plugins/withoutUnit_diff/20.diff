@@ -1,0 +1,8 @@
+diff --git a/maven-changes-plugin/src/main/java/org/apache/maven/plugin/jira/JqlQueryBuilder.java b/maven-changes-plugin/src/main/java/org/apache/maven/plugin/jira/JqlQueryBuilder.java
+index b39b405..4a1bab3 100644
+--- a/maven-changes-plugin/src/main/java/org/apache/maven/plugin/jira/JqlQueryBuilder.java
++++ b/maven-changes-plugin/src/main/java/org/apache/maven/plugin/jira/JqlQueryBuilder.java
+@@ -213,0 +214,2 @@
++        // Strip any spaces from the column name, or it will trip up JIRA's JQL parser
++        name = name.replaceAll( " ", "" );
+

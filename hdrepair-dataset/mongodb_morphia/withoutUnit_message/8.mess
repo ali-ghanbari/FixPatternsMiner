@@ -1,0 +1,13 @@
+Downgrade from WARN to DEBUG message about capped collection existing
+
+Sample warning being changed to debug level:
+
+  WARN org.mongodb.morphia.DatastoreImpl: DBCollection already exists is
+    capped already; doing nothing.
+
+This should not be a warning as there is no problem.  The DBCollection
+will already exist on every application startup except the first one.
+Also fixes grammar of the log message.
+
+Fixes Morphia issue [#694](https://github.com/mongodb/morphia/issues/694)
+

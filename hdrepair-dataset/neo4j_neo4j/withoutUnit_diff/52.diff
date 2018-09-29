@@ -1,0 +1,60 @@
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateUniqueTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateUniqueTest.scala
+index 4a3e00d..c5b82b0 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateUniqueTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateUniqueTest.scala
+@@ -60 +60 @@
+-      returns = "No node connected with the root node has the name 'D', and so a new node is created to " +
++      returns = "No node connected with the root node has the name +D+, and so a new node is created to " +
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala
+index 1620380..0ca4b95 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WhereTest.scala
+@@ -153 +153 @@
+-      title = "Filter on patterns using not",
++      title = "Filter on patterns using NOT",
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WithTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WithTest.scala
+index 40b6c5e..ac35864 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WithTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/WithTest.scala
+@@ -58 +58 @@
+-      returns = """The person connected to David with the at least more than one outgoing relationship.""",
++      returns = """For persons connected to David, the `connection_count` property is set to their number of outgoing relationships.""",
+diff --git a/community/embedded-examples/src/docs/dev/hello-world.txt b/community/embedded-examples/src/docs/dev/hello-world.txt
+index c69cc9a..50782b5 100644
+--- a/community/embedded-examples/src/docs/dev/hello-world.txt
++++ b/community/embedded-examples/src/docs/dev/hello-world.txt
+@@ -69 +69 @@
+-== Wrap mutating operations in a transaction ==
++== Wrap writes in a transaction ==
+@@ -71 +71 @@
+-All mutating operations (creating, deleting and updating any data) have to be performed in a transaction.
++All writes (creating, deleting and updating any data) have to be performed in a transaction.
+diff --git a/community/embedded-examples/src/main/java/org/neo4j/examples/EmbeddedNeo4j.java b/community/embedded-examples/src/main/java/org/neo4j/examples/EmbeddedNeo4j.java
+index 9a94025..6a6246b 100644
+--- a/community/embedded-examples/src/main/java/org/neo4j/examples/EmbeddedNeo4j.java
++++ b/community/embedded-examples/src/main/java/org/neo4j/examples/EmbeddedNeo4j.java
+@@ -71 +71 @@
+-            // Mutating operations go here
++            // Updating operations go here
+diff --git a/community/kernel/src/docs/ops/cache.txt b/community/kernel/src/docs/ops/cache.txt
+index abef45e..8e6b744 100644
+--- a/community/kernel/src/docs/ops/cache.txt
++++ b/community/kernel/src/docs/ops/cache.txt
+@@ -10 +10 @@
+-The object cache caches the nodes, relationships and properties in a format that is optimized for high traversal speeds and transactional mutation.
++The object cache caches the nodes, relationships and properties in a format that is optimized for high traversal speeds and transactional writes.
+diff --git a/community/kernel/src/docs/ops/performance-guide.txt b/community/kernel/src/docs/ops/performance-guide.txt
+index 3747fbe..23852f8 100644
+--- a/community/kernel/src/docs/ops/performance-guide.txt
++++ b/community/kernel/src/docs/ops/performance-guide.txt
+@@ -109 +109 @@
+-log contains mutating operations. All writes to the logical log are append-only 
++log contains modifying operations. All writes to the logical log are append-only 
+diff --git a/community/lucene-index/src/docs/dev/index.txt b/community/lucene-index/src/docs/dev/index.txt
+index 5ad7772..e3a2fa9 100644
+--- a/community/lucene-index/src/docs/dev/index.txt
++++ b/community/lucene-index/src/docs/dev/index.txt
+@@ -29 +29 @@
+-NOTE: All modifying index operations must be performed inside a transaction, as with any mutating operation in Neo4j.
++NOTE: All modifying index operations must be performed inside a transaction, as with any modifying operation in Neo4j.
+

@@ -1,0 +1,21 @@
+diff --git a/java/java-tests/testSrc/com/intellij/codeInsight/template/LiveTemplateTest.groovy b/java/java-tests/testSrc/com/intellij/codeInsight/template/LiveTemplateTest.groovy
+index 31a4839..f196fbb 100644
+--- a/java/java-tests/testSrc/com/intellij/codeInsight/template/LiveTemplateTest.groovy
++++ b/java/java-tests/testSrc/com/intellij/codeInsight/template/LiveTemplateTest.groovy
+@@ -312,0 +313,5 @@
++    assert LookupManager.getInstance(project).activeLookup.currentItem == myFixture.getLookupElements()[0]
++
++    myFixture.type('e')
++    assert myFixture.lookupElementStrings[0].startsWith('ite')
++    assert LookupManager.getInstance(project).activeLookup.currentItem == myFixture.getLookupElements()[0]
+@@ -315 +320 @@
+-    myFixture.type('\b')
++    myFixture.type('\b\b')
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/template/impl/ListTemplatesHandler.java b/platform/lang-impl/src/com/intellij/codeInsight/template/impl/ListTemplatesHandler.java
+index f824802..1778d0c 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/template/impl/ListTemplatesHandler.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/template/impl/ListTemplatesHandler.java
+@@ -193 +193 @@
+-      int selected = list.indexOf(lookup.getCurrentItem());
++      int selected = lookup.isSelectionTouched() ? list.indexOf(lookup.getCurrentItem()) : 0;
+

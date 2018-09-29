@@ -1,0 +1,55 @@
+diff --git a/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/activemq-nd-camel.xml b/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/activemq-nd-camel.xml
+index af201b6..382e5ad 100644
+--- a/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/activemq-nd-camel.xml
++++ b/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/activemq-nd-camel.xml
+@@ -72 +72 @@
+-    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
++    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQXAConnectionFactory">
+diff --git a/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/camel.xml b/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/camel.xml
+index 641c46a..9caa8f7 100644
+--- a/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/camel.xml
++++ b/activemq-karaf-itest/src/test/resources/org/apache/activemq/karaf/itest/camel.xml
+@@ -26 +26 @@
+-    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
++    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQXAConnectionFactory">
+diff --git a/activemq-karaf/src/main/resources/features-core.xml b/activemq-karaf/src/main/resources/features-core.xml
+index 50c1245..23c6c59 100644
+--- a/activemq-karaf/src/main/resources/features-core.xml
++++ b/activemq-karaf/src/main/resources/features-core.xml
+@@ -60,2 +60,3 @@
+-      <bundle dependency="true">mvn:org.codehaus.jackson/jackson-core-asl/${jackson-version}</bundle>
+-      <bundle dependency="true">mvn:org.codehaus.jackson/jackson-mapper-asl/${jackson-version}</bundle>
++      <bundle dependency="true">mvn:com.fasterxml.jackson.core/jackson-core/${jackson-version}</bundle>
++      <bundle dependency="true">mvn:com.fasterxml.jackson.core/jackson-databind/${jackson-version}</bundle>
++      <bundle dependency="true">mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson-version}</bundle>
+diff --git a/activemq-leveldb-store/pom.xml b/activemq-leveldb-store/pom.xml
+index c23d653..8dae4ca 100644
+--- a/activemq-leveldb-store/pom.xml
++++ b/activemq-leveldb-store/pom.xml
+@@ -240,0 +241,4 @@
++        <exclusion>
++          <groupId>org.codehaus.jackson</groupId>
++          <artifactId>jackson-mapper-asl</artifactId>
++        </exclusion>
+diff --git a/activemq-osgi/pom.xml b/activemq-osgi/pom.xml
+index 1609b6b..839dc24 100644
+--- a/activemq-osgi/pom.xml
++++ b/activemq-osgi/pom.xml
+@@ -52 +52 @@
+-      org.codehaus.jackson*;resolution:=optional,
++      com.fasterxml.jackson*;resolution:=optional,
+diff --git a/activemq-partition/src/main/java/org/apache/activemq/partition/PartitionBrokerPlugin.java b/activemq-partition/src/main/java/org/apache/activemq/partition/PartitionBrokerPlugin.java
+index f5b4342..418f564 100644
+--- a/activemq-partition/src/main/java/org/apache/activemq/partition/PartitionBrokerPlugin.java
++++ b/activemq-partition/src/main/java/org/apache/activemq/partition/PartitionBrokerPlugin.java
+@@ -22 +21,0 @@
+-import org.codehaus.jackson.JsonParseException;
+diff --git a/activemq-web-console/pom.xml b/activemq-web-console/pom.xml
+index b304347..8865732 100755
+--- a/activemq-web-console/pom.xml
++++ b/activemq-web-console/pom.xml
+@@ -175,2 +175 @@
+-        <artifactId>geronimo-jsp_2.2_spec</artifactId>
+-        <version>1.2</version>
++        <artifactId>geronimo-jsp_2.1_spec</artifactId>
+

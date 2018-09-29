@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/diagnostic/VMOptions.java b/platform/platform-impl/src/com/intellij/diagnostic/VMOptions.java
+index 03774ed..21ffe2f 100644
+--- a/platform/platform-impl/src/com/intellij/diagnostic/VMOptions.java
++++ b/platform/platform-impl/src/com/intellij/diagnostic/VMOptions.java
+@@ -229 +229 @@
+-    final String platformSuffix = SystemInfo.is64Bit ? "64" : "";
++    final String platformSuffix = (SystemInfo.is64Bit && !SystemInfo.isLinux) ? "64" : "";
+

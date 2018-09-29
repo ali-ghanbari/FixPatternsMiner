@@ -1,0 +1,26 @@
+diff --git a/activemq-core/src/main/java/org/apache/activemq/SimplePriorityMessageDispatchChannel.java b/activemq-core/src/main/java/org/apache/activemq/SimplePriorityMessageDispatchChannel.java
+index 1245cab..ec95acb 100644
+--- a/activemq-core/src/main/java/org/apache/activemq/SimplePriorityMessageDispatchChannel.java
++++ b/activemq-core/src/main/java/org/apache/activemq/SimplePriorityMessageDispatchChannel.java
+@@ -218,0 +219 @@
++                size -= list.size();
+diff --git a/activemq-core/src/test/java/org/apache/activemq/transport/failover/FailoverConsumerUnconsumedTest.java b/activemq-core/src/test/java/org/apache/activemq/transport/failover/FailoverConsumerUnconsumedTest.java
+index a2763fe..c4d1a7b 100644
+--- a/activemq-core/src/test/java/org/apache/activemq/transport/failover/FailoverConsumerUnconsumedTest.java
++++ b/activemq-core/src/test/java/org/apache/activemq/transport/failover/FailoverConsumerUnconsumedTest.java
+@@ -170,0 +171,14 @@
++
++        // verify interrupt
++        assertTrue("add messages dispatched and unconsumed are cleaned up", Wait.waitFor(new Wait.Condition() {
++            public boolean isSatisified() throws Exception {
++                int totalUnconsumed = 0;
++                for (TestConsumer testConsumer : testConsumers) {
++                    long unconsumed = testConsumer.unconsumedSize();
++                    LOG.info(testConsumer.getConsumerId() + " unconsumed: " + unconsumed);
++                    totalUnconsumed += unconsumed;
++                }
++                return totalUnconsumed == 0;
++            }
++        }));
++
+

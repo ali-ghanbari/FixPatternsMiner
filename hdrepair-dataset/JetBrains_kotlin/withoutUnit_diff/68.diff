@@ -1,0 +1,34 @@
+diff --git a/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java b/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
+index f361e3d..09372bc 100644
+--- a/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
++++ b/idea/src/org/jetbrains/jet/plugin/quickfix/QuickFixes.java
+@@ -202,0 +203,2 @@
++        factories.put(NESTED_CLASS_NOT_ALLOWED, AddModifierFix.createFactory(INNER_KEYWORD));
++
+diff --git a/idea/testData/quickfix/modifiers/afterNestedClassNotAllowed.kt b/idea/testData/quickfix/modifiers/afterNestedClassNotAllowed.kt
+new file mode 100644
+index 0000000..0c894b0
+--- /dev/null
++++ b/idea/testData/quickfix/modifiers/afterNestedClassNotAllowed.kt
+@@ -0,0 +1,7 @@
++// "Add 'inner' modifier" "true"
++class A() {
++    inner class B() {
++        inner class <caret>C() {
++        }
++    }
++}
+diff --git a/idea/testData/quickfix/modifiers/beforeNestedClassNotAllowed.kt b/idea/testData/quickfix/modifiers/beforeNestedClassNotAllowed.kt
+new file mode 100644
+index 0000000..a4304a2
+--- /dev/null
++++ b/idea/testData/quickfix/modifiers/beforeNestedClassNotAllowed.kt
+@@ -0,0 +1,7 @@
++// "Add 'inner' modifier" "true"
++class A() {
++    inner class B() {
++        class <caret>C() {
++        }
++    }
++}
+

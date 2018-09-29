@@ -1,0 +1,29 @@
+diff --git a/orcid-web/src/main/java/org/orcid/frontend/web/controllers/FundingsController.java b/orcid-web/src/main/java/org/orcid/frontend/web/controllers/FundingsController.java
+index f47eec8..acf09d3 100644
+--- a/orcid-web/src/main/java/org/orcid/frontend/web/controllers/FundingsController.java
++++ b/orcid-web/src/main/java/org/orcid/frontend/web/controllers/FundingsController.java
+@@ -485 +485 @@
+-        profileFundingManager.updateProfileFunding(updatedProfileGrantEntity);
++        updatedProfileGrantEntity = profileFundingManager.updateProfileFunding(updatedProfileGrantEntity);
+diff --git a/orcid-web/src/main/webapp/static/javascript/angularOrcid.js b/orcid-web/src/main/webapp/static/javascript/angularOrcid.js
+index dbed5e9..1465097 100644
+--- a/orcid-web/src/main/webapp/static/javascript/angularOrcid.js
++++ b/orcid-web/src/main/webapp/static/javascript/angularOrcid.js
+@@ -310 +310 @@
+-	    				success: function(data) {
++	    				success: function(data) {	    						
+@@ -312,0 +313 @@
++	    							serv.details[data[i].putCode.value] = data[i];
+@@ -398 +399 @@
+-	    		//We still not need the type here, but, lets keep the param here since soon it will be used
++	    		//We still not need the type here, but, lets keep the param here since soon it will be used	  
+@@ -417,2 +418 @@
+-	    	getEditable: function(putCode, callback) {
+-	    		console.log("Getting editable funding")
++	    	getEditable: function(putCode, callback) {	    		
+@@ -420 +419,0 @@
+-	    			console.log(data)
+@@ -3070 +3069 @@
+-	        		fundingSrvc.getFundings('fundings/fundingIds.json');
++	        		fundingSrvc.getFundings('fundings/fundingIds.json');	        		
+

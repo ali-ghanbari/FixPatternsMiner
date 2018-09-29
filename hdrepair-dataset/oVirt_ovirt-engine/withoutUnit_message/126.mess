@@ -1,0 +1,12 @@
+restapi: Remove trailing slashes from RSDL prefix
+
+The RSDL document is loaded lazily, as part of the first request to the
+RESTAPI. The prefix used to build the "href" attributes is extracted
+from the path of this first request, and depending on that request it
+may or may not contain a trailing slash. To make sure that the RSDL has
+always the same content we need to remove any trailing slashes from the
+prefix before using it.
+
+Change-Id: Ieac656924ca999ddc9abc502e3fc6c23537e4769
+Signed-off-by: Juan Hernandez <juan.hernandez@redhat.com>
+

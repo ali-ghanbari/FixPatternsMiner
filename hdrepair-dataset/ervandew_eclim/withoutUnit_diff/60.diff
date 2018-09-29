@@ -1,0 +1,39 @@
+diff --git a/notes.txt b/notes.txt
+index 5007bd5..04b9dff 100644
+--- a/notes.txt
++++ b/notes.txt
+@@ -60,0 +61,4 @@
++    - creating a project in the workspace dir w/ a different name than the
++      directory doesn't work.
++      :ProjectCreate ~/workspace/my_project_dir -p my_project
++
+@@ -339,7 +342,0 @@
+-  - show proper error when attempting to validate a css file in a dir with a
+-    .project file, but no real project.
+-
+-  - creating a project in the workspace dir w/ a different name than the
+-    directory doesn't work (tested on windows).
+-    :ProjectCreate ~/workspace/my_project_dir -p my_project
+-
+@@ -359,6 +355,0 @@
+-    - xml validation
+-      - log4j.xml validation
+-      - web.xml validation
+-    - :JavaDelegate , selection of more than one method to add.
+-    - :JavaImpl , selection of more than one method to add.
+-    - :JUnitImpl , selection of more than one method to add.
+diff --git a/src/java/org/eclim/plugin/jdt/command/impl/ImplCommand.java b/src/java/org/eclim/plugin/jdt/command/impl/ImplCommand.java
+index add422d..6d7376a 100644
+--- a/src/java/org/eclim/plugin/jdt/command/impl/ImplCommand.java
++++ b/src/java/org/eclim/plugin/jdt/command/impl/ImplCommand.java
+@@ -86 +86 @@
+-        methods = StringUtils.split(methodsOption, "|");
++        methods = StringUtils.split(methodsOption, ",,");
+diff --git a/src/vim/eclim/autoload/eclim/java/impl.vim b/src/vim/eclim/autoload/eclim/java/impl.vim
+index 542ff0d..c7a9b4f 100644
+--- a/src/vim/eclim/autoload/eclim/java/impl.vim
++++ b/src/vim/eclim/autoload/eclim/java/impl.vim
+@@ -131 +131 @@
+-          let methods = methods . "|"
++          let methods = methods . ",,"
+

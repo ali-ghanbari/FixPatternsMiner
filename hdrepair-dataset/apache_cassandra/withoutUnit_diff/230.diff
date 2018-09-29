@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/service/ClientState.java b/src/java/org/apache/cassandra/service/ClientState.java
+index 923c780..ea1af50 100644
+--- a/src/java/org/apache/cassandra/service/ClientState.java
++++ b/src/java/org/apache/cassandra/service/ClientState.java
+@@ -127 +127 @@
+-        if (keyspace.equalsIgnoreCase(Table.SYSTEM_TABLE) && perm == Permission.WRITE)
++        if (keyspace != null && keyspace.equalsIgnoreCase(Table.SYSTEM_TABLE) && perm == Permission.WRITE)
+

@@ -1,0 +1,8 @@
+diff --git a/protected/java/src/org/broadinstitute/sting/gatk/walkers/variantrecalibration/GaussianMixtureModel.java b/protected/java/src/org/broadinstitute/sting/gatk/walkers/variantrecalibration/GaussianMixtureModel.java
+index 864abad..ed26bc1 100644
+--- a/protected/java/src/org/broadinstitute/sting/gatk/walkers/variantrecalibration/GaussianMixtureModel.java
++++ b/protected/java/src/org/broadinstitute/sting/gatk/walkers/variantrecalibration/GaussianMixtureModel.java
+@@ -286 +286 @@
+-                    sumPVarInGaussian += Math.pow(10.0, MathUtils.log10sumLog10(pVarInGaussianLog10)); // p = 10 ^ Sum(pi_k * p(v|n,k))
++                    sumPVarInGaussian += Math.pow(10.0, nanTolerantLog10SumLog10(pVarInGaussianLog10)); // p = 10 ^ Sum(pi_k * p(v|n,k))
+

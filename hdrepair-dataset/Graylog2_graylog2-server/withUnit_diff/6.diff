@@ -1,0 +1,58 @@
+diff --git a/graylog2-plugin-interfaces/src/main/java/org/graylog2/plugin/inputs/Extractor.java b/graylog2-plugin-interfaces/src/main/java/org/graylog2/plugin/inputs/Extractor.java
+index bae1ae5..f93a2ef 100644
+--- a/graylog2-plugin-interfaces/src/main/java/org/graylog2/plugin/inputs/Extractor.java
++++ b/graylog2-plugin-interfaces/src/main/java/org/graylog2/plugin/inputs/Extractor.java
+@@ -158 +158 @@
+-        if (cursorStrategy.equals(CursorStrategy.CUT) && !targetField.equals(sourceField)) {
++        if (cursorStrategy.equals(CursorStrategy.CUT) && !targetField.equals(sourceField) && !Message.RESERVED_FIELDS.contains(sourceField)) {
+diff --git a/graylog2-server/src/test/java/org/graylog2/inputs/extractors/RegexExtractorTest.java b/graylog2-server/src/test/java/org/graylog2/inputs/extractors/RegexExtractorTest.java
+index 46c74ab..070bbc0 100644
+--- a/graylog2-server/src/test/java/org/graylog2/inputs/extractors/RegexExtractorTest.java
++++ b/graylog2-server/src/test/java/org/graylog2/inputs/extractors/RegexExtractorTest.java
+@@ -193,0 +194,11 @@
++    @Test
++    public void testDoesNotCutFromStandardFields() throws Exception {
++        Message msg = new Message("The short message", "TestUnit", new DateTime());
++
++        RegexExtractor x = new RegexExtractor("foo", "foo", Extractor.CursorStrategy.CUT, "message", "our_result", config("^(The).+"), "foo", noConverters(), Extractor.ConditionType.NONE, null);
++        x.runExtractor(new GraylogServerStub(), msg);
++
++        // Would be cut to "short message" if cutting from standard field was allowed.
++        assertEquals("The short message", msg.getField("message"));
++    }
++
+diff --git a/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SplitAndIndexExtractorTest.java b/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SplitAndIndexExtractorTest.java
+index 1bfe293..227558f 100644
+--- a/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SplitAndIndexExtractorTest.java
++++ b/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SplitAndIndexExtractorTest.java
+@@ -282,0 +283,11 @@
++    @Test
++    public void testDoesNotCutFromStandardFields() throws Exception {
++        Message msg = new Message("The short message", "TestUnit", new DateTime());
++
++        SplitAndIndexExtractor x = new SplitAndIndexExtractor("foo", "foo", Extractor.CursorStrategy.CUT, "message", "our_result", config(" ", 1), "foo", noConverters(), Extractor.ConditionType.NONE, null);
++        x.runExtractor(new GraylogServerStub(), msg);
++
++        // Would be cut to "short message" if cutting from standard field was allowed.
++        assertEquals("The short message", msg.getField("message"));
++    }
++
+diff --git a/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SubstringExtractorTest.java b/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SubstringExtractorTest.java
+index 7afc2ba..955355a 100644
+--- a/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SubstringExtractorTest.java
++++ b/graylog2-server/src/test/java/org/graylog2/inputs/extractors/SubstringExtractorTest.java
+@@ -29,0 +30 @@
++import org.scalatest.events.TestPending;
+@@ -189,0 +191,11 @@
++    @Test
++    public void testDoesNotCutFromStandardFields() throws Exception {
++        Message msg = new Message("The short message", "TestUnit", new DateTime());
++
++        SubstringExtractor x = new SubstringExtractor("foo", "foo", Extractor.CursorStrategy.CUT, "message", "our_result", config(0, 3), "foo", noConverters(), Extractor.ConditionType.NONE, null);
++        x.runExtractor(new GraylogServerStub(), msg);
++
++        // Would be cut to "short message" if cutting from standard field was allowed.
++        assertEquals("The short message", msg.getField("message"));
++    }
++
+

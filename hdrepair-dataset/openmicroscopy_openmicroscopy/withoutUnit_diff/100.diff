@@ -1,0 +1,172 @@
+diff --git a/components/server/src/ome/services/ThumbnailBean.java b/components/server/src/ome/services/ThumbnailBean.java
+index 8727eb1..e0530b6 100644
+--- a/components/server/src/ome/services/ThumbnailBean.java
++++ b/components/server/src/ome/services/ThumbnailBean.java
+@@ -663,0 +664 @@
++        missingPyramid = false;
+diff --git a/components/tools/OmeroPy/src/omero/gateway/__init__.py b/components/tools/OmeroPy/src/omero/gateway/__init__.py
+index 6f537e9..67e4cda 100644
+--- a/components/tools/OmeroPy/src/omero/gateway/__init__.py
++++ b/components/tools/OmeroPy/src/omero/gateway/__init__.py
+@@ -4834,16 +4833,0 @@
+-    def _createRDef (self):
+-        """
+-        Loads rendering def, resetting defaults (via thumbnail-store) if no settings exist
+-        
+-        @return:    Tuple of (pixels-ID, renderingDef-ID) 
+-        """
+-        
+-        pixels_id = self._obj.getPrimaryPixels().id.val
+-        rdid = self._conn.getRenderingSettingsService().getRenderingSettings(pixels_id)
+-        if rdid is None:
+-            tb = self._conn.createThumbnailStore()
+-            if not tb.setPixelsId(pixels_id):
+-                tb.resetDefaults()
+-            tb.close()
+-            rdid = self._conn.getRenderingSettingsService().getRenderingSettings(pixels_id)
+-        return pixels_id, rdid.id.val
+@@ -4851 +4835 @@
+-    def _getRDef (self, forcenew=False):
++    def _getRDef (self, pid):
+@@ -4853,2 +4837 @@
+-        Return a rendering def ID if exists - or create rendering def. 
+-        Also returns pixels ID for this image
++        Return a rendering def ID based on custom logic.
+@@ -4856,3 +4839,4 @@
+-        @param forcenew:    Force creation of new rendering defs
+-        @type forcenew:     Boolean
+-        @return:            tuple with (pixels_id, rdef_id) for this image.
++        @param pid:         Pixels ID
++        @type pid:          Long
++        @return:            Rendering definition ID or None if no custom
++                            logic has found a rendering definition.
+@@ -4860,6 +4843,0 @@
+-        
+-        if not self._loadPixels():
+-            logger.debug('#NO PIXELS')
+-            return None,None
+-        pixels_id = self._obj.getPrimaryPixels().id.val
+-        rdid = None
+@@ -4867,4 +4845,3 @@
+-        if rdefns and not forcenew:
+-            ann = self.getAnnotation(rdefns)
+-            if ann is not None:
+-                rdid = ann.getValue()
++        if rdefns is None:
++            return
++        rdid = ann.getValue()
+@@ -4872,8 +4849,2 @@
+-            pid, rdid = self._createRDef()
+-            
+-            if rdefns:
+-                a = LongAnnotationWrapper(self)
+-                a.setNs(rdefns)
+-                a.setValue(rdid)
+-                self.linkAnnotation(a, sameOwner=False)
+-        logger.debug('_getRDef: %s, %s' % (str(pixels_id), str(rdid)))
++            return
++        logger.debug('_getRDef: %s, %s' % (str(pid), str(rdid)))
+@@ -4882 +4853 @@
+-        return pixels_id, rdid
++        return rdid
+@@ -4884 +4855,21 @@
+-    def _prepareRE (self, forcenew=False):
++    def _onResetDefaults(self, pid, rdid):
++        """
++        Called whenever a reset defaults is called by the preparation of
++        the rendering engine or the thumbnail bean.
++        
++        @param pid:         Pixels ID
++        @type pid:          Long
++        @param pid:         Current Rendering Def ID
++        @type pid:          Long
++        """
++        rdefns = self._conn.CONFIG.get('IMG_RDEFNS', None)
++        if rdefns is None:
++            return
++        ann = self.getAnnotation(rdefns)
++        if ann is None:
++            a = LongAnnotationWrapper(self)
++            a.setNs(rdefns)
++            a.setValue(rdid)
++            self.linkAnnotation(a, sameOwner=False)
++
++    def _prepareRE (self):
+@@ -4888,2 +4878,0 @@
+-        @param forcenew:    Force creation of new rendering defs
+-        @type forcenew:     Boolean
+@@ -4894,4 +4883 @@
+-        pid, rdid = self._getRDef(forcenew=forcenew)
+-        logger.info('pid:%s rdid:%s' % (str(pid), str(rdid)))
+-        if rdid is None: #pragma: nocover
+-            return None
++        pid = self.getPrimaryPixels().id
+@@ -4900,2 +4886,7 @@
+-        re.lookupRenderingDef(rdid)
+-        try:
++        rdid = self._getRDef(pid)
++        if rdid is None:
++            if not re.lookupRenderingDef(pid):
++                re.resetDefaults()
++                re.lookupRenderingDef(pid)
++                self._onResetDefaults(pid, re.getRenderingDefId())
++        else:
+@@ -4903,6 +4893,0 @@
+-        except omero.ValidationException:
+-            if not forcenew:
+-                return self._prepareRE(forcenew=True)
+-            else:
+-                return None
+-        #re.loadRenderingDef(rdid)
+@@ -5104 +5089 @@
+-    def _prepareTB (self, forcenew=False, _r=False):
++    def _prepareTB (self, _r=False):
+@@ -5108,2 +5092,0 @@
+-        @param forcenew:    If True, force new rendering Def
+-        @type forcenew:     Boolean
+@@ -5116,4 +5099 @@
+-        pid, rdid = self._getRDef(forcenew=forcenew)
+-        if pid is None:
+-            return None
+-        logger.debug('#%s, %s' % (str(pid),str(rdid)))
++        pid = self.getPrimaryPixels().id
+@@ -5121 +5101,2 @@
+-        tb.setPixelsId(pid)
++        rdid = self._getRDef(pid)
++        has_rendering_settings = tb.setPixelsId(pid)
+@@ -5123,6 +5104,5 @@
+-            if _r:
+-                return None
+-            tb.resetDefaults()
+-            tb.close()
+-            return self._prepareTB(_r=True, forcenew=forcenew)
+-        try:
++            if not has_rendering_settings:
++                tb.resetDefaults()
++                tb.setPixelsId(pid)
++                self._onResetDefaults(pid, tb.getRenderingDefId())
++        else:
+@@ -5130,6 +5109,0 @@
+-        except omero.ValidationException:
+-            if not forcenew:
+-                tb.close()
+-                return self._prepareTB(_r=_r,forcenew=True)
+-            else:
+-                return None
+@@ -5138,15 +5111,0 @@
+-#    def _prepareTB (self):
+-#        pixels_id = self.getPixelsId()
+-#        if pixels_id is None:
+-#            return None
+-#        tb = self._conn.createThumbnailStore()
+-#        try:
+-#            rv = tb.setPixelsId(pixels_id)
+-#        except omero.InternalException:
+-#            rv = False
+-#        if not rv: #pragma: no cover
+-#            tb.resetDefaults()
+-#            tb.close()
+-#            tb.setPixelsId(pixels_id)
+-#        return tb
+-    
+

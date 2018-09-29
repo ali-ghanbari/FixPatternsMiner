@@ -1,0 +1,5 @@
+Bugfix HazelcastHttpSession.getAttribute - incorrect value was put in localCache
+
+HazelcastHttpSession.getAttribute loaded the value from the clusterMap, but
+always put NULL_ENTRY in the localCache
+

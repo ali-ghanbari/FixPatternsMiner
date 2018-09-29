@@ -1,0 +1,8 @@
+diff --git a/activemq-core/src/main/java/org/apache/activemq/store/jdbc/JDBCPersistenceAdapter.java b/activemq-core/src/main/java/org/apache/activemq/store/jdbc/JDBCPersistenceAdapter.java
+index c13115e..10c23f8 100755
+--- a/activemq-core/src/main/java/org/apache/activemq/store/jdbc/JDBCPersistenceAdapter.java
++++ b/activemq-core/src/main/java/org/apache/activemq/store/jdbc/JDBCPersistenceAdapter.java
+@@ -267 +267 @@
+-        if (databaseLocker == null) {
++        if (databaseLocker == null && isUseDatabaseLock()) {
+

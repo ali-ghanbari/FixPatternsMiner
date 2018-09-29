@@ -1,0 +1,58 @@
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/context/ContextResolverStore.java b/sli/api/src/main/java/org/slc/sli/api/security/context/ContextResolverStore.java
+index 02a94a2..683db0e 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/context/ContextResolverStore.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/context/ContextResolverStore.java
+@@ -51 +51 @@
+-    public void init() {
++    public synchronized void init() {
+diff --git a/sli/common/domain/src/main/resources/sliXsd-wip/Realm.xsd b/sli/common/domain/src/main/resources/sliXsd-wip/Realm.xsd
+deleted file mode 100644
+index b5317a3..0000000
+--- a/sli/common/domain/src/main/resources/sliXsd-wip/Realm.xsd
++++ /dev/null
+@@ -1,19 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified">
+-
+-   <xs:element name="realm">
+-      <xs:complexType>
+-         <xs:annotation>
+-            <xs:appinfo>
+-               <sli:SecuritySphere>Admin</sli:SecuritySphere>
+-            </xs:appinfo>
+-         </xs:annotation>
+-         <xs:sequence>
+-            <xs:element name="state" type="xs:string" />
+-            <xs:element name="idp" type="xs:string" />
+-            <xs:element name="realm" type="xs:string" />
+-         </xs:sequence>
+-      </xs:complexType>
+-   </xs:element>
+-</xs:schema>
+-
+diff --git a/sli/common/domain/src/main/resources/sliXsd/Realm.xsd b/sli/common/domain/src/main/resources/sliXsd/Realm.xsd
+new file mode 100644
+index 0000000..b5317a3
+--- /dev/null
++++ b/sli/common/domain/src/main/resources/sliXsd/Realm.xsd
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified">
++
++   <xs:element name="realm">
++      <xs:complexType>
++         <xs:annotation>
++            <xs:appinfo>
++               <sli:SecuritySphere>Admin</sli:SecuritySphere>
++            </xs:appinfo>
++         </xs:annotation>
++         <xs:sequence>
++            <xs:element name="state" type="xs:string" />
++            <xs:element name="idp" type="xs:string" />
++            <xs:element name="realm" type="xs:string" />
++         </xs:sequence>
++      </xs:complexType>
++   </xs:element>
++</xs:schema>
++
+

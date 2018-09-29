@@ -1,0 +1,26 @@
+diff --git a/bio/postprocess/main/src/org/intermine/bio/postprocess/TransferSequences.java b/bio/postprocess/main/src/org/intermine/bio/postprocess/TransferSequences.java
+index 8a84a3e..bf3e546 100644
+--- a/bio/postprocess/main/src/org/intermine/bio/postprocess/TransferSequences.java
++++ b/bio/postprocess/main/src/org/intermine/bio/postprocess/TransferSequences.java
+@@ -73,2 +72,0 @@
+-
+-
+diff --git a/bio/postprocess/test/src/org/intermine/bio/postprocess/TransferSequencesTest.java b/bio/postprocess/test/src/org/intermine/bio/postprocess/TransferSequencesTest.java
+index a9d57f9..d103b61 100644
+--- a/bio/postprocess/test/src/org/intermine/bio/postprocess/TransferSequencesTest.java
++++ b/bio/postprocess/test/src/org/intermine/bio/postprocess/TransferSequencesTest.java
+@@ -32,0 +33 @@
++import org.intermine.objectstore.query.PendingClob;
+@@ -267 +268,2 @@
+-        chrSequence.setResidues(storedChrSequence);
++        PendingClob clob = new PendingClob(storedChrSequence);
++        chrSequence.setResidues(clob.subSequence(425, storedChrSequence.length()));
+@@ -281 +283,2 @@
+-        transcriptSequence.setResidues(EXPECTED_TRANSCRIPT_0_RESIDUES);
++        clob = new PendingClob(EXPECTED_TRANSCRIPT_0_RESIDUES);
++        transcriptSequence.setResidues(clob.subSequence(0, EXPECTED_TRANSCRIPT_0_RESIDUES.length()));
+@@ -294 +297,2 @@
+-        exonSequence.setResidues(expectedExonSequence0);
++        clob = new PendingClob(expectedExonSequence0);
++        exonSequence.setResidues(clob.subSequence(0, expectedExonSequence0.length()));
+

@@ -1,0 +1,11 @@
+PIVOT-880: NPE when setting the root directory to a Windows UNC path
+in a FileBrowserSheet.
+
+Caused by the fact that the \\ doesn't match any items in the drive
+list, and one of the listeners assumes the item will always be there.
+Simple test for a non-null item fixes the issue and allows the UNC
+path to be used, and to display items.
+
+
+git-svn-id: https://svn.apache.org/repos/asf/pivot/trunk@1407585 13f79535-47bb-0310-9956-ffa450edef68
+

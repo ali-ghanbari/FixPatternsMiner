@@ -1,0 +1,9 @@
+[chains] Bug 445843: Quick fix is obscured by alternative method recommendation
+
+Also fixes Bug 438293. Chain proposals now have a relevance of the
+negative chain size. Before it was (2 xor 12) - chain size, which
+doesn't make a lot of sense. This ensures that the proposals are below
+standard proposals in both quickfix and content assist.
+
+Signed-off-by: Johannes Dorn <johannes.dorn@codetrails.com>
+

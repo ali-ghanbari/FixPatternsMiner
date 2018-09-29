@@ -1,0 +1,53 @@
+diff --git a/components/camel-xmljson/src/main/java/org/apache/camel/dataformat/xmljson/XmlJsonDataFormat.java b/components/camel-xmljson/src/main/java/org/apache/camel/dataformat/xmljson/XmlJsonDataFormat.java
+index 103de38..1120d73 100644
+--- a/components/camel-xmljson/src/main/java/org/apache/camel/dataformat/xmljson/XmlJsonDataFormat.java
++++ b/components/camel-xmljson/src/main/java/org/apache/camel/dataformat/xmljson/XmlJsonDataFormat.java
+@@ -122,0 +123 @@
++            serializer.setTypeHintsCompatibility(false);
+diff --git a/components/camel-xmljson/src/test/java/org/apache/camel/dataformat/xmljson/XmlJsonOptionsTest.java b/components/camel-xmljson/src/test/java/org/apache/camel/dataformat/xmljson/XmlJsonOptionsTest.java
+index 2d68159..8c5b20a 100644
+--- a/components/camel-xmljson/src/test/java/org/apache/camel/dataformat/xmljson/XmlJsonOptionsTest.java
++++ b/components/camel-xmljson/src/test/java/org/apache/camel/dataformat/xmljson/XmlJsonOptionsTest.java
+@@ -56,0 +57,18 @@
++    public void testXmlWithTypeAttributesToJSON() throws Exception {
++        InputStream inStream = getClass().getClassLoader().getResourceAsStream("org/apache/camel/dataformat/xmljson/testMessage4.xml");
++        String in = context.getTypeConverter().convertTo(String.class, inStream);
++
++        MockEndpoint mockJSON = getMockEndpoint("mock:json");
++        mockJSON.expectedMessageCount(1);
++        mockJSON.message(0).body().isInstanceOf(byte[].class);
++
++        Object json = template.requestBody("direct:marshal", in);
++        String jsonString = context.getTypeConverter().convertTo(String.class, json);
++        JSONObject obj = (JSONObject) JSONSerializer.toJSON(jsonString);
++        assertEquals("JSON must contain 1 top-level element", 1, obj.entrySet().size());
++        assertTrue("Top-level element must be named root", obj.has("root"));
++
++        mockJSON.assertIsSatisfied();
++    }
++
++    @Test
+diff --git a/components/camel-xmljson/src/test/resources/org/apache/camel/dataformat/xmljson/testMessage4.xml b/components/camel-xmljson/src/test/resources/org/apache/camel/dataformat/xmljson/testMessage4.xml
+new file mode 100644
+index 0000000..05e4983
+--- /dev/null
++++ b/components/camel-xmljson/src/test/resources/org/apache/camel/dataformat/xmljson/testMessage4.xml
+@@ -0,0 +1,16 @@
++<root type="atype">
++	<a>1</a>
++	<b>2</b>
++	<c type="anothertype">
++		<a>c.a.1</a>
++		<b>c.b.2</b>
++	</c>
++	<d>a</d>
++	<d>b</d>
++	<d>c</d>
++	<e>1</e>
++	<e>2</e>
++	<e>3</e>
++	<f>true</f>
++	<g />
++</root>
+\ No newline at end of file
+

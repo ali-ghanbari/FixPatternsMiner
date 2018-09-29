@@ -1,0 +1,8 @@
+diff --git a/server/flies-war/src/main/java/net/openl10n/flies/webtrans/server/TranslationWorkspaceManager.java b/server/flies-war/src/main/java/net/openl10n/flies/webtrans/server/TranslationWorkspaceManager.java
+index ddd6e3e..4a1dd86 100644
+--- a/server/flies-war/src/main/java/net/openl10n/flies/webtrans/server/TranslationWorkspaceManager.java
++++ b/server/flies-war/src/main/java/net/openl10n/flies/webtrans/server/TranslationWorkspaceManager.java
+@@ -128 +128 @@
+-      String workspaceName = (String) session.createQuery("select it.project.name || ' (' || it.name || ')' " + "from HProjectIteration it " + "where it.slug = :slug " + "and it.project.slug = :pslug").setParameter("slug", workspaceId.getProjectIterationId().getIterationSlug()).setParameter("pslug", workspaceId.getProjectIterationId().getProjectSlug()).uniqueResult();
++      String workspaceName = (String) session.createQuery("select it.project.name || ' (' || it.slug || ')' " + "from HProjectIteration it " + "where it.slug = :slug " + "and it.project.slug = :pslug").setParameter("slug", workspaceId.getProjectIterationId().getIterationSlug()).setParameter("pslug", workspaceId.getProjectIterationId().getProjectSlug()).uniqueResult();
+

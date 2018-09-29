@@ -1,0 +1,8 @@
+diff --git a/persistence/src/main/java/org/openstack/atlas/service/domain/repository/LoadBalancerRepository.java b/persistence/src/main/java/org/openstack/atlas/service/domain/repository/LoadBalancerRepository.java
+index 29ae086..463f40c 100644
+--- a/persistence/src/main/java/org/openstack/atlas/service/domain/repository/LoadBalancerRepository.java
++++ b/persistence/src/main/java/org/openstack/atlas/service/domain/repository/LoadBalancerRepository.java
+@@ -189 +189 @@
+-        String queryStr = "select l from LoadBalancer l where l.status = :status and l.updated >= :threeMonthsAgo";
++        String queryStr = "select l from LoadBalancer l where l.status = :status and l.updated <= :threeMonthsAgo";
+

@@ -1,0 +1,82 @@
+diff --git a/doc/REL_NOTES b/doc/REL_NOTES
+index 74c71cd..3dc6354 100644
+--- a/doc/REL_NOTES
++++ b/doc/REL_NOTES
+@@ -150,0 +151,2 @@
++        - Fix for IDL compiler issue where compiler incorrectly checks discriminator in default 
++          branch.
+diff --git a/src/org/jacorb/idl/UnionType.java b/src/org/jacorb/idl/UnionType.java
+index ae53c78..2ec07cc 100644
+--- a/src/org/jacorb/idl/UnionType.java
++++ b/src/org/jacorb/idl/UnionType.java
+@@ -725 +725 @@
+-                            pw.print (" && discriminator != " + lab);
++                            pw.print (" && _discriminator != " + lab);
+diff --git a/test/regression/idl/bugjac720.idl b/test/regression/idl/bugjac720.idl
+new file mode 100644
+index 0000000..c497422
+--- /dev/null
++++ b/test/regression/idl/bugjac720.idl
+@@ -0,0 +1,24 @@
++module org
++{
++    module jacorb
++    {
++        module test
++        {
++            module bugs
++            {
++                module bugjac720
++                {
++                    enum Color { Red, Green, Blue };
++                    union DefaultMultipleValuesUnion switch (Color)
++                    {
++                        case Red:
++                            long redCase;
++                        default:
++                            long defaultCase;
++                    };
++                };
++            };
++        };
++    };
++};
++
+diff --git a/test/regression/src/org/jacorb/test/bugs/bugjac720/BugJac720Test.java b/test/regression/src/org/jacorb/test/bugs/bugjac720/BugJac720Test.java
+new file mode 100644
+index 0000000..6e92e58
+--- /dev/null
++++ b/test/regression/src/org/jacorb/test/bugs/bugjac720/BugJac720Test.java
+@@ -0,0 +1,31 @@
++package org.jacorb.test.bugs.bugjac720;
++
++import org.jacorb.test.common.ORBTestCase;
++
++public class BugJac720Test extends ORBTestCase
++{
++    public void testUnionDefaultCase()
++    {
++        DefaultMultipleValuesUnion testUnion = new DefaultMultipleValuesUnion();
++        try
++        {
++            testUnion.defaultCase(Color.Blue, 2);
++            testUnion.defaultCase(Color.Green, 2);
++        }
++        catch (org.omg.CORBA.BAD_OPERATION e)
++        {
++            fail ("Incorrect values check for default case - operations are legal");
++        }
++        
++        try
++        {
++            testUnion.defaultCase(Color.Red, 1);
++            fail ("Incorrect values check for default case - Color.Red already used in excplicitly case. org.omg.CORBA.BAD_OPERATION is expected");
++        }
++        catch (org.omg.CORBA.BAD_OPERATION e)
++        {
++            // expected exception - do nothing
++        }
++
++    }
++}
+

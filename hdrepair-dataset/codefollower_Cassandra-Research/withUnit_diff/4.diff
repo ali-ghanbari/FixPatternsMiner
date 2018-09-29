@@ -1,0 +1,14 @@
+diff --git a/src/java/org/apache/cassandra/db/compaction/CompactionManager.java b/src/java/org/apache/cassandra/db/compaction/CompactionManager.java
+index b964c5b..effaf1c 100644
+--- a/src/java/org/apache/cassandra/db/compaction/CompactionManager.java
++++ b/src/java/org/apache/cassandra/db/compaction/CompactionManager.java
+@@ -305 +305 @@
+-     * @param validatedForRepair SSTables containing the repaired ranges
++     * @param validatedForRepair SSTables containing the repaired ranges. Should be referenced before passing them.
+diff --git a/test/unit/org/apache/cassandra/db/compaction/AntiCompactionTest.java b/test/unit/org/apache/cassandra/db/compaction/AntiCompactionTest.java
+index 164dd62..fb87f80 100644
+--- a/test/unit/org/apache/cassandra/db/compaction/AntiCompactionTest.java
++++ b/test/unit/org/apache/cassandra/db/compaction/AntiCompactionTest.java
+@@ -72,0 +73 @@
++        SSTableReader.acquireReferences(sstables);
+

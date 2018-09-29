@@ -1,0 +1,62 @@
+dcache-webadmin: revert rrd data source names
+
+The following releases
+
+2.10.8
+2.9.12
+2.8.16
+2.7.21
+2.6.36
+
+introduced improvements to the pool queue plots code
+which also unfortunately altered the data source names
+(mainly in order to eliminate NaNs from the underlying
+store). This results in an incompatibility with
+existing .rrd files preventing plot generation (see
+the exception trace below).
+
+While the round-robin datastore is transient (the old
+default was 15 days of queue information, now changed to 2)
+and can be eliminated and then recreated afresh, this
+patch restores the old names, so that upgrades from before
+these releases to the current will avoid this issue.
+It turns out that the storing of NaNs has no impact
+on the principal issue the original patch was trying
+to address (faulty stacked rendering of histogram bars).
+
+Those who have already moved to the indicated releases
+will see the stack trace again and will have
+to remove the .rrd files.  Those upgrading from
+a version prior to those indicated will experience
+no such error.
+
+Target: master
+Patch: https://rb.dcache.org/r/7434
+Acked-by: Tigran
+Require-book: no
+Require-notes: yes
+
+RELEASE NOTES:  Those upgrading to
+
+2.10.8
+2.9.12
+2.8.16
+2.7.21
+2.6.36
+
+Will experience an error message regarding the pool-queue plots reporting "Unknown datasource name".
+The problem can be fixed in the following ways:
+
+1) No upgrade.  Do:
+
+dcache stop httpdDomain
+rm -f /var/lib/dcache/plots/*.rrd
+dcache start httpDomain
+
+2) Upgrade to this release.
+
+If a fix such as 1) was applied, and then an upgrade is done, 1) will have to be reapplied.
+
+Upgrading from a version preceding the listed versions to this one should experience no
+such error.
+

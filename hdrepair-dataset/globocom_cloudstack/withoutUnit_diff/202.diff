@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/upgrade/dao/Upgrade2214to30.java b/server/src/com/cloud/upgrade/dao/Upgrade2214to30.java
+index 9b5b3a6..7e4bff5 100755
+--- a/server/src/com/cloud/upgrade/dao/Upgrade2214to30.java
++++ b/server/src/com/cloud/upgrade/dao/Upgrade2214to30.java
+@@ -693 +693 @@
+-    			pstmt = conn.prepareStatement("select distinct(hypervisor_type) from `cloud`.`cluster`");
++    			pstmt = conn.prepareStatement("select distinct(hypervisor_type) from `cloud`.`cluster` where removed is null");
+

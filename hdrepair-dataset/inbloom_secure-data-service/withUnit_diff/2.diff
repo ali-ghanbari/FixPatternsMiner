@@ -1,0 +1,55 @@
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/context/validator/GenericToEdOrgValidator.java b/sli/api/src/main/java/org/slc/sli/api/security/context/validator/GenericToEdOrgValidator.java
+index d9d626e..aaa43cc 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/context/validator/GenericToEdOrgValidator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/context/validator/GenericToEdOrgValidator.java
+@@ -53 +53 @@
+-        LOG.trace("  ids: " + ids.toString());
++        LOG.trace("  ids: " + ids);
+diff --git a/sli/data-access/dal/src/test/java/org/slc/sli/dal/repository/MongoQueryConverterTest.java b/sli/data-access/dal/src/test/java/org/slc/sli/dal/repository/MongoQueryConverterTest.java
+index 81ba006..9a330b1 100644
+--- a/sli/data-access/dal/src/test/java/org/slc/sli/dal/repository/MongoQueryConverterTest.java
++++ b/sli/data-access/dal/src/test/java/org/slc/sli/dal/repository/MongoQueryConverterTest.java
+@@ -20,11 +19,0 @@
+-import static org.junit.Assert.assertEquals;
+-import static org.junit.Assert.assertNotNull;
+-import static org.junit.Assert.assertNull;
+-import static org.junit.Assert.assertTrue;
+-
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-import java.util.HashMap;
+-import java.util.List;
+-import java.util.Map;
+-
+@@ -32 +20,0 @@
+-
+@@ -35,0 +24,3 @@
++import org.slc.sli.domain.NeutralCriteria;
++import org.slc.sli.domain.NeutralQuery;
++import org.slc.sli.domain.QueryParseException;
+@@ -42,3 +33,3 @@
+-import org.slc.sli.domain.NeutralCriteria;
+-import org.slc.sli.domain.NeutralQuery;
+-import org.slc.sli.domain.QueryParseException;
++import java.util.*;
++
++import static org.junit.Assert.*;
+@@ -243 +234 @@
+-        neutralQuery.setSortBy("name.firstName");
++        neutralQuery.setSortBy("birthData.birthDate");
+@@ -252 +243 @@
+-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", ">", "somevalue"));
++        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", ">", "1960-01-01"));
+@@ -260 +251 @@
+-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "<", "somevalue"));
++        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", "<", "1960-01-01"));
+@@ -268 +259 @@
+-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "~", "somevalue"));
++        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", "~", "1960-01-01"));
+@@ -276 +267 @@
+-        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "=", "somevalue"));
++        neutralQuery.addCriteria(new NeutralCriteria("birthData.birthDate", "=", "1960-01-01"));
+@@ -282,2 +272,0 @@
+-        assertEquals("Should match", "ENCRYPTED_STRING:somevalue", obj.get("body.name.firstName"));
+-        assertEquals("Should match", "somevalue", neutralQuery.getCriteria().get(0).getValue());
+

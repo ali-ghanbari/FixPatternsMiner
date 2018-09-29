@@ -1,0 +1,10 @@
+diff --git a/dart/editor/tools/plugins/com.google.dart.tools.debug.core/src/com/google/dart/tools/debug/core/configs/DartServerLaunchConfigurationDelegate.java b/dart/editor/tools/plugins/com.google.dart.tools.debug.core/src/com/google/dart/tools/debug/core/configs/DartServerLaunchConfigurationDelegate.java
+index a0084f2..3a11e6b 100644
+--- a/dart/editor/tools/plugins/com.google.dart.tools.debug.core/src/com/google/dart/tools/debug/core/configs/DartServerLaunchConfigurationDelegate.java
++++ b/dart/editor/tools/plugins/com.google.dart.tools.debug.core/src/com/google/dart/tools/debug/core/configs/DartServerLaunchConfigurationDelegate.java
+@@ -275,2 +275,2 @@
+-          // If the resource is not linked, set the cwd to the project's directory.
+-          return resource.getProject().getLocation().toFile();
++          // If the resource is not linked, set the cwd to the resource's parent directory.
++          return resource.getParent().getLocation().toFile();
+

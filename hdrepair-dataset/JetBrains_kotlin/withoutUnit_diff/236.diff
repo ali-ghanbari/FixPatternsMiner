@@ -1,0 +1,33 @@
+diff --git a/idea/src/org/jetbrains/jet/lang/types/DataFlowInfo.java b/idea/src/org/jetbrains/jet/lang/types/DataFlowInfo.java
+index 43df530..0e38372 100644
+--- a/idea/src/org/jetbrains/jet/lang/types/DataFlowInfo.java
++++ b/idea/src/org/jetbrains/jet/lang/types/DataFlowInfo.java
+@@ -166 +166 @@
+-        ListMultimap<VariableDescriptor, JetType> newTypeInfo = copyTypeInfo();
++        ListMultimap<VariableDescriptor, JetType> newTypeInfo = Multimaps.newListMultimap(Maps.<VariableDescriptor, Collection<JetType>>newHashMap(), ARRAY_LIST_SUPPLIER);
+diff --git a/idea/testData/checker/infos/Autocasts.jet b/idea/testData/checker/infos/Autocasts.jet
+index 48ef419..caf2ce8 100644
+--- a/idea/testData/checker/infos/Autocasts.jet
++++ b/idea/testData/checker/infos/Autocasts.jet
+@@ -218 +218,17 @@
+-fun declarationInsidePattern(x: (Any, Any)): String = when(x) { is (val a is String, *) => <info descr="Automatically cast to String">a</info>; else => "something" }
+\ No newline at end of file
++fun declarationInsidePattern(x: (Any, Any)): String = when(x) { is (val a is String, *) => <info descr="Automatically cast to String">a</info>; else => "something" }
++
++fun mergeAutocasts(a: Any?) {
++  if (a is String || a is Int) {
++    a.<error>compareTo</error>("")
++    a.toString()
++  }
++  if (a is Int || a is String) {
++    a.<error>compareTo</error>("")
++  }
++  when (a) {
++    is String, is Any => a.<error>compareTo</error>("")
++  }
++  if (a is String && a is Any) {
++    val i: Int = <info descr="Automatically cast to String">a</info>.length
++  }
++}
+\ No newline at end of file
+

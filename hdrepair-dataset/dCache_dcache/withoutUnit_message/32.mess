@@ -1,0 +1,30 @@
+pinmanager,srm,spacemanager,xrootd: Fix pool monitor expiration
+
+The pool manager state (aka pool monitor) is cached in a number of
+other services. A recent change modified the cache logic to trigger
+in-thread asynchronous updates rather than dedicated an entire thread
+to the update. The Guava cache class is configured to trigger an update
+after 20 seconds, however the update is asynchronous, meaning that the
+first access after 20 seconds will still get the old data. There is a
+total lifetime of 10 minutes, meaning that once the entry is 10 minutes
+old, it is purged and a blocking update is done instead (i.e. you
+never get data older than 10 minutes).
+
+Unfortunately the cached pool state in pool monitor is considered
+invalid after 5 minutes and the pool is then treated as offline. On
+a lightly loaded system this causes some strange effects.
+
+The immediate fix is to reduce the max lifetime to 3 minutes (allowing
+some slack up to the 5 minute lifetime of the pool data). An async.
+update is still triggered after 20 seconds.
+
+Longer term, the pool information should be channelled directly from
+pools to the services that need it.
+
+Target: trunk
+Request: 2.9
+Require-notes: yes
+Require-book: no
+Acked-by: Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+Patch: https://rb.dcache.org/r/7055/
+

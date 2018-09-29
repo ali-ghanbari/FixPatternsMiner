@@ -1,0 +1,28 @@
+diff --git a/sslr-api/src/main/java/com/sonar/sslr/api/LexerOutput.java b/sslr-api/src/main/java/com/sonar/sslr/api/LexerOutput.java
+index cbad2ee..b7bc68a 100644
+--- a/sslr-api/src/main/java/com/sonar/sslr/api/LexerOutput.java
++++ b/sslr-api/src/main/java/com/sonar/sslr/api/LexerOutput.java
+@@ -27 +27 @@
+-    this.tokens = tokens;
++    addAllTokens(tokens);
+diff --git a/sslr-api/src/test/java/com/sonar/sslr/api/LexerOutputTest.java b/sslr-api/src/test/java/com/sonar/sslr/api/LexerOutputTest.java
+index 7d8530a..4f6badd 100644
+--- a/sslr-api/src/test/java/com/sonar/sslr/api/LexerOutputTest.java
++++ b/sslr-api/src/test/java/com/sonar/sslr/api/LexerOutputTest.java
+@@ -159,0 +160,15 @@
++  
++  @Test
++  public void testTokenChainingWithConstructor() {
++    List<Token> tokens = Lists.newArrayList();
++    tokens.add(new Token(GenericTokenType.IDENTIFIER, "first", 0, 0));
++    tokens.add(new Token(GenericTokenType.IDENTIFIER, "second", 0, 0));
++    tokens.add(new Token(GenericTokenType.IDENTIFIER, "third", 0, 0));
++    output = new LexerOutput(tokens);
++    assertThat(output.get(0).getPreviousToken(), is(nullValue()));
++    assertThat(output.get(0).getFollowingToken().getValue(), is("second"));
++    assertThat(output.get(1).getPreviousToken().getValue(), is("first"));
++    assertThat(output.get(1).getFollowingToken().getValue(), is("third"));
++    assertThat(output.get(2).getPreviousToken().getValue(), is("second"));
++    assertThat(output.get(2).getFollowingToken(), is(nullValue()));
++  }
+

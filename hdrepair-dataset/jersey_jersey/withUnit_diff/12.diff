@@ -1,0 +1,119 @@
+diff --git a/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java b/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java
+index 0e68a04..9a36e53 100644
+--- a/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java
++++ b/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java
+@@ -691 +691 @@
+-                feature = locator.create(registration.getFeatureClass());
++                feature = locator.createAndInitialize(registration.getFeatureClass());
+diff --git a/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java b/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java
+index 07ebf7c..0b9bb10 100644
+--- a/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java
++++ b/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java
+@@ -62,0 +63 @@
++import javax.inject.Inject;
+@@ -73,0 +75 @@
++import static org.hamcrest.CoreMatchers.is;
+@@ -78,0 +81 @@
++import static org.junit.Assert.assertThat;
+@@ -83 +85,0 @@
+-import jersey.repackaged.com.google.common.collect.Sets;
+@@ -104 +106 @@
+-        } catch (Exception e) {
++        } catch (final Exception e) {
+@@ -190 +192 @@
+-        CommonConfig other = new CommonConfig(null, ComponentBag.INCLUDE_ALL);
++        final CommonConfig other = new CommonConfig(null, ComponentBag.INCLUDE_ALL);
+@@ -280,0 +283 @@
++            //noinspection ConstantConditions
+@@ -283 +286 @@
+-        } catch (IllegalArgumentException e) {
++        } catch (final IllegalArgumentException e) {
+@@ -308 +311 @@
+-        } catch (IllegalArgumentException e) {
++        } catch (final IllegalArgumentException e) {
+@@ -312 +315 @@
+-        ComplexEmptyProvider[] ceps = new ComplexEmptyProvider[2];
++        final ComplexEmptyProvider[] ceps = new ComplexEmptyProvider[2];
+@@ -356,0 +360 @@
++            //noinspection ConstantConditions
+@@ -359 +363 @@
+-        } catch (IllegalArgumentException e) {
++        } catch (final IllegalArgumentException e) {
+@@ -363 +367 @@
+-        for (int priority : new int[]{Priorities.USER, Priorities.AUTHENTICATION}) {
++        for (final int priority : new int[]{Priorities.USER, Priorities.AUTHENTICATION}) {
+@@ -387 +391 @@
+-        } catch (IllegalArgumentException e) {
++        } catch (final IllegalArgumentException e) {
+@@ -393 +397 @@
+-        for (int priority : new int[]{Priorities.USER, Priorities.AUTHENTICATION}) {
++        for (final int priority : new int[]{Priorities.USER, Priorities.AUTHENTICATION}) {
+@@ -396 +400 @@
+-            final CommonConfig commonConfig = (CommonConfig) config;
++            final CommonConfig commonConfig = config;
+@@ -444,0 +449 @@
++            //noinspection ConstantConditions
+@@ -447 +452 @@
+-        } catch (IllegalArgumentException e) {
++        } catch (final IllegalArgumentException e) {
+@@ -470 +475 @@
+-        } catch (IllegalArgumentException e) {
++        } catch (final IllegalArgumentException e) {
+@@ -474 +478,0 @@
+-        final Set<Class<?>> registeredContracts = Sets.newIdentityHashSet();
+@@ -653 +657 @@
+-        Map<Class<?>, Integer> contracts = new IdentityHashMap<Class<?>, Integer>();
++        final Map<Class<?>, Integer> contracts = new IdentityHashMap<Class<?>, Integer>();
+@@ -704 +708 @@
+-        } catch (Exception e) {
++        } catch (final Exception e) {
+@@ -897 +901 @@
+-        public boolean configure(FeatureContext context) {
++        public boolean configure(final FeatureContext context) {
+@@ -915,0 +920 @@
++    }
+@@ -916,0 +922,43 @@
++    public static class InjectMe {
++    }
++
++    public static class InjectIntoFeatureInstance implements Feature {
++
++        @Inject
++        private InjectMe injectMe;
++
++        @Override
++        public boolean configure(final FeatureContext context) {
++            context.property("instance-injected", injectMe != null);
++            return true;
++        }
++    }
++
++    public static class InjectIntoFeatureClass implements Feature {
++
++        @Inject
++        private InjectMe injectMe;
++
++        @Override
++        public boolean configure(final FeatureContext context) {
++            context.property("class-injected", injectMe != null);
++            return true;
++        }
++    }
++
++    @Test
++    public void testFeatureInjections() throws Exception {
++        config.register(InjectIntoFeatureClass.class)
++                .register(new InjectIntoFeatureInstance())
++                .register(new AbstractBinder() {
++                    @Override
++                    protected void configure() {
++                        bind(new InjectMe());
++                    }
++                });
++
++        final ServiceLocator locator = Injections.createLocator();
++        config.configureMetaProviders(locator);
++
++        assertThat("Feature instance not injected", config.getProperty("instance-injected").toString(), is("true"));
++        assertThat("Feature class not injected", config.getProperty("class-injected").toString(), is("true"));
+

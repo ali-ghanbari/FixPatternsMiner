@@ -1,0 +1,28 @@
+diff --git a/trunk/src/main/java/cn/edu/uestc/acmicpc/web/oj/controller/team/TeamController.java b/trunk/src/main/java/cn/edu/uestc/acmicpc/web/oj/controller/team/TeamController.java
+index 52735eb..18d184a 100644
+--- a/trunk/src/main/java/cn/edu/uestc/acmicpc/web/oj/controller/team/TeamController.java
++++ b/trunk/src/main/java/cn/edu/uestc/acmicpc/web/oj/controller/team/TeamController.java
+@@ -300 +300 @@
+-      if (teamUserList.size() == 3) {
++      if (teamUserList.size() == 1) {
+diff --git a/trunk/src/main/webapp/cdoj/dist/js/cdoj.js b/trunk/src/main/webapp/cdoj/dist/js/cdoj.js
+index 647666f..01ba87d 100644
+--- a/trunk/src/main/webapp/cdoj/dist/js/cdoj.js
++++ b/trunk/src/main/webapp/cdoj/dist/js/cdoj.js
+@@ -66058 +66058,2 @@
+-              return $scope.memberList.add(user);
++              $scope.memberList.add(user);
++              return $rootScope.$broadcast("refreshList");
+@@ -66076 +66077,2 @@
+-                return $scope.memberList.splice(index, 1);
++                $scope.memberList.splice(index, 1);
++                return $rootScope.$broadcast("refreshList");
+diff --git a/trunk/src/main/webapp/cdoj/src/angular/controller/TeamEditorModalController.coffee b/trunk/src/main/webapp/cdoj/src/angular/controller/TeamEditorModalController.coffee
+index 6382b86..4015c43 100644
+--- a/trunk/src/main/webapp/cdoj/src/angular/controller/TeamEditorModalController.coffee
++++ b/trunk/src/main/webapp/cdoj/src/angular/controller/TeamEditorModalController.coffee
+@@ -44,0 +45 @@
++              $rootScope.$broadcast("refreshList")
+@@ -56,0 +58 @@
++                $rootScope.$broadcast("refreshList")
+

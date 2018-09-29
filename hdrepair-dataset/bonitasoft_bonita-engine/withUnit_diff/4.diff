@@ -1,0 +1,29 @@
+diff --git a/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/main/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImpl.java b/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/main/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImpl.java
+index 1d5f86b..5b72371 100644
+--- a/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/main/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImpl.java
++++ b/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/main/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImpl.java
+@@ -113 +113 @@
+-                sPageMapping = pageMappingService.create(key, null, legacyUrlAdapter, authorizationRules);
++                sPageMapping = pageMappingService.create(key, null, legacyUrlAdapter, null);
+diff --git a/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/test/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImplTest.java b/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/test/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImplTest.java
+index 02c41b6..6e69b4d 100644
+--- a/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/test/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImplTest.java
++++ b/bpm/bonita-core/bonita-form-mapping/bonita-form-mapping-impl/src/test/java/org/bonitasoft/engine/core/form/impl/FormMappingServiceImplTest.java
+@@ -127,0 +128,10 @@
++
++    @Test
++    public void createLegacyFormShouldNotAddCorrectAuthorizations() throws Exception {
++        doReturn("keye").when(formMappingKeyGenerator).generateKey(PROCESS_DEFINITION_ID, null, FormMappingType.PROCESS_START.getId());
++
++        formMappingService.create(PROCESS_DEFINITION_ID, null, FormMappingType.PROCESS_START.getId(), SFormMapping.TARGET_LEGACY, null);
++
++        verify(pageMappingService).create("keye", null, LEGACY, null);
++    }
++
+@@ -132 +142 @@
+-        formMappingService.create(PROCESS_DEFINITION_ID, null, FormMappingType.PROCESS_OVERVIEW.getId(), SFormMapping.TARGET_LEGACY, null);
++        formMappingService.create(PROCESS_DEFINITION_ID, null, FormMappingType.PROCESS_OVERVIEW.getId(), SFormMapping.TARGET_URL, null);
+@@ -134 +144 @@
+-        verify(pageMappingService).create("clave", null, LEGACY, Arrays.asList(IS_ADMIN, IS_PROCESS_OWNER, IS_INVOLVED_IN_PROCESS_INSTANCE));
++        verify(pageMappingService).create("clave", null, EXTERNAL, Arrays.asList(IS_ADMIN, IS_PROCESS_OWNER, IS_INVOLVED_IN_PROCESS_INSTANCE));
+

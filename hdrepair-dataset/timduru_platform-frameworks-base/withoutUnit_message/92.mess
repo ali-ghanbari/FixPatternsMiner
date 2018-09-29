@@ -1,0 +1,12 @@
+Recycle original screenshot after rotation.
+
+After copying the Bitmap to a new Bitmap, there is no need to keep
+the original pixels.
+
+This may help memory pressure when running automated tests and taking
+lots of screenshots, although it does not fix the main source of the
+problem.
+
+BUG:15454296
+Change-Id: I7e61886fbb46a8068db3e8dfa1fcb0afd88ea430
+

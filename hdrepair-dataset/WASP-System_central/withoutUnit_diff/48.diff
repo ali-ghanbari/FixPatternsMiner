@@ -1,0 +1,18 @@
+diff --git a/plugins/bwa/src/main/resources/flows/wasp-bwa.mainFlow.v1.xml b/plugins/bwa/src/main/resources/flows/wasp-bwa.mainFlow.v1.xml
+index 7f8329f..ce9323c 100644
+--- a/plugins/bwa/src/main/resources/flows/wasp-bwa.mainFlow.v1.xml
++++ b/plugins/bwa/src/main/resources/flows/wasp-bwa.mainFlow.v1.xml
+@@ -64 +64 @@
+-							<property name="cellLibraryId" value="#{jobExecutionContext['cellLibId']}"/>
++							<property name="cellLibraryId" value="#{jobParameters[waspSoftwareJobParameters.CELL_LIBRARY_ID_LIST]}"/> <!-- should only be one value which will cast to Integer ok -->
+@@ -79 +79 @@
+-							<property name="cellLibraryId" value="#{jobExecutionContext['cellLibId']}"/>
++							<property name="cellLibraryId" value="#{jobParameters[waspSoftwareJobParameters.CELL_LIBRARY_ID_LIST]}"/> <!-- should only be one value which will cast to Integer ok -->
+diff --git a/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java b/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java
+index 37ec419..e6f5471 100644
+--- a/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java
++++ b/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java
+@@ -854,2 +853,0 @@
+-					getFlag() + " -l h_vmem=" + w.getMemoryRequirements().toString() + "G\n" +
+-					getFlag() + " -l h_stack=" + w.getMemoryRequirements().toString() + "G\n" +
+

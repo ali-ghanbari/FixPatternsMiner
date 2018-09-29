@@ -1,0 +1,41 @@
+Improving logging.
+
+We were emitting a WARN level log for unexpected exception,
+but we did not dump it's stack trace.
+
+This masked some cases (probably NPE thrown by Preconditions
+with message null) of problem (see stack below), where
+the problem was actually at very first line, but the cause
+is not logged at all, only generic message and "null"
+message for cause.
+
+Still, there is also an NPE in recordError happening,
+probably as trying to record this same NPE without
+message into outcome.
+
+jvm 1    | 2013-04-05 09:04:23 WARN  [ar-4-thread-3  ] - org.sonatype.nexus.proxy.maven.routing.internal.RemoteContentDiscovererImpl - Remote strategy
+ prefix-file error: null
+jvm 1    | 2013-04-05 09:04:23 WARN  [ar-4-thread-3  ] - org.sonatype.nexus.proxy.maven.routing.internal.UpdateRepositoryRunnable - RSO AR-Updater fai
+led:
+jvm 1    | java.lang.NullPointerException: null
+jvm 1    |      at com.google.common.base.Preconditions.checkNotNull(Preconditions.java:191) ~[guava-13.0.1.jar:na]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.discovery.DiscoveryResult$OutcomeImpl.<init>(DiscoveryResult.java:83) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.discovery.DiscoveryResult$OutcomeImpl.<init>(DiscoveryResult.java:67) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.discovery.DiscoveryResult.recordError(DiscoveryResult.java:254) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.RemoteContentDiscovererImpl.discoverRemoteContent(RemoteContentDiscovererImpl.java:107) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.RemoteContentDiscovererImpl.discoverRemoteContent(RemoteContentDiscovererImpl.java:64) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.ManagerImpl.updateProxyPrefixFile(ManagerImpl.java:602) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.ManagerImpl.updateAndPublishPrefixFile(ManagerImpl.java:541) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.UpdateRepositoryRunnable.doRun(UpdateRepositoryRunnable.java:70) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.task.RunnableSupport.run(RunnableSupport.java:75) ~[nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.task.CancelableRunnableSupport.run(CancelableRunnableSupport.java:82) [nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at org.sonatype.nexus.proxy.maven.routing.internal.task.executor.ConstrainedExecutorImpl$CancelableRunnableWrapper.run(ConstrainedExecutorImpl.java:199) [nexus-core-2.4.0-07.jar:2.4.0-07]
+jvm 1    |      at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:439) [na:1.6.0_43]
+jvm 1    |      at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:303) [na:1.6.0_43]
+jvm 1    |      at java.util.concurrent.FutureTask.run(FutureTask.java:138) [na:1.6.0_43]
+jvm 1    |      at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:98) [na:1.6.0_43]
+jvm 1    |      at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:206) [na:1.6.0_43]
+jvm 1    |      at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:895) [na:1.6.0_43]
+jvm 1    |      at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:918) [na:1.6.0_43]
+jvm 1    |      at java.lang.Thread.run(Thread.java:680) [na:1.6.0_43]
+

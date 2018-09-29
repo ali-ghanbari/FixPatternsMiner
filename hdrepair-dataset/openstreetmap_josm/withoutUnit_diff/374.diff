@@ -1,0 +1,8 @@
+diff --git a/src/org/openstreetmap/josm/io/auth/CredentialsManager.java b/src/org/openstreetmap/josm/io/auth/CredentialsManager.java
+index a72f7c7..518dd33 100644
+--- a/src/org/openstreetmap/josm/io/auth/CredentialsManager.java
++++ b/src/org/openstreetmap/josm/io/auth/CredentialsManager.java
+@@ -89 +89 @@
+-        if (requestorType == RequestorType.SERVER && credentials.getUserName() != null) {
++        if (requestorType == RequestorType.SERVER && credentials.getUserName() != null && !credentials.getUserName().trim().isEmpty()) {
+

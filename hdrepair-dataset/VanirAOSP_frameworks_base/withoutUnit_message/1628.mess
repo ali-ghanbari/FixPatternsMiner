@@ -1,0 +1,12 @@
+A hack that when restartRadio is called the CdmaDataConnectionTracker
+to retry a connection and possibly reconnect after a temporary data loss.
+
+The root cause appears to be because DEACTIVATE and POWER_RADIO_OFF are
+sent back to back and POWER_RADIO_OFF completes before DEACTIVATE.
+When this happens CdmaDataConnectionTracker won't attempt to reestablish
+a data connection until a voice call terminates.
+
+At this time it appears the better solution is have CdmaDataConnectionTracker
+wait for DEACTIVATE to complete before issuing POWER_RADIO_OFF, this fix
+will be implemented in the near future.
+

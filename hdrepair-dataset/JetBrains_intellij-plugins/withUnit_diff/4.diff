@@ -1,0 +1,128 @@
+diff --git a/AngularJS/src/org/angularjs/index/AngularJSIndexingHandler.java b/AngularJS/src/org/angularjs/index/AngularJSIndexingHandler.java
+index 1fac8a7..65f74aa 100644
+--- a/AngularJS/src/org/angularjs/index/AngularJSIndexingHandler.java
++++ b/AngularJS/src/org/angularjs/index/AngularJSIndexingHandler.java
+@@ -481 +481 @@
+-      final JSType type = JSNamedType.createType(name, source, JSContext.INSTANCE);
++      final JSType type = JSNamedType.createType(name, source, JSContext.UNKNOWN);
+diff --git a/AngularJS/test/org/angularjs/codeInsight/DependencyInjectionTest.java b/AngularJS/test/org/angularjs/codeInsight/DependencyInjectionTest.java
+index 80782a7..445d1ea 100644
+--- a/AngularJS/test/org/angularjs/codeInsight/DependencyInjectionTest.java
++++ b/AngularJS/test/org/angularjs/codeInsight/DependencyInjectionTest.java
+@@ -2,0 +3 @@
++import com.intellij.lang.javascript.psi.JSDefinitionExpression;
+@@ -36,0 +38,10 @@
++
++  public void testInjectedStaticResolve() {
++    myFixture.configureByFiles("static.js", "angular.js");
++    int offsetBySignature = AngularTestUtil.findOffsetBySignature("DomUtils.createSVG<caret>ElementTemplate(", myFixture.getFile());
++    PsiReference ref = myFixture.getFile().findReferenceAt(offsetBySignature);
++    assertNotNull(ref);
++    PsiElement resolve = ref.resolve();
++    assertNotNull(resolve);
++    assertInstanceOf(JSResolveUtil.unwrapProxy(resolve), JSDefinitionExpression.class);
++  }
+diff --git a/AngularJS/test/org/angularjs/codeInsight/data/di/static.js b/AngularJS/test/org/angularjs/codeInsight/data/di/static.js
+new file mode 100644
+index 0000000..edcabda
+--- /dev/null
++++ b/AngularJS/test/org/angularjs/codeInsight/data/di/static.js
+@@ -0,0 +1,97 @@
++angular.module('desktop-shared').factory('DomUtils', function ()
++{
++  'use strict';
++
++  /**
++   * @name DomUtils
++   * @desc Provides a number of utilities relating to manipulating DOM
++   * @namespace
++   */
++  var DomUtils = {};
++
++
++  /**
++   * Create SVG element template
++   *
++   * @function
++   * @static
++   * @param {String} iconName
++   * @param {String} [className=''] optional classname to apply to svg element
++   * @param {String} [svgWidth] optional svgWidth to apply to svg element
++   * @return {String} SVG template
++   */
++  DomUtils.createSVGElementTemplate = function(iconName, className, svgWidth)
++  {
++    if (iconName.indexOf('icon-') !== 0)
++    {
++      iconName = 'icon-' + iconName;
++    }
++
++    if (!svgWidth)
++    {
++      svgWidth = 16;
++    }
++
++    className = className || '';
++    return '<svg class="iconSvg ' + iconName + ' ' + className + '" viewBox="0 0 ' + svgWidth + ' 16" preserveAspectRatio="xMidYMid meet"><use xlink:href="images/SVGIcons.svg#' + iconName + '"></use></svg>';
++  };
++
++  return DomUtils;
++}).directive('cmcTable',
++    function ($compile, $timeout, DomUtils)
++    {
++      'use strict';
++
++      var directive = {};
++      directive.restrict = 'E';
++      directive.replace = true;
++      directive.link = function (scope)
++      {
++          for (var i = 0; i < 10; i++)
++          {
++            var column = {};
++            column.className = "test";
++            column.sortable = true;
++            column.headerTooltipText = 'test';
++            column.headerTextHidden = false;
++            column.headerText = 'test';
++
++            var columnScope = scope.$new();
++            columnScope.column = column;
++
++            var columnElementHtml = '<div class="' + column.className + '"';
++
++            if (column.sortable)
++            {
++              columnElementHtml += ' ng-click="sort(column)"';
++            }
++
++            if (column.headerTooltipText)
++            {
++              columnElementHtml += ' title="' + column.headerTooltipText + '"';
++            }
++
++            columnElementHtml += '><span>';
++
++            if (!column.headerTextHidden)
++            {
++              columnElementHtml += column.headerText;
++            }
++
++            columnElementHtml += '</span>';
++
++            if (column.sortable)
++            {
++              columnElementHtml += DomUtils.create<caret>SVGElementTemplate('icon-sort') + DomUtils.createSVGElementTemplate('icon-sort-up') +
++              DomUtils.createSVGElementTemplate('icon-sort-down');
++            }
++
++            columnElementHtml += '</div>';
++
++            console.log(columnElementHtml);
++          }
++        };
++
++      return directive;
++    });
++
+

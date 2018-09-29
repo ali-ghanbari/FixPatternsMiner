@@ -1,0 +1,9 @@
+diff --git a/server/src/com/cloud/network/router/VirtualNetworkApplianceManagerImpl.java b/server/src/com/cloud/network/router/VirtualNetworkApplianceManagerImpl.java
+index ddfa998..8d73941 100755
+--- a/server/src/com/cloud/network/router/VirtualNetworkApplianceManagerImpl.java
++++ b/server/src/com/cloud/network/router/VirtualNetworkApplianceManagerImpl.java
+@@ -1449 +1449,2 @@
+-            if (dest.getDataCenter().getNetworkType() == NetworkType.Basic) {
++            // for basic zone, if 'dest' has pod set to null then this is network restart scenario otherwise it is a vm deployment scenario
++            if (dest.getDataCenter().getNetworkType() == NetworkType.Basic && dest.getPod() == null) {
+

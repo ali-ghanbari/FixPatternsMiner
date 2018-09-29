@@ -1,0 +1,11 @@
+diff --git a/src/com/vaadin/ui/Table.java b/src/com/vaadin/ui/Table.java
+index 753a52a..71ceb3a 100644
+--- a/src/com/vaadin/ui/Table.java
++++ b/src/com/vaadin/ui/Table.java
+@@ -2803,2 +2803,3 @@
+-        // ensure that page still has first item in page
+-        setCurrentPageFirstItemIndex(getCurrentPageFirstItemIndex());
++        // ensure that page still has first item in page, ignore buffer refresh
++        // (forced in this method)
++        setCurrentPageFirstItemIndex(getCurrentPageFirstItemIndex(), false);
+

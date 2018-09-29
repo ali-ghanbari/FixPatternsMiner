@@ -1,0 +1,8 @@
+diff --git a/src/net/sourceforge/fenixedu/domain/student/Registration.java b/src/net/sourceforge/fenixedu/domain/student/Registration.java
+index 430d20a..00fd8bb 100755
+--- a/src/net/sourceforge/fenixedu/domain/student/Registration.java
++++ b/src/net/sourceforge/fenixedu/domain/student/Registration.java
+@@ -3856 +3856 @@
+-	return getLastStudentCurricularPlan().countEnrolments(ExecutionYear.readCurrentExecutionYear());
++	return getLastStudentCurricularPlan() == null ? 0 : getLastStudentCurricularPlan().countEnrolments(ExecutionYear.readCurrentExecutionYear());
+

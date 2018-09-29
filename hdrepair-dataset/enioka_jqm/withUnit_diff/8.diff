@@ -1,0 +1,25 @@
+diff --git a/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/JqmEngine.java b/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/JqmEngine.java
+index 0b90789..4b9a608 100644
+--- a/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/JqmEngine.java
++++ b/jqm-all/jqm-engine/src/main/java/com/enioka/jqm/tools/JqmEngine.java
+@@ -82 +82 @@
+-        long toWait = (long) (1.1 * Long.parseLong(Helpers.getParameter("aliveSignalMs", "60000", em)));
++        long toWait = (long) (2 * Long.parseLong(Helpers.getParameter("aliveSignalMs", "60000", em)));
+diff --git a/jqm-all/jqm-engine/src/test/java/com/enioka/jqm/tools/MiscTest.java b/jqm-all/jqm-engine/src/test/java/com/enioka/jqm/tools/MiscTest.java
+index 6559c02..75b34bf 100644
+--- a/jqm-all/jqm-engine/src/test/java/com/enioka/jqm/tools/MiscTest.java
++++ b/jqm-all/jqm-engine/src/test/java/com/enioka/jqm/tools/MiscTest.java
+@@ -231 +231 @@
+-        gp.setValue("100");
++        gp.setValue("50");
+@@ -233 +233 @@
+-        gp.setValue("100");
++        gp.setValue("50");
+@@ -252,2 +252,4 @@
+-
+-        engine1.stop();
++        finally
++        {
++            engine1.stop();
++        }
+

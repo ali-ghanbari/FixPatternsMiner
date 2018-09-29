@@ -1,0 +1,16 @@
+diff --git a/src/main/org/jboss/messaging/core/server/impl/QueueImpl.java b/src/main/org/jboss/messaging/core/server/impl/QueueImpl.java
+index 3e528ab..10b7e96 100644
+--- a/src/main/org/jboss/messaging/core/server/impl/QueueImpl.java
++++ b/src/main/org/jboss/messaging/core/server/impl/QueueImpl.java
+@@ -1053 +1053,2 @@
+-      if (consumers.size() == 0)
++      // create the redistributor only once if there are no local consumers
++      if (consumers.size() == 0 && redistributor == null)
+diff --git a/tests/src/org/jboss/messaging/tests/integration/cluster/distribution/MessageRedistributionTest.java b/tests/src/org/jboss/messaging/tests/integration/cluster/distribution/MessageRedistributionTest.java
+index 14d45dc..e2f90a7 100644
+--- a/tests/src/org/jboss/messaging/tests/integration/cluster/distribution/MessageRedistributionTest.java
++++ b/tests/src/org/jboss/messaging/tests/integration/cluster/distribution/MessageRedistributionTest.java
+@@ -40 +40 @@
+-   private static final Logger log = Logger.getLogger(SymmetricClusterTest.class);
++   private static final Logger log = Logger.getLogger(MessageRedistributionTest.class);
+

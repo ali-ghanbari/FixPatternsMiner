@@ -1,0 +1,26 @@
+diff --git a/drools-compiler/src/main/java/org/drools/lang/dsl/DefaultExpander.java b/drools-compiler/src/main/java/org/drools/lang/dsl/DefaultExpander.java
+index 6b5f23a..7ac2c8d 100644
+--- a/drools-compiler/src/main/java/org/drools/lang/dsl/DefaultExpander.java
++++ b/drools-compiler/src/main/java/org/drools/lang/dsl/DefaultExpander.java
+@@ -577 +577 @@
+-                                                                                     c.start ) + c.constraints + ((c.constraints.length() == 0) ? "" : ", ") + expanded[lastExpanded].trim() + expanded[lastPattern].substring( c.end );
++                                                                                     c.start ) + c.constraints + ((c.constraints.trim().length() == 0) ? "" : ", ") + expanded[lastExpanded].trim() + expanded[lastPattern].substring( c.end );
+diff --git a/drools-compiler/src/test/java/org/drools/integrationtests/DslTest.java b/drools-compiler/src/test/java/org/drools/integrationtests/DslTest.java
+index 6a6dc07..45d03a7 100644
+--- a/drools-compiler/src/test/java/org/drools/integrationtests/DslTest.java
++++ b/drools-compiler/src/test/java/org/drools/integrationtests/DslTest.java
+@@ -219,2 +219,3 @@
+-    public void testDSL() {
+-        String dsl = "[when]There is a Person=Person()\n"
++    public void testDSLWithSpaceBetweenParenthesis() {
++        // JBRULES-3438
++        String dsl = "[when]There is a Person=Person( )\n"
+@@ -233 +233,0 @@
+-                // + "System.out.println(\"OK\");\n"
+diff --git a/drools-compiler/src/test/java/org/drools/lang/dsl/DefaultExpanderTest.java b/drools-compiler/src/test/java/org/drools/lang/dsl/DefaultExpanderTest.java
+index 20acff0..434699b 100755
+--- a/drools-compiler/src/test/java/org/drools/lang/dsl/DefaultExpanderTest.java
++++ b/drools-compiler/src/test/java/org/drools/lang/dsl/DefaultExpanderTest.java
+@@ -9 +8,0 @@
+-import org.junit.After;
+

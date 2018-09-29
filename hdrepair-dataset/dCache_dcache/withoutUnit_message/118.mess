@@ -1,0 +1,28 @@
+UniversalSpringCell: Fix argument parsing in the presence of -${<number>}
+
+Due to how the pool batch file is constructed, cell arguments may
+contain unexpanded arguments like -${7}. UniversalSpringCell contains
+code to strip those, however the regular expression used had a bug: It
+used a greedy match for the argument name. Hence an argument string like
+-${7} ..... -${8} would be stripped not only of the unexpanded
+arguments, but also of all arguments in between.
+
+This patch fixes the regular expression and limits the scope to only
+replacing unexpanded arguments with a numeric name.
+
+One side effect of the bug is that the tag.hostname= parameter was not
+always parsed by the pool and thus broke the suppression of replication
+to the same host.
+
+Target: 1.9.1
+Target: 1.9.2
+Target: 1.9.3
+Target: 1.9.4
+Target: 1.9.5
+Target: trunk
+Ticket: #5198
+Acked-by: Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+Patch: http://rb.dcache.org/r/981/
+
+
+

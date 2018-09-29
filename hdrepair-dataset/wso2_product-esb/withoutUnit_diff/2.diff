@@ -1,0 +1,705 @@
+diff --git a/modules/integration/tests-integration/tests-transport/src/test/java/org/wso2/carbon/esb/generic/inbound/transport/test/GenericInboundTransportTestCase.java b/modules/integration/tests-integration/tests-transport/src/test/java/org/wso2/carbon/esb/generic/inbound/transport/test/GenericInboundTransportTestCase.java
+index 397865d..762a16f 100644
+--- a/modules/integration/tests-integration/tests-transport/src/test/java/org/wso2/carbon/esb/generic/inbound/transport/test/GenericInboundTransportTestCase.java
++++ b/modules/integration/tests-integration/tests-transport/src/test/java/org/wso2/carbon/esb/generic/inbound/transport/test/GenericInboundTransportTestCase.java
+@@ -101 +101 @@
+-	public void testWithImplemetationClass() throws Exception {
++	public void testWithoutImplementationClass() throws Exception {
+diff --git a/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/axis2.xml b/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/axis2.xml
+index 7cbcd29..5639e57 100644
+--- a/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/axis2.xml
++++ b/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/axis2.xml
+@@ -21 +21 @@
+-    
++
+@@ -61,2 +61,2 @@
+-    <parameter name="userAgent" locked="true">WSO2 ESB 4.7.0</parameter>
+-    <parameter name="server" locked="true">WSO2 ESB 4.7.0</parameter>
++    <parameter name="userAgent" locked="true">WSO2 ESB 4.9.0</parameter>
++    <parameter name="server" locked="true">WSO2 ESB 4.9.0</parameter>
+@@ -67 +67 @@
+-    
++
+@@ -156 +156 @@
+-                          class="org.apache.axis2.transport.http.XFormURLEncodedFormatter"/>
++                          class="org.apache.synapse.commons.formatters.XFormURLEncodedFormatter"/>
+@@ -162 +162 @@
+-                         class="org.apache.axis2.transport.http.SOAPMessageFormatter"/>
++                          class="org.apache.axis2.transport.http.SOAPMessageFormatter"/>
+@@ -164 +164 @@
+-                         class="org.apache.axis2.transport.http.SOAPMessageFormatter"/>
++                          class="org.apache.axis2.transport.http.SOAPMessageFormatter"/>
+@@ -166 +166 @@
+-                         class="org.apache.axis2.format.PlainTextFormatter"/>
++                          class="org.apache.axis2.format.PlainTextFormatter"/>
+@@ -169,2 +169,2 @@
+-        <!--<messageFormatter contentType="application/json"-->
+-                          <!--class="org.apache.axis2.json.JSONMessageFormatter"/>-->
++        <!--messageFormatter contentType="application/json"
++                          class="org.apache.synapse.commons.json.JsonFormatter"/-->
+@@ -172 +172,5 @@
+-                          class="org.apache.axis2.json.JSONStreamFormatter"/>
++                          class="org.apache.synapse.commons.json.JsonStreamFormatter"/>
++        <!--messageFormatter contentType="application/json"
++                          class="org.apache.axis2.json.JSONMessageFormatter"/-->
++        <!--messageFormatter contentType="application/json"
++                          class="org.apache.axis2.json.JSONStreamFormatter"/-->
+@@ -175,6 +178,0 @@
+-        <messageFormatter contentType="text/javascript"
+-                          class="org.apache.axis2.json.JSONMessageFormatter"/>
+-        <messageFormatter contentType="text/html"
+-                        class="org.wso2.carbon.relay.ExpandingMessageFormatter"/>                          
+-        <!--messageFormatter contentType="text/javascript"
+-                          class="org.apache.axis2.json.JSONStreamFormatter"/-->
+@@ -194 +192 @@
+-	    <!--messageFormatter contentType="x-application/hessian"
++        <!--messageFormatter contentType="x-application/hessian"
+@@ -220,2 +218,2 @@
+-        <!--<messageBuilder contentType="application/json"-->
+-                        <!--class="org.apache.axis2.json.JSONBuilder"/>-->
++        <!--messageBuilder contentType="application/json"
++                        class="org.apache.synapse.commons.json.JsonBuilder"/-->
+@@ -223 +221,5 @@
+-                        class="org.apache.axis2.json.JSONStreamBuilder"/>
++                        class="org.apache.synapse.commons.json.JsonStreamBuilder"/>
++        <!--messageBuilder contentType="application/json"
++                        class="org.apache.axis2.json.JSONBuilder"/-->
++        <!--messageBuilder contentType="application/json"
++                        class="org.apache.axis2.json.JSONStreamBuilder"/-->
+@@ -226,8 +228,3 @@
+-        <messageBuilder contentType="text/javascript"
+-                        class="org.apache.axis2.json.JSONBuilder"/>
+-        <!--messageBuilder contentType="text/javascript"
+-                        class="org.apache.axis2.json.JSONStreamBuilder"/-->
+-        <messageBuilder contentType="text/html" 
+-                       class="org.wso2.carbon.relay.BinaryRelayBuilder"/> 
+-	<!--messageBuilder contentType="application/xml"
+-                        class="org.wso2.carbon.relay.BinaryRelayBuilder"/-->
++
++        <!--messageBuilder contentType="application/xml"
++                            class="org.wso2.carbon.relay.BinaryRelayBuilder"/-->
+@@ -258 +255 @@
+-     <transportReceiver name="http" class="org.apache.synapse.transport.passthru.PassThroughHttpListener">
++    <transportReceiver name="http" class="org.apache.synapse.transport.passthru.PassThroughHttpListener">
+@@ -263 +260 @@
+-        <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.transport.nhttp.api.PassThroughNHttpGetProcessor</parameter>
++        <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.mediation.transport.handlers.PassThroughNHttpGetProcessor</parameter>
+@@ -267,13 +264 @@
+-    <!-- the non blocking http transport based on HttpCore + NIO extensions -->
+-    <!--transportReceiver name="http" class="org.apache.synapse.transport.nhttp.HttpCoreNIOListener">
+-        <parameter name="port" locked="false">8280</parameter>
+-        <parameter name="non-blocking" locked="false">true</parameter> -->
+-        <!--parameter name="bind-address" locked="false">hostname or IP address</parameter-->
+-        <!--parameter name="WSDLEPRPrefix" locked="false">https://apachehost:port/somepath</parameter-->
+-        <!--<parameter name="httpGetProcessor" locked="false">org.wso2.carbon.transport.nhttp.api.NHttpGetProcessor</parameter> -->
+-        <!--<parameter name="priorityConfigFile" locked="false">location of priority configuration file</parameter>-->
+-        <!--parameter name="disableRestServiceDispatching" locked="false">true</parameter>
+-    </transportReceiver-->
+-
+-    <!-- the non blocking https transport based on HttpCore + SSL-NIO extensions -->
+-    <!--transportReceiver name="https" class="org.apache.synapse.transport.nhttp.HttpCoreNIOSSLListener">
++    <transportReceiver name="https" class="org.apache.synapse.transport.passthru.PassThroughHttpSSLListener">
+@@ -281 +266 @@
+-        <parameter name="non-blocking" locked="false">true</parameter> -->
++        <parameter name="non-blocking" locked="false">true</parameter>
+@@ -284,28 +269 @@
+-        <!--<parameter name="priorityConfigFile" locked="false">location of priority configuration file</parameter>-->
+-        <!--parameter name="httpGetProcessor" locked="false">org.wso2.carbon.transport.nhttp.api.NHttpGetProcessor</parameter>
+-        <parameter name="disableRestServiceDispatching" locked="false">true</parameter>
+-        <parameter name="keystore" locked="false">
+-            <KeyStore>
+-                <Location>repository/resources/security/wso2carbon.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-                <KeyPassword>wso2carbon</KeyPassword>
+-            </KeyStore>
+-        </parameter>
+-        <parameter name="truststore" locked="false">
+-            <TrustStore>
+-                <Location>repository/resources/security/client-truststore.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-            </TrustStore>
+-        </parameter -->
+-        <!--<parameter name="SSLVerifyClient">require</parameter>
+-            supports optional|require or defaults to none -->
+-    <!--/transportReceiver -->
+-
+-      <transportReceiver name="https" class="org.apache.synapse.transport.passthru.PassThroughHttpSSLListener">
+-        <parameter name="port" locked="false">8243</parameter>
+-        <parameter name="non-blocking" locked="false">true</parameter>-->
+-        <!--parameter name="bind-address" locked="false">hostname or IP address</parameter-->
+-        <!--parameter name="WSDLEPRPrefix" locked="false">https://apachehost:port/somepath</parameter-->
+- 	<parameter name="httpGetProcessor" locked="false">org.wso2.carbon.transport.nhttp.api.PassThroughNHttpGetProcessor</parameter>
++        <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.mediation.transport.handlers.PassThroughNHttpGetProcessor</parameter>
+@@ -331,34 +289 @@
+-   <transportSender name="local" class="org.apache.axis2.transport.local.NonBlockingLocalTransportSender"/>
+-    <!--  <transportReceiver name="local" class="org.wso2.carbon.core.transports.local.CarbonLocalTransportReceiver"/> -->
+-
+-    <!-- Pass-through HTTP Transport Receivers -->
+-    <!--<transportReceiver name="passthru-http" class="org.wso2.carbon.transport.passthru.PassThroughHttpListener">
+-        <parameter name="port">8281</parameter>
+-        <parameter name="non-blocking">true</parameter>-->
+-        <!--parameter name="bind-address" locked="false">hostname or IP address</parameter-->
+-        <!--parameter name="WSDLEPRPrefix" locked="false">https://apachehost:port/somepath</parameter-->
+-    <!--</transportReceiver>-->
+-
+-    <!--<transportReceiver name="passthru-https" class="org.wso2.carbon.transport.passthru.PassThroughHttpSSLListener">
+-        <parameter name="port" locked="false">8244</parameter>
+-        <parameter name="non-blocking" locked="false">true</parameter>-->
+-        <!--parameter name="bind-address" locked="false">hostname or IP address</parameter-->
+-        <!--parameter name="WSDLEPRPrefix" locked="false">https://apachehost:port/somepath</parameter-->
+-        <!--<parameter name="keystore" locked="false">
+-            <KeyStore>
+-                <Location>repository/resources/security/wso2carbon.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-                <KeyPassword>wso2carbon</KeyPassword>
+-            </KeyStore>
+-        </parameter>
+-        <parameter name="truststore" locked="false">
+-            <TrustStore>
+-                <Location>repository/resources/security/client-truststore.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-            </TrustStore>
+-        </parameter>-->
+-        <!--<parameter name="SSLVerifyClient">require</parameter>
+-            supports optional|require or defaults to none -->
+-    <!--</transportReceiver>-->
++    <!--    <transportReceiver name="local" class="org.wso2.carbon.core.transports.local.CarbonLocalTransportReceiver"/>-->
+@@ -369,7 +294,2 @@
+-        <!-- configure any optional POP3/IMAP properties
+-        check com.sun.mail.pop3 and com.sun.mail.imap package documentation for more details-->
+-    <!--</transportReceiver>-->
+-
+-    <!--<transportReceiver name="admin/https" class="org.wso2.esb.transport.tomcat.HttpsTransportListener">-->
+-        <!--<parameter name="port" locked="false">9444</parameter>-->
+-        <!--<parameter name="non-blocking" locked="false">true</parameter>-->
++    <!-- configure any optional POP3/IMAP properties
++    check com.sun.mail.pop3 and com.sun.mail.imap package documentation for more details-->
+@@ -454,30 +373,0 @@
+-    <!--<transportReceiver name="http"-->
+-                       <!--class="org.wso2.carbon.core.transports.http.HttpTransportListener">-->
+-        <!--
+-           Uncomment the following if you are deploying this within an application server. You
+-           need to specify the HTTP port of the application server
+-        -->
+-        <!--<parameter name="port">9763</parameter>-->
+-
+-        <!--
+-       Uncomment the following to enable Apache2 mod_proxy. The port on the Apache server is 80
+-       in this case.
+-        -->
+-        <!--<parameter name="proxyPort">80</parameter>-->
+-    <!--</transportReceiver>-->
+-
+-    <!--<transportReceiver name="https"-->
+-                       <!--class="org.wso2.carbon.core.transports.http.HttpsTransportListener">-->
+-        <!--
+-           Uncomment the following if you are deploying this within an application server. You
+-           need to specify the HTTPS port of the application server
+-        -->
+-        <!--<parameter name="port">9443</parameter>-->
+-
+-        <!--
+-       Uncomment the following to enable Apache2 mod_proxy. The port on the Apache server is 443
+-       in this case.
+-        -->
+-        <!--<parameter name="proxyPort">443</parameter>-->
+-    <!--</transportReceiver>-->
+-    
+@@ -495,0 +386,4 @@
++        <!--<parameter name="warnOnHTTP500" locked="false">*</parameter>-->
++        <!--parameter name="http.proxyHost" locked="false">localhost</parameter-->
++        <!--<parameter name="http.proxyPort" locked="false">3128</parameter>-->
++        <!--<parameter name="http.nonProxyHosts" locked="false">localhost|moon|sun</parameter>-->
+@@ -497,42 +390,0 @@
+-
+-    <!-- the non-blocking http transport based on HttpCore + NIO extensions -->
+-    <!--transportSender name="http" class="org.apache.synapse.transport.nhttp.HttpCoreNIOSender">
+-        <parameter name="non-blocking" locked="false">true</parameter>
+-    </transportSender -->
+-    <!--transportSender name="https" class="org.apache.synapse.transport.nhttp.HttpCoreNIOSSLSender">
+-        <parameter name="non-blocking" locked="false">true</parameter>
+-        <parameter name="keystore" locked="false">
+-            <KeyStore>
+-                <Location>repository/resources/security/wso2carbon.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-                <KeyPassword>wso2carbon</KeyPassword>
+-            </KeyStore>
+-        </parameter>
+-        <parameter name="truststore" locked="false">
+-            <TrustStore>
+-                <Location>repository/resources/security/client-truststore.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-            </TrustStore>
+-        </parameter> -->
+-        <!--<parameter name="HostnameVerifier">DefaultAndLocalhost</parameter>-->
+-            <!--supports Strict|AllowAll|DefaultAndLocalhost or the default if none specified -->
+-    <!--/transportSender -->
+-
+-    
+-
+-    <!--  <transportSender name="local" class="org.wso2.carbon.core.transports.local.CarbonLocalTransportSender"/> -->
+-
+-    <!--Uncomment this local transport to use local transport in mediation flow-->
+-    <!--<transportSender name="local" class="org.apache.axis2.transport.local.NonBlockingLocalTransportSender"/>-->
+-
+-
+-    <!-- Pass-through HTTP Transport Senders -->
+-    <!--<transportSender name="passthru-http"  class="org.wso2.carbon.transport.passthru.PassThroughHttpSender">
+-        <parameter name="non-blocking" locked="false">true</parameter>
+-        <parameter name="warnOnHTTP500" locked="false">*</parameter>-->
+-        <!--parameter name="http.proxyHost" locked="false">localhost</parameter>
+-        <parameter name="http.proxyPort" locked="false">3128</parameter>
+-        <parameter name="http.nonProxyHosts" locked="false">localhost|moon|sun</parameter-->
+-    <!--</transportSender>-->
+@@ -558 +410 @@
+-            <!--supports Strict|AllowAll|DefaultAndLocalhost or the default if none specified -->
++        <!--supports Strict|AllowAll|DefaultAndLocalhost or the default if none specified -->
+@@ -561,20 +413 @@
+-    <!--<transportSender name="passthru-https" class="org.wso2.carbon.transport.passthru.PassThroughHttpSSLSender">
+-        <parameter name="non-blocking" locked="false">true</parameter>
+-        <parameter name="keystore" locked="false">
+-            <KeyStore>
+-                <Location>repository/resources/security/wso2carbon.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-                <KeyPassword>wso2carbon</KeyPassword>
+-            </KeyStore>
+-        </parameter>
+-        <parameter name="truststore" locked="false">
+-            <TrustStore>
+-                <Location>repository/resources/security/client-truststore.jks</Location>
+-                <Type>JKS</Type>
+-                <Password>wso2carbon</Password>
+-            </TrustStore>
+-        </parameter>-->
+-        <!--<parameter name="HostnameVerifier">DefaultAndLocalhost</parameter>-->
+-            <!--supports Strict|AllowAll|DefaultAndLocalhost or the default if none specified -->
+-    <!--</transportSender>-->
++    <!--    <transportSender name="local" class="org.wso2.carbon.core.transports.local.CarbonLocalTransportSender"/>-->
+@@ -582,2 +415,5 @@
+-   <!-- uncomment this and configure to use connection pools for sending messages>
+-     <transportSender name="jms" class="org.apache.axis2.transport.jms.JMSSender"/-->
++    <!--Uncomment this local transport to use local transport in mediation flow-->
++    <transportSender name="local" class="org.apache.axis2.transport.local.NonBlockingLocalTransportSender"/>
++
++    <!-- uncomment this and configure to use connection pools for sending messages>
++      <transportSender name="jms" class="org.apache.axis2.transport.jms.JMSSender"/-->
+@@ -603,15 +438,0 @@
+-    <!--<transportSender name="http"-->
+-                     <!--class="org.apache.axis2.transport.http.CommonsHTTPTransportSender">-->
+-        <!--<parameter name="PROTOCOL">HTTP/1.1</parameter>-->
+-        <!--<parameter name="Transfer-Encoding">chunked</parameter>-->
+-        <!-- This parameter has been added to overcome problems encounted in SOAP action parameter -->
+-        <!--<parameter name="OmitSOAP12Action">true</parameter>-->
+-    <!--</transportSender>-->
+-    <!--<transportSender name="https"-->
+-                     <!--class="org.apache.axis2.transport.http.CommonsHTTPTransportSender">-->
+-        <!--<parameter name="PROTOCOL">HTTP/1.1</parameter>-->
+-        <!--<parameter name="Transfer-Encoding">chunked</parameter>-->
+-        <!-- This parameter has been added to overcome problems encounted in SOAP action parameter -->
+-        <!--<parameter name="OmitSOAP12Action">true</parameter>-->
+-    <!--</transportSender>-->
+-    
+@@ -640 +461,2 @@
+-    <clustering class="org.apache.axis2.clustering.tribes.TribesClusteringAgent" enable="false">
++    <clustering class="org.wso2.carbon.core.clustering.hazelcast.HazelcastClusteringAgent"
++                enable="false">
+@@ -662 +484,3 @@
+-        <parameter name="membershipScheme">multicast</parameter>
++        <parameter name="membershipScheme">wka</parameter>
++        <!--<parameter name="licenseKey">xxx</parameter>-->
++        <!--<parameter name="mgtCenterURL">http://localhost:8081/mancenter/</parameter>-->
+@@ -670,16 +493,0 @@
+-        <!--
+-           When a Web service request is received, and processed, before the response is sent to the
+-           client, should we update the states of all members in the cluster? If the value of
+-           this parameter is set to "true", the response to the client will be sent only after
+-           all the members have been updated. Obviously, this can be time consuming. In some cases,
+-           such this overhead may not be acceptable, in which case the value of this parameter
+-           should be set to "false"
+-        -->
+-        <parameter name="synchronizeAll">true</parameter>
+-
+-        <!--
+-          The maximum number of times we need to retry to send a message to a particular node
+-          before giving up and considering that node to be faulty
+-        -->
+-        <parameter name="maxRetries">10</parameter>
+-
+@@ -687 +495 @@
+-        <parameter name="mcastAddress">228.0.0.4</parameter>
++        <!--<parameter name="mcastAddress">228.0.0.4</parameter>-->
+@@ -692,2 +500 @@
+-        <!-- The frequency of sending membership multicast messages (in ms) -->
+-        <parameter name="mcastFrequency">500</parameter>
++        <parameter name="mcastTTL">100</parameter>
+@@ -695,4 +502 @@
+-        <!-- The time interval within which if a member does not respond, the member will be
+-         deemed to have left the group (in ms)
+-         -->
+-        <parameter name="memberDropTime">3000</parameter>
++        <parameter name="mcastTimeout">60</parameter>
+@@ -704,2 +508,3 @@
+-        <!--parameter name="mcastBindAddress">127.0.0.1</parameter-->
+-
++        <!--
++            <parameter name="mcastBindAddress">127.0.0.1</parameter>
++        -->
+@@ -707 +512,11 @@
+-        <!--parameter name="localMemberHost">127.0.0.1</parameter-->
++
++        <parameter name="localMemberHost">127.0.0.1</parameter>
++
++        <!--
++            The bind adress of this member. The difference between localMemberHost & localMemberBindAddress
++            is that localMemberHost is the one that is advertised by this member, while localMemberBindAddress
++            is the address to which this member is bound to.
++        -->
++        <!--
++        <parameter name="localMemberBindAddress">127.0.0.1</parameter>
++        -->
+@@ -713 +528 @@
+-        <parameter name="localMemberPort">4000</parameter>
++        <parameter name="localMemberPort">4100</parameter>
+@@ -716 +531,3 @@
+-        Preserve message ordering. This will be done according to sender order.
++            The bind port of this member. The difference between localMemberPort & localMemberBindPort
++            is that localMemberPort is the one that is advertised by this member, while localMemberBindPort
++            is the port to which this member is bound to.
+@@ -718,2 +534,0 @@
+-        <parameter name="preserveMessageOrder">true</parameter>
+-
+@@ -721 +536 @@
+-        Maintain atmost-once message processing semantics
++        <parameter name="localMemberBindPort">4001</parameter>
+@@ -723 +537,0 @@
+-        <parameter name="atmostOnceMessageSemantics">false</parameter>
+@@ -730,0 +545,7 @@
++            <!-- Manger Setup with Port Mapping-->
++            <!--property name="port.mapping.8280" value="9764"/>
++                <property name="port.mapping.8243" value="9444"/>
++                <property name="subDomain" value="mgt"/-->
++
++            <!-- Worker Setup-->
++            <!--property name="subDomain" value="worker"/-->
+@@ -742,4 +562,0 @@
+-            <member>
+-                <hostName>127.0.0.1</hostName>
+-                <port>4001</port>
+-            </member>
+@@ -754,3 +571,5 @@
+-            <applicationDomain name="apache.axis2.application.domain"
+-                               description="Axis2 group"
+-                               agent="org.apache.axis2.clustering.management.DefaultGroupManagementAgent"/>
++            <applicationDomain name="wso2.esb.domain"
++                               description="ESB group"
++                               agent="org.wso2.carbon.core.clustering.hazelcast.HazelcastGroupManagementAgent"
++                               subDomain="worker"
++                               port="2222"/>
+@@ -758,40 +576,0 @@
+-
+-        <!--
+-           This interface is responsible for handling management of a specific node in the cluster
+-           The "enable" attribute indicates whether Node management has been enabled
+-        -->
+-        <nodeManager class="org.apache.axis2.clustering.management.DefaultNodeManager"
+-                     enable="true"/>
+-
+-        <!--
+-           This interface is responsible for handling state replication. The property changes in
+-           the Axis2 context hierarchy in this node, are propagated to all other nodes in the cluster.
+-
+-           The "excludes" patterns can be used to specify the prefixes (e.g. local_*) or
+-           suffixes (e.g. *_local) of the properties to be excluded from replication. The pattern
+-           "*" indicates that all properties in a particular context should not be replicated.
+-
+-            The "enable" attribute indicates whether context replication has been enabled
+-        -->
+-        <stateManager class="org.apache.axis2.clustering.state.DefaultStateManager"
+-                      enable="false">
+-            <replication>
+-                <defaults>
+-                    <exclude name="local_*"/>
+-                    <exclude name="LOCAL_*"/>
+-                </defaults>
+-                <context class="org.apache.axis2.context.ConfigurationContext">
+-                    <exclude name="local_*"/>
+-                    <exclude name="UseAsyncOperations"/>
+-                    <exclude name="SequencePropertyBeanMap"/>
+-                </context>
+-                <context class="org.apache.axis2.context.ServiceGroupContext">
+-                    <exclude name="local_*"/>
+-                    <exclude name="my.sandesha.*"/>
+-                </context>
+-                <context class="org.apache.axis2.context.ServiceContext">
+-                    <exclude name="local_*"/>
+-                    <exclude name="my.sandesha.*"/>
+-                </context>
+-            </replication>
+-        </stateManager>
+@@ -827 +606,4 @@
+-        <phase name="MsgInObservation"/>
++        <phase name="MsgInObservation">
++            <handler name="TraceMessageBuilderDispatchHandler"
++                     class="org.apache.synapse.transport.passthru.util.TraceMessageBuilderDispatchHandler"/>
++        </phase>
+@@ -833,0 +616,4 @@
++            <handler name="CarbonContextConfigurator"
++                     class="org.wso2.carbon.mediation.initializer.handler.CarbonContextConfigurator"/>
++            <handler name="RelaySecuirtyMessageBuilderDispatchandler"
++                     class="org.apache.synapse.transport.passthru.util.RelaySecuirtyMessageBuilderDispatchandler"/>
+@@ -842,3 +627,0 @@
+-           <handler name="RelaySecuirtyMessageBuilderDispatchandler"
+-                     class="org.apache.synapse.transport.passthru.util.RelaySecuirtyMessageBuilderDispatchandler"/>
+-
+@@ -856 +639 @@
+-                     <!--class="org.wso2.carbon.utils.logging.handler.TenantDomainSetter"/>-->
++            <!--class="org.wso2.carbon.utils.logging.handler.TenantDomainSetter"/>-->
+@@ -898 +681 @@
+-		<handler name="RelaySecuirtyMessageBuilderDispatchandler"
++            <handler name="RelaySecuirtyMessageBuilderDispatchandler"
+@@ -900,2 +683 @@
+-	</phase>
+-
++        </phase>
+@@ -973,0 +756 @@
++        <phase name="Transport"/>
+diff --git a/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/carbon.xml b/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/carbon.xml
+index d3983f0..0e08b1a 100644
+--- a/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/carbon.xml
++++ b/modules/integration/tests-integration/tests-transport/src/test/resources/artifacts/ESB/local/carbon.xml
+@@ -60,2 +60,2 @@
+-    <!--<ServerURL>local:/${carbon.context}/services/</ServerURL>-->
+-    
++    <!--    <ServerURL>local:/${carbon.context}/services/</ServerURL>-->
++
+@@ -63,5 +63,5 @@
+-    
+-     <!--
+-     The URL of the index page. This is where the user will be redirected after signing in to the
+-     carbon server.
+-     -->
++
++    <!--
++    The URL of the index page. This is where the user will be redirected after signing in to the
++    carbon server.
++    -->
+@@ -89 +89 @@
+-       Webapp context root of WSO2 Carbon.
++       Webapp context root of WSO2 Carbon management console.
+@@ -91,0 +92,14 @@
++
++    <!--
++    	Proxy context path is a useful parameter to add a proxy path when a Carbon server is fronted by reverse proxy. In addtion
++        to the proxy host and proxy port this parameter allows you add a path component to external URLs. e.g.
++     		URL of the Carbon server -> https://10.100.1.1:9443/carbon
++   		URL of the reverse proxy -> https://prod.abc.com/appserver/carbon
++
++   	appserver - proxy context path. This specially required whenever you are generating URLs to displace in
++   	Carbon UI components.
++    -->
++    <!--
++    	<MgtProxyContextPath></MgtProxyContextPath>
++    	<ProxyContextPath></ProxyContextPath>
++    -->
+@@ -131,15 +145,7 @@
+-	
+-	    <!-- Embedded Qpid broker ports -->
+-        <EmbeddedQpid>
+-	    <!-- Broker TCP Port -->
+-            <BrokerPort>5672</BrokerPort>
+-	    <!-- SSL Port -->
+-            <BrokerSSLPort>8672</BrokerSSLPort>
+-        </EmbeddedQpid>
+-	
+-	<!-- 
+-             Override datasources JNDIproviderPort defined in bps.xml and datasources.properties files
+-	-->
+-	<!--<JNDIProviderPort>2199</JNDIProviderPort>-->
+-	<!--Override receive port of thrift based entitlement service.-->
+-	<ThriftEntitlementReceivePort>10500</ThriftEntitlementReceivePort>
++
++        <!--
++                 Override datasources JNDIproviderPort defined in bps.xml and datasources.properties files
++        -->
++        <!--<JNDIProviderPort>2199</JNDIProviderPort>-->
++        <!--Override receive port of thrift based entitlement service.-->
++        <ThriftEntitlementReceivePort>10500</ThriftEntitlementReceivePort>
+@@ -153 +159 @@
+-        <!-- 
++        <!--
+@@ -157,2 +163,2 @@
+-        <!-- 
+-             The restrictions that are done to various JNDI Contexts in a Multi-tenant environment 
++        <!--
++             The restrictions that are done to various JNDI Contexts in a Multi-tenant environment
+@@ -174 +180 @@
+-            <!-- 
++            <!--
+@@ -187,2 +193,2 @@
+-            <!-- 
+-                 All other contexts not mentioned above will be available on a per-tenant basis 
++            <!--
++                 All other contexts not mentioned above will be available on a per-tenant basis
+@@ -216 +221,0 @@
+-        <PartialUpdate>false</PartialUpdate>
+@@ -217,0 +223,8 @@
++
++    <!--
++     Caching related configurations
++    -->
++    <Cache>
++        <!-- Default cache timeout in minutes -->
++        <DefaultCacheTimeout>15</DefaultCacheTimeout>
++    </Cache>
+@@ -238 +251 @@
+-         executions. 
++         executions.
+@@ -272,4 +285,4 @@
+-	
+-	<!--WARNING-Use With Care! Uncommenting bellow parameter would expose all AdminServices in HTTP transport.
+-	With HTTP transport your credentials and data routed in public channels are vulnerable for sniffing attacks. 
+-	Use bellow parameter ONLY if your communication channels are confirmed to be secured by other means -->
++
++        <!--WARNING-Use With Care! Uncommenting bellow parameter would expose all AdminServices in HTTP transport.
++        With HTTP transport your credentials and data routed in public channels are vulnerable for sniffing attacks.
++        Use bellow parameter ONLY if your communication channels are confirmed to be secured by other means -->
+@@ -294,5 +307,5 @@
+-    
+-    <!-- 
+-      Enable following config to allow Emails as usernames. 	
+-    -->	    	
+-    <!--EnableEmailUserName>true</EnableEmailUserName-->	
++
++    <!--
++      Enable following config to allow Emails as usernames.
++    -->
++    <!--EnableEmailUserName>true</EnableEmailUserName-->
+@@ -320,16 +332,0 @@
+-		
+-		 <!--
+-			Encrypt Decrypt Store will be used for encrypting and decrypting
+-		-->
+-        <RegistryKeyStore>
+-            <!-- Keystore file location-->
+-            <Location>${carbon.home}/repository/resources/security/wso2carbon.jks</Location>
+-            <!-- Keystore type (JKS/PKCS12 etc.)-->
+-            <Type>JKS</Type>
+-            <!-- Keystore password-->
+-            <Password>wso2carbon</Password>
+-            <!-- Private Key alias-->
+-            <KeyAlias>wso2carbon</KeyAlias>
+-            <!-- Private Key password-->
+-            <KeyPassword>wso2carbon</KeyPassword>
+-        </RegistryKeyStore>
+@@ -352 +349 @@
+-            java.net.Authenticator to make it possible to authenticate to given servers and 
++            java.net.Authenticator to make it possible to authenticate to given servers and
+@@ -356 +353 @@
+-            <!-- 
++            <!--
+@@ -362,15 +359,15 @@
+-                <!-- 
+-                    the pattern that would match a subset of URLs for which this authenticator
+-                    would be used
+-                -->
+-                <!-- <Pattern>regularExpression</Pattern> -->
+-                <!-- 
+-                    the type of this authenticator. Allowed values are:
+-                    1. server
+-                    2. proxy
+-                -->
+-                <!-- <Type>proxy</Type> -->
+-                <!-- the username used to log in to server/proxy -->
+-                <!-- <Username>username</Username> -->
+-                <!-- the password used to log in to server/proxy -->
+-                <!-- <Password>password</Password> -->
++            <!--
++                the pattern that would match a subset of URLs for which this authenticator
++                would be used
++            -->
++            <!-- <Pattern>regularExpression</Pattern> -->
++            <!--
++                the type of this authenticator. Allowed values are:
++                1. server
++                2. proxy
++            -->
++            <!-- <Type>proxy</Type> -->
++            <!-- the username used to log in to server/proxy -->
++            <!-- <Username>username</Username> -->
++            <!-- the password used to log in to server/proxy -->
++            <!-- <Password>password</Password> -->
+@@ -391,2 +388,2 @@
+-	<!--Option to disable storing of tokens issued by STS-->
+-	<DisableTokenStore>false</DisableTokenStore>
++        <!--Option to disable storing of tokens issued by STS-->
++        <DisableTokenStore>false</DisableTokenStore>
+@@ -394,5 +391,5 @@
+-	<!--
+-	 Security token store class name. If this is not set, default class will be
+-	 org.wso2.carbon.security.util.SecurityTokenStore
+-	-->
+-	<!--TokenStoreClassName>org.wso2.carbon.identity.sts.store.DBTokenStore</TokenStoreClassName-->
++        <!--
++         Security token store class name. If this is not set, default class will be
++         org.wso2.carbon.security.util.SecurityTokenStore
++        -->
++        <!--TokenStoreClassName>org.wso2.carbon.identity.sts.store.DBTokenStore</TokenStoreClassName-->
+@@ -487 +484 @@
+-       
++
+@@ -550 +547 @@
+-    
++
+@@ -572 +569 @@
+-        name="baseDir" - The base directory for H2 databases; for all servers  
++        name="baseDir" - The base directory for H2 databases; for all servers
+@@ -599,2 +596,2 @@
+-	<RepositoryName>default repository</RepositoryName>
+-	<RepositoryURL>${p2.repo.url}</RepositoryURL>
++        <RepositoryName>default repository</RepositoryName>
++        <RepositoryURL>http://dist.wso2.org/p2/carbon/releases/4.3.0</RepositoryURL>
+@@ -606,11 +603 @@
+-   <APIManagement>
+-	
+-	<!--Uses the embedded API Manager by default. If you want to use an external 
+-	API Manager instance to manage APIs, configure below  externalAPIManager-->
+-	
+-	<Enabled>true</Enabled>
+-	
+-	<!--Uncomment and configure API Gateway and 
+-	Publisher URLs to use external API Manager instance-->
+-	
+-	<!--ExternalAPIManager>
++    <APIManagement>
+@@ -618,2 +605,2 @@
+-		<APIGatewayURL>http://localhost:8281</APIGatewayURL>
+-		<APIPublisherURL>http://localhost:8281/publisher</APIPublisherURL>
++        <!--Uses the embedded API Manager by default. If you want to use an external
++        API Manager instance to manage APIs, configure below  externalAPIManager-->
+@@ -621,4 +608,14 @@
+-	</ExternalAPIManager-->
+-	
+-	<LoadAPIContextsInServerStartup>true</LoadAPIContextsInServerStartup>
+-   </APIManagement>
++        <Enabled>true</Enabled>
++
++        <!--Uncomment and configure API Gateway and
++        Publisher URLs to use external API Manager instance-->
++
++        <!--ExternalAPIManager>
++
++            <APIGatewayURL>http://localhost:8281</APIGatewayURL>
++            <APIPublisherURL>http://localhost:8281/publisher</APIPublisherURL>
++
++        </ExternalAPIManager-->
++
++        <LoadAPIContextsInServerStartup>true</LoadAPIContextsInServerStartup>
++    </APIManagement>
+

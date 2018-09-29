@@ -1,0 +1,42 @@
+diff --git a/weaver/testdata/NonStaticBeforeFancyHelloWorld.txt b/weaver/testdata/NonStaticBeforeFancyHelloWorld.txt
+index 8482196..9fc3690 100644
+--- a/weaver/testdata/NonStaticBeforeFancyHelloWorld.txt
++++ b/weaver/testdata/NonStaticBeforeFancyHelloWorld.txt
+@@ -13 +13 @@
+-    | |             GETSTATIC Aspect.ajc$perSingletonInstance LAspect;
++    | |             INVOKESTATIC Aspect.aspectOf ()LAspect;
+@@ -78,0 +79 @@
++
+diff --git a/weaver/testdata/NonStaticBeforeHelloWorld.txt b/weaver/testdata/NonStaticBeforeHelloWorld.txt
+index 2786f08..b8b7fb0 100644
+--- a/weaver/testdata/NonStaticBeforeHelloWorld.txt
++++ b/weaver/testdata/NonStaticBeforeHelloWorld.txt
+@@ -13 +13 @@
+-    | |             GETSTATIC Aspect.ajc$perSingletonInstance LAspect;
++    | |             INVOKESTATIC Aspect.aspectOf ()LAspect;
+@@ -23,0 +24 @@
++
+diff --git a/weaver/testdata/TraceJarHello.txt b/weaver/testdata/TraceJarHello.txt
+index 0741a7a..6d96a90 100644
+--- a/weaver/testdata/TraceJarHello.txt
++++ b/weaver/testdata/TraceJarHello.txt
+@@ -65 +65 @@
+-    |               GETSTATIC MyTrace.ajc$perSingletonInstance LMyTrace;
++    |               INVOKESTATIC MyTrace.aspectOf ()LMyTrace;
+@@ -68 +68 @@
+-    |               GETSTATIC MyTrace.ajc$perSingletonInstance LMyTrace;
++    |               INVOKESTATIC MyTrace.aspectOf ()LMyTrace;
+@@ -93 +93 @@
+-    |               GETSTATIC MyTrace.ajc$perSingletonInstance LMyTrace;
++    |               INVOKESTATIC MyTrace.aspectOf ()LMyTrace;
+@@ -116 +116 @@
+-                    GETSTATIC MyTrace.ajc$perSingletonInstance LMyTrace;
++                    INVOKESTATIC MyTrace.aspectOf ()LMyTrace;
+diff --git a/weaver/testsrc/Aspect.java b/weaver/testsrc/Aspect.java
+index bdb8108..1447c53 100644
+--- a/weaver/testsrc/Aspect.java
++++ b/weaver/testsrc/Aspect.java
+@@ -331,0 +332,2 @@
++		if (ajc$perSingletonInstance != null) return ajc$perSingletonInstance;
++		
+

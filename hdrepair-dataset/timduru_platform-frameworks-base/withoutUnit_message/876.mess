@@ -1,0 +1,10 @@
+Fix wobbly spinners
+
+Some progress bars use AnimatedRotateDrawable, which suffered
+from the same bug as AnimationDrawable (until a recent fix). The
+code would not account for the left/top offset of the drawable in its view,
+so it would rotate the drawable around the wrong center, causing it to
+wobble and not get erased properly.
+
+Change-Id: I3f34f797e595973d9eb1d952d92026c769c7ec0a
+

@@ -1,0 +1,20 @@
+diff --git a/jqm-all/jqm-client/jqm-api-client-hibernate/src/main/java/com/enioka/jqm/api/HibernateClient.java b/jqm-all/jqm-client/jqm-api-client-hibernate/src/main/java/com/enioka/jqm/api/HibernateClient.java
+index fc9ed38..f04ea30 100644
+--- a/jqm-all/jqm-client/jqm-api-client-hibernate/src/main/java/com/enioka/jqm/api/HibernateClient.java
++++ b/jqm-all/jqm-client/jqm-api-client-hibernate/src/main/java/com/enioka/jqm/api/HibernateClient.java
+@@ -1167 +1167 @@
+-                    TypedQuery<Long> qCount = em.createQuery("SELECT COUNT(h) FROM JobInstance h " + wh, Long.class);
++                    TypedQuery<Long> qCount = em.createQuery("SELECT COUNT(h) FROM JobInstance h " + wh2, Long.class);
+diff --git a/jqm-all/jqm-client/jqm-api-client-hibernate/src/test/java/com/enioka/jqm/api/test/BasicTest.java b/jqm-all/jqm-client/jqm-api-client-hibernate/src/test/java/com/enioka/jqm/api/test/BasicTest.java
+index c654195..f50cc16 100644
+--- a/jqm-all/jqm-client/jqm-api-client-hibernate/src/test/java/com/enioka/jqm/api/test/BasicTest.java
++++ b/jqm-all/jqm-client/jqm-api-client-hibernate/src/test/java/com/enioka/jqm/api/test/BasicTest.java
+@@ -171,0 +172,7 @@
++
++    @Test
++    public void testBug159()
++    {
++        Query.create().setJobInstanceId(1234).setQueryLiveInstances(true).setQueryHistoryInstances(false).setPageSize(15).setFirstRow(0)
++                .run();
++    }
+

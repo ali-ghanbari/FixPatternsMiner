@@ -1,0 +1,9 @@
+diff --git a/rexsl/rexsl-core/src/main/java/com/rexsl/misc/CookieBuilder.java b/rexsl/rexsl-core/src/main/java/com/rexsl/misc/CookieBuilder.java
+index e834389..f5baf3a 100644
+--- a/rexsl/rexsl-core/src/main/java/com/rexsl/misc/CookieBuilder.java
++++ b/rexsl/rexsl-core/src/main/java/com/rexsl/misc/CookieBuilder.java
+@@ -111 +111,2 @@
+-        this.domain = uri.getHost();
++        // @checkstyle AvoidInlineConditionals (1 line)
++        this.domain = uri.getHost() == null ? "" : uri.getHost();
+

@@ -1,0 +1,8 @@
+DB corruption bug fix: under specific circumstances, btree pages were overwritten 
+during crash recovery. This happened if a data page was first removed, then
+reused within the same transaction in response to a btree page split. The bug fix
+avoids this particular situation by always allocating a new page before splitting
+a page.
+
+svn path=/branches/DLN/eXist-1.0/; revision=3295
+

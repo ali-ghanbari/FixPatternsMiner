@@ -1,0 +1,21 @@
+diff --git a/src/changes/changes.xml b/src/changes/changes.xml
+index 58eeca0..8fbffc3 100644
+--- a/src/changes/changes.xml
++++ b/src/changes/changes.xml
+@@ -24,0 +25 @@
++    <action issue="LANG-1083" type="fix" dev="britter" due-to="Jonathan Baker">Add (T) casts to get unit tests to pass in old JDK</action>
+diff --git a/src/main/java/org/apache/commons/lang3/SerializationUtils.java b/src/main/java/org/apache/commons/lang3/SerializationUtils.java
+index 0a679c0..175157c 100644
+--- a/src/main/java/org/apache/commons/lang3/SerializationUtils.java
++++ b/src/main/java/org/apache/commons/lang3/SerializationUtils.java
+@@ -125 +125 @@
+-        return SerializationUtils.deserialize(SerializationUtils.serialize(msg));
++        return (T) SerializationUtils.deserialize(SerializationUtils.serialize(msg));
+diff --git a/src/test/java/org/apache/commons/lang3/exception/AbstractExceptionContextTest.java b/src/test/java/org/apache/commons/lang3/exception/AbstractExceptionContextTest.java
+index cf9035c..f92b13d 100644
+--- a/src/test/java/org/apache/commons/lang3/exception/AbstractExceptionContextTest.java
++++ b/src/test/java/org/apache/commons/lang3/exception/AbstractExceptionContextTest.java
+@@ -181 +181 @@
+-        final T clone = SerializationUtils.deserialize(SerializationUtils.serialize(exceptionContext));
++        final T clone = (T) SerializationUtils.deserialize(SerializationUtils.serialize(exceptionContext));
+

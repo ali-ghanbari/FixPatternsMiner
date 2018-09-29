@@ -1,0 +1,33 @@
+diff --git a/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java b/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java
+index 9cf6f55..c829774 100644
+--- a/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java
++++ b/src/org/openstreetmap/josm/data/osm/OsmPrimitive.java
+@@ -956,0 +957 @@
++        checkDataset();
+diff --git a/test/unit/org/openstreetmap/josm/data/osm/OsmPrimitiveTest.java b/test/unit/org/openstreetmap/josm/data/osm/OsmPrimitiveTest.java
+index 049068b..90a7383 100644
+--- a/test/unit/org/openstreetmap/josm/data/osm/OsmPrimitiveTest.java
++++ b/test/unit/org/openstreetmap/josm/data/osm/OsmPrimitiveTest.java
+@@ -111,0 +112,21 @@
++    @Test
++    public void nodeFromMultipleDatasets() {
++        // n has two referrers - w1 and w2. But only w1 is returned because it is in the same dataset as n
++        Node n = new Node();
++
++        Way w1 = new Way();
++        w1.addNode(n);
++        dataSet.addPrimitive(n);
++        dataSet.addPrimitive(w1);
++        new Way(w1);
++
++        Assert.assertEquals(n.getReferrers().size(), 1);
++        Assert.assertEquals(n.getReferrers().get(0), w1);
++    }
++
++    @Test(expected=DataIntegrityProblemException.class)
++    public void checkMustBeInDatasate() {
++        Node n = new Node();
++        n.getReferrers();
++    }
++
+

@@ -1,0 +1,22 @@
+diff --git a/core/src/main/java/com/google/bitcoin/protocols/channels/PaymentChannelServerState.java b/core/src/main/java/com/google/bitcoin/protocols/channels/PaymentChannelServerState.java
+index 28eafb8..68e0148 100644
+--- a/core/src/main/java/com/google/bitcoin/protocols/channels/PaymentChannelServerState.java
++++ b/core/src/main/java/com/google/bitcoin/protocols/channels/PaymentChannelServerState.java
+@@ -398,0 +399 @@
++            log.info("Calculated fee is {}", feePaidForPayment);
+diff --git a/core/src/test/java/com/google/bitcoin/protocols/channels/PaymentChannelStateTest.java b/core/src/test/java/com/google/bitcoin/protocols/channels/PaymentChannelStateTest.java
+index ff9acfe..e163b83 100644
+--- a/core/src/test/java/com/google/bitcoin/protocols/channels/PaymentChannelStateTest.java
++++ b/core/src/test/java/com/google/bitcoin/protocols/channels/PaymentChannelStateTest.java
+@@ -653 +653,6 @@
+-        clientState = new PaymentChannelClientState(wallet, myKey, new ECKey(null, serverKey.getPubKey()), Utils.CENT, EXPIRE_TIME);
++        clientState = new PaymentChannelClientState(wallet, myKey, new ECKey(null, serverKey.getPubKey()), Utils.CENT, EXPIRE_TIME) {
++            @Override
++            protected void editContractSendRequest(Wallet.SendRequest req) {
++                req.coinSelector = wallet.getCoinSelector();
++            }
++        };
+@@ -708 +713 @@
+-            assertTrue(e.getMessage().contains("more in fees than the channel was worth"));
++            assertTrue(e.getMessage().contains("more in fees"));
+

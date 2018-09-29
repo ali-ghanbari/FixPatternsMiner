@@ -1,0 +1,272 @@
+diff --git a/src/main/org/codehaus/groovy/tools/shell/Command.java b/src/main/org/codehaus/groovy/tools/shell/Command.java
+index 4032840..f21ac11 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/Command.java
++++ b/src/main/org/codehaus/groovy/tools/shell/Command.java
+@@ -44 +44 @@
+-    public Object execute(List args);
++    public Object execute(List<String> args);
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandAlias.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandAlias.groovy
+index 029ab87..04df857 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandAlias.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandAlias.groovy
+@@ -74 +74 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandRegistry.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandRegistry.groovy
+index 34c056f..d5ee962 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandRegistry.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/CommandRegistry.groovy
+@@ -55 +55,3 @@
+-        command.registry = this
++        if (command instanceof CommandSupport) {
++            ((CommandSupport) command).registry = this
++        }
+@@ -99,2 +101,2 @@
+-    
+-    def getProperty(final String name) {
++
++    Command getProperty(final String name) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/ComplexCommandSupport.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/ComplexCommandSupport.groovy
+index 70a40f5..a5c6d5d 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/ComplexCommandSupport.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/ComplexCommandSupport.groovy
+@@ -57 +57 @@
+-    Object execute(List args) {
++    Object execute(List<String> args) {
+@@ -71 +71 @@
+-    protected executeFunction(String fname, List args) {
++    protected executeFunction(String fname, List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Interpreter.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Interpreter.groovy
+index 1843c1b..ad13241 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Interpreter.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Interpreter.groovy
+@@ -53 +53 @@
+-    def evaluate(final List buffer) {
++    def evaluate(final Collection<String> buffer) {
+@@ -84,2 +83,0 @@
+-            def cache = classLoader.classCache
+-
+@@ -87 +85 @@
+-            cache.remove(type?.name)
++            classLoader.removeClassCacheEntry(type?.name)
+@@ -90 +88 @@
+-            cache.remove('$_run_closure')
++            classLoader.removeClassCacheEntry('$_run_closure')
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Main.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Main.groovy
+index fd99e03..5fc2a54 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Main.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Main.groovy
+@@ -48 +48 @@
+-        def cli = new CliBuilder(usage : 'groovysh [options] [...]', formatter: new HelpFormatter(), writer: io.out)
++        CliBuilder cli = new CliBuilder(usage : 'groovysh [options] [...]', formatter: new HelpFormatter(), writer: io.out)
+@@ -103 +103 @@
+-        def code
++        int code
+@@ -178 +178 @@
+-    static void setColor(value) {
++    static void setColor(Boolean value) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Parser.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Parser.groovy
+index f497934..abb7e7f 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Parser.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Parser.groovy
+@@ -33 +33 @@
+-    ParseStatus parse(final List<String> buffer);
++    ParseStatus parse(final Collection<String> buffer);
+@@ -70 +70 @@
+-    ParseStatus parse(final List<String> buffer) {
++    ParseStatus parse(final Collection<String> buffer) {
+@@ -86 +86 @@
+-    ParseStatus parse(final List buffer) {
++    ParseStatus parse(final Collection<String> buffer) {
+@@ -140 +140 @@
+-    ParseStatus parse(final List<String> buffer) {
++    ParseStatus parse(final Collection<String> buffer) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Shell.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Shell.groovy
+index 5018a15..6dd1c4f 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Shell.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/Shell.groovy
+@@ -92 +92 @@
+-            def args = parseLine(line)
++            List<String> args = parseLine(line)
+@@ -116 +116,4 @@
+-    
++
++    /**
++     * this should probably be deprecated
++     */
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy
+index 9ea4a18..1f9c38c 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy
+@@ -18,0 +19 @@
++import org.codehaus.groovy.tools.shell.Command
+@@ -19,0 +21 @@
++import org.codehaus.groovy.tools.shell.Groovysh
+@@ -31 +33 @@
+-    AliasCommand(final Shell shell) {
++    AliasCommand(final Groovysh shell) {
+@@ -45 +47 @@
+-        def command = registry[name]
++        Command command = registry.find(name)
+@@ -75 +77 @@
+-    extends CommandSupport
++    extends CommandSupport implements Command
+@@ -81 +83 @@
+-    AliasTargetProxyCommand(final Shell shell, final String name, final List args) {
++    AliasTargetProxyCommand(final Groovysh shell, final String name, final List args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ClearCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ClearCommand.groovy
+index efa8acc..1729ecb 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ClearCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ClearCommand.groovy
+@@ -35 +35 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DisplayCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DisplayCommand.groovy
+index 998085f..a4b8990 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DisplayCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DisplayCommand.groovy
+@@ -35 +35 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DocCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DocCommand.groovy
+index 5e723e7..070efcd 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DocCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/DocCommand.groovy
+@@ -24,0 +25 @@
++import org.codehaus.groovy.tools.shell.Groovysh
+@@ -66 +67 @@
+-    DocCommand(final Shell shell) {
++    DocCommand(final Groovysh shell) {
+@@ -78 +79 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/EditCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/EditCommand.groovy
+index eebf8b8..79905bf 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/EditCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/EditCommand.groovy
+@@ -63 +63 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+@@ -97 +97 @@
+-            shell << line as String
++            shell.execute(line as String)
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ExitCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ExitCommand.groovy
+index 3dfec26..2f0d0c4 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ExitCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ExitCommand.groovy
+@@ -38 +38 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy
+index 22a89cc..61ce350 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy
+@@ -20,0 +21 @@
++import org.codehaus.groovy.tools.shell.Groovysh
+@@ -34 +35 @@
+-    HelpCommand(final Shell shell) {
++    HelpCommand(final Groovysh shell) {
+@@ -47 +48 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+@@ -65 +66 @@
+-        Command command = registry[name]
++        Command command = registry.find(name)
+@@ -82 +83 @@
+-        for (command in registry) {
++        for (Command command in registry.commands()) {
+@@ -104 +105 @@
+-        for (command in registry) {
++        for (Command command in registry.commands()) {
+@@ -148 +149 @@
+-        for (command in registry) {
++        for (Command command in registry.commands()) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HistoryCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HistoryCommand.groovy
+index 8fc56d7..ab5ba1c 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HistoryCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/HistoryCommand.groovy
+@@ -52 +52 @@
+-    Object execute(List args) {
++    Object execute(List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ImportCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ImportCommand.groovy
+index f50b297..17945e4 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ImportCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/ImportCommand.groovy
+@@ -52,2 +52,2 @@
+-        return new AggregateCompleter([
+-                new ArgumentCompleter([
++        Collection<Completer> argCompleters = [
++                (Completer) new ArgumentCompleter([
+@@ -58 +58 @@
+-                new ArgumentCompleter([
++                (Completer) new ArgumentCompleter([
+@@ -63 +63,2 @@
+-                        null])])
++                        null])]
++        return new AggregateCompleter(argCompleters)
+@@ -67 +68 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+@@ -99 +100 @@
+-            classLoader.classCache.remove(type?.name)
++            classLoader.removeClassCacheEntry(type?.name)
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy
+index c459796..e4d08d1 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy
+@@ -51 +51 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/LoadCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/LoadCommand.groovy
+index 2cf663a..24b605e 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/LoadCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/LoadCommand.groovy
+@@ -42 +42 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RecordCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RecordCommand.groovy
+index 2d9cd93..35e4a9b 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RecordCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RecordCommand.groovy
+@@ -82 +82 @@
+-    def do_start = {args ->
++    def do_start = {List<String> args ->
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RegisterCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RegisterCommand.groovy
+index 6af577e..b318ecd 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RegisterCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/RegisterCommand.groovy
+@@ -24,0 +25,2 @@
++ * Registers a class as a new groovysh command.
++ * Requires the command to have matching constructors (shell) or (shell, name, alias).
+@@ -36 +38 @@
+-    public Object execute(List args) {
++    public Object execute(List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SaveCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SaveCommand.groovy
+index b6b9c8f..4984340 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SaveCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SaveCommand.groovy
+@@ -43 +43 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SetCommand.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SetCommand.groovy
+index 9d25d66..8867880 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SetCommand.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/commands/SetCommand.groovy
+@@ -63 +63 @@
+-    Object execute(final List args) {
++    Object execute(final List<String> args) {
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/GroovySyntaxCompletor.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/GroovySyntaxCompletor.groovy
+index 6d403ed..9d83ad4 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/GroovySyntaxCompletor.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/GroovySyntaxCompletor.groovy
+@@ -42 +42 @@
+-    private final FileNameCompleter filenameCompletor
++    private final Completer filenameCompletor
+diff --git a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/ReflectionCompletor.groovy b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/ReflectionCompletor.groovy
+index 432a1ef..6b924f9 100644
+--- a/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/ReflectionCompletor.groovy
++++ b/subprojects/groovy-groovysh/src/main/groovy/org/codehaus/groovy/tools/shell/completion/ReflectionCompletor.groovy
+@@ -107 +107 @@
+-                Object instance = shell.interp.evaluate(shell.imports + ['true'] + instanceRefExpression)
++                Object instance = shell.interp.evaluate(shell.imports + ['true'] + [instanceRefExpression])
+

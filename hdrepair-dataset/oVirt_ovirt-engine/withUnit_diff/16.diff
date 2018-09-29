@@ -1,0 +1,14 @@
+diff --git a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/RemoveQuotaCommand.java b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/RemoveQuotaCommand.java
+index 8490f86..58119fc 100644
+--- a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/RemoveQuotaCommand.java
++++ b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/RemoveQuotaCommand.java
+@@ -40 +40 @@
+-        if (getDbFacade().getQuotaDAO().isQuotaInUse(quota)) {
++        if (getQuotaDAO().isQuotaInUse(quota)) {
+diff --git a/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/RemoveQuotaCommandTest.java b/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/RemoveQuotaCommandTest.java
+index 068d6a5..00bd407 100644
+--- a/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/RemoveQuotaCommandTest.java
++++ b/backend/manager/modules/bll/src/test/java/org/ovirt/engine/core/bll/RemoveQuotaCommandTest.java
+@@ -68,0 +69 @@
++        when(quotaDAO.isQuotaInUse(any(Quota.class))).thenReturn(false);
+

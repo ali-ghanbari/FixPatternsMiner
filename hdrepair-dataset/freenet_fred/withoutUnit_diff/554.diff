@@ -1,0 +1,8 @@
+diff --git a/src/freenet/node/PeerManager.java b/src/freenet/node/PeerManager.java
+index 670d057..27b3565 100644
+--- a/src/freenet/node/PeerManager.java
++++ b/src/freenet/node/PeerManager.java
+@@ -578 +578 @@
+-				if(!conns[i].shouldBeExcludedFromPeerList()) {
++				if(!pruneBackedOffedPeers || !conns[i].shouldBeExcludedFromPeerList()) {
+

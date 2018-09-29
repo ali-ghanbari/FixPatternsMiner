@@ -1,0 +1,14 @@
+Fix wifi tethering.
+
+The new link-status netlink monitor is a bit chatty and we were getting race conditions.
+The wl0.1 soft-ap interface was getting created, but in the off state.  We would report
+it available (link-added always reports it) causing wifi to start tethering, but then
+we'd sometimes get a link-status-down notification and a link-status-up, causing wifi
+to freak out with these two requests.
+
+The simple fix was to not listen to the new link-status notifications.  This should be
+redesigned in the future.
+bug:4983942
+
+Change-Id: Ica4f34d8bf2a07fc19b35a1e15283a7f8022165e
+

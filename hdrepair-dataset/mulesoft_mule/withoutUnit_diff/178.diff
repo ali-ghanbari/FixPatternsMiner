@@ -1,0 +1,416 @@
+diff --git a/transports/axis/src/test/java/org/mule/providers/soap/axis/AxisConnectorHttpsTestCase.java b/transports/axis/src/test/java/org/mule/providers/soap/axis/AxisConnectorHttpsTestCase.java
+index 754f181..892d5eb 100644
+--- a/transports/axis/src/test/java/org/mule/providers/soap/axis/AxisConnectorHttpsTestCase.java
++++ b/transports/axis/src/test/java/org/mule/providers/soap/axis/AxisConnectorHttpsTestCase.java
+@@ -26 +26 @@
+-        UMOMessage m = client.send("axis:https://localhost:8000/TestUMO?method=echo",new MuleMessage("hello"));
++        UMOMessage m = client.send("axis:https://localhost:62000/TestUMO?method=echo",new MuleMessage("hello"));
+diff --git a/transports/axis/src/test/resources/axis-http-mule-config.xml b/transports/axis/src/test/resources/axis-http-mule-config.xml
+index 82e650b..ea0edb6 100644
+--- a/transports/axis/src/test/resources/axis-http-mule-config.xml
++++ b/transports/axis/src/test/resources/axis-http-mule-config.xml
+@@ -19 +19 @@
+-                <mule:endpoint address="axis:http://localhost:38008/mule"/>
++                <mule:endpoint address="axis:http://localhost:62108/mule"/>
+@@ -26 +26 @@
+-                <mule:endpoint address="axis:http://localhost:38009/mule/services">
++                <mule:endpoint address="axis:http://localhost:62109/mule/services">
+@@ -40 +40 @@
+-                <mule:endpoint address="axis:http://localhost:38009"/>
++                <mule:endpoint address="axis:http://localhost:62109"/>
+@@ -47 +47 @@
+-                <mule:endpoint address="axis:http://localhost:38010" synchronous="false"/>
++                <mule:endpoint address="axis:http://localhost:62110" synchronous="false"/>
+@@ -52,39 +51,0 @@
+-
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="axis_test" version="1.0">
+-
+-    <mule-environment-properties/>
+-    <model name="test">
+-        <mule-descriptor name="mycomponent"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent"
+-            inboundEndpoint="axis:http://localhost:62108/mule">
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="mycomponent2"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent"
+-            inboundEndpoint="axis:http://localhost:62109/mule/services">
+-            <properties>
+-                <list name="serviceInterfaces">
+-                    <entry value="org.mule.components.simple.EchoService"/>
+-                    <entry value="org.mule.tck.testmodels.services.DateService"/>
+-                </list>
+-            </properties>
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="mycomponent3"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent"
+-            inboundEndpoint="axis:http://localhost:62109">
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="mycomponent4"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent">
+-            <inbound-router>
+-                <endpoint address="axis:http://localhost:62110" synchronous="false"/>
+-            </inbound-router>
+-        </mule-descriptor>
+-    </model>
+-</mule-configuration>
+--->
+diff --git a/transports/axis/src/test/resources/axis-https-connector-config.xml b/transports/axis/src/test/resources/axis-https-connector-config.xml
+index f73f55b..8c3e795 100644
+--- a/transports/axis/src/test/resources/axis-https-connector-config.xml
++++ b/transports/axis/src/test/resources/axis-https-connector-config.xml
+@@ -28 +28 @@
+-                <mule:endpoint address="axis:https://localhost:8000"/>
++                <mule:endpoint address="axis:https://localhost:62000"/>
+@@ -33,25 +32,0 @@
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="axis_https_test" version="1.0">
+-    <connector name="myHttpsConnector" className="org.mule.providers.http.HttpsConnector">
+-        <properties>
+-            <property name="keyStore" value="serverKeystore"/>
+-            <property name="storePassword" value="mulepassword" />
+-            <property name="keyPassword" value="mulepassword" /> 
+-            <property name="trustStorePassword" value="mulepassword" /> 
+-            <property name="trustStore" value="trustStore"/> 
+-            <property name="requireClientAuthentication" value="false" /> 
+-        </properties>
+-    </connector>
+-
+-    <model name="Https_Test_Model">
+-        <mule-descriptor name="TestUMO" implementation="org.mule.components.simple.EchoComponent">
+-            <inbound-router>
+-                <endpoint address="axis:https://localhost:62000"/>
+-            </inbound-router>
+-        </mule-descriptor>
+-    </model>
+-</mule-configuration>
+- -->
+\ No newline at end of file
+diff --git a/transports/axis/src/test/resources/axis-named-param-mule-config.xml b/transports/axis/src/test/resources/axis-named-param-mule-config.xml
+index 4b5c0b7..3984c1b 100644
+--- a/transports/axis/src/test/resources/axis-named-param-mule-config.xml
++++ b/transports/axis/src/test/resources/axis-named-param-mule-config.xml
+@@ -19 +19 @@
+-                    <mule:endpoint address="axis:http://localhost:38011/mule/mycomponent2?method=echo"
++                    <mule:endpoint address="axis:http://localhost:62111/mule/mycomponent2?method=echo"
+@@ -30 +30 @@
+-                <mule:endpoint address="axis:http://localhost:38011/mule" synchronous="true"/>
++                <mule:endpoint address="axis:http://localhost:62111/mule" synchronous="true"/>
+@@ -36,34 +35,0 @@
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="axis_test" version="1.0">
+-
+-    <model name="test">
+-        <mule-descriptor name="mycomponent1"
+-            implementation="org.mule.components.simple.EchoComponent">
+-            <inbound-router>
+-                <endpoint address="vm://mycomponent1"/>
+-            </inbound-router>
+-            <outbound-router>
+-                <router className="org.mule.routing.outbound.OutboundPassThroughRouter">
+-                <endpoint address="axis:http://localhost:62111/mule/mycomponent2?method=echo" synchronous="true">
+-                    <properties>
+-                        <map name="soapMethods">
+-                            <property name="echo" value="value:string:in,return:string"/>
+-                        </map>
+-                    </properties>
+-                </endpoint>
+-                    </router>
+-            </outbound-router>
+-        </mule-descriptor>
+-        <mule-descriptor name="mycomponent2"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent">
+-            <inbound-router>
+-                <endpoint address="axis:http://localhost:62111/mule" synchronous="true">
+-                </endpoint>
+-            </inbound-router>
+-        </mule-descriptor>
+-    </model>
+-</mule-configuration>
+- -->
+diff --git a/transports/axis/src/test/resources/axis-servlet-security-config.xml b/transports/axis/src/test/resources/axis-servlet-security-config.xml
+index 8be90ab..677251d 100644
+--- a/transports/axis/src/test/resources/axis-servlet-security-config.xml
++++ b/transports/axis/src/test/resources/axis-servlet-security-config.xml
+@@ -53,45 +52,0 @@
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="Mule_Sample" version="1.0">
+-
+-    <container-context className="org.mule.extras.spring.SpringContainerContext">
+-        <properties>
+-            <property name="configFile" value="./spring-security-context.xml"/>
+-        </properties>
+-    </container-context>
+-
+-    <security-manager>
+-        <security-provider name="memory-dao" className="org.mule.extras.acegi.AcegiProviderAdapter">
+-            <properties>
+-                <container-property name="delegate" reference="daoAuthenticationProvider"/>
+-            </properties>
+-        </security-provider>
+-    </security-manager>
+-
+-    <connector name="servlet" className="org.mule.providers.http.servlet.ServletConnector">
+-        <properties>
+-            <property name="servletUrl" value="http://localhost:18088/services"/>
+-        </properties>
+-    </connector>
+-
+-    <transformers>
+-        <transformer name="ByteArrayToString" className="org.mule.transformers.simple.ByteArrayToString"/>
+-    </transformers>
+-
+-    <model name="test">
+-        <mule-descriptor name="mycomponent" implementation="org.mule.components.simple.EchoComponent">
+-            <inbound-router>
+-                <endpoint address="axis:servlet://mycomponent" responseTransformers="ByteArrayToString">
+-                    <security-filter className="org.mule.extras.acegi.filters.http.HttpBasicAuthenticationFilter">
+-                        <properties>
+-                            <property value="mule-realm" name="realm"/>
+-                        </properties>
+-                    </security-filter>
+-                </endpoint>
+-            </inbound-router>
+-        </mule-descriptor>
+-    </model>
+-</mule-configuration>
+- -->
+\ No newline at end of file
+diff --git a/transports/axis/src/test/resources/axis-soapheader-test.xml b/transports/axis/src/test/resources/axis-soapheader-test.xml
+index 65ae43d..465cb93 100644
+--- a/transports/axis/src/test/resources/axis-soapheader-test.xml
++++ b/transports/axis/src/test/resources/axis-soapheader-test.xml
+@@ -23,21 +22,0 @@
+-
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="AxisSoapHeaders" version="1.0">
+-   
+-    <model name="Axis_Headers_TestCase">
+-        <mule-descriptor name="component" implementation="org.mule.components.simple.EchoComponent">
+-            <inbound-router>
+-                <endpoint address="axis:http://localhost:62181/services"/>
+-            </inbound-router>
+-            <response-router>
+-                <endpoint address="http://localhost:62182/reply"/>
+-            </response-router>
+-        </mule-descriptor>
+-
+-    </model>
+-
+-</mule-configuration>
+- -->
+diff --git a/transports/axis/src/test/resources/axis-test-servlet-mule-config.xml b/transports/axis/src/test/resources/axis-test-servlet-mule-config.xml
+index 61c1d46..322e7e1 100644
+--- a/transports/axis/src/test/resources/axis-test-servlet-mule-config.xml
++++ b/transports/axis/src/test/resources/axis-test-servlet-mule-config.xml
+@@ -13 +13 @@
+-        servletUrl="http://localhost:18088/services"/>
++        servletUrl="http://localhost:62088/services"/>
+@@ -24,21 +23,0 @@
+-
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="axis_test" version="1.0">
+-
+-    <connector name="servlet" className="org.mule.providers.http.servlet.ServletConnector">
+-        <properties>
+-            <property name="servletUrl" value="http://localhost:62188/services"/>
+-        </properties>
+-    </connector>
+-
+-    <model name="test">
+-        <mule-descriptor name="mycomponent"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent"
+-            inboundEndpoint="axis:servlet://mycomponent">
+-        </mule-descriptor>
+-    </model>
+-</mule-configuration>
+- -->
+\ No newline at end of file
+diff --git a/transports/axis/src/test/resources/axis-using-xfire-config.xml b/transports/axis/src/test/resources/axis-using-xfire-config.xml
+index 30d7386..09e31de 100644
+--- a/transports/axis/src/test/resources/axis-using-xfire-config.xml
++++ b/transports/axis/src/test/resources/axis-using-xfire-config.xml
+@@ -18 +18 @@
+-                <mule:endpoint address="axis:http://localhost:33381/services">
++                <mule:endpoint address="axis:http://localhost:63381/services">
+@@ -33,2 +33,2 @@
+-                    <mule:endpoint address="axis:http://localhost:33380/services/AxisService?method=receive"/>
+-                    <mule:endpoint address="axis:http://localhost:33381/services/AxisService?method=receive"/>
++                    <mule:endpoint address="axis:http://localhost:63380/services/AxisService?method=receive"/>
++                    <mule:endpoint address="axis:http://localhost:63381/services/AxisService?method=receive"/>
+@@ -47 +47 @@
+-                    <mule:endpoint address="wsdl-xfire:http://localhost:33381/services/AxisService?WSDL&amp;method=receive"/>
++                    <mule:endpoint address="wsdl-xfire:http://localhost:63381/services/AxisService?WSDL&amp;method=receive"/>
+@@ -53,53 +52,0 @@
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="Default" version="1.0">
+-    <description>
+-        Testing Web Services
+-    </description>
+-
+-    <mule-environment-properties serverUrl="tcp://localhost:60500"/>
+-
+-    <model name="Testing_an_axis_service_using_xfire_dynamic_client">
+-
+-        <!- hosting the Axis Service ->
+-        <mule-descriptor name="AxisService" implementation="org.mule.tck.testmodels.services.TestComponent">
+-            <inbound-router>
+-                <endpoint address="axis:http://localhost:63381/services"/>
+-            </inbound-router>
+-            <properties>
+-                    <property name="style" value="Wrapped"/>
+-                    <property name="use" value="Literal"/>
+-            </properties>
+-        </mule-descriptor>
+-
+-        <!- Bridge Component used to test the ExceptionBasedRouting on Axis ->
+-        <mule-descriptor name="test" implementation="org.mule.components.simple.BridgeComponent">
+-            <inbound-router>
+-                <endpoint address="vm://localhost.test"/>
+-            </inbound-router>
+-            <outbound-router>
+-                <router className="org.mule.routing.outbound.ExceptionBasedRouter">
+-                    <endpoint address="axis:http://localhost:63380/services/AxisService?method=receive"/>
+-                    <endpoint address="axis:http://localhost:63381/services/AxisService?method=receive"/>
+-                </router>
+-            </outbound-router>
+-        </mule-descriptor>
+-
+-        <!- Accessing an Axis hosted web-service using XFire dynamic client ->
+-        <mule-descriptor name="BridgeToAxisService" implementation="org.mule.components.simple.BridgeComponent">
+-            <inbound-router>
+-                <endpoint address="vm://axis.in"/>
+-            </inbound-router>
+-            <outbound-router>
+-                <router className="org.mule.routing.outbound.OutboundPassThroughRouter">
+-                    <endpoint address="wsdl-xfire:http://localhost:63381/services/AxisService?WSDL&amp;method=receive"/>
+-                </router>
+-            </outbound-router>
+-        </mule-descriptor>
+-
+-    </model>
+-    
+-</mule-configuration>
+- -->
+diff --git a/transports/axis/src/test/resources/axis-vm-mule-config.xml b/transports/axis/src/test/resources/axis-vm-mule-config.xml
+index 6139f91..8aede73 100644
+--- a/transports/axis/src/test/resources/axis-vm-mule-config.xml
++++ b/transports/axis/src/test/resources/axis-vm-mule-config.xml
+@@ -52,37 +51,0 @@
+-
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="axis_test" version="1.0">
+-    <model name="test">
+-        <mule-descriptor name="mycomponent"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent"
+-            inboundEndpoint="axis:vm://mycomponent">
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="mycomponent2"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent"
+-            inboundEndpoint="axis:vm://mycomponent2">
+-            <properties>
+-                <list name="serviceInterfaces">
+-                    <entry value="org.mule.components.simple.EchoService"/>
+-                    <entry value="org.mule.tck.testmodels.services.DateService"/>
+-                </list>
+-            </properties>
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="mycomponent3"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent"
+-            inboundEndpoint="axis:vm://mycomponent3">
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="mycomponent4"
+-            implementation="org.mule.tck.testmodels.services.TestServiceComponent">
+-            <inbound-router>
+-                <endpoint address="axis:vm://mycomponent4" synchronous="false"/>
+-            </inbound-router>
+-        </mule-descriptor>
+-    </model>
+-</mule-configuration>
+- -->
+\ No newline at end of file
+diff --git a/transports/axis/src/test/resources/axis-wsdl-test.xml b/transports/axis/src/test/resources/axis-wsdl-test.xml
+index 94823e3..165a288 100644
+--- a/transports/axis/src/test/resources/axis-wsdl-test.xml
++++ b/transports/axis/src/test/resources/axis-wsdl-test.xml
+@@ -15 +15 @@
+-                <mule:endpoint address="axis:http://localhost:8081/services">
++                <mule:endpoint address="axis:http://localhost:62081/services">
+@@ -26 +26 @@
+-                <mule:endpoint address="axis:http://localhost:8082/services">
++                <mule:endpoint address="axis:http://localhost:62082/services">
+@@ -43 +43 @@
+-                <mule:endpoint address="axis:http://localhost:8083/services">
++                <mule:endpoint address="axis:http://localhost:62083/services">
+@@ -52,40 +51,0 @@
+-
+-<!-- 
+-<!DOCTYPE mule-configuration PUBLIC "-//MuleSource //DTD mule-configuration XML V1.0//EN"
+-                                "http://mule.mulesource.org/dtds/mule-configuration.dtd">
+-
+-<mule-configuration id="axis_test" version="1.0">
+-    <model name="test">
+-        <mule-descriptor name="EchoService1" implementation="org.mule.components.simple.EchoComponent">
+-            <inbound-router>
+-                <endpoint address="axis:http://localhost:62081/services"/>
+-            </inbound-router>
+-            <properties>
+-                    <property name="serviceNamespace" value="http://foo"/>
+-            </properties>
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="EchoService2" implementation="org.mule.components.simple.EchoComponent">
+-            <inbound-router>
+-                <endpoint address="axis:http://localhost:62082/services"/>
+-            </inbound-router>
+-            <properties>
+-                    <map name="axisOptions">
+-                        <property name="wsdlPortType" value="mulePortType"/>
+-                        <property name="wsdlServiceElement" value="muleService"/>
+-                        <property name="wsdlServicePort" value="muleServicePort"/>
+-                    </map>
+-            </properties>
+-        </mule-descriptor>
+-
+-        <mule-descriptor name="EchoService3" implementation="org.mule.components.simple.EchoComponent">
+-            <inbound-router>
+-                <endpoint address="axis:http://localhost:62083/services"/>
+-            </inbound-router>
+-            <properties>
+-                    <property name="wsdlFile" value="test-service.wsdl"/>
+-            </properties>
+-        </mule-descriptor>
+-    </model>
+-</mule-configuration>
+- -->
+

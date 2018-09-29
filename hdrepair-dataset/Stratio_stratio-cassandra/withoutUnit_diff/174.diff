@@ -1,0 +1,17 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 9b4a5bd..4001b0a 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -38,0 +39,4 @@
++1.1.4
++ * fix offline scrub to catch >= out of order rows (CASSANDRA-4411)
++
++
+diff --git a/src/java/org/apache/cassandra/db/compaction/Scrubber.java b/src/java/org/apache/cassandra/db/compaction/Scrubber.java
+index faf7e60..b014d0b 100644
+--- a/src/java/org/apache/cassandra/db/compaction/Scrubber.java
++++ b/src/java/org/apache/cassandra/db/compaction/Scrubber.java
+@@ -180 +180 @@
+-                        if (prevRow != null && acrComparator.compare(prevRow, compactedRow) > 0)
++                        if (prevRow != null && acrComparator.compare(prevRow, compactedRow) >= 0)
+

@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/daemon/impl/PsiChangeHandler.java b/platform/lang-impl/src/com/intellij/codeInsight/daemon/impl/PsiChangeHandler.java
+index f07d318..49a6ae7 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/daemon/impl/PsiChangeHandler.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/daemon/impl/PsiChangeHandler.java
+@@ -101 +101 @@
+-    if (DaemonListeners.isUnderIgnoredAction(null)) return;
++    if (DaemonListeners.isUnderIgnoredAction(null) || myProject.isDisposed()) return;
+

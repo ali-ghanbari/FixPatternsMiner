@@ -1,0 +1,642 @@
+diff --git a/pom.xml b/pom.xml
+index 8ce106c..a82f805 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1103,6 +1102,0 @@
+-      <dependency>
+-        <groupId>org.apache.tomcat.embed</groupId>
+-        <artifactId>tomcat-embed-logging-juli</artifactId>
+-        <version>${tomcat.version}</version>
+-      </dependency>
+-
+diff --git a/sonar-application/src/main/java/org/sonar/application/Webapp.java b/sonar-application/src/main/java/org/sonar/application/Webapp.java
+index cffb43d..d8c54de 100644
+--- a/sonar-application/src/main/java/org/sonar/application/Webapp.java
++++ b/sonar-application/src/main/java/org/sonar/application/Webapp.java
+@@ -31,0 +32,2 @@
++      context.addParameter("rails.env", "production");
++      context.addParameter("jruby.max.runtimes", "1");
+diff --git a/sonar-server/h2-start.bat b/sonar-server/h2-start.bat
+index b1983ae..c4b5850 100644
+--- a/sonar-server/h2-start.bat
++++ b/sonar-server/h2-start.bat
+@@ -1,2 +1,2 @@
+-set MAVEN_OPTS='-Xmx768m -XX:MaxPermSize=128m'
+-mvn clean jetty:run -Pstart-dev-server,h2 %*
++set MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'
++mvn org.apache.tomcat.maven:tomcat7-maven-plugin::run -Pstart-dev-server,h2 %*
+diff --git a/sonar-server/h2-start.sh b/sonar-server/h2-start.sh
+index 681987b..ac7d46d 100755
+--- a/sonar-server/h2-start.sh
++++ b/sonar-server/h2-start.sh
+@@ -2,2 +2,2 @@
+-export MAVEN_OPTS='-Xmx768m -XX:MaxPermSize=128m'
+-mvn clean org.apache.tomcat.maven:tomcat7-maven-plugin::run -Pstart-dev-server,h2 $*
++export MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'
++mvn org.apache.tomcat.maven:tomcat7-maven-plugin::run -Pstart-dev-server,h2 $*
+diff --git a/sonar-server/mysql-start.bat b/sonar-server/mysql-start.bat
+index 5f0997b..ccc1ffc 100644
+--- a/sonar-server/mysql-start.bat
++++ b/sonar-server/mysql-start.bat
+@@ -1,2 +1,2 @@
+-set MAVEN_OPTS='-Xmx768m -XX:MaxPermSize=128m'
+-mvn clean jetty:run -Pstart-dev-server,mysql %*
++set MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'
++mvn org.apache.tomcat.maven:tomcat7-maven-plugin::run -Pstart-dev-server,mysql %*
+diff --git a/sonar-server/mysql-start.sh b/sonar-server/mysql-start.sh
+index 2ccf51c..68ec998 100755
+--- a/sonar-server/mysql-start.sh
++++ b/sonar-server/mysql-start.sh
+@@ -2,2 +2,2 @@
+-export MAVEN_OPTS='-Xmx768m -XX:MaxPermSize=128m'
+-mvn clean jetty:run -Pstart-dev-server,mysql $*
++export MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'
++mvn org.apache.tomcat.maven:tomcat7-maven-plugin::run -Pstart-dev-server,mysql $*
+diff --git a/sonar-server/pom.xml b/sonar-server/pom.xml
+index 5e29e62..a73ac99 100644
+--- a/sonar-server/pom.xml
++++ b/sonar-server/pom.xml
+@@ -342,3 +342,3 @@
+-                  <overWriteIfNewer>true</overWriteIfNewer>
+-                  <overWriteReleases>true</overWriteReleases>
+-                  <overWriteSnapshots>true</overWriteSnapshots>
++                  <overWriteIfNewer>false</overWriteIfNewer>
++                  <overWriteReleases>false</overWriteReleases>
++                  <overWriteSnapshots>false</overWriteSnapshots>
+@@ -346 +346 @@
+-                  <outputDirectory>${project.build.directory}/sonar-dev-home/lib/core-plugins/</outputDirectory>
++                  <outputDirectory>${project.build.directory}/dev/lib/core-plugins</outputDirectory>
+@@ -356 +356 @@
+-                <phase>validate</phase>
++                <phase>process-resources</phase>
+@@ -361 +361,2 @@
+-                  <outputDirectory>${project.build.directory}/sonar-dev-home</outputDirectory>
++                  <outputDirectory>${project.build.directory}/dev/conf</outputDirectory>
++                  <overwrite>false</overwrite>
+@@ -364 +365,5 @@
+-                      <directory>src/dev/${jdbcDialect}</directory>
++                      <directory>src/dev</directory>
++                      <includes>
++                        <include>logback.xml</include>
++                        <include>sonar.properties</include>
++                      </includes>
+@@ -379,2 +384 @@
+-              <!--<contextFile>${pom.basedir}/src/main/webapp/META-INF/context.xml</contextFile>-->
+-              <tomcatWebXml>${pom.basedir}/src/dev/web.xml</tomcatWebXml>
++              <contextFile>${project.basedir}/src/main/webapp/META-INF/context.xml</contextFile>
+@@ -383,2 +387,5 @@
+-                <SONAR_HOME>${pom.build.directory}/sonar-dev-home</SONAR_HOME>
+-                <!--<java.io.tmpdir>${pom.basedir}/target/tomcat-tmp</java.io.tmpdir>-->
++                <SONAR_HOME>${project.build.directory}/dev</SONAR_HOME>
++                <rails.env>development</rails.env>
++                <jruby.max.runtimes>3</jruby.max.runtimes>
++                <sonar.jdbc.url>${sonar.jdbc.url}</sonar.jdbc.url>
++                <sonar.runtime.mode>development</sonar.runtime.mode>
+@@ -496 +503 @@
+-        <jdbcDialect>postgresql</jdbcDialect>
++        <sonar.jdbc.url>jdbc:postgresql://localhost/sonar</sonar.jdbc.url>
+@@ -500,21 +506,0 @@
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-resources-plugin</artifactId>
+-            <executions>
+-              <execution>
+-                <phase>process-resources</phase>
+-                <goals>
+-                  <goal>copy-resources</goal>
+-                </goals>
+-                <configuration>
+-                  <outputDirectory>${project.build.directory}/classes</outputDirectory>
+-                  <resources>
+-                    <resource>
+-                      <directory>${basedir}/src/dev/postgresql</directory>
+-                      <filtering>false</filtering>
+-                    </resource>
+-                  </resources>
+-                </configuration>
+-              </execution>
+-            </executions>
+-          </plugin>
+@@ -532,3 +518,3 @@
+-                  <overWriteIfNewer>true</overWriteIfNewer>
+-                  <overWriteReleases>true</overWriteReleases>
+-                  <includeGroupIds>postgresql</includeGroupIds>
++                  <overWriteIfNewer>false</overWriteIfNewer>
++                  <overWriteReleases>false</overWriteReleases>
++                  <overWriteSnapshots>false</overWriteSnapshots>
+@@ -536,2 +522 @@
+-                  <outputDirectory>${project.build.directory}/sonar-dev-home/extensions/jdbc-driver/postgresql/
+-                  </outputDirectory>
++                  <outputDirectory>${project.build.directory}/dev/extensions/jdbc-driver/postgresql</outputDirectory>
+@@ -555 +540 @@
+-        <jdbcDialect>mysql</jdbcDialect>
++        <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
+@@ -559,21 +543,0 @@
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-resources-plugin</artifactId>
+-            <executions>
+-              <execution>
+-                <phase>process-resources</phase>
+-                <goals>
+-                  <goal>copy-resources</goal>
+-                </goals>
+-                <configuration>
+-                  <outputDirectory>${project.build.directory}/classes</outputDirectory>
+-                  <resources>
+-                    <resource>
+-                      <directory>${basedir}/src/dev/mysql</directory>
+-                      <filtering>false</filtering>
+-                    </resource>
+-                  </resources>
+-                </configuration>
+-              </execution>
+-            </executions>
+-          </plugin>
+@@ -591,3 +555,3 @@
+-                  <overWriteIfNewer>true</overWriteIfNewer>
+-                  <overWriteReleases>true</overWriteReleases>
+-                  <includeGroupIds>mysql</includeGroupIds>
++                  <overWriteIfNewer>false</overWriteIfNewer>
++                  <overWriteReleases>false</overWriteReleases>
++                  <overWriteSnapshots>false</overWriteSnapshots>
+@@ -595,2 +559 @@
+-                  <outputDirectory>${project.build.directory}/sonar-dev-home/extensions/jdbc-driver/mysql/
+-                  </outputDirectory>
++                  <outputDirectory>${project.build.directory}/dev/extensions/jdbc-driver/mysql</outputDirectory>
+@@ -610 +572,0 @@
+-
+@@ -614 +576 @@
+-        <jdbcDialect>h2</jdbcDialect>
++        <sonar.jdbc.url>jdbc:h2:tcp://localhost:9092/sonar</sonar.jdbc.url>
+@@ -618,21 +579,0 @@
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-resources-plugin</artifactId>
+-            <executions>
+-              <execution>
+-                <phase>process-resources</phase>
+-                <goals>
+-                  <goal>copy-resources</goal>
+-                </goals>
+-                <configuration>
+-                  <outputDirectory>${project.build.directory}/classes</outputDirectory>
+-                  <resources>
+-                    <resource>
+-                      <directory>${basedir}/src/dev/h2</directory>
+-                      <filtering>false</filtering>
+-                    </resource>
+-                  </resources>
+-                </configuration>
+-              </execution>
+-            </executions>
+-          </plugin>
+@@ -650,3 +591,3 @@
+-                  <overWriteIfNewer>true</overWriteIfNewer>
+-                  <overWriteReleases>true</overWriteReleases>
+-                  <includeGroupIds>com.h2database</includeGroupIds>
++                  <overWriteIfNewer>false</overWriteIfNewer>
++                  <overWriteReleases>false</overWriteReleases>
++                  <overWriteSnapshots>false</overWriteSnapshots>
+@@ -654 +595 @@
+-                  <outputDirectory>${project.build.directory}/sonar-dev-home/extensions/jdbc-driver/h2/</outputDirectory>
++                  <outputDirectory>${project.build.directory}/dev/extensions/jdbc-driver/h2</outputDirectory>
+diff --git a/sonar-server/postgresql-start.bat b/sonar-server/postgresql-start.bat
+index 1fe83b1..3339967 100644
+--- a/sonar-server/postgresql-start.bat
++++ b/sonar-server/postgresql-start.bat
+@@ -1,2 +1,2 @@
+-set MAVEN_OPTS='-Xmx768m -XX:MaxPermSize=128m'
+-mvn clean jetty:run -Pstart-dev-server,postgresql %*
++set MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'
++mvn org.apache.tomcat.maven:tomcat7-maven-plugin::run -Pstart-dev-server,postgresql %*
+diff --git a/sonar-server/postgresql-start.sh b/sonar-server/postgresql-start.sh
+index fdb38e9..73a7f8a 100755
+--- a/sonar-server/postgresql-start.sh
++++ b/sonar-server/postgresql-start.sh
+@@ -2,2 +2,2 @@
+-export MAVEN_OPTS='-Xmx768m -XX:MaxPermSize=128m'
+-mvn clean jetty:run -Pstart-dev-server,postgresql $*
++export MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'
++mvn org.apache.tomcat.maven:tomcat7-maven-plugin::run -Pstart-dev-server,postgresql $*
+diff --git a/sonar-server/src/dev/h2/conf/logback.xml b/sonar-server/src/dev/h2/conf/logback.xml
+deleted file mode 100644
+index a5dca48..0000000
+--- a/sonar-server/src/dev/h2/conf/logback.xml
++++ /dev/null
+@@ -1,43 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8" ?>
+-<configuration>
+-
+-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+-    <encoder>
+-      <pattern>
+-        %d{HH:mm:ss.SSS} %-5level %logger{20} %X - %msg%n
+-      </pattern>
+-    </encoder>
+-  </appender>
+-
+-  <logger name="rails">
+-    <level value="DEBUG"/>
+-  </logger>
+-
+-  <logger name="org.hibernate.cache.ReadWriteCache">
+-    <!-- removing "An item was expired by the cache while it was locked (increase your cache timeout)" msg -->
+-    <level value="ERROR"/>
+-  </logger>
+-  <logger name="org.hibernate">
+-    <level value="WARN"/>
+-  </logger>
+-
+-  <!-- Display SQL requests and results by setting the following loggers to level DEBUG -->
+-  <logger name="org.hibernate.SQL">
+-    <level value="WARN"/>
+-  </logger>
+-  <logger name="org.apache.ibatis">
+-    <level value="DEBUG"/>
+-  </logger>
+-  <logger name="java.sql">
+-    <level value="DEBUG"/>
+-  </logger>
+-  <logger name="java.sql.ResultSet">
+-    <level value="WARN"/>
+-  </logger>
+-
+-  <root>
+-    <level value="INFO"/>
+-    <appender-ref ref="STDOUT"/>
+-  </root>
+-
+-</configuration>
+diff --git a/sonar-server/src/dev/h2/conf/sonar.properties b/sonar-server/src/dev/h2/conf/sonar.properties
+deleted file mode 100644
+index 003a1e5..0000000
+--- a/sonar-server/src/dev/h2/conf/sonar.properties
++++ /dev/null
+@@ -1,17 +0,0 @@
+-# H2
+-sonar.jdbc.url=jdbc:h2:tcp://localhost:9092/sonar
+-sonar.jdbc.driverClassName=org.h2.Driver
+-sonar.jdbc.defaultTransactionIsolation=1
+-sonar.jdbc.username=sonar
+-sonar.jdbc.password=sonar
+-sonar.jdbc.maxActive=30
+-sonar.jdbc.maxIdle=10
+-sonar.jdbc.minIdle=2
+-sonar.jdbc.maxWait=5000
+-sonar.jdbc.minEvictableIdleTimeMillis=600000
+-sonar.jdbc.timeBetweenEvictionRunsMillis=30000
+-
+-sonar.runtime.mode=development
+-
+-sonar.embeddedDatabase.port=9092
+-
+diff --git a/sonar-server/src/dev/logback.xml b/sonar-server/src/dev/logback.xml
+new file mode 100644
+index 0000000..d0dda90
+--- /dev/null
++++ b/sonar-server/src/dev/logback.xml
+@@ -0,0 +1,43 @@
++<?xml version="1.0" encoding="UTF-8" ?>
++<configuration>
++
++  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
++    <encoder>
++      <pattern>
++        %d{HH:mm:ss.SSS} %-5level %logger{20} %X - %msg%n
++      </pattern>
++    </encoder>
++  </appender>
++
++  <logger name="rails">
++    <level value="DEBUG"/>
++  </logger>
++
++  <logger name="org.hibernate.cache.ReadWriteCache">
++    <!-- removing "An item was expired by the cache while it was locked (increase your cache timeout)" msg -->
++    <level value="ERROR"/>
++  </logger>
++  <logger name="org.hibernate">
++    <level value="WARN"/>
++  </logger>
++
++  <!-- Display SQL requests and results by setting the following loggers to level DEBUG -->
++  <logger name="org.hibernate.SQL">
++    <level value="WARN"/>
++  </logger>
++  <logger name="org.apache.ibatis">
++    <level value="DEBUG"/>
++  </logger>
++  <logger name="java.sql">
++    <level value="DEBUG"/>
++  </logger>
++  <logger name="java.sql.ResultSet">
++    <level value="WARN"/>
++  </logger>
++
++  <root>
++    <level value="DEBUG"/>
++    <appender-ref ref="STDOUT"/>
++  </root>
++
++</configuration>
+diff --git a/sonar-server/src/dev/mysql/conf/logback.xml b/sonar-server/src/dev/mysql/conf/logback.xml
+deleted file mode 100644
+index a5dca48..0000000
+--- a/sonar-server/src/dev/mysql/conf/logback.xml
++++ /dev/null
+@@ -1,43 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8" ?>
+-<configuration>
+-
+-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+-    <encoder>
+-      <pattern>
+-        %d{HH:mm:ss.SSS} %-5level %logger{20} %X - %msg%n
+-      </pattern>
+-    </encoder>
+-  </appender>
+-
+-  <logger name="rails">
+-    <level value="DEBUG"/>
+-  </logger>
+-
+-  <logger name="org.hibernate.cache.ReadWriteCache">
+-    <!-- removing "An item was expired by the cache while it was locked (increase your cache timeout)" msg -->
+-    <level value="ERROR"/>
+-  </logger>
+-  <logger name="org.hibernate">
+-    <level value="WARN"/>
+-  </logger>
+-
+-  <!-- Display SQL requests and results by setting the following loggers to level DEBUG -->
+-  <logger name="org.hibernate.SQL">
+-    <level value="WARN"/>
+-  </logger>
+-  <logger name="org.apache.ibatis">
+-    <level value="DEBUG"/>
+-  </logger>
+-  <logger name="java.sql">
+-    <level value="DEBUG"/>
+-  </logger>
+-  <logger name="java.sql.ResultSet">
+-    <level value="WARN"/>
+-  </logger>
+-
+-  <root>
+-    <level value="INFO"/>
+-    <appender-ref ref="STDOUT"/>
+-  </root>
+-
+-</configuration>
+diff --git a/sonar-server/src/dev/mysql/conf/sonar.properties b/sonar-server/src/dev/mysql/conf/sonar.properties
+deleted file mode 100644
+index d359947..0000000
+--- a/sonar-server/src/dev/mysql/conf/sonar.properties
++++ /dev/null
+@@ -1,13 +0,0 @@
+-# MySql
+-sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar?autoReconnect=true&useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+-sonar.jdbc.driverClassName=com.mysql.jdbc.Driver
+-sonar.jdbc.username=sonar
+-sonar.jdbc.password=sonar
+-sonar.jdbc.maxActive=30
+-sonar.jdbc.maxIdle=10
+-sonar.jdbc.minIdle=2
+-sonar.jdbc.maxWait=5000
+-sonar.jdbc.minEvictableIdleTimeMillis=600000
+-sonar.jdbc.timeBetweenEvictionRunsMillis=30000
+-
+-sonar.runtime.mode=development
+diff --git a/sonar-server/src/dev/postgresql/conf/logback.xml b/sonar-server/src/dev/postgresql/conf/logback.xml
+deleted file mode 100644
+index a5dca48..0000000
+--- a/sonar-server/src/dev/postgresql/conf/logback.xml
++++ /dev/null
+@@ -1,43 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8" ?>
+-<configuration>
+-
+-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+-    <encoder>
+-      <pattern>
+-        %d{HH:mm:ss.SSS} %-5level %logger{20} %X - %msg%n
+-      </pattern>
+-    </encoder>
+-  </appender>
+-
+-  <logger name="rails">
+-    <level value="DEBUG"/>
+-  </logger>
+-
+-  <logger name="org.hibernate.cache.ReadWriteCache">
+-    <!-- removing "An item was expired by the cache while it was locked (increase your cache timeout)" msg -->
+-    <level value="ERROR"/>
+-  </logger>
+-  <logger name="org.hibernate">
+-    <level value="WARN"/>
+-  </logger>
+-
+-  <!-- Display SQL requests and results by setting the following loggers to level DEBUG -->
+-  <logger name="org.hibernate.SQL">
+-    <level value="WARN"/>
+-  </logger>
+-  <logger name="org.apache.ibatis">
+-    <level value="DEBUG"/>
+-  </logger>
+-  <logger name="java.sql">
+-    <level value="DEBUG"/>
+-  </logger>
+-  <logger name="java.sql.ResultSet">
+-    <level value="WARN"/>
+-  </logger>
+-
+-  <root>
+-    <level value="INFO"/>
+-    <appender-ref ref="STDOUT"/>
+-  </root>
+-
+-</configuration>
+diff --git a/sonar-server/src/dev/postgresql/conf/sonar.properties b/sonar-server/src/dev/postgresql/conf/sonar.properties
+deleted file mode 100644
+index 0e996e3..0000000
+--- a/sonar-server/src/dev/postgresql/conf/sonar.properties
++++ /dev/null
+@@ -1,13 +0,0 @@
+-# Postgresql
+-sonar.jdbc.url=jdbc:postgresql://localhost/sonar
+-sonar.jdbc.driverClassName=org.postgresql.Driver
+-sonar.jdbc.username=sonar
+-sonar.jdbc.password=sonar
+-sonar.jdbc.maxActive=30
+-sonar.jdbc.maxIdle=10
+-sonar.jdbc.minIdle=2
+-sonar.jdbc.maxWait=5000
+-sonar.jdbc.minEvictableIdleTimeMillis=600000
+-sonar.jdbc.timeBetweenEvictionRunsMillis=30000
+-
+-sonar.runtime.mode=development
+diff --git a/sonar-server/src/dev/sonar.properties b/sonar-server/src/dev/sonar.properties
+new file mode 100644
+index 0000000..2c27f70
+--- /dev/null
++++ b/sonar-server/src/dev/sonar.properties
+@@ -0,0 +1 @@
++# Properties are set by Maven. See profile start-dev-server.
+diff --git a/sonar-server/src/dev/web.xml b/sonar-server/src/dev/web.xml
+deleted file mode 100644
+index d6ec565..0000000
+--- a/sonar-server/src/dev/web.xml
++++ /dev/null
+@@ -1,119 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xmlns="http://java.sun.com/xml/ns/javaee"
+-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+-         id="SonarQube"
+-         version="3.0"
+-         metadata-complete="true">
+-  <display-name>SonarQube</display-name>
+-
+-  <context-param>
+-    <param-name>public.root</param-name>
+-    <param-value>/</param-value>
+-  </context-param>
+-
+-  <context-param>
+-    <param-name>rails.env</param-name>
+-    <param-value>development</param-value>
+-  </context-param>
+-  <context-param>
+-    <param-name>jruby.min.runtimes</param-name>
+-    <param-value>1</param-value>
+-  </context-param>
+-  <context-param>
+-    <param-name>jruby.max.runtimes</param-name>
+-    <param-value>3</param-value>
+-  </context-param>
+-  <context-param>
+-    <param-name>jruby.compat.version</param-name>
+-    <param-value>1.8</param-value>
+-  </context-param>
+-  <context-param>
+-    <param-name>jruby.rack.logging</param-name>
+-    <param-value>slf4j</param-value>
+-  </context-param>
+-
+-  <filter>
+-    <filter-name>ServletFilters</filter-name>
+-    <filter-class>org.sonar.server.platform.MasterServletFilter</filter-class>
+-  </filter>
+-  <filter>
+-    <filter-name>DatabaseSessionFilter</filter-name>
+-    <filter-class>org.sonar.server.ui.DatabaseSessionFilter</filter-class>
+-  </filter>
+-  <filter>
+-    <filter-name>UserSessionFilter</filter-name>
+-    <filter-class>org.sonar.server.user.UserSessionFilter</filter-class>
+-  </filter>
+-  <filter>
+-    <filter-name>RackFilter</filter-name>
+-    <filter-class>org.jruby.rack.RackFilter</filter-class>
+-  </filter>
+-
+-  <filter-mapping>
+-    <filter-name>DatabaseSessionFilter</filter-name>
+-    <url-pattern>/*</url-pattern>
+-  </filter-mapping>
+-  <filter-mapping>
+-    <filter-name>UserSessionFilter</filter-name>
+-    <url-pattern>/*</url-pattern>
+-  </filter-mapping>
+-  <filter-mapping>
+-    <filter-name>ServletFilters</filter-name>
+-    <url-pattern>/*</url-pattern>
+-  </filter-mapping>
+-  <filter-mapping>
+-    <filter-name>RackFilter</filter-name>
+-    <url-pattern>/*</url-pattern>
+-  </filter-mapping>
+-
+-  <servlet>
+-    <servlet-name>chart</servlet-name>
+-    <servlet-class>org.sonar.server.charts.ChartsServlet</servlet-class>
+-  </servlet>
+-  <servlet>
+-    <servlet-name>gchart</servlet-name>
+-    <servlet-class>org.jfree.eastwood.ChartServlet</servlet-class>
+-  </servlet>
+-  <servlet>
+-    <servlet-name>static</servlet-name>
+-    <servlet-class>org.sonar.server.plugins.StaticResourcesServlet</servlet-class>
+-  </servlet>
+-  <servlet>
+-    <servlet-name>batch</servlet-name>
+-    <servlet-class>org.sonar.server.plugins.BatchResourcesServlet</servlet-class>
+-  </servlet>
+-
+-  <servlet-mapping>
+-    <servlet-name>chart</servlet-name>
+-    <url-pattern>/chart</url-pattern>
+-  </servlet-mapping>
+-  <servlet-mapping>
+-    <servlet-name>gchart</servlet-name>
+-    <url-pattern>/gchart</url-pattern>
+-  </servlet-mapping>
+-  <servlet-mapping>
+-    <servlet-name>static</servlet-name>
+-    <url-pattern>/static/*</url-pattern>
+-  </servlet-mapping>
+-  <servlet-mapping>
+-    <servlet-name>batch</servlet-name>
+-    <url-pattern>/batch/*</url-pattern>
+-  </servlet-mapping>
+-
+-  <session-config>
+-    <!-- in minutes -->
+-    <session-timeout>20</session-timeout>
+-    <cookie-config>
+-      <http-only>true</http-only>
+-    </cookie-config>
+-  </session-config>
+-
+-  <listener>
+-    <listener-class>org.sonar.server.platform.PlatformLifecycleListener</listener-class>
+-  </listener>
+-  <listener>
+-    <listener-class>org.jruby.rack.rails.RailsServletContextListener</listener-class>
+-  </listener>
+-
+-</web-app>
+diff --git a/sonar-server/src/main/webapp/META-INF/context.xml b/sonar-server/src/main/webapp/META-INF/context.xml
+index b2c70d3..db181e0 100644
+--- a/sonar-server/src/main/webapp/META-INF/context.xml
++++ b/sonar-server/src/main/webapp/META-INF/context.xml
+@@ -1,2 +1,2 @@
+-<Context antiJARLocking="true" antiResourceLocking="true" useHttpOnly="true" reloadable="false" processTlds="false"
+-         unpackWAR="false" useNaming="false" xmlValidation="false" xmlNamespaceAware="false" tldValidation="false"
++<Context useHttpOnly="true" reloadable="false" processTlds="false"
++         useNaming="false" xmlValidation="false" xmlNamespaceAware="false" tldValidation="false"
+diff --git a/sonar-server/src/main/webapp/WEB-INF/web.xml b/sonar-server/src/main/webapp/WEB-INF/web.xml
+index 69c7533..26701bf 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/web.xml
++++ b/sonar-server/src/main/webapp/WEB-INF/web.xml
+@@ -9,0 +10,7 @@
++  <!--
++  jruby-rack parameters
++
++  rails.env and jruby.max.runtimes depend on mode (development/production) and are injected by :
++  - system properties for dev mode (see sonar-server pom)
++  - embedded tomcat for production mode (see sonar-application)
++   -->
+@@ -15,4 +21,0 @@
+-    <param-name>rails.env</param-name>
+-    <param-value>production</param-value>
+-  </context-param>
+-  <context-param>
+@@ -20,4 +22,0 @@
+-    <param-value>1</param-value>
+-  </context-param>
+-  <context-param>
+-    <param-name>jruby.max.runtimes</param-name>
+

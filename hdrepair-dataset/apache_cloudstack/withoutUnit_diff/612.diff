@@ -1,0 +1,8 @@
+diff --git a/server/src/com/cloud/user/AccountManagerImpl.java b/server/src/com/cloud/user/AccountManagerImpl.java
+index 789a09f..4e342e0 100755
+--- a/server/src/com/cloud/user/AccountManagerImpl.java
++++ b/server/src/com/cloud/user/AccountManagerImpl.java
+@@ -1465 +1465 @@
+-        if(duplicateAcccount != null && duplicateAcccount.getId() != account.getId()){//allow same account to update itself
++        if(duplicateAcccount != null && duplicateAcccount.getRemoved() == null && duplicateAcccount.getId() != account.getId()){//allow same account to update itself
+

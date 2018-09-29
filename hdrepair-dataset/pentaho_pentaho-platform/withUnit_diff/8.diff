@@ -1,0 +1,16 @@
+diff --git a/core/test-src/org/pentaho/commons/system/LoadDriversListenerTest.java b/core/test-src/org/pentaho/commons/system/LoadDriversListenerTest.java
+index c85be93..c6c054c 100644
+--- a/core/test-src/org/pentaho/commons/system/LoadDriversListenerTest.java
++++ b/core/test-src/org/pentaho/commons/system/LoadDriversListenerTest.java
+@@ -82 +82,2 @@
+-    @Override public Logger getParentLogger() throws SQLFeatureNotSupportedException {
++    //don't add @Override annotation for Java 6 compatibility (class Driver doesn't have getParentLogger method in Java 6)
++    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+diff --git a/extensions/src/org/pentaho/platform/plugin/services/connections/PentahoSystemDriver.java b/extensions/src/org/pentaho/platform/plugin/services/connections/PentahoSystemDriver.java
+index 1a2620f..6befc8b 100644
+--- a/extensions/src/org/pentaho/platform/plugin/services/connections/PentahoSystemDriver.java
++++ b/extensions/src/org/pentaho/platform/plugin/services/connections/PentahoSystemDriver.java
+@@ -122 +122 @@
+-  @Override
++  //don't add @Override annotation for Java 6 compatibility (class Driver doesn't have getParentLogger method in Java 6)
+

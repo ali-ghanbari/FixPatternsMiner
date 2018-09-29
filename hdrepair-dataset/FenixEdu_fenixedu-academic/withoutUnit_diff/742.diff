@@ -1,0 +1,8 @@
+diff --git a/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java b/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java
+index 68ddee6..b63ec58 100755
+--- a/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java
++++ b/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java
+@@ -485 +485 @@
+-        if (competenceCourse.getRegime().equals(RegimeType.ANUAL) && curricularPeriod.getChildByOrder(1) == null) {
++        if (competenceCourse.getRegime().equals(RegimeType.ANUAL) && (curricularPeriod.getOrder() == null || curricularPeriod.getOrder() != 1)) {
+

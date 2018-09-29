@@ -1,0 +1,19 @@
+diff --git a/src/java/org/lwjgl/opengl/LinuxDisplay.java b/src/java/org/lwjgl/opengl/LinuxDisplay.java
+index 50b31ed..f9f8cdb 100644
+--- a/src/java/org/lwjgl/opengl/LinuxDisplay.java
++++ b/src/java/org/lwjgl/opengl/LinuxDisplay.java
+@@ -471 +471 @@
+-			long w = parent_window;
++			long w = window;
+diff --git a/src/native/linux/org_lwjgl_opengl_Display.c b/src/native/linux/org_lwjgl_opengl_Display.c
+index aae01bc..cb0838c 100644
+--- a/src/native/linux/org_lwjgl_opengl_Display.c
++++ b/src/native/linux/org_lwjgl_opengl_Display.c
+@@ -88 +88,3 @@
+-		if (org_lwjgl_LinuxDisplay_class == NULL)
++		if (org_lwjgl_LinuxDisplay_class == NULL) {
++			// Don't propagate error
++			(*env)->ExceptionClear(env);
+@@ -89,0 +92 @@
++		}
+

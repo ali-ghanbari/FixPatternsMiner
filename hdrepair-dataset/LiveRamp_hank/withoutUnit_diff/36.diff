@@ -1,0 +1,15 @@
+diff --git a/src/java/com/rapleaf/hank/ui/domain.jsp b/src/java/com/rapleaf/hank/ui/domain.jsp
+index 08227a4..07e1624 100644
+--- a/src/java/com/rapleaf/hank/ui/domain.jsp
++++ b/src/java/com/rapleaf/hank/ui/domain.jsp
+@@ -118 +118 @@
+-    <td><%= version.getTotalNumRecords() %></td>
++    <td><%= String.format("%,d", version.getTotalNumRecords()) %></td>
+diff --git a/test/java/com/rapleaf/hank/ui/StatusWebDaemonTester.java b/test/java/com/rapleaf/hank/ui/StatusWebDaemonTester.java
+index 8a93460..d936d9c 100644
+--- a/test/java/com/rapleaf/hank/ui/StatusWebDaemonTester.java
++++ b/test/java/com/rapleaf/hank/ui/StatusWebDaemonTester.java
+@@ -46 +46 @@
+-    ver.addPartitionInfo(1, 32555, 700);
++    ver.addPartitionInfo(1, 32555, 7500000000L);
+

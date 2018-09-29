@@ -1,0 +1,6 @@
+[bugfix] In some cases (collections inside /db/system/config, for instance) the group can remain as
+	null, which fires problems in org.exist.xmlrpc.RpcConnection at describeCollection's output
+	generation (group is null), leading to null answers.
+
+svn path=/trunk/eXist/; revision=9080
+

@@ -1,0 +1,16 @@
+diff --git a/pmd-eclipse-plugin/ReleaseNotes.md b/pmd-eclipse-plugin/ReleaseNotes.md
+index dcb2176..4badb0c 100644
+--- a/pmd-eclipse-plugin/ReleaseNotes.md
++++ b/pmd-eclipse-plugin/ReleaseNotes.md
+@@ -12,0 +13 @@
++* Fixed Eclipse log file will not be filled ([bug #1112])
+@@ -19,0 +21 @@
++[bug #1112]: https://sourceforge.net/p/pmd/bugs/1112/
+diff --git a/pmd-eclipse-plugin/net.sourceforge.pmd.eclipse.plugin/src/main/java/net/sourceforge/pmd/eclipse/runtime/preferences/IPreferences.java b/pmd-eclipse-plugin/net.sourceforge.pmd.eclipse.plugin/src/main/java/net/sourceforge/pmd/eclipse/runtime/preferences/IPreferences.java
+index 71d3813..416f167 100644
+--- a/pmd-eclipse-plugin/net.sourceforge.pmd.eclipse.plugin/src/main/java/net/sourceforge/pmd/eclipse/runtime/preferences/IPreferences.java
++++ b/pmd-eclipse-plugin/net.sourceforge.pmd.eclipse.plugin/src/main/java/net/sourceforge/pmd/eclipse/runtime/preferences/IPreferences.java
+@@ -65 +65 @@
+-    String LOG_FILENAME_DEFAULT = "pmd-eclipse.log";
++    String LOG_FILENAME_DEFAULT = System.getProperty("user.home") + "/pmd-eclipse.log";
+

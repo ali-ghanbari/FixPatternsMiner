@@ -1,0 +1,19 @@
+diff --git a/pax-runner-platform/src/main/java/org/ops4j/pax/runner/platform/internal/PlatformContextImpl.java b/pax-runner-platform/src/main/java/org/ops4j/pax/runner/platform/internal/PlatformContextImpl.java
+index 33210ff..e1ed8c0 100644
+--- a/pax-runner-platform/src/main/java/org/ops4j/pax/runner/platform/internal/PlatformContextImpl.java
++++ b/pax-runner-platform/src/main/java/org/ops4j/pax/runner/platform/internal/PlatformContextImpl.java
+@@ -203 +203 @@
+-        return out;
++        return out.replace( File.separatorChar, '/' );
+diff --git a/pax-runner-platform/src/test/java/org/ops4j/pax/runner/platform/internal/PathNormalizeTest.java b/pax-runner-platform/src/test/java/org/ops4j/pax/runner/platform/internal/PathNormalizeTest.java
+index 6532dc1..874b3bc 100644
+--- a/pax-runner-platform/src/test/java/org/ops4j/pax/runner/platform/internal/PathNormalizeTest.java
++++ b/pax-runner-platform/src/test/java/org/ops4j/pax/runner/platform/internal/PathNormalizeTest.java
+@@ -16 +15,0 @@
+-
+@@ -42 +41,3 @@
+-        assertEquals( "/other/runner/config/myconf.ini", normalize( "/work/runner", "/other/runner/config/myconf.ini" ) );
++        String root = normalize( ".", "/" );
++
++        assertEquals( root + "other/runner/config/myconf.ini", normalize( "/work/runner", "/other/runner/config/myconf.ini" ) );
+

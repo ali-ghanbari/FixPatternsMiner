@@ -1,0 +1,182 @@
+diff --git a/src/main/mondrian/rolap/cache/SegmentCacheIndexImpl.java b/src/main/mondrian/rolap/cache/SegmentCacheIndexImpl.java
+index b7c56d1..8237fe3 100644
+--- a/src/main/mondrian/rolap/cache/SegmentCacheIndexImpl.java
++++ b/src/main/mondrian/rolap/cache/SegmentCacheIndexImpl.java
+@@ -350 +350 @@
+-                regionColumn.getValues();
++                headerColumn.getValues();
+diff --git a/testsrc/main/mondrian/rolap/CacheControlTest.java b/testsrc/main/mondrian/rolap/CacheControlTest.java
+index 197150f..627d37d 100644
+--- a/testsrc/main/mondrian/rolap/CacheControlTest.java
++++ b/testsrc/main/mondrian/rolap/CacheControlTest.java
+@@ -510,0 +511,38 @@
++     * This is a test for
++     * <a href="http://jira.pentaho.com/browse/MONDRIAN-1120">MONDRIAN-1120</a>
++     * <p>SegmentCacheIndexImpl.intersects was not comparing the
++     * header column values to those of the cache region.
++     */
++    public void testPartialFlush_2() throws Exception {
++        if (MondrianProperties.instance().DisableCaching.get()) {
++            return;
++        }
++
++        final TestContext testContext = getTestContext();
++        final StringWriter sw = new StringWriter();
++        final PrintWriter pw = new PrintWriter(sw);
++        final CacheControl cacheControl =
++            testContext.getConnection().getCacheControl(pw);
++
++        final CacheControl.CellRegion regionF =
++            createCellRegionFemale(testContext, cacheControl);
++        final CacheControl.CellRegion regionM =
++            createCellRegionMale(testContext, cacheControl);
++
++        flushCache(testContext);
++
++        executeQuery(
++            "select {[Measures].[Unit Sales]} on columns, {[Gender].[M]} on rows from [Sales]");
++
++        sw.getBuffer().setLength(0);
++        cacheControl.flush(regionF);
++        pw.flush();
++        assertCacheStateEquals("output", "${output}", sw.toString());
++
++        sw.getBuffer().setLength(0);
++        cacheControl.flush(regionM);
++        pw.flush();
++        assertCacheStateEquals("output2", "${output2}", sw.toString());
++    }
++
++    /**
+@@ -773,0 +812,48 @@
++    private CacheControl.CellRegion createCellRegionFemale(
++        TestContext testContext,
++        CacheControl cacheControl)
++    {
++        final Connection connection = testContext.getConnection();
++        final Cube salesCube =
++            connection.getSchema().lookupCube("Sales", true);
++
++        final SchemaReader schemaReader =
++            salesCube.getSchemaReader(null).withLocus();
++        final Member memberFemale =
++            schemaReader.getMemberByUniqueName(
++                Id.Segment.toList("Gender", "F"), true);
++
++        final CacheControl.CellRegion regionFemale =
++            cacheControl.createMemberRegion(memberFemale, true);
++
++        final CacheControl.CellRegion measuresRegion =
++            cacheControl.createMeasuresRegion(salesCube);
++        return cacheControl.createCrossjoinRegion(
++            measuresRegion,
++            regionFemale);
++    }
++
++    private CacheControl.CellRegion createCellRegionMale(
++        TestContext testContext,
++        CacheControl cacheControl)
++    {
++        final Connection connection = testContext.getConnection();
++        final Cube salesCube =
++            connection.getSchema().lookupCube("Sales", true);
++
++        final SchemaReader schemaReader =
++            salesCube.getSchemaReader(null).withLocus();
++        final Member memberFemale =
++            schemaReader.getMemberByUniqueName(
++                Id.Segment.toList("Gender", "M"), true);
++
++        final CacheControl.CellRegion regionFemale =
++            cacheControl.createMemberRegion(memberFemale, true);
++
++        final CacheControl.CellRegion measuresRegion =
++            cacheControl.createMeasuresRegion(salesCube);
++        return cacheControl.createCrossjoinRegion(
++            measuresRegion,
++            regionFemale);
++    }
++
+diff --git a/testsrc/main/mondrian/rolap/CacheControlTest.ref.xml b/testsrc/main/mondrian/rolap/CacheControlTest.ref.xml
+index 522a7c5..890c9cb 100644
+--- a/testsrc/main/mondrian/rolap/CacheControlTest.ref.xml
++++ b/testsrc/main/mondrian/rolap/CacheControlTest.ref.xml
+@@ -2,0 +3,65 @@
++    <TestCase name="testPartialFlush_2">
++        <Resource name="output">
++            <![CDATA[Cache state before flush:
++*Segment Header
++Schema:[FoodMart]
++Checksum:[9cca66327439577753dd5c3144ab59b5]
++Cube:[Sales]
++Measure:[Unit Sales]
++Axes:[
++    {time_by_day.the_year=('1997')}
++    {customer.gender=('M')}]
++Excluded Regions:[]
++Compound Predicates:[]
++ID:[b70a039adfe811d6fed1c5b5de9eda03416bbb1eed70db8589ad788bc4ded83a]
++
++
++Cache state after flush:
++*Segment Header
++Schema:[FoodMart]
++Checksum:[9cca66327439577753dd5c3144ab59b5]
++Cube:[Sales]
++Measure:[Unit Sales]
++Axes:[
++    {time_by_day.the_year=('1997')}
++    {customer.gender=('M')}]
++Excluded Regions:[]
++Compound Predicates:[]
++ID:[b70a039adfe811d6fed1c5b5de9eda03416bbb1eed70db8589ad788bc4ded83a]
++
++
++]]>
++        </Resource>
++        <Resource name="output2">
++            <![CDATA[Cache state before flush:
++*Segment Header
++Schema:[FoodMart]
++Checksum:[9cca66327439577753dd5c3144ab59b5]
++Cube:[Sales]
++Measure:[Unit Sales]
++Axes:[
++    {time_by_day.the_year=('1997')}
++    {customer.gender=('M')}]
++Excluded Regions:[]
++Compound Predicates:[]
++ID:[b70a039adfe811d6fed1c5b5de9eda03416bbb1eed70db8589ad788bc4ded83a]
++
++
++discard segment - it cannot be constrained and maintain consistency:
++*Segment Header
++Schema:[FoodMart]
++Checksum:[9cca66327439577753dd5c3144ab59b5]
++Cube:[Sales]
++Measure:[Unit Sales]
++Axes:[
++    {time_by_day.the_year=('1997')}
++    {customer.gender=('M')}]
++Excluded Regions:[]
++Compound Predicates:[]
++ID:[b70a039adfe811d6fed1c5b5de9eda03416bbb1eed70db8589ad788bc4ded83a]
++
++Cache state after flush:
++
++]]>
++        </Resource>
++    </TestCase>
+diff --git a/testsrc/main/mondrian/test/AccessControlTest.java b/testsrc/main/mondrian/test/AccessControlTest.java
+index fff8224..52c3a14 100644
+--- a/testsrc/main/mondrian/test/AccessControlTest.java
++++ b/testsrc/main/mondrian/test/AccessControlTest.java
+@@ -15,0 +16 @@
++
+diff --git a/testsrc/main/mondrian/test/UdfTest.java b/testsrc/main/mondrian/test/UdfTest.java
+index c87e246..78c07da 100644
+--- a/testsrc/main/mondrian/test/UdfTest.java
++++ b/testsrc/main/mondrian/test/UdfTest.java
+@@ -20,0 +21 @@
++
+

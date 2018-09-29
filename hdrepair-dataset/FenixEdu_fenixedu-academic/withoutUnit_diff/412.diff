@@ -1,0 +1,151 @@
+diff --git a/jsp/publico/department/showPublications.jsp b/jsp/publico/department/showPublications.jsp
+index bf90462..7bee9f7 100644
+--- a/jsp/publico/department/showPublications.jsp
++++ b/jsp/publico/department/showPublications.jsp
+@@ -50,4 +50,5 @@
+-		<p id='books' class="mtop2 mbottom0"><strong><span><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.Books"/></span></strong></p>
+-		<bean:define id="currentSchema" value="result.publication.presentation.Book" toScope="request"/>
+-		<bean:define id="results" name="books" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
++	<p id='books' class="mtop2 mbottom0"><strong><span>
++	<bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.Books" /></span></strong></p>
++		<bean:define id="currentSchema" value="result.publication.presentation.Book" toScope="request" />
++		<bean:define id="results" name="books" toScope="request" />
++		<jsp:include page="publicationsResume.jsp" />
+@@ -57,4 +58,6 @@
+-		<p id='inbooks' class="mtop2 mbottom0"><strong><span><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.BookParts"/></span></strong></p>
+-		<bean:define id="currentSchema" value="result.publication.presentation.BookPart" toScope="request"/>
+-		<bean:define id="results" name="inbooks" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
++	<p id='inbooks' class="mtop2 mbottom0"><strong><span>
++		<bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.BookParts" /></span></strong></p>
++		<bean:define id="currentSchema"
++			value="result.publication.presentation.BookPart" toScope="request" />
++		<bean:define id="results" name="inbooks" toScope="request" />
++		<jsp:include page="publicationsResume.jsp" />
+@@ -62,12 +64,0 @@
+-	
+-	<bean:define id="hasArticles" value="false" toScope="request"/>
+-	<logic:notEmpty name="national-articles"> 
+-		<bean:define id="hasArticles" value="true" toScope="request"/>
+-	</logic:notEmpty>
+-	<logic:notEmpty name="international-articles"> 
+-		<bean:define id="hasArticles" value="true" toScope="request"/>
+-	</logic:notEmpty>	
+-	
+-	<logic:equal name="hasArticles" value="true">
+-		<p id='books' class="mtop2 mbottom0"/>
+-		<bean:define id="currentSchema" value="result.publication.presentation.Article" toScope="request"/>
+@@ -75,15 +66,11 @@
+-		<logic:notEmpty name="international-articles">
+-		<p class="mtop2 mbottom0"><strong><bean:message key="label.internationalArticles" bundle="RESEARCHER_RESOURCES"/></strong></p>
+-		<bean:define id="results" name="international-articles" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
+-		</logic:notEmpty>
+-		
+-		<logic:notEmpty name="national-articles">
+-		<p class="mtop2 mbottom0"><strong><bean:message key="label.nationalArticles" bundle="RESEARCHER_RESOURCES"/></strong></p>
+-		<bean:define id="results" name="national-articles" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
+-		</logic:notEmpty>
+-	</logic:equal>
+-	
+-	<logic:notEmpty name="international-inproceedings">
+-		<p id='inproceedings' class="mtop2 mbottom0"/><span><strong><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.InternationalInproceedings"/></strong></span></p>
++<logic:notEmpty name="articles">
++	<p id='books' class="mtop2 mbottom0"><strong><span>
++		<bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.Articles" /></span></strong></p>
++		<bean:define id="currentSchema"
++			value="result.publication.presentation.Article" toScope="request" />
++		<bean:define id="results" name="articles" toScope="request" />
++		<jsp:include page="publicationsResume.jsp" />
++	</logic:notEmpty>
++
++	<logic:notEmpty name="inproceedings">
++		<p id='inproceedings' class="mtop2 mbottom0"/><span><strong><bean:message bundle="RESEARCHER_RESOURCES" key="research.ResultPublication.Inproceedings"/></strong></span></p>
+@@ -91 +78 @@
+-		<bean:define id="results" name="international-inproceedings" toScope="request"/>
++		<bean:define id="results" name="inproceedings" toScope="request"/>
+@@ -94,8 +81 @@
+-	
+-	<logic:notEmpty name="national-inproceedings">
+-		<p id='inproceedings' class="mtop2 mbottom0"/><span><strong><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.NationalInproceedings"/></strong></span></p>
+-		<bean:define id="currentSchema" value="result.publication.presentation.Inproceedings" toScope="request"/>
+-		<bean:define id="results" name="national-inproceedings" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
+-	</logic:notEmpty>
+-	
++
+@@ -108 +88 @@
+-	
++
+@@ -110,4 +90,7 @@
+-		<p id='theses' class="mtop2 mbottom0"/><span><strong><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.Theses"/></strong></span></p>
+-		<bean:define id="currentSchema" value="result.publication.presentation.Thesis" toScope="request"/>
+-		<bean:define id="results" name="theses" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
++	<p id='books' class="mtop2 mbottom0"><strong><span>
++		<bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.Theses" />
++	</span></strong></p>
++		<bean:define id="currentSchema"
++			value="result.publication.presentation.Thesis" toScope="request" />
++		<bean:define id="results" name="theses" toScope="request" />
++		<jsp:include page="publicationsResume.jsp" />
+@@ -115 +98 @@
+-	
++
+@@ -117,4 +100,5 @@
+-		<p id='manuals' class="mtop2 mbottom0"/><span><strong><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.Manuals"/></strong></span></p>
+-		<bean:define id="currentSchema" value="result.publication.presentation.Manual" toScope="request"/>
+-		<bean:define id="results" name="manuals" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
++	<p id='books' class="mtop2 mbottom0"><strong><span>
++		<bean:message bundle="RESEARCHER_RESOURCES"	key="researcher.ResultPublication.Manuals" /></span></strong></p>
++		<bean:define id="currentSchema" value="result.publication.presentation.Manual" toScope="request" />
++		<bean:define id="results" name="manuals" toScope="request" />
++		<jsp:include page="publicationsResume.jsp" />
+@@ -122 +106 @@
+-	
++
+@@ -124,4 +108,8 @@
+-		<p id='technicalReports' class="mtop2 mbottom0"/><span><strong><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.TechnicalReports"/></strong></span></p>
+-		<bean:define id="currentSchema" value="result.publication.presentation.TechnicalReport" toScope="request"/>
+-		<bean:define id="results" name="technicalReports" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
++	<p id='books' class="mtop2 mbottom0"><strong><span>
++		<bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.TechnicalReports" />
++	</span></strong></p>
++		<bean:define id="currentSchema"
++			value="result.publication.presentation.TechnicalReport"
++			toScope="request" />
++		<bean:define id="results" name="technical-reports" toScope="request" />
++		<jsp:include page="publicationsResume.jsp" />
+@@ -129 +117 @@
+-	
++
+@@ -131,4 +119,8 @@
+-		<p id='otherPublications' class="mtop2 mbottom0"/><span><strong><bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.OtherPublications"/></strong></span></p>
+-		<bean:define id="currentSchema" value="result.publication.presentation.OtherPublication" toScope="request"/>
+-		<bean:define id="results" name="otherPublications" toScope="request"/>
+-		<jsp:include page="publicationsResume.jsp"/>
++	<p id='books' class="mtop2 mbottom0"><strong><span>
++		<bean:message bundle="RESEARCHER_RESOURCES" key="researcher.ResultPublication.OtherPublications" />
++	</span></strong></p>
++		<bean:define id="currentSchema"
++			value="result.publication.presentation.OtherPublication"
++			toScope="request" />
++		<bean:define id="results" name="otherPublications" toScope="request" />
++		<jsp:include page="publicationsResume.jsp" />
+@@ -136 +128 @@
+-	
++
+@@ -156,0 +149 @@
++
+diff --git a/src/net/sourceforge/fenixedu/presentationTier/Action/publico/UnitSiteVisualizationDA.java b/src/net/sourceforge/fenixedu/presentationTier/Action/publico/UnitSiteVisualizationDA.java
+index 4b3d2ef..ac49763 100644
+--- a/src/net/sourceforge/fenixedu/presentationTier/Action/publico/UnitSiteVisualizationDA.java
++++ b/src/net/sourceforge/fenixedu/presentationTier/Action/publico/UnitSiteVisualizationDA.java
+@@ -210,0 +211,2 @@
++	    request.setAttribute("articles", ResearchResultPublication.sort(unit.getArticles(
++		    firstExecutionYear, finalExecutionYear, checkSubunits)));
+

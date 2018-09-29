@@ -1,0 +1,35 @@
+diff --git a/sonar-core/src/main/java/org/sonar/core/persistence/dialect/H2.java b/sonar-core/src/main/java/org/sonar/core/persistence/dialect/H2.java
+index 3e572aa..0c80c7d 100644
+--- a/sonar-core/src/main/java/org/sonar/core/persistence/dialect/H2.java
++++ b/sonar-core/src/main/java/org/sonar/core/persistence/dialect/H2.java
+@@ -33 +33 @@
+-    super(ID, "h2", "org.h2.Driver", "true", "false", "SELECT 1");
++    super(ID, ".h2.", "org.h2.Driver", "true", "false", "SELECT 1");
+diff --git a/sonar-core/src/test/java/org/sonar/core/persistence/dialect/H2Test.java b/sonar-core/src/test/java/org/sonar/core/persistence/dialect/H2Test.java
+index 6c47375..15a519e 100644
+--- a/sonar-core/src/test/java/org/sonar/core/persistence/dialect/H2Test.java
++++ b/sonar-core/src/test/java/org/sonar/core/persistence/dialect/H2Test.java
+@@ -45 +45 @@
+-    assertThat(h2.getActiveRecordDialectCode()).isEqualTo("h2");
++    assertThat(h2.getActiveRecordDialectCode()).isEqualTo(".h2.");
+diff --git a/sonar-server/src/main/webapp/WEB-INF/config/initializers/better_quoting.rb b/sonar-server/src/main/webapp/WEB-INF/config/initializers/better_quoting.rb
+deleted file mode 100644
+index 60071f6..0000000
+--- a/sonar-server/src/main/webapp/WEB-INF/config/initializers/better_quoting.rb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-# Override quoting for database without a specific jdbc adapter
+-# for example, H2
+-#
+-# Default quoting leads to bugs, see SONAR-3765
+-#
+-module ActiveRecord
+-  module ConnectionAdapters # :nodoc:
+-    module Quoting
+-      def quote_string(s)
+-        s.gsub(/'/, "''") # ' (for ruby-mode)
+-      end
+-    end
+-  end
+-end
+

@@ -1,0 +1,8 @@
+diff --git a/eol-globi-data-tool/src/main/java/org/eol/globi/export/StudyExportUnmatchedTaxaForStudies.java b/eol-globi-data-tool/src/main/java/org/eol/globi/export/StudyExportUnmatchedTaxaForStudies.java
+index 625b0ab..c35707d 100644
+--- a/eol-globi-data-tool/src/main/java/org/eol/globi/export/StudyExportUnmatchedTaxaForStudies.java
++++ b/eol-globi-data-tool/src/main/java/org/eol/globi/export/StudyExportUnmatchedTaxaForStudies.java
+@@ -32 +32 @@
+-        query.append("WHERE not(has(taxon.path))");
++        query.append("WHERE not(has(taxon.path)) OR taxon.path = 'no:match'");
+

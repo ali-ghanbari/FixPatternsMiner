@@ -1,0 +1,8 @@
+diff --git a/app/com/baasbox/controllers/Root.java b/app/com/baasbox/controllers/Root.java
+index 795afa5..423be58 100644
+--- a/app/com/baasbox/controllers/Root.java
++++ b/app/com/baasbox/controllers/Root.java
+@@ -77 +77 @@
+-	    	ObjectMapper mapper = new ObjectMapper();
++	    	ObjectMapper mapper = new ObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
+

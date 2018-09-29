@@ -1,0 +1,29 @@
+diff --git a/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java b/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
+index a0bab4c..7f3819b 100644
+--- a/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
++++ b/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
+@@ -236,0 +237,2 @@
++      // "Das Bündnis zwischen der Sowjetunion und Kuba":
++      build("<pos=PRP> <der> <chunk=NPP>+", PP),
+diff --git a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+index 9f1658d..cb74a62 100644
+--- a/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
++++ b/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar.xml
+@@ -24588,0 +24589,6 @@
++                    <token regexp="yes">Anfang|Mitte|Ende</token>
++                    <token>des</token>
++                    <token regexp="yes">\d+</token>
++                </antipattern>
++                <antipattern>
++                    <token postag="ZAL"/>
+@@ -24628,0 +24635 @@
++                <example>Die Biene Maja ist die Hauptfigur in zwei Anfang des 20. Jahrhunderts erschienenen Romanen.</example>
+diff --git a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
+index b60023e..1cb5bdd 100644
+--- a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
++++ b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
+@@ -291 +291,2 @@
+-        "Der Abzug der Besatzungssoldaten und deren mittlerweile ansässigen Angehörigen der Besatzungsmächte war vereinbart."
++        "Der Abzug der Besatzungssoldaten und deren mittlerweile ansässigen Angehörigen der Besatzungsmächte war vereinbart.",
++        "Das Bündnis zwischen der Sowjetunion und Kuba war für beide vorteilhaft."
+

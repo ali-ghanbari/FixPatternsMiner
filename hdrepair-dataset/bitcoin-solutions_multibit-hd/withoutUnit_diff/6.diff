@@ -1,0 +1,8 @@
+diff --git a/mbhd-swing/src/main/java/org/multibit/hd/ui/views/components/display_payments/DisplayPaymentsView.java b/mbhd-swing/src/main/java/org/multibit/hd/ui/views/components/display_payments/DisplayPaymentsView.java
+index 67b1253..4c1fd01 100644
+--- a/mbhd-swing/src/main/java/org/multibit/hd/ui/views/components/display_payments/DisplayPaymentsView.java
++++ b/mbhd-swing/src/main/java/org/multibit/hd/ui/views/components/display_payments/DisplayPaymentsView.java
+@@ -129 +129 @@
+-                boolean showLocalCurrency = !(paymentData.getAmountCoin().isPresent() && paymentData.getAmountCoin().get().compareTo(Coin.ZERO) == 0) &&
++                boolean showLocalCurrency = paymentData.getAmountCoin().isPresent() && paymentData.getAmountCoin().get().compareTo(Coin.ZERO) != 0 &&
+

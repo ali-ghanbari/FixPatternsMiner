@@ -1,0 +1,21 @@
+diff --git a/src/main/java/org/parboiled/buffers/IndentDedentInputBuffer.java b/src/main/java/org/parboiled/buffers/IndentDedentInputBuffer.java
+index e0faf27..dc206ef 100644
+--- a/src/main/java/org/parboiled/buffers/IndentDedentInputBuffer.java
++++ b/src/main/java/org/parboiled/buffers/IndentDedentInputBuffer.java
+@@ -27,3 +27,3 @@
+- * the line has the same indentation level as the line before), a special {@link Chars#INDENT} character (if the line
+- * has a deeper indentation level as the line before) or one or more {@link Chars#DEDENT} characters (if the line
+- * has a lower indentation level as the line before).
++ * the line has the same indentation level as the previous line), a special {@link Chars#INDENT} character (if the line
++ * has a greater indentation level than the previous line) or one or more {@link Chars#DEDENT} characters (if the line
++ * has a lower indentation level than the previous line).
+diff --git a/src/main/scala/org/parboiled/scala/Input.scala b/src/main/scala/org/parboiled/scala/Input.scala
+index 8fff250..03e8fff 100644
+--- a/src/main/scala/org/parboiled/scala/Input.scala
++++ b/src/main/scala/org/parboiled/scala/Input.scala
+@@ -18,0 +19,4 @@
++  /**
++   * Collects the actual input text the input buffer provides into a String.
++   * This is especially usefull for IndentDedentInputBuffers created by "transformIndents".
++   */
+

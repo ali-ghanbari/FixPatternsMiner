@@ -1,0 +1,11 @@
+[PDI-13082] - Regression: MapReduce Input is missing Serializable Data Type
+
+the Serializable datatype in this drop-down list was lost on making ValueMeta pluggable (4->5)
+using ValueMeta.getAllTypes() instead of ValueMeta.getTypes() resolves the issue.
+However, even after fix the HBase Row Decoder step does not produce the correct output.
+There are two possible options:
+1. The bug in either PentahoTableInputFormat or in HBaseRowDecoder classes
+2. Wrong configuration of the Hadoop/DPI
+
+In both cases this looks like a separate issue which has to be reported in Jira separately.
+

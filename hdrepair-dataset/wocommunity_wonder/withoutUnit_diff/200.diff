@@ -1,0 +1,265 @@
+diff --git a/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.html b/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.html
+index 0ac55eb..8b892eb 100644
+--- a/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.html
++++ b/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.html
+@@ -4,2 +4,2 @@
+-		<webobject name = "CloseCountRepetition"></ul></li></webobject>
+-		<webobject name = "IsLeafConditional"><webobject name = "NodeItem"/><webobject name = "LeafImage"/><webobject name = "TreeNodeRenderer"/></li></webobject>
++		<webobject name = "CloseCountRepetition"><webobject name = "CloseULLI"/></webobject>
++		<webobject name = "IsLeafConditional"><webobject name = "NodeItem"/><webobject name = "LeafImage"/><webobject name = "TreeNodeRenderer"/><webobject name = "CloseLI"/></webobject>
+@@ -7,2 +7,2 @@
+-			<webobject name = "IsCollapsedConditional"><webobject name = "NodeItem"/><webobject name = "ExpandAction"><webobject name = "CollapsedImage"/></webobject><webobject name = "TreeNodeRenderer"/></li></webobject>
+-			<webobject name = "IsExpandedConditional"><webobject name = "NodeItem"/><webobject name = "CollapseAction"><webobject name = "ExpandedImage"/></webobject><webobject name = "TreeNodeRenderer"/><ul></webobject>
++			<webobject name = "IsCollapsedConditional"><webobject name = "NodeItem"/><webobject name = "ExpandAction"><webobject name = "CollapsedImage"/></webobject><webobject name = "TreeNodeRenderer"/><webobject name = "CloseLI"/></webobject>
++			<webobject name = "IsExpandedConditional"><webobject name = "NodeItem"/><webobject name = "CollapseAction"><webobject name = "ExpandedImage"/></webobject><webobject name = "TreeNodeRenderer"/><webobject name = "OpenUL"/></webobject>
+@@ -11 +11 @@
+-	<webobject name = "CloseCountRepetition"></ul></li></webobject>
++	<webobject name = "CloseCountRepetition"><webobject name = "CloseULLI"/></webobject>
+diff --git a/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.wod b/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.wod
+index 72cbe40..b26d4c5 100644
+--- a/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.wod
++++ b/Ajax/Ajax/Components/AjaxTree.wo/AjaxTree.wod
+@@ -0,0 +1,15 @@
++CloseULLI : WOString {
++	value = "</ul></li>";
++	escapeHTML = false;
++}
++
++CloseLI : WOString {
++	value = "</li>";
++	escapeHTML = false;
++}
++
++OpenUL : WOString {
++	value = "<ul>";
++	escapeHTML = false;
++}
++
+diff --git a/Ajax/AjaxExample/Components/AjaxGMapExample.wo/AjaxGMapExample.html b/Ajax/AjaxExample/Components/AjaxGMapExample.wo/AjaxGMapExample.html
+index 19aa36a..020820d 100644
+--- a/Ajax/AjaxExample/Components/AjaxGMapExample.wo/AjaxGMapExample.html
++++ b/Ajax/AjaxExample/Components/AjaxGMapExample.wo/AjaxGMapExample.html
+@@ -2,24 +2,22 @@
+-    <style>
+-      div#map1Wrapper { 
+-        width: 450px;
+-        height: 485px;
+-        border: 10px solid #CCC;
+-        background-color: #F0F0F0;
+-        padding: 10px;
+-      }
+-      
+-      div#map2Wrapper {
+-        width: 450px;
+-        height: 475px;
+-        border: 10px solid #CCC;
+-        background-color: #F0F0F0;
+-        padding: 10px;
+-      }
+-      
+-      div#map2 {
+-        width: 100%;
+-        height: 90%;
+-      }
+-    
+-    </style>
+-  </head>
++<style>
++  div#map1Wrapper { 
++    width: 450px;
++    height: 485px;
++    border: 10px solid #CCC;
++    background-color: #F0F0F0;
++    padding: 10px;
++  }
++  
++  div#map2Wrapper {
++    width: 450px;
++    height: 475px;
++    border: 10px solid #CCC;
++    background-color: #F0F0F0;
++    padding: 10px;
++  }
++  
++  div#map2 {
++    width: 100%;
++    height: 90%;
++  }
++</style>
+@@ -45,0 +44 @@
++	</body>
+diff --git a/Ajax/AjaxExample/Components/InPlaceExample.wo/InPlaceExample.wod b/Ajax/AjaxExample/Components/InPlaceExample.wo/InPlaceExample.wod
+index 85788e4..1883028 100644
+--- a/Ajax/AjaxExample/Components/InPlaceExample.wo/InPlaceExample.wod
++++ b/Ajax/AjaxExample/Components/InPlaceExample.wo/InPlaceExample.wod
+@@ -64,17 +63,0 @@
+-HideShowAction : AjaxUpdateLink {
+-	updateContainerID = "updateContainerID";
+-	action = toggle;
+-	onComplete = "function(request) { new Effect.Highlight('updateContainerID'); }";
+-	evalScripts = true;
+-}
+-
+-InLineEditorUpdater : AjaxUpdateContainer {
+-	id = "updateContainerID";
+-	evalScripts = true;
+-	elementName = "div";
+-}
+-
+-InPlaceEditorSimple : AjaxInPlaceEditor {
+-	value = exampleValue;
+-}
+-
+diff --git a/Ajax/AjaxExample/Components/LongResponseExample.wo/LongResponseExample.html b/Ajax/AjaxExample/Components/LongResponseExample.wo/LongResponseExample.html
+index 692996f..92b0030 100644
+--- a/Ajax/AjaxExample/Components/LongResponseExample.wo/LongResponseExample.html
++++ b/Ajax/AjaxExample/Components/LongResponseExample.wo/LongResponseExample.html
+@@ -19 +19 @@
+-        		<p>Current status: <b><webobject name="Status"></webobject></p>
++        		<p>Current status: <b><webobject name="Status"></webobject></b></p>
+@@ -23 +22,0 @@
+-        </p>
+diff --git a/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.html b/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.html
+index 927cc5f..b21c226 100644
+--- a/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.html
++++ b/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.html
+@@ -5,3 +5,3 @@
+-        <link type="text/css" href="<webobject name=URLSite_CSS></webobject>" />
+-        <link type="text/css" href="<webobject name=URLDict_CSS></webobject>" />
+-        <script type="text/javascript" src="<webobject name=URLDict_JS></webobject>"></script>
++        <webobject name = "URLSite_CSS"></webobject>
++        <webobject name = "URLDict_CSS"></webobject>
++        <webobject name = "URLDict_JS"/>
+@@ -30,2 +30,4 @@
+-                            <br>
+-                            add_field.value = jason.wopage.add();</code></td><td onmouseover="add();">add on 'mouseover'</code></td>
++                            <br/>
++                            add_field.value = jason.wopage.add();</code>
++                    </td>
++                    <td onmouseover="add();"><code>add on 'mouseover'</code></td>
+@@ -36 +38 @@
+-                            <br>
++                            <br/>
+@@ -42 +44 @@
+-                            <br>
++                            <br/>
+@@ -72,2 +74,2 @@
+-            <br>
+-            <hr>
++            <br/>
++            <hr/>
+diff --git a/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.wod b/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.wod
+index c6fb620..e970264 100644
+--- a/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.wod
++++ b/Ajax/AjaxExample/Components/ProxyExample.wo/ProxyExample.wod
+@@ -26 +26 @@
+-URLDict_CSS: WOResourceURL {
++URLDict_CSS: ERXStyleSheet {
+@@ -30,2 +30,2 @@
+-URLDict_JS: WOResourceURL {
+-	filename = "dict.js";
++URLDict_JS: ERXJavaScript {
++	scriptSource = "dict.js";
+diff --git a/Ajax/AjaxExample/Components/UpdateDisplayGroupExample.wo/UpdateDisplayGroupExample.html b/Ajax/AjaxExample/Components/UpdateDisplayGroupExample.wo/UpdateDisplayGroupExample.html
+index 5419e80..c73e949 100644
+--- a/Ajax/AjaxExample/Components/UpdateDisplayGroupExample.wo/UpdateDisplayGroupExample.html
++++ b/Ajax/AjaxExample/Components/UpdateDisplayGroupExample.wo/UpdateDisplayGroupExample.html
+@@ -38,46 +38,45 @@
+-			This value shouldn't change: <webobject name="Millis"></webobject><br>
+-    	You can sort the entries, drag the slider, click on a name, edit the entry and save it, without ever leaving this page.
+-    	<br>
+-    	<webobject name="Slider"></webobject>
+-         <webobject name="TableBody">
+-           <table width="400">
+-               <tr>
+-                    <th><webobject name="PrevBatch">&lt;&lt;</webobject></th>
+-                    <th><webobject name="NextBatch">&gt;&gt;</webobject></th>
+-                </tr>
+-                <tr>
+-                    <th colspan="2">Current Batch: <span id="value"><webobject name="CurrentBatchIndex"></webobject></span> of <webobject name="BatchCount"></webobject></th>
+-                </tr>
+-                 <tr>
+-                    <th><webobject name="SortByName">Name</webobject></th>
+-                    <th><webobject name="SortByValue">Value</webobject></th>
+-                </tr>
+-            </table>
+-                 <table width="400" id = "tableRows">
+-                 	<webobject name="RowRepetition">
+-                    <tr>
+-                        <td><webobject name="SelectObject"><webobject name="Name"></webobject></webobject></td>
+-                        <td align="right" width="40"><webobject name="Length"></webobject></td>
+-                    </tr>
+-                </webobject>
+-                </table>
+-            </webobject>
+-        </table>
+-        
+-        <webobject name="Editor">
+-					<webobject name="Conditional1">
+-            	<webobject name="Form1">
+-                	<table>
+-                    	<tr><td>Name</td><td><webobject name="EditName"></webobject></td></tr>
+-                    	<tr><td>Value</td><td><webobject name="EditValue"></webobject></td></tr>
+-                    	<tr><td align="right" colspan="2"><webobject name="SaveButton"></webobject></td></tr>
+-                	</table>
+-            	</webobject>
+-            	<script>
+-            	$('editor').show();
+-            	</script>
+-        	</webobject>
+-        </webobject>
+-
+-        and some stuff below....
+-        <webobject name = "Busy"></webobject>
++	This value shouldn't change: <webobject name="Millis"></webobject><br>
++	You can sort the entries, drag the slider, click on a name, edit the entry and save it, without ever leaving this page.
++	<br>
++	<webobject name="Slider"></webobject>
++	  <webobject name="TableBody">
++		<table width="400">
++			<tr>
++				<th><webobject name="PrevBatch">&lt;&lt;</webobject></th>
++				<th><webobject name="NextBatch">&gt;&gt;</webobject></th>
++			</tr>
++			<tr>
++				<th colspan="2">Current Batch: <span id="value"><webobject name="CurrentBatchIndex"></webobject></span> of <webobject name="BatchCount"></webobject></th>
++			</tr>
++			<tr>
++				<th><webobject name="SortByName">Name</webobject></th>
++				<th><webobject name="SortByValue">Value</webobject></th>
++			</tr>
++		</table>
++		<table width="400" id = "tableRows">
++			<webobject name="RowRepetition">
++				<tr>
++					<td><webobject name="SelectObject"><webobject name="Name"></webobject></webobject></td>
++					<td align="right" width="40"><webobject name="Length"></webobject></td>
++				</tr>
++			</webobject>
++		</table>
++  </webobject>
++	
++	<webobject name="Editor">
++		<webobject name="Conditional1">
++			<webobject name="Form1">
++				<table>
++					<tr><td>Name</td><td><webobject name="EditName"></webobject></td></tr>
++					<tr><td>Value</td><td><webobject name="EditValue"></webobject></td></tr>
++					<tr><td align="right" colspan="2"><webobject name="SaveButton"></webobject></td></tr>
++				</table>
++			</webobject>
++			<script>
++			$('editor').show();
++			</script>
++		</webobject>
++	</webobject>
++	
++	and some stuff below....
++	<webobject name = "Busy"></webobject>
+diff --git a/Ajax/AjaxExample/Sources/AjaxGridExampleNavBar.java b/Ajax/AjaxExample/Sources/AjaxGridExampleNavBar.java
+index 08a7ea9..825ad27 100644
+--- a/Ajax/AjaxExample/Sources/AjaxGridExampleNavBar.java
++++ b/Ajax/AjaxExample/Sources/AjaxGridExampleNavBar.java
+@@ -10,0 +11 @@
++	public int batchSize;
+

@@ -1,0 +1,2 @@
+fix random BigInteger generation bug : the constructor parameter numBits of BigInteger must not be negative, or with Math.abs(RANDOM.nextInt()) this numBits can be negative if the randomly generated Integer is equal to Integer.MIN_VALUE since Math.abs(Integer.MIN_VALUE) == Integer.MIN_VALUE (thanks findbugs :-) ).
+

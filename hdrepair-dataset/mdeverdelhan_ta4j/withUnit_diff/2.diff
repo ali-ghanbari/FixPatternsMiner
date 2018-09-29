@@ -1,0 +1,39 @@
+diff --git a/src/main/java/eu/verdelhan/ta4j/analysis/criteria/TotalProfitCriterion.java b/src/main/java/eu/verdelhan/ta4j/analysis/criteria/TotalProfitCriterion.java
+index 90a6507..716599a 100644
+--- a/src/main/java/eu/verdelhan/ta4j/analysis/criteria/TotalProfitCriterion.java
++++ b/src/main/java/eu/verdelhan/ta4j/analysis/criteria/TotalProfitCriterion.java
+@@ -23,0 +24,6 @@
++	/**
++	 * Calculates the profit of a trade (Buy and sell).
++	 * @param series a time series
++	 * @param trade a trade
++	 * @return the profit of the trade
++	 */
+diff --git a/src/test/java/eu/verdelhan/ta4j/analysis/CashFlowTest.java b/src/test/java/eu/verdelhan/ta4j/analysis/CashFlowTest.java
+index 35b4473..aa04809 100644
+--- a/src/test/java/eu/verdelhan/ta4j/analysis/CashFlowTest.java
++++ b/src/test/java/eu/verdelhan/ta4j/analysis/CashFlowTest.java
+@@ -211 +211 @@
+-		assertThat(flow.getValue(8)).isEqualTo(6d / 8 * 6d / 10);
++		assertThat(flow.getValue(8)).isEqualTo(6d / 8 * 6d / 10, TATestsUtils.LONG_OFFSET);
+diff --git a/src/test/java/eu/verdelhan/ta4j/analysis/criteria/AverageProfitCriterionTest.java b/src/test/java/eu/verdelhan/ta4j/analysis/criteria/AverageProfitCriterionTest.java
+index b538652..a7cadba 100644
+--- a/src/test/java/eu/verdelhan/ta4j/analysis/criteria/AverageProfitCriterionTest.java
++++ b/src/test/java/eu/verdelhan/ta4j/analysis/criteria/AverageProfitCriterionTest.java
+@@ -5,0 +6 @@
++import eu.verdelhan.ta4j.TATestsUtils;
+@@ -37 +38 @@
+-		assertThat(averageProfit.calculate(series, trades)).isEqualTo(1.03);
++		assertThat(averageProfit.calculate(series, trades)).isEqualTo(1.0243074482, TATestsUtils.LONG_OFFSET);
+@@ -48,2 +49 @@
+-		Decision dummy1 = new MockDecision(tradesToDummy1, slicer);
+-		decisions.add(dummy1);
++		decisions.add(new MockDecision(tradesToDummy1, slicer));
+@@ -53,2 +53 @@
+-		Decision dummy2 = new MockDecision(tradesToDummy2, slicer);
+-		decisions.add(dummy2);
++		decisions.add(new MockDecision(tradesToDummy2, slicer));
+@@ -57 +56 @@
+-		assertThat(averageProfit.summarize(series, decisions)).isEqualTo(1.03);
++		assertThat(averageProfit.summarize(series, decisions)).isEqualTo(1.0243074482, TATestsUtils.LONG_OFFSET);
+

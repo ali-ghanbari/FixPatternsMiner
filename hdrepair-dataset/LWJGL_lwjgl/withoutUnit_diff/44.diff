@@ -1,0 +1,15 @@
+diff --git a/src/java/org/lwjgl/fmod3/FSound.java b/src/java/org/lwjgl/fmod3/FSound.java
+index 0f75427..dc606c9 100644
+--- a/src/java/org/lwjgl/fmod3/FSound.java
++++ b/src/java/org/lwjgl/fmod3/FSound.java
+@@ -1659 +1659 @@
+-  public static native boolean FSOUND_3D_SetMinMaxDistance(int channel, int min, int max); 
++  public static native boolean FSOUND_3D_SetMinMaxDistance(int channel, float min, float max); 
+diff --git a/src/native/common/fmod3/org_lwjgl_fmod3_FSound.c b/src/native/common/fmod3/org_lwjgl_fmod3_FSound.c
+index 791ecb7..8f58f4a 100644
+--- a/src/native/common/fmod3/org_lwjgl_fmod3_FSound.c
++++ b/src/native/common/fmod3/org_lwjgl_fmod3_FSound.c
+@@ -733 +733 @@
+-JNIEXPORT jboolean JNICALL Java_org_lwjgl_fmod3_FSound_FSOUND_13D_1SetMinMaxDistance(JNIEnv * env, jclass clazz, jint channel, jint min, jint max) {
++JNIEXPORT jboolean JNICALL Java_org_lwjgl_fmod3_FSound_FSOUND_13D_1SetMinMaxDistance(JNIEnv * env, jclass clazz, jint channel, jfloat min, jfloat max) {
+

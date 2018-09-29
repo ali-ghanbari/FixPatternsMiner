@@ -1,0 +1,8 @@
+diff --git a/app-fabric/src/main/java/com/continuuity/internal/app/runtime/distributed/DistributedWorkflowProgramRunner.java b/app-fabric/src/main/java/com/continuuity/internal/app/runtime/distributed/DistributedWorkflowProgramRunner.java
+index 11f0007..978b9a8 100644
+--- a/app-fabric/src/main/java/com/continuuity/internal/app/runtime/distributed/DistributedWorkflowProgramRunner.java
++++ b/app-fabric/src/main/java/com/continuuity/internal/app/runtime/distributed/DistributedWorkflowProgramRunner.java
+@@ -71 +71 @@
+-    return new WorkflowWeaveProgramController(program.getName(), preparer.start(), resourceReporter).startListen();
++    return new WorkflowWeaveProgramController(program.getName(), controller, resourceReporter).startListen();
+

@@ -1,0 +1,33 @@
+diff --git a/dcm4che-core/src/main/java/org/dcm4che3/data/Attributes.java b/dcm4che-core/src/main/java/org/dcm4che3/data/Attributes.java
+index 3a83b3b..5fa1c93 100644
+--- a/dcm4che-core/src/main/java/org/dcm4che3/data/Attributes.java
++++ b/dcm4che-core/src/main/java/org/dcm4che3/data/Attributes.java
+@@ -3166 +3166 @@
+-                result.set(privateCreator, tag, vrs[i], origValue);
++                result.set(privateCreator, tag, vrs[j], origValue);
+diff --git a/dcm4che-core/src/test/java/org/dcm4che3/data/AttributesTest.java b/dcm4che-core/src/test/java/org/dcm4che3/data/AttributesTest.java
+index 9d14d4a..aae6758 100644
+--- a/dcm4che-core/src/test/java/org/dcm4che3/data/AttributesTest.java
++++ b/dcm4che-core/src/test/java/org/dcm4che3/data/AttributesTest.java
+@@ -270,0 +271,20 @@
++    public void testGetModified_LIB_363()
++    {
++        // tests the fix for LIB-363
++
++        Attributes original = new Attributes();
++        original.setString(Tag.AccessionNumber, VR.SH, "AccessionNumber");
++        
++        Attributes other = new Attributes();
++        other.setString(Tag.SOPInstanceUID, VR.UI, "1.2.3.4");
++        other.setString(Tag.AccessionNumber, VR.SH, "AccessionNumber2");
++
++        Attributes modified = original.getModified(other, null);
++
++        Attributes expected = new Attributes();
++        expected.setString(Tag.AccessionNumber, VR.SH, "AccessionNumber");
++
++        assertEquals(expected, modified);
++    }
++
++    @Test
+

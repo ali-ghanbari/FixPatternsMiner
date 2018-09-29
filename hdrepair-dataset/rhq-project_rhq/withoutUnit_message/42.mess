@@ -1,0 +1,6 @@
+fix the args passed to updateSchemaIfNecessary when adding a node
+
+updateSchemaIfNecessary takes as args the previous and new cluster sizes. In
+one of my recent commits, I was passing the wrong value for the previous size
+when deploying a new node. It should not include the new storage node.
+

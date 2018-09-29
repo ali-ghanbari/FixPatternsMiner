@@ -1,0 +1,10 @@
+diff --git a/src/freenet/node/PeerNode.java b/src/freenet/node/PeerNode.java
+index 6585553..2ce92b2 100644
+--- a/src/freenet/node/PeerNode.java
++++ b/src/freenet/node/PeerNode.java
+@@ -2200,2 +2200,2 @@
+-		// Received a packet
+-		receivedPacket(unverified, false);
++		// Completed setup counts as received data packet, for purposes of avoiding spurious disconnections.
++		receivedPacket(unverified, true);
+

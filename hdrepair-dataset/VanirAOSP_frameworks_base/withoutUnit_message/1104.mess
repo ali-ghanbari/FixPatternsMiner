@@ -1,0 +1,12 @@
+Fix for an IOOBoundsException in Paint.
+
+Bug 3331706
+
+The temporary buffer starts at index 0 and shifts indexes by contextStart.
+offset has to be changed accordingly.
+
+Note that I didn't try to reproduce the monkey bug after this fix, but it
+seems like a perfect explanation for the exception.
+
+Change-Id: Ie69adc413670caed283bc46effc69f17a102922c
+

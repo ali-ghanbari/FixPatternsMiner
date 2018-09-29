@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/codeInspection/actions/CleanupInspectionIntention.java b/platform/lang-impl/src/com/intellij/codeInspection/actions/CleanupInspectionIntention.java
+index 7b7fa65..664c700 100644
+--- a/platform/lang-impl/src/com/intellij/codeInspection/actions/CleanupInspectionIntention.java
++++ b/platform/lang-impl/src/com/intellij/codeInspection/actions/CleanupInspectionIntention.java
+@@ -99 +99 @@
+-    return myQuickfixClass != null && myQuickfixClass != EmptyIntentionAction.class && !(myTool instanceof UnfairLocalInspectionTool);
++    return myQuickfixClass != null && myQuickfixClass != EmptyIntentionAction.class && !(myTool.isUnfair());
+

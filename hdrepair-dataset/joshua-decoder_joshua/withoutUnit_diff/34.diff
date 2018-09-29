@@ -1,0 +1,39 @@
+diff --git a/src/joshua/decoder/ff/lm/KenLMFF.java b/src/joshua/decoder/ff/lm/KenLMFF.java
+index 4458e88..ec0327f 100644
+--- a/src/joshua/decoder/ff/lm/KenLMFF.java
++++ b/src/joshua/decoder/ff/lm/KenLMFF.java
+@@ -86 +86 @@
+-    acc.add(name, 0.0f);
++    //acc.add(name, 0.0f);
+diff --git a/src/joshua/decoder/ff/lm/kenlm/jni/wrap.cc b/src/joshua/decoder/ff/lm/kenlm/jni/wrap.cc
+index 3d4d660..e4f2db8 100644
+--- a/src/joshua/decoder/ff/lm/kenlm/jni/wrap.cc
++++ b/src/joshua/decoder/ff/lm/kenlm/jni/wrap.cc
+@@ -102,0 +103 @@
++    if (begin == end) return 0.0;
+@@ -105 +106,11 @@
+-    for (jlong* i = begin; i != end; i++) {
++    if (*begin < 0) {
++      ruleScore.BeginNonTerminal(*reinterpret_cast<const lm::ngram::ChartState*>(-*begin));
++    } else {
++      const lm::WordIndex word = map_[*begin];
++      if (word == m_.GetVocabulary().BeginSentence()) {
++        ruleScore.BeginSentence();
++      } else {
++        ruleScore.Terminal(word);
++      }
++    }
++    for (jlong* i = begin + 1; i != end; i++) {
+@@ -107 +117,0 @@
+-
+@@ -109,4 +119 @@
+-        if (i == begin)
+-          ruleScore.BeginNonTerminal(*reinterpret_cast<const lm::ngram::ChartState*>(-word));
+-        else
+-          ruleScore.NonTerminal(*reinterpret_cast<const lm::ngram::ChartState*>(-word));
++        ruleScore.NonTerminal(*reinterpret_cast<const lm::ngram::ChartState*>(-word));
+@@ -114,2 +121 @@
+-        if (i != begin || map_[word] != m_.GetVocabulary().Index("<s>"))
+-          ruleScore.Terminal(map_[word]);
++        ruleScore.Terminal(map_[word]);
+

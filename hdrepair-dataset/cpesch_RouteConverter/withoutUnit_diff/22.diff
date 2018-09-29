@@ -1,0 +1,8 @@
+diff --git a/feedback/src/main/java/slash/navigation/feedback/domain/RouteFeedback.java b/feedback/src/main/java/slash/navigation/feedback/domain/RouteFeedback.java
+index 3a3a2ea..1d7666c 100644
+--- a/feedback/src/main/java/slash/navigation/feedback/domain/RouteFeedback.java
++++ b/feedback/src/main/java/slash/navigation/feedback/domain/RouteFeedback.java
+@@ -166 +166 @@
+-            throw new UnAuthorizedException("Cannot send error report " + file.getAbsolutePath(), getErrorReportUrl());
++            throw new UnAuthorizedException("Cannot send error report " + (file != null ? ", file " + file.getAbsolutePath() : ""), getErrorReportUrl());
+

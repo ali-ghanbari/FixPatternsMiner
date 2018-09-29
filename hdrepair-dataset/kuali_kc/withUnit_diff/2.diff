@@ -1,0 +1,21 @@
+diff --git a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/docperm/ProposalDevelopmentPermissionsRule.java b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/docperm/ProposalDevelopmentPermissionsRule.java
+index 4660c8f..52735c2 100644
+--- a/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/docperm/ProposalDevelopmentPermissionsRule.java
++++ b/coeus-impl/src/main/java/org/kuali/coeus/propdev/impl/docperm/ProposalDevelopmentPermissionsRule.java
+@@ -142 +142 @@
+-        else if (!hasAggregator(editRoles) && isLastAggregator(username, proposalUserRolesList)) {
++        else if (hasAggregator(editRoles) && isLastAggregator(username, proposalUserRolesList)) {
+diff --git a/coeus-it/src/test/java/org/kuali/kra/proposaldevelopment/rules/ProposalDevelopmentPermissionsRuleTest.java b/coeus-it/src/test/java/org/kuali/kra/proposaldevelopment/rules/ProposalDevelopmentPermissionsRuleTest.java
+index a5cd3b4..8fbc695 100644
+--- a/coeus-it/src/test/java/org/kuali/kra/proposaldevelopment/rules/ProposalDevelopmentPermissionsRuleTest.java
++++ b/coeus-it/src/test/java/org/kuali/kra/proposaldevelopment/rules/ProposalDevelopmentPermissionsRuleTest.java
+@@ -130 +130 @@
+-        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
++        editRoles.addRoleName(RoleConstants.AGGREGATOR);
+@@ -161 +161 @@
+-        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
++        editRoles.addRoleName(RoleConstants.AGGREGATOR);
+@@ -163 +163 @@
+-        assertError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
++        assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
+

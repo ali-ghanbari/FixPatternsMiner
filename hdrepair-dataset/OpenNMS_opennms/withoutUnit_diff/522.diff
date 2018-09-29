@@ -1,0 +1,17 @@
+diff --git a/etc/rrd-configuration.properties b/etc/rrd-configuration.properties
+index b73afac..36d022f 100644
+--- a/etc/rrd-configuration.properties
++++ b/etc/rrd-configuration.properties
+@@ -13,2 +13,2 @@
+-# The default setting is false (use the JNI code)
+-#org.opennms.rrd.usejni=false
++# The default setting is true (use the JNI code)
++#org.opennms.rrd.usejni=true
+diff --git a/src/services/org/opennms/netmgt/rrd/RrdUtils.java b/src/services/org/opennms/netmgt/rrd/RrdUtils.java
+index 7d26252..261e426 100644
+--- a/src/services/org/opennms/netmgt/rrd/RrdUtils.java
++++ b/src/services/org/opennms/netmgt/rrd/RrdUtils.java
+@@ -72 +72 @@
+-    private static final boolean USE_JNI = RrdConfig.getProperty("org.opennms.rrd.usejni", false);
++    private static final boolean USE_JNI = RrdConfig.getProperty("org.opennms.rrd.usejni", true);
+

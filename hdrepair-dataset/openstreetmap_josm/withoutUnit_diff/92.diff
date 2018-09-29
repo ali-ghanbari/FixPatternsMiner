@@ -1,0 +1,8 @@
+diff --git a/src/org/openstreetmap/josm/io/OsmApi.java b/src/org/openstreetmap/josm/io/OsmApi.java
+index e7ef36a..fa7a25c 100644
+--- a/src/org/openstreetmap/josm/io/OsmApi.java
++++ b/src/org/openstreetmap/josm/io/OsmApi.java
+@@ -332 +332 @@
+-        int p; while ((p = rv.indexOf("//", 6)) > -1) { rv.delete(p, p + 1); }
++        int p; while ((p = rv.indexOf("//", rv.indexOf("://")+2)) > -1) { rv.delete(p, p + 1); }
+

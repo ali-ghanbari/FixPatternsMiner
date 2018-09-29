@@ -1,0 +1,125 @@
+diff --git a/FitNesseRoot/FitNesse/UserGuide/PluginUsage/content.txt b/FitNesseRoot/FitNesse/UserGuide/PluginUsage/content.txt
+index ac3c977..a744a41 100644
+--- a/FitNesseRoot/FitNesse/UserGuide/PluginUsage/content.txt
++++ b/FitNesseRoot/FitNesse/UserGuide/PluginUsage/content.txt
+@@ -4 +4 @@
+-Below are a list of customizations you can make via this plugin architechture.  Each plugin will require an entry in the ''plugins.properties'' file.  This should be located in the working directory of FitNesse.   If the file does not exist FitNesse will run normally.  To enable a plugin, create this file, and add the specified entries.  All plugins will require complied Java code so make sure that the classpath contains an entry to locate your plugins.
++Below are a list of customizations you can make via this plugin architecture.  Each plugin will require an entry in the ''plugins.properties'' file.  This should be located in the working directory of FitNesse.   If the file does not exist FitNesse will run normally.  To enable a plugin, create this file, and add the specified entries.  All plugins will require complied Java code so make sure that the classpath contains an entry to locate your plugins.
+@@ -8,4 +8,5 @@
+-''motivation:'' Steve Starkey has made a !-WikiPage-! plugin available that uses MySQL as a backend for FitNesse instead of flat files on disk.
+-The class specified must implement the fitnesse.wiki.!-WikiPage-! interface and it must provide a public constructor of the form:
+-''public !-MyWikiPage-!(Properties properties)'''
+-This allows special construction parameters to be places in the properties file and used by the custom !-WikiPage-! implementation.
++''motivation:'' By default, wiki pages are stored as files on a file system (using the !-FileSystemWikiPage-! class). Providing a custom wiki page plugin allows pages to be stored using other means such as a database. Alternatively, !-FileSystemWikiPage-! can be extended to provide custom behavior when pages are create, saved, deleted, etc. 
++
++The class specified must implement the ''fitnesse.wiki.!-WikiPage-!'' interface. It must provide a public constructor of the form:
++''public !-MyWikiPage-!(String rootPath, String rootPageName, !-ComponentFactory-! componentFactory)''
++The rootPath parameter is the path to the root page (by default, "."). The rootPageName parameter is the name of the root wiki page (by default, "!-FitNesseRoot-!"). The !-ComponentFactory-! parameter can be used to locate other loaded components and properties entries in plugins.properties.
+@@ -16 +17,2 @@
+-The class specified must extend the fitnesse.html.!-HtmlPageFactory-! class and it must also provide a constructor that accept a Properties object.  The custom !-HtmlPageFactory-! will over ride the newPage() method to return a derivative of fitnesse.html.!-HtmlPage-!.  The custom !-HtmlPage-! class should make use of any of the public !-HtmlTag-! member variables.
++
++The class specified must extend the ''fitnesse.html.!-HtmlPageFactory-!'' class and it must also provide a constructor that accept a Properties object.  The custom !-HtmlPageFactory-! will over ride the newPage() method to return a derivative of ''fitnesse.html.!-HtmlPage-!''.  The custom !-HtmlPage-! class should make use of any of the public !-HtmlTag-! member variables.
+@@ -21 +23,2 @@
+-The property provided should be a comma seperated list of key:value pairs where value is tha name of a class that implements fitnesse.Responder.  The key is used in the URL to designate which responder to invoke.  An example responder plugin might be an !-RssResponder-! that would generate RSS feeds for wiki page updates.  To do this you would first create the !-RssResponder-! to gerenate the RSS.  Then add the plugin property !style_code[''!-(Responders=rss:your.package.RssResponder)-!''].  Then to invoke it you would use a URL like !style_code(''!-http://fitnesse.org/RecentChanges?responder=rss-!'') to get a feed on all the changes made to the .RecentChanges page.
++
++The property provided should be a comma separated list of key:value pairs, where value is the name of a class that implements ''fitnesse.Responder''.  The key is used in the URL to designate which responder to invoke.  An example responder plugin might be an !-RssResponder-! that would generate RSS feeds for wiki page updates.  To do this you would first create the !-RssResponder-! to gerenate the RSS.  Then add the plugin property !style_code[''!-Responders=rss:your.package.RssResponder-!''].  Then to invoke it you would use a URL like !style_code(''!-http://fitnesse.org/RecentChanges?responder=rss-!'') to get a feed on all the changes made to the .RecentChanges page.
+@@ -28 +31 @@
+-!3 !-WikiWidget-!
++!3 !-WikiWidgets-!
+@@ -31 +34 @@
+-The classes supplied must extend !-fitnesse.wikitext.WikiWidget-!.  In addition, custom !-WikiWidget-! must have a public static field of type String and named REGEXP.  The value of REGEXP should be a regular expresion that matches your custom widget.  REGEXP '''cannot''' contain any groups.
++The classes supplied must extend ''!-fitnesse.wikitext.WikiWidget-!''.  In addition, custom !-WikiWidget-! must have a public static field of type String and named REGEXP.  The value of REGEXP should be a regular expresion that matches your custom widget.  REGEXP '''cannot''' contain any groups.
+@@ -36,2 +39,11 @@
+-The classes supplied must extend !-fitnesse.responders.editing.ContentFilter-!.  !-ContentFilter-! is an interface that declares one method:
+-'''!-boolean isContentAcceptable(String content, String pageName)-!'''.  When ever user attempts to save a page, !-isContentAcceptable()-! is invoked and the content is saved only if ''true'' is returned.
+\ No newline at end of file
++
++The classes supplied must extend ''!-fitnesse.responders.editing.ContentFilter-!''.  !-ContentFilter-! is an interface that declares one method:  '''!-boolean isContentAcceptable(String content, String pageName)-!'''.  When ever user attempts to save a page, ''!-isContentAcceptable()-!'' is invoked and the content is saved only if ''true'' is returned.
++
++!3 !-Plugins-!
++''required property:'' '''!-Plugins-! = <class name>[,<class name>]'''
++''motivation:'' Register multiple Responders, !-WikiWidgets-!, and !-WikiPage-! components in a single Java class, instead of multiple entries in plugins.properties.
++
++Plugins classes can provide one or more of the following methods to register components:
++   * '''registerResponders(!-ResponderFactory-! responderFactory)''' - register responders using ''!-ResponderFactory.addResponder(String key, Class responderClass)-!''
++   * '''registerWikiWidgets(!-WidgetBuilder-! widgetBuilder)''' - register wiki widgets using ''!-WidgetBuilder.addWidgetClass(Class widgetClass)-!''
++   * '''registerWikiPage(!-WikiPageFactory-! wikiPageFactory)''' - override the default wiki page implementation using ''!-WikiPageFactory.setWikiPageClass(Class wikiPageClass)-!''
+diff --git a/FitNesseRoot/FitNesse/UserGuide/PluginUsage/properties.xml b/FitNesseRoot/FitNesse/UserGuide/PluginUsage/properties.xml
+index cbabc15..d708169 100644
+--- a/FitNesseRoot/FitNesse/UserGuide/PluginUsage/properties.xml
++++ b/FitNesseRoot/FitNesse/UserGuide/PluginUsage/properties.xml
+@@ -4 +4 @@
+-	<LastModified>20090327114508</LastModified>
++	<LastModified>20090331142940</LastModified>
+@@ -7,2 +7,2 @@
+-	<saveId>1238172308099</saveId>
+-	<ticketId>6799013257666899114</ticketId>
++	<saveId>1238527780309</saveId>
++	<ticketId>-4188313721410542901</ticketId>
+diff --git a/FitNesseRoot/FrontPage/content.txt b/FitNesseRoot/FrontPage/content.txt
+index c19ce5c..5445a6f 100644
+--- a/FitNesseRoot/FrontPage/content.txt
++++ b/FitNesseRoot/FrontPage/content.txt
+@@ -13 +13 @@
+-!note Release v20090405
+\ No newline at end of file
++!note Release v20090407
+\ No newline at end of file
+diff --git a/FitNesseRoot/RecentChanges/content.txt b/FitNesseRoot/RecentChanges/content.txt
+index 266d503..b450d08 100644
+--- a/FitNesseRoot/RecentChanges/content.txt
++++ b/FitNesseRoot/RecentChanges/content.txt
+@@ -100,0 +101,30 @@
++|FitNesse.FiveMinuteIntroduction||09:53:39 Thu, Mar 26, 2009|
++|FitNesse.FixtureCode||09:52:53 Thu, Mar 26, 2009|
++|FitNesse.UserGuide.FitNesse||09:52:05 Thu, Mar 26, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteWidgetTests||09:51:27 Sat, Mar 21, 2009|
++|JunkParent.InfiniteTest||08:58:45 Sat, Mar 21, 2009|
++|ErrorLogs||07:47:09 Sat, Mar 21, 2009|
++|FitNesse.DownloadingAndInstallingFitNesse||09:38:27 Thu, Mar 19, 2009|
++|FitNesse.RestfulTests||12:35:59 Wed, Mar 18, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteResponderTests.SuiteTestResponders.SuiteSetUpAndTearDown.TestSetUpAndTearDownAreCollapsable||11:32:14 Wed, Mar 18, 2009|
++|FitNesse.SliM.DecisionTable||09:11:34 Tue, Mar 17, 2009|
++|FitNesse.SliM.SlimProtocol.PortManagement||13:34:02 Mon, Mar 16, 2009|
++|FitNesse.SliM.SlimProtocol||13:30:40 Mon, Mar 16, 2009|
++|FitNesse.QuickReferenceGuide||13:27:12 Mon, Mar 16, 2009|
++|FitNesse.TodaysDate||15:08:21 Sun, Mar 15, 2009|
++|FitNesse.MarkupLanguageReference||14:50:06 Sun, Mar 15, 2009|
++|FitNesse.FitNesseWontStart||14:11:12 Sun, Mar 15, 2009|
++|JunkPage||12:11:08 Sat, Mar 14, 2009|
++|FitNesse.TestSuites||18:10:12 Thu, Mar 12, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteWidgetTests.SimpleWidgets||17:30:14 Thu, Mar 12, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteSlimTests||13:07:10 Thu, Mar 12, 2009|
++|JunkParent.SlimTest||12:49:06 Thu, Mar 12, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteWidgetTests.TestContents||12:13:59 Thu, Mar 12, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteFixtureTests.SuiteGeneralFixtureSpec.TestTackOnFixtureNotFixture||03:06:47 Wed, Mar 11, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteFixtureTests.SuiteGeneralFixtureSpec.TestNotFixture||03:06:13 Wed, Mar 11, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteFixtureTests.SuiteGeneralFixtureSpec||03:05:40 Wed, Mar 11, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteFixtureTests.SuiteGeneralFixtureSpec.TestNoDefaultConstructor||03:05:26 Wed, Mar 11, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteFixtureTests.SuiteGeneralFixtureSpec.TestCannotResolveGracefullyNamedFixture||03:04:50 Wed, Mar 11, 2009|
++|FitNesse.SuiteAcceptanceTests.SuiteSlimTests.TestCanPassSymbolsIntoConstructors||17:55:13 Sun, Mar 08, 2009|
++|JunkPage.JunkTest||17:18:00 Fri, Mar 06, 2009|
++|ProjectPage.JukeBoxProject.SetUp||08:31:08 Thu, Mar 05, 2009|
+diff --git a/FitNesseRoot/properties b/FitNesseRoot/properties
+index 04cfb90..cf23560 100644
+--- a/FitNesseRoot/properties
++++ b/FitNesseRoot/properties
+@@ -1,0 +2 @@
++#Tue Mar 31 05:52:06 CDT 2009
+@@ -9 +9,0 @@
+-=======
+diff --git a/pom.xml b/pom.xml
+index 89276c1..ea27864 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -10 +10 @@
+-  <version>20090405</version>
++  <version>20090407</version>
+diff --git a/src/fitnesse/FitNesseVersion.java b/src/fitnesse/FitNesseVersion.java
+index f9671f6..d1c64d8 100644
+--- a/src/fitnesse/FitNesseVersion.java
++++ b/src/fitnesse/FitNesseVersion.java
+@@ -7 +7 @@
+-		return "v20090405";
++		return "v20090407";
+

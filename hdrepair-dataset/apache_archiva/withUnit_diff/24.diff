@@ -1,0 +1,201 @@
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/pom.xml b/archiva-modules/archiva-web/archiva-webapp-test/pom.xml
+index 060823d..a1548bb 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-test/pom.xml
++++ b/archiva-modules/archiva-web/archiva-webapp-test/pom.xml
+@@ -151,3 +151,14 @@
+-          <suiteXmlFiles>
+-            <suiteXmlFile>src/test/testng/config/testng.xml</suiteXmlFile>
+-          </suiteXmlFiles>
++          <properties>
++            <!--
++              Use this instead of suiteXmlFiles so that we can add the exclusion, as it is only accepted without suiteXmlFiles
++            -->
++            <property>
++              <name>listener</name>
++              <value>org.apache.archiva.web.test.listener.CaptureScreenShotsListener</value>
++            </property>
++            <property>
++              <name>excludegroups</name>
++              <!-- Exclude on all browsers but Firefox, as it is the only one that Selenium supports file uploads on -->
++              <value>${excluded.groups}</value>
++            </property>
++          </properties>
+@@ -168 +179 @@
+-		<property>
++		            <property>
+@@ -406,0 +418 @@
++        <excluded.groups />
+@@ -418,0 +431 @@
++        <excluded.groups>requiresUpload</excluded.groups>
+@@ -430,0 +444 @@
++        <excluded.groups>requiresUpload</excluded.groups>
+@@ -442,0 +457 @@
++        <excluded.groups>requiresUpload</excluded.groups>
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/config/testng.xml b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/config/testng.xml
+deleted file mode 100644
+index e8607fb..0000000
+--- a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/config/testng.xml
++++ /dev/null
+@@ -1,52 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+-<!--
+-Licensed to the Apache Software Foundation (ASF) under one
+-or more contributor license agreements.  See the NOTICE file
+-distributed with this work for additional information
+-regarding copyright ownership.  The ASF licenses this file
+-to you under the Apache License, Version 2.0 (the
+-"License"); you may not use this file except in compliance
+-with the License.  You may obtain a copy of the License at
+-
+-  http://www.apache.org/licenses/LICENSE-2.0
+-
+-Unless required by applicable law or agreed to in writing,
+-software distributed under the License is distributed on an
+-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+-KIND, either express or implied.  See the License for the
+-specific language governing permissions and limitations
+-under the License.
+--->
+-
+-<suite name="ArchivaTest" verbose="1">
+-	<listeners>
+-	        <listener class-name="org.apache.archiva.web.test.listener.CaptureScreenShotsListener"/>
+-	</listeners>
+-	
+-	<test name="AdminTest" enabled="true">
+-		<groups>
+-			<run>
+-				<include name="about" />
+-				<include name= "login" />
+-				<include name= "userroles" />
+-				<include name= "reposcan" />
+-				<include name= "artifactmanagement" />
+-				<include name= "search" />
+-				<include name= "auditlogsreport" />
+-				<include name= "browse" />
+-				<include name= "reports" />
+-				<include name= "virtualrepository" />
+-				<include name= "networkproxies" />
+-				<include name= "repository" />
+-				<include name= "appearance" />
+-				<include name= "findartifact" />
+-				<include name= "legacysupport" />
+-				<include name= "database" />
+-			</run>
+-		</groups>
+-		<packages>
+-			<package name="org.apache.archiva.web.test" />
+-		</packages>
+-	</test>
+-</suite>
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/ArtifactManagementTest.java b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/ArtifactManagementTest.java
+index 1f60076..4eb22b1 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/ArtifactManagementTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/ArtifactManagementTest.java
+@@ -86 +86 @@
+-    @Test( enabled = false )
++    @Test(groups = "requiresUpload")
+@@ -89 +88,0 @@
+-		// TODO: disable test on non *chrome browsers, there is no way to do file uploads (SEL-63)
+@@ -91 +90 @@
+-		assertTextPresent( "Artifact 'test:test:1.0' was successfully deployed to repository 'internal'" );
++		assertTextPresent( "Artifact 'test:testAddArtifactValidValues:1.0' was successfully deployed to repository 'internal'" );
+@@ -95 +94 @@
+-    @Test( enabled = false )
++    @Test(groups = "requiresUpload")
+@@ -98 +96,0 @@
+-            // TODO: disable test on non *chrome browsers, there is no way to do file uploads (SEL-63)
+@@ -103 +101 @@
+-    @Test( enabled = false )
++    @Test(groups = "requiresUpload")
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/AuditLogsReportTest.java b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/AuditLogsReportTest.java
+index 0f3dcc6..2b5e4ab 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/AuditLogsReportTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/AuditLogsReportTest.java
+@@ -71,2 +71 @@
+-    // TODO: disable if not running on *chrome
+-    @Test (dependsOnMethods = { "testAddArtifactValidValues" }, enabled = false )
++    @Test (dependsOnMethods = { "testAddArtifactValidValues" }, groups = "requiresUpload")
+@@ -92,2 +91 @@
+-    // TODO: disable if not running on *chrome
+-    @Test (dependsOnMethods = { "testAddArtifactValidValues" }, enabled = false )
++    @Test (dependsOnMethods = { "testAddArtifactValidValues" }, groups = "requiresUpload")
+@@ -113,2 +111 @@
+-    // TODO: disable if not running on *chrome
+-    @Test (dependsOnMethods = { "testAddArtifactValidValues" }, enabled = false )
++    @Test (dependsOnMethods = { "testAddArtifactValidValues" }, groups = "requiresUpload")
+@@ -132 +129 @@
+-    @Test (dependsOnMethods = { "testAddArtifactValidValues", "testUserWithRepoManagerInternalRole" }, enabled = false )
++    @Test (dependsOnMethods = { "testAddArtifactValidValues", "testUserWithRepoManagerInternalRole" }, groups = "requiresUpload")
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/BrowseTest.java b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/BrowseTest.java
+index c9c60ec..a82a8f5 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/BrowseTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/BrowseTest.java
+@@ -48 +48 @@
+-    @Test( enabled = false )
++    @Test(groups = {"requiresUpload"})
+@@ -51,4 +50,0 @@
+-        File artifact =
+-            new File( getBasedir(),
+-                      "/src/test/it-resources/snapshots/org/apache/maven/archiva/web/test/foo-bar/1.0-SNAPSHOT/foo-bar-1.0-SNAPSHOT.jar" );                     
+-                
+@@ -66,0 +63 @@
++        String path = "src/test/it-resources/snapshots/org/apache/maven/archiva/web/test/foo-bar/1.0-SNAPSHOT/foo-bar-1.0-SNAPSHOT.jar";
+@@ -69,2 +66 @@
+-        addArtifact( "archiva", "archiva-webapp", "1.0-SNAPSHOT", "jar", artifact.getPath(),
+-                     releasesRepo );
++        addArtifact( "archiva", "archiva-webapp", "1.0-SNAPSHOT", "jar", path, releasesRepo );
+@@ -80,2 +76 @@
+-        addArtifact( "continuum", "continuum-core", "1.0-SNAPSHOT", "jar", artifact.getPath(),
+-                     snapshotsRepo );
++        addArtifact( "continuum", "continuum-core", "1.0-SNAPSHOT", "jar", path, snapshotsRepo );
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/listener/CaptureScreenShotsListener.java b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/listener/CaptureScreenShotsListener.java
+index 947d7cb..8ee8263 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/listener/CaptureScreenShotsListener.java
++++ b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/listener/CaptureScreenShotsListener.java
+@@ -78 +78 @@
+-            selenium.captureEntirePageScreenshot( fileName.getAbsolutePath(), "" );
++            selenium.captureEntirePageScreenshot( fileName.getAbsolutePath(), "background=#FFFFFF" );
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArchivaTest.java b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArchivaTest.java
+index 9209d6f..11e7d08 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArchivaTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArchivaTest.java
+@@ -3,0 +4 @@
++import java.io.IOException;
+@@ -498 +499,19 @@
+-        setFieldValue( "artifact", artifactFilePath );
++        String path;
++        if ( artifactFilePath != null && artifactFilePath.trim().length() > 0 )
++        {
++            File f = new File( artifactFilePath );
++            try
++            {
++                path = f.getCanonicalPath();
++            }
++            catch ( IOException e )
++            {
++                path = f.getAbsolutePath();
++            }
++        }
++        else
++        {
++            path = artifactFilePath;
++        }
++
++        setFieldValue( "artifact", path );
+diff --git a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArtifactManagementTest.java b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArtifactManagementTest.java
+index cf03765..29486cd 100644
+--- a/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArtifactManagementTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp-test/src/test/testng/org/apache/archiva/web/test/parent/AbstractArtifactManagementTest.java
+@@ -3,3 +3 @@
+-import java.io.File;
+-
+-public abstract class AbstractArtifactManagementTest 
++public abstract class AbstractArtifactManagementTest
+@@ -35,3 +33 @@
+-		File f = new File( "" );
+-		String artifactFilePath = f.getAbsolutePath();
+-		return artifactFilePath + "/src/test/it-resources/snapshots/org/apache/maven/archiva/web/test/foo-bar/1.0-SNAPSHOT/foo-bar-1.0-SNAPSHOT.jar" ;
++		return "src/test/it-resources/snapshots/org/apache/maven/archiva/web/test/foo-bar/1.0-SNAPSHOT/foo-bar-1.0-SNAPSHOT.jar";
+

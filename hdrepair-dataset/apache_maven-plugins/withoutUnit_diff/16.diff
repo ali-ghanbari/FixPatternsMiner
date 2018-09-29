@@ -1,0 +1,13 @@
+diff --git a/maven-site-plugin/src/it/interpolation/invoker.properties b/maven-site-plugin/src/it/interpolation/invoker.properties
+index 01d82ee..000a0d8 100644
+--- a/maven-site-plugin/src/it/interpolation/invoker.properties
++++ b/maven-site-plugin/src/it/interpolation/invoker.properties
+@@ -2,0 +3 @@
++invoker.goals.3 = site:effective-site
+diff --git a/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/EffectiveSiteMojo.java b/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/EffectiveSiteMojo.java
+index b070b75..49a0bbf 100644
+--- a/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/EffectiveSiteMojo.java
++++ b/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/EffectiveSiteMojo.java
+@@ -186,0 +187 @@
++        effectiveSite = effectiveSite.substring( effectiveSite.indexOf( "<project " ) ); // remove "<?xml" header
+

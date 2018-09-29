@@ -1,0 +1,8 @@
+diff --git a/protected/java/src/org/broadinstitute/sting/gatk/walkers/compression/reducereads/SlidingWindow.java b/protected/java/src/org/broadinstitute/sting/gatk/walkers/compression/reducereads/SlidingWindow.java
+index 3347896..58282e2 100644
+--- a/protected/java/src/org/broadinstitute/sting/gatk/walkers/compression/reducereads/SlidingWindow.java
++++ b/protected/java/src/org/broadinstitute/sting/gatk/walkers/compression/reducereads/SlidingWindow.java
+@@ -685 +685 @@
+-                if (region.isFinished() && region.getContig() == contig && region.getStart() >= windowHeaderStart && region.getStop() <= windowHeaderStart + windowHeader.size()) {
++                if (region.isFinished() && region.getContig() == contig && region.getStart() >= windowHeaderStart && region.getStop() < windowHeaderStart + windowHeader.size()) {
+

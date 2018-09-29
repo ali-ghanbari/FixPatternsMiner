@@ -1,0 +1,15 @@
+diff --git a/integration-test/src/test/java/org/sagebionetworks/IT500SynapseJavaClient.java b/integration-test/src/test/java/org/sagebionetworks/IT500SynapseJavaClient.java
+index 10bdf2c..94ea7ce 100644
+--- a/integration-test/src/test/java/org/sagebionetworks/IT500SynapseJavaClient.java
++++ b/integration-test/src/test/java/org/sagebionetworks/IT500SynapseJavaClient.java
+@@ -42 +42 @@
+-		JSONObject results = synapse.query("select * from dataset");
++		JSONObject results = synapse.query("select * from dataset limit 10");
+diff --git a/tools/DatasetMetadataLoader/datasetNuker.py b/tools/DatasetMetadataLoader/datasetNuker.py
+index 8988dd6..8fc01d5 100755
+--- a/tools/DatasetMetadataLoader/datasetNuker.py
++++ b/tools/DatasetMetadataLoader/datasetNuker.py
+@@ -5 +5 @@
+-import os, json, re, string, datetime, pwd, urllib, httplib, ConfigParser, argparse, synapse.utils, synapse.client
++import synapse.utils, synapse.client
+

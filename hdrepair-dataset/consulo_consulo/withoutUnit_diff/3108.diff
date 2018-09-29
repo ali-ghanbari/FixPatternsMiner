@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/ide/util/treeView/AbstractTreeBuilder.java b/source/com/intellij/ide/util/treeView/AbstractTreeBuilder.java
+index 55796f8..baf59d4 100644
+--- a/source/com/intellij/ide/util/treeView/AbstractTreeBuilder.java
++++ b/source/com/intellij/ide/util/treeView/AbstractTreeBuilder.java
+@@ -571 +571 @@
+-        if (((NodeDescriptor)node1.getUserObject()).getElement() == null) continue;
++        if ((node1.getUserObject() instanceof NodeDescriptor) && ((NodeDescriptor)node1.getUserObject()).getElement() == null) continue;
+

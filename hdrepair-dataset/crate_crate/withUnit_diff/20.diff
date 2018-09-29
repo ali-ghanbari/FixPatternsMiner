@@ -1,0 +1,31 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 44ebb79..00e37e6 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -7,0 +8,3 @@
++ - fixed bulk arguments validation: it was too strict and failed if the
++   arguments contains null values.
++
+diff --git a/sql/src/main/java/io/crate/analyze/Analyzer.java b/sql/src/main/java/io/crate/analyze/Analyzer.java
+index 0a39013..abb8113 100644
+--- a/sql/src/main/java/io/crate/analyze/Analyzer.java
++++ b/sql/src/main/java/io/crate/analyze/Analyzer.java
+@@ -97 +97 @@
+-                    } else if (!bulkTypes[i].equals(guessedType)) {
++                    } else if (o != null && !bulkTypes[i].equals(guessedType)) {
+diff --git a/sql/src/test/java/io/crate/analyze/InsertFromValuesAnalyzerTest.java b/sql/src/test/java/io/crate/analyze/InsertFromValuesAnalyzerTest.java
+index c2b5643..045ed0e 100644
+--- a/sql/src/test/java/io/crate/analyze/InsertFromValuesAnalyzerTest.java
++++ b/sql/src/test/java/io/crate/analyze/InsertFromValuesAnalyzerTest.java
+@@ -593,0 +594,10 @@
++    public void testInsertWithBulkArgsNullValues() throws Exception {
++        // this test verifies that the validation is okay - so if no exception is thrown this test passes
++        analyze("insert into users (id, name) values (?, ?)",
++                new Object[][] {
++                        new Object[] { 10, "foo" },
++                        new Object[] { 11, null }
++                });
++    }
++
++    @Test
+

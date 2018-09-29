@@ -1,0 +1,64 @@
+diff --git a/examples/javaee/common/build.xml b/examples/javaee/common/build.xml
+index e898447..5c5221e 100644
+--- a/examples/javaee/common/build.xml
++++ b/examples/javaee/common/build.xml
+@@ -138 +138 @@
+-         <arg line="run.sh -b 192.168.0.10 -c ${example.name}-example-profile"/>
++         <arg line="run.sh -c ${example.name}-example-profile"/>
+diff --git a/examples/javaee/ejb-jms-transaction/build.xml b/examples/javaee/ejb-jms-transaction/build.xml
+index fdee936..14c59e2 100644
+--- a/examples/javaee/ejb-jms-transaction/build.xml
++++ b/examples/javaee/ejb-jms-transaction/build.xml
+@@ -31,0 +32,9 @@
++   <target name="copy-resources">
++      <property name="example-profile" value="${jboss.home}/server/${example.name}-example-profile"/>
++      <delete>
++   	     <fileset dir="${example-profile}/deploy/">
++	        <include name="hsqldb-ds.xml"/>
++         </fileset>
++      </delete>
++   </target>
++   
+diff --git a/examples/javaee/ejb-jms-transaction/readme.html b/examples/javaee/ejb-jms-transaction/readme.html
+index 6095d92..6b0d63c 100644
+--- a/examples/javaee/ejb-jms-transaction/readme.html
++++ b/examples/javaee/ejb-jms-transaction/readme.html
+@@ -34,6 +34,6 @@
+-         <li>remove HSQLDB configuration from default-with-jbm2 deployment</li>
+-         <pre>
+-             <code>rm $JBOSS_HOME/server/default-with-jbm2/deploy/hsqldb-ds.xml</code>
+-         </pre>
+-         <li>copy <a href="config/mysql-ds.xml">mysql-ds.xml</a> to <code>$JBOSS_HOME/server/default-with-jbm2/deploy/</code></li>
+-         <li>copy MySQL JDBC jar to <code>$JBOSS_HOME/server/default-with-jbm2/lib/</code></li>
++        <li>copy MySQL JDBC jar to <code>$JBOSS_HOME/server/default-with-jbm2/lib/</code></li>
++     </ul>
++     <p>During the deployment, the example will:</p>
++     <ul>
++        <li>remove HSQLDB configuration (<code>hsqldb-ds.xml</code>) from the profile</li>
++        <li>copy <a href="config/mysql-ds.xml"><code>mysql-ds.xml</a></code> to to the profile</li>
+diff --git a/examples/javaee/ejb-jms-transaction/server/jbm-jms.xml b/examples/javaee/ejb-jms-transaction/server/jbm-jms.xml
+index df70e9c..2e7c096 100644
+--- a/examples/javaee/ejb-jms-transaction/server/jbm-jms.xml
++++ b/examples/javaee/ejb-jms-transaction/server/jbm-jms.xml
+@@ -6 +6 @@
+-      <connector-ref connector-name="netty-connector"/>
++      <connector-ref connector-name="netty"/>
+@@ -16 +16 @@
+-</configuration>
+\ No newline at end of file
++</configuration>
+diff --git a/examples/javaee/ejb-jms-transaction/server/mysql-ds.xml b/examples/javaee/ejb-jms-transaction/server/mysql-ds.xml
+index 3c22788..d8f2e72 100644
+--- a/examples/javaee/ejb-jms-transaction/server/mysql-ds.xml
++++ b/examples/javaee/ejb-jms-transaction/server/mysql-ds.xml
+@@ -23 +23 @@
+-    <jndi-name>DefaultMessagingDS</jndi-name>
++    <jndi-name>DefaultDS</jndi-name>
+diff --git a/examples/javaee/ejb-jms-transaction/src/org/jboss/javaee/example/server/SendMessageBean.java b/examples/javaee/ejb-jms-transaction/src/org/jboss/javaee/example/server/SendMessageBean.java
+index 12879ab..2b0d2b7 100644
+--- a/examples/javaee/ejb-jms-transaction/src/org/jboss/javaee/example/server/SendMessageBean.java
++++ b/examples/javaee/ejb-jms-transaction/src/org/jboss/javaee/example/server/SendMessageBean.java
+@@ -52 +52 @@
+-      DataSource ds = (DataSource)ic.lookup("java:/DefaultMessagingDS");
++      DataSource ds = (DataSource)ic.lookup("java:/DefaultDS");
+

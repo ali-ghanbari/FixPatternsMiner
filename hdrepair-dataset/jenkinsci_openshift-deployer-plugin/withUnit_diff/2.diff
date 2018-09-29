@@ -1,0 +1,36 @@
+diff --git a/src/main/java/org/jenkinsci/plugins/openshift/util/Utils.java b/src/main/java/org/jenkinsci/plugins/openshift/util/Utils.java
+index 6016004..dc1e1c3 100644
+--- a/src/main/java/org/jenkinsci/plugins/openshift/util/Utils.java
++++ b/src/main/java/org/jenkinsci/plugins/openshift/util/Utils.java
+@@ -43,23 +42,0 @@
+-//	public static File createRootDeploymentFile(File dest, String deployment) {
+-//		StringBuilder path = new StringBuilder();
+-//		path.append(dest.getAbsolutePath());
+-//		path.append("/ROOT.");
+-//		
+-//		String dep = deployment.toLowerCase();
+-//		if (isURL(dep)) {
+-//			if (dep.contains(".ear")) {
+-//				path.append("ear");
+-//			} else if (dep.contains(".war")) {
+-//				path.append("war");
+-//			} else if (dep.contains("ear")) { // TODO: fuzzy! might be just part of the url e.g. /bear
+-//				path.append("ear");
+-//			} else { 						  
+-//				path.append("war");
+-//			}
+-//		} else {
+-//			path.append(getExtension(dep));
+-//		}
+-//		
+-//		return new File(path.toString());
+-//	}
+-//	
+diff --git a/src/test/java/org/jenkinsci/plugins/openshift/BaseJenkinsTest.java b/src/test/java/org/jenkinsci/plugins/openshift/BaseJenkinsTest.java
+index 1fd1b80..903debd 100644
+--- a/src/test/java/org/jenkinsci/plugins/openshift/BaseJenkinsTest.java
++++ b/src/test/java/org/jenkinsci/plugins/openshift/BaseJenkinsTest.java
+@@ -22 +22 @@
+-	protected static final String SUCCESS_LOG = "Application deployed to http://testapp-smx.rhcloud.com/";
++	protected static final String SUCCESS_LOG = "Application deployed to http://testapp";
+

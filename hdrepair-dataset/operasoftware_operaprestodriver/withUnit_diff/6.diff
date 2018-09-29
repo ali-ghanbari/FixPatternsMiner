@@ -1,0 +1,36 @@
+diff --git a/test/com/opera/core/systems/OperaDriverTest.java b/test/com/opera/core/systems/OperaDriverTest.java
+index 8494b71..dd5056b 100644
+--- a/test/com/opera/core/systems/OperaDriverTest.java
++++ b/test/com/opera/core/systems/OperaDriverTest.java
+@@ -168,0 +169 @@
++  @Ignore(value="Once this is set the autotestmode profile no longer connects on 7001, breaking future tests")
+@@ -244,2 +245,2 @@
+-    Assert.assertTrue("'"+profile+"' contains 'tmp' or 'temp'" ,
+-        profile.contains("tmp") || profile.contains("temp")
++    Assert.assertTrue("'"+profile+"' (case insensitively) contains 'tmp' or 'temp'" ,
++        profile.toLowerCase().contains("tmp") || profile.toLowerCase().contains("temp")
+@@ -302,3 +303,3 @@
+-    Assert.assertEquals(fixture("test.html"), a.getCurrentUrl());
+-    Assert.assertEquals(fixture("javascript.html"), b.getCurrentUrl());
+-    Assert.assertEquals(fixture("keys.html"), c.getCurrentUrl());
++    Assert.assertTrue("Instance a has url test.html", a.getCurrentUrl().endsWith("test.html"));
++    Assert.assertTrue("Instance a has url javascript.html", b.getCurrentUrl().endsWith("javascript.html"));
++    Assert.assertTrue("Instance a has url keys.html", c.getCurrentUrl().endsWith("keys.html"));
+diff --git a/test/com/opera/core/systems/OperaPathsTest.java b/test/com/opera/core/systems/OperaPathsTest.java
+index 14d16fa..ed80640 100644
+--- a/test/com/opera/core/systems/OperaPathsTest.java
++++ b/test/com/opera/core/systems/OperaPathsTest.java
+@@ -123 +123 @@
+-      assertTrue(e.getMessage().contains("does not exist"));
++      assertTrue("'"+e.getMessage() + "' contains 'does not exist'", e.getMessage().contains("does not exist"));
+@@ -144 +144 @@
+-      assertTrue(e.getMessage().contains("does not exist"));
++      assertTrue("'"+e.getMessage() + "' contains 'does not exist'", e.getMessage().contains("does not exist"));
+diff --git a/test/com/opera/core/systems/TestBase.java b/test/com/opera/core/systems/TestBase.java
+index 5884a21..fd88935 100644
+--- a/test/com/opera/core/systems/TestBase.java
++++ b/test/com/opera/core/systems/TestBase.java
+@@ -30 +30 @@
+-    driver.quit();
++      driver.quit();
+

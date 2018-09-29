@@ -1,0 +1,66 @@
+1008:
+- fix JPEG filter for larger JPEGs (which include restart markers)
+- round-robin over fproxy fetches, so that long ones don't block others
+- fix bug resetting databaseMaxMemory to 0 on startup
+- tell node to upgrade to freenet-ext #9
+- new failure code: all data not found. means we fetched some data but not all - perhaps a redirect to a file that hasn't been inserted (frost MoD bug).
+- long options: don't change "5G" to "5368698672"; more accurate parsing
+- filter application/xhtml+xml as html
+- use URL encoding for freenet URI's. they are URI's. and encoding lets us include reserved characters in e.g. path components. also avoids issues with fproxy. however the parser will allow reserved characters if we see them (this creates ambiguity). fixes #814.
+- if a KeyTracker is cleared, send forgotten packet notifications for packets from it we are asked to resend. in other words, when we change key on the same node without a restart, we can't resend the old packets, but since they've been moved to the new tracker we can safely tell the peer to shut up about them by saying we've forgotten them.
+- add 0-100 bytes of padding after any auth packet to prevent blocking/profiling by packet size. more/better padding will be introduced later.
+- config: minor fixes/optimisations
+- config: for string array options (e.g. plugin lists, bookmark lists), "" indicates no items, ":" indicates an empty item.
+- stats: minor fixes to location tracking
+- stats: more stats on load balancing and congestion control
+- stats: formatting fix on page
+- stats: better thread count
+- stats: show JVM version
+- stats: add a peer location distribution circle
+- stats: and a node location distribution circle (nodes known through swapping)
+- stats: spy on other people's swaps passing through us. much faster network size estimate.
+- fix bug in FreenetURI.pushMetaString which broke some sites; not clear when this was introduced
+- don't include creation time in default node name
+- fix some NPEs
+- detect: IP detection fixes
+- detect: on-network IP detection now compatible with IPv6
+- detect: never show more than one connection status alert
+- FCP: fix PriorityClass=2;2 in PersistentPutDir
+- FCP: guess MIME type earlier so it shows up in the PersistentPutDir message
+- FCP: show Global= if the request is global on almost all messages
+- FCP: don't send FinishedCompression if we didn't start
+- FCP: fix a bug with signature verification (wrong end marker)
+- persistence: just because one bucket.free throws doesn't mean they all will
+- persistence: new downloads.dat.gz format for describing temp buckets; slightly bigger for less code. backwards compatible; will automatically upgrade your queue.
+- temp files: tell the user how many files we have deleted, can't delete, etc.
+- web interface: don't serve Date: / Last-Modified: headers in local time zone (fixes wget)
+- fproxy: don't save files as .ext.ext
+- Fproxy: don't offer to download as original type if was a download type anyway
+- n2ntm: fix the n2ntm bug, once and for all (we hope). only happened when sender was Windows, due to deletion behaviour... thanks to folk who helped me with this.
+- plugins: some fixes. "Librarian*" will now load Librarian, but it will be re-fetched on each startup. i don't know if this is a good idea but it was the case before (although it was broken).
+- plugins: moved plugin/ to oldplugins/
+- plugins: beginnings of new plugin API; not implemented yet. API will consist of freenet.plugin.api and freenet.support.api ONLY.
+- plugins: make /plugin/ work (you only need it for the spider atm)
+- darknet page: fix idle display as "1928w1d".
+- fproxy: don't include encoded <pre>'s in error messages
+- fproxy: notify user via UserAlert when a bookmarked site is updated
+- grumble if comparing invalid locations
+- many classes moved around, refactored to support new plugins. e.g. buckettools.freebucket() removed, StringArrCallback now uses String[]. many classes/interfaces moved to freenet.support.api.
+- toadlets now use HTTPRequest, not buckets which they always feed to it
+- better feedback (on broken HTML etc) in comments inserted by filter
+- more GPL2+ headers, update AUTHORS
+- debugging paranoia for a rare crash, show # running threads
+- nextgens/bombe added some unit tests, run after compile.
+- logger: more accurate estimate of log line storage overhead, store fewer of them. handle apparently impossible crash better.
+- add node/simulator/ - for multiple-real-nodes-in-one-VM simulations. initially just the old 3 test's. compiles, not tested yet. required some refactorin:
+- refactoring: OutgoingPacketMangler parent of FNPPacketMangler, rename LowLevelFilter -> IncomingPacketFilter, un-static or un-public some bits in FNPPacketMangler, add resend(ResendPacketItem). will implement DummyPacketMangler later on to allow for fast node/simulator/ simulations by bypassing crypto.
+- refactoring: PersistentConfig base class of FilePersistentConfig, contains everything except for actual file writing
+- several new advanced config options for devs (mostly for simulations): node.disableProbabilisticHTLs, node.maxHTL, node.testingDropPacketsEvery
+- other node/simulator/ related refactoring e.g. in NodeStarter
+- stop some filehandle leaks
+- imports, logging, formatting, wording, comments, delete unused code, build fixes (project files etc)
+- build fixes
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@11514 67a373e5-eb02-0410-a15c-ee090a768436
+

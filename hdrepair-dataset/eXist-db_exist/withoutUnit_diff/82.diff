@@ -1,0 +1,8 @@
+diff --git a/src/org/exist/collections/Collection.java b/src/org/exist/collections/Collection.java
+index 4d755a0..f08b402 100644
+--- a/src/org/exist/collections/Collection.java
++++ b/src/org/exist/collections/Collection.java
+@@ -1823 +1823 @@
+-            if(!((oldDoc.getPermissions().getOwner().getId() != broker.getSubject().getId()) | (oldDoc.getPermissions().validate(broker.getSubject(), Permission.WRITE)))) {
++            if (!((oldDoc.getPermissions().getOwner().getId() == broker.getSubject().getId()) || (oldDoc.getPermissions().validate(broker.getSubject(), Permission.WRITE)))) {
+

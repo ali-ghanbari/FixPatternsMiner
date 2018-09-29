@@ -1,0 +1,9 @@
+diff --git a/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java b/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java
+index c0b5a62..7f8720f 100644
+--- a/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java
++++ b/OsmAnd/src/net/osmand/plus/activities/NavigatePointActivity.java
+@@ -44 +44,2 @@
+-		LatLon loc = activity.getMapLocation();
++		// Try proper update for center of map   LatLon loc = activity.getMapLocation();
++		LatLon loc = OsmandSettings.getOsmandSettings(this).getLastKnownMapLocation();
+

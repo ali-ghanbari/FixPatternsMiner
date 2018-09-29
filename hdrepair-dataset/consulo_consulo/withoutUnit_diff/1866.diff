@@ -1,0 +1,28 @@
+diff --git a/platform-resources_eng/src/messages/XmlBundle.properties b/platform-resources_eng/src/messages/XmlBundle.properties
+index 10f1b30..791090d 100644
+--- a/platform-resources_eng/src/messages/XmlBundle.properties
++++ b/platform-resources_eng/src/messages/XmlBundle.properties
+@@ -36 +36,2 @@
+-html.replace.tag.quickfix.text=Replace deprecated HTML tag {0}
++html.replace.tag.with.css.quickfix.text=Replace {0} tag with CSS
++html.replace.tag.with.another.quickfix.text=Replace {0} tag with {1} tag
+diff --git a/xml/impl/resources/inspectionDescriptions/HtmlDeprecatedTag.html b/xml/impl/resources/inspectionDescriptions/HtmlDeprecatedTag.html
+new file mode 100644
+index 0000000..1ad96e2
+--- /dev/null
++++ b/xml/impl/resources/inspectionDescriptions/HtmlDeprecatedTag.html
+@@ -0,0 +1,6 @@
++<html>
++<body>
++<font face="verdana" size="-1">This inspection highlights deprecated HTML tags and provides ability to replace them with CSS or other tags.<br>
++</font>
++</body>
++</html>
+\ No newline at end of file
+diff --git a/xml/impl/src/com/intellij/codeInspection/htmlInspections/XmlInspectionToolProvider.java b/xml/impl/src/com/intellij/codeInspection/htmlInspections/XmlInspectionToolProvider.java
+index 8488740..0f10c7a 100644
+--- a/xml/impl/src/com/intellij/codeInspection/htmlInspections/XmlInspectionToolProvider.java
++++ b/xml/impl/src/com/intellij/codeInspection/htmlInspections/XmlInspectionToolProvider.java
+@@ -24,0 +25 @@
++      HtmlDeprecatedTagInspection.class,
+

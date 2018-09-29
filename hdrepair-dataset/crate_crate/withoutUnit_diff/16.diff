@@ -1,0 +1,15 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index ee8b068..88812ee 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -7,0 +8,2 @@
++ - fixed an issue where sometimes ``COPY TO`` ignores settings.
++
+diff --git a/sql/src/main/java/io/crate/planner/projection/WriterProjection.java b/sql/src/main/java/io/crate/planner/projection/WriterProjection.java
+index 191d01d..150fe82 100644
+--- a/sql/src/main/java/io/crate/planner/projection/WriterProjection.java
++++ b/sql/src/main/java/io/crate/planner/projection/WriterProjection.java
+@@ -115 +115 @@
+-        ImmutableSettings.readSettingsFromStream(in);
++        settings = ImmutableSettings.readSettingsFromStream(in);
+

@@ -1,0 +1,23 @@
+diff --git a/src/org/mozilla/javascript/TokenStream.java b/src/org/mozilla/javascript/TokenStream.java
+index eacd56d..ec038d8 100644
+--- a/src/org/mozilla/javascript/TokenStream.java
++++ b/src/org/mozilla/javascript/TokenStream.java
+@@ -878 +878 @@
+-        boolean inCharSet = false;
++        boolean inCharSet = false; // true if inside a '['..']' pair
+diff --git a/testsrc/doctests/368019.doctest b/testsrc/doctests/368019.doctest
+new file mode 100644
+index 0000000..43079fa
+--- /dev/null
++++ b/testsrc/doctests/368019.doctest
+@@ -0,0 +1,9 @@
++// Regression test for bug https://bugzilla.mozilla.org/show_bug.cgi?id=368019
++//  - regular expression (regex) parses /[/]/ incorrectly
++js> var re;
++js> re = /[^/]*/;
++/[^/]*/
++js> re = /[/]/;
++/[/]/
++js> re = /\[/;
++/\[/
+

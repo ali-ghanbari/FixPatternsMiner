@@ -1,0 +1,21 @@
+diff --git a/core/src/main/java/org/ocpsoft/prettytime/i18n/Resources_ja.java b/core/src/main/java/org/ocpsoft/prettytime/i18n/Resources_ja.java
+index bb512ab..5527e60 100644
+--- a/core/src/main/java/org/ocpsoft/prettytime/i18n/Resources_ja.java
++++ b/core/src/main/java/org/ocpsoft/prettytime/i18n/Resources_ja.java
+@@ -76 +76 @@
+-            {"MonthSingularName", "月"},
++            {"MonthSingularName", "ヶ月"},
+diff --git a/core/src/test/java/org/ocpsoft/prettytime/PrettyTimeI18n_JA_Test.java b/core/src/test/java/org/ocpsoft/prettytime/PrettyTimeI18n_JA_Test.java
+index 823cbdd..e89f6cc 100644
+--- a/core/src/test/java/org/ocpsoft/prettytime/PrettyTimeI18n_JA_Test.java
++++ b/core/src/test/java/org/ocpsoft/prettytime/PrettyTimeI18n_JA_Test.java
+@@ -167,0 +168,8 @@
++    public void testOneMonthAgo() throws Exception
++    {
++        PrettyTime t = new PrettyTime(new Date(2629743830L * 1L), locale);
++        // 3 months ago
++        assertEquals("1 months ago", "1ヶ月前", t.format(new Date(0)));
++    }
++
++    @Test
+

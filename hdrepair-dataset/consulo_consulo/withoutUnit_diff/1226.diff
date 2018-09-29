@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java b/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
+index 3b33127..b537382 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/lookup/impl/LookupImpl.java
+@@ -319 +319 @@
+-      if (isFocused() && !hasExactPrefixes) {
++      if (isFocused() && (!hasExactPrefixes || mySelectionTouched)) {
+

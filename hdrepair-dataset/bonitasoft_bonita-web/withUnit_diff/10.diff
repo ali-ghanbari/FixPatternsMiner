@@ -1,0 +1,29 @@
+diff --git a/server/src/main/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolver.java b/server/src/main/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolver.java
+index ef1f164..6e5cef8 100644
+--- a/server/src/main/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolver.java
++++ b/server/src/main/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolver.java
+@@ -36 +36 @@
+-        pageReference = pageMappingService.getPage(httpServletRequest, apiSession, generateMappingKey(), httpServletRequest.getLocale());
++        pageReference = pageMappingService.getPage(httpServletRequest, apiSession, generateMappingKey(), httpServletRequest.getLocale(),false);
+diff --git a/server/src/test/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolverTest.java b/server/src/test/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolverTest.java
+index 7dd3daf..04306fb 100644
+--- a/server/src/test/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolverTest.java
++++ b/server/src/test/java/org/bonitasoft/web/rest/server/api/extension/ResourceExtensionResolverTest.java
+@@ -102 +102 @@
+-       resourceExtensionResolver.resolveClassFileName(pageResourceProvider);
++        resourceExtensionResolver.resolveClassFileName(pageResourceProvider);
+@@ -125 +125 @@
+-        doReturn(pageReference).when(pageMappingService).getPage(httpServletRequest, apiSession, API_EXTENSION_POST_MAPPING_KEY, Locale.FRENCH);
++        doReturn(pageReference).when(pageMappingService).getPage(httpServletRequest, apiSession, API_EXTENSION_POST_MAPPING_KEY, Locale.FRENCH, false);
+@@ -135 +135 @@
+-        verify(pageMappingService).getPage(any(HttpServletRequest.class), eq(apiSession), eq(API_EXTENSION_POST_MAPPING_KEY), any(Locale.class));
++        verify(pageMappingService).getPage(any(HttpServletRequest.class), eq(apiSession), eq(API_EXTENSION_POST_MAPPING_KEY), any(Locale.class), eq(false));
+@@ -144,2 +144,2 @@
+-        NotFoundException notFoundException=new NotFoundException("page not found");
+-        doThrow(notFoundException).when(pageMappingService).getPage(httpServletRequest, apiSession, API_EXTENSION_POST_MAPPING_KEY, Locale.FRENCH);
++        NotFoundException notFoundException = new NotFoundException("page not found");
++        doThrow(notFoundException).when(pageMappingService).getPage(httpServletRequest, apiSession, API_EXTENSION_POST_MAPPING_KEY, Locale.FRENCH, false);
+@@ -155 +155 @@
+-        verify(pageMappingService).getPage(any(HttpServletRequest.class), eq(apiSession), eq(API_EXTENSION_POST_MAPPING_KEY), any(Locale.class));
++        verify(pageMappingService).getPage(any(HttpServletRequest.class), eq(apiSession), eq(API_EXTENSION_POST_MAPPING_KEY), any(Locale.class), eq(false));
+

@@ -1,0 +1,58 @@
+diff --git a/data/defaultpresets.xml b/data/defaultpresets.xml
+index b8a52e5..872a9e5 100755
+--- a/data/defaultpresets.xml
++++ b/data/defaultpresets.xml
+@@ -350,0 +351,2 @@
++            <link href="http://wiki.openstreetmap.org/wiki/Key:access"
++                  de.href="http://wiki.openstreetmap.org/wiki/DE:Key:access" />
+@@ -355,10 +357,10 @@
+-            <combo key="access" text="Access" values="yes,private,designated,destination,permissive,agricultural,unknown,no" default="" delete_if_empty="true" />
+-            <combo key="agricultural" text="Agricultural" values="yes,designated,destination,permissive,no" default="" delete_if_empty="true" />
+-            <combo key="bicycle" text="Bicycle" values="yes,private,designated,destination,permissive,unknown,no" default="" delete_if_empty="true"  />
+-            <combo key="foot" text="Foot" values="yes,private,designated,destination,permissive,unknown,no" default="" delete_if_empty="true" />
+-            <combo key="goods" text="Goods" values="yes,private,designated,destination,permissive,unknown,no" default="" delete_if_empty="true" />
+-            <combo key="hgv" text="Heavy Goods Vehicles (hgv)" values="yes,private,designated,destination,permissive,agricultural,unknown,no" default="" delete_if_empty="true" />
+-            <combo key="horse" text="Horse" values="yes,private,designated,destination,permissive,unknown,no" default="" delete_if_empty="true" />
+-            <combo key="motorcycle" text="Motorcycle" values="yes,private,designated,destination,permissive,unknown,no" default="" delete_if_empty="true" />
+-            <combo key="motorcar" text="Motorcar" values="yes,private,designated,destination,permissive,agricultural,unknown,no" default="" delete_if_empty="true" />
+-            <combo key="psv" text="Public Service Vehicles (psv)" values="yes,private,designated,destination,permissive,unknown,no" default="" delete_if_empty="true" />
++            <combo key="access" text="Access" values="yes,private,destination,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
++            <combo key="agricultural" text="Agricultural" values="yes,designated,destination,permissive,delivery,unknown,no" default="" delete_if_empty="true" />
++            <combo key="bicycle" text="Bicycle" values="yes,private,designated,official,destination,permissive,unknown,no" default="" delete_if_empty="true"  />
++            <combo key="foot" text="Foot" values="yes,private,designated,official,destination,permissive,unknown,no" default="" delete_if_empty="true" />
++            <combo key="goods" text="Goods" values="yes,private,designated,official,destination,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
++            <combo key="hgv" text="Heavy Goods Vehicles (hgv)" values="yes,private,designated,official,destination,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
++            <combo key="horse" text="Horse" values="yes,private,designated,official,permissive,unknown,no" default="" delete_if_empty="true" />
++            <combo key="motorcycle" text="Motorcycle" values="yes,private,designated,destination,official,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
++            <combo key="motorcar" text="Motorcar" values="yes,private,designated,official,destination,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
++            <combo key="psv" text="Public Service Vehicles (psv)"   values="yes,private,designated,official,destination,permissive,unknown,no" default="" delete_if_empty="true" />
+@@ -371,0 +374 @@
++        <separator/>
+@@ -463,3 +466,3 @@
+-                <combo key="access" text="Access" values="yes,private,designated,destination,permissive,agricultural,unknown,no" default="" delete_if_empty="true" />
+-                <combo key="motorcycle" text="Motorcycle" values="yes,private,designated,destination,permissive,agricultural,unknown,no" default="" delete_if_empty="true" />
+-                <combo key="motorcar" text="Motorcar" values="yes,private,designated,destination,permissive,agricultural,unknown,no" default="" delete_if_empty="true" />
++                <combo key="access" text="Access" values="yes,private,designated,official,destination,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
++                <combo key="motorcycle" text="Motorcycle" values="yes,private,designated,official,destination,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
++                <combo key="motorcar" text="Motorcar" values="yes,private,designated,official,destination,permissive,agricultural,forestry,delivery,unknown,no" default="" delete_if_empty="true" />
+@@ -486,3 +489,3 @@
+-                <combo key="foot" text="Foot" values="yes,designated,no" default="" delete_if_empty="true" />
+-                <combo key="bicycle" text="Bicycle" values="yes,designated,no" default="" delete_if_empty="true" />
+-                <combo key="horse" text="Horse" values="yes,designated,no" default="" delete_if_empty="true" />
++                <combo key="foot" text="Foot" values="yes,designated,official,no" default="" delete_if_empty="true" />
++                <combo key="bicycle" text="Bicycle" values="yes,designated,official,no" default="" delete_if_empty="true" />
++                <combo key="horse" text="Horse" values="yes,designated,official,no" default="" delete_if_empty="true" />
+@@ -490,2 +493,2 @@
+-                <combo key="ski" text="Ski" values="yes,designated,no" default="" delete_if_empty="true" />
+-                <combo key="snowmobile" text="Snowmobile" values="yes,designated,no" default="" delete_if_empty="true" />
++                <combo key="ski" text="Ski" values="yes,designated,official,no" default="" delete_if_empty="true" />
++                <combo key="snowmobile" text="Snowmobile" values="yes,designated,official,no" default="" delete_if_empty="true" />
+@@ -577 +579,0 @@
+-                <combo key="surface" text="Surface" values="paved,concrete,cobblestone,gravel,ground,grass,sand" default="" delete_if_empty="true" />
+diff --git a/src/org/openstreetmap/josm/gui/tagging/TaggingPreset.java b/src/org/openstreetmap/josm/gui/tagging/TaggingPreset.java
+index 5f336b9..4c16e86 100644
+--- a/src/org/openstreetmap/josm/gui/tagging/TaggingPreset.java
++++ b/src/org/openstreetmap/josm/gui/tagging/TaggingPreset.java
+@@ -365,0 +366 @@
++            combo.setMaximumRowCount(13);
+

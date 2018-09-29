@@ -1,0 +1,13 @@
+diff --git a/README.md b/README.md
+index 32e3f51..6a6b1b0 100644
+--- a/README.md
++++ b/README.md
+@@ -80,0 +81 @@
++* Fixed issue with setter getting called in deserialization instead of Jackson deserializer.
+diff --git a/src/java/com/strategicgains/restexpress/serialization/json/DefaultJsonProcessor.java b/src/java/com/strategicgains/restexpress/serialization/json/DefaultJsonProcessor.java
+index 6fb4d0c..f91ac25 100644
+--- a/src/java/com/strategicgains/restexpress/serialization/json/DefaultJsonProcessor.java
++++ b/src/java/com/strategicgains/restexpress/serialization/json/DefaultJsonProcessor.java
+@@ -109,0 +110 @@
++			.setVisibility(PropertyAccessor.SETTER, Visibility.NONE)
+

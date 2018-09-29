@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/codeInsight/editorActions/SelectWordHandler.java b/source/com/intellij/codeInsight/editorActions/SelectWordHandler.java
+index 19aba82..183560a 100644
+--- a/source/com/intellij/codeInsight/editorActions/SelectWordHandler.java
++++ b/source/com/intellij/codeInsight/editorActions/SelectWordHandler.java
+@@ -126 +126 @@
+-        PsiElement elt = baseRoot.findElementAt(e.getTextRange().getStartOffset());
++        PsiElement elt = baseRoot.getNode().findLeafElementAt(e.getTextRange().getStartOffset()).getPsi();
+

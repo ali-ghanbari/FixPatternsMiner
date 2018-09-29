@@ -1,0 +1,19 @@
+diff --git a/trunk/JLanguageTool/CHANGES.txt b/trunk/JLanguageTool/CHANGES.txt
+index 78540eb..6354c2d 100644
+--- a/trunk/JLanguageTool/CHANGES.txt
++++ b/trunk/JLanguageTool/CHANGES.txt
+@@ -4,0 +5,5 @@
++ -Several people had problems with the LanguageTool dialog
++  appearing in the background (when using LanguageTool inside
++  OpenOffice.org). A workaround has been added that tries
++  to fix this problem.
++ 
+diff --git a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/OOoDialog.java b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/OOoDialog.java
+index 9495fb5..c5fbda4 100644
+--- a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/OOoDialog.java
++++ b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/OOoDialog.java
+@@ -244,0 +245,3 @@
++    // Try to fix the problem that the window appears in the
++    // background for some people:
++    dialog.toFront();
+

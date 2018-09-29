@@ -1,0 +1,8 @@
+diff --git a/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/servlet/CXFNonSpringJaxrsServlet.java b/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/servlet/CXFNonSpringJaxrsServlet.java
+index c3553fd..b9b556d 100644
+--- a/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/servlet/CXFNonSpringJaxrsServlet.java
++++ b/rt/frontend/jaxrs/src/main/java/org/apache/cxf/jaxrs/servlet/CXFNonSpringJaxrsServlet.java
+@@ -520 +520 @@
+-        return ignoreParam != null && MessageUtils.isTrue(ignoreParam);
++        return ignoreParam == null || MessageUtils.isTrue(ignoreParam);
+

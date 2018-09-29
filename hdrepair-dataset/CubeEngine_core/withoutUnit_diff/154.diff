@@ -1,0 +1,8 @@
+diff --git a/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java b/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java
+index 8329bfa..91e4a22 100644
+--- a/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java
++++ b/roles/src/main/java/de/cubeisland/cubeengine/roles/role/RolesEventHandler.java
+@@ -65 +65 @@
+-        if (user != null)
++        if (user != null && (user.hasPlayedBefore() || user.isOnline())) // prevent NPE for players that are banned but never joined the server
+

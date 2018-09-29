@@ -1,0 +1,8 @@
+diff --git a/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaResourceManager.java b/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaResourceManager.java
+index 7dc0587..9cc5162 100644
+--- a/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaResourceManager.java
++++ b/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaResourceManager.java
+@@ -443 +443 @@
+-        else if ( !log.scanIsComplete() )
++        else if ( !log.scanIsComplete() || recoveredTxCount > 0 )
+

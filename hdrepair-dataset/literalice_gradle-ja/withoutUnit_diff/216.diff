@@ -1,0 +1,90 @@
+diff --git a/subprojects/plugins/plugins.gradle b/subprojects/plugins/plugins.gradle
+index e774728..760cfe9 100644
+--- a/subprojects/plugins/plugins.gradle
++++ b/subprojects/plugins/plugins.gradle
+@@ -17,0 +18 @@
++    reports
+@@ -32,0 +34 @@
++    reports 'css3-pie:css3-pie:1.0beta3'
+@@ -39,0 +42,7 @@
++task reportResources(type: Copy) {
++    from(configurations.reports)
++    into "${sourceSets.main.classesDir}/org/gradle/api/internal/tasks/testing/junit/report"
++}
++
++classes.dependsOn reportResources
++
+diff --git a/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/DefaultTestReport.java b/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/DefaultTestReport.java
+index 45909a7..b3a6cb7 100644
+--- a/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/DefaultTestReport.java
++++ b/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/DefaultTestReport.java
+@@ -132,0 +133 @@
++        copyResource("css3-pie-1.0beta3.htc");
+diff --git a/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/PageRenderer.groovy b/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/PageRenderer.groovy
+index 1f754c2..8943d95 100644
+--- a/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/PageRenderer.groovy
++++ b/subprojects/plugins/src/main/groovy/org/gradle/api/internal/tasks/testing/junit/report/PageRenderer.groovy
+@@ -52 +52 @@
+-                        a(href: "#tab${index}", onclick: "switchTab('tab${index}'); return false", tab.title)
++                        a(id: "ltab${index}", href: "#tab${index}", tab.title)
+diff --git a/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/report.js b/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/report.js
+index 292bfbe..98d9e23 100644
+--- a/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/report.js
++++ b/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/report.js
+@@ -15 +15,2 @@
+-function switchTab(id) {
++function switchTab() {
++    var id = this.id.substr(1);
+@@ -20 +21 @@
+-            return;
++            return false;
+@@ -22,0 +24 @@
++    return false;
+@@ -43 +45,6 @@
+-    return findChildElements(owner[0], 'LI', null);
++    var headers = findChildElements(owner[0], 'LI', null);
++    for (var i = 0; i < headers.length; i++) {
++        var link = findChildElements(headers[i], 'A', null)[0];
++        link.onclick = switchTab
++    }
++    return headers;
+diff --git a/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/style.css b/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/style.css
+index 6361f80..ace8cdb 100644
+--- a/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/style.css
++++ b/subprojects/plugins/src/main/resources/org/gradle/api/internal/tasks/testing/junit/report/style.css
+@@ -7 +7 @@
+-    color: #505050;
++    color: #303030;
+@@ -42 +41,0 @@
+-    color: #808080;
+@@ -43,0 +43 @@
++    behavior: url(css3-pie-1.0beta3.htc);
+@@ -85 +85,4 @@
+-    color: #808080;
++    padding-top: 10px;
++    padding-bottom: 10px;
++    padding-left: 10px;
++    padding-right: 10px;
+@@ -86,0 +90,2 @@
++    border: solid 1px #d0d0d0;
++    overflow-x: auto;
+@@ -152 +157 @@
+-    width: 100%;
++    min-width: 80%;
+@@ -156,3 +161,3 @@
+-div.tab table thead {
+-    border-bottom: solid #f0f0f0 1px;
+-    margin-bottom: 10px;
++div.tab tbody {
++    border-top: solid #d0d0d0 1px;
++    border-bottom: solid #d0d0d0 1px;
+@@ -161 +166 @@
+-th {
++div.tab th {
+@@ -163,0 +169,5 @@
++
++div.tab td {
++    padding-top: 5px;
++    padding-bottom: 5px;
++}
+

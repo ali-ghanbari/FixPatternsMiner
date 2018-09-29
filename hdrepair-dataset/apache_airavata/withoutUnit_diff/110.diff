@@ -1,0 +1,9 @@
+diff --git a/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/GenericInvoker.java b/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/GenericInvoker.java
+index 8a2ed27..e59c150 100644
+--- a/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/GenericInvoker.java
++++ b/modules/xbaya-gui/src/main/java/org/apache/airavata/xbaya/invoker/GenericInvoker.java
+@@ -362 +362,2 @@
+-                            WSIFMessage faultMessage = GenericInvoker.this.invoker.getFault();
++                            //if error occurse gfac-axis2 write the error in to output not to the fault
++                            WSIFMessage faultMessage = GenericInvoker.this.invoker.getOutputs();
+

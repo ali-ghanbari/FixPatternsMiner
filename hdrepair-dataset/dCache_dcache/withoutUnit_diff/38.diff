@@ -1,0 +1,12 @@
+diff --git a/modules/chimera/src/main/java/org/dcache/chimera/JdbcFs.java b/modules/chimera/src/main/java/org/dcache/chimera/JdbcFs.java
+index 27e18c8..97200a2 100644
+--- a/modules/chimera/src/main/java/org/dcache/chimera/JdbcFs.java
++++ b/modules/chimera/src/main/java/org/dcache/chimera/JdbcFs.java
+@@ -356 +356,5 @@
+-                    throw new ChimeraFsException("Not supported");
++                    /**
++                     * This is not 100% correct, as we throw exist even if
++                     * someone tries to set attribute for a file which does not exist.
++                     */
++                    throw new FileExistsChimeraFsException(name);
+

@@ -1,0 +1,8 @@
+diff --git a/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java b/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java
+index 6582e44..533b7af 100644
+--- a/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java
++++ b/modules/requisition/src/main/java/org/openlmis/rnr/domain/RnrLineItem.java
+@@ -156 +156 @@
+-    Float adjustmentForNewPatients = (newPatientCount * ((Double) Math.ceil(dosesPerMonth / dosesPerDispensingUnit)).floatValue()) * MULTIPLIER;
++    Float adjustmentForNewPatients = (newPatientCount * ((Double) Math.ceil(dosesPerMonth.doubleValue() / dosesPerDispensingUnit)).floatValue()) * MULTIPLIER;
+

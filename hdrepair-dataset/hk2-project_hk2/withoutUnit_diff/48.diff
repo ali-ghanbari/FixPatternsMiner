@@ -1,0 +1,8 @@
+diff --git a/hk2/config/src/java/org/jvnet/hk2/config/ConfigSupport.java b/hk2/config/src/java/org/jvnet/hk2/config/ConfigSupport.java
+index 2e72494..cfcf972 100644
+--- a/hk2/config/src/java/org/jvnet/hk2/config/ConfigSupport.java
++++ b/hk2/config/src/java/org/jvnet/hk2/config/ConfigSupport.java
+@@ -544 +544 @@
+-                            final Class<?> tempClass = childType.getClassLoader().loadClass( elementModel.targetTypeName);
++                            final Class<?> tempClass = elementModel.classLoaderHolder.get().loadClass(elementModel.targetTypeName);
+

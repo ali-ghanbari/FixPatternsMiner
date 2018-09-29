@@ -1,0 +1,35 @@
+diff --git a/plugins/sonar-pmd-plugin/src/main/java/org/sonar/plugins/pmd/PmdProfileExporter.java b/plugins/sonar-pmd-plugin/src/main/java/org/sonar/plugins/pmd/PmdProfileExporter.java
+index db8d56b..87d9d1f 100644
+--- a/plugins/sonar-pmd-plugin/src/main/java/org/sonar/plugins/pmd/PmdProfileExporter.java
++++ b/plugins/sonar-pmd-plugin/src/main/java/org/sonar/plugins/pmd/PmdProfileExporter.java
+@@ -97 +97 @@
+-    Element eltRuleset = new Element("resultset");
++    Element eltRuleset = new Element("ruleset");
+diff --git a/plugins/sonar-pmd-plugin/src/test/java/org/sonar/plugins/pmd/PmdConfigurationTest.java b/plugins/sonar-pmd-plugin/src/test/java/org/sonar/plugins/pmd/PmdConfigurationTest.java
+index a54c00f..2fc6936 100644
+--- a/plugins/sonar-pmd-plugin/src/test/java/org/sonar/plugins/pmd/PmdConfigurationTest.java
++++ b/plugins/sonar-pmd-plugin/src/test/java/org/sonar/plugins/pmd/PmdConfigurationTest.java
+@@ -48 +48 @@
+-    assertThat(FileUtils.readFileToString(xmlFile), is("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<resultset />\r\n\r\n"));
++    assertThat(FileUtils.readFileToString(xmlFile), is("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<ruleset />\r\n\r\n"));
+diff --git a/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_simple.xml b/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_simple.xml
+index aeb69c7..4bf950d 100644
+--- a/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_simple.xml
++++ b/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_simple.xml
+@@ -2 +2 @@
+-<resultset>
++<ruleset>
+@@ -15 +15 @@
+-</resultset>
++</ruleset>
+diff --git a/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_xpath_rules.xml b/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_xpath_rules.xml
+index 1031a6b..049f9f4 100644
+--- a/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_xpath_rules.xml
++++ b/plugins/sonar-pmd-plugin/src/test/resources/org/sonar/plugins/pmd/export_xpath_rules.xml
+@@ -2 +2 @@
+-<resultset>
++<ruleset>
+@@ -11 +11 @@
+-</resultset>
++</ruleset>
+

@@ -1,0 +1,8 @@
+diff --git a/reformulation-core/src/main/java/it/unibz/krdb/obda/owlrefplatform/core/mappingprocessing/MappingDataTypeRepair.java b/reformulation-core/src/main/java/it/unibz/krdb/obda/owlrefplatform/core/mappingprocessing/MappingDataTypeRepair.java
+index 4642c3d..d327e62 100644
+--- a/reformulation-core/src/main/java/it/unibz/krdb/obda/owlrefplatform/core/mappingprocessing/MappingDataTypeRepair.java
++++ b/reformulation-core/src/main/java/it/unibz/krdb/obda/owlrefplatform/core/mappingprocessing/MappingDataTypeRepair.java
+@@ -144 +144 @@
+-			if (!predicate.isDataProperty()) {
++			if (!(predicate.getArity() == 2)) { // we check both for data and object property
+

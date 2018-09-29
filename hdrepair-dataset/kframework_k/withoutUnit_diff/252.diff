@@ -1,0 +1,39 @@
+diff --git a/src/javasources/KTool/src/org/kframework/krun/ioserver/commands/CommandParse.java b/src/javasources/KTool/src/org/kframework/krun/ioserver/commands/CommandParse.java
+index c4007f5..a12ed2a 100644
+--- a/src/javasources/KTool/src/org/kframework/krun/ioserver/commands/CommandParse.java
++++ b/src/javasources/KTool/src/org/kframework/krun/ioserver/commands/CommandParse.java
+@@ -32 +32 @@
+-            Term kast = rp.runParser(K.parser, stringToParse, true, sort, context);
++            Term kast = rp.runParser(K.getProgramParser(), stringToParse, true, sort, context);
+diff --git a/tests/regression/kast/4.test b/tests/regression/kast/4.test
+new file mode 100644
+index 0000000..e56a085
+--- /dev/null
++++ b/tests/regression/kast/4.test
+@@ -0,0 +1 @@
++#parse("4.test.file", "KItem")
+diff --git a/tests/regression/kast/4.test.file b/tests/regression/kast/4.test.file
+new file mode 100644
+index 0000000..7d69f16
+--- /dev/null
++++ b/tests/regression/kast/4.test.file
+@@ -0,0 +1 @@
++'a(.KList)
+diff --git a/tests/regression/kast/4.test.out b/tests/regression/kast/4.test.out
+new file mode 100644
+index 0000000..07671e3
+--- /dev/null
++++ b/tests/regression/kast/4.test.out
+@@ -0,0 +1,3 @@
++<k>
++    a
++</k>
+diff --git a/tests/regression/kast/config.xml b/tests/regression/kast/config.xml
+index d8a9293..bea8801 100644
+--- a/tests/regression/kast/config.xml
++++ b/tests/regression/kast/config.xml
+@@ -19,0 +20,3 @@
++    <program name="4.test">
++      <krun-option name="--parser" value="kast --parser ground --sort KItem" />
++    </program>
+

@@ -1,0 +1,58 @@
+diff --git a/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Activator.xtend b/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Activator.xtend
+index 4764ced..7c3d80c 100644
+--- a/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Activator.xtend
++++ b/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Activator.xtend
+@@ -11,0 +12 @@
++import java.io.FileNotFoundException
+@@ -39 +40,5 @@
+-        val toolUrl = bundle.getResource("lib/" + it.name)
++        val fname = "lib/" + it.name
++        val toolUrl = bundle.getResource(fname)
++        if (toolUrl == null) {
++          throw new FileNotFoundException(fname)
++        }
+diff --git a/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModule.java b/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModule.java
+index 4491402..d346c86 100644
+--- a/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModule.java
++++ b/antlr4ide.core/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModule.java
+@@ -47,0 +48 @@
++
+diff --git a/antlr4ide.tests/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModuleTest.java b/antlr4ide.tests/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModuleTest.java
+index 5471079..a60fc7a 100644
+--- a/antlr4ide.tests/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModuleTest.java
++++ b/antlr4ide.tests/src/main/java/com/github/jknack/antlr4ide/Antlr4RuntimeModuleTest.java
+@@ -14 +13,0 @@
+-import com.github.jknack.antlr4ide.lang.LangFactory;
+@@ -15,0 +15 @@
++import com.github.jknack.antlr4ide.lang.LangFactory;
+diff --git a/antlr4ide.ui/plugin.xml b/antlr4ide.ui/plugin.xml
+index 66d0a1c..4faf783 100644
+--- a/antlr4ide.ui/plugin.xml
++++ b/antlr4ide.ui/plugin.xml
+@@ -166 +165,0 @@
+-
+@@ -189,0 +189,8 @@
++   <!-- Custom build 3 participant -->
++   <extension
++         point="org.eclipse.xtext.builder.participant">
++      <participant
++            class="com.github.jknack.antlr4ide.ui.Antlr4ExecutableExtensionFactory:com.github.jknack.antlr4ide.ui.generator.Antlr3BuilderParticipant">
++      </participant>
++   </extension>
++
+@@ -195,0 +203 @@
++
+@@ -394 +402 @@
+-                   <test property="org.eclipse.debug.ui.matchesPattern" value="*.g4"/>
++                <test property="org.eclipse.debug.ui.matchesPattern" value="*.g4"/>
+@@ -441,0 +450 @@
++
+diff --git a/antlr4ide.ui/src/main/java/com/github/jknack/antlr4ide/ui/views/GraphView.xtend b/antlr4ide.ui/src/main/java/com/github/jknack/antlr4ide/ui/views/GraphView.xtend
+index 1bbb84b..58c5519 100644
+--- a/antlr4ide.ui/src/main/java/com/github/jknack/antlr4ide/ui/views/GraphView.xtend
++++ b/antlr4ide.ui/src/main/java/com/github/jknack/antlr4ide/ui/views/GraphView.xtend
+@@ -211,0 +212,3 @@
++    if (rule == null || rule.eContainer == null) {
++      return
++    }
+

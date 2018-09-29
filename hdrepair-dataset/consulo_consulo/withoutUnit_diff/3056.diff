@@ -1,0 +1,8 @@
+diff --git a/openapi/src/com/intellij/openapi/fileEditor/OpenFileDescriptor.java b/openapi/src/com/intellij/openapi/fileEditor/OpenFileDescriptor.java
+index 9100095..1f184fd 100644
+--- a/openapi/src/com/intellij/openapi/fileEditor/OpenFileDescriptor.java
++++ b/openapi/src/com/intellij/openapi/fileEditor/OpenFileDescriptor.java
+@@ -63 +63 @@
+-      myRangeMarker = (document != null)? document.createRangeMarker(offset, offset) : null;
++      myRangeMarker = (document != null && offset <= document.getTextLength())? document.createRangeMarker(offset, offset) : null;
+

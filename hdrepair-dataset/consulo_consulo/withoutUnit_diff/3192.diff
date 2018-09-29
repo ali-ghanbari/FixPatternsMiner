@@ -1,0 +1,8 @@
+diff --git a/source/com/intellij/codeInsight/actions/ReformatCodeAction.java b/source/com/intellij/codeInsight/actions/ReformatCodeAction.java
+index e93db9d..986d4db 100644
+--- a/source/com/intellij/codeInsight/actions/ReformatCodeAction.java
++++ b/source/com/intellij/codeInsight/actions/ReformatCodeAction.java
+@@ -146 +146 @@
+-        if (file == null || (!(file instanceof PsiJavaFile) && !(file instanceof XmlFile))){
++        if (file == null || (!(file instanceof PsiJavaFile) && !(file instanceof XmlFile)) || (file.getVirtualFile() == null)){
+

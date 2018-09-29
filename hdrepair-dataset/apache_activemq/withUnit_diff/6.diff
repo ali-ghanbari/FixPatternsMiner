@@ -1,0 +1,55 @@
+diff --git a/activemq-broker/src/main/java/org/apache/activemq/store/SharedFileLocker.java b/activemq-broker/src/main/java/org/apache/activemq/store/SharedFileLocker.java
+index a5432aa..66c70e2 100644
+--- a/activemq-broker/src/main/java/org/apache/activemq/store/SharedFileLocker.java
++++ b/activemq-broker/src/main/java/org/apache/activemq/store/SharedFileLocker.java
+@@ -58 +57,0 @@
+-                        LOG.info("locked " + locked);
+diff --git a/activemq-unit-tests/src/test/java/org/apache/activemq/store/SharedFileLockerTest.java b/activemq-unit-tests/src/test/java/org/apache/activemq/store/SharedFileLockerTest.java
+index d8700c0..623443f 100644
+--- a/activemq-unit-tests/src/test/java/org/apache/activemq/store/SharedFileLockerTest.java
++++ b/activemq-unit-tests/src/test/java/org/apache/activemq/store/SharedFileLockerTest.java
+@@ -22,0 +23,4 @@
++import org.apache.activemq.util.DefaultTestAppender;
++import org.apache.activemq.util.IOHelper;
++import org.apache.log4j.Logger;
++import org.apache.log4j.spi.LoggingEvent;
+@@ -31 +35,12 @@
+-   public TemporaryFolder testFolder = new TemporaryFolder();
++   public TemporaryFolder testFolder;
++
++
++   public SharedFileLockerTest()
++   {
++      File file = new File(IOHelper.getDefaultDataDirectory());
++      file.mkdir();
++
++      // TemporaryFolder will make sure the files are removed after the test is done
++      testFolder = new TemporaryFolder(file);
++
++   }
+@@ -34 +49 @@
+-   public void testLock() throws Exception
++   public void testLogging() throws Exception
+@@ -35,0 +51,10 @@
++      final AtomicInteger logCounts = new AtomicInteger(0);
++      DefaultTestAppender appender = new DefaultTestAppender() {
++         @Override
++         public void doAppend(LoggingEvent event) {
++            logCounts.incrementAndGet();
++         }
++      };
++
++      Logger.getRootLogger().addAppender(appender);
++
+@@ -82,0 +108,2 @@
++         Assert.assertEquals("Extra logs in place", 1, logCounts.get());
++
+@@ -93,0 +121,2 @@
++         Assert.assertEquals(0, errors.get());
++
+@@ -96,0 +126,4 @@
++
++
++         Logger.getRootLogger().removeAppender(appender);
++
+

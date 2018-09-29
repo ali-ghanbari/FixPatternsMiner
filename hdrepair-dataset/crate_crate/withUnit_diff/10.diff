@@ -1,0 +1,123 @@
+diff --git a/core/src/test/java/io/crate/core/collections/TreeMapBuilderTest.java b/core/src/test/java/io/crate/core/collections/TreeMapBuilderTest.java
+index a6a4131..2023ffb 100644
+--- a/core/src/test/java/io/crate/core/collections/TreeMapBuilderTest.java
++++ b/core/src/test/java/io/crate/core/collections/TreeMapBuilderTest.java
+@@ -23,0 +24 @@
++import io.crate.test.integration.CrateUnitTest;
+@@ -30 +30,0 @@
+-import static org.junit.Assert.*;
+@@ -32 +32 @@
+-public class TreeMapBuilderTest {
++public class TreeMapBuilderTest extends CrateUnitTest {
+diff --git a/sql/src/main/java/io/crate/operation/projectors/IndexWriterProjector.java b/sql/src/main/java/io/crate/operation/projectors/IndexWriterProjector.java
+index e4491e0..3f61e7f 100644
+--- a/sql/src/main/java/io/crate/operation/projectors/IndexWriterProjector.java
++++ b/sql/src/main/java/io/crate/operation/projectors/IndexWriterProjector.java
+@@ -84 +84 @@
+-            return Buckets.materialize(delegate);
++            return Buckets.materialize(this);
+diff --git a/sql/src/test/java/io/crate/integrationtests/PartitionedTableIntegrationTest.java b/sql/src/test/java/io/crate/integrationtests/PartitionedTableIntegrationTest.java
+index 34078f3..aca93bc 100644
+--- a/sql/src/test/java/io/crate/integrationtests/PartitionedTableIntegrationTest.java
++++ b/sql/src/test/java/io/crate/integrationtests/PartitionedTableIntegrationTest.java
+@@ -139 +139 @@
+-    public void testCopyFromPartitionedTableClustomSchema() throws Exception {
++    public void testCopyFromPartitionedTableCustomSchema() throws Exception {
+diff --git a/sql/src/test/java/io/crate/metadata/RoutingTest.java b/sql/src/test/java/io/crate/metadata/RoutingTest.java
+index c89bb6f..a4b96cf 100644
+--- a/sql/src/test/java/io/crate/metadata/RoutingTest.java
++++ b/sql/src/test/java/io/crate/metadata/RoutingTest.java
+@@ -23,0 +24 @@
++import io.crate.test.integration.CrateUnitTest;
+@@ -33 +33,0 @@
+-import static org.hamcrest.MatcherAssert.assertThat;
+@@ -36 +36 @@
+-public class RoutingTest {
++public class RoutingTest extends CrateUnitTest {
+diff --git a/sql/src/test/java/io/crate/operation/collect/CollectContextServiceTest.java b/sql/src/test/java/io/crate/operation/collect/CollectContextServiceTest.java
+index 9991126..d1c105d 100644
+--- a/sql/src/test/java/io/crate/operation/collect/CollectContextServiceTest.java
++++ b/sql/src/test/java/io/crate/operation/collect/CollectContextServiceTest.java
+@@ -24 +24 @@
+-import com.carrotsearch.randomizedtesting.RandomizedTest;
++import io.crate.test.integration.CrateUnitTest;
+@@ -40 +40 @@
+-public class CollectContextServiceTest extends RandomizedTest {
++public class CollectContextServiceTest extends CrateUnitTest {
+diff --git a/sql/src/test/java/io/crate/operation/collect/JobCollectContextTest.java b/sql/src/test/java/io/crate/operation/collect/JobCollectContextTest.java
+index 2b430a3..4e25c91 100644
+--- a/sql/src/test/java/io/crate/operation/collect/JobCollectContextTest.java
++++ b/sql/src/test/java/io/crate/operation/collect/JobCollectContextTest.java
+@@ -25,0 +26 @@
++import io.crate.test.integration.CrateUnitTest;
+@@ -51 +51,0 @@
+-import static org.junit.Assert.*;
+@@ -59 +59 @@
+-public class JobCollectContextTest {
++public class JobCollectContextTest extends CrateUnitTest {
+@@ -83,0 +84 @@
++        super.setUp();
+diff --git a/sql/src/test/java/io/crate/operation/fetch/NodeFetchOperationTest.java b/sql/src/test/java/io/crate/operation/fetch/NodeFetchOperationTest.java
+index f0ca0a3..d403f89 100644
+--- a/sql/src/test/java/io/crate/operation/fetch/NodeFetchOperationTest.java
++++ b/sql/src/test/java/io/crate/operation/fetch/NodeFetchOperationTest.java
+@@ -25 +24,0 @@
+-import com.carrotsearch.randomizedtesting.RandomizedTest;
+@@ -30,0 +30 @@
++import io.crate.test.integration.CrateUnitTest;
+@@ -32,0 +33 @@
++import org.junit.AfterClass;
+@@ -34 +34,0 @@
+-import org.junit.Rule;
+@@ -36 +35,0 @@
+-import org.junit.rules.ExpectedException;
+@@ -46,4 +45 @@
+-public class NodeFetchOperationTest extends RandomizedTest {
+-
+-    @Rule
+-    public ExpectedException expectedException = ExpectedException.none();
++public class NodeFetchOperationTest extends CrateUnitTest {
+@@ -55 +51 @@
+-    public static void setUp() {
++    public static void beforeClass() {
+@@ -62,0 +59,6 @@
++    @AfterClass
++    public static void afterClass() {
++        threadPool = null;
++        collectContextService = null;
++    }
++
+diff --git a/sql/src/test/java/io/crate/operation/fetch/PositionalBucketMergerTest.java b/sql/src/test/java/io/crate/operation/fetch/PositionalBucketMergerTest.java
+index 1d4f5f4..6181fc0 100644
+--- a/sql/src/test/java/io/crate/operation/fetch/PositionalBucketMergerTest.java
++++ b/sql/src/test/java/io/crate/operation/fetch/PositionalBucketMergerTest.java
+@@ -24 +23,0 @@
+-import com.carrotsearch.randomizedtesting.RandomizedTest;
+@@ -32,0 +32 @@
++import io.crate.test.integration.CrateUnitTest;
+@@ -48 +48 @@
+-public class PositionalBucketMergerTest extends RandomizedTest {
++public class PositionalBucketMergerTest extends CrateUnitTest {
+@@ -149,0 +150,5 @@
++        // register upstreams
++        for (int i = 0; i < bucketsPerUpstream.size()*2; i++) {
++            bucketMerger.registerUpstream(null);
++        }
++
+@@ -163 +167,0 @@
+-                bucketMerger.registerUpstream(null);
+diff --git a/sql/src/test/java/io/crate/operation/fetch/PositionalRowMergerTest.java b/sql/src/test/java/io/crate/operation/fetch/PositionalRowMergerTest.java
+index a381d1e..30a4398 100644
+--- a/sql/src/test/java/io/crate/operation/fetch/PositionalRowMergerTest.java
++++ b/sql/src/test/java/io/crate/operation/fetch/PositionalRowMergerTest.java
+@@ -125,0 +126,6 @@
++
++        final List<RowDownstreamHandle> downstreamHandles = new ArrayList<>(numUpstreams);
++        // register upstreams
++        for (int i = 0; i < numUpstreams; i++) {
++            downstreamHandles.add(rowMerger.registerUpstream(null));
++        }
+@@ -128 +134 @@
+-            final RowDownstreamHandle upstreamBuffer = rowMerger.registerUpstream(null);
++            final RowDownstreamHandle upstreamBuffer = downstreamHandles.get(i);
+

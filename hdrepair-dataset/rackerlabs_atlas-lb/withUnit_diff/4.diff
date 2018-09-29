@@ -1,0 +1,356 @@
+diff --git a/adapter/zxtm-service/src/main/java/org/openstack/atlas/adapter/helpers/ResourceTranslator.java b/adapter/zxtm-service/src/main/java/org/openstack/atlas/adapter/helpers/ResourceTranslator.java
+index 35bd9dd..bb54d5d 100644
+--- a/adapter/zxtm-service/src/main/java/org/openstack/atlas/adapter/helpers/ResourceTranslator.java
++++ b/adapter/zxtm-service/src/main/java/org/openstack/atlas/adapter/helpers/ResourceTranslator.java
+@@ -281,0 +282,2 @@
++            } else {
++                basic.setUse_ssl(false);
+diff --git a/adapter/zxtm-service/src/test/java/org/openstack/atlas/adapter/helpers/ResourceTranslatorTest.java b/adapter/zxtm-service/src/test/java/org/openstack/atlas/adapter/helpers/ResourceTranslatorTest.java
+index e962963..ce77508 100644
+--- a/adapter/zxtm-service/src/test/java/org/openstack/atlas/adapter/helpers/ResourceTranslatorTest.java
++++ b/adapter/zxtm-service/src/test/java/org/openstack/atlas/adapter/helpers/ResourceTranslatorTest.java
+@@ -385,20 +385,18 @@
+-            monitorType = HealthMonitorType.HTTPS;
+-            numAttemptsCheck = 90;
+-            delay = 30;
+-            timeout = 20;
+-            hostHeader = "host123";
+-            path = "path123";
+-            bodyRegex = "br123";
+-            statusRegex = "sr123";
+-            useSsl = true; //This is set automatically on the LoadBalancer object when type is HTTPS
+-            healthMonitor = new HealthMonitor();
+-            healthMonitor.setType(monitorType);
+-            healthMonitor.setAttemptsBeforeDeactivation(numAttemptsCheck);
+-            healthMonitor.setDelay(delay);
+-            healthMonitor.setTimeout(timeout);
+-            healthMonitor.setHostHeader(hostHeader);
+-            healthMonitor.setPath(path);
+-            healthMonitor.setBodyRegex(bodyRegex);
+-            healthMonitor.setStatusRegex(statusRegex);
+-
+-            lb.setHealthMonitor(healthMonitor);
++//            numAttemptsCheck = 90;
++//            delay = 30;
++//            timeout = 20;
++//            hostHeader = "host123";
++//            path = "path123";
++//            bodyRegex = "br123";
++//            statusRegex = "sr123";
++//            useSsl = true; //This is set automatically on the LoadBalancer object when type is HTTPS
++//            healthMonitor = new HealthMonitor();
++//            healthMonitor.setType(monitorType);
++//            healthMonitor.setAttemptsBeforeDeactivation(numAttemptsCheck);
++//            healthMonitor.setDelay(delay);
++//            healthMonitor.setTimeout(timeout);
++//            healthMonitor.setHostHeader(hostHeader);
++//            healthMonitor.setPath(path);
++//            healthMonitor.setBodyRegex(bodyRegex);
++//            healthMonitor.setStatusRegex(statusRegex);
++//            lb.setHealthMonitor(healthMonitor);
+@@ -410,4 +408,15 @@
+-            Monitor createdMonitor = translator.translateMonitorResource(lb);
+-            MonitorProperties createdProperties = createdMonitor.getProperties();
+-            MonitorBasic createdBasic = createdProperties.getBasic();
+-            MonitorHttp createdHttp = createdProperties.getHttp();
++            Monitor createdMonitor;
++            MonitorProperties createdProperties;
++            MonitorBasic createdBasic;
++            MonitorHttp createdHttp;
++
++            // Test MonitorType HTTPS
++            monitorType = HealthMonitorType.HTTPS;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
+@@ -419,0 +429,50 @@
++            Assert.assertTrue(createdBasic.getUse_ssl());
++
++            // Test MonitorType HTTP
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdBasic.getType(), monitorType.toString());
++            Assert.assertFalse(createdBasic.getUse_ssl());
++
++            // Test MonitorType CONNECT
++            monitorType = HealthMonitorType.CONNECT;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertEquals(createdBasic.getType(), monitorType.toString());
++
++            // Test Number of Attempts (type doesn't matter)
++            numAttemptsCheck = 20;
++            monitorType = HealthMonitorType.CONNECT;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setAttemptsBeforeDeactivation(numAttemptsCheck);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
+@@ -420,0 +480,32 @@
++
++            numAttemptsCheck = 30;
++            monitorType = HealthMonitorType.CONNECT;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setAttemptsBeforeDeactivation(numAttemptsCheck);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertEquals(createdBasic.getFailures(), numAttemptsCheck);
++
++            // Test Delay (type doesn't matter)
++            delay = 20;
++            monitorType = HealthMonitorType.CONNECT;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setDelay(delay);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
+@@ -421,0 +513,32 @@
++
++            delay = 30;
++            monitorType = HealthMonitorType.CONNECT;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setDelay(delay);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertEquals(createdBasic.getDelay(), delay);
++
++            // Test Timeout (type doesn't matter)
++            timeout = 20;
++            monitorType = HealthMonitorType.CONNECT;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setTimeout(timeout);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
+@@ -422,0 +546,34 @@
++
++            timeout = 30;
++            monitorType = HealthMonitorType.CONNECT;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setTimeout(timeout);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertEquals(createdBasic.getTimeout(), timeout);
++
++            // Test Host Header (must be HTTP or HTTPS)
++            hostHeader = "host123";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setHostHeader(hostHeader);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
+@@ -424 +581,129 @@
+-            Assert.assertEquals(createdBasic.getUse_ssl(), useSsl);
++
++            hostHeader = "host456";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setHostHeader(hostHeader);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdHttp.getHost_header(), hostHeader);
++
++            // Test Path (must be HTTP or HTTPS)
++            path = "path123";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setPath(path);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdHttp.getPath(), path);
++
++            path = "path456";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setPath(path);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdHttp.getPath(), path);
++
++            // Test Body Regex (must be HTTP or HTTPS)
++            bodyRegex = "br123";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setBodyRegex(bodyRegex);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdHttp.getBody_regex(), bodyRegex);
++
++            bodyRegex = "br456";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setBodyRegex(bodyRegex);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdHttp.getBody_regex(), bodyRegex);
++
++            // Test Status Regex (must be HTTP or HTTPS)
++            statusRegex = "sr123";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setStatusRegex(statusRegex);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdHttp.getStatus_regex(), statusRegex);
++
++            statusRegex = "sr456";
++            monitorType = HealthMonitorType.HTTP;
++            healthMonitor = new HealthMonitor();
++            healthMonitor.setType(monitorType);
++            healthMonitor.setStatusRegex(statusRegex);
++            lb.setHealthMonitor(healthMonitor);
++
++            createdMonitor = translator.translateMonitorResource(lb);
++            createdProperties = createdMonitor.getProperties();
++            createdBasic = createdProperties.getBasic();
++            createdHttp = createdProperties.getHttp();
++
++            Assert.assertNotNull(createdMonitor);
++            Assert.assertNotNull(createdProperties);
++            Assert.assertNotNull(createdBasic);
++            Assert.assertNotNull(createdHttp);
++            Assert.assertEquals(createdHttp.getStatus_regex(), statusRegex);
+@@ -463 +747,0 @@
+-
+

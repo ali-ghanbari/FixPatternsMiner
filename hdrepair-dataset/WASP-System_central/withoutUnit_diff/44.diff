@@ -1,0 +1,32 @@
+diff --git a/plugins/bwa/src/main/java/edu/yu/einstein/wasp/plugin/bwa/software/BWAMemSoftwareComponent.java b/plugins/bwa/src/main/java/edu/yu/einstein/wasp/plugin/bwa/software/BWAMemSoftwareComponent.java
+index 03460a6..ec393e3 100644
+--- a/plugins/bwa/src/main/java/edu/yu/einstein/wasp/plugin/bwa/software/BWAMemSoftwareComponent.java
++++ b/plugins/bwa/src/main/java/edu/yu/einstein/wasp/plugin/bwa/software/BWAMemSoftwareComponent.java
+@@ -33 +33 @@
+-		String command = "bwa mem " + alnOpts + " -t ${" + WorkUnit.NUMBER_OF_THREADS + "} " + 
++		String command = "bwa mem " + alnOpts  + " -R " + this.getReadGroupString(cellLibrary) + " -t ${" + WorkUnit.NUMBER_OF_THREADS + "} " + 
+diff --git a/plugins/bwa/src/main/resources/i18n/en_US/messages_en_US.properties b/plugins/bwa/src/main/resources/i18n/en_US/messages_en_US.properties
+index 17abb78..145c672 100644
+--- a/plugins/bwa/src/main/resources/i18n/en_US/messages_en_US.properties
++++ b/plugins/bwa/src/main/resources/i18n/en_US/messages_en_US.properties
+@@ -99,3 +98,0 @@
+-aligner.bwa.mem_R.label=Complete read group header line. (mem -R)
+-aligner.bwa.mem_R.error=A value for the header line must be specified
+-aligner.bwa.mem_R.tt=The read group ID will be attached to every read in the output. An example is: @RG\tID:foo\tSM:bar. [null] 
+diff --git a/plugins/bwa/src/main/resources/wasp/bwaMemSoftwareLoad.xml b/plugins/bwa/src/main/resources/wasp/bwaMemSoftwareLoad.xml
+index 9c8a845..7466546 100644
+--- a/plugins/bwa/src/main/resources/wasp/bwaMemSoftwareLoad.xml
++++ b/plugins/bwa/src/main/resources/wasp/bwaMemSoftwareLoad.xml
+@@ -190,11 +189,0 @@
+-          <property name="baseName" value="mem-R" />
+-          <property name="metaposition" value="130" />
+-          <property name="label" value="aligner.bwa.mem_R.label" />
+-          <property name="type" value="STRING" />
+-          <property name="default" value="null" />
+-          <property name="constraint" value="NotEmpty" />
+-          <property name="error" value="aligner.bwa.mem_R.error" />
+-          <property name="tooltip" value="aligner.bwa.mem_R.tt" />
+-        </bean>
+-        
+-        <bean parent="bwaMemUiFieldWrapper">
+

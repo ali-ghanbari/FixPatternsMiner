@@ -1,0 +1,32 @@
+diff --git a/jcommune-model/src/main/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDao.java b/jcommune-model/src/main/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDao.java
+index 75469b3..432c38f 100644
+--- a/jcommune-model/src/main/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDao.java
++++ b/jcommune-model/src/main/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDao.java
+@@ -68,0 +69 @@
++                .setParameter("branch", branch.getId())
+diff --git a/jcommune-model/src/main/resources/org/jtalks/jcommune/model/entity/Topic.hbm.xml b/jcommune-model/src/main/resources/org/jtalks/jcommune/model/entity/Topic.hbm.xml
+index c3ef212..f598a52 100644
+--- a/jcommune-model/src/main/resources/org/jtalks/jcommune/model/entity/Topic.hbm.xml
++++ b/jcommune-model/src/main/resources/org/jtalks/jcommune/model/entity/Topic.hbm.xml
+@@ -38,2 +38,2 @@
+-      <!--By experimenting figured out that 10 is the best batch size when it comes to opening the branch page
+-      This might be tuned further in the future if the page size itself changes.-->
++        <!--By experimenting figured out that 10 is the best batch size when it comes to opening the branch page
++This might be tuned further in the future if the page size itself changes.-->
+@@ -56 +56 @@
+-                     foreign-key="TOPIC_POLL_FK" cascade="all" />
++                     foreign-key="TOPIC_POLL_FK" cascade="all"/>
+@@ -61 +61 @@
+-                     foreign-key="FK_TOPIC_CODE_REVIEW" cascade="all" />
++                     foreign-key="FK_TOPIC_CODE_REVIEW" cascade="all"/>
+@@ -130 +130,2 @@
+-        DELETE FROM LAST_READ_POSTS where USER_ID=:user
++        DELETE FROM LAST_READ_POSTS where TOPIC_ID IN (select TOPIC_ID from TOPIC where BRANCH_ID=:branch) and
++        USER_ID=:user
+diff --git a/jcommune-model/src/test/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDaoTest.java b/jcommune-model/src/test/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDaoTest.java
+index 806708d..a950f4f 100644
+--- a/jcommune-model/src/test/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDaoTest.java
++++ b/jcommune-model/src/test/java/org/jtalks/jcommune/model/dao/hibernate/LastReadPostHibernateDaoTest.java
+@@ -127,0 +128 @@
++                .setParameter("branch", topics.get(0).getBranch().getId())
+

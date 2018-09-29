@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/org/elasticsoftware/elasticactors/cluster/LocalActorSystemInstance.java b/core/src/main/java/org/elasticsoftware/elasticactors/cluster/LocalActorSystemInstance.java
+index d804171..1230a0d 100644
+--- a/core/src/main/java/org/elasticsoftware/elasticactors/cluster/LocalActorSystemInstance.java
++++ b/core/src/main/java/org/elasticsoftware/elasticactors/cluster/LocalActorSystemInstance.java
+@@ -369 +369 @@
+-        return shardAdapters[hashFunction.hashString(actorId, Charsets.UTF_8).asInt() % shards.length];
++        return shardAdapters[Math.abs(hashFunction.hashString(actorId, Charsets.UTF_8).asInt()) % shards.length];
+

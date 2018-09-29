@@ -1,0 +1,14 @@
+diff --git a/src/edu/stanford/nlp/trees/EnglishGrammaticalRelations.java b/src/edu/stanford/nlp/trees/EnglishGrammaticalRelations.java
+index 3a92bb9..1aa7ffd 100644
+--- a/src/edu/stanford/nlp/trees/EnglishGrammaticalRelations.java
++++ b/src/edu/stanford/nlp/trees/EnglishGrammaticalRelations.java
+@@ -853 +853,7 @@
+-          "VP < (@SBAR=target [ < (IN !< /^(?i:that|whether)$/) | <: (SINV <1 /^(?:VB|MD|AUX)/) | < (RB|IN < so|now) < (IN < that) | <1 (ADVP < (RB < now)) <2 (IN < that) ] )",
++          //
++          // the <= relation lets us use the same tregex for either
++          // current node or one of its children matching the rest of
++          // the pattern.  this can be an issue in sentences with sbar
++          // conjunctions.  for example, "Call if you have questions
++          // or if I can be of any help"
++          "VP < (@SBAR=target <= (@SBAR [ < (IN !< /^(?i:that|whether)$/) | <: (SINV <1 /^(?:VB|MD|AUX)/) | < (RB|IN < so|now) < (IN < that) | <1 (ADVP < (RB < now)) <2 (IN < that) ] ))",
+

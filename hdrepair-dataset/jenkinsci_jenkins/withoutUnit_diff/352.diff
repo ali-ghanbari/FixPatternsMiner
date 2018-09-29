@@ -1,0 +1,10 @@
+diff --git a/core/src/main/java/hudson/model/Job.java b/core/src/main/java/hudson/model/Job.java
+index d9c3c51..9e74a61 100644
+--- a/core/src/main/java/hudson/model/Job.java
++++ b/core/src/main/java/hudson/model/Job.java
+@@ -868 +868,3 @@
+-        rsp.sendRedirect2(req.getContextPath()+'/'+getUrl()); // send to the new job page
++        // send to the new job page
++        // note we can't use getUrl() because that would pick up old name in the Ancestor.getUrl()
++        rsp.sendRedirect2(req.getContextPath()+'/'+getParent().getUrl()+getShortUrl());
+

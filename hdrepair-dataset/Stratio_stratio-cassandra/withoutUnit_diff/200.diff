@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/hadoop/pig/CassandraStorage.java b/src/java/org/apache/cassandra/hadoop/pig/CassandraStorage.java
+index 9a84646..faf1679 100644
+--- a/src/java/org/apache/cassandra/hadoop/pig/CassandraStorage.java
++++ b/src/java/org/apache/cassandra/hadoop/pig/CassandraStorage.java
+@@ -400 +400 @@
+-            validator = validators.get(cdef.getName());
++            validator = validators.get(ByteBuffer.wrap(cdef.getName()));
+

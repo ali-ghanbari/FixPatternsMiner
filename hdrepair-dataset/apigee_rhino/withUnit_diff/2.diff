@@ -1,0 +1,22 @@
+diff --git a/src/org/mozilla/javascript/Parser.java b/src/org/mozilla/javascript/Parser.java
+index 9f3ec46..a1d6cb6 100644
+--- a/src/org/mozilla/javascript/Parser.java
++++ b/src/org/mozilla/javascript/Parser.java
+@@ -336 +335,0 @@
+-                sawEOL = false;
+diff --git a/testsrc/org/mozilla/javascript/tests/ParserTest.java b/testsrc/org/mozilla/javascript/tests/ParserTest.java
+index 8678a4c..144662b 100644
+--- a/testsrc/org/mozilla/javascript/tests/ParserTest.java
++++ b/testsrc/org/mozilla/javascript/tests/ParserTest.java
+@@ -30,0 +31,10 @@
++    public void testParseAutoSemiColonBeforeNewlineAndComments() throws IOException {
++        AstRoot root = parseAsReader(
++        		"var s = 3\n"
++        		+ "/* */var t = 1;");
++        assertNotNull(root.getComments());
++        assertEquals(1, root.getComments().size());
++
++        assertEquals("var s = 3;\nvar t = 1;\n", root.toSource());
++    }
++
+

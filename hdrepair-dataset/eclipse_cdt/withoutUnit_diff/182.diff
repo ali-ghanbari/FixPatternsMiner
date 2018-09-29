@@ -1,0 +1,18 @@
+diff --git a/core/org.eclipse.cdt.core/ChangeLog b/core/org.eclipse.cdt.core/ChangeLog
+index d30c7b0..34d7639 100644
+--- a/core/org.eclipse.cdt.core/ChangeLog
++++ b/core/org.eclipse.cdt.core/ChangeLog
+@@ -0,0 +1,5 @@
++2005-07-04 David Inglis
++	fix for bug# 101647
++	
++	* utils/org/eclipse/cdt/utils/elf/Elf.java
++	
+diff --git a/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/elf/Elf.java b/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/elf/Elf.java
+index c20f912..4923737 100644
+--- a/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/elf/Elf.java
++++ b/core/org.eclipse.cdt.core/utils/org/eclipse/cdt/utils/elf/Elf.java
+@@ -859 +859 @@
+-				if (s.equals(".debug_info")) { //$NON-NLS-1$
++				if (s.startsWith(".debug")) { //$NON-NLS-1$
+

@@ -1,0 +1,17 @@
+diff --git a/config/OJB.properties b/config/OJB.properties
+index a067e87..10e81ab 100755
+--- a/config/OJB.properties
++++ b/config/OJB.properties
+@@ -181,2 +181,2 @@
+-LockMapClass=org.apache.ojb.odmg.locking.PersistentLockMapImpl
+-#LockMapClass=org.apache.ojb.odmg.locking.InMemoryLockMapImpl
++#LockMapClass=org.apache.ojb.odmg.locking.PersistentLockMapImpl
++LockMapClass=org.apache.ojb.odmg.locking.InMemoryLockMapImpl
+diff --git a/src/ServidorPersistente/OJB/ObjectFenixOJB.java b/src/ServidorPersistente/OJB/ObjectFenixOJB.java
+index d59428b..411ad65 100755
+--- a/src/ServidorPersistente/OJB/ObjectFenixOJB.java
++++ b/src/ServidorPersistente/OJB/ObjectFenixOJB.java
+@@ -105 +105 @@
+-    private void lockRead(List list) throws ExcepcaoPersistencia
++    protected void lockRead(List list) throws ExcepcaoPersistencia
+

@@ -1,0 +1,25 @@
+diff --git a/dev-tools/scripts/checkJavadocLinks.py b/dev-tools/scripts/checkJavadocLinks.py
+index 736a3c8..1372e8f 100644
+--- a/dev-tools/scripts/checkJavadocLinks.py
++++ b/dev-tools/scripts/checkJavadocLinks.py
+@@ -25,0 +26,3 @@
++# Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF] /* any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. */
++reValidChar = re.compile("^[\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD\U00010000-\U0010FFFF]*$")
++
+@@ -81,0 +85,6 @@
++  # look for broken unicode
++  if not reValidChar.match(html):
++    print(' WARNING: invalid characters detected in: %s' % baseURL)
++    failures = True
++    return [], []
++
+diff --git a/lucene/analysis/common/src/java/org/apache/lucene/analysis/synonym/SynonymMap.java b/lucene/analysis/common/src/java/org/apache/lucene/analysis/synonym/SynonymMap.java
+index 5de0c6c..9a75559 100644
+--- a/lucene/analysis/common/src/java/org/apache/lucene/analysis/synonym/SynonymMap.java
++++ b/lucene/analysis/common/src/java/org/apache/lucene/analysis/synonym/SynonymMap.java
+@@ -230,2 +230,2 @@
+-     * separated with character zero (\u0000).  Empty words
+-     * (two \u0000s in a row) are not allowed in the input nor
++     * separated with character zero (U+0000).  Empty words
++     * (two U+0000s in a row) are not allowed in the input nor
+

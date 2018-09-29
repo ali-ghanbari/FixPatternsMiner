@@ -1,0 +1,28 @@
+diff --git a/coopr-server/src/main/java/co/cask/coopr/codec/json/current/FieldSchemaCodec.java b/coopr-server/src/main/java/co/cask/coopr/codec/json/current/FieldSchemaCodec.java
+index d29f08f..c008191 100644
+--- a/coopr-server/src/main/java/co/cask/coopr/codec/json/current/FieldSchemaCodec.java
++++ b/coopr-server/src/main/java/co/cask/coopr/codec/json/current/FieldSchemaCodec.java
+@@ -61 +61 @@
+-      .setDefaultValue(context.<Object>deserialize(jsonObj.get("default"), String.class))
++      .setDefaultValue(context.<Object>deserialize(jsonObj.get("default"), Object.class))
+diff --git a/coopr-ui/client/templates/providers/createprovider.html b/coopr-ui/client/templates/providers/createprovider.html
+index 5cae17f..e13231e 100644
+--- a/coopr-ui/client/templates/providers/createprovider.html
++++ b/coopr-ui/client/templates/providers/createprovider.html
+@@ -27,0 +28 @@
++        <input class="form-control" id="[[name]]" type="[[fieldData.type]]" ng-model="fieldData.default" ng-show=" fieldData.type === 'checkbox'"/>
+@@ -35 +36 @@
+-</form>
+\ No newline at end of file
++</form>
+diff --git a/coopr-ui/client/templates/providers/editprovider.html b/coopr-ui/client/templates/providers/editprovider.html
+index 9a1f8cf..76ccb59 100644
+--- a/coopr-ui/client/templates/providers/editprovider.html
++++ b/coopr-ui/client/templates/providers/editprovider.html
+@@ -28,0 +29 @@
++        <input class="form-control" id="[[name]]" type="[[fieldData.type]]" ng-model="fieldData.default" ng-show=" fieldData.type === 'checkbox'"/>
+@@ -36 +37 @@
+-</form>
+\ No newline at end of file
++</form>
+

@@ -1,0 +1,43 @@
+diff --git a/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/model/XtextDocumentReconcileStrategy.java b/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/model/XtextDocumentReconcileStrategy.java
+index 7d2563b..2cdeb8c 100644
+--- a/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/model/XtextDocumentReconcileStrategy.java
++++ b/plugins/org.eclipse.xtext.ui.core/src/org/eclipse/xtext/ui/core/editor/model/XtextDocumentReconcileStrategy.java
+@@ -38 +37,0 @@
+-				System.out.println("region " + region);
+diff --git a/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/EditorTest.java b/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/EditorTest.java
+index 979cb0e..91ae259 100644
+--- a/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/EditorTest.java
++++ b/tests/org.eclipse.xtext.ui.core.tests/src/org/eclipse/xtext/ui/core/editor/EditorTest.java
+@@ -106,16 +106,15 @@
+-		//TODO somehow the tests are executed in the Display thread...
+-//		document.replace(23, 3, "honolulu");
+-//		System.out.println("Waiting for reconciler...");
+-//		sleep(1000);
+-//		document.readOnly(new UnitOfWork<Object>() {
+-//			
+-//			public Object exec(XtextResource resource) throws Exception {
+-//				assertNotNull(resource);
+-//				EList<EObject> contents = resource.getContents();
+-//				EObject object = contents.get(0);
+-//				assertEquals(2, object.eContents().size());
+-//				EObject object2 = object.eContents().get(0);
+-//				assertEquals("honolulu",object2.eGet(object2.eClass().getEStructuralFeature("name")));
+-//				return null;
+-//			}
+-//		});
++		document.replace(23, 3, "honolulu");
++		System.out.println("Waiting for reconciler...");
++		sleep(3000);
++		document.readOnly(new UnitOfWork<Object>() {
++			
++			public Object exec(XtextResource resource) throws Exception {
++				assertNotNull(resource);
++				EList<EObject> contents = resource.getContents();
++				EObject object = contents.get(0);
++				assertEquals(2, object.eContents().size());
++				EObject object2 = object.eContents().get(0);
++				assertEquals("honolulu",object2.eGet(object2.eClass().getEStructuralFeature("name")));
++				return null;
++			}
++		});
+

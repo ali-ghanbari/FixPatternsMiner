@@ -1,0 +1,8 @@
+diff --git a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java
+index 9423166..a25f7b0 100644
+--- a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java
++++ b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/bpmn/behavior/InclusiveGatewayActivityBehavior.java
+@@ -146 +146 @@
+-		if (srcActivity.getParent() == null)
++		if (srcActivity.getParent() == null || !(srcActivity.getParent() instanceof PvmActivity) )
+

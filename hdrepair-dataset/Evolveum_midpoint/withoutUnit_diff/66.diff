@@ -1,0 +1,13 @@
+diff --git a/infra/prism/src/main/java/com/evolveum/midpoint/prism/parser/XNodeProcessor.java b/infra/prism/src/main/java/com/evolveum/midpoint/prism/parser/XNodeProcessor.java
+index 068352a..d11b88c 100644
+--- a/infra/prism/src/main/java/com/evolveum/midpoint/prism/parser/XNodeProcessor.java
++++ b/infra/prism/src/main/java/com/evolveum/midpoint/prism/parser/XNodeProcessor.java
+@@ -244 +244,6 @@
+-			Item<?> item = parseItem(xentry.getValue(), itemDef.getName(), itemDef);
++			// FIXME: should there bw itemDef.getName() or itemQName???
++			// itemDef.getName() relaced with itemQName ---> TestDomParser fails
++			// when there is a itemDef.getName()..it does not recognize between
++			// <account> and <accountRef> and handle <account> as <accountRef>
++			// and the embeded object is not processed
++			Item<?> item = parseItem(xentry.getValue(), itemQName, itemDef);
+

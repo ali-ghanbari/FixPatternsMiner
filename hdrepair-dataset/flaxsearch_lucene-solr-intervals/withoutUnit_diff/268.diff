@@ -1,0 +1,12 @@
+diff --git a/lucene/src/test-framework/java/org/apache/lucene/index/RandomCodec.java b/lucene/src/test-framework/java/org/apache/lucene/index/RandomCodec.java
+index 7216390..79f11b4 100644
+--- a/lucene/src/test-framework/java/org/apache/lucene/index/RandomCodec.java
++++ b/lucene/src/test-framework/java/org/apache/lucene/index/RandomCodec.java
+@@ -54,2 +54,4 @@
+-  /** memorized field->postingsformat mappings */
+-  private Map<String,PostingsFormat> previousMappings = new HashMap<String,PostingsFormat>();
++  // note: we have to sync this map even though its just for debugging/toString, 
++  // otherwise DWPT's .toString() calls that iterate over the map can 
++  // cause concurrentmodificationexception if indexwriter's infostream is on
++  private Map<String,PostingsFormat> previousMappings = Collections.synchronizedMap(new HashMap<String,PostingsFormat>());
+

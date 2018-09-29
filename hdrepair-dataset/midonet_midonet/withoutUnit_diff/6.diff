@@ -1,0 +1,68 @@
+diff --git a/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/BridgeResource.scala b/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/BridgeResource.scala
+index a974229..8d0d0c4 100644
+--- a/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/BridgeResource.scala
++++ b/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/BridgeResource.scala
+@@ -224,4 +224 @@
+-        val violations = resContext.validator.validate(macPort)
+-        if (violations.nonEmpty) {
+-            throw new BadRequestHttpException("Invalid mac port" + macPort)
+-        }
++        throwIfViolationsOn(macPort)
+@@ -295 +292,6 @@
+-        val mac = macPortUriToMac(s)
++        val mac = try {
++            macPortUriToMac(s)
++        } catch {
++            case t: InvalidMacException =>
++                throw new BadRequestHttpException(getMessage(MAC_URI_FORMAT))
++        }
+diff --git a/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/RouteResource.scala b/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/RouteResource.scala
+index 2676caf..383016c 100644
+--- a/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/RouteResource.scala
++++ b/cluster/midonet-cluster/src/main/scala/org/midonet/cluster/services/rest_api/resources/RouteResource.scala
+@@ -30,0 +31,2 @@
++import org.midonet.cluster.models.Topology
++import org.midonet.cluster.rest_api.{NotFoundHttpException, BadRequestHttpException}
+@@ -32 +34,3 @@
+-import org.midonet.cluster.rest_api.models.{Route, Router}
++import org.midonet.cluster.rest_api.models.{Port, Route, Router}
++import org.midonet.cluster.rest_api.validation.MessageProperty
++import org.midonet.cluster.rest_api.validation.MessageProperty._
+@@ -35,0 +40 @@
++import org.midonet.cluster.util.UUIDUtil
+@@ -69,0 +75,2 @@
++        throwIfNextPortNotValid(route)
++        throwIfViolationsOn(route)
+@@ -72,0 +80,24 @@
++    private def throwIfNextPortNotValid(route: Route): Unit = {
++        if (route.`type` != Route.NextHop.Normal) {
++            // The validation only applies to 'normal' routes.
++            return
++        }
++
++        if (null == route.nextHopPort) {
++            throw new BadRequestHttpException(getMessage(
++                ROUTE_NEXT_HOP_PORT_NOT_NULL))
++        }
++
++        try {
++            val p = getResource(classOf[Port], route.nextHopPort).getOrThrow
++            if (p.getDeviceId != routerId) {
++                throw new BadRequestHttpException(getMessage(
++                    ROUTE_NEXT_HOP_PORT_NOT_NULL))
++            }
++        } catch {
++            case t: NotFoundHttpException =>
++                throw new BadRequestHttpException(getMessage(
++                    ROUTE_NEXT_HOP_PORT_NOT_NULL))
++        }
++    }
++
+diff --git a/midonet-api/src/test/java/org/midonet/api/network/TestRoute.java b/midonet-api/src/test/java/org/midonet/api/network/TestRoute.java
+index 73058f7..e5c05eb 100644
+--- a/midonet-api/src/test/java/org/midonet/api/network/TestRoute.java
++++ b/midonet-api/src/test/java/org/midonet/api/network/TestRoute.java
+@@ -141 +141 @@
+-                    + "/routes");
++                                            + "/routes");
+

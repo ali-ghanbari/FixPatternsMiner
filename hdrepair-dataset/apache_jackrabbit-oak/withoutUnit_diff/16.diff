@@ -1,0 +1,8 @@
+diff --git a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java
+index ec248e8..1845005 100755
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/document/rdb/RDBDocumentStore.java
+@@ -999 +999 @@
+-            t += this.needsConcat ? (" LIMIT " + limit) : (" FETCH FIRST " + limit + " ROWS ONLY");
++            t += this.needsLimit ? (" LIMIT " + limit) : (" FETCH FIRST " + limit + " ROWS ONLY");
+

@@ -1,0 +1,70 @@
+diff --git a/Mage.Tests/src/test/java/org/Test.java b/Mage.Tests/src/test/java/org/Test.java
+deleted file mode 100644
+index d695cff..0000000
+--- a/Mage.Tests/src/test/java/org/Test.java
++++ /dev/null
+@@ -1,23 +0,0 @@
+-package org
+-
+-import mage.Constants
+-import mage.game.match.MatchOptions
+-import mage.game.tournament.LimitedOptions
+-import mage.view.SeatView
+-
+-import java.util.ArrayList
+-import java.util.Date
+-import java.util.List
+-import java.util.UUID
+-
+-/**
+- * Created by IntelliJ IDEA.
+- * User: ayratn
+- * Date: 5/27/12
+- * Time: 8:44 AM
+- * To change this template use File | Settings | File Templates.
+- */
+-public interface Test {
+-
+-
+-}
+diff --git a/Mage.Tests/src/test/java/org/mage/test/cards/triggers/BloodbraidElfTest.java b/Mage.Tests/src/test/java/org/mage/test/cards/triggers/BloodbraidElfTest.java
+new file mode 100644
+index 0000000..28316e1
+--- /dev/null
++++ b/Mage.Tests/src/test/java/org/mage/test/cards/triggers/BloodbraidElfTest.java
+@@ -0,0 +1,27 @@
++package org.mage.test.cards.triggers;
++
++import mage.Constants;
++import org.junit.Test;
++import org.mage.test.serverside.base.CardTestPlayerBase;
++
++public class BloodbraidElfTest extends CardTestPlayerBase {
++    @Test
++    public void testCascade() {
++        addCard(Constants.Zone.HAND, playerA, "Bloodbraid Elf");
++        addCard(Constants.Zone.HAND, playerA, "Unsummon");
++        addCard(Constants.Zone.BATTLEFIELD, playerA, "Goblin Wardriver", 1);
++        addCard(Constants.Zone.BATTLEFIELD, playerA, "Mountain", 2);
++        addCard(Constants.Zone.BATTLEFIELD, playerA, "Forest", 2);
++        addCard(Constants.Zone.BATTLEFIELD, playerA, "Island", 1);
++
++        castSpell(1, Constants.PhaseStep.PRECOMBAT_MAIN, playerA, "Unsummon", "Goblin Wardriver");
++
++        castSpell(1, Constants.PhaseStep.POSTCOMBAT_MAIN, playerA, "Bloodbraid Elf");
++
++        setStopAt(1, Constants.PhaseStep.END_TURN);
++        execute();
++
++        assertPermanentCount(playerA, "Bloodbraid Elf", 1);
++        assertPermanentCount(playerA, "Goblin Wardriver", 1);
++    }
++}
+diff --git a/Mage/src/mage/abilities/keyword/CascadeAbility.java b/Mage/src/mage/abilities/keyword/CascadeAbility.java
+index 6d1aaf6..153a0c6 100644
+--- a/Mage/src/mage/abilities/keyword/CascadeAbility.java
++++ b/Mage/src/mage/abilities/keyword/CascadeAbility.java
+@@ -97 +97 @@
+-		int sourceCost = game.getObject(source.getSourceId()).getManaCost().convertedManaCost();
++		int sourceCost = game.getCard(source.getSourceId()).getManaCost().convertedManaCost();
+

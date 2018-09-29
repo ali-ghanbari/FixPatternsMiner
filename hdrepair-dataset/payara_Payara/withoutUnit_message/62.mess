@@ -1,0 +1,10 @@
+GLASSFISH-19525 - Enabling secure admin fails if admin realm is configured to use LDAP instead of the provided FileRealm
+
+An earlier fix for this issue correctly sidestepped the check of the file admin realm for admins with empty passwords when LDAP was configured for admin authentication but a method incorrectly returned "true" in that case when it should have returned "false."
+
+Reviewed by Jeff T
+Approved by Tom M
+Passed QL tests, manual test with LDAP admin configured and enabling (and disabling) secure admin
+
+git-svn-id: https://svn.java.net/svn/glassfish~svn/trunk/main@61180 6f3ba3e3-413c-0410-a8aa-90bee3ab43b5
+

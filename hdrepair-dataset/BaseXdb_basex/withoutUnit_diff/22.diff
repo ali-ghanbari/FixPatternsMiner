@@ -1,0 +1,8 @@
+diff --git a/src/main/java/org/basex/core/cmd/AQuery.java b/src/main/java/org/basex/core/cmd/AQuery.java
+index 5d59bf9..737560d 100644
+--- a/src/main/java/org/basex/core/cmd/AQuery.java
++++ b/src/main/java/org/basex/core/cmd/AQuery.java
+@@ -177 +177 @@
+-    return super.updating(ctx) || updating(ctx, args[0]);
++    return super.updating(ctx) || args[0] != null && updating(ctx, args[0]);
+

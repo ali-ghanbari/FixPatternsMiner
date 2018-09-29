@@ -1,0 +1,8 @@
+diff --git a/cdap-data-fabric/src/main/java/co/cask/cdap/data2/datafabric/dataset/service/mds/DatasetInstanceMDSUpgrader.java b/cdap-data-fabric/src/main/java/co/cask/cdap/data2/datafabric/dataset/service/mds/DatasetInstanceMDSUpgrader.java
+index 8e4ac38..0782bac 100644
+--- a/cdap-data-fabric/src/main/java/co/cask/cdap/data2/datafabric/dataset/service/mds/DatasetInstanceMDSUpgrader.java
++++ b/cdap-data-fabric/src/main/java/co/cask/cdap/data2/datafabric/dataset/service/mds/DatasetInstanceMDSUpgrader.java
+@@ -125 +125 @@
+-        MDSKey key = new MDSKey(Bytes.toBytes(DatasetInstanceMDS.INSTANCE_PREFIX));
++        MDSKey key = new MDSKey.Builder().add(DatasetInstanceMDS.INSTANCE_PREFIX).build();
+

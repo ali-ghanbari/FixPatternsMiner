@@ -1,0 +1,11 @@
+diff --git a/platform/lang-impl/src/com/intellij/openapi/roots/impl/DirectoryIndexImpl.java b/platform/lang-impl/src/com/intellij/openapi/roots/impl/DirectoryIndexImpl.java
+index 5eec0d1..87f8ddd 100644
+--- a/platform/lang-impl/src/com/intellij/openapi/roots/impl/DirectoryIndexImpl.java
++++ b/platform/lang-impl/src/com/intellij/openapi/roots/impl/DirectoryIndexImpl.java
+@@ -205,0 +206,5 @@
++    }
++    // Important! Because module's contents may overlap,
++    // first modules should be marked and only after that sources markup
++    // should be added. (src markup depends on module markup)
++    for (Module module : modules) {
+

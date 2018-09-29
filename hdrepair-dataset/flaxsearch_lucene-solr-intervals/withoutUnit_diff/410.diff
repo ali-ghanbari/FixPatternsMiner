@@ -1,0 +1,8 @@
+diff --git a/lucene/src/java/org/apache/lucene/index/codecs/standard/SimpleStandardTermsIndexWriter.java b/lucene/src/java/org/apache/lucene/index/codecs/standard/SimpleStandardTermsIndexWriter.java
+index 58f5d4b..fc67817 100644
+--- a/lucene/src/java/org/apache/lucene/index/codecs/standard/SimpleStandardTermsIndexWriter.java
++++ b/lucene/src/java/org/apache/lucene/index/codecs/standard/SimpleStandardTermsIndexWriter.java
+@@ -111 +111 @@
+-        int minPrefixDiff = 1+lastTerm.length;
++        int minPrefixDiff = Math.min(1+lastTerm.length, text.length);
+

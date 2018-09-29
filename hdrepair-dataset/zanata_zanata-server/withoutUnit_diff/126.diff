@@ -1,0 +1,8 @@
+diff --git a/flies-war/src/main/java/net/openl10n/flies/webtrans/server/rpc/GetTransUnitsHandler.java b/flies-war/src/main/java/net/openl10n/flies/webtrans/server/rpc/GetTransUnitsHandler.java
+index e5c7165..9548688 100755
+--- a/flies-war/src/main/java/net/openl10n/flies/webtrans/server/rpc/GetTransUnitsHandler.java
++++ b/flies-war/src/main/java/net/openl10n/flies/webtrans/server/rpc/GetTransUnitsHandler.java
+@@ -52 +52 @@
+-      Query query = session.createQuery("from HTextFlow tf where tf.document.id = :id order by tf.pos").setParameter("id", action.getDocumentId().getValue());
++      Query query = session.createQuery("from HTextFlow tf where tf.obsolete=0 and tf.document.id = :id order by tf.pos").setParameter("id", action.getDocumentId().getValue());
+

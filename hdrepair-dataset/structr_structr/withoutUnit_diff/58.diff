@@ -1,0 +1,10 @@
+diff --git a/structr/structr-core/src/main/java/org/structr/core/entity/DirectedRelationship.java b/structr/structr-core/src/main/java/org/structr/core/entity/DirectedRelationship.java
+index 2f35e7c..a9bd9b0 100644
+--- a/structr/structr-core/src/main/java/org/structr/core/entity/DirectedRelationship.java
++++ b/structr/structr-core/src/main/java/org/structr/core/entity/DirectedRelationship.java
+@@ -129,2 +129,2 @@
+-							// delete previous incoming relationships to nodes of the same destination type
+-							List<StructrRelationship> rels = sourceNode.getRelationships(relType, Direction.INCOMING);
++							// delete previous relationships to nodes of the same destination type and direction
++							List<StructrRelationship> rels = sourceNode.getRelationships(relType, direction);
+

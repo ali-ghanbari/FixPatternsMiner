@@ -1,0 +1,43 @@
+diff --git a/src/storage/mongo/src/main/java/org/geogit/storage/mongo/MongoGraphDatabase.java b/src/storage/mongo/src/main/java/org/geogit/storage/mongo/MongoGraphDatabase.java
+index b0244c1..4a87f1d 100644
+--- a/src/storage/mongo/src/main/java/org/geogit/storage/mongo/MongoGraphDatabase.java
++++ b/src/storage/mongo/src/main/java/org/geogit/storage/mongo/MongoGraphDatabase.java
+@@ -8 +8 @@
+-import com.boundlessgeo.blongo.MongoGraph;
++import org.geogit.blongo.MongoGraph;
+diff --git a/src/storage/mongo/src/test/java/org/geogit/blongo/MongoGraphTest.java b/src/storage/mongo/src/test/java/org/geogit/blongo/MongoGraphTest.java
+index 820efac..45a0b8e 100644
+--- a/src/storage/mongo/src/test/java/org/geogit/blongo/MongoGraphTest.java
++++ b/src/storage/mongo/src/test/java/org/geogit/blongo/MongoGraphTest.java
+@@ -11,0 +12 @@
++import com.mongodb.MongoClientURI;
+@@ -20,0 +22 @@
++import org.geogit.storage.integration.mongo.IniMongoProperties;
+@@ -41,3 +43,6 @@
+-            MongoClient client = new MongoClient("192.168.122.165", 27017);
+-            client.getDB("blueprints").dropDatabase();
+-            DB db = client.getDB("blueprints");
++            IniMongoProperties properties = new IniMongoProperties();
++            final String uri = properties.get("mongodb.uri", String.class).or("mongodb://localhost:27017/");
++            final String database = properties.get("mongodb.database", String.class).or("geogit");
++            MongoClient client = new MongoClient(new MongoClientURI(uri));
++            client.getDB(database).dropDatabase();
++            DB db = client.getDB(database);
+diff --git a/src/storage/mongo/src/test/java/org/geogit/storage/integration/mongo/MongoGraphDatabaseTest.java b/src/storage/mongo/src/test/java/org/geogit/storage/integration/mongo/MongoGraphDatabaseTest.java
+index b3fa796..3cb1ae1 100644
+--- a/src/storage/mongo/src/test/java/org/geogit/storage/integration/mongo/MongoGraphDatabaseTest.java
++++ b/src/storage/mongo/src/test/java/org/geogit/storage/integration/mongo/MongoGraphDatabaseTest.java
+@@ -14,0 +15 @@
++import com.mongodb.MongoClientURI;
+@@ -20,5 +21,5 @@
+-        IniMongoProperties properties = new IniMongoProperties();
+-        String host = properties.get("mongo.host", String.class).or("localhost"); 
+-        int port = properties.get("mongodb.port", Integer.class).or(27017);
+-        MongoClient client = new MongoClient(host, Integer.valueOf(port));
+-        DB db = client.getDB("geogit");
++        final IniMongoProperties properties = new IniMongoProperties();
++        final String uri = properties.get("mongodb.uri", String.class).or("mongodb://localhost:27017/"); 
++        final String database = properties.get("mongodb.database", String.class).or("geogit");
++        MongoClient client = new MongoClient(new MongoClientURI(uri));
++        DB db = client.getDB(database);
+

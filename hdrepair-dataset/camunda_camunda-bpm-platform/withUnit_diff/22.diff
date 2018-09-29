@@ -1,0 +1,21 @@
+diff --git a/engine/src/main/java/org/camunda/bpm/engine/impl/persistence/entity/TimerEntity.java b/engine/src/main/java/org/camunda/bpm/engine/impl/persistence/entity/TimerEntity.java
+index 75fd766..75f9428 100644
+--- a/engine/src/main/java/org/camunda/bpm/engine/impl/persistence/entity/TimerEntity.java
++++ b/engine/src/main/java/org/camunda/bpm/engine/impl/persistence/entity/TimerEntity.java
+@@ -53,0 +54 @@
++    deploymentId = te.deploymentId;
+diff --git a/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/event/timer/StartTimerEventTest.java b/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/event/timer/StartTimerEventTest.java
+index 28f4d81..2b4e029 100644
+--- a/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/event/timer/StartTimerEventTest.java
++++ b/engine/src/test/java/org/camunda/bpm/engine/test/bpmn/event/timer/StartTimerEventTest.java
+@@ -124,0 +125,4 @@
++    // ensure that the deployment Id is set on the new job
++    Job job = jobQuery.singleResult();
++    assertNotNull(job.getDeploymentId());
++
+@@ -133,0 +138,4 @@
++    // ensure that the deployment Id is set on the new job
++    job = jobQuery.singleResult();
++    assertNotNull(job.getDeploymentId());
++
+

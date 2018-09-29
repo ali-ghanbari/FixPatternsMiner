@@ -1,0 +1,139 @@
+diff --git a/histogram/src/test/java/io/druid/query/aggregation/histogram/ApproximateHistogramGroupByQueryTest.java b/histogram/src/test/java/io/druid/query/aggregation/histogram/ApproximateHistogramGroupByQueryTest.java
+index cd7aa5a..d623b9b 100644
+--- a/histogram/src/test/java/io/druid/query/aggregation/histogram/ApproximateHistogramGroupByQueryTest.java
++++ b/histogram/src/test/java/io/druid/query/aggregation/histogram/ApproximateHistogramGroupByQueryTest.java
+@@ -33,3 +32,0 @@
+-import io.druid.query.aggregation.AggregatorFactory;
+-import io.druid.query.aggregation.MaxAggregatorFactory;
+-import io.druid.query.aggregation.MinAggregatorFactory;
+@@ -36,0 +34 @@
++import io.druid.query.dimension.DefaultDimensionSpec;
+@@ -38 +35,0 @@
+-import io.druid.query.dimension.LegacyDimensionSpec;
+@@ -48 +44,0 @@
+-import org.junit.Before;
+@@ -67,7 +62,0 @@
+-  private Supplier<GroupByQueryConfig> configSupplier;
+-
+-  @Before
+-  public void setUp() throws Exception
+-  {
+-    configSupplier = Suppliers.ofInstance(new GroupByQueryConfig());
+-  }
+@@ -168 +157,8 @@
+-        .setDimensions(Arrays.<DimensionSpec>asList(new LegacyDimensionSpec(QueryRunnerTestHelper.providerDimension)))
++        .setDimensions(
++            Arrays.<DimensionSpec>asList(
++                new DefaultDimensionSpec(
++                    QueryRunnerTestHelper.providerDimension,
++                    "proViderAlias"
++                )
++            )
++        )
+@@ -174 +170 @@
+-                        QueryRunnerTestHelper.providerDimension,
++                        "proViderAlias",
+@@ -182,8 +178,2 @@
+-                Iterables.concat(
+-                    QueryRunnerTestHelper.commonAggregators,
+-                    Lists.newArrayList(
+-                        new MaxAggregatorFactory("maxIndex", "index"),
+-                        new MinAggregatorFactory("minIndex", "index"),
+-                        aggFactory
+-                    )
+-                )
++                QueryRunnerTestHelper.rowsCount,
++                aggFactory
+@@ -193,3 +183 @@
+-            Arrays.asList(
+-                QueryRunnerTestHelper.addRowsIndexConstant,
+-                QueryRunnerTestHelper.dependentPostAgg,
++            Arrays.<PostAggregator>asList(
+@@ -204,9 +192,3 @@
+-            "provider", "spot",
+-            "rows", 837L,
+-            "addRowsIndexConstant", 96444.5703125,
+-            "dependentPostAgg", 97282.5703125,
+-            "index", 95606.5703125,
+-            "maxIndex", 277.2735290527344,
+-            "minIndex", 59.02102279663086,
+-            "quantile", 101.78856f,
+-            "uniques", QueryRunnerTestHelper.UNIQUES_9,
++            "provideralias", "upfront",
++            "rows", 186L,
++            "quantile", 880.9881f,
+@@ -216,6 +198,6 @@
+-                    4.457897186279297f,
+-                    59.02102279663086f,
+-                    113.58415222167969f,
+-                    168.14727783203125f,
+-                    222.7104034423828f,
+-                    277.2735290527344f
++                    214.97299194335938f,
++                    545.9906005859375f,
++                    877.0081787109375f,
++                    1208.0257568359375f,
++                    1539.0433349609375f,
++                    1870.06103515625f
+@@ -224,5 +206 @@
+-                    0.0,
+-                    462.4309997558594,
+-                    357.5404968261719,
+-                    15.022850036621094,
+-                    2.0056631565093994
++                    0.0, 67.53287506103516, 72.22068786621094, 31.984678268432617, 14.261756896972656
+diff --git a/processing/src/main/java/io/druid/query/groupby/orderby/DefaultLimitSpec.java b/processing/src/main/java/io/druid/query/groupby/orderby/DefaultLimitSpec.java
+index bf6fc13..ad96280 100644
+--- a/processing/src/main/java/io/druid/query/groupby/orderby/DefaultLimitSpec.java
++++ b/processing/src/main/java/io/druid/query/groupby/orderby/DefaultLimitSpec.java
+@@ -176 +176 @@
+-                           final List<String> dimList = input.getDimension(dimension);
++                           final List<String> dimList = input.getDimension(dimension.toLowerCase());
+diff --git a/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java b/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java
+index 6beab76..1456df7 100644
+--- a/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java
++++ b/processing/src/test/java/io/druid/query/groupby/GroupByQueryRunnerTest.java
+@@ -736,0 +737,42 @@
++  public void testGroupByWithMixedCasingOrdering()
++  {
++    GroupByQuery query = new GroupByQuery.Builder()
++        .setDataSource(QueryRunnerTestHelper.dataSource)
++        .setGranularity(QueryRunnerTestHelper.allGran)
++        .setDimensions(
++            Arrays.<DimensionSpec>asList(
++                new DefaultDimensionSpec(
++                    QueryRunnerTestHelper.providerDimension,
++                    "ProviderAlias"
++                )
++            )
++        )
++        .setInterval(QueryRunnerTestHelper.fullOnInterval)
++        .setLimitSpec(
++            new DefaultLimitSpec(
++                Lists.newArrayList(
++                    new OrderByColumnSpec(
++                        "providerALIAS",
++                        OrderByColumnSpec.Direction.DESCENDING
++                    )
++                ), 3
++            )
++        )
++        .setAggregatorSpecs(
++            Lists.<AggregatorFactory>newArrayList(
++                QueryRunnerTestHelper.rowsCount
++            )
++        )
++        .build();
++
++    List<Row> expectedResults = Arrays.asList(
++        GroupByQueryRunnerTestHelper.createExpectedRow("1970-01-01T00:00:00.000Z", "provideralias", "upfront", "rows", 186L),
++        GroupByQueryRunnerTestHelper.createExpectedRow("1970-01-01T00:00:00.000Z", "provideralias", "total_market", "rows", 186L),
++        GroupByQueryRunnerTestHelper.createExpectedRow("1970-01-01T00:00:00.000Z", "provideralias", "spot", "rows", 837L)
++    );
++
++    Iterable<Row> results = GroupByQueryRunnerTestHelper.runQuery(factory, runner, query);
++    TestHelper.assertExpectedObjects(expectedResults, results, "order-limit");
++  }
++
++  @Test
+

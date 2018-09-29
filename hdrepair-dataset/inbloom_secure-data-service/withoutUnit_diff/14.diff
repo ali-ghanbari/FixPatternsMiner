@@ -1,0 +1,29 @@
+diff --git a/sli/acceptance-tests/test/features/apiV1/search/search_limits.feature b/sli/acceptance-tests/test/features/apiV1/search/search_limits.feature
+index d8735e8..d766218 100644
+--- a/sli/acceptance-tests/test/features/apiV1/search/search_limits.feature
++++ b/sli/acceptance-tests/test/features/apiV1/search/search_limits.feature
+@@ -34,0 +35,16 @@
++  Scenario: Ensure Extended Search Entity Can Be Queried with no Limit, and Return All Records
++    Given I am logged in using "ckoch" "ckoch1234" to realm "IL"
++    And parameter "limit" is "0"
++    When I navigate to GET "/v1.3/search/learningStandards"
++    Then I should receive a return code of 200
++    And each entity's "entityType" should be "learningStandard"
++    And I should receive a collection of "1499" entities
++
++  Scenario: Ensure When Extended Search Entity Is Queried with a Limit, Limit Entities are Returned
++    Given I am logged in using "ckoch" "ckoch1234" to realm "IL"
++    And parameter "limit" is "1000"
++    When I navigate to GET "/v1.3/search/learningStandards"
++    Then I should receive a return code of 200
++    And each entity's "entityType" should be "learningStandard"
++    And I should receive a collection of "1000" entities
++
+diff --git a/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java b/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
+index 19e8d3d..48cd190 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
++++ b/sli/api/src/main/java/org/slc/sli/api/search/service/SearchResourceService.java
+@@ -286 +286 @@
+-         limit = maxFilteredSearchResultCount;
++         limit = maxSearchResultCount;
+

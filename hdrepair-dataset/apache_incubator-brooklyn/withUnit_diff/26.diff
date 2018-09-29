@@ -1,0 +1,19 @@
+diff --git a/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsResolver.java b/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsResolver.java
+index b2f8d0b..aa41e80 100644
+--- a/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsResolver.java
++++ b/locations/jclouds/src/main/java/brooklyn/location/jclouds/JcloudsResolver.java
+@@ -190,0 +191 @@
++            jcloudsProperties.put(JcloudsLocationConfig.CLOUD_ENDPOINT.getName(), regionName);
+diff --git a/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLocationResolverTest.java b/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLocationResolverTest.java
+index 9ae19ec..0c1b8c1 100644
+--- a/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLocationResolverTest.java
++++ b/locations/jclouds/src/test/java/brooklyn/location/jclouds/JcloudsLocationResolverTest.java
+@@ -149,0 +150,7 @@
++    public void testJcloudsEndpointLoads() {
++        JcloudsLocation loc = resolve("jclouds:openstack-nova:http://foo/api");
++        assertEquals(loc.getProvider(), "openstack-nova");
++        assertEquals(loc.getEndpoint(), "http://foo/api");
++    }
++
++    @Test
+

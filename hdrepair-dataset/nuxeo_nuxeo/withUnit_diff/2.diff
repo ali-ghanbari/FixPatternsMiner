@@ -1,0 +1,61 @@
+diff --git a/nuxeo-features/annot/nuxeo-annot-core/src/test/java/org/nuxeo/ecm/platform/annotations/service/AbstractAnnotationTest.java b/nuxeo-features/annot/nuxeo-annot-core/src/test/java/org/nuxeo/ecm/platform/annotations/service/AbstractAnnotationTest.java
+index 9bfd748..5c473d5 100644
+--- a/nuxeo-features/annot/nuxeo-annot-core/src/test/java/org/nuxeo/ecm/platform/annotations/service/AbstractAnnotationTest.java
++++ b/nuxeo-features/annot/nuxeo-annot-core/src/test/java/org/nuxeo/ecm/platform/annotations/service/AbstractAnnotationTest.java
+@@ -21,0 +22,2 @@
++import static org.junit.Assert.assertNotNull;
++
+@@ -26,3 +27,0 @@
+-import static org.junit.Assert.*;
+-
+-import org.hsqldb.jdbc.jdbcDataSource;
+@@ -36 +34,0 @@
+-import org.nuxeo.runtime.jtajca.NuxeoContainer;
+@@ -62,6 +60,3 @@
+-
+-        jdbcDataSource ds = new jdbcDataSource();
+-        ds.setDatabase("jdbc:hsqldb:mem:jena");
+-        ds.setUser("sa");
+-        ds.setPassword("");
+-        NuxeoContainer.addDeepBinding("java:comp/env/jdbc/nxrelations-default-jena", ds);
++        deployBundle("org.nuxeo.runtime.datasource");
++        deployTestContrib("org.nuxeo.runtime.datasource", "datasource-config.xml");
++        fireFrameworkStarted(); // to bind datasource
+diff --git a/nuxeo-features/annot/nuxeo-annot-core/src/test/resources/datasource-config.xml b/nuxeo-features/annot/nuxeo-annot-core/src/test/resources/datasource-config.xml
+new file mode 100644
+index 0000000..67abed1
+--- /dev/null
++++ b/nuxeo-features/annot/nuxeo-annot-core/src/test/resources/datasource-config.xml
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<component name="org.nuxeo.ecm.platform.annotations.test.ds">
++  <extension target="org.nuxeo.runtime.datasource" point="datasources">
++    <!-- Jena doesn't know H2, so we hardcode a hsql datasource -->
++    <datasource name="jdbc/nxrelations-default-jena" driverClassName="org.hsqldb.jdbcDriver">
++      <property name="url">jdbc:hsqldb:mem:jena</property>
++      <property name="user">sa</property>
++      <property name="password"></property>
++    </datasource>
++  </extension>
++</component>
+diff --git a/nuxeo-features/annot/nuxeo-annot-repo/src/test/java/org/nuxeo/ecm/platform/annotations/repository/service/AnnotationFeature.java b/nuxeo-features/annot/nuxeo-annot-repo/src/test/java/org/nuxeo/ecm/platform/annotations/repository/service/AnnotationFeature.java
+index ccca8ab..0a51e07 100644
+--- a/nuxeo-features/annot/nuxeo-annot-repo/src/test/java/org/nuxeo/ecm/platform/annotations/repository/service/AnnotationFeature.java
++++ b/nuxeo-features/annot/nuxeo-annot-repo/src/test/java/org/nuxeo/ecm/platform/annotations/repository/service/AnnotationFeature.java
+@@ -15 +15 @@
+-        "org.nuxeo.ecm.annotations.repository.test" })
++        "org.nuxeo.ecm.annotations.repository.test", "org.nuxeo.runtime.jtajca", "org.nuxeo.runtime.datasource" })
+diff --git a/nuxeo-features/annot/nuxeo-annot-repo/src/test/resources/anno-ds.xml b/nuxeo-features/annot/nuxeo-annot-repo/src/test/resources/anno-ds.xml
+index ddc980d..96dfe76 100644
+--- a/nuxeo-features/annot/nuxeo-annot-repo/src/test/resources/anno-ds.xml
++++ b/nuxeo-features/annot/nuxeo-annot-repo/src/test/resources/anno-ds.xml
+@@ -4,3 +4,5 @@
+-    <datasource name="jdbc/nxrelations-default-jena" driverClassName="org.h2.Driver"
+-      maxActive="20" maxIdle="5">
+-      <property name="url">jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</property>
++    <!-- Jena doesn't know H2, so we hardcode a hsql datasource -->
++    <datasource name="jdbc/nxrelations-default-jena" driverClassName="org.hsqldb.jdbcDriver">
++      <property name="url">jdbc:hsqldb:mem:jena</property>
++      <property name="user">sa</property>
++      <property name="password"></property>
+

@@ -1,0 +1,120 @@
+diff --git a/activemq-core/src/main/java/org/apache/activemq/command/Message.java b/activemq-core/src/main/java/org/apache/activemq/command/Message.java
+index 6ab8f0c..2e8c442 100755
+--- a/activemq-core/src/main/java/org/apache/activemq/command/Message.java
++++ b/activemq-core/src/main/java/org/apache/activemq/command/Message.java
+@@ -145 +145 @@
+-        properties.putAll(properties);
++        this.properties.putAll(properties);
+diff --git a/activemq-core/src/test/java/org/apache/activemq/transport/stomp/StompTest.java b/activemq-core/src/test/java/org/apache/activemq/transport/stomp/StompTest.java
+index 2923655..cd23afd 100644
+--- a/activemq-core/src/test/java/org/apache/activemq/transport/stomp/StompTest.java
++++ b/activemq-core/src/test/java/org/apache/activemq/transport/stomp/StompTest.java
+@@ -18,0 +19,12 @@
++import org.apache.activemq.ActiveMQConnectionFactory;
++import org.apache.activemq.CombinationTestSupport;
++import org.apache.activemq.broker.BrokerService;
++import org.apache.activemq.broker.TransportConnector;
++import org.apache.activemq.command.ActiveMQQueue;
++
++import javax.jms.Connection;
++import javax.jms.MessageConsumer;
++import javax.jms.MessageProducer;
++import javax.jms.Session;
++import javax.jms.TextMessage;
++
+@@ -24 +35,0 @@
+-import java.net.URI;
+@@ -26,14 +37 @@
+-
+-
+-import javax.jms.*;
+-
+-import org.apache.activemq.ActiveMQConnectionFactory;
+-import org.apache.activemq.CombinationTestSupport;
+-import org.apache.activemq.broker.BrokerService;
+-import org.apache.activemq.broker.TransportConnector;
+-import org.apache.activemq.broker.region.policy.SimpleDispatchPolicy;
+-import org.apache.activemq.broker.region.policy.PolicyEntry;
+-import org.apache.activemq.broker.region.policy.RoundRobinDispatchPolicy;
+-import org.apache.activemq.broker.region.policy.PolicyMap;
+-import org.apache.activemq.command.ActiveMQQueue;
+-import org.apache.activemq.transport.stomp.Stomp;
++import java.net.URI;
+@@ -65 +63 @@
+-        queue = new ActiveMQQueue("TEST");
++        queue = new ActiveMQQueue(getQueueName());
+@@ -70,0 +69,4 @@
++    protected String getQueueName() {
++        return getClass().getName() + "." + getName();
++    }
++
+@@ -131,0 +134,28 @@
++        
++        frame = receiveFrame(10000);
++        assertTrue(frame.startsWith("CONNECTED"));
++        
++        frame =
++            "SEND\n" +
++            "destination:/queue/" + getQueueName() + "\n\n" +
++            "Hello World" +
++            Stomp.NULL;
++        
++        sendFrame(frame);
++        
++        TextMessage message = (TextMessage) consumer.receive(1000);
++        assertNotNull(message);
++        assertEquals("Hello World", message.getText());
++    }
++    
++    
++    public void testSendMessageWithHeaders() throws Exception {
++        
++        MessageConsumer consumer = session.createConsumer(queue, "foo = 'abc'");
++        
++        String frame = 
++            "CONNECT\n" + 
++            "login: brianm\n" + 
++            "passcode: wombats\n\n"+
++            Stomp.NULL;
++        sendFrame(frame);
+@@ -138 +168,3 @@
+-            "destination:/queue/TEST\n\n" +
++            "foo:abc\n" +
++            "bar:123\n" +
++            "destination:/queue/" + getQueueName() + "\n\n" +
+@@ -144 +176 @@
+-        TextMessage message = (TextMessage) consumer.receive(1000);
++        TextMessage message = (TextMessage) consumer.receive(60000);
+@@ -147,2 +178,0 @@
+-
+-
+@@ -165 +195 @@
+-            "destination:/queue/TEST\n" +
++            "destination:/queue/" + getQueueName() + "\n" +
+@@ -200 +230 @@
+-            "destination:/queue/TEST\n" +
++            "destination:/queue/" + getQueueName() + "\n" +
+@@ -239 +269 @@
+-            "destination:/queue/TEST\n" +
++            "destination:/queue/" + getQueueName() + "\n" +
+@@ -245 +275 @@
+-        sendMessage(getName());
++        sendMessage("first message");
+@@ -255 +285 @@
+-            "destination:/queue/TEST\n" +
++            "destination:/queue/" + getQueueName() + "\n" +
+@@ -261 +291 @@
+-        sendMessage(getName());
++        sendMessage("second message");
+@@ -265,0 +296 @@
++            System.out.println("Received frame: " + frame);
+@@ -294 +325 @@
+-            "destination:/queue/TEST\n" +
++            "destination:/queue/" + getQueueName() + "\n" +
+@@ -338 +369 @@
+-            "destination:/queue/TEST\n" +
++            "destination:/queue/" + getQueueName() + "\n" +
+@@ -355 +386 @@
+-            "destination:/queue/TEST\n" +
++            "destination:/queue/" + getQueueName() + "\n" +
+

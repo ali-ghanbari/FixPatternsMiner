@@ -1,0 +1,13 @@
+diff --git a/extensions/privatemodules/src/com/google/inject/privatemodules/PrivateModule.java b/extensions/privatemodules/src/com/google/inject/privatemodules/PrivateModule.java
+index 92b00af..00394bd 100644
+--- a/extensions/privatemodules/src/com/google/inject/privatemodules/PrivateModule.java
++++ b/extensions/privatemodules/src/com/google/inject/privatemodules/PrivateModule.java
+@@ -91,3 +91,4 @@
+- *
+- * <p>The scope of a shared binding is also shared among all environments in the tree. For example,
+- * if {@code FooImpl} is a shared singleton, all other modules will get the same instance.
++ * 
++ * <p>The scope of a binding is constrained to its environment. A singleton bound in a private
++ * module will be unique to its environment. But a binding for the same type in a different private
++ * module will yield a different instance.
+

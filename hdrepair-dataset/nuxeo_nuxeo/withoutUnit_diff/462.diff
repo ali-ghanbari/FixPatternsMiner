@@ -1,0 +1,106 @@
+diff --git a/nuxeo-theme-editor/src/main/java/org/nuxeo/theme/editor/filters/JSONModel.java b/nuxeo-theme-editor/src/main/java/org/nuxeo/theme/editor/filters/JSONModel.java
+index 1f385cb..debb85f 100644
+--- a/nuxeo-theme-editor/src/main/java/org/nuxeo/theme/editor/filters/JSONModel.java
++++ b/nuxeo-theme-editor/src/main/java/org/nuxeo/theme/editor/filters/JSONModel.java
+@@ -113 +113 @@
+-
++        model.put("type", "element");
+diff --git a/nuxeo-theme-editor/src/main/resources/nxthemes/editor/scripts/style-editor.js b/nuxeo-theme-editor/src/main/resources/nxthemes/editor/scripts/style-editor.js
+index 2073429..ce18540 100644
+--- a/nuxeo-theme-editor/src/main/resources/nxthemes/editor/scripts/style-editor.js
++++ b/nuxeo-theme-editor/src/main/resources/nxthemes/editor/scripts/style-editor.js
+@@ -137,4 +137 @@
+-    // ignore tags that have the "ignore" attribute set
+-    if (!node.getAttribute("ignore")) {
+-      selectors.push(selector);
+-    }
++    selectors.push(selector);
+diff --git a/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/context-menu.json b/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/context-menu.json
+index 22535a1..33f9778 100644
+--- a/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/context-menu.json
++++ b/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/context-menu.json
+@@ -7 +7,2 @@
+-       "showDisabled": false,
++       "showDisabledItems": false,
++       "targetType": "element",
+diff --git a/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/preset-menu.json b/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/preset-menu.json
+index bb88ae7..4820cf6 100644
+--- a/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/preset-menu.json
++++ b/nuxeo-theme-editor/src/main/resources/nxthemes/editor/views/preset-menu.json
+@@ -7 +7,2 @@
+-       "showDisabled": false,
++       "showDisabledItems": false,
++       "targetType": "preset",
+diff --git a/nuxeo-theme-editor/src/main/resources/web/nxthemes-editor/skin/presetManager.ftl b/nuxeo-theme-editor/src/main/resources/web/nxthemes-editor/skin/presetManager.ftl
+index 7ffb1f2..f830b4f 100644
+--- a/nuxeo-theme-editor/src/main/resources/web/nxthemes-editor/skin/presetManager.ftl
++++ b/nuxeo-theme-editor/src/main/resources/web/nxthemes-editor/skin/presetManager.ftl
+@@ -34,0 +35 @@
++   "type": "preset",
+@@ -65,0 +67 @@
++          "type": "preset",
+@@ -109,0 +112 @@
++   "type": "preset",
+diff --git a/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes-widgets.js b/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes-widgets.js
+index 4d2f365..fad5943 100644
+--- a/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes-widgets.js
++++ b/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes-widgets.js
+@@ -233,0 +234 @@
++    var newSeparator = false;
+@@ -240 +241 @@
+-          if (this.def.widget.showDisabled) {
++          if (this.def.widget.showDisabledItems) {
+@@ -286,0 +288 @@
++          newSeparator = true;
+@@ -315,0 +318 @@
++          newSeparator = true;
+@@ -319,5 +322,8 @@
+-          var node = createNode({
+-            tag: 'div',
+-            classes: ['separator'],
+-            parent: container
+-          });
++          if (newSeparator) {
++            var node = createNode({
++              tag: 'div',
++              classes: ['separator'],
++              parent: container
++            });
++          }
++          newSeparator = false;
+@@ -366,0 +373 @@
++          newSeparator = true;
+@@ -389 +395,0 @@
+-    var ignore = this.def.ignore;
+@@ -391,2 +396,0 @@
+-                
+-    if (ignore && element.hasClassName(ignore)) return;
+@@ -398 +402 @@
+-      if (selected == null) {
++      if (selected === null) {
+@@ -412,0 +417,8 @@
++    var target_type = this.def.widget.targetType;
++    if (target_type !== null) {
++      var model_type = model.getType();
++      if (model_type !== null && model_type != target_type) {
++        return;
++      }  
++    }
++    
+@@ -414 +426,2 @@
+-    if (data == null) return;
++    if (data === null) return;
++        
+@@ -426 +439 @@
+-      if (this.def.widget.showDisabled) return true;
++      if (this.def.widget.showDisabledItems) return true;
+diff --git a/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes.js b/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes.js
+index e14b2fd..2df6b6d 100644
+--- a/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes.js
++++ b/nuxeo-theme-html/src/main/resources/nxthemes/html/scripts/nxthemes/nxthemes.js
+@@ -834,0 +835,4 @@
++  
++  getType: function() {
++    return this.def.type;
++  },
+

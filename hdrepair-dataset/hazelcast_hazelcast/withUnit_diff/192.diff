@@ -1,0 +1,103 @@
+diff --git a/hazelcast-hibernate/pom.xml b/hazelcast-hibernate/pom.xml
+index c0a176f..774a6c0 100644
+--- a/hazelcast-hibernate/pom.xml
++++ b/hazelcast-hibernate/pom.xml
+@@ -16,0 +17,2 @@
++        <hibernate.core.version>3.5.0-Final</hibernate.core.version>
++        <!--<hibernate.core.version>3.6.10.Final</hibernate.core.version>-->
+diff --git a/hazelcast-hibernate/src/main/java/com/hazelcast/hibernate/instance/HazelcastClientLoader.java b/hazelcast-hibernate/src/main/java/com/hazelcast/hibernate/instance/HazelcastClientLoader.java
+index 5575f5b..3a0ed00 100644
+--- a/hazelcast-hibernate/src/main/java/com/hazelcast/hibernate/instance/HazelcastClientLoader.java
++++ b/hazelcast-hibernate/src/main/java/com/hazelcast/hibernate/instance/HazelcastClientLoader.java
+@@ -69,0 +70,2 @@
++        clientConfig.setInitialConnectionAttemptLimit(3);
++        clientConfig.setReconnectionAttemptLimit(5);
+diff --git a/hazelcast-hibernate/src/test/java/com/hazelcast/hibernate/RegionFactoryDefaultTest.java b/hazelcast-hibernate/src/test/java/com/hazelcast/hibernate/RegionFactoryDefaultTest.java
+index 144e4bd..6757854 100644
+--- a/hazelcast-hibernate/src/test/java/com/hazelcast/hibernate/RegionFactoryDefaultTest.java
++++ b/hazelcast-hibernate/src/test/java/com/hazelcast/hibernate/RegionFactoryDefaultTest.java
+@@ -19,0 +20 @@
++import com.hazelcast.hibernate.entity.DummyEntity;
+@@ -20,0 +22,2 @@
++import org.hibernate.Session;
++import org.hibernate.Transaction;
+@@ -21,0 +25 @@
++import org.junit.Assert;
+@@ -22,0 +27 @@
++import org.junit.Test;
+@@ -23,0 +29 @@
++import java.util.Date;
+@@ -38,0 +45,60 @@
++
++    @Test
++    public void testInsertGetUpdateGet() {
++        Session session = sf.openSession();
++        DummyEntity e = new DummyEntity(1L, "test", 0d, null);
++        Transaction tx = session.beginTransaction();
++        try {
++            session.save(e);
++            tx.commit();
++        } catch (Exception ex) {
++            ex.printStackTrace();
++            tx.rollback();
++            Assert.fail(ex.getMessage());
++        } finally {
++            session.close();
++        }
++
++        session = sf.openSession();
++        try {
++            e = (DummyEntity) session.get(DummyEntity.class, 1L);
++            Assert.assertEquals("test", e.getName());
++            Assert.assertNull(e.getDate());
++        } catch (Exception ex) {
++            ex.printStackTrace();
++            Assert.fail(ex.getMessage());
++        } finally {
++            session.close();
++        }
++
++        session = sf.openSession();
++        tx = session.beginTransaction();
++        try {
++            e = (DummyEntity) session.get(DummyEntity.class, 1L);
++            Assert.assertEquals("test", e.getName());
++            Assert.assertNull(e.getDate());
++            e.setName("dummy");
++            e.setDate(new Date());
++            session.update(e);
++            tx.commit();
++        } catch (Exception ex) {
++            ex.printStackTrace();
++            tx.rollback();
++            Assert.fail(ex.getMessage());
++        } finally {
++            session.close();
++        }
++
++        session = sf.openSession();
++        try {
++            e = (DummyEntity) session.get(DummyEntity.class, 1L);
++            Assert.assertEquals("dummy", e.getName());
++            Assert.assertNotNull(e.getDate());
++        } catch (Exception ex) {
++            ex.printStackTrace();
++            Assert.fail(ex.getMessage());
++        } finally {
++            session.close();
++        }
++//        stats.logSummary();
++    }
+diff --git a/hazelcast-spring/pom.xml b/hazelcast-spring/pom.xml
+index 34d1a8a..829f0b8 100644
+--- a/hazelcast-spring/pom.xml
++++ b/hazelcast-spring/pom.xml
+@@ -19,0 +20 @@
++        <hibernate.core.version>3.5.0-Final</hibernate.core.version>
+diff --git a/pom.xml b/pom.xml
+index bc6d950..edf8f79 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -64 +63,0 @@
+-        <hibernate.core.version>3.5.0-Final</hibernate.core.version>
+

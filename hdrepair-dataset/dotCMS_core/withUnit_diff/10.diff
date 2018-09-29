@@ -1,0 +1,55 @@
+diff --git a/src/com/dotcms/rest/ContentResource.java b/src/com/dotcms/rest/ContentResource.java
+index a6349f6..1200416 100644
+--- a/src/com/dotcms/rest/ContentResource.java
++++ b/src/com/dotcms/rest/ContentResource.java
+@@ -583 +583 @@
+-        if(UtilMethods.isSet(stInode)) {
++        if(!UtilMethods.isSet(stInode)) {
+diff --git a/test/com/dotcms/rest/ContentResourceTest.java b/test/com/dotcms/rest/ContentResourceTest.java
+index 4b20951..6359f69 100644
+--- a/test/com/dotcms/rest/ContentResourceTest.java
++++ b/test/com/dotcms/rest/ContentResourceTest.java
+@@ -30,0 +31,2 @@
++import com.dotmarketing.portlets.fileassets.business.FileAssetAPI;
++import com.dotmarketing.portlets.fileassets.business.IFileAsset;
+@@ -488,0 +491,28 @@
++        Host demo=APILocator.getHostAPI().findByName("demo.dotcms.com", sysuser, false);
++        Folder ff=APILocator.getFolderAPI().createFolders("/rest/"+salt, demo, sysuser, false);
++        
++        java.io.File filefile = java.io.File.createTempFile("filefile", ".txt");
++        java.io.File imgimg = java.io.File.createTempFile("imgimg", ".jpg");
++        
++        Contentlet filea=new Contentlet();
++        filea.setFolder(ff.getInode());
++        filea.setHost(demo.getIdentifier());
++        filea.setStructureInode(StructureCache.getStructureByVelocityVarName("fileAsset").getInode());
++        filea.setStringProperty(FileAssetAPI.HOST_FOLDER_FIELD, ff.getInode());
++        filea.setStringProperty(FileAssetAPI.TITLE_FIELD, "filefile.txt");
++        filea.setStringProperty(FileAssetAPI.FILE_NAME_FIELD, "filefile.txt");
++        filea.setBinary(FileAssetAPI.BINARY_FIELD, filefile);
++        filea.setLanguageId(1);
++        filea = APILocator.getContentletAPI().checkin(filea, sysuser, false);
++        
++        Contentlet imga=new Contentlet();
++        imga.setFolder(ff.getInode());
++        imga.setHost(demo.getIdentifier());
++        imga.setStructureInode(StructureCache.getStructureByVelocityVarName("fileAsset").getInode());
++        imga.setStringProperty(FileAssetAPI.HOST_FOLDER_FIELD, ff.getInode());
++        imga.setStringProperty(FileAssetAPI.FILE_NAME_FIELD, "imgimg.jpg");
++        imga.setStringProperty(FileAssetAPI.TITLE_FIELD, "imgimg.jpg");
++        imga.setBinary(FileAssetAPI.BINARY_FIELD, imgimg);
++        imga.setLanguageId(1);
++        imga = APILocator.getContentletAPI().checkin(imga, sysuser, false);
++        
+@@ -494 +524,3 @@
+-                    .put(file.getVelocityVarName(),"//demo.dotcms.com//") 
++                    .put(file.getVelocityVarName(),"//demo.dotcms.com/rest/"+salt+"/filefile.txt")
++                    .put(image.getVelocityVarName(), "//demo.dotcms.com/rest/"+salt+"/imgimg.jpg")
++                    .put(title.getVelocityVarName(), "a simple title")
+@@ -496,0 +529,5 @@
++        
++        String inode=response.getHeaders().getFirst("inode");
++        Contentlet cont = APILocator.getContentletAPI().find(inode, sysuser, false);
++        Assert.assertEquals(filea.getIdentifier(),cont.getStringProperty(file.getVelocityVarName()));
++        Assert.assertEquals(imga.getIdentifier(),cont.getStringProperty(image.getVelocityVarName()));
+

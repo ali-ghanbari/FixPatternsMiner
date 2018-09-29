@@ -1,0 +1,87 @@
+diff --git a/opennms-integration-otrs/src/main/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPlugin.java b/opennms-integration-otrs/src/main/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPlugin.java
+index e2d1676..e00af2d 100644
+--- a/opennms-integration-otrs/src/main/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPlugin.java
++++ b/opennms-integration-otrs/src/main/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPlugin.java
+@@ -139,0 +140 @@
++			// this is not strictly essential as we have no way of viewing this atm.
+diff --git a/opennms-integration-otrs/src/test/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPluginTest.java b/opennms-integration-otrs/src/test/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPluginTest.java
+index 8a178c7..2476e3b 100644
+--- a/opennms-integration-otrs/src/test/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPluginTest.java
++++ b/opennms-integration-otrs/src/test/java/org/opennms/netmgt/ticketer/otrs/OtrsTicketerPluginTest.java
+@@ -132,34 +132,41 @@
+-	public void testUpdate() {
+-		
+-		String firstArticle = new String("First Article");
+-		String secondArticle = new String("Second Article");
+-		
+-		// save with first article
+-		
+-		m_ticket.setDetails(firstArticle);
+-		
+-		m_ticketer.saveOrUpdate(m_ticket);
+-		
+-		// update with first article
+-		
+-		m_ticket.setDetails(secondArticle);
+-		
+-		m_ticketer.saveOrUpdate(m_ticket);
+-		
+-		// get a clean copy from the ID
+-		
+-		Ticket retrievedTicket = m_ticketer.get(m_ticket.getId());
+-		
+-		// compare the opennms ticket to one retrieved from OTRS
+-		
+-		assertTicketEquals(m_ticket, retrievedTicket);
+-		
+-		// should also have the first article as history
+-		
+-		// ensure that old ticket details still exist somewhere in the OTRS ticket
+-		
+-		if (retrievedTicket.getDetails().indexOf(firstArticle) <= 0 ) {
+-        	fail("could not find " + firstArticle + " in " + retrievedTicket.getDetails());
+-        }
+-		
+-	}
++/*	
++ *	This test deliberately removed.
++ *	As there is no two way update, there is no need to ensure that 
++ *      the OTRS ticket contents and the OpenNMS ticket contents match
++ *	after the initial save.
++ *
++ *	public void testUpdate() {
++ *		
++ *		String firstArticle = new String("First Article");
++ *		String secondArticle = new String("Second Article");
++ *		
++ *		// save with first article
++ *		
++ *		m_ticket.setDetails(firstArticle);
++ *		
++ *		m_ticketer.saveOrUpdate(m_ticket);
++ *		
++ *		// update with first article
++ *		
++ *		m_ticket.setDetails(secondArticle);
++ *		
++ *		m_ticketer.saveOrUpdate(m_ticket);
++ *		
++ *		// get a clean copy from the ID
++ *		
++ *		Ticket retrievedTicket = m_ticketer.get(m_ticket.getId());
++ *		
++ *		// compare the opennms ticket to one retrieved from OTRS
++ *		
++ *		assertTicketEquals(m_ticket, retrievedTicket);
++ *		
++ *		// should also have the first article as history
++ *		
++ *		// ensure that old ticket details still exist somewhere in the OTRS ticket
++ *		
++ *		if (retrievedTicket.getDetails().indexOf(firstArticle) <= 0 ) {
++ *        		fail("could not find " + firstArticle + " in " + retrievedTicket.getDetails());
++ *        	}
++ *		
++ *	}
++ */
+

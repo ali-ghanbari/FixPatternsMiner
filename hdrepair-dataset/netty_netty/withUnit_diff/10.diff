@@ -1,0 +1,24 @@
+diff --git a/src/main/java/org/jboss/netty/buffer/HeapChannelBuffer.java b/src/main/java/org/jboss/netty/buffer/HeapChannelBuffer.java
+index 4ce8440..86f8f8b 100644
+--- a/src/main/java/org/jboss/netty/buffer/HeapChannelBuffer.java
++++ b/src/main/java/org/jboss/netty/buffer/HeapChannelBuffer.java
+@@ -201 +201 @@
+-        return ByteBuffer.wrap(array, index, length);
++        return ByteBuffer.wrap(array, index, length).order(order());
+diff --git a/src/test/java/org/jboss/netty/buffer/AbstractChannelBufferTest.java b/src/test/java/org/jboss/netty/buffer/AbstractChannelBufferTest.java
+index 1ab6ce8..dc61180 100644
+--- a/src/test/java/org/jboss/netty/buffer/AbstractChannelBufferTest.java
++++ b/src/test/java/org/jboss/netty/buffer/AbstractChannelBufferTest.java
+@@ -1446,0 +1447,5 @@
++    public void testSlice() throws Exception {
++        assertEquals(buffer.order(), buffer.slice(1, buffer.capacity() - 1).order());
++    }
++
++    @Test
+@@ -1564,0 +1570,5 @@
++    public void testToByteBuffer3() {
++        assertEquals(buffer.order(), buffer.toByteBuffer().order());
++    }
++
++    @Test
+

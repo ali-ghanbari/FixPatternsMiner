@@ -1,0 +1,32 @@
+diff --git a/opennms-services/src/main/java/org/opennms/netmgt/poller/remote/support/DefaultPollerSettings.java b/opennms-services/src/main/java/org/opennms/netmgt/poller/remote/support/DefaultPollerSettings.java
+index e8003c7..a902aa2 100644
+--- a/opennms-services/src/main/java/org/opennms/netmgt/poller/remote/support/DefaultPollerSettings.java
++++ b/opennms-services/src/main/java/org/opennms/netmgt/poller/remote/support/DefaultPollerSettings.java
+@@ -63,2 +62,0 @@
+-        // ensure that this is a file resource since we need to save to it
+-        m_configResource.getFile();
+diff --git a/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerBackEndIntegrationTest.java b/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerBackEndIntegrationTest.java
+index 73f2bf4..5881617 100644
+--- a/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerBackEndIntegrationTest.java
++++ b/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerBackEndIntegrationTest.java
+@@ -120 +120 @@
+-        assertEquals(1, queryForInt("select count(*) from location_specific_status_changes"));
++        assertEquals(1, queryForInt("select count(*) from location_specific_status_changes where locationMonitorId = ?", locationMonitorId));
+diff --git a/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerFrontEndIntegrationTest.java b/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerFrontEndIntegrationTest.java
+index 4d9f77c..9d65b8f 100644
+--- a/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerFrontEndIntegrationTest.java
++++ b/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerFrontEndIntegrationTest.java
+@@ -49 +49 @@
+-        System.setProperty("opennms.configuration.resource", configFile);
++        System.setProperty("opennms.configuration.resource", "file://"+configFile);
+diff --git a/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerTest.java b/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerTest.java
+index 87bf793..d6beb99 100644
+--- a/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerTest.java
++++ b/opennms-services/src/test/java/org/opennms/netmgt/poller/remote/PollerTest.java
+@@ -34,0 +35,3 @@
++        Poller poller = new Poller();
++
++        pollerFrontEnd.addConfigurationChangedListener(poller);
+@@ -42 +44,0 @@
+-		Poller poller = new Poller();
+

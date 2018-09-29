@@ -1,0 +1,11 @@
+diff --git a/plugins/org.springframework.ide.eclipse.core/src/org/springframework/ide/eclipse/core/internal/model/SpringModel.java b/plugins/org.springframework.ide.eclipse.core/src/org/springframework/ide/eclipse/core/internal/model/SpringModel.java
+index 9c4276e..86edb11 100644
+--- a/plugins/org.springframework.ide.eclipse.core/src/org/springframework/ide/eclipse/core/internal/model/SpringModel.java
++++ b/plugins/org.springframework.ide.eclipse.core/src/org/springframework/ide/eclipse/core/internal/model/SpringModel.java
+@@ -341 +341,4 @@
+-								SpringCoreUtils.buildProject(project.getProject(), "org.eclipse.wst.validation.validationbuilder");
++								// This bug was fixed in Eclipse 3.5.M5 and the call below is bad... causing lots of little 'single project builds' when
++								// importing many projects at once (see https://jira.spring.io/browse/IDE-1329, https://issuetracker.springsource.com/browse/STS-3786). 
++								// So commented out.
++								// SpringCoreUtils.buildProject(project.getProject(), "org.eclipse.wst.validation.validationbuilder");
+

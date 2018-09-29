@@ -1,0 +1,28 @@
+diff --git a/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/utils/interval/IntervalUtils.java b/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/utils/interval/IntervalUtils.java
+index faeebbf..7fffb12 100644
+--- a/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/utils/interval/IntervalUtils.java
++++ b/public/gatk-tools-public/src/main/java/org/broadinstitute/gatk/utils/interval/IntervalUtils.java
+@@ -374 +374 @@
+-	    totalBases += loc.getStop() - loc.getStart();
++	    totalBases += loc.size();
+diff --git a/public/gatk-tools-public/src/test/java/org/broadinstitute/gatk/utils/interval/IntervalUtilsUnitTest.java b/public/gatk-tools-public/src/test/java/org/broadinstitute/gatk/utils/interval/IntervalUtilsUnitTest.java
+index d21424b..e9846da 100644
+--- a/public/gatk-tools-public/src/test/java/org/broadinstitute/gatk/utils/interval/IntervalUtilsUnitTest.java
++++ b/public/gatk-tools-public/src/test/java/org/broadinstitute/gatk/utils/interval/IntervalUtilsUnitTest.java
+@@ -674 +674 @@
+-        Assert.assertEquals(locs1.size(), 1);
++        Assert.assertEquals(locs1.size(), 2);
+@@ -676 +676 @@
+-        Assert.assertEquals(locs3.size(), 2);
++        Assert.assertEquals(locs3.size(), 1);
+@@ -679,3 +679,3 @@
+-        Assert.assertEquals(locs2.get(0), chr2);
+-        Assert.assertEquals(locs3.get(0), chr3);
+-        Assert.assertEquals(locs3.get(1), chr4);
++        Assert.assertEquals(locs1.get(1), chr2);
++        Assert.assertEquals(locs2.get(0), chr3);
++        Assert.assertEquals(locs3.get(0), chr4);
+@@ -684 +684 @@
+-    @Test(expectedExceptions=UserException.BadArgumentValue.class)
++    @Test(expectedExceptions=UserException.BadInput.class)
+

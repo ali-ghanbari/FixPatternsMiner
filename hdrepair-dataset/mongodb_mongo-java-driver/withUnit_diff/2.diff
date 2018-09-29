@@ -1,0 +1,22 @@
+diff --git a/bson/src/main/org/bson/json/JsonReader.java b/bson/src/main/org/bson/json/JsonReader.java
+index 9e95fc5..b4f4c22 100644
+--- a/bson/src/main/org/bson/json/JsonReader.java
++++ b/bson/src/main/org/bson/json/JsonReader.java
+@@ -736 +736 @@
+-        String[] patterns = {"yyyy-MM-dd", "yyyy-MM-dd'T'hh:mm:ssz", "yyyy-MM-dd'T'hh:mm:ss.SSSz"};
++        String[] patterns = {"yyyy-MM-dd", "yyyy-MM-dd'T'HH:mm:ssz", "yyyy-MM-dd'T'HH:mm:ss.SSSz"};
+diff --git a/bson/src/test/unit/org/bson/json/JsonReaderTest.java b/bson/src/test/unit/org/bson/json/JsonReaderTest.java
+index d32ad92..f24776c 100644
+--- a/bson/src/test/unit/org/bson/json/JsonReaderTest.java
++++ b/bson/src/test/unit/org/bson/json/JsonReaderTest.java
+@@ -121,0 +122,9 @@
++    public void testDateTimeShellWith24HourTimeSpecification() {
++        String json = "ISODate(\"2013-10-04T12:07:30.443Z\")";
++        bsonReader = new JsonReader(json);
++        assertEquals(BsonType.DATE_TIME, bsonReader.readBsonType());
++        assertEquals(1380888450443L, bsonReader.readDateTime());
++        assertEquals(AbstractBsonReader.State.DONE, bsonReader.getState());
++    }
++
++    @Test
+

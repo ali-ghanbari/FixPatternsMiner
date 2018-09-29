@@ -1,0 +1,43 @@
+diff --git a/js/js.tests/test/org/jetbrains/k2js/test/semantics/ClassInheritanceTest.java b/js/js.tests/test/org/jetbrains/k2js/test/semantics/ClassInheritanceTest.java
+index f76feaa..dca0fb3 100644
+--- a/js/js.tests/test/org/jetbrains/k2js/test/semantics/ClassInheritanceTest.java
++++ b/js/js.tests/test/org/jetbrains/k2js/test/semantics/ClassInheritanceTest.java
+@@ -38,0 +39,4 @@
++    public void testBaseCallOrder() throws Exception {
++        checkFooBoxIsOk();
++    }
++
+diff --git a/js/js.translator/src/org/jetbrains/k2js/translate/initializer/ClassInitializerTranslator.java b/js/js.translator/src/org/jetbrains/k2js/translate/initializer/ClassInitializerTranslator.java
+index 752533f..b45cf63 100644
+--- a/js/js.translator/src/org/jetbrains/k2js/translate/initializer/ClassInitializerTranslator.java
++++ b/js/js.translator/src/org/jetbrains/k2js/translate/initializer/ClassInitializerTranslator.java
+@@ -120 +120 @@
+-        initializerStatements.add(call.makeStmt());
++        initializerStatements.add(0, call.makeStmt());
+diff --git a/js/js.translator/testFiles/inheritance/cases/baseCallOrder.kt b/js/js.translator/testFiles/inheritance/cases/baseCallOrder.kt
+new file mode 100644
+index 0000000..0db11a6
+--- /dev/null
++++ b/js/js.translator/testFiles/inheritance/cases/baseCallOrder.kt
+@@ -0,0 +1,19 @@
++package foo
++
++var x = false
++
++open class A {
++    {
++        x = (this as B).a != 3
++    }
++}
++
++class B(val a: Int = 3) : A() {
++
++}
++
++fun box(): String {
++    B()
++    if (!x) return "fail"
++    return "OK"
++}
+\ No newline at end of file
+

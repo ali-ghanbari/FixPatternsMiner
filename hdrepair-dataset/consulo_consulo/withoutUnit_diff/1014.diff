@@ -1,0 +1,52 @@
+diff --git a/plugins/groovy/test/org/jetbrains/plugins/groovy/refactoring/convertToJava/CodeBlockGenerationTest.groovy b/plugins/groovy/test/org/jetbrains/plugins/groovy/refactoring/convertToJava/CodeBlockGenerationTest.groovy
+index 9e40c31..c79dfd8 100644
+--- a/plugins/groovy/test/org/jetbrains/plugins/groovy/refactoring/convertToJava/CodeBlockGenerationTest.groovy
++++ b/plugins/groovy/test/org/jetbrains/plugins/groovy/refactoring/convertToJava/CodeBlockGenerationTest.groovy
+@@ -45 +45 @@
+-      final VirtualFile groovyJar = JarFileSystem.instance.refreshAndFindFileByPath(TestUtils.mockGroovy1_7LibraryName + "!/");
++      final VirtualFile groovyJar = JarFileSystem.instance.refreshAndFindFileByPath("$TestUtils.mockGroovy1_7LibraryName!/");
+@@ -59 +59 @@
+-    return TestUtils.testDataPath + "refactoring/convertGroovyToJava/codeBlock";
++    return "${TestUtils.testDataPath}refactoring/convertGroovyToJava/codeBlock";
+@@ -64 +64 @@
+-    final PsiFile file = myFixture.configureByFile(testName + ".groovy");
++    final PsiFile file = myFixture.configureByFile("${testName}.groovy");
+@@ -72 +72 @@
+-      builder.append("\n")
++      builder.append('\n')
+@@ -75 +75 @@
+-    final PsiFile result = createLightFile(testName + ".java", StdLanguages.JAVA, builder.toString())
++    final PsiFile result = createLightFile("${testName}.java", StdLanguages.JAVA, builder.toString())
+@@ -78 +78 @@
+-    final String expected = psiManager.findFile(myFixture.copyFileToProject(testName + ".java")).text
++    final String expected = psiManager.findFile(myFixture.copyFileToProject("${testName}.java")).text
+@@ -96 +96 @@
+-    myFixture.addFileToProject "Bar.groovy", """
++    myFixture.addFileToProject 'Bar.groovy', '''
+@@ -107 +107 @@
+-"""
++'''
+@@ -115 +115 @@
+-    addFile """
++    addFile '''
+@@ -118 +118 @@
+-}"""
++}'''
+@@ -131 +131 @@
+-    def getTest(){println "getTEst"; test}
++    def getTest(){println "getTest"; test}
+diff --git a/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.groovy b/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.groovy
+index 1e7b008..98a3081 100644
+--- a/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.groovy
++++ b/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.groovy
+@@ -5,2 +4,0 @@
+-def foo = 2
+-++foo
+diff --git a/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.java b/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.java
+index be48613..fdea2ab 100644
+--- a/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.java
++++ b/plugins/groovy/testdata/refactoring/convertGroovyToJava/codeBlock/prefixInc.java
+@@ -5,2 +4,0 @@
+-java.lang.Integer foo = 2;
+-(foo = org.codehaus.groovy.runtime.DefaultGroovyMethods.next(foo));
+

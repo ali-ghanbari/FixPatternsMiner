@@ -1,0 +1,50 @@
+diff --git a/modules/cstl-admin/grunt/src/i18n/en/ui.json b/modules/cstl-admin/grunt/src/i18n/en/ui.json
+index 5b1f74a..f105c45 100644
+--- a/modules/cstl-admin/grunt/src/i18n/en/ui.json
++++ b/modules/cstl-admin/grunt/src/i18n/en/ui.json
+@@ -615,0 +616 @@
++    "metadata.edition.content.error":"Loading content error.",
+diff --git a/modules/cstl-admin/grunt/src/i18n/fr/ui.json b/modules/cstl-admin/grunt/src/i18n/fr/ui.json
+index 4c21289..7c360b2 100644
+--- a/modules/cstl-admin/grunt/src/i18n/fr/ui.json
++++ b/modules/cstl-admin/grunt/src/i18n/fr/ui.json
+@@ -659,0 +660 @@
++    "metadata.edition.content.error":"Erreur de chargement du contenu.",
+diff --git a/modules/cstl-admin/grunt/src/js/restapi.js b/modules/cstl-admin/grunt/src/js/restapi.js
+index eba9f89..5b03f2e 100644
+--- a/modules/cstl-admin/grunt/src/js/restapi.js
++++ b/modules/cstl-admin/grunt/src/js/restapi.js
+@@ -200 +200,2 @@
+-            duplicate:          {method: 'POST',    url: '@cstl/api/1/metadata/duplicate/:id'}
++            duplicate:          {method: 'POST',    url: '@cstl/api/1/metadata/duplicate/:id'},
++            getStats:           {method: 'GET',     url: '@cstl/api/1/metadata/getStats'}
+diff --git a/modules/cstl-admin/grunt/src/less/main.less b/modules/cstl-admin/grunt/src/less/main.less
+index 374d4fb..262979a 100755
+--- a/modules/cstl-admin/grunt/src/less/main.less
++++ b/modules/cstl-admin/grunt/src/less/main.less
+@@ -2820,0 +2821,4 @@
++
++  .item-title.title-bloc{
++    width: 210px;
++  }
+@@ -2856 +2860 @@
+-    width: 310px;
++    width: 290px;
+@@ -3004 +3008 @@
+-    width: 220px;
++    width: 370px;
+diff --git a/modules/cstl-admin/grunt/src/views/data/modalEditMetadata.html b/modules/cstl-admin/grunt/src/views/data/modalEditMetadata.html
+index 4895e72..5eeea78 100644
+--- a/modules/cstl-admin/grunt/src/views/data/modalEditMetadata.html
++++ b/modules/cstl-admin/grunt/src/views/data/modalEditMetadata.html
+@@ -10,0 +11,3 @@
++            <div ng-if="metadataValues.length==0" class="row alert alert-danger" style="margin:0;">
++                <span translate="metadata.edition.content.error">Loading content error.</span>
++            </div>
+diff --git a/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java b/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java
+index 73fe748..48957e0 100644
+--- a/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java
++++ b/modules/web-services/restfull/src/main/java/org/constellation/rest/api/MetadataRest.java
+@@ -548,0 +549 @@
++            return Response.status(500).entity(ex.getLocalizedMessage()).build();
+

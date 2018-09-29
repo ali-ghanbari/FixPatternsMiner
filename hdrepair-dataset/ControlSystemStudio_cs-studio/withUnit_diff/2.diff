@@ -1,0 +1,16 @@
+diff --git a/applications/plugins/org.csstudio.opibuilder.test/src/org/csstudio/opibuilder/util/UpgradeUtilTest.java b/applications/plugins/org.csstudio.opibuilder.test/src/org/csstudio/opibuilder/util/UpgradeUtilTest.java
+index 7283676..76bd937 100644
+--- a/applications/plugins/org.csstudio.opibuilder.test/src/org/csstudio/opibuilder/util/UpgradeUtilTest.java
++++ b/applications/plugins/org.csstudio.opibuilder.test/src/org/csstudio/opibuilder/util/UpgradeUtilTest.java
+@@ -46,0 +47,3 @@
++		assertEquals("=123",
++				UpgradeUtil.convertUtilityPVNameToPM("const://$(DID)_name$(DID)(123)"));
++		
+diff --git a/applications/plugins/org.csstudio.opibuilder/src/org/csstudio/opibuilder/util/UpgradeUtil.java b/applications/plugins/org.csstudio.opibuilder/src/org/csstudio/opibuilder/util/UpgradeUtil.java
+index 7e6cea1..4ff51e4 100644
+--- a/applications/plugins/org.csstudio.opibuilder/src/org/csstudio/opibuilder/util/UpgradeUtil.java
++++ b/applications/plugins/org.csstudio.opibuilder/src/org/csstudio/opibuilder/util/UpgradeUtil.java
+@@ -61 +61 @@
+-			final int value_start = pvName.indexOf('('); //$NON-NLS-1$
++			final int value_start = pvName.lastIndexOf('('); //$NON-NLS-1$
+

@@ -1,0 +1,18 @@
+diff --git a/solr/CHANGES.txt b/solr/CHANGES.txt
+index f0f3d34..1b018df 100644
+--- a/solr/CHANGES.txt
++++ b/solr/CHANGES.txt
+@@ -215,0 +216,5 @@
++* SOLR-4746: Distributed grouping used a NamedList instead of a SimpleOrderedMap
++  for the top level group commands, causing output formatting differences
++  compared to non-distributed grouping. (yonik)
++
++
+diff --git a/solr/core/src/java/org/apache/solr/search/grouping/endresulttransformer/GroupedEndResultTransformer.java b/solr/core/src/java/org/apache/solr/search/grouping/endresulttransformer/GroupedEndResultTransformer.java
+index 026cc4f..0414aff 100644
+--- a/solr/core/src/java/org/apache/solr/search/grouping/endresulttransformer/GroupedEndResultTransformer.java
++++ b/solr/core/src/java/org/apache/solr/search/grouping/endresulttransformer/GroupedEndResultTransformer.java
+@@ -53 +53 @@
+-    NamedList<Object> commands = new NamedList<Object>();
++    NamedList<Object> commands = new SimpleOrderedMap<Object>();
+

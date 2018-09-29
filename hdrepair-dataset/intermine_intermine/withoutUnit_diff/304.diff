@@ -1,0 +1,15 @@
+diff --git a/imbuild/application.xml b/imbuild/application.xml
+index 761d611..dd47d60 100644
+--- a/imbuild/application.xml
++++ b/imbuild/application.xml
+@@ -82,0 +83,2 @@
++  <target name="create-db-userprofile" depends="-do-build-db-userprofile"/>
++
+diff --git a/intermine/webtasks/main/src/org/intermine/web/ProfileManagerBinding.java b/intermine/webtasks/main/src/org/intermine/web/ProfileManagerBinding.java
+index 96a5365..3a4bd69 100644
+--- a/intermine/webtasks/main/src/org/intermine/web/ProfileManagerBinding.java
++++ b/intermine/webtasks/main/src/org/intermine/web/ProfileManagerBinding.java
+@@ -126 +126 @@
+-            profileManager.saveProfile(profile);
++            profileManager.createProfile(profile);
+

@@ -1,0 +1,71 @@
+diff --git a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/LookupTest.java b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/LookupTest.java
+index 54ebdea..ff10dae 100644
+--- a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/LookupTest.java
++++ b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/LookupTest.java
+@@ -1884,0 +1885,26 @@
++public void test058() {
++    this.runConformTest(
++        new String[] {
++        		"p/X.java", // =================
++        		"package p;\n" + 
++        		"\n" + 
++        		"import p.q.Z;\n" + 
++        		"public class X { \n" + 
++        		"  public static void main(String argv[]) {\n" + 
++        		"     System.out.println(Z.z);\n" + 
++        		"  }\n" + 
++        		"}", // =================
++        		"p/q/Z.java", // =================
++        		"package p.q;\n" + 
++        		"\n" + 
++        		"public class Z extends Y implements I { \n" + 
++        		"}\n" + 
++        		"class Y {\n" + 
++        		"    protected static int z = 1;\n" + 
++        		"}\n" + 
++        		"interface I {\n" + 
++        		"    int z = 0;\n" + 
++        		"}", // =================
++		},
++		"0");
++}
+diff --git a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/StaticImportTest.java b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/StaticImportTest.java
+index d5d8f69..7f67a49 100644
+--- a/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/StaticImportTest.java
++++ b/org.eclipse.jdt.core.tests.compiler/src/org/eclipse/jdt/core/tests/compiler/regression/StaticImportTest.java
+@@ -135,6 +135 @@
+-			"1. ERROR in X.java (at line 1)\n" + 
+-			"	import static p.A.C;\n" + 
+-			"	              ^^^^^\n" + 
+-			"The type I is not visible\n" + 
+-			"----------\n" + 
+-			"2. ERROR in X.java (at line 2)\n" + 
++			"1. ERROR in X.java (at line 2)\n" + 
+@@ -143 +138 @@
+-			"C cannot be resolved\n" + 
++			"The type I is not visible\n" + 
+@@ -1341 +1336 @@
+-	public void test036() {
++	public void _test036() {
+diff --git a/org.eclipse.jdt.core/buildnotes_jdt-core.html b/org.eclipse.jdt.core/buildnotes_jdt-core.html
+index e088667..ea3b668 100644
+--- a/org.eclipse.jdt.core/buildnotes_jdt-core.html
++++ b/org.eclipse.jdt.core/buildnotes_jdt-core.html
+@@ -66,0 +67,4 @@
++<!--
++<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=126564">126564</a>
++Inconsistent error reporting between static import and direct field access
++-->
+@@ -177,2 +180,0 @@
+-<br><a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=126564">126564</a>
+-Inconsistent error reporting between static import and direct field access
+diff --git a/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/lookup/Scope.java b/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/lookup/Scope.java
+index 658e121..ef7155d 100644
+--- a/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/lookup/Scope.java
++++ b/org.eclipse.jdt.core/compiler/org/eclipse/jdt/internal/compiler/lookup/Scope.java
+@@ -961,2 +961,2 @@
+-			if (visibleField != null && !visibleField.declaringClass.canBeSeenBy(this)) // double check that interface is visible
+-				return new ProblemFieldBinding(visibleField, visibleField.declaringClass, fieldName, ProblemReasons.ReceiverTypeNotVisible);
++			//if (visibleField != null && !visibleField.declaringClass.canBeSeenBy(this)) // double check that interface is visible
++			//	return new ProblemFieldBinding(visibleField, visibleField.declaringClass, fieldName, ProblemReasons.ReceiverTypeNotVisible);
+

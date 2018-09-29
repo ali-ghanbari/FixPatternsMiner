@@ -1,0 +1,14 @@
+diff --git a/src/freenet/node/fcp/FCPPluginClient.java b/src/freenet/node/fcp/FCPPluginClient.java
+index 128b1c1..9bfd21b 100644
+--- a/src/freenet/node/fcp/FCPPluginClient.java
++++ b/src/freenet/node/fcp/FCPPluginClient.java
+@@ -284,4 +284,4 @@
+-     * map for whether there is an entry for each received reply. If it contains one for the
+-     * identifier of a given reply, send() shall store the reply message in it, and then call
+-     * {@link Condition#signal()} upon its Condition to cause the blocking sendSynchronous()
+-     * functions to return.<br>
++     * map for whether there is an entry for each received reply. If it contains a SynchronousSend
++     * for the identifier of a given reply, send() shall store the reply message in it, and then
++     * call {@link Condition#signal()} upon the SynchronousSend's Condition to cause the blocking
++     * sendSynchronous() function to return.<br>
+

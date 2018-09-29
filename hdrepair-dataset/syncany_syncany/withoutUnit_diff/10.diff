@@ -1,0 +1,19 @@
+diff --git a/syncany-cli/build.gradle b/syncany-cli/build.gradle
+index 01e6589..0604664 100644
+--- a/syncany-cli/build.gradle
++++ b/syncany-cli/build.gradle
+@@ -28 +27,0 @@
+-	classpath = files('$APP_HOME/lib/*')
+@@ -34,2 +33,2 @@
+-		winFile.text = winFile.text.replaceAll("(set CLASSPATH=.+)", '$1;%AppData%\\\\syncany\\\\plugins\\\\*')
+-		unixFile.text = unixFile.text.replaceAll("(CLASSPATH=\\\$APP_HOME.+)", '$1:~/.config/syncany/plugins/*')
++		winFile.text = winFile.text.replaceAll("(set CLASSPATH=.+)", 'set CLASSPATH=%APP_HOME%\\\\lib\\\\*;%AppData%\\\\syncany\\\\plugins\\\\*')
++		unixFile.text = unixFile.text.replaceAll("(CLASSPATH=\\\$APP_HOME.+)", 'CLASSPATH=\\\$APP_HOME/lib/*:~/.config/syncany/plugins/*')
+diff --git a/syncany-lib/src/main/java/org/syncany/Client.java b/syncany-lib/src/main/java/org/syncany/Client.java
+index 7b1a01c..6c20c0d 100644
+--- a/syncany-lib/src/main/java/org/syncany/Client.java
++++ b/syncany-lib/src/main/java/org/syncany/Client.java
+@@ -217 +217 @@
+-			userAppDir = new File(System.getProperty("user.home") + "\\Syncany");
++			userAppDir = new File(System.getenv("APPDATA") + "\\Syncany");
+

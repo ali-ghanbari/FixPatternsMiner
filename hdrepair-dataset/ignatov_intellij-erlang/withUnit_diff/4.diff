@@ -1,0 +1,96 @@
+diff --git a/testData/quickfixes/introduce_record_field/simple-after.erl b/testData/quickfixes/introduce_record_field/simple-after.erl
+new file mode 100644
+index 0000000..efedaeb
+--- /dev/null
++++ b/testData/quickfixes/introduce_record_field/simple-after.erl
+@@ -0,0 +1,3 @@
++-record(rec, {new_field}).
++
++foo() -> #rec{<caret>new_field=100}
+\ No newline at end of file
+diff --git a/testData/quickfixes/introduce_record_field/simple.erl b/testData/quickfixes/introduce_record_field/simple.erl
+new file mode 100644
+index 0000000..81bee2d
+--- /dev/null
++++ b/testData/quickfixes/introduce_record_field/simple.erl
+@@ -0,0 +1,3 @@
++-record(rec, {}).
++
++foo() -> #rec{<caret>new_field=100}
+\ No newline at end of file
+diff --git a/testData/quickfixes/introduce_record_field/withOtherFields-after.erl b/testData/quickfixes/introduce_record_field/withOtherFields-after.erl
+new file mode 100644
+index 0000000..5649549
+--- /dev/null
++++ b/testData/quickfixes/introduce_record_field/withOtherFields-after.erl
+@@ -0,0 +1,3 @@
++-record(rec, {old_field, new_field}).
++
++foo() -> #rec{old_field=10, <caret>new_field=100}
+\ No newline at end of file
+diff --git a/testData/quickfixes/introduce_record_field/withOtherFields.erl b/testData/quickfixes/introduce_record_field/withOtherFields.erl
+new file mode 100644
+index 0000000..ad8f50e
+--- /dev/null
++++ b/testData/quickfixes/introduce_record_field/withOtherFields.erl
+@@ -0,0 +1,3 @@
++-record(rec, {old_field}).
++
++foo() -> #rec{old_field=10, <caret>new_field=100}
+\ No newline at end of file
+diff --git a/tests/org/intellij/erlang/ErlangTestCase.java b/tests/org/intellij/erlang/ErlangTestCase.java
+index 71dbd3f..96eb617 100644
+--- a/tests/org/intellij/erlang/ErlangTestCase.java
++++ b/tests/org/intellij/erlang/ErlangTestCase.java
+@@ -62,0 +63 @@
++    suite.addTestSuite(ErlangIntroduceRecordFieldTest.class);
+diff --git a/tests/org/intellij/erlang/quickfixes/ErlangIntroduceRecordFieldTest.java b/tests/org/intellij/erlang/quickfixes/ErlangIntroduceRecordFieldTest.java
+new file mode 100644
+index 0000000..86944ce
+--- /dev/null
++++ b/tests/org/intellij/erlang/quickfixes/ErlangIntroduceRecordFieldTest.java
+@@ -0,0 +1,43 @@
++/*
++ * Copyright 2012-2013 Sergey Ignatov
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.intellij.erlang.quickfixes;
++
++import org.intellij.erlang.inspection.ErlangUnresolvedRecordFieldInspection;
++
++/**
++ * @author savenko
++ */
++public class ErlangIntroduceRecordFieldTest extends ErlangQuickFixTestBase {
++
++  @SuppressWarnings("unchecked")
++  @Override
++  protected void setUp() throws Exception {
++    super.setUp();
++
++    myFixture.enableInspections(ErlangUnresolvedRecordFieldInspection.class);
++  }
++
++  @Override
++  protected String getTestDataPath() {
++    return "testData/quickfixes/introduce_record_field";
++  }
++
++  public void testSimple() throws Throwable           { doIntroduceRecordFieldTest(); }
++  public void testWithOtherFields() throws Throwable  { doIntroduceRecordFieldTest(); }
++
++  private void doIntroduceRecordFieldTest() { doTest("Introduce record field"); }
++}
+

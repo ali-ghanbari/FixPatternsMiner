@@ -1,0 +1,19 @@
+isValidRefName: Inline the forbidden ref suffix of ".lock"
+
+A Git reference name must never end with ".lock", as it would
+confuse any existing C client that tries to obtain a clone of the
+repository over the network.  Even if the repository isn't on a
+local filesystem, it still should ban that suffix.
+
+Because I plan to move LockFile to storage.file and make it a private
+implementation detail of the local file system storage model,
+we can't rely on its package level SUFFIX field here.  Making it
+public probably won't work long-term either, as I also plan to
+pull storage.file into its own separate project that depends on
+the core library.
+
+So, just inline the constant here.  Its as foribidden as ":" is.
+
+Change-Id: If85076861baeacc183b82696375a13e935ba8836
+Signed-off-by: Shawn O. Pearce <spearce@spearce.org>
+

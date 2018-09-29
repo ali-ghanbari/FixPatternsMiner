@@ -1,0 +1,15 @@
+diff --git a/Changes.md b/Changes.md
+index 8446e42..d6a76cc 100644
+--- a/Changes.md
++++ b/Changes.md
+@@ -3,0 +4,2 @@
++* Fixed CPU spike when using hawtio and browsing container or profile details
++* Switched to using Apache Karaf 2.4.0
+diff --git a/fabric/fabric-core/src/main/java/io/fabric8/core/jmx/FabricManager.java b/fabric/fabric-core/src/main/java/io/fabric8/core/jmx/FabricManager.java
+index 0f69bf8..3d6d936 100644
+--- a/fabric/fabric-core/src/main/java/io/fabric8/core/jmx/FabricManager.java
++++ b/fabric/fabric-core/src/main/java/io/fabric8/core/jmx/FabricManager.java
+@@ -863 +863 @@
+-        return doGetProfile(versionId, profileId, BeanUtils.getFields(Profile.class), true);
++        return doGetProfile(versionId, profileId, fields, true);
+

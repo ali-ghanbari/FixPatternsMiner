@@ -1,0 +1,812 @@
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/PopulatingWithMVELTest.java b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/PopulatingWithMVELTest.java
+index 889f81b..bcb38e3 100644
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/PopulatingWithMVELTest.java
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/PopulatingWithMVELTest.java
+@@ -15 +15 @@
+-        Object q = MVEL.eval("new org.kie.guvnor.testscenario.backend.server.DumbFact()");
++        Object q = MVEL.eval("new org.drools.guvnor.models.testscenarios.backend.DumbFact()");
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/ScenarioRunnerTest.java b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/ScenarioRunnerTest.java
+index 47660a8..5706f9a 100644
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/ScenarioRunnerTest.java
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/ScenarioRunnerTest.java
+@@ -88,2 +88,2 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Person" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Person" );
+@@ -239,2 +239,2 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.CheeseType" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.CheeseType" );
+@@ -421,2 +421,2 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Person" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Person" );
+@@ -502,2 +502,2 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Person" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Person" );
+@@ -691 +691 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
+@@ -732 +732 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
+@@ -775 +775 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
+@@ -793,2 +793,2 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Person" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Person" );
+@@ -827,2 +827,2 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheesery" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheesery" );
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactAssignmentFieldPopulatorTest.java b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactAssignmentFieldPopulatorTest.java
+index 281ba58..24a937a 100644
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactAssignmentFieldPopulatorTest.java
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactAssignmentFieldPopulatorTest.java
+@@ -40 +40 @@
+-        typeResolver.addImport("org.kie.guvnor.testscenario.backend.server.Cheese");
++        typeResolver.addImport("org.drools.guvnor.models.testscenarios.backend.Cheese");
+@@ -57 +57 @@
+-        typeResolver.addImport("org.kie.guvnor.testscenario.backend.server.Cheese");
++        typeResolver.addImport("org.drools.guvnor.models.testscenarios.backend.Cheese");
+@@ -75 +75 @@
+-        typeResolver.addImport("org.kie.guvnor.testscenario.backend.server.MatryoshkaDoll");
++        typeResolver.addImport("org.drools.guvnor.models.testscenarios.backend.MatryoshkaDoll");
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactPopulatorTest.java b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactPopulatorTest.java
+index b28b093..d42d8b2 100644
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactPopulatorTest.java
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/FactPopulatorTest.java
+@@ -592,7 +592,7 @@
+-        resolver.addImport("org.kie.guvnor.testscenario.backend.server.MyCollectionWrapper");
+-        resolver.addImport("org.kie.guvnor.testscenario.backend.server.Cheesery");
+-        resolver.addImport("org.kie.guvnor.testscenario.backend.server.Cheese");
+-        resolver.addImport("org.kie.guvnor.testscenario.backend.server.SqlDateWrapper");
+-        resolver.addImport("org.kie.guvnor.testscenario.backend.server.CheeseType");
+-        resolver.addImport("org.kie.guvnor.testscenario.backend.server.Person");
+-        resolver.addImport("org.kie.guvnor.testscenario.backend.server.OuterFact");
++        resolver.addImport("org.drools.guvnor.models.testscenarios.backend.MyCollectionWrapper");
++        resolver.addImport("org.drools.guvnor.models.testscenarios.backend.Cheesery");
++        resolver.addImport("org.drools.guvnor.models.testscenarios.backend.Cheese");
++        resolver.addImport("org.drools.guvnor.models.testscenarios.backend.SqlDateWrapper");
++        resolver.addImport("org.drools.guvnor.models.testscenarios.backend.CheeseType");
++        resolver.addImport("org.drools.guvnor.models.testscenarios.backend.Person");
++        resolver.addImport("org.drools.guvnor.models.testscenarios.backend.OuterFact");
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/GlobalFactPopulatorTest.java b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/GlobalFactPopulatorTest.java
+index 8110d4a..b46a1b1 100644
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/GlobalFactPopulatorTest.java
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/GlobalFactPopulatorTest.java
+@@ -49 +49 @@
+-        resolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
++        resolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/NewFactPopulatorTest.java b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/NewFactPopulatorTest.java
+index 57c7275..a1134ec 100644
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/NewFactPopulatorTest.java
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/java/org/drools/guvnor/models/testscenarios/backend/populators/NewFactPopulatorTest.java
+@@ -55 +55 @@
+-        typeResolver.addImport( "org.kie.guvnor.testscenario.backend.server.Cheese" );
++        typeResolver.addImport( "org.drools.guvnor.models.testscenarios.backend.Cheese" );
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/CollectionFieldTestScenario.xml b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/CollectionFieldTestScenario.xml
+deleted file mode 100644
+index 5d07bd1..0000000
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/CollectionFieldTestScenario.xml
++++ /dev/null
+@@ -1,58 +0,0 @@
+-<!--
+-  ~ Copyright 2012 JBoss Inc
+-  ~
+-  ~ Licensed under the Apache License, Version 2.0 (the "License");
+-  ~ you may not use this file except in compliance with the License.
+-  ~ You may obtain a copy of the License at
+-  ~
+-  ~       http://www.apache.org/licenses/LICENSE-2.0
+-  ~
+-  ~ Unless required by applicable law or agreed to in writing, software
+-  ~ distributed under the License is distributed on an "AS IS" BASIS,
+-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-  ~ See the License for the specific language governing permissions and
+-  ~ limitations under the License.
+-  -->
+-<scenario>
+-  <maxRuleFirings>100000</maxRuleFirings>
+-  <globals/>
+-  <fixtures>
+-    <fact-data>
+-      <type>Cheesery</type>
+-      <fieldData>
+-        <field-data>
+-          <name>cheeses</name>
+-          <collectionFieldList>
+-            <field-data>
+-              <name>cheeses</name>
+-              <value>=a</value>
+-              <nature>2</nature>
+-            </field-data>
+-            <field-data>
+-              <name>cheeses</name>
+-              <value>=b</value>
+-              <nature>2</nature>
+-            </field-data>
+-          </collectionFieldList>
+-        </field-data>
+-      </fieldData>
+-      <name>aa</name>
+-      <isModify>false</isModify>
+-    </fact-data>
+-    <fact-data>
+-      <type>Cheese</type>
+-      <fieldData/>
+-      <name>a</name>
+-      <isModify>false</isModify>
+-    </fact-data>
+-    <fact-data>
+-      <type>Cheese</type>
+-      <fieldData/>
+-      <name>b</name>
+-      <isModify>false</isModify>
+-    </fact-data>
+-    <execution-trace/>
+-  </fixtures>
+-  <rules/>
+-  <inclusive>false</inclusive>
+-</scenario>
+\ No newline at end of file
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/rule_flow_actication.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/rule_flow_actication.drl
+deleted file mode 100644
+index e599cb6..0000000
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/rule_flow_actication.drl
++++ /dev/null
+@@ -1,35 +0,0 @@
+-/*
+- * Copyright 2010 JBoss Inc
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package foo.bar
+-
+-
+-declare Coolness
+-  num: int
+-  name: String
+-end
+-
+-rule "rule1"
+-    ruleflow-group "asdf"
+-    when
+-        c: Coolness(num == 42)
+-    then
+-        System.out.println("it worked");
+-end
+-
+-
+-
+-
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules.drl
+deleted file mode 100644
+index 4989d96..0000000
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules.drl
++++ /dev/null
+@@ -1,55 +0,0 @@
+-/*
+- * Copyright 2010 JBoss Inc
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.pkg1
+-
+-import org.kie.guvnor.testscenario.backend.server.Cheese
+-
+-global java.util.List list
+-
+-rule "rule1"
+-    when
+-        c: Cheese()
+-    then
+-        System.out.println("rule1---");
+-        c.setType("rule1");
+-end
+-
+-rule "rule2"
+-    when
+-        c: Cheese()
+-    then
+-        c.setType("rule2");
+-        System.out.println("rule2---");
+-end
+-
+-rule "rule3"
+-    when
+-        c: Cheese()
+-    then
+-        //we are not using a list, but thats cool, we won't fire this rule...
+-        list.add("rule3");
+-        c.setType("rule3");
+-        System.out.println("rule3---");
+-end
+-
+-rule "rule4"
+-    when
+-        not Cheese()
+-    then
+-        System.err.println("whee");
+-end
+-
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules2.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules2.drl
+deleted file mode 100644
+index 509775e..0000000
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules2.drl
++++ /dev/null
+@@ -1,44 +0,0 @@
+-/*
+- * Copyright 2010 JBoss Inc
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package foo.bar
+-
+-import org.kie.guvnor.testscenario.backend.server.Cheese
+-import org.kie.guvnor.testscenario.backend.server.Person
+-
+-global Person p
+-
+-rule "rule1"
+-    when
+-        c: Cheese()
+-    then
+-        p.setName("rule1");
+-end
+-
+-rule "rule2"
+-    when
+-        c: Cheese()
+-    then
+-        p.setStatus("rule2");
+-end
+-
+-rule "rule3"
+-    when
+-        c: Cheese()
+-    then
+-        p.setAge(42);
+-
+-end
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules3.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules3.drl
+deleted file mode 100644
+index 24e8a80..0000000
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules3.drl
++++ /dev/null
+@@ -1,34 +0,0 @@
+-/*
+- * Copyright 2010 JBoss Inc
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package foo.bar
+-
+-
+-declare Coolness
+-  num: int
+-  name: String
+-end
+-
+-rule "rule1"
+-    when
+-        c: Coolness(num == 42)
+-    then
+-        System.out.println("it worked");
+-end
+-
+-
+-
+-
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules_infinite_loop.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules_infinite_loop.drl
+deleted file mode 100644
+index b52b4ca..0000000
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_rules_infinite_loop.drl
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * Copyright 2010 JBoss Inc
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package foo.bar
+-
+-import org.kie.guvnor.testscenario.backend.server.Cheese
+-import org.kie.guvnor.testscenario.backend.server.Person
+-
+-global Person p
+-
+-rule "rule1"
+-    when
+-        c: Cheese()
+-    then
+-        insert(new Cheese());
+-end
+-
+-
+-
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_stateful.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_stateful.drl
+deleted file mode 100644
+index 2d8e9c6..0000000
+--- a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenario/test_stateful.drl
++++ /dev/null
+@@ -1,53 +0,0 @@
+-/*
+- * Copyright 2010 JBoss Inc
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package foo.bar
+-
+-import org.kie.guvnor.testscenario.backend.server.Cheese
+-
+-
+-rule "rule1"
+-    when
+-        c1: Cheese(price == 1)
+-    then
+-        c1.setType("rule1");
+-end
+-
+-rule "rule2"
+-    when
+-        c1: Cheese(price == 1)
+-        c2: Cheese(price == 2)
+-    then
+-        c1.setType("rule2");
+-        c2.setType("rule2");
+-end
+-
+-rule "rule3"
+-    when
+-        c1: Cheese(price == 42)
+-    then
+-        c1.setType("rule3");
+-end
+-
+-rule "rule4"
+-    when
+-        c1 : Cheese(price == 46)
+-        not Cheese(price == 42)
+-    then
+-        c1.setType("rule4");
+-end
+-
+-
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/CollectionFieldTestScenario.xml b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/CollectionFieldTestScenario.xml
+new file mode 100644
+index 0000000..5d07bd1
+--- /dev/null
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/CollectionFieldTestScenario.xml
+@@ -0,0 +1,58 @@
++<!--
++  ~ Copyright 2012 JBoss Inc
++  ~
++  ~ Licensed under the Apache License, Version 2.0 (the "License");
++  ~ you may not use this file except in compliance with the License.
++  ~ You may obtain a copy of the License at
++  ~
++  ~       http://www.apache.org/licenses/LICENSE-2.0
++  ~
++  ~ Unless required by applicable law or agreed to in writing, software
++  ~ distributed under the License is distributed on an "AS IS" BASIS,
++  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++  ~ See the License for the specific language governing permissions and
++  ~ limitations under the License.
++  -->
++<scenario>
++  <maxRuleFirings>100000</maxRuleFirings>
++  <globals/>
++  <fixtures>
++    <fact-data>
++      <type>Cheesery</type>
++      <fieldData>
++        <field-data>
++          <name>cheeses</name>
++          <collectionFieldList>
++            <field-data>
++              <name>cheeses</name>
++              <value>=a</value>
++              <nature>2</nature>
++            </field-data>
++            <field-data>
++              <name>cheeses</name>
++              <value>=b</value>
++              <nature>2</nature>
++            </field-data>
++          </collectionFieldList>
++        </field-data>
++      </fieldData>
++      <name>aa</name>
++      <isModify>false</isModify>
++    </fact-data>
++    <fact-data>
++      <type>Cheese</type>
++      <fieldData/>
++      <name>a</name>
++      <isModify>false</isModify>
++    </fact-data>
++    <fact-data>
++      <type>Cheese</type>
++      <fieldData/>
++      <name>b</name>
++      <isModify>false</isModify>
++    </fact-data>
++    <execution-trace/>
++  </fixtures>
++  <rules/>
++  <inclusive>false</inclusive>
++</scenario>
+\ No newline at end of file
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/rule_flow_actication.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/rule_flow_actication.drl
+new file mode 100644
+index 0000000..e599cb6
+--- /dev/null
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/rule_flow_actication.drl
+@@ -0,0 +1,35 @@
++/*
++ * Copyright 2010 JBoss Inc
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package foo.bar
++
++
++declare Coolness
++  num: int
++  name: String
++end
++
++rule "rule1"
++    ruleflow-group "asdf"
++    when
++        c: Coolness(num == 42)
++    then
++        System.out.println("it worked");
++end
++
++
++
++
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules.drl
+new file mode 100644
+index 0000000..a34d41f
+--- /dev/null
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules.drl
+@@ -0,0 +1,55 @@
++/*
++ * Copyright 2010 JBoss Inc
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.pkg1
++
++import org.drools.guvnor.models.testscenarios.backend.Cheese
++
++global java.util.List list
++
++rule "rule1"
++    when
++        c: Cheese()
++    then
++        System.out.println("rule1---");
++        c.setType("rule1");
++end
++
++rule "rule2"
++    when
++        c: Cheese()
++    then
++        c.setType("rule2");
++        System.out.println("rule2---");
++end
++
++rule "rule3"
++    when
++        c: Cheese()
++    then
++        //we are not using a list, but thats cool, we won't fire this rule...
++        list.add("rule3");
++        c.setType("rule3");
++        System.out.println("rule3---");
++end
++
++rule "rule4"
++    when
++        not Cheese()
++    then
++        System.err.println("whee");
++end
++
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules2.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules2.drl
+new file mode 100644
+index 0000000..b40edcb
+--- /dev/null
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules2.drl
+@@ -0,0 +1,44 @@
++/*
++ * Copyright 2010 JBoss Inc
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package foo.bar
++
++import org.drools.guvnor.models.testscenarios.backend.Cheese
++import org.drools.guvnor.models.testscenarios.backend.Person
++
++global Person p
++
++rule "rule1"
++    when
++        c: Cheese()
++    then
++        p.setName("rule1");
++end
++
++rule "rule2"
++    when
++        c: Cheese()
++    then
++        p.setStatus("rule2");
++end
++
++rule "rule3"
++    when
++        c: Cheese()
++    then
++        p.setAge(42);
++
++end
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules3.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules3.drl
+new file mode 100644
+index 0000000..24e8a80
+--- /dev/null
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules3.drl
+@@ -0,0 +1,34 @@
++/*
++ * Copyright 2010 JBoss Inc
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package foo.bar
++
++
++declare Coolness
++  num: int
++  name: String
++end
++
++rule "rule1"
++    when
++        c: Coolness(num == 42)
++    then
++        System.out.println("it worked");
++end
++
++
++
++
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules_infinite_loop.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules_infinite_loop.drl
+new file mode 100644
+index 0000000..86fc26e
+--- /dev/null
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_rules_infinite_loop.drl
+@@ -0,0 +1,32 @@
++/*
++ * Copyright 2010 JBoss Inc
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package foo.bar
++
++import org.drools.guvnor.models.testscenarios.backend.Cheese
++import org.drools.guvnor.models.testscenarios.backend.Person
++
++global Person p
++
++rule "rule1"
++    when
++        c: Cheese()
++    then
++        insert(new Cheese());
++end
++
++
++
+diff --git a/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_stateful.drl b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_stateful.drl
+new file mode 100644
+index 0000000..4d0a869
+--- /dev/null
++++ b/guvnor-ng/drools-guvnor-models/drools-guvnor-models-test-scenarios/src/test/resources/org/drools/guvnor/models/testscenarios/backend/test_stateful.drl
+@@ -0,0 +1,53 @@
++/*
++ * Copyright 2010 JBoss Inc
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package foo.bar
++
++import org.drools.guvnor.models.testscenarios.backend.Cheese
++
++
++rule "rule1"
++    when
++        c1: Cheese(price == 1)
++    then
++        c1.setType("rule1");
++end
++
++rule "rule2"
++    when
++        c1: Cheese(price == 1)
++        c2: Cheese(price == 2)
++    then
++        c1.setType("rule2");
++        c2.setType("rule2");
++end
++
++rule "rule3"
++    when
++        c1: Cheese(price == 42)
++    then
++        c1.setType("rule3");
++end
++
++rule "rule4"
++    when
++        c1 : Cheese(price == 46)
++        not Cheese(price == 42)
++    then
++        c1.setType("rule4");
++end
++
++
+diff --git a/guvnor-ng/guvnor-editors/guvnor-test-scenario-editor/guvnor-test-scenario-editor-backend/src/main/java/org/kie/guvnor/testscenario/backend/server/ScenarioTestEditorServiceImpl.java b/guvnor-ng/guvnor-editors/guvnor-test-scenario-editor/guvnor-test-scenario-editor-backend/src/main/java/org/kie/guvnor/testscenario/backend/server/ScenarioTestEditorServiceImpl.java
+index 9c2f7da..74ba7c7 100644
+--- a/guvnor-ng/guvnor-editors/guvnor-test-scenario-editor/guvnor-test-scenario-editor-backend/src/main/java/org/kie/guvnor/testscenario/backend/server/ScenarioTestEditorServiceImpl.java
++++ b/guvnor-ng/guvnor-editors/guvnor-test-scenario-editor/guvnor-test-scenario-editor-backend/src/main/java/org/kie/guvnor/testscenario/backend/server/ScenarioTestEditorServiceImpl.java
+@@ -17 +17 @@
+-package org.kie.guvnor.testscenario.backend.server;
++package org.drools.guvnor.models.testscenarios.backend;
+

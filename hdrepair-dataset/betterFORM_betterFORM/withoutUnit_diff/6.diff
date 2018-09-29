@@ -1,0 +1,62 @@
+diff --git a/core/build.number b/core/build.number
+index 185b7ed..1750982 100644
+--- a/core/build.number
++++ b/core/build.number
+@@ -2,2 +2,2 @@
+-#Mon Nov 19 17:22:37 CET 2012
+-build.number=11549
++#Tue Nov 27 11:34:39 CET 2012
++build.number=11555
+diff --git a/core/src/main/java/de/betterform/xml/dom/DOMUtil.java b/core/src/main/java/de/betterform/xml/dom/DOMUtil.java
+index 5bbbc25..20cd71e 100644
+--- a/core/src/main/java/de/betterform/xml/dom/DOMUtil.java
++++ b/core/src/main/java/de/betterform/xml/dom/DOMUtil.java
+@@ -1048,0 +1049,4 @@
++
++    /*
++    * TODO: Lars: function looks wrong, Node output is not used at all, anyway: function is never called
++    */
+diff --git a/core/src/main/resources/META-INF/version.info b/core/src/main/resources/META-INF/version.info
+index 42d2be2..a280f8d 100644
+--- a/core/src/main/resources/META-INF/version.info
++++ b/core/src/main/resources/META-INF/version.info
+@@ -1 +1 @@
+-betterFORM 5.0rc1 - buildNumber:11548 - Timestamp:2012-11-19 17:22:37
++betterFORM 5.0rc1 - buildNumber:11554 - Timestamp:2012-11-27 11:34:39
+diff --git a/resource/src/main/referenceForms/xml/TriggerLinkedImage.xml b/resource/src/main/referenceForms/xml/TriggerLinkedImage.xml
+index 08ff957..6b712d6 100644
+--- a/resource/src/main/referenceForms/xml/TriggerLinkedImage.xml
++++ b/resource/src/main/referenceForms/xml/TriggerLinkedImage.xml
+@@ -34 +34 @@
+-                                <value>../../images/bf_logo_482x195.png</value>
++                                <value>../bfResources/bfResources/images/delete-file.png</value>
+@@ -37 +37 @@
+-                                <value>../../images/betterform_icon_118x118.png</value>
++                                <value>../bfResources/bfResources/images/delete-file.png</value>
+@@ -56,3 +56 @@
+-    <xf:label>
+-        <xf:output ref="output[1]/value" mediatype="image/png"/>
+-    </xf:label>
++    <xf:label ref="output[1]/value" mediatype="image/png"/>
+@@ -62,3 +60 @@
+-    <xf:label>
+-        <xf:output ref="output[2]/value" mediatype="image/png"/>
+-    </xf:label>
++    <xf:label ref="output[2]/value" mediatype="image/png"/>
+@@ -66 +61,0 @@
+-
+diff --git a/resource/src/main/resources/scripts/bf/XFProcessor.js b/resource/src/main/resources/scripts/bf/XFProcessor.js
+index ff0155e..5d35852 100644
+--- a/resource/src/main/resources/scripts/bf/XFProcessor.js
++++ b/resource/src/main/resources/scripts/bf/XFProcessor.js
+@@ -179 +179 @@
+-                if (dijitObject == null && callerFunction != "setRepeatIndex") {
++                if (dojoObject == null && dijitObject == null && callerFunction != "setRepeatIndex") {
+diff --git a/web/src/main/webapp/WEB-INF/betterform-version.info b/web/src/main/webapp/WEB-INF/betterform-version.info
+index c3bba91..c0b718f 100644
+--- a/web/src/main/webapp/WEB-INF/betterform-version.info
++++ b/web/src/main/webapp/WEB-INF/betterform-version.info
+@@ -1 +1 @@
+-betterFORM 5.0rc1 - buildNumber:11547 - Timestamp:2012-11-19 17:20:57
++betterFORM 5.0rc1 - buildNumber:11553 - Timestamp:2012-11-27 11:34:09
+

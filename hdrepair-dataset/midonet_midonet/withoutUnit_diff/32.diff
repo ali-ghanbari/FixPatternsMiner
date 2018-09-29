@@ -1,0 +1,351 @@
+diff --git a/midolmanj/src/main/java/com/midokura/midonet/cluster/data/TunnelZone.java b/midolmanj/src/main/java/com/midokura/midonet/cluster/data/TunnelZone.java
+index e78a57d..09caaff 100644
+--- a/midolmanj/src/main/java/com/midokura/midonet/cluster/data/TunnelZone.java
++++ b/midolmanj/src/main/java/com/midokura/midonet/cluster/data/TunnelZone.java
+@@ -11,3 +10,0 @@
+-/**
+- *
+- */
+diff --git a/midolmanj/src/main/scala/com/midokura/midolman/DatapathController.scala b/midolmanj/src/main/scala/com/midokura/midolman/DatapathController.scala
+index e0fd36f..4389a9c 100644
+--- a/midolmanj/src/main/scala/com/midokura/midolman/DatapathController.scala
++++ b/midolmanj/src/main/scala/com/midokura/midolman/DatapathController.scala
+@@ -595 +595 @@
+-        doDatapathPortsUpdate
++        doDatapathPortsUpdate()
+@@ -598 +598 @@
+-    private def processNextHost {
++    private def processNextHost() {
+@@ -599,0 +600,3 @@
++            val oldZones = host.zones
++            val newZones = nextHost.zones
++
+@@ -602,2 +605,18 @@
+-            doDatapathPortsUpdate
+-            doDatapathZonesReply(host.zones)
++
++            doDatapathPortsUpdate()
++            doDatapathZonesUpdate(oldZones, newZones)
++        }
++    }
++
++    private def doDatapathZonesUpdate(
++            oldZones: Map[UUID, TZHostConfig[_, _]],
++            newZones: Map[UUID, TZHostConfig[_, _]]) {
++        val dropped = oldZones.keySet.diff(newZones.keySet)
++        for (zone <- dropped) {
++            VirtualToPhysicalMapper.getRef() ! TunnelZoneUnsubscribe(zone)
++            dropTunnelsInZone(zone)
++        }
++
++        val added = newZones.keySet.diff(oldZones.keySet)
++        for (zone <- added) {
++            VirtualToPhysicalMapper.getRef() ! TunnelZoneRequest(zone)
+@@ -624 +643 @@
+-            processNextHost
++            processNextHost()
+@@ -626,5 +645,4 @@
+-        case zone: TunnelZone[_, _] =>
+-            if (!host.zones.contains(zone.getId)) {
+-                zones.remove(zone.getId)
+-                VirtualToPhysicalMapper.getRef() ! TunnelZoneUnsubscribe(zone.getId)
+-                log.debug("Removing zone {}", zone)
++        case zoneMembers: ZoneMembers[_] =>
++            if (!host.zones.contains(zoneMembers.zone)) {
++                log.debug("Got ZoneMembers for zone:{} but I'm no " +
++                    "longer subscribed", zoneMembers.zone)
+@@ -632,2 +650,6 @@
+-                zones.put(zone.getId, zone)
+-                log.debug("Adding zone {}", zone)
++                log.debug("ZoneMembers: {}", zoneMembers)
++                for (member <- zoneMembers.members) {
++                    handleZoneChange(zoneMembers.zone,
++                                     member.asInstanceOf[TZHostConfig[_,_]],
++                                     HostConfigOperation.Added)
++                }
+@@ -810,0 +833,7 @@
++        val hostConfig = m.hostConfig.asInstanceOf[TZHostConfig[_, _]]
++        handleZoneChange(m.zone, hostConfig, m.op)
++    }
++
++    def handleZoneChange(zone: UUID,
++                         hostConfig: TZHostConfig[_,_],
++                         op: HostConfigOperation.Value) {
+@@ -813 +842 @@
+-                mapping => mapping.get(m.zone).foreach {
++                mapping => mapping.get(zone).foreach {
+@@ -817 +846 @@
+-                        deleteDatapathPort(self, tunnelPort, Some((peerConf, m.zone)))
++                        deleteDatapathPort(self, tunnelPort, Some((peerConf, zone)))
+@@ -823 +852 @@
+-            val myConfig = host.zones(m.zone)
++            val myConfig = host.zones(zone)
+@@ -829 +858 @@
+-            createDatapathPort(self, tunnelPort, Some((peerConf, m.zone)))
++            createDatapathPort(self, tunnelPort, Some((peerConf, zone)))
+@@ -832 +861,4 @@
+-        val hostConfig = m.hostConfig.asInstanceOf[TZHostConfig[_, _]]
++        if (hostConfig.getId == host.id)
++            return
++        if (!host.zones.contains(zone))
++            return
+@@ -834,14 +866,4 @@
+-        if (!zones.contains(m.zone)) {
+-            log.debug("a zone changed that this host does not belong to, " +
+-                      "unsubscribing and ignoring")
+-            VirtualToPhysicalMapper.getRef ! TunnelZoneUnsubscribe(m.zone)
+-        } else if (hostConfig.getId == host.id &&
+-                   m.op == HostConfigOperation.Deleted) {
+-            VirtualToPhysicalMapper.getRef ! TunnelZoneUnsubscribe(m.zone)
+-            dropTunnelsInZone(m.zone)
+-            zones.remove(m.zone)
+-        } else if (hostConfig.getId != host.id && zones.contains(m.zone)) {
+-            m match {
+-                case GreZoneChanged(zone, peerConf, HostConfigOperation.Added) =>
+-                    log.info("Opening a tunnel port to {}", m.hostConfig)
+-                    _openTunnel(peerConf)
++        hostConfig match {
++            case peer: GreTunnelZoneHost if op == HostConfigOperation.Added =>
++                log.info("Opening a tunnel port to {}", hostConfig)
++                _openTunnel(peer)
+@@ -849,3 +871,3 @@
+-                case CapwapZoneChanged(zone, peerConf, HostConfigOperation.Added) =>
+-                    log.info("Opening a tunnel port to {}", m.hostConfig)
+-                    _openTunnel(peerConf)
++            case peer: CapwapTunnelZoneHost if op == HostConfigOperation.Added =>
++                log.info("Opening a tunnel port to {}", hostConfig)
++                _openTunnel(peer)
+@@ -853,3 +875,3 @@
+-                case GreZoneChanged(zone, peerConf, HostConfigOperation.Deleted) =>
+-                    log.info("Closing a tunnel port to {}", m.hostConfig)
+-                    _closeTunnel(peerConf)
++            case peer: GreTunnelZoneHost if op == HostConfigOperation.Deleted =>
++                log.info("Closing a tunnel port to {}", hostConfig)
++                _closeTunnel(peer)
+@@ -857,3 +879,3 @@
+-                case CapwapZoneChanged(zone, peerConf, HostConfigOperation.Deleted) =>
+-                    log.info("Closing a tunnel port to {}", m.hostConfig)
+-                    _closeTunnel(peerConf)
++            case peer: CapwapTunnelZoneHost if op == HostConfigOperation.Deleted =>
++                log.info("Closing a tunnel port to {}", hostConfig)
++                _closeTunnel(peer)
+@@ -861,10 +883 @@
+-                case _ =>
+-
+-            }
+-        }
+-    }
+-
+-    def doDatapathZonesReply(newZones: immutable.Map[UUID, TZHostConfig[_, _]]) {
+-        log.debug("Local Zone list updated {}", newZones)
+-        for (zone <- newZones.keys) {
+-            VirtualToPhysicalMapper.getRef() ! TunnelZoneRequest(zone)
++            case _ =>
+@@ -875 +887,0 @@
+-        log.info("dropping all tunnels in zone: {}", zoneId)
+@@ -876,0 +889 @@
++            log.info("dropping all tunnels in zone: {}", zoneId)
+@@ -1546 +1559 @@
+-                processNextHost
++                processNextHost()
+@@ -1554 +1567 @@
+-    private def doDatapathPortsUpdate {
++    private def doDatapathPortsUpdate() {
+@@ -1605 +1618 @@
+-                processNextHost
++                processNextHost()
+diff --git a/midolmanj/src/main/scala/com/midokura/midolman/topology/VirtualToPhysicalMapper.scala b/midolmanj/src/main/scala/com/midokura/midolman/topology/VirtualToPhysicalMapper.scala
+index 285a6a8..ceb64fc 100644
+--- a/midolmanj/src/main/scala/com/midokura/midolman/topology/VirtualToPhysicalMapper.scala
++++ b/midolmanj/src/main/scala/com/midokura/midolman/topology/VirtualToPhysicalMapper.scala
+@@ -6 +5,0 @@
+-import scala.collection.JavaConversions._
+@@ -7,0 +7 @@
++import scala.collection.immutable.{Set => ROSet}
+@@ -25 +25 @@
+-import com.midokura.midonet.cluster.client.{BridgePort, Port, TunnelZones}
++import com.midokura.midonet.cluster.client.{BridgePort, Port}
+@@ -45,0 +46,12 @@
++}
++
++sealed trait ZoneMembers[HostConfig <: TunnelZone.HostConfig[HostConfig, _]] {
++    val zone: UUID
++    val members: ROSet[HostConfig]
++
++    protected def changeMembers(change: ZoneChanged[HostConfig]): ROSet[HostConfig] = {
++        change.op match {
++            case HostConfigOperation.Added => members + change.hostConfig
++            case HostConfigOperation.Deleted => members - change.hostConfig
++        }
++    }
+@@ -74,2 +85,0 @@
+-    case class TunnelZoneMembersUpdate(zoneId: UUID, hostId: UUID, hostConfig: Option[_ <: TunnelZones.Builder.HostConfig])
+-
+@@ -86,0 +97,21 @@
++
++    case class GreZoneMembers(zone: UUID, members: ROSet[GreTunnelZoneHost])
++        extends ZoneMembers[GreTunnelZoneHost] {
++
++        def change(change: GreZoneChanged): GreZoneMembers =
++            copy(members = changeMembers(change))
++    }
++
++    case class CapwapZoneMembers(zone: UUID, members: ROSet[CapwapTunnelZoneHost])
++        extends ZoneMembers[CapwapTunnelZoneHost] {
++
++        def change(change: CapwapZoneChanged): CapwapZoneMembers =
++            copy(members = changeMembers(change))
++    }
++
++    case class IpsecZoneMembers(zone: UUID, members: ROSet[IpsecTunnelZoneHost])
++        extends ZoneMembers[IpsecTunnelZoneHost] {
++
++        def change(change: IpsecZoneChanged): IpsecZoneMembers =
++            copy(members = changeMembers(change))
++    }
+@@ -118,0 +150,9 @@
++    def removeSubscriber(deviceId: UUID, subscriber: ActorRef) {
++        deviceSubscribers.get(deviceId) foreach {
++            subscribers => subscribers.remove(subscriber)
++        }
++        deviceObservers.get(deviceId) foreach {
++            observers => observers.remove(subscriber)
++        }
++    }
++
+@@ -139,2 +179,2 @@
+-                            case Some(subscribers) =>
+-                                subscribers + subscriber
++                            case Some(observers) =>
++                                observers + subscriber
+@@ -160,0 +201,5 @@
++    def updateAndNotifySubscribers(uuid: UUID, device: T, message: AnyRef) {
++        devices.put(uuid, device)
++        notifySubscribers(uuid, message)
++    }
++
+@@ -163 +207,0 @@
+-
+@@ -223,2 +267,2 @@
+-    private lazy val tunnelZones: DeviceHandlersManager[TunnelZone[_, _], TunnelZoneManager] =
+-        new DeviceHandlersManager[TunnelZone[_,_], TunnelZoneManager](context, actorsService, "tunnel_zone")
++    private lazy val tunnelZones: DeviceHandlersManager[ZoneMembers[_], TunnelZoneManager] =
++        new DeviceHandlersManager[ZoneMembers[_], TunnelZoneManager](context, actorsService, "tunnel_zone")
+@@ -265,2 +309,2 @@
+-            case zone: TunnelZone[_, _] =>
+-                tunnelZones.updateAndNotifySubscribers(zone.getId, zone)
++            case TunnelZoneUnsubscribe(zoneId) =>
++                tunnelZones.removeSubscriber(zoneId, sender)
+@@ -269 +313,16 @@
+-                tunnelZones.notifySubscribers(zoneChanged.zone, zoneChanged)
++                /* If this is the first time we get a ZoneChanged for this
++                 * tunnel zone we will send a complete list of members to our
++                 * observers. From the second time on we will just send diffs
++                 * and forward a ZoneChanged message to the observers so that
++                 * they can update the list of members they stored. */
++                val zoneMembers = applyZoneChangeOp(zoneChanged)
++
++                tunnelZones.devices.get(zoneChanged.zone) match {
++                    case None =>
++                        tunnelZones.updateAndNotifySubscribers(zoneChanged.zone,
++                                                               zoneMembers)
++                    case _ =>
++                        tunnelZones.updateAndNotifySubscribers(zoneChanged.zone,
++                                                               zoneMembers,
++                                                               zoneChanged)
++                }
+@@ -401,0 +461,30 @@
++    private def applyZoneChangeOp(zoneChanged: ZoneChanged[_]) : ZoneMembers[_] = {
++        val id = zoneChanged.zone
++        val oldZone = tunnelZones.devices.get(id)
++        zoneChanged match {
++            case greChange: GreZoneChanged =>
++                oldZone.getOrElse(GreZoneMembers(id, Set())) match {
++                    case members: GreZoneMembers => members.change(greChange)
++                    case _ => throw new IllegalArgumentException(
++                        "TunnelZoneHost vs ZoneMembers zone type mismatch")
++                }
++
++            case capwapChange: CapwapZoneChanged =>
++                oldZone.getOrElse(CapwapZoneMembers(id, Set())) match {
++                    case members: CapwapZoneMembers => members.change(capwapChange)
++                    case _ => throw new IllegalArgumentException(
++                        "TunnelZoneHost vs ZoneMembers zone type mismatch")
++                }
++
++            case ipsecChange: IpsecZoneChanged =>
++                oldZone.getOrElse(IpsecZoneMembers(id, Set())) match {
++                    case members: IpsecZoneMembers => members.change(ipsecChange)
++                    case _ => throw new IllegalArgumentException(
++                        "TunnelZoneHost vs ZoneMembers zone type mismatch")
++                }
++
++            case _ => // Should never happen
++                throw new IllegalArgumentException()
++        }
++    }
++
+diff --git a/midolmanj/src/test/scala/com/midokura/midolman/DatapathFlowInvalidationTestCase.scala b/midolmanj/src/test/scala/com/midokura/midolman/DatapathFlowInvalidationTestCase.scala
+index bed265d..045a92a 100644
+--- a/midolmanj/src/test/scala/com/midokura/midolman/DatapathFlowInvalidationTestCase.scala
++++ b/midolmanj/src/test/scala/com/midokura/midolman/DatapathFlowInvalidationTestCase.scala
+@@ -7,5 +7,2 @@
+-import akka.testkit.TestProbe
+-import akka.util.Duration
+-import collection.JavaConversions._
+-import collection.immutable.HashMap
+-import collection.mutable
++import scala.collection.mutable
++import scala.collection.immutable.HashMap
+@@ -13,0 +11,3 @@
++
++import akka.util.Duration
++import akka.testkit.TestProbe
+@@ -19,11 +19,5 @@
+-import com.midokura.midolman.DatapathController.{DatapathPortChangedEvent,
+-    PacketIn, TunnelChangeEvent}
+-import com.midokura.midolman.FlowController.{AddWildcardFlow,
+-    InvalidateFlowsByTag, WildcardFlowAdded, WildcardFlowRemoved}
+-import com.midokura.midolman.datapath.FlowActionOutputToVrnPortSet
+-import com.midokura.midolman.layer3.Route
+-import com.midokura.midolman.layer3.Route.NextHop
+-import com.midokura.midolman.topology.{FlowTagger, LocalPortActive}
+-import com.midokura.midolman.topology.RouterManager.RouterInvTrieTagCountModified
+-import com.midokura.midolman.topology.VirtualToPhysicalMapper.GreZoneChanged
+-import com.midokura.midolman.util.{TestHelpers, RouterHelper}
++import com.midokura.odp.Datapath
++import com.midokura.odp.flows.{FlowActions, FlowAction}
++import com.midokura.odp.ports.GreTunnelPort
++import com.midokura.packets.{IntIPv4, MAC}
++import com.midokura.sdn.flows.{WildcardMatch, WildcardFlow}
+@@ -34,6 +28,13 @@
+-import com.midokura.odp.Datapath
+-import com.midokura.odp.flows.{FlowAction, FlowActions}
+-import com.midokura.odp.ports.GreTunnelPort
+-import com.midokura.packets.{IntIPv4, MAC}
+-import com.midokura.sdn.flows.{WildcardFlow, WildcardMatch}
+-
++import com.midokura.midolman.DatapathController.{DatapathPortChangedEvent, TunnelChangeEvent, PacketIn}
++import com.midokura.midolman.DatapathController.PacketIn
++import com.midokura.midolman.FlowController.AddWildcardFlow
++import com.midokura.midolman.FlowController.WildcardFlowAdded
++import com.midokura.midolman.FlowController.WildcardFlowRemoved
++import com.midokura.midolman.FlowController.InvalidateFlowsByTag
++import com.midokura.midolman.datapath.FlowActionOutputToVrnPortSet
++import com.midokura.midolman.layer3.Route
++import com.midokura.midolman.layer3.Route.NextHop
++import com.midokura.midolman.topology.VirtualToPhysicalMapper.GreZoneChanged
++import com.midokura.midolman.topology.VirtualToPhysicalMapper.GreZoneMembers
++import com.midokura.midolman.topology.{FlowTagger, LocalPortActive}
++import com.midokura.midolman.util.{TestHelpers, RouterHelper}
+@@ -246 +247 @@
+-        fishForReplyOfType[GreTunnelZone](vtpProbe())
++        fishForReplyOfType[GreZoneMembers](vtpProbe())
+diff --git a/midolmanj/src/test/scala/com/midokura/midolman/TunnelManagementTestCase.scala b/midolmanj/src/test/scala/com/midokura/midolman/TunnelManagementTestCase.scala
+index 7c29cb7..2b83f4a 100644
+--- a/midolmanj/src/test/scala/com/midokura/midolman/TunnelManagementTestCase.scala
++++ b/midolmanj/src/test/scala/com/midokura/midolman/TunnelManagementTestCase.scala
+@@ -95 +95 @@
+-        fishForReplyOfType[GreTunnelZone](vtpProbe())
++        fishForReplyOfType[GreZoneMembers](vtpProbe())
+

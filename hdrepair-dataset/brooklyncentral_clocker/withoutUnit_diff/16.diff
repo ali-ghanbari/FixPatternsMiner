@@ -1,0 +1,8 @@
+diff --git a/docker/src/main/java/brooklyn/entity/container/docker/DockerSshDriver.java b/docker/src/main/java/brooklyn/entity/container/docker/DockerSshDriver.java
+index 5003e1a..b709096 100644
+--- a/docker/src/main/java/brooklyn/entity/container/docker/DockerSshDriver.java
++++ b/docker/src/main/java/brooklyn/entity/container/docker/DockerSshDriver.java
+@@ -66 +66 @@
+-        return helper.getResultStdout().trim().startsWith("* docker is running");
++        return helper.getResultStdout().contains("running");
+

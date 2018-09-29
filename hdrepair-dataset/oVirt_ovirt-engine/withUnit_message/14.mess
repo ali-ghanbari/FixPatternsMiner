@@ -1,0 +1,13 @@
+core: ValidationResult private default constructor
+
+ValidationResult's default constructor should be private (according to
+its javadoc), and valid results should be referenced via the constant
+ValidationResult.VALID. Most occurrences in the code adhere to this
+rule, except for a single occurrence in AddDiskToVmCommandTest.
+
+This patch returns the default constructor to its intended private state
+and fixes the faulty usage in AddDiskToVmCommandTest.
+
+Change-Id: I7afa82aa1ec489b52da78b97b91c2a48eefb8b5f
+Signed-off-by: Allon Mureinik <amureini@redhat.com>
+

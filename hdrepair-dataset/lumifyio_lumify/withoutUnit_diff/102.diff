@@ -1,0 +1,32 @@
+diff --git a/lumify-web-war/src/main/webapp/js/data/withVertexCache.js b/lumify-web-war/src/main/webapp/js/data/withVertexCache.js
+index 1a1f70f..c85749e 100644
+--- a/lumify-web-war/src/main/webapp/js/data/withVertexCache.js
++++ b/lumify-web-war/src/main/webapp/js/data/withVertexCache.js
+@@ -87 +87 @@
+-            $.extend(true, cache.properties._detectedObjects || (cache.properties._detectedObjects = {}), vertex.properties._detectedObjects);
++            $.extend(true, cache.detectedObjects || (cache.detectedObjects = []), vertex.detectedObjects || []);
+diff --git a/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.ejs b/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.ejs
+index ab3b34b..64534a3 100644
+--- a/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.ejs
++++ b/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.ejs
+@@ -34 +34 @@
+-  <% ((vertex.properties._detectedObjects) || []).forEach(function(object) {
++  <% (vertex.detectedObjects).forEach(function(object) { debugger;
+diff --git a/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.js b/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.js
+index 8951cd3..76f7636 100644
+--- a/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.js
++++ b/lumify-web-war/src/main/webapp/js/detail/artifact/artifact.js
+@@ -144,3 +144,2 @@
+-
+-            if (vertex.properties._detectedObjects) {
+-                vertex.properties._detectedObjects = vertex.properties._detectedObjects.sort(function(a, b){
++            if (vertex.detectedObjects && vertex.detectedObjects.length > 0) {
++                vertex.detectedObjects = vertex.detectedObjects.sort(function(a, b){
+diff --git a/lumify-web/src/main/java/com/altamiracorp/lumify/web/routes/graph/GraphVertexSearch.java b/lumify-web/src/main/java/com/altamiracorp/lumify/web/routes/graph/GraphVertexSearch.java
+index 0888e3e..b37eb4c 100644
+--- a/lumify-web/src/main/java/com/altamiracorp/lumify/web/routes/graph/GraphVertexSearch.java
++++ b/lumify-web/src/main/java/com/altamiracorp/lumify/web/routes/graph/GraphVertexSearch.java
+@@ -137 +137 @@
+-                vertices.getJSONObject(verticesCount).getJSONObject("properties").put("_detectedObjects", detectedObjects);
++                vertices.getJSONObject(verticesCount).put("detectedObjects", detectedObjects);
+

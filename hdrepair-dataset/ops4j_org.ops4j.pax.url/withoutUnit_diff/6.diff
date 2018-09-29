@@ -1,0 +1,8 @@
+diff --git a/pax-url-mvn/src/main/java/org/ops4j/pax/url/mvn/internal/ConfigurationImpl.java b/pax-url-mvn/src/main/java/org/ops4j/pax/url/mvn/internal/ConfigurationImpl.java
+index f2c6d31..9ed7487 100644
+--- a/pax-url-mvn/src/main/java/org/ops4j/pax/url/mvn/internal/ConfigurationImpl.java
++++ b/pax-url-mvn/src/main/java/org/ops4j/pax/url/mvn/internal/ConfigurationImpl.java
+@@ -246 +246 @@
+-                                    new RepositoryURL( "file:" + spec )
++                                    new RepositoryURL( new File( spec ).toURI().toASCIIString() )
+

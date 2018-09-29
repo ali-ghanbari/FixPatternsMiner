@@ -1,0 +1,119 @@
+diff --git a/community/server/src/main/java/org/neo4j/server/database/DatabaseRegistry.java b/community/server/src/main/java/org/neo4j/server/database/DatabaseRegistry.java
+index d809f5c..f3d024a 100644
+--- a/community/server/src/main/java/org/neo4j/server/database/DatabaseRegistry.java
++++ b/community/server/src/main/java/org/neo4j/server/database/DatabaseRegistry.java
+@@ -25 +25 @@
+-import org.neo4j.helpers.Function;
++import org.neo4j.function.Function;
+diff --git a/community/server/src/test/java/org/neo4j/server/database/DatabaseRegistryTest.java b/community/server/src/test/java/org/neo4j/server/database/DatabaseRegistryTest.java
+index 97b9be5..0cc1405 100644
+--- a/community/server/src/test/java/org/neo4j/server/database/DatabaseRegistryTest.java
++++ b/community/server/src/test/java/org/neo4j/server/database/DatabaseRegistryTest.java
+@@ -26,0 +27 @@
++import org.junit.Before;
+@@ -30 +31,2 @@
+-import org.neo4j.helpers.Functions;
++
++import org.neo4j.function.Functions;
+@@ -38,2 +40,4 @@
+-import static org.junit.Assert.*;
+-import static org.mockito.Mockito.*;
++import static org.junit.Assert.assertThat;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.never;
++import static org.mockito.Mockito.verify;
+@@ -43,9 +46,0 @@
+-    private static final String EMBEDDED = "embedded";
+-    private final Database northwind = mock(Database.class);
+-
+-    @Rule
+-    public OtherThreadRule<Object> threadOne = new OtherThreadRule<>();
+-
+-    @Rule
+-    public OtherThreadRule<Object> threadTwo = new OtherThreadRule<>();
+-
+@@ -56,3 +51 @@
+-        DatabaseRegistry registry = newRegistryWithEmbeddedProvider();
+-        final AtomicReference<Database> dbProvidedToVisitor = new AtomicReference<>(  );
+-        registry.create( new DatabaseDefinition( "northwind", EMBEDDED, DatabaseHosting.Mode.EXTERNAL, new Config() ));
++        final AtomicReference<Database> dbProvidedToVisitor = new AtomicReference<>();
+@@ -71,3 +64,3 @@
+-        assertThat(dbProvidedToVisitor.get(), equalTo(northwind));
+-        verify( northwind ).init();
+-        verify( northwind ).start();
++        assertThat( dbProvidedToVisitor.get(), equalTo( database ) );
++        verify( database ).init();
++        verify( database ).start();
+@@ -79,4 +71,0 @@
+-        // Given
+-        DatabaseRegistry registry = newRegistryWithEmbeddedProvider();
+-        registry.create( new DatabaseDefinition( "northwind", EMBEDDED, DatabaseHosting.Mode.EXTERNAL, new Config()) );
+-
+@@ -84 +73 @@
+-        registry.drop( "northwind" );
++        registry.drop( NORTH_WIND );
+@@ -87,4 +76,4 @@
+-        verify( northwind ).init();
+-        verify( northwind ).start();
+-        verify( northwind ).stop();
+-        verify( northwind ).shutdown();
++        verify( database ).init();
++        verify( database ).start();
++        verify( database ).stop();
++        verify( database ).shutdown();
+@@ -98,5 +87,3 @@
+-        DatabaseRegistry registry = newRegistryWithEmbeddedProvider();
+-        registry.create( new DatabaseDefinition("northwind", EMBEDDED, DatabaseHosting.Mode.EXTERNAL, new Config()) );
+-
+-        CountDownLatch visitingDbLatch = new CountDownLatch( 1 );
+-        threadOne.execute( visitAndAwaitLatch( "northwind", registry, visitingDbLatch ) );
++        final CountDownLatch visitingDbLatch = new CountDownLatch( 1 );
++        final CountDownLatch doneVisitingLatch = new CountDownLatch( 1 );
++        threadOne.execute( visitAndAwaitLatch( NORTH_WIND, registry, visitingDbLatch, doneVisitingLatch ) );
+@@ -105 +92,2 @@
+-        Future<Object> threadTwoCompletion = threadTwo.execute( drop( "northwind", registry ) );
++        visitingDbLatch.await();
++        Future<Object> threadTwoCompletion = threadTwo.execute( drop( NORTH_WIND, registry ) );
+@@ -109,2 +97,2 @@
+-        verify( northwind, never() ).stop();
+-        verify( northwind, never() ).shutdown();
++        verify( database, never() ).stop();
++        verify( database, never() ).shutdown();
+@@ -113 +101 @@
+-        visitingDbLatch.countDown();
++        doneVisitingLatch.countDown();
+@@ -117,2 +105,2 @@
+-        verify(northwind).stop();
+-        verify(northwind).shutdown();
++        verify( database ).stop();
++        verify( database ).shutdown();
+@@ -135,0 +124 @@
++                                                                                  final CountDownLatch latchToUse,
+@@ -147,0 +137 @@
++                        latchToUse.countDown();
+@@ -163 +153,14 @@
+-    private DatabaseRegistry newRegistryWithEmbeddedProvider()
++
++    private static final String EMBEDDED = "embedded";
++    private static final String NORTH_WIND = "northwind";
++    private final Database database = mock( Database.class );
++    private DatabaseRegistry registry;
++
++    @Rule
++    public OtherThreadRule<Object> threadOne = new OtherThreadRule<>();
++
++    @Rule
++    public OtherThreadRule<Object> threadTwo = new OtherThreadRule<>();
++
++    @Before
++    public void setUp() throws NoSuchDatabaseProviderException
+@@ -165,2 +168,2 @@
+-        DatabaseRegistry registry = new DatabaseRegistry( Functions.<Config, Logging>constant( new TestLogging() ) );
+-        registry.addProvider( EMBEDDED, singletonDatabase( northwind ) );
++        registry = new DatabaseRegistry( Functions.<Config, Logging>constant( new TestLogging() ) );
++        registry.addProvider( EMBEDDED, singletonDatabase( database ) );
+@@ -169 +172,2 @@
+-        return registry;
++
++        registry.create( new DatabaseDefinition( NORTH_WIND, EMBEDDED, DatabaseHosting.Mode.EXTERNAL, new Config() ) );
+

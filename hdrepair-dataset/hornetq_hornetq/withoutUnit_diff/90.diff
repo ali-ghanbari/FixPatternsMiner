@@ -1,0 +1,24 @@
+diff --git a/.classpath b/.classpath
+index 6378360..357efd9 100644
+--- a/.classpath
++++ b/.classpath
+@@ -8 +7,0 @@
+-	<classpathentry kind="src" path="src/config/stand-alone/non-clustered"/>
+diff --git a/build-messaging.xml b/build-messaging.xml
+index 8553e7b..7cc5a31 100644
+--- a/build-messaging.xml
++++ b/build-messaging.xml
+@@ -1085 +1085 @@
+-         <param name="tests.param" value="**/org/jboss/messaging/tests/performance/**/*StartStop*.class"/>
++         <param name="tests.param" value="**/org/jboss/messaging/tests/performance/**/*${test-mask}.class"/>
+@@ -1091 +1091 @@
+-         <param name="tests.param" value="**/org/jboss/messaging/tests/integration/**/*StartStop*.class"/>
++         <param name="tests.param" value="**/org/jboss/messaging/tests/integration/**/*${test-mask}.class"/>
+diff --git a/src/main/org/jboss/messaging/core/config/impl/ConfigurationImpl.java b/src/main/org/jboss/messaging/core/config/impl/ConfigurationImpl.java
+index 5329563..4dbf1b1 100644
+--- a/src/main/org/jboss/messaging/core/config/impl/ConfigurationImpl.java
++++ b/src/main/org/jboss/messaging/core/config/impl/ConfigurationImpl.java
+@@ -96 +96 @@
+-   public static final int DEFAULT_JOURNAL_MAX_AIO = 500;
++   public static final int DEFAULT_JOURNAL_MAX_AIO = 1000;
+

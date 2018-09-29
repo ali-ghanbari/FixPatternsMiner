@@ -1,0 +1,15 @@
+core: fix search validation of OSs
+
+the UI is validating the input for OSs and was mistakenly
+lower casing each input.
+
+this created a corner case where and os unique name with that had
+capital letters, windows_2008_R2 was not a valid input for search.
+
+its a false assumption to make that all osinfo unique os name are case
+sensitive ATM and no point in trying to refactor that.
+
+Bug-Url: https://bugzilla.redhat.com/show_bug.cgi?id=1003804
+Change-Id: I818dd4eead46402d1fb6a832786020a5458c533d
+Signed-off-by: Roy Golan <rgolan@redhat.com>
+

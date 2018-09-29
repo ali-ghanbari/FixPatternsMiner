@@ -1,0 +1,15 @@
+diff --git a/src/org/traccar/protocol/Xexun2ProtocolDecoder.java b/src/org/traccar/protocol/Xexun2ProtocolDecoder.java
+index 39a5f76..54f5026 100644
+--- a/src/org/traccar/protocol/Xexun2ProtocolDecoder.java
++++ b/src/org/traccar/protocol/Xexun2ProtocolDecoder.java
+@@ -47 +47 @@
+-            "(\\+\\d+)," +                      // Number
++            "(\\+?\\d+)," +                      // Number
+diff --git a/test/org/traccar/protocol/Xexun2ProtocolDecoderTest.java b/test/org/traccar/protocol/Xexun2ProtocolDecoderTest.java
+index a8247b8..8d58533 100644
+--- a/test/org/traccar/protocol/Xexun2ProtocolDecoderTest.java
++++ b/test/org/traccar/protocol/Xexun2ProtocolDecoderTest.java
+@@ -21,0 +22,2 @@
++        assertNotNull(decoder.decode(null, null,
++                "111111120009,436763737552,GPRMC,120600.000,A,6000.0000,N,13000.0000,E,0.00,0.00,010112,,,A*68,F,help me!, imei:123456789012345,04,481.2,L:3.5V,0,139,2689,232,03,2725,0576"));
+

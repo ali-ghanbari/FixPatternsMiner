@@ -1,0 +1,30 @@
+diff --git a/frontend/webadmin/modules/frontend/src/main/java/org/ovirt/engine/ui/frontend/AppErrors.java b/frontend/webadmin/modules/frontend/src/main/java/org/ovirt/engine/ui/frontend/AppErrors.java
+index ae3506d..ca4fd21 100644
+--- a/frontend/webadmin/modules/frontend/src/main/java/org/ovirt/engine/ui/frontend/AppErrors.java
++++ b/frontend/webadmin/modules/frontend/src/main/java/org/ovirt/engine/ui/frontend/AppErrors.java
+@@ -628 +628 @@
+-    @DefaultStringValue("The following Hosts have running VMs and cannot be switched to maintenance mode: ${HostsList}.Please ensure that the following Clusters have at least one Host in UP state: ${ClustersList}.")
++    @DefaultStringValue("The following Hosts have running VMs and cannot be switched to maintenance mode: ${HostsList}.\nPlease ensure that the following Clusters have at least one Host in UP state: ${ClustersList}.")
+diff --git a/frontend/webadmin/modules/userportal-gwtp/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties b/frontend/webadmin/modules/userportal-gwtp/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties
+index add9cf0..299c8a9 100644
+--- a/frontend/webadmin/modules/userportal-gwtp/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties
++++ b/frontend/webadmin/modules/userportal-gwtp/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties
+@@ -83,4 +83 @@
+-VDS_CANNOT_MAINTENANCE_VM_HAS_PLUGGED_DISK_SNAPSHOT=Cannot switch the following Hosts to Maintenance mode: ${HostsList}.\n
+-The following VMs cannot be migrated because they have activated Disk Snapshot attached (VM/Disk Snapshots): \n \n\
+- ${disksInfo} \n \n
+-please deactivate/detach the Disk snapshots or turn off those VMs and try again.
++VDS_CANNOT_MAINTENANCE_VM_HAS_PLUGGED_DISK_SNAPSHOT=Cannot switch the following Hosts to Maintenance mode: ${HostsList}.\nThe following VMs cannot be migrated because they have activated Disk Snapshot attached (VM/Disk Snapshots):\n\n${disksInfo}\n\nplease deactivate/detach the Disk snapshots or turn off those VMs and try again.
+@@ -226,2 +223 @@
+-CANNOT_MAINTENANCE_VDS_RUN_VMS_NO_OTHER_RUNNING_VDS=The following Hosts have running VMs and cannot be switched to maintenance mode: ${HostsList}.
+-Please ensure that the following Clusters have at least one Host in UP state: ${ClustersList}.
++CANNOT_MAINTENANCE_VDS_RUN_VMS_NO_OTHER_RUNNING_VDS=The following Hosts have running VMs and cannot be switched to maintenance mode: ${HostsList}.\nPlease ensure that the following Clusters have at least one Host in UP state: ${ClustersList}.
+diff --git a/frontend/webadmin/modules/webadmin/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties b/frontend/webadmin/modules/webadmin/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties
+index d1cf421..6f91afa 100644
+--- a/frontend/webadmin/modules/webadmin/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties
++++ b/frontend/webadmin/modules/webadmin/src/main/resources/org/ovirt/engine/ui/frontend/AppErrors.properties
+@@ -231,2 +231 @@
+-CANNOT_MAINTENANCE_VDS_RUN_VMS_NO_OTHER_RUNNING_VDS=The following Hosts have running VMs and cannot be switched to maintenance mode: ${HostsList}.
+-Please ensure that the following Clusters have at least one Host in UP state: ${ClustersList}.
++CANNOT_MAINTENANCE_VDS_RUN_VMS_NO_OTHER_RUNNING_VDS=The following Hosts have running VMs and cannot be switched to maintenance mode: ${HostsList}.\nPlease ensure that the following Clusters have at least one Host in UP state: ${ClustersList}.
+

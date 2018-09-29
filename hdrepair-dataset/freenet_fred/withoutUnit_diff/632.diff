@@ -1,0 +1,8 @@
+diff --git a/src/freenet/support/PooledExecutor.java b/src/freenet/support/PooledExecutor.java
+index 8cf64fc..91c6faa 100644
+--- a/src/freenet/support/PooledExecutor.java
++++ b/src/freenet/support/PooledExecutor.java
+@@ -119 +119 @@
+-			result[i] = runningThreads[i].size();
++			result[i] = runningThreads[i].size() - waitingThreads[i].size();
+

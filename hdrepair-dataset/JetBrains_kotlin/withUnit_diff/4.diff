@@ -1,0 +1,41 @@
+diff --git a/js/js.tests/test/org/jetbrains/k2js/test/semantics/DefaultArgumentsTest.java b/js/js.tests/test/org/jetbrains/k2js/test/semantics/DefaultArgumentsTest.java
+index 7b85103..bfbc0e0 100644
+--- a/js/js.tests/test/org/jetbrains/k2js/test/semantics/DefaultArgumentsTest.java
++++ b/js/js.tests/test/org/jetbrains/k2js/test/semantics/DefaultArgumentsTest.java
+@@ -73,0 +74,4 @@
++
++    public void testDefaultArgumentsInFunctionWithExpressionAsBody() throws Exception {
++        checkFooBoxIsOk();
++    }
+diff --git a/js/js.translator/src/org/jetbrains/k2js/translate/utils/FunctionBodyTranslator.java b/js/js.translator/src/org/jetbrains/k2js/translate/utils/FunctionBodyTranslator.java
+index a361b28..2007641 100644
+--- a/js/js.translator/src/org/jetbrains/k2js/translate/utils/FunctionBodyTranslator.java
++++ b/js/js.translator/src/org/jetbrains/k2js/translate/utils/FunctionBodyTranslator.java
+@@ -88 +88 @@
+-        jsBlock.getStatements().addAll(mayBeWrapWithReturn(Translation.translateExpression(jetBodyExpression, context())).getStatements());
++        jsBlock.getStatements().addAll(mayBeWrapWithReturn(Translation.translateExpression(jetBodyExpression, context(), jsBlock)).getStatements());
+diff --git a/js/js.translator/testData/defaultArguments/cases/defaultArgumentsInFunctionWithExpressionAsBody.kt b/js/js.translator/testData/defaultArguments/cases/defaultArgumentsInFunctionWithExpressionAsBody.kt
+new file mode 100644
+index 0000000..9627e6c
+--- /dev/null
++++ b/js/js.translator/testData/defaultArguments/cases/defaultArgumentsInFunctionWithExpressionAsBody.kt
+@@ -0,0 +1,17 @@
++// KT-6037: KT-6037 Javascript default function arguments fill code generated in wrong order on method without "return keyword"
++package foo
++
++inline fun id<T>(x: T) = x
++
++fun test(arg: Int = 10) = id(arg)
++
++fun foo(value: String = "K") = "O" + try { value } catch(e: Exception) { "..." }
++
++fun box(): String {
++
++    assertEquals(10, test())
++    assertEquals(100, test(100))
++    assertEquals("OK", foo())
++
++    return "OK"
++}
+\ No newline at end of file
+

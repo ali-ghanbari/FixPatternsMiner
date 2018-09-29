@@ -1,0 +1,10 @@
+core: Fix class loader visiting
+
+The mechanism that manages loadable directories and authenticators uses
+a set to remember which class loaders have already been used. This
+mechanism should add visited class loaders after using them, but it
+doesn't. This patch fixes that.
+
+Change-Id: I70a9905cf0516111962b3e573cce03ee4e53f589
+Signed-off-by: Juan Hernandez <juan.hernandez@redhat.com>
+

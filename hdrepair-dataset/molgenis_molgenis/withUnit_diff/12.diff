@@ -1,0 +1,15 @@
+diff --git a/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/request/LimitOffsetGenerator.java b/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/request/LimitOffsetGenerator.java
+index 642c909..9697eef 100644
+--- a/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/request/LimitOffsetGenerator.java
++++ b/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch/request/LimitOffsetGenerator.java
+@@ -34 +34 @@
+-			searchRequestBuilder.setSize(100000);
++			searchRequestBuilder.setSize(1000);
+diff --git a/molgenis-data-elasticsearch/src/test/java/org/molgenis/data/elasticsearch/request/LimitOffsetGeneratorTest.java b/molgenis-data-elasticsearch/src/test/java/org/molgenis/data/elasticsearch/request/LimitOffsetGeneratorTest.java
+index b793e38..51b526d 100644
+--- a/molgenis-data-elasticsearch/src/test/java/org/molgenis/data/elasticsearch/request/LimitOffsetGeneratorTest.java
++++ b/molgenis-data-elasticsearch/src/test/java/org/molgenis/data/elasticsearch/request/LimitOffsetGeneratorTest.java
+@@ -34 +34 @@
+-		verify(searchRequestBuilderMock).setSize(Integer.valueOf(100000));
++		verify(searchRequestBuilderMock).setSize(Integer.valueOf(1000));
+

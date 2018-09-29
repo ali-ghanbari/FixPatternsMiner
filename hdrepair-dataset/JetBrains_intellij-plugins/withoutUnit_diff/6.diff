@@ -1,0 +1,8 @@
+diff --git a/Dart/src/com/jetbrains/lang/dart/psi/DartFileReferenceHelper.java b/Dart/src/com/jetbrains/lang/dart/psi/DartFileReferenceHelper.java
+index c94c08e..54aecca 100644
+--- a/Dart/src/com/jetbrains/lang/dart/psi/DartFileReferenceHelper.java
++++ b/Dart/src/com/jetbrains/lang/dart/psi/DartFileReferenceHelper.java
+@@ -41 +41 @@
+-          return psiManager.findDirectory(file);
++          return file.isValid() ? psiManager.findDirectory(file) : null;
+

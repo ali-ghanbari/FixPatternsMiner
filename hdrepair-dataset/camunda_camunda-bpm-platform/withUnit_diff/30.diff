@@ -1,0 +1,15 @@
+diff --git a/engine/src/main/java/org/camunda/bpm/container/impl/jmx/deployment/AbstractParseBpmPlatformXmlStep.java b/engine/src/main/java/org/camunda/bpm/container/impl/jmx/deployment/AbstractParseBpmPlatformXmlStep.java
+index 39a46b9..d20c088 100644
+--- a/engine/src/main/java/org/camunda/bpm/container/impl/jmx/deployment/AbstractParseBpmPlatformXmlStep.java
++++ b/engine/src/main/java/org/camunda/bpm/container/impl/jmx/deployment/AbstractParseBpmPlatformXmlStep.java
+@@ -148 +148 @@
+-    String jndi = "java:/comp/env/" + BPM_PLATFORM_XML_LOCATION;
++    String jndi = "java:comp/env/" + BPM_PLATFORM_XML_LOCATION;
+diff --git a/engine/src/test/java/org/camunda/bpm/container/impl/jmx/deployment/BpmPlatformXmlLocationTest.java b/engine/src/test/java/org/camunda/bpm/container/impl/jmx/deployment/BpmPlatformXmlLocationTest.java
+index 188090f..b42a758 100644
+--- a/engine/src/test/java/org/camunda/bpm/container/impl/jmx/deployment/BpmPlatformXmlLocationTest.java
++++ b/engine/src/test/java/org/camunda/bpm/container/impl/jmx/deployment/BpmPlatformXmlLocationTest.java
+@@ -104 +104 @@
+-    context.bind("java:/comp/env/" + BPM_PLATFORM_XML_LOCATION, BPM_PLATFORM_XML_FILE_ABSOLUTE_LOCATION);
++    context.bind("java:comp/env/" + BPM_PLATFORM_XML_LOCATION, BPM_PLATFORM_XML_FILE_ABSOLUTE_LOCATION);
+

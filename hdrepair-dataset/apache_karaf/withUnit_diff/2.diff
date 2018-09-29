@@ -1,0 +1,54 @@
+diff --git a/gshell/gshell-admin/src/main/java/org/apache/felix/karaf/gshell/admin/main/Execute.java b/gshell/gshell-admin/src/main/java/org/apache/felix/karaf/gshell/admin/main/Execute.java
+index 90e26e9..e68e686 100644
+--- a/gshell/gshell-admin/src/main/java/org/apache/felix/karaf/gshell/admin/main/Execute.java
++++ b/gshell/gshell-admin/src/main/java/org/apache/felix/karaf/gshell/admin/main/Execute.java
+@@ -78 +78 @@
+-            System.err.println("System property 'storage.file' is not set. \n" +
++            System.err.println("System property 'storage.location' is not set. \n" +
+diff --git a/gshell/gshell-admin/src/test/java/org/apache/felix/karaf/gshell/admin/main/ExecuteTest.java b/gshell/gshell-admin/src/test/java/org/apache/felix/karaf/gshell/admin/main/ExecuteTest.java
+index 5b96fba..2d0e122 100644
+--- a/gshell/gshell-admin/src/test/java/org/apache/felix/karaf/gshell/admin/main/ExecuteTest.java
++++ b/gshell/gshell-admin/src/test/java/org/apache/felix/karaf/gshell/admin/main/ExecuteTest.java
+@@ -22,0 +23 @@
++import java.io.IOException;
+@@ -95 +96 @@
+-            assertTrue(s.contains("storage.file"));
++            assertTrue(s.contains("storage.location"));
+@@ -104 +105 @@
+-        File tempFile = File.createTempFile(getName(), ".tmp");
++        final File tempFile = createTempDir(getName());
+@@ -108 +109 @@
+-        System.setProperty("storage.file", tempFile.getCanonicalPath());
++        System.setProperty("storage.location", tempFile.getCanonicalPath());
+@@ -114,2 +115,2 @@
+-            assertNull("Postcondition failed", System.getProperty("storage.file"));
+-            tempFile.delete();
++            assertNull("Postcondition failed", System.getProperty("storage.location"));
++            delete(tempFile);
+@@ -120 +121 @@
+-        final File tempFile = File.createTempFile(getName(), ".properties");
++        final File tempFile = createTempDir(getName());
+@@ -123 +124 @@
+-        FileOutputStream fos = new FileOutputStream(tempFile);
++        FileOutputStream fos = new FileOutputStream(new File(tempFile, AdminServiceImpl.STORAGE_FILE));
+@@ -157 +158 @@
+-            tempFile.delete();
++            delete(tempFile);
+@@ -159,0 +161,16 @@
++
++    private static File createTempDir(String name) throws IOException {
++        final File tempFile = File.createTempFile(name, null);
++        tempFile.delete();
++        tempFile.mkdirs();
++        return tempFile;
++    }
++
++    private static void delete(File tmp) {
++        if (tmp.isDirectory()) {
++            for (File f : tmp.listFiles()) {
++                delete(f);
++            }
++        }
++        tmp.delete();
++    }
+

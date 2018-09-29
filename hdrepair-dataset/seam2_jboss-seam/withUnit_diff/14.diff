@@ -1,0 +1,38 @@
+diff --git a/examples/blog/src/actions/EntryAction.java b/examples/blog/src/actions/EntryAction.java
+index 0a2f321..dacb9d9 100644
+--- a/examples/blog/src/actions/EntryAction.java
++++ b/examples/blog/src/actions/EntryAction.java
+@@ -3,2 +2,0 @@
+-import java.io.IOException;
+-
+diff --git a/examples/blog/src/test/BlogTest.java b/examples/blog/src/test/BlogTest.java
+index d985d6e..50941bb 100644
+--- a/examples/blog/src/test/BlogTest.java
++++ b/examples/blog/src/test/BlogTest.java
+@@ -12 +11,0 @@
+-import org.jboss.seam.core.Redirect;
+@@ -49 +48 @@
+-            assert action.post().equals("success");
++            assert action.post().equals("/index.xhtml");
+@@ -158,4 +157,2 @@
+-            ( (SearchAction) Component.getInstance(SearchAction.class, false) ).search();
+-            assert Redirect.instance().getViewId().equals("/search.xhtml");
+-            assert Redirect.instance().getParameters().get("searchPattern").equals("seam");
+-            assert FacesContext.getCurrentInstance().getResponseComplete();
++            String outcome = ( (SearchAction) Component.getInstance(SearchAction.class, false) ).search();
++            assert outcome.equals("/search.xhtml?searchPattern=#{searchAction.searchPattern}");
+diff --git a/examples/registration/src/org/jboss/seam/example/registration/test/RegisterTest.java b/examples/registration/src/org/jboss/seam/example/registration/test/RegisterTest.java
+index db6fcf7..2cabbf8 100644
+--- a/examples/registration/src/org/jboss/seam/example/registration/test/RegisterTest.java
++++ b/examples/registration/src/org/jboss/seam/example/registration/test/RegisterTest.java
+@@ -37 +37 @@
+-            assert "success".equals( outcome );
++            assert "/registered.jsp".equals( outcome );
+diff --git a/examples/todo/src/org/jboss/seam/example/todo/test/TodoTest.java b/examples/todo/src/org/jboss/seam/example/todo/test/TodoTest.java
+index a5d5e3a..c44d8bf 100644
+--- a/examples/todo/src/org/jboss/seam/example/todo/test/TodoTest.java
++++ b/examples/todo/src/org/jboss/seam/example/todo/test/TodoTest.java
+@@ -40 +40 @@
+-            assert "success".equals( ( (Login) Component.getInstance(Login.class, false) ).login() );
++            assert "/todo.jsp".equals( ( (Login) Component.getInstance(Login.class, false) ).login() );
+

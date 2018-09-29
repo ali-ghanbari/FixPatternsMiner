@@ -1,0 +1,137 @@
+diff --git a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/imports/RewritableImportSection.java b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/imports/RewritableImportSection.java
+index 088e055..83b189e 100644
+--- a/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/imports/RewritableImportSection.java
++++ b/plugins/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/imports/RewritableImportSection.java
+@@ -467 +467 @@
+-				return o1.getImportedTypeName().compareTo(o2.getImportedTypeName());
++				return o1.getImportedName().compareTo(o2.getImportedName());
+diff --git a/tests/org.eclipse.xtend.ide.tests/longrunning/src/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.xtend b/tests/org.eclipse.xtend.ide.tests/longrunning/src/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.xtend
+index 9b519da..bfcb244 100644
+--- a/tests/org.eclipse.xtend.ide.tests/longrunning/src/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.xtend
++++ b/tests/org.eclipse.xtend.ide.tests/longrunning/src/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.xtend
+@@ -1522 +1521,0 @@
+-			import static java.lang.String.valueOf
+@@ -1523,0 +1523 @@
++			import static java.lang.String.valueOf
+@@ -1845,0 +1846,37 @@
++	def void duplicateImport_16() {
++		create('Foo.xtend', '''
++			import static java.lang.Integer.valueOf
++			import static java.lang.Integer.valueOf
++			import static java.lang.Integer.MIN_VALUE
++			import static java.lang.In|teger.MIN_VALUE
++			import static java.lang.Integer.parseInt
++			import static java.lang.Integer.parseInt
++			import static java.lang.Integer.*
++			import static java.lang.Integer.*
++			
++			class C {
++				def m() {
++					parseInt('')
++					valueOf('')
++					MAX_VALUE
++				}
++			}
++		''')
++		.assertIssueCodes(IMPORT_UNUSED)
++		.assertResolutionLabels("Organize imports")
++		.assertModelAfterQuickfix('''
++			import static java.lang.Integer.*
++			import static java.lang.Integer.parseInt
++			import static java.lang.Integer.valueOf
++			
++			class C {
++				def m() {
++					parseInt('')
++					valueOf('')
++					MAX_VALUE
++				}
++			}
++		''')
++	}
++	
++	@Test
+diff --git a/tests/org.eclipse.xtend.ide.tests/longrunning/xtend-gen/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.java b/tests/org.eclipse.xtend.ide.tests/longrunning/xtend-gen/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.java
+index e58e72c..9802cc9 100644
+--- a/tests/org.eclipse.xtend.ide.tests/longrunning/xtend-gen/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.java
++++ b/tests/org.eclipse.xtend.ide.tests/longrunning/xtend-gen/org/eclipse/xtend/ide/tests/quickfix/QuickfixTest.java
+@@ -2863,2 +2862,0 @@
+-    _builder_1.append("import static java.lang.String.valueOf");
+-    _builder_1.newLine();
+@@ -2865,0 +2864,2 @@
++    _builder_1.newLine();
++    _builder_1.append("import static java.lang.String.valueOf");
+@@ -3421,0 +3422,72 @@
++  public void duplicateImport_16() {
++    StringConcatenation _builder = new StringConcatenation();
++    _builder.append("import static java.lang.Integer.valueOf");
++    _builder.newLine();
++    _builder.append("import static java.lang.Integer.valueOf");
++    _builder.newLine();
++    _builder.append("import static java.lang.Integer.MIN_VALUE");
++    _builder.newLine();
++    _builder.append("import static java.lang.In|teger.MIN_VALUE");
++    _builder.newLine();
++    _builder.append("import static java.lang.Integer.parseInt");
++    _builder.newLine();
++    _builder.append("import static java.lang.Integer.parseInt");
++    _builder.newLine();
++    _builder.append("import static java.lang.Integer.*");
++    _builder.newLine();
++    _builder.append("import static java.lang.Integer.*");
++    _builder.newLine();
++    _builder.newLine();
++    _builder.append("class C {");
++    _builder.newLine();
++    _builder.append("\t");
++    _builder.append("def m() {");
++    _builder.newLine();
++    _builder.append("\t\t");
++    _builder.append("parseInt(\'\')");
++    _builder.newLine();
++    _builder.append("\t\t");
++    _builder.append("valueOf(\'\')");
++    _builder.newLine();
++    _builder.append("\t\t");
++    _builder.append("MAX_VALUE");
++    _builder.newLine();
++    _builder.append("\t");
++    _builder.append("}");
++    _builder.newLine();
++    _builder.append("}");
++    _builder.newLine();
++    QuickfixTestBuilder _create = this.builder.create("Foo.xtend", _builder);
++    QuickfixTestBuilder _assertIssueCodes = _create.assertIssueCodes(org.eclipse.xtext.xbase.validation.IssueCodes.IMPORT_UNUSED);
++    QuickfixTestBuilder _assertResolutionLabels = _assertIssueCodes.assertResolutionLabels("Organize imports");
++    StringConcatenation _builder_1 = new StringConcatenation();
++    _builder_1.append("import static java.lang.Integer.*");
++    _builder_1.newLine();
++    _builder_1.append("import static java.lang.Integer.parseInt");
++    _builder_1.newLine();
++    _builder_1.append("import static java.lang.Integer.valueOf");
++    _builder_1.newLine();
++    _builder_1.newLine();
++    _builder_1.append("class C {");
++    _builder_1.newLine();
++    _builder_1.append("\t");
++    _builder_1.append("def m() {");
++    _builder_1.newLine();
++    _builder_1.append("\t\t");
++    _builder_1.append("parseInt(\'\')");
++    _builder_1.newLine();
++    _builder_1.append("\t\t");
++    _builder_1.append("valueOf(\'\')");
++    _builder_1.newLine();
++    _builder_1.append("\t\t");
++    _builder_1.append("MAX_VALUE");
++    _builder_1.newLine();
++    _builder_1.append("\t");
++    _builder_1.append("}");
++    _builder_1.newLine();
++    _builder_1.append("}");
++    _builder_1.newLine();
++    _assertResolutionLabels.assertModelAfterQuickfix(_builder_1);
++  }
++  
++  @Test
+

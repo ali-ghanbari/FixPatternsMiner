@@ -1,0 +1,17 @@
+diff --git a/modules/tools-json/src/main/java/com/wizzardo/tools/json/StringConverter.java b/modules/tools-json/src/main/java/com/wizzardo/tools/json/StringConverter.java
+index 6ecfc34..a31c12b 100644
+--- a/modules/tools-json/src/main/java/com/wizzardo/tools/json/StringConverter.java
++++ b/modules/tools-json/src/main/java/com/wizzardo/tools/json/StringConverter.java
+@@ -112,0 +113,2 @@
++        if (clazz == Character.class)
++            return TO_CHARACTER;
+diff --git a/src/test/java/com/wizzardo/tools/json/StringConverterTest.java b/src/test/java/com/wizzardo/tools/json/StringConverterTest.java
+index 4c416ae..e74ea32 100644
+--- a/src/test/java/com/wizzardo/tools/json/StringConverterTest.java
++++ b/src/test/java/com/wizzardo/tools/json/StringConverterTest.java
+@@ -24,0 +25 @@
++        Assert.assertEquals(TO_CHARACTER, getConverter(Character.class));
+@@ -38,0 +40,2 @@
++        Assert.assertEquals(Character.valueOf('\n'), getConverter(Character.class).convert("10"));
++        Assert.assertEquals(Character.valueOf('\n'), getConverter(Character.class).convert("\n"));
+

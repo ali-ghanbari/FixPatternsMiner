@@ -1,0 +1,66 @@
+diff --git a/plugins/org.eclipse.gmf.bridge/src/org/eclipse/gmf/bridge/genmodel/RuntimeGenModelAccess.java b/plugins/org.eclipse.gmf.bridge/src/org/eclipse/gmf/bridge/genmodel/RuntimeGenModelAccess.java
+index b8b1c9a..b165877 100644
+--- a/plugins/org.eclipse.gmf.bridge/src/org/eclipse/gmf/bridge/genmodel/RuntimeGenModelAccess.java
++++ b/plugins/org.eclipse.gmf.bridge/src/org/eclipse/gmf/bridge/genmodel/RuntimeGenModelAccess.java
+@@ -37 +37 @@
+-		IPath workspaceCopy = new Path("/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel");
++		IPath workspaceCopy = new Path("/org.eclipse.gmf.runtime.notation/model/notation.genmodel");
+diff --git a/tests/org.eclipse.gmf.tests/models/library/library.gmfgen b/tests/org.eclipse.gmf.tests/models/library/library.gmfgen
+index ebf042c..626e19b 100644
+--- a/tests/org.eclipse.gmf.tests/models/library/library.gmfgen
++++ b/tests/org.eclipse.gmf.tests/models/library/library.gmfgen
+@@ -3 +3 @@
+-  <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Diagram"/>
++  <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Diagram"/>
+@@ -8 +8 @@
+-    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -16 +16 @@
+-      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -24 +24 @@
+-    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -32 +32 @@
+-      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -39 +39 @@
+-      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -42 +42 @@
+-        <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++        <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -50 +50 @@
+-          <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++          <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -60 +60 @@
+-    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Edge"/>
++    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
+@@ -71 +71 @@
+-      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Node"/>
++      <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+@@ -79 +79 @@
+-    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/src/model/notation.genmodel#//notation/Edge"/>
++    <diagramRunTimeClass href="../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
+diff --git a/tests/org.eclipse.gmf.tests/src/org/eclipse/gmf/tests/setup/TestSetupTest.java b/tests/org.eclipse.gmf.tests/src/org/eclipse/gmf/tests/setup/TestSetupTest.java
+index 36d3829..ac70cc4 100644
+--- a/tests/org.eclipse.gmf.tests/src/org/eclipse/gmf/tests/setup/TestSetupTest.java
++++ b/tests/org.eclipse.gmf.tests/src/org/eclipse/gmf/tests/setup/TestSetupTest.java
+@@ -45,8 +45,8 @@
+-//	public void testLibraryGen() {
+-//		try {
+-//			DiaGenSource s = new DiaGenFileSetup().init(Plugin.createURI("/models/library/library.gmfgen"));
+-//			doAssert(Diagnostician.INSTANCE.validate(s.getGenDiagram()));
+-//		} catch (IOException ex) {
+-//			fail(ex.getMessage());
+-//		}
+-//	}
++	public void testLibraryGen() {
++		try {
++			DiaGenSource s = new DiaGenFileSetup().init(Plugin.createURI("/models/library/library.gmfgen"));
++			doAssert(Diagnostician.INSTANCE.validate(s.getGenDiagram()));
++		} catch (IOException ex) {
++			fail(ex.getMessage());
++		}
++	}
+

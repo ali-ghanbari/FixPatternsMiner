@@ -1,0 +1,8 @@
+diff --git a/plexus-compilers/plexus-compiler-javac/src/main/java/org/codehaus/plexus/compiler/javac/JavacCompiler.java b/plexus-compilers/plexus-compiler-javac/src/main/java/org/codehaus/plexus/compiler/javac/JavacCompiler.java
+index d7e73cc..8bc64e0 100644
+--- a/plexus-compilers/plexus-compiler-javac/src/main/java/org/codehaus/plexus/compiler/javac/JavacCompiler.java
++++ b/plexus-compilers/plexus-compiler-javac/src/main/java/org/codehaus/plexus/compiler/javac/JavacCompiler.java
+@@ -492 +492 @@
+-        if ( ( returnCode != 0 ) && messages.isEmpty() )
++        if ( ( returnCode != 0 ) && !containsErrorMessage( messages ) )
+

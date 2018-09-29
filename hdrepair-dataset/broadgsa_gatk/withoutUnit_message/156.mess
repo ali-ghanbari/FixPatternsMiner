@@ -1,0 +1,4 @@
+Major bugfix for per sample VariantEval
+
+-- per sample stratification was not being calculated correctly.  The alt allele was always remaining, even if the genotype of the sample was hom-ref.  Although conceptually fine, this breaks the assumptions of all of the eval modules, so per sample stratifications actually included all variants for everything.  Eric is going to fix the system in general, so this commit may break the build.
+

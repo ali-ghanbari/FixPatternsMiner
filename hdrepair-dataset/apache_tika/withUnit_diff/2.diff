@@ -1,0 +1,21 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 7652e6b..0268443 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -2,0 +3,2 @@
++  * Include media duration in metadata parsed by MP4Parser (TIKA-1530).
++
+diff --git a/tika-parsers/src/main/java/org/apache/tika/parser/mp4/MP4Parser.java b/tika-parsers/src/main/java/org/apache/tika/parser/mp4/MP4Parser.java
+index 19f2662..7172935 100644
+--- a/tika-parsers/src/main/java/org/apache/tika/parser/mp4/MP4Parser.java
++++ b/tika-parsers/src/main/java/org/apache/tika/parser/mp4/MP4Parser.java
+@@ -166,0 +167 @@
++               metadata.set(XMPDM.DURATION, durationSeconds);
+diff --git a/tika-parsers/src/test/java/org/apache/tika/parser/mp4/MP4ParserTest.java b/tika-parsers/src/test/java/org/apache/tika/parser/mp4/MP4ParserTest.java
+index a6c1fb6..2e58c46 100644
+--- a/tika-parsers/src/test/java/org/apache/tika/parser/mp4/MP4ParserTest.java
++++ b/tika-parsers/src/test/java/org/apache/tika/parser/mp4/MP4ParserTest.java
+@@ -92,0 +93,2 @@
++        // Only compare two decimals to avoid floating point comparison error.
++        assertEquals("0.06", metadata.get(XMPDM.DURATION).substring(0, 4));
+

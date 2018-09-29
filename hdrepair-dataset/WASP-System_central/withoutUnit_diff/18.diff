@@ -1,0 +1,8 @@
+diff --git a/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/TaskController.java b/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/TaskController.java
+index c762013..224c74a 100644
+--- a/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/TaskController.java
++++ b/wasp-web/src/main/java/edu/yu/einstein/wasp/controller/TaskController.java
+@@ -929 +929 @@
+-		  if(jobService.isAggregationAnalysisBatchJob(job)){
++		  if(jobService.isAnySampleCurrentlyBeingProcessed(job) || jobService.isAggregationAnalysisBatchJob(job)){
+

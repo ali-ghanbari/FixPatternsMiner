@@ -1,0 +1,25 @@
+diff --git a/trie4j/src/org/trie4j/bv/BytesRank1OnlySuccinctBitVector.java b/trie4j/src/org/trie4j/bv/BytesRank1OnlySuccinctBitVector.java
+index f96e1dc..85abbbe 100644
+--- a/trie4j/src/org/trie4j/bv/BytesRank1OnlySuccinctBitVector.java
++++ b/trie4j/src/org/trie4j/bv/BytesRank1OnlySuccinctBitVector.java
+@@ -49 +49 @@
+-		if(countCache1.length > 0){
++		if(countCache1.length > n / 8){
+diff --git a/trie4j/test/org/trie4j/bv/BytesRank1OnlySuccinctBitVectorTest.java b/trie4j/test/org/trie4j/bv/BytesRank1OnlySuccinctBitVectorTest.java
+index d06a71f..aedd30c 100644
+--- a/trie4j/test/org/trie4j/bv/BytesRank1OnlySuccinctBitVectorTest.java
++++ b/trie4j/test/org/trie4j/bv/BytesRank1OnlySuccinctBitVectorTest.java
+@@ -56,0 +57,12 @@
++
++	@Test
++	public void test_from_bytes_rank_1() throws Exception{
++		SuccinctBitVector sbv = new BytesRank1OnlySuccinctBitVector(
++				new byte[]{0x01, 0x1f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte)0x80},
++				68
++				);
++		Assert.assertEquals(0, sbv.rank1(4));
++		Assert.assertEquals(1, sbv.rank1(8));
++		Assert.assertEquals(6, sbv.rank1(15));
++		Assert.assertEquals(7, sbv.rank1(64));
++	}
+

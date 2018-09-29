@@ -1,0 +1,17 @@
+diff --git a/jooby/src/main/java/org/jooby/internal/undertow/UndertowServer.java b/jooby/src/main/java/org/jooby/internal/undertow/UndertowServer.java
+index 1426f42..698151f 100644
+--- a/jooby/src/main/java/org/jooby/internal/undertow/UndertowServer.java
++++ b/jooby/src/main/java/org/jooby/internal/undertow/UndertowServer.java
+@@ -68 +68 @@
+-        .addHttpListener(config.getInt("application.port"), "localhost")
++        .addHttpListener(config.getInt("application.port"), config.getString("application.host"))
+diff --git a/jooby/src/main/resources/org/jooby/jooby.conf b/jooby/src/main/resources/org/jooby/jooby.conf
+index 9377763..6814c1f 100644
+--- a/jooby/src/main/resources/org/jooby/jooby.conf
++++ b/jooby/src/main/resources/org/jooby/jooby.conf
+@@ -9,0 +10,2 @@
++  host = 0.0.0.0
++
+@@ -12 +13,0 @@
+-  securePort = 8443
+

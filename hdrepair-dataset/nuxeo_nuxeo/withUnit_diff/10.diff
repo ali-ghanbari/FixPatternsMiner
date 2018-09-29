@@ -1,0 +1,22 @@
+diff --git a/nuxeo-rest-api-server/src/main/java/org/nuxeo/ecm/restapi/server/jaxrs/APIRoot.java b/nuxeo-rest-api-server/src/main/java/org/nuxeo/ecm/restapi/server/jaxrs/APIRoot.java
+index 28e2ad0..bc22389 100644
+--- a/nuxeo-rest-api-server/src/main/java/org/nuxeo/ecm/restapi/server/jaxrs/APIRoot.java
++++ b/nuxeo-rest-api-server/src/main/java/org/nuxeo/ecm/restapi/server/jaxrs/APIRoot.java
+@@ -72 +72 @@
+-        return new AutomationResource();
++        return newObject("automation");
+diff --git a/nuxeo-rest-api-server/src/main/resources/META-INF/MANIFEST.MF b/nuxeo-rest-api-server/src/main/resources/META-INF/MANIFEST.MF
+index 8a3a2e5..66f8c36 100644
+--- a/nuxeo-rest-api-server/src/main/resources/META-INF/MANIFEST.MF
++++ b/nuxeo-rest-api-server/src/main/resources/META-INF/MANIFEST.MF
+@@ -7 +7 @@
+-Nuxeo-WebModule: org.nuxeo.ecm.restapi.server.jaxrs.APIModule;name=api;extends=base;package=org/nuxeo/ecm/restapi/server/jaxrs
++Nuxeo-WebModule: org.nuxeo.ecm.restapi.server.jaxrs.APIModule;name=api;extends=automation;package=org/nuxeo/ecm/restapi/server/jaxrs
+diff --git a/nuxeo-rest-api-test/src/test/java/org/nuxeo/ecm/restapi/test/OperationBindingTest.java b/nuxeo-rest-api-test/src/test/java/org/nuxeo/ecm/restapi/test/OperationBindingTest.java
+index c3451b5..40ea482 100644
+--- a/nuxeo-rest-api-test/src/test/java/org/nuxeo/ecm/restapi/test/OperationBindingTest.java
++++ b/nuxeo-rest-api-test/src/test/java/org/nuxeo/ecm/restapi/test/OperationBindingTest.java
+@@ -171,2 +170,0 @@
+-    //TODO Should be reactivated: NXP-14481
+-    @Ignore
+

@@ -1,0 +1,27 @@
+diff --git a/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientMapProxy.java b/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientMapProxy.java
+index f075d0e..282af1a 100644
+--- a/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientMapProxy.java
++++ b/hazelcast-client/src/main/java/com/hazelcast/client/proxy/ClientMapProxy.java
+@@ -671,0 +672 @@
++        initNearCache();
+diff --git a/hazelcast-client/src/test/java/com/hazelcast/client/ClientNearCacheTest.java b/hazelcast-client/src/test/java/com/hazelcast/client/ClientNearCacheTest.java
+index 8641cca..737c667 100644
+--- a/hazelcast-client/src/test/java/com/hazelcast/client/ClientNearCacheTest.java
++++ b/hazelcast-client/src/test/java/com/hazelcast/client/ClientNearCacheTest.java
+@@ -37,0 +38 @@
++import static org.junit.Assert.assertNotNull;
+@@ -139,0 +141,13 @@
++    @Test
++    public void testIssue2009() throws Exception {
++        final String mapName = "testIssue2009";
++        ClientConfig config = new ClientConfig();
++        config.addNearCacheConfig(mapName, new NearCacheConfig());
++        HazelcastInstance instance1 = Hazelcast.newHazelcastInstance();
++        HazelcastInstance instance2 = Hazelcast.newHazelcastInstance();
++        HazelcastInstance client = HazelcastClient.newHazelcastClient(config);
++        IMap map = client.getMap(mapName);
++        NearCacheStats stats =   map.getLocalMapStats().getNearCacheStats();
++        assertNotNull(stats);
++    }
++
+

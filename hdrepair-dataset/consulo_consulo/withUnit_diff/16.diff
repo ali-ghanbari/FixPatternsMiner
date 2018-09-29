@@ -1,0 +1,70 @@
+diff --git a/platform/platform-api/src/com/intellij/ui/treeStructure/filtered/FilteringTreeBuilder.java b/platform/platform-api/src/com/intellij/ui/treeStructure/filtered/FilteringTreeBuilder.java
+index 71f152e..d47d8d2 100644
+--- a/platform/platform-api/src/com/intellij/ui/treeStructure/filtered/FilteringTreeBuilder.java
++++ b/platform/platform-api/src/com/intellij/ui/treeStructure/filtered/FilteringTreeBuilder.java
+@@ -163,0 +164 @@
++    getUi().updateSubtree(getRootNode(), false);
+diff --git a/platform/platform-tests/testSrc/com/intellij/ide/util/treeView/FilteringTreeBuilderTest.java b/platform/platform-tests/testSrc/com/intellij/ide/util/treeView/FilteringTreeBuilderTest.java
+index 3270f5f..cc90fc9 100644
+--- a/platform/platform-tests/testSrc/com/intellij/ide/util/treeView/FilteringTreeBuilderTest.java
++++ b/platform/platform-tests/testSrc/com/intellij/ide/util/treeView/FilteringTreeBuilderTest.java
+@@ -3 +2,0 @@
+-import com.intellij.idea.Bombed;
+@@ -11,0 +11 @@
++import org.jetbrains.annotations.Nullable;
+@@ -13 +12,0 @@
+-import java.util.Calendar;
+@@ -16 +15,4 @@
+-@Bombed(month = Calendar.FEBRUARY, day = 10, year = 2012, user = "kb")
++/**
++ * @author Kirill Kalishev
++ * @author Konstantin Bulenkov
++ */
+@@ -85 +87 @@
+-    update("f", null);
++    updateFilter("f");
+@@ -94 +96 @@
+-    update("fo", null);
++    updateFilter("fo");
+@@ -100 +102 @@
+-    update("fo_", null);
++    updateFilter("fo_");
+@@ -103 +105 @@
+-    update("", null);
++    updateFilter("");
+@@ -124 +126 @@
+-    update("folder2", null);
++    updateFilter("folder2");
+@@ -128 +130 @@
+-    update("", null);
++    updateFilter("");
+@@ -138 +140 @@
+-    update("file1", null);
++    updateFilter("file1");
+@@ -150 +152 @@
+-    update("", null);
++    updateFilter("");
+@@ -167,13 +169,6 @@
+-  private void update(final String text, final Object selection) throws Exception {
+-    //final ActionCallback result = new ActionCallback();
+-    //doAndWaitForBuilder(new Runnable() {
+-    //  @Override
+-    //  public void run() {
+-        myFilter.update(text, selection)/*.notify(result)*/;
+-    //  }
+-    //}, new Condition<Object>() {
+-    //  @Override
+-    //  public boolean value(Object o) {
+-    //    return result.isProcessed();
+-    //  }
+-    //});
++  private void updateFilter(final String text) throws Exception {
++     update(text, null);
++   }
++
++  private void update(final String text, @Nullable final Object selection) throws Exception {
++    myFilter.update(text, selection);
+@@ -238 +233 @@
+-  private class MyFilter extends ElementFilter.Active.Impl {
++  private static class MyFilter extends ElementFilter.Active.Impl {
+

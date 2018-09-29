@@ -1,0 +1,8 @@
+diff --git a/lang-impl/src/com/intellij/ide/navigationToolbar/NavBarPanel.java b/lang-impl/src/com/intellij/ide/navigationToolbar/NavBarPanel.java
+index 9367b76..49d2da1 100644
+--- a/lang-impl/src/com/intellij/ide/navigationToolbar/NavBarPanel.java
++++ b/lang-impl/src/com/intellij/ide/navigationToolbar/NavBarPanel.java
+@@ -365 +365 @@
+-          IdeFocusManager.getInstance(myProject).requestFocus(NavBarPanel.this, true);
++          if (!myProject.isDisposed())  IdeFocusManager.getInstance(myProject).requestFocus(NavBarPanel.this, true);
+

@@ -1,0 +1,462 @@
+diff --git a/src/main/org/codehaus/groovy/tools/shell/ComplexCommandSupport.groovy b/src/main/org/codehaus/groovy/tools/shell/ComplexCommandSupport.groovy
+new file mode 100644
+index 0000000..f185955
+--- /dev/null
++++ b/src/main/org/codehaus/groovy/tools/shell/ComplexCommandSupport.groovy
+@@ -0,0 +1,92 @@
++/*
++ * Copyright 2003-2007 the original author or authors.
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.codehaus.groovy.tools.shell
++
++import org.codehaus.groovy.tools.shell.util.SimpleCompletor
++
++/**
++ * Support for more complex commands.
++ *
++ * @version $Id$
++ * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
++ */
++abstract class ComplexCommandSupport
++    extends CommandSupport
++{
++    protected List<String> functions
++    
++    ComplexCommandSupport(final Shell shell, final String name, final String shortcut) {
++        super(shell, name, shortcut)
++    }
++    
++    protected List createCompletors() {
++        def c = new SimpleCompletor()
++        
++        functions.each { c.add(it) }
++        
++        return [ c, null ]
++    }
++    
++    Object execute(List args) {
++        assert args != null
++        
++        if (args.size() == 0) {
++            fail("Command '$name' requires at least one argument") // TODO: i18n
++        }
++        
++        return executeFunction(args)
++    }
++    
++    protected executeFunction(List args) {
++        assert args != null
++        
++        assert functions
++        
++        def fname = args.reverse().pop()
++        
++        if (fname in functions) {
++            def func = loadFunction(fname)
++            
++            log.debug("Invoking function '$fname' w/args: $args")
++            
++            return func.call(args)
++        }
++        else {
++            fail("Unknown function name: $fname")
++        }
++    }
++    
++    protected Closure loadFunction(final String name) {
++        assert name
++        
++        try {
++            return this."do_${name}"
++        }
++        catch (MissingPropertyException e) {
++            fail("Failed to load delgate function: $e")
++        }
++    }
++    
++    def do_all = {
++        functions.each { fname ->
++            if (fname != 'all') {
++                executeFunction([ fname ])
++            }
++        }
++    }
++}
++
+diff --git a/src/main/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy b/src/main/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy
+index 57dc454..b7c6d66 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy
++++ b/src/main/org/codehaus/groovy/tools/shell/commands/AliasCommand.groovy
+@@ -87 +87 @@
+-        return "Alias to: ${args.join(' ')}"
++        return "User defined alias to: @|bold ${args.join(' ')}|"
+@@ -95 +95 @@
+-        return "Alias to: ${args.join(' ')}"
++        return description
+diff --git a/src/main/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy b/src/main/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy
+index 373340c..a0766a6 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy
++++ b/src/main/org/codehaus/groovy/tools/shell/commands/HelpCommand.groovy
+@@ -71 +71 @@
+-        io.out.println("usage: $command.name $command.usage") // TODO: i18n
++        io.out.println("usage: @|bold ${command.name}| $command.usage") // TODO: i18n
+diff --git a/src/main/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy b/src/main/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy
+index 495e412..e18fa50 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy
++++ b/src/main/org/codehaus/groovy/tools/shell/commands/InspectCommand.groovy
+@@ -47,0 +48,2 @@
++        log.debug("Inspecting w/args: $args")
++        
+@@ -55 +57 @@
+-            return binding.variables[args[0]]
++            subject = binding.variables[args[0]]
+@@ -58 +60 @@
+-            return binding.variables['_']
++            subject = binding.variables['_']
+diff --git a/src/main/org/codehaus/groovy/tools/shell/commands/PurgeCommand.groovy b/src/main/org/codehaus/groovy/tools/shell/commands/PurgeCommand.groovy
+index e1a0e37..f191ba0 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/commands/PurgeCommand.groovy
++++ b/src/main/org/codehaus/groovy/tools/shell/commands/PurgeCommand.groovy
+@@ -19 +19 @@
+-import org.codehaus.groovy.tools.shell.CommandSupport
++import org.codehaus.groovy.tools.shell.ComplexCommandSupport
+@@ -21,2 +20,0 @@
+-
+-import org.codehaus.groovy.tools.shell.util.SimpleCompletor
+@@ -31 +29 @@
+-    extends CommandSupport
++    extends ComplexCommandSupport
+@@ -33,2 +30,0 @@
+-    private static final List TYPES = [ 'variables', 'classes', 'imports', 'buffers' ]
+-    
+@@ -36,0 +33,2 @@
++        
++        this.functions = [ 'variables', 'classes', 'imports', 'buffers', 'all' ]
+@@ -39,14 +37,3 @@
+-    protected List createCompletors() {
+-        def c = new SimpleCompletor()
+-        
+-        TYPES.each { c.add(it) }
+-        c.add('all')
+-        
+-        return [ c, null ]
+-    }
+-    
+-    Object execute(final List args) {
+-        assert args != null
+-        
+-        if (args.size() == 0) {
+-            fail("Command '$name' requires at least one argument") // TODO: i18n
++    def do_variables = {
++        if (variables.isEmpty()) {
++            io.out.println('No variables defined') // TODO: i18n
+@@ -54,3 +41,6 @@
+-        
+-        args.each {
+-            purge(it)
++        else {
++            variables.clear()
++            
++            if (io.verbose) {
++                io.out.println("Custom variables purged") // TODO: i18n
++            }
+@@ -60,2 +50,28 @@
+-    private void purge(final String type) {
+-        assert type
++    def do_classes = {
++        if (classLoader.loadedClasses.size() == 0) {
++            io.out.println("No classes have been loaded") // TODO: i18n
++        }
++        else {
++            classLoader.clearCache()
++            
++            if (io.verbose) {
++                io.out.println('Loaded classes purged') // TODO: i18n
++            }
++        }
++    }
++    
++    def do_imports = {
++        if (imports.isEmpty()) {
++            io.out.println("No custom imports have been defined") // TODO: i18n
++        }
++        else {
++            imports.clear()
++            
++            if (io.verbose) {
++                io.out.println("Custom imports purged") // TODO: i18n
++            }
++        }
++    }
++    
++    def do_buffers = {
++        buffers.reset()
+@@ -63,54 +79,2 @@
+-        switch (type) {
+-            case 'variables':
+-                if (variables.isEmpty()) {
+-                    io.out.println('No variables defined') // TODO: i18n
+-                }
+-                else {
+-                    variables.clear()
+-                    
+-                    if (io.verbose) {
+-                        io.out.println("Custom variables purged") // TODO: i18n
+-                    }
+-                }
+-                break
+-                
+-            case 'classes':
+-                if (classLoader.loadedClasses.size() == 0) {
+-                    io.out.println("No classes have been loaded") // TODO: i18n
+-                }
+-                else {
+-                    classLoader.clearCache()
+-                    
+-                    if (io.verbose) {
+-                        io.out.println('Loaded classes purged') // TODO: i18n
+-                    }
+-                }
+-                break
+-            
+-            case 'imports':
+-                if (imports.isEmpty()) {
+-                    io.out.println("No custom imports have been defined") // TODO: i18n
+-                }
+-                else {
+-                    imports.clear()
+-                    
+-                    if (io.verbose) {
+-                        io.out.println("Custom imports purged") // TODO: i18n
+-                    }
+-                }
+-                break
+-                
+-            case 'buffers':
+-                buffers.reset()
+-                
+-                if (io.verbose) {
+-                    io.out.println('All buffers purged') // TODO: i18n
+-                }
+-                break
+-            
+-            case 'all':
+-                TYPES.each { purge(it) }
+-                break
+-                
+-            default:
+-                fail("Unknown purge type: $type") // TODO: i18n
++        if (io.verbose) {
++            io.out.println('All buffers purged') // TODO: i18n
+diff --git a/src/main/org/codehaus/groovy/tools/shell/commands/ShadowCommand.groovy b/src/main/org/codehaus/groovy/tools/shell/commands/ShadowCommand.groovy
+index 4b80684..2577a77 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/commands/ShadowCommand.groovy
++++ b/src/main/org/codehaus/groovy/tools/shell/commands/ShadowCommand.groovy
+@@ -19 +19 @@
+-import org.codehaus.groovy.tools.shell.CommandSupport
++import org.codehaus.groovy.tools.shell.ComplexCommandSupport
+@@ -29 +29 @@
+-    extends CommandSupport
++    extends ComplexCommandSupport
+@@ -33 +33,3 @@
+-
++        
++        this.functions = [ 'debug', 'verbose', 'this' ]
++        
+@@ -44 +46 @@
+-        io.out.println("Toggling logging DEBUG to: $flag")
++        io.out.println("Toggling logging debug to: $flag")
+@@ -49,2 +51,6 @@
+-    def do_this = {
+-        return this
++    def do_verbose = {
++        def flag = !io.verbose
++        
++        io.out.println("Toggling logging verbose to: $flag")
++        
++        io.verbose = flag
+@@ -53,23 +59,2 @@
+-    Object execute(List args) {
+-        assert args != null
+-        
+-        def name = args[0]
+-        args.reverse().pop()
+-        
+-        def func
+-        
+-        try {
+-            func = this."do_${name}"
+-        }
+-        catch (MissingPropertyException e) {
+-            io.err.println("@|red ERROR:| $e")
+-            fail('oooops')
+-        }
+-        
+-        log.debug("Invoking shadow function '$name' w/args: $args")
+-        
+-        def result = func.call(args)
+-        
+-        log.debug("Result: $result")
+-        
+-        return result
++    def do_this = {
++        return this
+diff --git a/src/main/org/codehaus/groovy/tools/shell/commands/ShowCommand.groovy b/src/main/org/codehaus/groovy/tools/shell/commands/ShowCommand.groovy
+index 2ce8aff..69bda1a 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/commands/ShowCommand.groovy
++++ b/src/main/org/codehaus/groovy/tools/shell/commands/ShowCommand.groovy
+@@ -21 +21 @@
+-import org.codehaus.groovy.tools.shell.CommandSupport
++import org.codehaus.groovy.tools.shell.ComplexCommandSupport
+@@ -23,2 +22,0 @@
+-
+-import org.codehaus.groovy.tools.shell.util.SimpleCompletor
+@@ -33 +31 @@
+-    extends CommandSupport
++    extends ComplexCommandSupport
+@@ -35,6 +32,0 @@
+-    //
+-    // TODO: Create helper class to handle commands which have sub-context like show and purge
+-    //
+-    
+-    private static final List TYPES = [ 'variables', 'classes', 'imports' ]
+-    
+@@ -42,0 +35,2 @@
++        
++        this.functions = [ 'variables', 'classes', 'imports', 'all' ]
+@@ -45,12 +39,3 @@
+-    protected List createCompletors() {
+-        def c = new SimpleCompletor()
+-        
+-        TYPES.each { c.add(it) }
+-        c.add('all')
+-        
+-        return [ c, null ]
+-    }
+-    
+-    Object execute(List args) {
+-        if (!args) {
+-            args = [ 'all' ]
++    def do_variables = {
++        if (variables.isEmpty()) {
++            io.out.println('No variables defined') // TODO: i18n
+@@ -58,3 +43,14 @@
+-        
+-        args.each {
+-            show(it)
++        else {
++            io.out.println('Variables:') // TODO: i18n
++            
++            variables.each { key, value ->
++                // Special handling for defined methods, just show the sig
++                if (value instanceof MethodClosure) {
++                    //
++                    // TODO: Would be nice to show the argument types it will accept...
++                    //
++                    value = "method ${value.method}()"
++                }
++                
++                io.out.println("  $key = $value")
++            }
+@@ -64,2 +60,2 @@
+-    private void show(final String type) {
+-        assert type
++    def do_classes = {
++        def classes = classLoader.loadedClasses
+@@ -67,36 +63,5 @@
+-        switch (type) {
+-            case 'variables':
+-                if (variables.isEmpty()) {
+-                    io.out.println('No variables defined') // TODO: i18n
+-                }
+-                else {
+-                    io.out.println('Variables:') // TODO: i18n
+-                    
+-                    variables.each { key, value ->
+-                        // Special handling for defined methods, just show the sig
+-                        if (value instanceof MethodClosure) {
+-                            //
+-                            // TODO: Would be nice to show the argument types it will accept...
+-                            //
+-                            value = "method ${value.method}()"
+-                        }
+-                        
+-                        io.out.println("  $key = $value")
+-                    }
+-                }
+-                break
+-                
+-            case 'classes':
+-                def classes = classLoader.loadedClasses
+-                
+-                if (classes.size() == 0) {
+-                    io.out.println("No classes have been loaded") // TODO: i18n
+-                }
+-                else {
+-                    io.out.println('Classes:') // TODO: i18n
+-                    
+-                    classes.each {
+-                        io.out.println("  $it")
+-                    }
+-                }
+-                break
++        if (classes.size() == 0) {
++            io.out.println("No classes have been loaded") // TODO: i18n
++        }
++        else {
++            io.out.println('Classes:') // TODO: i18n
+@@ -104,12 +69,12 @@
+-            case 'imports':
+-                if (imports.isEmpty()) {
+-                    io.out.println("No custom imports have been defined") // TODO: i18n
+-                }
+-                else {
+-                    io.out.println("Custom imports:") // TODO: i18n
+-                    
+-                    imports.each {
+-                        io.out.println("  $it")
+-                    }
+-                }
+-                break
++            classes.each {
++                io.out.println("  $it")
++            }
++        }
++    }
++    
++    def do_imports = {
++        if (imports.isEmpty()) {
++            io.out.println("No custom imports have been defined") // TODO: i18n
++        }
++        else {
++            io.out.println("Custom imports:") // TODO: i18n
+@@ -117,6 +82,3 @@
+-            case 'all':
+-                TYPES.each { show(it) }
+-                break
+-                
+-            default:
+-                fail("Unknown show type: $type") // TODO: i18n
++            imports.each {
++                io.out.println("  $it")
++            }
+diff --git a/src/main/org/codehaus/groovy/tools/shell/util/AnsiPrintWriter.java b/src/main/org/codehaus/groovy/tools/shell/util/AnsiPrintWriter.java
+index 69c6904..fcf80cf 100644
+--- a/src/main/org/codehaus/groovy/tools/shell/util/AnsiPrintWriter.java
++++ b/src/main/org/codehaus/groovy/tools/shell/util/AnsiPrintWriter.java
+@@ -19 +18,0 @@
+-import java.io.IOException;
+

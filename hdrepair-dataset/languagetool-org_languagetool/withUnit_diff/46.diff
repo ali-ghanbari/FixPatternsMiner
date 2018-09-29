@@ -1,0 +1,18 @@
+diff --git a/trunk/JLanguageTool/src/main/java/org/languagetool/rules/de/CaseRule.java b/trunk/JLanguageTool/src/main/java/org/languagetool/rules/de/CaseRule.java
+index 4ffde44..22b367a 100644
+--- a/trunk/JLanguageTool/src/main/java/org/languagetool/rules/de/CaseRule.java
++++ b/trunk/JLanguageTool/src/main/java/org/languagetool/rules/de/CaseRule.java
+@@ -494,0 +495,2 @@
++        !( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) &&
++           ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) ) &&
+diff --git a/trunk/JLanguageTool/src/test/java/org/languagetool/rules/de/CaseRuleTest.java b/trunk/JLanguageTool/src/test/java/org/languagetool/rules/de/CaseRuleTest.java
+index c237253..efcb762 100644
+--- a/trunk/JLanguageTool/src/test/java/org/languagetool/rules/de/CaseRuleTest.java
++++ b/trunk/JLanguageTool/src/test/java/org/languagetool/rules/de/CaseRuleTest.java
+@@ -55,0 +56,2 @@
++    assertEquals(0, langTool.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
++//     assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
+@@ -87,0 +90,2 @@
++    assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
++//     assertEquals(2, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch [...] Der Auswahlstapel gehört zum Inhalt.").size());
+

@@ -1,0 +1,16 @@
+diff --git a/WHATSNEW b/WHATSNEW
+index 084824a..d7b2118 100644
+--- a/WHATSNEW
++++ b/WHATSNEW
+@@ -206,0 +207,3 @@
++* DirectoryScanner.scan() could throw a NullPointerException on
++  case-insensitive filesystems (read Windows or MacOS X).
++
+diff --git a/src/main/org/apache/tools/ant/DirectoryScanner.java b/src/main/org/apache/tools/ant/DirectoryScanner.java
+index a2534a1..0bf8267 100644
+--- a/src/main/org/apache/tools/ant/DirectoryScanner.java
++++ b/src/main/org/apache/tools/ant/DirectoryScanner.java
+@@ -875 +875 @@
+-                    if (f.exists()) {
++                    if (f != null && f.exists()) {
+

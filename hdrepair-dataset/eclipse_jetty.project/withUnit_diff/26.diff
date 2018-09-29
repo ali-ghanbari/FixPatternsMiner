@@ -1,0 +1,15 @@
+diff --git a/jetty-io/src/main/java/org/eclipse/jetty/io/nio/ChannelEndPoint.java b/jetty-io/src/main/java/org/eclipse/jetty/io/nio/ChannelEndPoint.java
+index 2c9cc68..2d5d178 100644
+--- a/jetty-io/src/main/java/org/eclipse/jetty/io/nio/ChannelEndPoint.java
++++ b/jetty-io/src/main/java/org/eclipse/jetty/io/nio/ChannelEndPoint.java
+@@ -152 +152 @@
+-                        close();
++                        _channel.close();  // Don't call this.close() as that may recurse in SSL land and call fill again
+diff --git a/jetty-server/src/test/java/org/eclipse/jetty/server/handler/ConnectHandlerConnectSSLTest.java b/jetty-server/src/test/java/org/eclipse/jetty/server/handler/ConnectHandlerConnectSSLTest.java
+index bfca5d8..27beaa3 100644
+--- a/jetty-server/src/test/java/org/eclipse/jetty/server/handler/ConnectHandlerConnectSSLTest.java
++++ b/jetty-server/src/test/java/org/eclipse/jetty/server/handler/ConnectHandlerConnectSSLTest.java
+@@ -42,0 +43,2 @@
++        if (keyStorePath==null)
++            keyStorePath=".";
+

@@ -1,0 +1,115 @@
+diff --git a/hazelcast-client/src/test/java/com/hazelcast/client/map/ClientMapTest.java b/hazelcast-client/src/test/java/com/hazelcast/client/map/ClientMapTest.java
+index dcec046..391c95a 100644
+--- a/hazelcast-client/src/test/java/com/hazelcast/client/map/ClientMapTest.java
++++ b/hazelcast-client/src/test/java/com/hazelcast/client/map/ClientMapTest.java
+@@ -41,0 +42,6 @@
++import org.junit.AfterClass;
++import org.junit.BeforeClass;
++import org.junit.Test;
++import org.junit.experimental.categories.Category;
++import org.junit.runner.RunWith;
++
+@@ -53,5 +58,0 @@
+-import org.junit.AfterClass;
+-import org.junit.BeforeClass;
+-import org.junit.Test;
+-import org.junit.experimental.categories.Category;
+-import org.junit.runner.RunWith;
+@@ -118 +119 @@
+-                if (value != null) {
++                if (value == null) {
+diff --git a/hazelcast/src/main/java/com/hazelcast/map/MapService.java b/hazelcast/src/main/java/com/hazelcast/map/MapService.java
+index b6abf62..b9012cd 100644
+--- a/hazelcast/src/main/java/com/hazelcast/map/MapService.java
++++ b/hazelcast/src/main/java/com/hazelcast/map/MapService.java
+@@ -721 +721 @@
+-            dataValue = dataValue != null ? dataValue : dataOldValue;
++                dataValue = null;
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/BasicMapTest.java b/hazelcast/src/test/java/com/hazelcast/map/BasicMapTest.java
+index 4927c81..16568af 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/BasicMapTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/BasicMapTest.java
+@@ -240,2 +240,2 @@
+-                if (value1.equals(event.getValue())) {
+-                    newList.add(event.getValue());
++                if (value1.equals(event.getOldValue())) {
++                    newList.add(event.getOldValue());
+@@ -243,2 +243,2 @@
+-                } else if (value2.equals(event.getValue())) {
+-                    newList.add(event.getValue());
++                } else if (value2.equals(event.getOldValue())) {
++                    newList.add(event.getOldValue());
+@@ -275 +275 @@
+-                assertEquals("new world", event.getValue());
++                assertEquals(null, event.getValue());
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/EntryProcessorTest.java b/hazelcast/src/test/java/com/hazelcast/map/EntryProcessorTest.java
+index d0d4867..d6cb3f6 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/EntryProcessorTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/EntryProcessorTest.java
+@@ -31 +30,0 @@
+-import com.hazelcast.instance.HazelcastInstanceFactory;
+@@ -44 +42,0 @@
+-import org.junit.Ignore;
+@@ -63 +61,6 @@
+-import static org.junit.Assert.*;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertFalse;
++import static org.junit.Assert.assertNotNull;
++import static org.junit.Assert.assertNull;
++import static org.junit.Assert.assertTrue;
++import static org.junit.Assert.fail;
+@@ -645 +648 @@
+-                    removeKey1Sum.addAndGet(event.getValue());
++                    removeKey1Sum.addAndGet(event.getOldValue());
+diff --git a/hazelcast/src/test/java/com/hazelcast/map/ListenerTest.java b/hazelcast/src/test/java/com/hazelcast/map/ListenerTest.java
+index 17126c2..8053461 100644
+--- a/hazelcast/src/test/java/com/hazelcast/map/ListenerTest.java
++++ b/hazelcast/src/test/java/com/hazelcast/map/ListenerTest.java
+@@ -42,0 +43 @@
++import static org.junit.Assert.assertNull;
+@@ -297,0 +299,44 @@
++    /**
++     * test for issue 3198
++     */
++    @Test
++    public void testEntryListenerEvent_getValueWhenEntryRemoved() {
++        TestHazelcastInstanceFactory nodeFactory = createHazelcastInstanceFactory(1);
++        HazelcastInstance h1 = nodeFactory.newHazelcastInstance(new Config());
++        IMap<String, String> map = h1.getMap(name);
++        final CountDownLatch latch = new CountDownLatch(1);
++
++        map.addEntryListener(new EntryAdapter<String, String>() {
++            public void entryRemoved(EntryEvent<String, String> event) {
++                System.out.println(event.getValue());
++                System.out.println(event.getOldValue());
++                assertNull(event.getValue());
++                assertEquals("value", event.getOldValue());
++                latch.countDown();
++            }
++        }, true);
++
++        map.put("key", "value");
++        map.remove("key");
++        assertOpenEventually(latch, 10);
++    }
++
++    @Test
++    public void testEntryListenerEvent_getValueWhenEntryEvicted() {
++        TestHazelcastInstanceFactory nodeFactory = createHazelcastInstanceFactory(1);
++        HazelcastInstance h1 = nodeFactory.newHazelcastInstance(new Config());
++        IMap<String, String> map = h1.getMap(name);
++        final CountDownLatch latch = new CountDownLatch(1);
++
++        map.addEntryListener(new EntryAdapter<String, String>() {
++            public void entryEvicted(EntryEvent<String, String> event) {
++                assertNull(event.getValue());
++                assertEquals("value", event.getOldValue());
++                latch.countDown();
++            }
++        }, true);
++
++        map.put("key","value",1,TimeUnit.SECONDS);
++        assertOpenEventually(latch, 10);
++    }
++
+

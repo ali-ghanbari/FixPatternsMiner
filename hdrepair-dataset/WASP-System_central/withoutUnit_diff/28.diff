@@ -1,0 +1,8 @@
+diff --git a/wasp-web/src/main/java/edu/yu/einstein/wasp/service/impl/BatchJobStatusViewerServiceImpl.java b/wasp-web/src/main/java/edu/yu/einstein/wasp/service/impl/BatchJobStatusViewerServiceImpl.java
+index f7812d7..4b95c7c 100644
+--- a/wasp-web/src/main/java/edu/yu/einstein/wasp/service/impl/BatchJobStatusViewerServiceImpl.java
++++ b/wasp-web/src/main/java/edu/yu/einstein/wasp/service/impl/BatchJobStatusViewerServiceImpl.java
+@@ -64 +64 @@
+-		if (!se.getExitStatus().getExitCode().equals(ExitStatus.HIBERNATING.getExitCode()))
++		if (!se.getExitStatus().getExitCode().equals(ExitStatus.HIBERNATING.getExitCode()) && !se.getExitStatus().getExitCode().equals(ExitStatus.UNKNOWN.getExitCode()))
+

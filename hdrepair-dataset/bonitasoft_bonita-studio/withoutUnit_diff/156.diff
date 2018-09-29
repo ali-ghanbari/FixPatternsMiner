@@ -1,0 +1,8 @@
+diff --git a/bundles/plugins/org.bonitasoft.studio.importer.bar/src/org/bonitasoft/studio/importer/bar/custom/migration/connector/mapper/EmailConnectorMapper.java b/bundles/plugins/org.bonitasoft.studio.importer.bar/src/org/bonitasoft/studio/importer/bar/custom/migration/connector/mapper/EmailConnectorMapper.java
+index 3c42a46..3461dd5 100644
+--- a/bundles/plugins/org.bonitasoft.studio.importer.bar/src/org/bonitasoft/studio/importer/bar/custom/migration/connector/mapper/EmailConnectorMapper.java
++++ b/bundles/plugins/org.bonitasoft.studio.importer.bar/src/org/bonitasoft/studio/importer/bar/custom/migration/connector/mapper/EmailConnectorMapper.java
+@@ -45 +45 @@
+-		if(MESSAGE.equals(input) && !value.toString().startsWith("${")){
++		if(MESSAGE.equals(input) && !(value.toString().startsWith("${") && value.toString().endsWith("}"))){
+

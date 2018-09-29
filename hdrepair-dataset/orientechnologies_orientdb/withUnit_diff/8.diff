@@ -1,0 +1,49 @@
+diff --git a/core/src/main/java/com/orientechnologies/orient/core/serialization/serializer/record/binary/BytesContainer.java b/core/src/main/java/com/orientechnologies/orient/core/serialization/serializer/record/binary/BytesContainer.java
+index 94e356e..9422391 100644
+--- a/core/src/main/java/com/orientechnologies/orient/core/serialization/serializer/record/binary/BytesContainer.java
++++ b/core/src/main/java/com/orientechnologies/orient/core/serialization/serializer/record/binary/BytesContainer.java
+@@ -31 +31 @@
+-    while (newLength > offset)
++    while (newLength < offset)
+diff --git a/core/src/test/java/com/orientechnologies/orient/core/record/impl/BytesContainerTest.java b/core/src/test/java/com/orientechnologies/orient/core/record/impl/BytesContainerTest.java
+new file mode 100644
+index 0000000..593164f
+--- /dev/null
++++ b/core/src/test/java/com/orientechnologies/orient/core/record/impl/BytesContainerTest.java
+@@ -0,0 +1,35 @@
++package com.orientechnologies.orient.core.record.impl;
++
++import static org.testng.Assert.assertEquals;
++import static org.testng.Assert.assertNotNull;
++import static org.testng.Assert.assertTrue;
++
++import org.testng.annotations.Test;
++
++import com.orientechnologies.orient.core.serialization.serializer.record.binary.BytesContainer;
++
++public class BytesContainerTest {
++
++  @Test
++  public void testSimple() {
++    BytesContainer bytesContainer = new BytesContainer();
++    assertNotNull(bytesContainer.bytes);
++    assertEquals(bytesContainer.offset, 0);
++  }
++
++  @Test
++  public void testReallocSimple() {
++    BytesContainer bytesContainer = new BytesContainer();
++    bytesContainer.alloc((short) 2050);
++    assertTrue(bytesContainer.bytes.length > 2050);
++    assertEquals(bytesContainer.offset, 2050);
++  }
++
++  @Test
++  public void testReadSimple() {
++    BytesContainer bytesContainer = new BytesContainer();
++    bytesContainer.read((short) 100);
++    assertEquals(bytesContainer.offset, 100);
++  }
++
++}
+

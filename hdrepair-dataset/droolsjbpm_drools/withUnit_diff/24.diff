@@ -1,0 +1,32 @@
+diff --git a/drools-compiler/src/main/java/org/drools/compiler/PackageBuilder.java b/drools-compiler/src/main/java/org/drools/compiler/PackageBuilder.java
+index f708683..3fd3dc6 100644
+--- a/drools-compiler/src/main/java/org/drools/compiler/PackageBuilder.java
++++ b/drools-compiler/src/main/java/org/drools/compiler/PackageBuilder.java
+@@ -1508 +1508 @@
+-                if (declaredName.endsWith( sup ))
++                if (declaredName.equals( sup ))
+diff --git a/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java b/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java
+index 89241ca..e0ab43a 100644
+--- a/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java
++++ b/drools-compiler/src/test/java/org/drools/integrationtests/MiscTest.java
+@@ -1203,2 +1203,2 @@
+-        String file1 = "package org.jboss.qa.brms.importreplace\n" +
+-        		"import org.drools.Person\n" + 
++        System.setProperty( "drools.dump.dir", "target" );
++        String file1 = "package a.b.c\n" +
+@@ -1206 +1205,0 @@
+-        		"    person : Person\n" + 
+@@ -1209,3 +1208,3 @@
+-        		"end";
+-        String file2 = "package org.jboss.qa.brms.importreplace\n" + 
+-                "import org.drools.Person\n" + 
++        		"end\n";
++        String file2 = "package a.b.c\n" + 
++                "import org.drools.*\n" +
+@@ -1225 +1224 @@
+-        KnowledgeBase kbase = loadKnowledgeBaseFromString( file1, file2 );
++        KnowledgeBase kbase = loadKnowledgeBaseFromString( file1 , file2 );
+@@ -1230 +1229 @@
+-        ksession.insert( new Person("Bob") );
++        ksession.insert( new org.drools.Person("Bob") );
+

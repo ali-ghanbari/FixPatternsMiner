@@ -1,0 +1,58 @@
+diff --git a/distro/jbossas71/subsystem/src/main/java/org/camunda/bpm/container/impl/jboss/extension/BpmPlatformParser.java b/distro/jbossas71/subsystem/src/main/java/org/camunda/bpm/container/impl/jboss/extension/BpmPlatformParser.java
+index b25e612..4ed33ac 100644
+--- a/distro/jbossas71/subsystem/src/main/java/org/camunda/bpm/container/impl/jboss/extension/BpmPlatformParser.java
++++ b/distro/jbossas71/subsystem/src/main/java/org/camunda/bpm/container/impl/jboss/extension/BpmPlatformParser.java
+@@ -389,0 +390 @@
++        writeElement(Element.CONFIGURATION, writer, entry);
+diff --git a/distro/jbossas71/subsystem/src/main/resources/schema/foxEngineSubsystem_1_1.xsd b/distro/jbossas71/subsystem/src/main/resources/schema/foxEngineSubsystem_1_1.xsd
+index f5bf5b3..1f6c3d1 100644
+--- a/distro/jbossas71/subsystem/src/main/resources/schema/foxEngineSubsystem_1_1.xsd
++++ b/distro/jbossas71/subsystem/src/main/resources/schema/foxEngineSubsystem_1_1.xsd
+@@ -26,0 +27 @@
++      <xs:element name="configuration" minOccurs="0" maxOccurs="1" />
+diff --git a/distro/jbossas71/subsystem/src/test/resources/subsystemWithDuplicateEngineNames.xml b/distro/jbossas71/subsystem/src/test/resources/subsystemWithDuplicateEngineNames.xml
+index 1257680..5e649b6 100644
+--- a/distro/jbossas71/subsystem/src/test/resources/subsystemWithDuplicateEngineNames.xml
++++ b/distro/jbossas71/subsystem/src/test/resources/subsystemWithDuplicateEngineNames.xml
+@@ -5,0 +6 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+@@ -14,0 +16 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+diff --git a/distro/jbossas71/subsystem/src/test/resources/subsystemWithEngines.xml b/distro/jbossas71/subsystem/src/test/resources/subsystemWithEngines.xml
+index ce5dc8d..1c6e280 100644
+--- a/distro/jbossas71/subsystem/src/test/resources/subsystemWithEngines.xml
++++ b/distro/jbossas71/subsystem/src/test/resources/subsystemWithEngines.xml
+@@ -5,0 +6 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+@@ -8,0 +10 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+diff --git a/distro/jbossas71/subsystem/src/test/resources/subsystemWithEnginesAndProperties.xml b/distro/jbossas71/subsystem/src/test/resources/subsystemWithEnginesAndProperties.xml
+index a006653..7f712ac 100644
+--- a/distro/jbossas71/subsystem/src/test/resources/subsystemWithEnginesAndProperties.xml
++++ b/distro/jbossas71/subsystem/src/test/resources/subsystemWithEnginesAndProperties.xml
+@@ -5,0 +6 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+@@ -14,0 +16 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+@@ -21,0 +24 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+@@ -25,0 +29 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+diff --git a/distro/jbossas71/subsystem/src/test/resources/subsystemWithProcessEnginesAndJobExecutor.xml b/distro/jbossas71/subsystem/src/test/resources/subsystemWithProcessEnginesAndJobExecutor.xml
+index 0a35988..2971a2a 100644
+--- a/distro/jbossas71/subsystem/src/test/resources/subsystemWithProcessEnginesAndJobExecutor.xml
++++ b/distro/jbossas71/subsystem/src/test/resources/subsystemWithProcessEnginesAndJobExecutor.xml
+@@ -5,0 +6 @@
++            <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+@@ -14,0 +16 @@
++            <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+@@ -24 +26 @@
+-				<acquisition-strategy>SEQUENTIAL</acquisition-strategy>
++				<acquisition-strategy>SEQUENTIAL</acquisition-strategy>                
+diff --git a/distro/jbossas71/subsystem/src/test/resources/subsystemWithSingleEngine.xml b/distro/jbossas71/subsystem/src/test/resources/subsystemWithSingleEngine.xml
+index d3123d1..6afe7fe 100644
+--- a/distro/jbossas71/subsystem/src/test/resources/subsystemWithSingleEngine.xml
++++ b/distro/jbossas71/subsystem/src/test/resources/subsystemWithSingleEngine.xml
+@@ -5,0 +6 @@
++      <configuration>org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration</configuration>
+

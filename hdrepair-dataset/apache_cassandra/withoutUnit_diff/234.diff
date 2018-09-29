@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/db/index/keys/KeysSearcher.java b/src/java/org/apache/cassandra/db/index/keys/KeysSearcher.java
+index 7a15dc1..cdf9856 100644
+--- a/src/java/org/apache/cassandra/db/index/keys/KeysSearcher.java
++++ b/src/java/org/apache/cassandra/db/index/keys/KeysSearcher.java
+@@ -163 +163 @@
+-                            logger.debug("Skipping {}", baseCfs.getComparator().getString(firstColumn.name()));
++                            logger.debug("Skipping {}", baseCfs.metadata.getKeyValidator().getString(firstColumn.name()));
+

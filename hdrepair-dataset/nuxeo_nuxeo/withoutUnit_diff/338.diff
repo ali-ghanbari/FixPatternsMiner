@@ -1,0 +1,8 @@
+diff --git a/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/SQLStatement.java b/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/SQLStatement.java
+index 74ef787..13c5e13 100644
+--- a/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/SQLStatement.java
++++ b/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/SQLStatement.java
+@@ -132 +132 @@
+-        InputStream is = SQLStatement.class.getClassLoader().getResourceAsStream(
++        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(
+

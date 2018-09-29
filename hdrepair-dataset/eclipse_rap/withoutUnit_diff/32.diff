@@ -1,0 +1,57 @@
+diff --git a/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/theme/DefaultAppearances.js b/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/theme/DefaultAppearances.js
+index 5253368..06e829f 100644
+--- a/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/theme/DefaultAppearances.js
++++ b/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/theme/DefaultAppearances.js
+@@ -918,0 +919,11 @@
++    "tree-container" :
++    {
++      style : function( states ) {
++        return {
++          border : states.rwt_BORDER
++            ? "control.BORDER.border"
++            : "control.border"
++        };
++      }
++    },
++    
+diff --git a/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/Tree.js b/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/Tree.js
+index 40e0445..ad12197 100644
+--- a/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/Tree.js
++++ b/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/Tree.js
+@@ -26,0 +27 @@
++    this.setAppearance( "tree-container" );
+@@ -112,0 +114,6 @@
++  	
++  	// delegater
++  	setBackgroundColor : function( color ) {
++  		this._tree.setBackgroundColor( color );
++  	},
++  	
+diff --git a/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/TreeItem.js b/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/TreeItem.js
+index 0e53fd0..c968615 100644
+--- a/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/TreeItem.js
++++ b/bundles/org.eclipse.rap.rwt/js/org/eclipse/swt/widgets/TreeItem.js
+@@ -197,0 +198 @@
++    	this.updateItem();
+@@ -203 +204,3 @@
+-      this.updateItem();
++      if( this.isCreated() ) {
++        this.updateItem();
++      }
+@@ -208 +211,3 @@
+-      this.updateItem();
++    	if( this.isCreated() ) {
++        this.updateItem();
++    	}
+@@ -224,2 +229,2 @@
+-		    			this.setLabel( this._texts[ col ] );
+-  		    		this.setImage( this._images[ col ] );
++			    			this.setLabel( this._texts[ col ] );
++	  		    		this.setImage( this._images[ col ] );
+diff --git a/bundles/org.eclipse.rap.rwt/src/org/eclipse/swt/internal/widgets/displaykit/DisplayLCA.java b/bundles/org.eclipse.rap.rwt/src/org/eclipse/swt/internal/widgets/displaykit/DisplayLCA.java
+index c67e47b..1b69314 100644
+--- a/bundles/org.eclipse.rap.rwt/src/org/eclipse/swt/internal/widgets/displaykit/DisplayLCA.java
++++ b/bundles/org.eclipse.rap.rwt/src/org/eclipse/swt/internal/widgets/displaykit/DisplayLCA.java
+@@ -368,0 +369 @@
++	// TODO [bm] this could be part of ralfs themeing or?
+

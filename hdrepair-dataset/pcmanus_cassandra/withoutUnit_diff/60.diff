@@ -1,0 +1,20 @@
+diff --git a/src/java/org/apache/cassandra/thrift/CassandraServer.java b/src/java/org/apache/cassandra/thrift/CassandraServer.java
+index e597936..1991359 100644
+--- a/src/java/org/apache/cassandra/thrift/CassandraServer.java
++++ b/src/java/org/apache/cassandra/thrift/CassandraServer.java
+@@ -962,0 +963 @@
++        CFMetaData.addDefaultIndexNames(cf_def);
+diff --git a/test/system/test_thrift_server.py b/test/system/test_thrift_server.py
+index ce3bc29..7ba394b 100644
+--- a/test/system/test_thrift_server.py
++++ b/test/system/test_thrift_server.py
+@@ -1418 +1418 @@
+-        modified_cd = ColumnDef('birthdate', 'BytesType', IndexType.KEYS, 'birthdate_index')
++        modified_cd = ColumnDef('birthdate', 'BytesType', IndexType.KEYS, None)
+@@ -1424 +1424 @@
+-        birthdate_coldef = ColumnDef('birthdate', 'BytesType', IndexType.KEYS, 'birthdate2_index')
++        birthdate_coldef = ColumnDef('birthdate', 'BytesType', IndexType.KEYS, None)
+@@ -1475 +1475 @@
+-        modified_cd = ColumnDef('birthdate', 'BytesType', IndexType.KEYS, None)
++        modified_cd = ColumnDef('birthdate', 'BytesType', IndexType.KEYS, 'bd_index')
+

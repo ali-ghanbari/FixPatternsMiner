@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/net/MessagingService.java b/src/java/org/apache/cassandra/net/MessagingService.java
+index e5be891..4f6aaf5 100644
+--- a/src/java/org/apache/cassandra/net/MessagingService.java
++++ b/src/java/org/apache/cassandra/net/MessagingService.java
+@@ -524 +524 @@
+-            if (e.awaitTermination(24, TimeUnit.HOURS))
++            if (!e.awaitTermination(24, TimeUnit.HOURS))
+

@@ -1,0 +1,8 @@
+diff --git a/rxjava-contrib/rxjava-debug/src/main/java/rx/plugins/DebugNotification.java b/rxjava-contrib/rxjava-debug/src/main/java/rx/plugins/DebugNotification.java
+index cc011d4..ba195aa 100644
+--- a/rxjava-contrib/rxjava-debug/src/main/java/rx/plugins/DebugNotification.java
++++ b/rxjava-contrib/rxjava-debug/src/main/java/rx/plugins/DebugNotification.java
+@@ -40 +40 @@
+-            sourceFunc = (OnSubscribe<T>) ((SafeSubscriber<T>) sourceFunc).getActual();
++            sourceFunc = ((DebugHook.DebugOnSubscribe) sourceFunc).getActual();
+

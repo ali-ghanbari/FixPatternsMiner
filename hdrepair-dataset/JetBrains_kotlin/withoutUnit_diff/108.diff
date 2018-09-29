@@ -1,0 +1,9 @@
+diff --git a/compiler/backend/src/org/jetbrains/jet/codegen/NamespaceCodegen.java b/compiler/backend/src/org/jetbrains/jet/codegen/NamespaceCodegen.java
+index 5b84e5a..c5dfe41 100644
+--- a/compiler/backend/src/org/jetbrains/jet/codegen/NamespaceCodegen.java
++++ b/compiler/backend/src/org/jetbrains/jet/codegen/NamespaceCodegen.java
+@@ -303 +303,2 @@
+-        return namespaceInternalName + "$src$" + name.substring(substringFrom, substringTo);
++        // dollar sign in the end is to prevent synthetic class from having "Test" or other parseable suffix
++        return namespaceInternalName + "$src$" + name.substring(substringFrom, substringTo) + "$";
+

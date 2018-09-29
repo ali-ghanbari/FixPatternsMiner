@@ -1,0 +1,35 @@
+diff --git a/blueprints-core/src/main/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyElement.java b/blueprints-core/src/main/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyElement.java
+index 2a86323..f450df8 100644
+--- a/blueprints-core/src/main/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyElement.java
++++ b/blueprints-core/src/main/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyElement.java
+@@ -53 +53 @@
+-        return this.element.equals(object);
++        return (object.getClass().equals(this.getClass())) && this.element.getId().equals(((ReadOnlyElement) object).getId());
+diff --git a/blueprints-test/src/test/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyGraphTest.java b/blueprints-test/src/test/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyGraphTest.java
+index 98b0f6a..2f2b5e5 100644
+--- a/blueprints-test/src/test/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyGraphTest.java
++++ b/blueprints-test/src/test/java/com/tinkerpop/blueprints/pgm/impls/readonly/ReadOnlyGraphTest.java
+@@ -4 +4,5 @@
+-import com.tinkerpop.blueprints.pgm.*;
++import com.tinkerpop.blueprints.pgm.Edge;
++import com.tinkerpop.blueprints.pgm.Graph;
++import com.tinkerpop.blueprints.pgm.Index;
++import com.tinkerpop.blueprints.pgm.IndexableGraph;
++import com.tinkerpop.blueprints.pgm.Vertex;
+@@ -9,0 +14,3 @@
++import java.util.HashSet;
++import java.util.Set;
++
+@@ -14,0 +22,11 @@
++    public void testWrappedElementUniqueness() {
++        Graph graph = new ReadOnlyGraph(TinkerGraphFactory.createTinkerGraph());
++        assertEquals(graph.getVertex(1), graph.getVertex(1));
++        Set<Vertex> set = new HashSet<Vertex>();
++        set.add(graph.getVertex(2));
++        set.add(graph.getVertex(2));
++        assertEquals(set.size(), 1);
++        assertEquals(graph.getEdge(7).hashCode(), graph.getEdge(7).hashCode());
++        assertEquals(graph.getEdge(8), graph.getEdge(8));
++    }
++
+

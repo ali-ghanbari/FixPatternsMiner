@@ -1,0 +1,26 @@
+Thanks to Paul Davies for locating this.
+
+The command received the version string from the remote windows machine but neglected to return the string inside the StringBuilder object
+that it was given.  Trivial fix.
+
+Before:
+
+d:\gf\branches\3.1.2\cluster>asadmin ping-node-dcom -v vaio_node
+Successfully made DCOM connection to node vaio_node (vaio)
+GlassFish version found at c:/gf312:
+
+
+After:
+
+d:\gf\branches\3.1.2\cluster\ssh>asadmin ping-node-dcom -v vaio_node
+Successfully made DCOM connection to node vaio_node (vaio)
+GlassFish version found at c:/gf312:
+Using locally retrieved version string from version class.
+Version = GlassFish Server Open Source Edition 3.1.2-SNAPSHOT (build wnevins-private)
+Command version executed successfully.
+
+
+
+
+git-svn-id: https://svn.java.net/svn/glassfish~svn/trunk/main@51334 6f3ba3e3-413c-0410-a8aa-90bee3ab43b5
+

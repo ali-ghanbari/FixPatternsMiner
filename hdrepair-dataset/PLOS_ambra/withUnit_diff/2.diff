@@ -1,0 +1,28 @@
+diff --git a/base/src/main/java/org/ambraproject/service/user/UserRegistrationServiceImpl.java b/base/src/main/java/org/ambraproject/service/user/UserRegistrationServiceImpl.java
+index 7aa4265..4a8ea6e 100644
+--- a/base/src/main/java/org/ambraproject/service/user/UserRegistrationServiceImpl.java
++++ b/base/src/main/java/org/ambraproject/service/user/UserRegistrationServiceImpl.java
+@@ -169 +169 @@
+-        ));
++                .add(Restrictions.eq("verified", true))));
+diff --git a/base/src/test/java/org/ambraproject/service/user/UserRegistrationServiceTest.java b/base/src/test/java/org/ambraproject/service/user/UserRegistrationServiceTest.java
+index d729328..0f140e3 100644
+--- a/base/src/test/java/org/ambraproject/service/user/UserRegistrationServiceTest.java
++++ b/base/src/test/java/org/ambraproject/service/user/UserRegistrationServiceTest.java
+@@ -136,0 +137,2 @@
++    profile.setVerified(true);
++
+@@ -154,0 +157,12 @@
++  @Test(expectedExceptions = NoSuchUserException.class)
++  public void testSendForgotPasswordMessageNotVerified() throws Exception {
++    UserProfile profile = new UserProfile(
++      "sendForgotPasswordMessage2@test.org",
++      "testSendForgotPasswordMessage2",
++      "pass2");
++
++    dummyDataStore.store(profile);
++
++    userRegistrationService.sendForgotPasswordMessage(profile.getEmail());
++  }
++
+

@@ -1,0 +1,9 @@
+diff --git a/hale/eu.esdihumboldt.hale.core/src/eu/esdihumboldt/hale/core/io/project/model/Project.java b/hale/eu.esdihumboldt.hale.core/src/eu/esdihumboldt/hale/core/io/project/model/Project.java
+index 3ff1a93..7e73045 100644
+--- a/hale/eu.esdihumboldt.hale.core/src/eu/esdihumboldt/hale/core/io/project/model/Project.java
++++ b/hale/eu.esdihumboldt.hale.core/src/eu/esdihumboldt/hale/core/io/project/model/Project.java
+@@ -91 +91,2 @@
+-		Writer writer = new BufferedWriter(new OutputStreamWriter(out));
++//		marshaller.setEncoding("UTF-8"); XXX not possible using the XMLContext but UTF-8 seems to be default, see http://jira.codehaus.org/browse/CASTOR-2846
++		Writer writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+

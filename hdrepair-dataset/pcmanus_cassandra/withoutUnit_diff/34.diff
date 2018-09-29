@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/config/CFMetaData.java b/src/java/org/apache/cassandra/config/CFMetaData.java
+index 15680a5..3bc5d5a 100644
+--- a/src/java/org/apache/cassandra/config/CFMetaData.java
++++ b/src/java/org/apache/cassandra/config/CFMetaData.java
+@@ -395 +395 @@
+-            caching = Caching.fromString(cf.caching.toString());
++            caching = cf.caching == null ? Caching.KEYS_ONLY : Caching.fromString(cf.caching.toString());
+

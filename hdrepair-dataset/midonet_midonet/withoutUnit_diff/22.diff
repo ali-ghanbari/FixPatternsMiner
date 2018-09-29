@@ -1,0 +1,18 @@
+diff --git a/midolman/src/main/java/org/midonet/midolman/guice/MidolmanActorsModule.java b/midolman/src/main/java/org/midonet/midolman/guice/MidolmanActorsModule.java
+index 7de05ab..421c86a 100644
+--- a/midolman/src/main/java/org/midonet/midolman/guice/MidolmanActorsModule.java
++++ b/midolman/src/main/java/org/midonet/midolman/guice/MidolmanActorsModule.java
+@@ -154 +154 @@
+-                        log.warn("Actor crashed, aborting: {}", t);
++                        log.warn("Actor crashed, aborting", t);
+diff --git a/midolman/src/main/scala/org/midonet/midolman/routingprotocols/RoutingHandler.scala b/midolman/src/main/scala/org/midonet/midolman/routingprotocols/RoutingHandler.scala
+index c19ad0e..13ad0cf 100644
+--- a/midolman/src/main/scala/org/midonet/midolman/routingprotocols/RoutingHandler.scala
++++ b/midolman/src/main/scala/org/midonet/midolman/routingprotocols/RoutingHandler.scala
+@@ -355 +355 @@
+-                    case Started =>
++                    case Started if bgps.contains(bgpID) =>
+@@ -372,0 +373,2 @@
++                    case Started =>
++                        log.warning("Received RemoveBgpSession({}) for an unknown id", bgpID)
+

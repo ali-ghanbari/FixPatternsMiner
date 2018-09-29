@@ -1,0 +1,16 @@
+diff --git a/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java b/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
+index bd13c05..a0bab4c 100644
+--- a/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
++++ b/languagetool-language-modules/de/src/main/java/org/languagetool/chunking/GermanChunker.java
+@@ -205 +205 @@
+-      build("<chunk=NPS>+ <und> <chunk=NP[SP] & pos=GEN>+", NPS, true),
++      build("<chunk=NPS>+ <und> <chunk=NP[SP] & (pos=GEN | pos=ADV)>+", NPS, true),
+diff --git a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
+index 895f5df..b60023e 100644
+--- a/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
++++ b/languagetool-language-modules/de/src/test/java/org/languagetool/rules/de/SubjectVerbAgreementRuleTest.java
+@@ -290 +290,2 @@
+-        "Aufgrund stark schwankender Absatzmärkte war die GEFA-Flug Mitte der 90er Jahre gezwungen, ..."
++        "Aufgrund stark schwankender Absatzmärkte war die GEFA-Flug Mitte der 90er Jahre gezwungen, ...",
++        "Der Abzug der Besatzungssoldaten und deren mittlerweile ansässigen Angehörigen der Besatzungsmächte war vereinbart."
+

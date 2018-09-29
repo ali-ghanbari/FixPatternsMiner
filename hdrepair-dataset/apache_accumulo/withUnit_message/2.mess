@@ -1,0 +1,10 @@
+ACCUMULO-3461 Fix race condition in ZooTraceClientTest
+
+The 2nd call to ZooTraceClient.updateHostsFromKeeper is made
+asynchronously (after waiting for 0ms). This will sometimes
+pass and sometimes fail. Add a delegate to the 2nd call and
+make a simple latch that the test case can wait on to ensure
+both calls happened before we verify the mock's state.
+
+Also fixed a bad log message that [~ecn] noticed.
+

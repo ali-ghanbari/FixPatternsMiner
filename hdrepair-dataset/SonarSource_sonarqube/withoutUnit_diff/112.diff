@@ -1,0 +1,70 @@
+diff --git a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/CustomMeasuresWidget.java b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/CustomMeasuresWidget.java
+index 6410d64..c2eafda 100644
+--- a/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/CustomMeasuresWidget.java
++++ b/plugins/sonar-core-plugin/src/main/java/org/sonar/plugins/core/widgets/CustomMeasuresWidget.java
+@@ -24 +23,0 @@
+-@WidgetCategory({"Measures"})
+diff --git a/plugins/sonar-l10n-en-plugin/src/main/resources/org/sonar/l10n/core.properties b/plugins/sonar-l10n-en-plugin/src/main/resources/org/sonar/l10n/core.properties
+index bd3e5eb..7e60f08 100644
+--- a/plugins/sonar-l10n-en-plugin/src/main/resources/org/sonar/l10n/core.properties
++++ b/plugins/sonar-l10n-en-plugin/src/main/resources/org/sonar/l10n/core.properties
+@@ -412 +412 @@
+-widget.alerts.title=Alerts
++widget.alerts.name=Alerts
+@@ -417 +417 @@
+-widget.code_coverage.title=Code coverage
++widget.code_coverage.name=Code coverage
+@@ -430 +430 @@
+-widget.comments_duplications.title=Comments & Duplications
++widget.comments_duplications.name=Comments & Duplications
+@@ -442 +442 @@
+-widget.complexity.title=Complexity
++widget.complexity.name=Complexity
+@@ -450 +450 @@
+-widget.custom_measures.title=Custom Measures
++widget.custom_measures.name=Custom Measures
+@@ -453 +453 @@
+-widget.description.title=Description
++widget.description.name=Description
+@@ -463 +463 @@
+-widget.events.title=Events
++widget.events.name=Events
+@@ -466 +466 @@
+-widget.rules.title=Rules Compliance
++widget.rules.name=Rules Compliance
+@@ -471 +471 @@
+-widget.size.title=Size metrics
++widget.size.name=Size metrics
+@@ -486 +486 @@
+-widget.ckjm.title=Chidamber & Kemerer
++widget.ckjm.name=Chidamber & Kemerer
+@@ -493 +493 @@
+-widget.file_design.title=File design
++widget.file_design.name=File design
+@@ -499 +499 @@
+-widget.package_design.title=Package design
++widget.package_design.name=Package design
+diff --git a/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_configure_widget.html.erb b/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_configure_widget.html.erb
+index 0809668..92d817d 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_configure_widget.html.erb
++++ b/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_configure_widget.html.erb
+@@ -16 +16 @@
+-   <%= definition.getTitle() -%>
++   <%= h message('widget.' + definition.getId() + '.name', :default => definition.getTitle()) -%>
+diff --git a/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_definition.html.erb b/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_definition.html.erb
+index c911a8c..6126d09 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_definition.html.erb
++++ b/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_definition.html.erb
+@@ -3 +3 @@
+-<p><b><%= h message('widget.' + definition.getId() + '.title', :default => definition.getTitle()) -%></b></p>
++<p><b><%= h message('widget.' + definition.getId() + '.name', :default => definition.getTitle()) -%></b></p>
+diff --git a/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_properties.html.erb b/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_properties.html.erb
+index 5e61afa..949fda1 100644
+--- a/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_properties.html.erb
++++ b/sonar-server/src/main/webapp/WEB-INF/app/views/dashboard/_widget_properties.html.erb
+@@ -18 +18,3 @@
+-              <span class="note"><%= property_def.description() -%></span>
++              <span class="note">
++                <%= message("widget." + widget.key + ".param." + property_def.key(), :default => property_def.description()) -%>
++              </span>
+

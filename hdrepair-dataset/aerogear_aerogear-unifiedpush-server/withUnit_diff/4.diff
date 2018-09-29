@@ -1,0 +1,28 @@
+diff --git a/model/api/src/main/java/org/jboss/aerogear/unifiedpush/api/validation/DeviceTokenValidator.java b/model/api/src/main/java/org/jboss/aerogear/unifiedpush/api/validation/DeviceTokenValidator.java
+index 6a256ad..e0a5020 100644
+--- a/model/api/src/main/java/org/jboss/aerogear/unifiedpush/api/validation/DeviceTokenValidator.java
++++ b/model/api/src/main/java/org/jboss/aerogear/unifiedpush/api/validation/DeviceTokenValidator.java
+@@ -45 +45 @@
+-    private static final Pattern WINDOWS_DEVICE_TOKEN = Pattern.compile("https://.{0,1024}");
++    private static final Pattern WINDOWS_DEVICE_TOKEN = Pattern.compile("https?://.{0,1024}");
+diff --git a/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/InstallationDaoTest.java b/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/InstallationDaoTest.java
+index 8a04272..1d965be 100644
+--- a/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/InstallationDaoTest.java
++++ b/model/jpa/src/test/java/org/jboss/aerogear/unifiedpush/jpa/InstallationDaoTest.java
+@@ -475,0 +476,15 @@
++    public void shouldSaveWhenValidateDeviceIdMPNSWindows() {
++        // given
++        final Installation installation = new Installation();
++        installation.setDeviceToken("http://s.notify.live.net/u/1/db3/HmQAAACsY7ZBMnNW6QnfPcHXC1gwvHFlPeujLy"
++                + "aLyoJmTm79gofALwJGBefhxH_Rjpz4oAoK5O5zL2nQwaFZpLMpXUP/d2luZG93c3Bob25lZGVmYXVsdA/AGVGhYlaBG"
++                + "GphX2C8gGmg/vedAL_DKqnF00b4O3NCIifacDEQ");
++
++        WindowsMPNSVariant variant = new WindowsMPNSVariant();
++        
++        // when
++        deviceTokenTest(installation, variant);
++    }
++    
++
++    @Test
+

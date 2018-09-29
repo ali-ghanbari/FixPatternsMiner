@@ -1,0 +1,11 @@
+Disable HBase short CF names
+
+I think this feature suffered a regression.  It seems to work in
+diskstorage tests, but something in graphdb is trying to use a
+short-form name instead of a long-form name, triggering:
+
+Caused by: com.thinkaurelius.titan.diskstorage.PermanentStorageException: Must use CF long-form name "titan_ids" instead of the short-form name "i" when configured with short-cf-names=true
+
+in many of the HBase unit tests.  Disabled until I can come back to
+this and fix it.
+

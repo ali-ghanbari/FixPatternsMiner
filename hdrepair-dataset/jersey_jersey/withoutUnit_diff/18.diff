@@ -1,0 +1,181 @@
+diff --git a/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java b/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java
+index d045997..3e72403 100755
+--- a/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java
++++ b/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java
+@@ -245 +245 @@
+-    private static HttpServer createHttpServer(final URI uri,
++    public static HttpServer createHttpServer(final URI uri,
+diff --git a/docs/src/main/docbook/dependencies.xml b/docs/src/main/docbook/dependencies.xml
+index 3df97c7..b7fac4e 100644
+--- a/docs/src/main/docbook/dependencies.xml
++++ b/docs/src/main/docbook/dependencies.xml
+@@ -52,0 +53 @@
++    <title>Modules and dependencies</title>
+@@ -55 +56 @@
+-        <title>Jersey Java SE Compatibility</title>
++        <title>Java SE Compatibility</title>
+@@ -63 +64 @@
+-        <title>Overview of Jersey Modules and Dependencies</title>
++        <title>Introduction to Jersey dependencies</title>
+@@ -210 +211 @@
+-        <title>Jersey modules</title>
++        <title>List of modules</title>
+diff --git a/docs/src/main/docbook/deployment.xml b/docs/src/main/docbook/deployment.xml
+index 9f93a61..e411697 100644
+--- a/docs/src/main/docbook/deployment.xml
++++ b/docs/src/main/docbook/deployment.xml
+@@ -66,7 +66,7 @@
+-                public Set&lt;Class&lt;?&gt;&gt; getClasses() {
+-                Set&lt;Class&lt;?&gt;&gt; s = new HashSet&lt;Class&lt;?&gt;&gt;();
+-                s.add(HelloWorldResource.class);
+-                return s;
+-                }
+-                }
+-            </programlisting>
++    @Override
++    public Set&lt;Class&lt;?&gt;&gt; getClasses() {
++        Set&lt;Class&lt;?&gt;&gt; s = new HashSet&lt;Class&lt;?&gt;&gt;();
++        s.add(HelloWorldResource.class);
++        return s;
++    }
++}</programlisting>
+@@ -85,6 +85,5 @@
+-            <programlisting language="java" linenumbering="numbered">public class MyApplication extends PackagesResourceConfig {
+-                public MyApplication() {
+-                super("org.foo.rest;org.bar.rest");
+-                }
+-                }
+-            </programlisting>
++            <programlisting language="java" linenumbering="numbered">public class MyApplication extends ResourceConfig {
++    public MyApplication() {
++        packages("org.foo.rest;org.bar.rest");
++    }
++}</programlisting>
+@@ -106,7 +105,6 @@
+-                public class MyApplication extends PackagesResourceConfig {
+-                public MyApplication() {
+-                super("org.foo.rest;org.bar.rest");
+-                }
+-                ...
+-                }
+-            </programlisting>
++public class MyApplication extends ResourceConfig {
++    public MyApplication() {
++        packages("org.foo.rest;org.bar.rest");
++    }
++    ...
++}</programlisting>
+@@ -113,0 +112,3 @@
++
++        Please note that there is more which can be set or called during execution of ResourceConfig descendants
++        constructor, see &jersey.server.ResourceConfig; javadoc for more details.
+@@ -127,11 +128,11 @@
+-                ...
+-                &lt;plugin&gt;
+-                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+-                &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+-                &lt;version&gt;2.1.1&lt;/version&gt;
+-                &lt;configuration&gt;
+-                &lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;
+-                &lt;/configuration&gt;
+-                &lt;/plugin&gt;
+-                ...
+-                &lt;/plugins&gt;</programlisting>
++    ...
++    &lt;plugin&gt;
++        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
++        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
++        &lt;version&gt;2.3&lt;/version&gt;
++        &lt;configuration&gt;
++            &lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;
++        &lt;/configuration&gt;
++    &lt;/plugin&gt;
++    ...
++&lt;/plugins&gt;</programlisting>
+@@ -157,10 +158,10 @@
+-                &lt;servlet&gt;
+-                &lt;servlet-name&gt;org.foo.rest.MyApplication&lt;/servlet-name&gt;
+-                &lt;/servlet&gt;
+-                ...
+-                &lt;servlet-mapping&gt;
+-                &lt;servlet-name&gt;org.foo.rest.MyApplication&lt;/servlet-name&gt;
+-                &lt;url-pattern&gt;/resources&lt;/url-pattern&gt;
+-                &lt;/servlet-mapping&gt;
+-                ...
+-                &lt;/web-app&gt;</programlisting>
++    &lt;servlet&gt;
++        &lt;servlet-name&gt;org.foo.rest.MyApplication&lt;/servlet-name&gt;
++    &lt;/servlet&gt;
++    ...
++    &lt;servlet-mapping&gt;
++        &lt;servlet-name&gt;org.foo.rest.MyApplication&lt;/servlet-name&gt;
++        &lt;url-pattern&gt;/resources&lt;/url-pattern&gt;
++    &lt;/servlet-mapping&gt;
++    ...
++&lt;/web-app&gt;</programlisting>
+@@ -184,11 +185,11 @@
+-                &lt;servlet&gt;
+-                &lt;servlet-name&gt;Jersey Web Application&lt;/servlet-name&gt;
+-                &lt;servlet-class&gt;com.sun.jersey.spi.container.servlet.ServletContainer&lt;/servlet-class&gt;
+-                &lt;init-param&gt;
+-                &lt;param-name&gt;javax.ws.rs.Application&lt;/param-name&gt;
+-                &lt;param-value&gt;org.foo.rest.MyApplication&lt;/param-value&gt;
+-                &lt;/init-param&gt;
+-                ...
+-                &lt;/servlet&gt;
+-                ...
+-                &lt;/web-app&gt;</programlisting>
++    &lt;servlet&gt;
++        &lt;servlet-name&gt;Jersey Web Application&lt;/servlet-name&gt;
++        &lt;servlet-class&gt;org.glassfish.jersey.servlet.ServletContainer&lt;/servlet-class&gt;
++        &lt;init-param&gt;
++            &lt;param-name&gt;javax.ws.rs.Application&lt;/param-name&gt;
++            &lt;param-value&gt;org.foo.rest.MyApplication&lt;/param-value&gt;
++        &lt;/init-param&gt;
++        ...
++    &lt;/servlet&gt;
++    ...
++&lt;/web-app&gt;</programlisting>
+@@ -197,3 +198,2 @@
+-    <para>Alternatively a simpler approach is to let Jersey choose the
+-        <literal>PackagesResourceConfig</literal>
+-        implementation automatically by declaring the packages as follows:
++    <para>If there is no configuration to be set and deployed application consists only from resources and providers
++        stored in particular packages, Jersey can scan them and register automatically:
+@@ -204,11 +204,11 @@
+-                &lt;servlet&gt;
+-                &lt;servlet-name&gt;Jersey Web Application&lt;/servlet-name&gt;
+-                &lt;servlet-class&gt;com.sun.jersey.spi.container.servlet.ServletContainer&lt;/servlet-class&gt;
+-                &lt;init-param&gt;
+-                &lt;param-name&gt;com.sun.jersey.config.property.packages&lt;/param-name&gt;
+-                &lt;param-value&gt;org.foo.rest;org.bar.rest&lt;/param-value&gt;
+-                &lt;/init-param&gt;
+-                ...
+-                &lt;/servlet&gt;
+-                ...
+-                &lt;/web-app&gt;</programlisting>
++    &lt;servlet&gt;
++        &lt;servlet-name&gt;Jersey Web Application&lt;/servlet-name&gt;
++        &lt;servlet-class&gt;org.glassfish.jersey.servlet.ServletContainer&lt;/servlet-class&gt;
++        &lt;init-param&gt;
++            &lt;param-name&gt;jersey.config.server.provider.packages&lt;/param-name&gt;
++            &lt;param-value&gt;org.foo.rest;org.bar.rest&lt;/param-value&gt;
++        &lt;/init-param&gt;
++        ...
++    &lt;/servlet&gt;
++    ...
++&lt;/web-app&gt;</programlisting>
+@@ -221 +221 @@
+-        <programlisting language="java">SelectorThread st = RuntimeDelegate.createEndpoint(new MyApplication(), SelectorThread.class);</programlisting>
++        <programlisting language="java">HttpHandler endpoint = RuntimeDelegate.getInstance().createEndpoint(new MyApplication(), HttpHandler.class);</programlisting>
+@@ -224 +224 @@
+-        helper classes to deploy the ServletThread instance at a base URL for
++        helper classes to deploy the HttpHandler instance at a base URL for
+diff --git a/docs/src/main/docbook/jersey.ent b/docs/src/main/docbook/jersey.ent
+index 7db1de2..4f1d6eb 100644
+--- a/docs/src/main/docbook/jersey.ent
++++ b/docs/src/main/docbook/jersey.ent
+@@ -57 +57 @@
+-<!ENTITY jersey.javadoc.path "http://jersey.java.net/nonav/apidocs/&version;/org/glassfish/jersey">
++<!ENTITY jersey.javadoc.path "http://jersey.java.net/nonav/apidocs/&version;/jersey/org/glassfish/jersey">
+

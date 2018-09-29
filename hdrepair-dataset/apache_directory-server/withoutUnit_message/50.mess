@@ -1,0 +1,7 @@
+o fixed an issue with updating entry sent to a consumer in refreshNPersist mode
+  (when such a consumer can't be reachable for some reason and a MODIFY event happens on provider's DIT during that time
+   then that will be sent to the client as a ADD event when the consumer comes back and resumes the session again)
+
+
+git-svn-id: https://svn.apache.org/repos/asf/directory/apacheds/trunk@947277 13f79535-47bb-0310-9956-ffa450edef68
+

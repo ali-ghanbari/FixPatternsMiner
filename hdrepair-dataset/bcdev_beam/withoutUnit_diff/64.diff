@@ -1,0 +1,14 @@
+diff --git a/beam-netcdf/src/main/java/org/esa/beam/dataio/netcdf/metadata/profiles/cf/CfGeocodingPart.java b/beam-netcdf/src/main/java/org/esa/beam/dataio/netcdf/metadata/profiles/cf/CfGeocodingPart.java
+index 883ed36..d351be2 100644
+--- a/beam-netcdf/src/main/java/org/esa/beam/dataio/netcdf/metadata/profiles/cf/CfGeocodingPart.java
++++ b/beam-netcdf/src/main/java/org/esa/beam/dataio/netcdf/metadata/profiles/cf/CfGeocodingPart.java
+@@ -92 +92 @@
+-        if (!usePixelGeoCoding || !latLonAlreadyPresent) {
++        if (!usePixelGeoCoding && !latLonAlreadyPresent) {
+diff --git a/beam-netcdf/src/main/resources/module.xml b/beam-netcdf/src/main/resources/module.xml
+index d98a8e9..aa503eb 100644
+--- a/beam-netcdf/src/main/resources/module.xml
++++ b/beam-netcdf/src/main/resources/module.xml
+@@ -18,0 +19 @@
++        [BEAM-1206] - CF Profile does not write latitude longitude data when writing pixel geo-coding<br/>
+

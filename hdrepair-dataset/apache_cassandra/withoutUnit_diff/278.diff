@@ -1,0 +1,47 @@
+diff --git a/CHANGES.txt b/CHANGES.txt
+index 30fbe23..d9fa6ee 100644
+--- a/CHANGES.txt
++++ b/CHANGES.txt
+@@ -10,0 +11,2 @@
++ * fix comparator used for non-indexed secondary expressions in index scan
++   (CASSANDRA-2347)
+diff --git a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
+index 18f4e9c..4c09e49 100644
+--- a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
++++ b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
+@@ -1657 +1657 @@
+-            int v = data.getComparator().compare(column.value(), expression.value);
++            int v = data.metadata().getValueValidator(expression.column_name).compare(column.value(), expression.value);
+diff --git a/test/system/__init__.py b/test/system/__init__.py
+index 050d39e..7d0f633 100644
+--- a/test/system/__init__.py
++++ b/test/system/__init__.py
+@@ -173,2 +173,3 @@
+-            Cassandra.CfDef('Keyspace1', 'Indexed1', column_metadata=[Cassandra.ColumnDef('birthdate', 'LongType', Cassandra.IndexType.KEYS, 'birthdate')]),
+-            Cassandra.CfDef('Keyspace1', 'Indexed2', comparator_type='TimeUUIDType', column_metadata=[Cassandra.ColumnDef(uuid.UUID('00000000-0000-1000-0000-000000000000').bytes, 'LongType', Cassandra.IndexType.KEYS, 'birthdate')]),
++            Cassandra.CfDef('Keyspace1', 'Indexed1', column_metadata=[Cassandra.ColumnDef('birthdate', 'LongType', Cassandra.IndexType.KEYS, 'birthdate_index')]),
++            Cassandra.CfDef('Keyspace1', 'Indexed2', comparator_type='TimeUUIDType', column_metadata=[Cassandra.ColumnDef(uuid.UUID('00000000-0000-1000-0000-000000000000').bytes, 'LongType', Cassandra.IndexType.KEYS)]),
++            Cassandra.CfDef('Keyspace1', 'Indexed3', comparator_type='TimeUUIDType', column_metadata=[Cassandra.ColumnDef(uuid.UUID('00000000-0000-1000-0000-000000000000').bytes, 'UTF8Type', Cassandra.IndexType.KEYS)]),
+diff --git a/test/system/test_thrift_server.py b/test/system/test_thrift_server.py
+index d3bff62..32ce340 100644
+--- a/test/system/test_thrift_server.py
++++ b/test/system/test_thrift_server.py
+@@ -1521 +1521,16 @@
+-        cp = ColumnParent('Indexed2')
++    def test_index_scan_uuid_names(self):
++        _set_keyspace('Keyspace1')
++        sp = SlicePredicate(slice_range=SliceRange('', ''))
++        cp = ColumnParent('Indexed3') # timeuuid name, utf8 values
++        u = uuid.UUID('00000000-0000-1000-0000-000000000000').bytes
++        u2 = uuid.UUID('00000000-0000-1000-0000-000000000001').bytes
++        client.insert('key1', ColumnParent('Indexed3'), Column(u, 'a', 0), ConsistencyLevel.ONE)
++        client.insert('key1', ColumnParent('Indexed3'), Column(u2, 'b', 0), ConsistencyLevel.ONE)
++        # name comparator + data validator of incompatible types -- see CASSANDRA-2347
++        clause = IndexClause([IndexExpression(u, IndexOperator.EQ, 'a'),
++                              IndexExpression(u2, IndexOperator.EQ, 'b')], '')
++        result = client.get_indexed_slices(cp, clause, sp, ConsistencyLevel.ONE)
++        assert len(result) == 1, result
++
++        cp = ColumnParent('Indexed2') # timeuuid name, long values
++
+

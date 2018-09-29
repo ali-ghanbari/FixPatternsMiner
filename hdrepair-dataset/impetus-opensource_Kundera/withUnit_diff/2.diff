@@ -1,0 +1,421 @@
+diff --git a/src/kundera-oracle-nosql/src/main/java/com/impetus/client/oraclenosql/OracleNoSQLClient.java b/src/kundera-oracle-nosql/src/main/java/com/impetus/client/oraclenosql/OracleNoSQLClient.java
+index 7074137..edcebee 100644
+--- a/src/kundera-oracle-nosql/src/main/java/com/impetus/client/oraclenosql/OracleNoSQLClient.java
++++ b/src/kundera-oracle-nosql/src/main/java/com/impetus/client/oraclenosql/OracleNoSQLClient.java
+@@ -642,0 +643 @@
++            NoSqlDBUtils.add(schemaTable.getField(colName), indexKey, colValue, colName);
+diff --git a/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlMTMTest.java b/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlMTMTest.java
+index 6ccc5aa..c3e8fa7 100644
+--- a/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlMTMTest.java
++++ b/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlMTMTest.java
+@@ -18,0 +19 @@
++import java.util.List;
+@@ -23,0 +25 @@
++import javax.persistence.Query;
+@@ -32,0 +35 @@
++
+@@ -37,2 +40 @@
+-public class OracleNoSqlMTMTest
+-{
++public class OracleNoSqlMTMTest {
+@@ -47,2 +49 @@
+-    public void setUp() throws Exception
+-    {
++    public void setUp() throws Exception {
+@@ -57,2 +58 @@
+-    public void tearDown() throws Exception
+-    {
++    public void tearDown() throws Exception {
+@@ -64,2 +64 @@
+-    public void testCRUD()
+-    {
++    public void testCRUD() {
+@@ -109,4 +108,2 @@
+-        for (AddressOracleNoSqlMTM address : foundPerson1.getAddresses())
+-        {
+-            if (address.getAddressId().equals("a"))
+-            {
++        for (AddressOracleNoSqlMTM address : foundPerson1.getAddresses()) {
++            if (address.getAddressId().equals("a")) {
+@@ -115,3 +112 @@
+-            }
+-            else
+-            {
++            } else {
+@@ -131,4 +126,2 @@
+-        for (AddressOracleNoSqlMTM address : foundPerson2.getAddresses())
+-        {
+-            if (address.getAddressId().equals("b"))
+-            {
++        for (AddressOracleNoSqlMTM address : foundPerson2.getAddresses()) {
++            if (address.getAddressId().equals("b")) {
+@@ -137,3 +130 @@
+-            }
+-            else
+-            {
++            } else {
+@@ -162,4 +153,2 @@
+-        for (AddressOracleNoSqlMTM address : foundPerson1.getAddresses())
+-        {
+-            if (address.getAddressId().equals("a"))
+-            {
++        for (AddressOracleNoSqlMTM address : foundPerson1.getAddresses()) {
++            if (address.getAddressId().equals("a")) {
+@@ -168,3 +157 @@
+-            }
+-            else
+-            {
++            } else {
+@@ -184,4 +171,2 @@
+-        for (AddressOracleNoSqlMTM address : foundPerson2.getAddresses())
+-        {
+-            if (address.getAddressId().equals("b"))
+-            {
++        for (AddressOracleNoSqlMTM address : foundPerson2.getAddresses()) {
++            if (address.getAddressId().equals("b")) {
+@@ -190,3 +175 @@
+-            }
+-            else
+-            {
++            } else {
+@@ -209,4 +192,94 @@
+-    private EntityManager getNewEM()
+-    {
+-        if (em != null && em.isOpen())
+-        {
++    @Test
++    public void testQuery() {
++        AddressOracleNoSqlMTM address1 = new AddressOracleNoSqlMTM();
++        address1.setAddressId("a");
++        address1.setStreet("sector 11");
++
++        AddressOracleNoSqlMTM address2 = new AddressOracleNoSqlMTM();
++        address2.setAddressId("b");
++        address2.setStreet("sector 12");
++
++        AddressOracleNoSqlMTM address3 = new AddressOracleNoSqlMTM();
++        address3.setAddressId("c");
++        address3.setStreet("sector 13");
++
++        Set<AddressOracleNoSqlMTM> addresses1 = new HashSet<AddressOracleNoSqlMTM>();
++        addresses1.add(address1);
++        addresses1.add(address2);
++
++        Set<AddressOracleNoSqlMTM> addresses2 = new HashSet<AddressOracleNoSqlMTM>();
++        addresses2.add(address2);
++        addresses2.add(address3);
++
++        PersonOracleNoSqlMTM person1 = new PersonOracleNoSqlMTM();
++        person1.setPersonId("1");
++        person1.setPersonName("Kuldeep");
++
++        PersonOracleNoSqlMTM person2 = new PersonOracleNoSqlMTM();
++        person2.setPersonId("2");
++        person2.setPersonName("vivek");
++
++        person1.setAddresses(addresses1);
++        person2.setAddresses(addresses2);
++
++        em.persist(person1);
++        em.persist(person2);
++
++        em = getNewEM();
++
++        String personsQueryStr = " Select p from PersonOracleNoSqlMTM p";
++        Query personsQuery = em.createQuery(personsQueryStr);
++        List<PersonOracleNoSqlMTM> allPersons = personsQuery.getResultList();
++        Assert.assertNotNull(allPersons);
++
++        for (PersonOracleNoSqlMTM foundPerson : allPersons) {
++            Assert.assertNotNull(foundPerson);
++            Assert.assertNotNull(foundPerson.getAddresses());
++            Assert.assertEquals(2, foundPerson.getAddresses().size());
++            
++            if (foundPerson.getPersonId().equals("1")) {
++
++                
++                Assert.assertEquals("1", foundPerson.getPersonId());
++                Assert.assertEquals("Kuldeep", foundPerson.getPersonName());
++
++                for (AddressOracleNoSqlMTM address : foundPerson.getAddresses()) {
++                    if (address.getAddressId().equals("a")) {
++
++                        Assert.assertEquals("sector 11", address.getStreet());
++                    } else {
++                        Assert.assertEquals("b", address.getAddressId());
++                        Assert.assertEquals("sector 12", address.getStreet());
++
++                    }
++                }
++            } else if (foundPerson.getPersonId().equals("2")) {
++
++  
++                Assert.assertEquals("2", foundPerson.getPersonId());
++                Assert.assertEquals("vivek", foundPerson.getPersonName());
++
++                for (AddressOracleNoSqlMTM address : foundPerson.getAddresses()) {
++                    if (address.getAddressId().equals("b")) {
++
++                        Assert.assertEquals("sector 12", address.getStreet());
++                    } else {
++                        Assert.assertEquals("c", address.getAddressId());
++                        Assert.assertEquals("sector 13", address.getStreet());
++
++                    }
++                }
++            }
++          
++        }
++        em.remove(allPersons.get(0));
++        em.remove(allPersons.get(1));
++        PersonOracleNoSqlMTM  foundPerson1 = em.find(PersonOracleNoSqlMTM.class, allPersons.get(0).getPersonId());
++        PersonOracleNoSqlMTM  foundPerson2 = em.find(PersonOracleNoSqlMTM.class, allPersons.get(1).getPersonId());
++        Assert.assertNull(foundPerson1);
++        Assert.assertNull(foundPerson2);
++
++    }
++
++    private EntityManager getNewEM() {
++        if (em != null && em.isOpen()) {
+diff --git a/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTMTest.java b/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTMTest.java
+index 36a87c5..2ca1ec5 100644
+--- a/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTMTest.java
++++ b/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTMTest.java
+@@ -18,0 +19 @@
++import java.util.List;
+@@ -23,0 +25 @@
++import javax.persistence.Query;
+@@ -37,2 +39 @@
+-public class OracleNoSqlOTMTest
+-{
++public class OracleNoSqlOTMTest {
+@@ -47,2 +48 @@
+-    public void setUp() throws Exception
+-    {
++    public void setUp() throws Exception {
+@@ -57,2 +57 @@
+-    public void tearDown() throws Exception
+-    {
++    public void tearDown() throws Exception {
+@@ -64,2 +63 @@
+-    public void testCRUD()
+-    {
++    public void testCRUD() {
+@@ -94,4 +92,2 @@
+-        for (AddressOracleNoSqlOTM address : foundPerson.getAddresses())
+-        {
+-            if (address.getAddressId().equals("a"))
+-            {
++        for (AddressOracleNoSqlOTM address : foundPerson.getAddresses()) {
++            if (address.getAddressId().equals("a")) {
+@@ -100,3 +96 @@
+-            }
+-            else
+-            {
++            } else {
+@@ -124,4 +118,2 @@
+-        for (AddressOracleNoSqlOTM address : foundPerson.getAddresses())
+-        {
+-            if (address.getAddressId().equals("a"))
+-            {
++        for (AddressOracleNoSqlOTM address : foundPerson.getAddresses()) {
++            if (address.getAddressId().equals("a")) {
+@@ -130,3 +122 @@
+-            }
+-            else
+-            {
++            } else {
+@@ -147,4 +137,92 @@
+-    private EntityManager getNewEM()
+-    {
+-        if (em != null && em.isOpen())
+-        {
++    @Test
++    public void testQuery() {
++        AddressOracleNoSqlOTM address1 = new AddressOracleNoSqlOTM();
++        address1.setAddressId("a");
++        address1.setStreet("sector 11");
++
++        AddressOracleNoSqlOTM address2 = new AddressOracleNoSqlOTM();
++        address2.setAddressId("b");
++        address2.setStreet("sector 12");
++
++        Set<AddressOracleNoSqlOTM> addresses = new HashSet<AddressOracleNoSqlOTM>();
++        addresses.add(address1);
++        addresses.add(address2);
++
++        PersonOracleNoSqlOTM person = new PersonOracleNoSqlOTM();
++        person.setPersonId("1");
++        person.setPersonName("Kuldeep");
++        person.setAddresses(addresses);
++
++        em.persist(person);
++
++        AddressOracleNoSqlOTM address1a = new AddressOracleNoSqlOTM();
++        address1a.setAddressId("a1");
++        address1a.setStreet("sector 11a");
++
++        AddressOracleNoSqlOTM address2b = new AddressOracleNoSqlOTM();
++        address2b.setAddressId("b1");
++        address2b.setStreet("sector 12b");
++
++        Set<AddressOracleNoSqlOTM> addresses1 = new HashSet<AddressOracleNoSqlOTM>();
++        addresses1.add(address1a);
++        addresses1.add(address2b);
++
++        PersonOracleNoSqlOTM person1 = new PersonOracleNoSqlOTM();
++        person1.setPersonId("2");
++        person1.setPersonName("KK");
++        person1.setAddresses(addresses1);
++
++        em.persist(person1);
++
++        em = getNewEM();
++
++        String personsQueryStr = " Select p from PersonOracleNoSqlOTM p";
++        Query personsQuery = em.createQuery(personsQueryStr);
++        List<PersonOracleNoSqlOTM> allPersons = personsQuery.getResultList();
++        Assert.assertNotNull(allPersons);
++
++        Assert.assertEquals(2, allPersons.size());
++
++        for (PersonOracleNoSqlOTM foundPerson : allPersons) {
++
++            Assert.assertNotNull(foundPerson);
++            Assert.assertEquals(2, foundPerson.getAddresses().size());
++            Assert.assertNotNull(foundPerson.getAddresses());
++            if (foundPerson.getPersonId().equals("1")) {
++
++                Assert.assertEquals("Kuldeep", foundPerson.getPersonName());
++
++                for (AddressOracleNoSqlOTM address : foundPerson.getAddresses()) {
++                    if (address.getAddressId().equals("a")) {
++
++                        Assert.assertEquals("sector 11", address.getStreet());
++                    } else {
++                        Assert.assertEquals("b", address.getAddressId());
++                        Assert.assertEquals("sector 12", address.getStreet());
++
++                    }
++                }
++            } else if (foundPerson.getPersonId().equals("2")) {
++                Assert.assertEquals("KK", foundPerson.getPersonName());
++
++                for (AddressOracleNoSqlOTM address : foundPerson.getAddresses()) {
++                    if (address.getAddressId().equals("a1")) {
++
++                        Assert.assertEquals("sector 11a", address.getStreet());
++                    } else {
++                        Assert.assertEquals("b1", address.getAddressId());
++                        Assert.assertEquals("sector 12b", address.getStreet());
++
++                    }
++                }
++            }
++            em.remove(foundPerson);
++
++            foundPerson = em.find(PersonOracleNoSqlOTM.class, foundPerson.getPersonId());
++            Assert.assertNull(foundPerson);
++        }
++
++    }
++
++    private EntityManager getNewEM() {
++        if (em != null && em.isOpen()) {
+diff --git a/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTOTest.java b/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTOTest.java
+index a511cf2..f10e23a 100644
+--- a/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTOTest.java
++++ b/src/kundera-oracle-nosql/src/test/java/com/impetus/client/oraclenosql/crud/OracleNoSqlOTOTest.java
+@@ -17,0 +18,2 @@
++import java.util.List;
++
+@@ -20,0 +23 @@
++import javax.persistence.Query;
+@@ -32 +35 @@
+- *
++ * 
+@@ -34,2 +37 @@
+-public class OracleNoSqlOTOTest
+-{
++public class OracleNoSqlOTOTest {
+@@ -44,2 +46 @@
+-    public void setUp() throws Exception
+-    {
++    public void setUp() throws Exception {
+@@ -54,2 +55 @@
+-    public void tearDown() throws Exception
+-    {
++    public void tearDown() throws Exception {
+@@ -61,2 +61 @@
+-    public void testCRUD()
+-    {
++    public void testCRUD() {
+@@ -76 +75 @@
+-        PersonOracleNoSqlOTO foundPerson = em.find(PersonOracleNoSqlOTO.class,"1");
++        PersonOracleNoSqlOTO foundPerson = em.find(PersonOracleNoSqlOTO.class, "1");
+@@ -101,0 +101 @@
++
+@@ -104,4 +104,58 @@
+-    private EntityManager getNewEM()
+-    {
+-        if (em != null && em.isOpen())
+-        {
++    @Test
++    public void testQuery() {
++        AddressOracleNoSqlOTO address = new AddressOracleNoSqlOTO();
++        address.setAddressId("a");
++        address.setStreet("sector 11");
++
++        AddressOracleNoSqlOTO address1 = new AddressOracleNoSqlOTO();
++        address1.setAddressId("a1");
++        address1.setStreet("sector 12");
++
++        PersonOracleNoSqlOTO person = new PersonOracleNoSqlOTO();
++        person.setPersonId("1");
++        person.setPersonName("Kuldeep");
++        person.setAddress(address);
++
++        PersonOracleNoSqlOTO person1 = new PersonOracleNoSqlOTO();
++        person1.setPersonId("2");
++        person1.setPersonName("KK");
++        person1.setAddress(address1);
++        em.persist(person1);
++
++        em.persist(person);
++
++        em = getNewEM();
++
++        em = getNewEM();
++
++        // Query on Persons
++        String personsQueryStr = " Select p from PersonOracleNoSqlOTO p";
++        Query personsQuery = em.createQuery(personsQueryStr);
++        List<PersonOracleNoSqlOTO> allPersons = personsQuery.getResultList();
++        Assert.assertNotNull(allPersons);
++
++        for (PersonOracleNoSqlOTO foundPerson : allPersons) {
++            Assert.assertNotNull(foundPerson);
++            Assert.assertNotNull(foundPerson.getAddress());
++            if (foundPerson.getPersonId().equals("1")) {
++                
++                Assert.assertEquals("Kuldeep", foundPerson.getPersonName());
++                Assert.assertEquals("a", foundPerson.getAddress().getAddressId());
++                Assert.assertEquals("sector 11", foundPerson.getAddress().getStreet());
++                
++            } else if (foundPerson.getPersonId().equals("2")) {
++                
++                Assert.assertEquals("KK", foundPerson.getPersonName());
++                Assert.assertEquals("a1", foundPerson.getAddress().getAddressId());
++                Assert.assertEquals("sector 12", foundPerson.getAddress().getStreet());
++                
++            }
++            em.remove(foundPerson);
++            foundPerson = em.find(PersonOracleNoSqlOTO.class, foundPerson.getPersonId());
++            Assert.assertNull(foundPerson);
++        }
++
++    }
++
++    private EntityManager getNewEM() {
++        if (em != null && em.isOpen()) {
+

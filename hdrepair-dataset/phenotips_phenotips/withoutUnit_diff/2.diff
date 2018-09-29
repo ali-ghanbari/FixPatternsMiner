@@ -1,0 +1,32 @@
+diff --git a/components/ontology-access/hpo/ui/src/main/resources/PhenoTips/HPOBranchDisplayer.xml b/components/ontology-access/hpo/ui/src/main/resources/PhenoTips/HPOBranchDisplayer.xml
+index beeef87..bc0091c 100644
+--- a/components/ontology-access/hpo/ui/src/main/resources/PhenoTips/HPOBranchDisplayer.xml
++++ b/components/ontology-access/hpo/ui/src/main/resources/PhenoTips/HPOBranchDisplayer.xml
+@@ -69,3 +69 @@
+-    #if($field.getProperty('multiSelect').value == 1)
+-      &lt;li class="hpo-unknown"&gt;&lt;input type='hidden' name="${prefix}${name}" value='' checked='checked'/&gt;&lt;/li&gt;
+-    #else
++    #if($field.getProperty('multiSelect').value != 1)
+@@ -90,0 +89,3 @@
++#if($field.getProperty('multiSelect').value == 1)
++  &lt;input type='hidden' name="${prefix}${name}" value='' checked='checked'/&gt;
++#end
+@@ -94 +95 @@
+-#elseif ("$!{value}" != '')
++#else
+@@ -97 +98 @@
+-      $services.ontologies.resolveTerm($id).name
++      $!services.ontologies.resolveTerm($id).name
+@@ -99,2 +100,2 @@
+-  #else
+-    $services.ontologies.resolveTerm($value).name
++  #elseif ("$!{value}" != '')
++    $!services.ontologies.resolveTerm($value).name
+diff --git a/components/patient-data/migrations/src/main/java/org/phenotips/data/internal/R54693PhenoTips1500DataMigration.java b/components/patient-data/migrations/src/main/java/org/phenotips/data/internal/R54693PhenoTips1500DataMigration.java
+index 8334221..c73dc22 100644
+--- a/components/patient-data/migrations/src/main/java/org/phenotips/data/internal/R54693PhenoTips1500DataMigration.java
++++ b/components/patient-data/migrations/src/main/java/org/phenotips/data/internal/R54693PhenoTips1500DataMigration.java
+@@ -109 +109 @@
+-                session.createQuery("select distinct o.name from BaseObject o, StringProperty p where o.className = '"
++                session.createQuery("select distinct p from BaseObject o, StringProperty p where o.className = '"
+

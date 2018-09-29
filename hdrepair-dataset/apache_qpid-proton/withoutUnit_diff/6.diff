@@ -1,0 +1,69 @@
+diff --git a/proton-c/bindings/python/proton.py b/proton-c/bindings/python/proton.py
+index 473c860..723d26a 100644
+--- a/proton-c/bindings/python/proton.py
++++ b/proton-c/bindings/python/proton.py
+@@ -2326 +2326 @@
+-                                                             allow_unsecured )
++                                                             allow_unsecured ))
+@@ -2338,0 +2339 @@
++      session_id = None
+@@ -2340 +2341,2 @@
+-      self._ssl = pn_ssl_new( domain._domain, transport._trans, session_details.get_session_id() )
++        session_id = session_details.get_session_id()
++      self._ssl = pn_ssl_new( domain._domain, transport._trans, session_id )
+@@ -2377 +2379 @@
+-    return self.session_id
++    return self._session_id
+@@ -2386 +2388 @@
+-           "REJECTED"
++           "REJECTED",
+diff --git a/proton-j/proton/src/main/java/org/apache/qpid/proton/engine/impl/ssl/SslEngineFacadeFactory.java b/proton-j/proton/src/main/java/org/apache/qpid/proton/engine/impl/ssl/SslEngineFacadeFactory.java
+index ff8199b..54b5f20 100644
+--- a/proton-j/proton/src/main/java/org/apache/qpid/proton/engine/impl/ssl/SslEngineFacadeFactory.java
++++ b/proton-j/proton/src/main/java/org/apache/qpid/proton/engine/impl/ssl/SslEngineFacadeFactory.java
+@@ -182 +182 @@
+-                if (sslDomain.getTrustedCaDb() == null && sslDomain.getPeerAuthentication() == SslDomain.VerifyMode.ANONYMOUS_PEER)
++                if (sslDomain.getPeerAuthentication() == SslDomain.VerifyMode.ANONYMOUS_PEER)
+diff --git a/proton-j/proton/src/main/scripts/proton.py b/proton-j/proton/src/main/scripts/proton.py
+index 6c3dcdd..0fe1f3c 100644
+--- a/proton-j/proton/src/main/scripts/proton.py
++++ b/proton-j/proton/src/main/scripts/proton.py
+@@ -760,7 +759,0 @@
+-  RESUME_REUSED = "unused-for-java"
+-
+-  def resume_status(self):
+-    # Java has no way to determine if an SSL session is being reused
+-    return SSL.RESUME_REUSED
+-
+-
+diff --git a/tests/proton_tests/ssl.py b/tests/proton_tests/ssl.py
+index a8f9149..0e5ee1b 100644
+--- a/tests/proton_tests/ssl.py
++++ b/tests/proton_tests/ssl.py
+@@ -147 +146,0 @@
+-        server = SslTest.SslTestConnection( self.server_domain )
+@@ -149,0 +149 @@
++        server = SslTest.SslTestConnection( self.server_domain )
+@@ -155 +154,0 @@
+-        client = SslTest.SslTestConnection( self.client_domain )
+@@ -156,0 +156 @@
++        client = SslTest.SslTestConnection( self.client_domain )
+@@ -175 +174,0 @@
+-        server = SslTest.SslTestConnection( self.server_domain )
+@@ -177,0 +177 @@
++        server = SslTest.SslTestConnection( self.server_domain )
+@@ -182 +181,0 @@
+-        client = SslTest.SslTestConnection( self.client_domain )
+@@ -183,0 +183 @@
++        client = SslTest.SslTestConnection( self.client_domain )
+@@ -203 +202,0 @@
+-        server = SslTest.SslTestConnection( self.server_domain )
+@@ -205,0 +205 @@
++        server = SslTest.SslTestConnection( self.server_domain )
+@@ -207 +206,0 @@
+-        client = SslTest.SslTestConnection( self.client_domain )
+@@ -208,0 +208 @@
++        client = SslTest.SslTestConnection( self.client_domain )
+@@ -298 +297,0 @@
+-        self.client_domain.set_trusted_ca_db( None ) # proton-j only allows ANONYMOUS if there is no CA DB.
+

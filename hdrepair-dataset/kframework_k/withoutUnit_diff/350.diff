@@ -1,0 +1,22 @@
+diff --git a/javasources/KTool/src/org/kframework/kil/StringBuiltin.java b/javasources/KTool/src/org/kframework/kil/StringBuiltin.java
+index e53217b..882434b 100644
+--- a/javasources/KTool/src/org/kframework/kil/StringBuiltin.java
++++ b/javasources/KTool/src/org/kframework/kil/StringBuiltin.java
+@@ -17,5 +17,11 @@
+- * Class representing a builtin string token. Factory method {@link #of(String) StringBuiltin.of} expects a string representing the value (an un-escaped string without the
+- * leading and trailing '"'). Method {@link #stringValue() stringValue} returns the string value of the {@link StringBuiltin} token, while method {@link #value() value}
+- * (declared in the superclass) returns the string representation of the {@link StringBuiltin} token. For example, the assertions in the following code are satisfied:
+- * StringBuiltin stringBuiltin = StringBuiltin.of("\""); assert stringBuiltin.stringValue().equals("\""); assert stringBuiltin.value().equals("\"\\\"\"") :
+- * stringBuiltin.value();
++ * Class representing a builtin string token.
++ *
++ * Factory method {@link #of(String) StringBuiltin.of} expects a string representing the value
++ * (an un-escaped string without the leading and trailing '"'). Method {@link #stringValue()
++ * stringValue} returns the string value of the {@link StringBuiltin} token,
++ * while method {@link #value() value} (declared in the superclass) returns the string
++ * representation of the {@link StringBuiltin} token. For example,
++ * the assertions in the following code are satisfied:
++ *     StringBuiltin stringBuiltin = StringBuiltin.of("\"");
++ *     assert stringBuiltin.stringValue().equals("\"");
++ *     assert stringBuiltin.value().equals("\"\\\"\"") : stringBuiltin.value();
+

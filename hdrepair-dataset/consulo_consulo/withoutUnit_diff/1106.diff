@@ -1,0 +1,17 @@
+diff --git a/java/java-impl/src/com/intellij/codeInspection/ExplicitTypeCanBeDiamondInspection.java b/java/java-impl/src/com/intellij/codeInspection/ExplicitTypeCanBeDiamondInspection.java
+index bd276ce..a5f7ee9 100644
+--- a/java/java-impl/src/com/intellij/codeInspection/ExplicitTypeCanBeDiamondInspection.java
++++ b/java/java-impl/src/com/intellij/codeInspection/ExplicitTypeCanBeDiamondInspection.java
+@@ -74 +74 @@
+-                holder.registerProblem(parameterList, "Can be replaced",
++                holder.registerProblem(parameterList, "Redundant type argument #ref #loc",
+diff --git a/resources-en/src/inspectionDescriptions/Convert2Diamond.html b/resources-en/src/inspectionDescriptions/Convert2Diamond.html
+index 2acd755..c539aa4 100644
+--- a/resources-en/src/inspectionDescriptions/Convert2Diamond.html
++++ b/resources-en/src/inspectionDescriptions/Convert2Diamond.html
+@@ -3 +3,3 @@
+-<span style="font-family: verdana,serif; font-size: smaller;">Write your description here</span>
++  This inspection reports all new expressions with type arguments which can be replaced with diamond type &lt;&gt;
++  <p>
++  Such <b>&lt;&gt;</b> syntax is not supported under Java 1.6 or earlier JVMs.
+

@@ -1,0 +1,12 @@
+diff --git a/src/main/org/hornetq/core/remoting/impl/ChannelImpl.java b/src/main/org/hornetq/core/remoting/impl/ChannelImpl.java
+index f54fdc8..99249d8 100644
+--- a/src/main/org/hornetq/core/remoting/impl/ChannelImpl.java
++++ b/src/main/org/hornetq/core/remoting/impl/ChannelImpl.java
+@@ -349,2 +349,4 @@
+-         //Any threads blocking on the send semaphore should be allowed to return
+-         sendSemaphore.release(Integer.MAX_VALUE - sendSemaphore.availablePermits());
++         //Any threads blocking on the send semaphore should be allowed to return - we do this by just giving it
++         //a lot of permits - note we don't give it Integer.MAX_VALUE since then if if more releases come in that
++         //could end up with permit count going -ve which would cause subsequent sends to block
++         sendSemaphore.release(Integer.MAX_VALUE / 2);
+

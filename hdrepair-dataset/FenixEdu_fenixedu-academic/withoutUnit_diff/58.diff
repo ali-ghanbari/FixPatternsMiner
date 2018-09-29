@@ -1,0 +1,8 @@
+diff --git a/src/main/java/net/sourceforge/fenixedu/domain/accounting/Event.java b/src/main/java/net/sourceforge/fenixedu/domain/accounting/Event.java
+index a9cf450..19e9753 100755
+--- a/src/main/java/net/sourceforge/fenixedu/domain/accounting/Event.java
++++ b/src/main/java/net/sourceforge/fenixedu/domain/accounting/Event.java
+@@ -587 +587 @@
+-        return getAllPaymentCodes() != null ? createPaymentCodes() : updatePaymentCodes();
++        return getAllPaymentCodes().isEmpty() ? createPaymentCodes() : updatePaymentCodes();
+

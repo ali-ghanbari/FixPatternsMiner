@@ -1,0 +1,31 @@
+diff --git a/compiler/frontend/src/org/jetbrains/jet/lang/descriptors/Visibilities.java b/compiler/frontend/src/org/jetbrains/jet/lang/descriptors/Visibilities.java
+index 8cb9d43..00b9173 100644
+--- a/compiler/frontend/src/org/jetbrains/jet/lang/descriptors/Visibilities.java
++++ b/compiler/frontend/src/org/jetbrains/jet/lang/descriptors/Visibilities.java
+@@ -66 +66 @@
+-            return false;
++            return isVisible(what, fromClass.getContainingDeclaration());
+diff --git a/compiler/testData/diagnostics/tests/scopes/kt2262.jet b/compiler/testData/diagnostics/tests/scopes/kt2262.jet
+new file mode 100644
+index 0000000..494cd16
+--- /dev/null
++++ b/compiler/testData/diagnostics/tests/scopes/kt2262.jet
+@@ -0,0 +1,16 @@
++package kt2262
++
++//KT-2262 Cannot access protected member from inner class of subclass
++
++abstract class Foo {
++    protected val color: String = "red"
++}
++
++class Bar : Foo() {
++    protected val i: Int = 1
++
++    class Baz {
++        val copy = color // INVISIBLE_MEMBER: Cannot access 'color' in 'Bar'
++        val j = i
++    }
++}
+\ No newline at end of file
+

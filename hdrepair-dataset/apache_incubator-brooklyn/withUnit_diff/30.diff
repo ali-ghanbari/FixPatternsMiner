@@ -1,0 +1,36 @@
+diff --git a/core/src/test/java/brooklyn/util/ResourceUtilsTest.java b/core/src/test/java/brooklyn/util/ResourceUtilsTest.java
+index fbd07c7..b7975e9 100644
+--- a/core/src/test/java/brooklyn/util/ResourceUtilsTest.java
++++ b/core/src/test/java/brooklyn/util/ResourceUtilsTest.java
+@@ -150,7 +149,0 @@
+-    @Test
+-    public void testMergePaths() throws Exception {
+-        assertEquals(ResourceUtils.mergePaths("a","b"), "a/b");
+-        assertEquals(ResourceUtils.mergePaths("/a//","/b/"), "/a/b/");
+-        assertEquals(ResourceUtils.mergePaths("foo://","/b/"), "foo:///b/");
+-    }
+-
+diff --git a/utils/common/src/main/java/brooklyn/util/net/Urls.java b/utils/common/src/main/java/brooklyn/util/net/Urls.java
+index e3740e9..77febad 100644
+--- a/utils/common/src/main/java/brooklyn/util/net/Urls.java
++++ b/utils/common/src/main/java/brooklyn/util/net/Urls.java
+@@ -91 +91 @@
+-                while (result.charAt(result.length()-1)=='/')
++                while (result.length()>0 && result.charAt(result.length()-1)=='/')
+diff --git a/utils/common/src/test/java/brooklyn/util/net/UrlsTest.java b/utils/common/src/test/java/brooklyn/util/net/UrlsTest.java
+index 9f699f6..9c4e645 100644
+--- a/utils/common/src/test/java/brooklyn/util/net/UrlsTest.java
++++ b/utils/common/src/test/java/brooklyn/util/net/UrlsTest.java
+@@ -2,0 +3,2 @@
++import static org.testng.Assert.assertEquals;
++
+@@ -16,0 +19,8 @@
++    @Test
++    public void testMergePaths() throws Exception {
++        assertEquals(Urls.mergePaths("a","b"), "a/b");
++        assertEquals(Urls.mergePaths("/a//","/b/"), "/a/b/");
++        assertEquals(Urls.mergePaths("foo://","/b/"), "foo:///b/");
++        assertEquals(Urls.mergePaths("/","a","b","/"), "/a/b/");
++    }
++
+

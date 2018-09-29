@@ -1,0 +1,8 @@
+diff --git a/codeInsight/impl/com/intellij/codeInsight/completion/JavaMethodMergingContributor.java b/codeInsight/impl/com/intellij/codeInsight/completion/JavaMethodMergingContributor.java
+index a0bbc03..2cba0ee 100644
+--- a/codeInsight/impl/com/intellij/codeInsight/completion/JavaMethodMergingContributor.java
++++ b/codeInsight/impl/com/intellij/codeInsight/completion/JavaMethodMergingContributor.java
+@@ -30 +30 @@
+-    if (!process.willAutoInsert(AutoCompletionPolicy.SETTINGS_DEPENDENT, result.getPrefixMatcher())) return true;
++    if (process == null || !process.willAutoInsert(AutoCompletionPolicy.SETTINGS_DEPENDENT, result.getPrefixMatcher())) return true;
+

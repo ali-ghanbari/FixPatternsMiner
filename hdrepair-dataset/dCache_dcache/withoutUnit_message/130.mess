@@ -1,0 +1,19 @@
+Register the StateUpdateMaintainer to allow primary metrics that provide derived metrics
+
+The State object (acting as a StateCaretaker) will enqueue any metric updates resulting from 
+processing a StateUpdate object.  To do this, it must know the StateUpdateMaintainer so it can 
+submit the resulting StateUpdate object.
+
+An oversight resulted in a failure to register the StateUpdateManager, resulting in the scheduler 
+thread suffering an NPE.  The NPE is not recorded and subsequent scheduled activity is processed as 
+the scheduler simply starts a new thread should the existing thread terminate (for whatever 
+reason).  This resulting in somewhat bizarre behaviour where certain metrics would fail to appear 
+in dCache whilst others were processed without any problem.
+
+This fix adds the call to register the StateUpdateMaintainer to State, so preventing the NPE.
+
+Acked-by: Tigran
+RB: http://rb.dcache.org/r/715/
+
+
+

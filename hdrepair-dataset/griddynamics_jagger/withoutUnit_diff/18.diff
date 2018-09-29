@@ -1,0 +1,17 @@
+diff --git a/webclient/src/main/java/com/griddynamics/jagger/webclient/client/data/WebClientProperties.java b/webclient/src/main/java/com/griddynamics/jagger/webclient/client/data/WebClientProperties.java
+index d60262c..f7666ff 100644
+--- a/webclient/src/main/java/com/griddynamics/jagger/webclient/client/data/WebClientProperties.java
++++ b/webclient/src/main/java/com/griddynamics/jagger/webclient/client/data/WebClientProperties.java
+@@ -8 +8 @@
+-    private int userCommentMaxLength = 250;
++    private int userCommentMaxLength = 1000;
+diff --git a/webclient/src/main/webapp/WEB-INF/gwt-servlet.xml b/webclient/src/main/webapp/WEB-INF/gwt-servlet.xml
+index d94967e..62f97fb 100644
+--- a/webclient/src/main/webapp/WEB-INF/gwt-servlet.xml
++++ b/webclient/src/main/webapp/WEB-INF/gwt-servlet.xml
+@@ -93,2 +93,2 @@
+-        <property name="userCommentAvailable" value="${user.comment.available}"/>
+-        <property name="userCommentMaxLength" value="${user.comment.max.length}"/>
++        <property name="userCommentAvailable" value="${user.comment.available:false}"/>
++        <property name="userCommentMaxLength" value="${user.comment.max.length:1000}"/>
+

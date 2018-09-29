@@ -1,0 +1,28 @@
+diff --git a/core/src/main/java/org/mule/client/DefaultLocalMuleClient.java b/core/src/main/java/org/mule/client/DefaultLocalMuleClient.java
+index a524758..36e20dd 100644
+--- a/core/src/main/java/org/mule/client/DefaultLocalMuleClient.java
++++ b/core/src/main/java/org/mule/client/DefaultLocalMuleClient.java
+@@ -144 +144 @@
+-    private MuleMessage internalSend(String url, MuleMessage message, long timeout) throws MuleException
++    private MuleMessage internalSend(String url, MuleMessage message, Long timeout) throws MuleException
+diff --git a/tests/integration/src/test/resources/org/mule/test/integration/transformer/response/response-transformer-scenarios.xml b/tests/integration/src/test/resources/org/mule/test/integration/transformer/response/response-transformer-scenarios.xml
+index 45531ed..6a5ff84 100644
+--- a/tests/integration/src/test/resources/org/mule/test/integration/transformer/response/response-transformer-scenarios.xml
++++ b/tests/integration/src/test/resources/org/mule/test/integration/transformer/response/response-transformer-scenarios.xml
+@@ -6,0 +7 @@
++    xmlns:http="http://www.mulesoft.org/schema/mule/http"
+@@ -10,0 +12 @@
++       http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+@@ -13,0 +16,4 @@
++    <configuration>
++        <http:config useTransportForUris="true"/>
++    </configuration>
++
+diff --git a/tests/integration/src/test/resources/org/mule/test/usecases/http/http-response-flow.xml b/tests/integration/src/test/resources/org/mule/test/usecases/http/http-response-flow.xml
+index e71fd4c..bcf83e1 100644
+--- a/tests/integration/src/test/resources/org/mule/test/usecases/http/http-response-flow.xml
++++ b/tests/integration/src/test/resources/org/mule/test/usecases/http/http-response-flow.xml
+@@ -5 +5 @@
+-      xmlns:spring="http://www.mulesoft.org/schema/mule/http"
++      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+

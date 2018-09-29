@@ -1,0 +1,6 @@
+IZPACK-1182: continue evaluation of dynamic variables, until a stable
+state is reached. This is important for dynamic variables, which depend
+on other dynamic variables.
+A dynamic variable with checkonce="true" can be updated several times
+during ONE SINGLE call of DefaultVariables.refresh() and should be fixed
+("checked") at the end of this refresh(), not during the refresh().

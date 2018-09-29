@@ -1,0 +1,27 @@
+diff --git a/core/src/main/java/com/graphhopper/routing/QueryGraph.java b/core/src/main/java/com/graphhopper/routing/QueryGraph.java
+index 57b0f12..e9eab95 100644
+--- a/core/src/main/java/com/graphhopper/routing/QueryGraph.java
++++ b/core/src/main/java/com/graphhopper/routing/QueryGraph.java
+@@ -363 +363 @@
+-        if (eis.getAdjNode() == adjNode)
++        if (eis.getAdjNode() == adjNode || adjNode == Integer.MIN_VALUE)
+diff --git a/core/src/test/java/com/graphhopper/routing/QueryGraphTest.java b/core/src/test/java/com/graphhopper/routing/QueryGraphTest.java
+index afd46f5..2622a32 100644
+--- a/core/src/test/java/com/graphhopper/routing/QueryGraphTest.java
++++ b/core/src/test/java/com/graphhopper/routing/QueryGraphTest.java
+@@ -381,0 +382,14 @@
++    @Test
++    public void testGetEdgeProps()
++    {
++        initGraph(g);
++        EdgeIteratorState e1 = GHUtility.getEdge(g, 0, 2);
++        QueryGraph queryGraph = new QueryGraph(g);
++        QueryResult res1 = createLocationResult(0.5, 0, e1, 0, EDGE);
++        queryGraph.lookup(Arrays.asList(res1));
++        // get virtual edge
++        e1 = GHUtility.getEdge(queryGraph, res1.getClosestNode(), 0);
++        EdgeIteratorState e2 = queryGraph.getEdgeProps(e1.getEdge(), Integer.MIN_VALUE);
++        assertEquals(e1.getEdge(), e2.getEdge());
++    }
++
+

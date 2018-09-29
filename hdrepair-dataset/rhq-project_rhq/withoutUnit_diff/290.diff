@@ -1,0 +1,9 @@
+diff --git a/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/resource/metadata/ResourceMetadataManagerBean.java b/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/resource/metadata/ResourceMetadataManagerBean.java
+index a8a3ae0..66f5fba 100644
+--- a/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/resource/metadata/ResourceMetadataManagerBean.java
++++ b/modules/enterprise/server/jar/src/main/java/org/rhq/enterprise/server/resource/metadata/ResourceMetadataManagerBean.java
+@@ -217 +217,2 @@
+-        Set<ResourceType> parents = typeToBeRemoved.getParentResourceTypes();
++        // Wrap in new HashSet to avoid ConcurrentModificationExceptions.
++        Set<ResourceType> parents = new HashSet<ResourceType>(typeToBeRemoved.getParentResourceTypes());
+

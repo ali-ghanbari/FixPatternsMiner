@@ -1,0 +1,15 @@
+diff --git a/lucene/src/java/org/apache/lucene/index/Terms.java b/lucene/src/java/org/apache/lucene/index/Terms.java
+index 7694781..67e1c14 100644
+--- a/lucene/src/java/org/apache/lucene/index/Terms.java
++++ b/lucene/src/java/org/apache/lucene/index/Terms.java
+@@ -60,3 +60,6 @@
+-  /** Returns the number of documents containing the
+-   *  specified term text.  Returns 0 if the term does not
+-   *  exist. */
++  /** Returns the total number of occurrences of this term
++   *  across all documents (the sum of the freq() for each
++   *  doc that has this term).  This will be -1 if the
++   *  codec doesn't support this measure.  Note that, like
++   *  other term measures, this measure does not take
++   *  deleted documents into account. */
+

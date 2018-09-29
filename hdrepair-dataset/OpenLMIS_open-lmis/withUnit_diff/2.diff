@@ -1,0 +1,37 @@
+diff --git a/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java b/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java
+index cbc5068..71f023e 100644
+--- a/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java
++++ b/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java
+@@ -66 +66 @@
+-    "SET code = #{code}, name = #{name}, description =  #{description}, supervisoryNodeId = #{supervisoryNode.id}, modifiedBy = #{modifiedBy}, modifiedDate = #{modifiedDate} " +
++    "SET code = #{code}, name = #{name}, description =  #{description}, supervisoryNodeId = #{supervisoryNode.id}, modifiedBy = #{modifiedBy}, modifiedDate = COALESCE(#{modifiedDate}, CURRENT_TIMESTAMP) " +
+diff --git a/modules/openlmis-web/src/main/webapp/public/js/shared/controller/multiple-facility-search-filter-controller.js b/modules/openlmis-web/src/main/webapp/public/js/shared/controller/multiple-facility-search-filter-controller.js
+index 925cac5..5dcc4f0 100644
+--- a/modules/openlmis-web/src/main/webapp/public/js/shared/controller/multiple-facility-search-filter-controller.js
++++ b/modules/openlmis-web/src/main/webapp/public/js/shared/controller/multiple-facility-search-filter-controller.js
+@@ -56,0 +57,3 @@
++    else{
++      $scope.disableAddFacility = true;
++    }
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/admin/requisition-group/partials/search.html b/modules/openlmis-web/src/main/webapp/public/pages/admin/requisition-group/partials/search.html
+index 96bfc00..41d597b 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/admin/requisition-group/partials/search.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/admin/requisition-group/partials/search.html
+@@ -65,0 +66 @@
++      <th></th>
+@@ -70 +71 @@
+-      <td><a id="name{{$index}}" href="" ng-click="edit(requisitionGroup.id)" ng-bind="requisitionGroup.name"></a></td>
++      <td id="name{{$index}}" ng-bind="requisitionGroup.name"></td>
+@@ -73,0 +75 @@
++      <td class="center-justified"> <input type="button" class="btn btn-primary " openlmis-message="link.manage" ng-click="edit(requisitionGroup.id)"></td>
+diff --git a/modules/openlmis-web/src/test/java/org/openlmis/web/view/pdf/requisition/RequisitionPdfModelTest.java b/modules/openlmis-web/src/test/java/org/openlmis/web/view/pdf/requisition/RequisitionPdfModelTest.java
+index 7b6cfc0..b0bd74a 100644
+--- a/modules/openlmis-web/src/test/java/org/openlmis/web/view/pdf/requisition/RequisitionPdfModelTest.java
++++ b/modules/openlmis-web/src/test/java/org/openlmis/web/view/pdf/requisition/RequisitionPdfModelTest.java
+@@ -114 +114 @@
+-    assertRowValues(header.getRow(2), "levelName: Lusaka", "parentLevelName: Zambia", "Reporting Period: 01/01/2012 - 01/02/2012", "Requisition Type: Emergency");
++    assertRowValues(header.getRow(2), "levelName: Arusha", "parentLevelName: Zambia", "Reporting Period: 01/01/2012 - 01/02/2012", "Requisition Type: Emergency");
+@@ -128 +128 @@
+-    assertRowValues(header.getRow(2), "levelName: Lusaka", "parentLevelName: Zambia", "Reporting Period: 01/01/2012 - 01/02/2012", "Requisition Type: Regular");
++    assertRowValues(header.getRow(2), "levelName: Arusha", "parentLevelName: Zambia", "Reporting Period: 01/01/2012 - 01/02/2012", "Requisition Type: Regular");
+

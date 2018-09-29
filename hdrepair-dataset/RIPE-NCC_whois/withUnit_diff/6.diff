@@ -1,0 +1,35 @@
+diff --git a/whois-client/src/main/java/net/ripe/db/whois/api/rest/RestClientTarget.java b/whois-client/src/main/java/net/ripe/db/whois/api/rest/RestClientTarget.java
+index 3c07085..d172502 100644
+--- a/whois-client/src/main/java/net/ripe/db/whois/api/rest/RestClientTarget.java
++++ b/whois-client/src/main/java/net/ripe/db/whois/api/rest/RestClientTarget.java
+@@ -173 +172,0 @@
+-                .path(baseUrl)
+diff --git a/whois-client/src/test/java/net/ripe/db/whois/api/rest/RestClientTest.java b/whois-client/src/test/java/net/ripe/db/whois/api/rest/RestClientTest.java
+index aa4a075..3f1acea 100644
+--- a/whois-client/src/test/java/net/ripe/db/whois/api/rest/RestClientTest.java
++++ b/whois-client/src/test/java/net/ripe/db/whois/api/rest/RestClientTest.java
+@@ -44,0 +45 @@
++import static org.mockito.Matchers.anyString;
+@@ -49,0 +51 @@
++// FIXME: [AH] this should be an integration tests; it's unmaintainable as is
+@@ -300,0 +303,7 @@
++                when(webTarget.path(anyString())).thenAnswer(new Answer() {
++                    @Override
++                    public Object answer(InvocationOnMock invocation) throws Throwable {
++                        url = url + "/" + invocation.getArguments()[0];
++                        return invocation.getMock();
++                    }
++                });
+@@ -335,0 +345,7 @@
++                when(webTarget.path(anyString())).thenAnswer(new Answer() {
++                    @Override
++                    public Object answer(InvocationOnMock invocation) throws Throwable {
++                        url = url + "/" + invocation.getArguments()[0];
++                        return invocation.getMock();
++                    }
++                });
+@@ -353 +368,0 @@
+-
+@@ -354,0 +370 @@
++
+

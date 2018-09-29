@@ -1,0 +1,8 @@
+diff --git a/src/java/org/apache/cassandra/service/AbstractReadExecutor.java b/src/java/org/apache/cassandra/service/AbstractReadExecutor.java
+index 83368c2..280715a 100644
+--- a/src/java/org/apache/cassandra/service/AbstractReadExecutor.java
++++ b/src/java/org/apache/cassandra/service/AbstractReadExecutor.java
+@@ -324 +324 @@
+-            makeDataRequests(targetReplicas.subList(0, 2));
++            makeDataRequests(targetReplicas.subList(0, targetReplicas.size() > 1 ? 2 : 1));
+

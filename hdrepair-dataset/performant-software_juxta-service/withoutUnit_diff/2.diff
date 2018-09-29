@@ -1,0 +1,21 @@
+diff --git a/juxta-ws/public/javascripts/heatmap.js b/juxta-ws/public/javascripts/heatmap.js
+index 05345cf..514fabb 100644
+--- a/juxta-ws/public/javascripts/heatmap.js
++++ b/juxta-ws/public/javascripts/heatmap.js
+@@ -616 +616,4 @@
+-         var txt = $("#box-anno-"+ $("#src-mb-id").text()).text();
++         var txt = "";
++         if ( $(this).attr("title").indexOf("Edit") > -1) {
++            txt = $("#box-anno-"+ $("#src-mb-id").text()).text();
++         }
+@@ -671,0 +675 @@
++              $("#box-anno-"+ $("#src-mb-id").text() ).text("");
+@@ -672,0 +677 @@
++              $("#del-anno-"+ $("#src-mb-id").text() ).hide();
+diff --git a/juxta-ws/src/main/java/org/juxtasoftware/resource/UserAnnotationResource.java b/juxta-ws/src/main/java/org/juxtasoftware/resource/UserAnnotationResource.java
+index a50d29d..ff040ca 100644
+--- a/juxta-ws/src/main/java/org/juxtasoftware/resource/UserAnnotationResource.java
++++ b/juxta-ws/src/main/java/org/juxtasoftware/resource/UserAnnotationResource.java
+@@ -167,0 +168 @@
++            ua.setSetId(this.set.getId());
+

@@ -1,0 +1,11 @@
+diff --git a/src/com/itmill/toolkit/ui/TextField.java b/src/com/itmill/toolkit/ui/TextField.java
+index 34223c0..e616b19 100644
+--- a/src/com/itmill/toolkit/ui/TextField.java
++++ b/src/com/itmill/toolkit/ui/TextField.java
+@@ -235,2 +235,3 @@
+-                // If the modified status changes, repaint is needed after all
+-                if (wasModified != isModified()) {
++                // If the modified status changes, or if we have a formatter,
++                // repaint is needed after all.
++                if (format != null || wasModified != isModified()) {
+

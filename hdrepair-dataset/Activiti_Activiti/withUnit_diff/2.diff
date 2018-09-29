@@ -1,0 +1,96 @@
+diff --git a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/cmd/SetProcessDefinitionVersionCmd.java b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/cmd/SetProcessDefinitionVersionCmd.java
+index c6c7531..2f5c1ad 100644
+--- a/modules/activiti-engine/src/main/java/org/activiti/engine/impl/cmd/SetProcessDefinitionVersionCmd.java
++++ b/modules/activiti-engine/src/main/java/org/activiti/engine/impl/cmd/SetProcessDefinitionVersionCmd.java
+@@ -118 +118 @@
+-      .findChildExecutionsByParentExecutionId(processInstanceId);
++      .findChildExecutionsByProcessInstanceId(processInstanceId);
+diff --git a/modules/activiti-engine/src/test/java/org/activiti/engine/test/db/ProcessInstanceMigrationTest.java b/modules/activiti-engine/src/test/java/org/activiti/engine/test/db/ProcessInstanceMigrationTest.java
+index f6ff7a0..5f366f8 100644
+--- a/modules/activiti-engine/src/test/java/org/activiti/engine/test/db/ProcessInstanceMigrationTest.java
++++ b/modules/activiti-engine/src/test/java/org/activiti/engine/test/db/ProcessInstanceMigrationTest.java
+@@ -45,0 +46 @@
++  private static final String TEST_PROCESS_NESTED_SUB_EXECUTIONS = "org/activiti/engine/test/db/ProcessInstanceMigrationTest.testSetProcessDefinitionVersionSubExecutionsNested.bpmn20.xml";
+@@ -309,0 +311,36 @@
++
++  @Deployment(resources = {TEST_PROCESS_NESTED_SUB_EXECUTIONS})
++  public void testSetProcessDefinitionVersionSubExecutionsNested() {
++    // start process instance
++    ProcessInstance pi = runtimeService.startProcessInstanceByKey("forkJoinNested");
++
++    // check that the user tasks have been reached
++    assertEquals(2, taskService.createTaskQuery().count());
++
++    // deploy new version of the process definition
++    org.activiti.engine.repository.Deployment deployment = repositoryService
++            .createDeployment()
++            .addClasspathResource(TEST_PROCESS_NESTED_SUB_EXECUTIONS)
++            .deploy();
++    assertEquals(2, repositoryService.createProcessDefinitionQuery().count());
++
++    // migrate process instance to new process definition version
++    CommandExecutor commandExecutor = processEngineConfiguration.getCommandExecutor();
++    commandExecutor.execute(new SetProcessDefinitionVersionCmd(pi.getId(), 2));
++
++    // check that all executions of the instance now use the new process definition version
++    ProcessDefinition newProcessDefinition = repositoryService
++            .createProcessDefinitionQuery()
++            .processDefinitionVersion(2)
++            .singleResult();
++    List<Execution> executions = runtimeService
++            .createExecutionQuery()
++            .processInstanceId(pi.getId())
++            .list();
++    for (Execution execution : executions) {
++        assertEquals(newProcessDefinition.getId(), ((ExecutionEntity) execution).getProcessDefinitionId());
++    }
++
++    // undeploy "manually" deployed process definition
++    repositoryService.deleteDeployment(deployment.getId(), true);
++  }
+diff --git a/modules/activiti-engine/src/test/resources/org/activiti/engine/test/db/ProcessInstanceMigrationTest.testSetProcessDefinitionVersionSubExecutionsNested.bpmn20.xml b/modules/activiti-engine/src/test/resources/org/activiti/engine/test/db/ProcessInstanceMigrationTest.testSetProcessDefinitionVersionSubExecutionsNested.bpmn20.xml
+new file mode 100644
+index 0000000..21a4e7e
+--- /dev/null
++++ b/modules/activiti-engine/src/test/resources/org/activiti/engine/test/db/ProcessInstanceMigrationTest.testSetProcessDefinitionVersionSubExecutionsNested.bpmn20.xml
+@@ -0,0 +1,39 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<definitions id="definitions"
++             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
++             xmlns:activiti="http://activiti.org/bpmn"
++             targetNamespace="Examples">
++
++  <process id="forkJoinNested">
++
++    <startEvent id="theStart" />
++    <sequenceFlow id="flow1" sourceRef="theStart" targetRef="fork" />
++
++    <parallelGateway id="fork" />
++    <sequenceFlow sourceRef="fork" targetRef="receivePayment" />
++    <sequenceFlow sourceRef="fork" targetRef="shipOrder" />
++
++    <userTask id="receivePayment" name="Receive Payment" />
++    <sequenceFlow sourceRef="receivePayment" targetRef="join" />
++
++    <boundaryEvent id="escalationTimer" cancelActivity="false" attachedToRef="receivePayment">
++      <timerEventDefinition>
++        <timeDuration>P10D</timeDuration>
++      </timerEventDefinition>
++    </boundaryEvent>
++
++    <userTask id="shipOrder" name="Ship Order" />
++    <sequenceFlow sourceRef="shipOrder" targetRef="join" />
++
++    <parallelGateway id="join" />
++    <sequenceFlow sourceRef="join" targetRef="archiveOrder" />
++
++    <userTask id="archiveOrder" name="Archive Order" />
++    <sequenceFlow sourceRef="archiveOrder" targetRef="theEnd" />
++
++    <endEvent id="theEnd" />
++
++
++  </process>
++
++</definitions>
+

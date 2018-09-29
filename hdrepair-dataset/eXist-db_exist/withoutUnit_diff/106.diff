@@ -1,0 +1,8 @@
+diff --git a/src/org/exist/storage/index/BFile.java b/src/org/exist/storage/index/BFile.java
+index 0339128..4cd35fd 100644
+--- a/src/org/exist/storage/index/BFile.java
++++ b/src/org/exist/storage/index/BFile.java
+@@ -1414 +1414 @@
+-            //if ((dp.getPageHeader().getLsn() != Page.NO_PAGE && requiresRedo(loggable, dp)) && loggable != null)
++            if (loggable.getLsn() > dp.getPageHeader().getLsn())
+

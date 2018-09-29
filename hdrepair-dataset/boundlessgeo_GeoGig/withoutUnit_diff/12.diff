@@ -1,0 +1,15 @@
+diff --git a/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java b/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java
+index fec44b9..d0a29fd 100644
+--- a/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java
++++ b/src/cli/src/main/java/org/geogit/cli/porcelain/Merge.java
+@@ -79 +79 @@
+-        checkParameter(commits.size() > 0, "No commits provided to merge.");
++        checkParameter(commits.size() > 0 || abort, "No commits provided to merge.");
+diff --git a/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature b/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature
+index 3c57e1f..05c1ca5 100644
+--- a/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature
++++ b/src/cli/src/test/resources/org/geogit/cli/test/functional/Merge.feature
+@@ -97 +97 @@
+-     When I run the command "merge branch1 --abort"
++     When I run the command "merge --abort"
+

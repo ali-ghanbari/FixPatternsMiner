@@ -1,0 +1,77 @@
+diff --git a/java/code/src/com/redhat/rhn/frontend/taglibs/list/ListTag.java b/java/code/src/com/redhat/rhn/frontend/taglibs/list/ListTag.java
+index 4642188..18f2979 100644
+--- a/java/code/src/com/redhat/rhn/frontend/taglibs/list/ListTag.java
++++ b/java/code/src/com/redhat/rhn/frontend/taglibs/list/ListTag.java
+@@ -561,0 +562 @@
++                excludeParams.add(ListTagUtil.makeSelectActionName(getUniqueName()));
+diff --git a/java/code/webapp/WEB-INF/pages/systems/details/packages/installpkgs.jsp b/java/code/webapp/WEB-INF/pages/systems/details/packages/installpkgs.jsp
+index be1ba2a..91ea74b 100644
+--- a/java/code/webapp/WEB-INF/pages/systems/details/packages/installpkgs.jsp
++++ b/java/code/webapp/WEB-INF/pages/systems/details/packages/installpkgs.jsp
+@@ -2,7 +2,15 @@
+-<c:import url="/WEB-INF/pages/systems/details/packages/packagelist.jspf">
+-   <c:param name="alt" value="Install Packages"/>
+-   <c:param name="header" value="installpkgs.jsp.header"/>
+-   <c:param name="summary" value="installpkgs.jsp.summary"/>
+-   <c:param name="dispatch" value="installpkgs.jsp.installpackages"/>
+-   <c:param name="showArch" value="true"/>
+-</c:import>
++
++
++   <c:set var="alt" value="installpkgs.jsp.installpackages"/>
++   <c:set var="pack_header" value="installpkgs.jsp.header"/>
++   <c:set var="summary" value="installpkgs.jsp.summary"/>
++   <c:set var="dispatch" value="installpkgs.jsp.installpackages"/>
++   <c:set var="showArch" value="true"/>
++
++
++<%@ include file="/WEB-INF/pages/systems/details/packages/packagelist.jspf" %>
++
++
++
++
++
+diff --git a/java/code/webapp/WEB-INF/pages/systems/details/packages/packagelist.jspf b/java/code/webapp/WEB-INF/pages/systems/details/packages/packagelist.jspf
+index a95909b..eea4329 100644
+--- a/java/code/webapp/WEB-INF/pages/systems/details/packages/packagelist.jspf
++++ b/java/code/webapp/WEB-INF/pages/systems/details/packages/packagelist.jspf
+@@ -19,2 +19,2 @@
+-	     alt="<bean:message key='${param.alt}'/>" />
+-	<bean:message key="${param.header}" />
++	     alt="<bean:message key='${alt}'/>" />
++	<bean:message key="${pack_header}" />
+@@ -24 +24 @@
+-	<bean:message key="${param.summary}" />
++	<bean:message key="${summary}" />
+@@ -30 +30 @@
+-<c:when test="${not empty param.showArch}">
++<c:when test="${not empty showArch}">
+@@ -59 +59 @@
+-	<c:if test="${not empty param.showArch}">
++	<c:if test="${not empty showArch}">
+@@ -75 +75 @@
+-	    value='<bean:message key="${param.dispatch}"/>'/>		
++	    value='<bean:message key="${dispatch}"/>'/>
+diff --git a/java/code/webapp/WEB-INF/pages/systems/details/packages/verifypkgs.jsp b/java/code/webapp/WEB-INF/pages/systems/details/packages/verifypkgs.jsp
+index 09391de..fce829e 100644
+--- a/java/code/webapp/WEB-INF/pages/systems/details/packages/verifypkgs.jsp
++++ b/java/code/webapp/WEB-INF/pages/systems/details/packages/verifypkgs.jsp
+@@ -2,7 +2,10 @@
+-<c:import url="/WEB-INF/pages/systems/details/packages/packagelist.jspf">
+-   <c:param name="alt" value="Verify Packages"/>
+-   <c:param name="header" value="verifypkgs.jsp.verifiablepackages"/>
+-   <c:param name="summary" value="verifypkgs.jsp.verifypagesummary"/>
+-   <c:param name="showArch" value="true"/>
+-   <c:param name="dispatch" value="verifypkgs.jsp.verifypackages"/>
+-</c:import>
++
++   <s:set var="alt" value="verifypkgs.jsp.verifiablepackages"/>
++   <c:set var="pack_header" value="verifypkgs.jsp.verifiablepackages"/>
++   <c:set var="summary" value="verifypkgs.jsp.verifypagesummary"/>
++   <c:set var="showArch" value="true"/>
++   <c:set var="dispatch" value="verifypkgs.jsp.verifypackages"/>
++
++
++<%@ include file="/WEB-INF/pages/systems/details/packages/packagelist.jspf" %>
++
+

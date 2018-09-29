@@ -1,0 +1,161 @@
+diff --git a/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCaller.java b/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCaller.java
+index fe7d7f4..9fd6f19 100644
+--- a/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCaller.java
++++ b/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCaller.java
+@@ -830,0 +831,3 @@
++        //now that we have all the VCF headers, initialize the annotations (this is particularly important to turn off RankSumTest dithering in integration tests)
++        annotationEngine.invokeAnnotationInitializationMethods(headerInfo);
++
+diff --git a/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerComplexAndSymbolicVariantsIntegrationTest.java b/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerComplexAndSymbolicVariantsIntegrationTest.java
+index d850191..136b656 100644
+--- a/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerComplexAndSymbolicVariantsIntegrationTest.java
++++ b/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerComplexAndSymbolicVariantsIntegrationTest.java
+@@ -75 +75 @@
+-        HCTestComplexVariants(privateTestDir + "AFR.complex.variants.bam", "", "329e57675a6bab117597f02e3f109095");
++        HCTestComplexVariants(privateTestDir + "AFR.complex.variants.bam", "", "070729585401dda47838911928ffbd2f");
+@@ -99 +99 @@
+-                "4c12c04c34c782b25df78d37868e742d");
++                "64421f715e0258defc9efcfef56bdaab");
+@@ -105 +105 @@
+-                "c3fc8876b9b7247f68d758b8a9d60fe5");
++                "d2306f6ecfcee9340423ba251e0736a3");
+@@ -117 +117 @@
+-                "b6576ef09027cb22fa02efda67f7139d");
++                "22c4135a87be18940ff622ea7ff9cabc");
+diff --git a/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerGVCFIntegrationTest.java b/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerGVCFIntegrationTest.java
+index 783c173..d18f24d 100644
+--- a/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerGVCFIntegrationTest.java
++++ b/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerGVCFIntegrationTest.java
+@@ -78,6 +78,6 @@
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "6bfe8418aefa0d5d04bdc8f5f31bbb97"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "8daf142d0f42967b9c59aae4580a18c5"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "1ad6d0d5764e2bc0839af4b79f1bd351"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "00aa548e22334fc121f0c8bee2b05d7a"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "2e64530bfc8cb0a3ad72cc5d11d4694b"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.GVCF, WExIntervals, "c236b1f6bfbbbc258d3077d75bb9e552"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "3e440b1b755a21d7bd3ecb093af8f43e"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "ebe078a1e209a5b231aeeba6deebcb8a"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "b6d3cbc4eecb8d295898d94335be54c2"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "6ca1e6cb78157273a4a96ba00e6d4713"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "8645c191ca5dbbae8dcb1389717f985a"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.GVCF, WExIntervals, "82f2efd1e9ec6197344d9001b653c7fb"});
+@@ -97,5 +97,5 @@
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "58abeeaebe89fa5e65bae305f5325a13"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "ba349abd7370252215ebf9e2f246283c"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "c91ff30df7644c3fd5be1355533d9fef"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "04d025e1102bede70d0aa9dc25a89e01"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "a1fcce758ed1bd8ead5030b598fd66eb"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "92c7415dd1a5793161032d839b88fc28"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "b90d7c900ff4a8b5e58d6bd4ad64d750"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "7abdd32f0d11cbf43f5bceeca946a428"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "7e84e4562d8df6e593e58f017f697355"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "307ce5ada7c68e2f08664937bafa6281"});
+@@ -103 +103 @@
+-        final String NA12878bandedResolutionMD5 = "12ce2c83d71ad3db7269c22e65a47ffb";
++        final String NA12878bandedResolutionMD5 = "74f728f1c42e3014776197606ddf5116";
+@@ -120,6 +120,6 @@
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "e85d74be34c91ab84ea1e6ab6276fbab"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "10dd974f0fd83b8f187e1e9f39ba9237"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "fc7ae67b25ff3e82062b80827bd30f6d"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "87a745384652813976ee37091be45a14"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "a36a9f819e82f7ba6d77ab0b65475fbc"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.GVCF, WExIntervals, "bbd62dbeddfdc7353264870e4379cc04"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "f441aab92b07591281fa44748b7bd71e"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "d54d7988552a13de90977ba06b094b74"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "a1e2f104c50c89b9c562045daebf07ca"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "91164cf1247f5b187ad133b280aa1fd2"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "b5c1b79550a8d8bb479895e2be38d945"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.GVCF, WExIntervals, "48b737b4f1739edd275eb347c6ca5997"});
+@@ -138,6 +138,6 @@
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "7f1b295150967269545096564d5ebcca"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "97c5a77752305990420d5d725c70c2cd"});
+-        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "04b5f3f7a6d1c53beef14c8b295883b1"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "f0b3e472e175ffa4fdf4e04f88e0ade1"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "747204e4bad4620c5298b683813c65ee"});
+-        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.GVCF, WExIntervals, "5a2d32868f007d9d3537ee9d66bd6f38"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.NONE, PCRFreeIntervals, "081d943a092b7ad71d1f1fa6ec191ace"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.BP_RESOLUTION, PCRFreeIntervals, "93f95c7a51741f8e527f1308ffd91052"});
++        tests.add(new Object[]{NA12878_PCRFREE, ReferenceConfidenceMode.GVCF, PCRFreeIntervals, "a6e858123e40efece5a9a43a0c05bdb2"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.NONE, WExIntervals, "3d8f4f849df0b9cddb1ec61279e91a83"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.BP_RESOLUTION, WExIntervals, "1fbe1435b860400ecae3115141453c9a"});
++        tests.add(new Object[]{NA12878_WEx, ReferenceConfidenceMode.GVCF, WExIntervals, "af7f383fd675d2edfaba7f67a96e67c7"});
+diff --git a/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerIntegrationTest.java b/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerIntegrationTest.java
+index 799266e..2a3d728 100644
+--- a/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerIntegrationTest.java
++++ b/protected/gatk-tools-protected/src/test/java/org/broadinstitute/gatk/tools/walkers/haplotypecaller/HaplotypeCallerIntegrationTest.java
+@@ -99 +99 @@
+-        HCTest(CEUTRIO_BAM, "", "6d8a38310a086f4d80f25d2b80a309b2");
++        HCTest(CEUTRIO_BAM, "", "e8a73b950d027239b780757d898c7334");
+@@ -105 +105 @@
+-        HCTest(NA12878_BAM, "", "93990d0fed73087294548e71c4e661e9");
++        HCTest(NA12878_BAM, "", "c741efeb6f3e412c4e707da3cabee621");
+@@ -110 +110 @@
+-        HCTest(CEUTRIO_BAM, "-ploidy 1", "deac83402aa9ef26fcc42e5ab08140d3");
++        HCTest(CEUTRIO_BAM, "-ploidy 1", "5bfcfdea258a3dafa04a99dd2b000c87");
+@@ -115 +115 @@
+-        HCTest(NA12878_BAM, "-ploidy 1", "633d7bd09d202b062854a647ec0f3ce0");
++        HCTest(NA12878_BAM, "-ploidy 1", "304d2ade384406342655fdfd445576a3");
+@@ -120 +120 @@
+-        HCTest(NA12878_BAM, "-ploidy 4", "605498f14cb0b01695109035068a147e");
++        HCTest(NA12878_BAM, "-ploidy 4", "1d7aee93f3f2e331fcfa8f765467c66c");
+@@ -125 +125 @@
+-        HCTest(NA12878_BAM, "-mbq 15", "93990d0fed73087294548e71c4e661e9");
++        HCTest(NA12878_BAM, "-mbq 15", "c741efeb6f3e412c4e707da3cabee621");
+@@ -130 +130 @@
+-        HCTest(NA12878_BAM, "-mbq 15 -ploidy 1", "633d7bd09d202b062854a647ec0f3ce0");
++        HCTest(NA12878_BAM, "-mbq 15 -ploidy 1", "304d2ade384406342655fdfd445576a3");
+@@ -135 +135 @@
+-        HCTest(NA12878_BAM, "-mbq 15 -ploidy 4", "605498f14cb0b01695109035068a147e");
++        HCTest(NA12878_BAM, "-mbq 15 -ploidy 4", "1d7aee93f3f2e331fcfa8f765467c66c");
+@@ -140 +140 @@
+-        HCTest(NA12878_BAM, "-likelihoodEngine GraphBased", "1bd3336031e18c5f06abe760c33dd6be");
++        HCTest(NA12878_BAM, "-likelihoodEngine GraphBased", "ffd2363d2f7afd694b8e9b23c51b0cea");
+@@ -145 +145 @@
+-        HCTest(CEUTRIO_BAM, "-likelihoodEngine GraphBased -ploidy 1", "e4a2b4c7adc7d45e2ad2bb61d263b9ac");
++        HCTest(CEUTRIO_BAM, "-likelihoodEngine GraphBased -ploidy 1", "ab1630552bcc0a46431b3f6b7bd50bb5");
+@@ -150 +150 @@
+-        HCTest(CEUTRIO_BAM, "-likelihoodEngine GraphBased", "dc757f57a6ddac88ddceab5be1533f89");
++        HCTest(CEUTRIO_BAM, "-likelihoodEngine GraphBased", "31a21023efaf6f030478e5542ec652fe");
+@@ -155 +155 @@
+-        HCTest(NA12878_BAM, "-D " + b37dbSNP132, "c68a0659d6de9fb1c2f8e2db4da2f8a2");
++        HCTest(NA12878_BAM, "-D " + b37dbSNP132, "1c91ca0c8c04cbce1ace3e9884efd458");
+@@ -162 +162 @@
+-                "469228219a10f003e558aae66a838e73");
++                "2944a830504b4e0b87bb8babc8ea39ae");
+@@ -168 +168 @@
+-                "535cde1cbefd5b90cae793cbbdce5893");
++                "b4da788ff173453d915a807149d9ab5d");
+@@ -174 +174 @@
+-                "d8705ab5f7d4532c2ff8063244a72788");
++                "7a3a8a81c3f984d74e6e3e35f5e62aa3");
+@@ -190 +190 @@
+-        HCTestIndelQualityScores(NA12878_RECALIBRATED_BAM, "", "a139a6d01101064a4a093b24449d8b52");
++        HCTestIndelQualityScores(NA12878_RECALIBRATED_BAM, "", "60df4797f86c1454c0eb76c5eaf2ad38");
+@@ -227 +227 @@
+-        HCTestNearbySmallIntervals(NA12878_BAM, "", "f6fe463f338f6c5133ba08f1d667c23e");
++        HCTestNearbySmallIntervals(NA12878_BAM, "", "7af25494bf2b05cc838ebf7055407c30");
+@@ -237 +237 @@
+-        final WalkerTestSpec spec = new WalkerTestSpec(base, Arrays.asList("869e786baa1a72a08f0a3781804abb3e"));
++        final WalkerTestSpec spec = new WalkerTestSpec(base, Arrays.asList("3f01b3be2004f784a0fddc9e63aeba2a"));
+@@ -299 +299 @@
+-                Arrays.asList("2dc24f409ec1aa402ad892dffe317618"));
++                Arrays.asList("e894e9f50112edad270f36f78e76a8e3"));
+@@ -308 +308 @@
+-                Arrays.asList("a2f40779558c1157353c6fcfd3783a76"));
++                Arrays.asList("9e384f2bd2eb7a6d5ee1685ab5e75501"));
+@@ -316 +316 @@
+-                Arrays.asList("9d7ab1c89cce238cff055dc5e9091fb1"));
++                Arrays.asList("801a3af44153deee939370dcaaa110ab"));
+@@ -325 +325 @@
+-                Arrays.asList("b2240a53e441064a1a60e60de4ca49ad"));
++                Arrays.asList("efac9fd7e7a92e3f130e7db9cbff4a45"));
+@@ -348 +348 @@
+-                Arrays.asList("591f8f31524510ace882a860d6850871"));
++                Arrays.asList("c851be534595a2547a8ebf81f1b923d1"));
+@@ -356 +356 @@
+-                Arrays.asList("038db1cf0dadfe746a14e05f5cf3bb8e"));
++                Arrays.asList("95a3f339a15b1398cfc9f9e933999ea9"));
+@@ -449 +449 @@
+-        HCTest(NA12878_BAM, " -L 20:10001000-10010000 -A TandemRepeatAnnotator -XA MappingQualityZero -XA SpanningDeletions", "ab9907559e5b20dadbb6f24d02b8070c");
++        HCTest(NA12878_BAM, " -L 20:10001000-10010000 -A TandemRepeatAnnotator -XA MappingQualityZero -XA SpanningDeletions", "481787c9275ab9f2e2b53025805472b7");
+

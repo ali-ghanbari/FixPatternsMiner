@@ -1,0 +1,53 @@
+diff --git a/src/main/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapper.java b/src/main/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapper.java
+index dc267b0..5d54fdc 100644
+--- a/src/main/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapper.java
++++ b/src/main/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapper.java
+@@ -114 +114 @@
+-      return with(getWrappedElement(), timeout);
++      return with(getWrappedElement(), timeout, interval);
+diff --git a/src/test/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapperTest.java b/src/test/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapperTest.java
+index f557c89..c83790c 100644
+--- a/src/test/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapperTest.java
++++ b/src/test/java/ru/st/selenium/wait/ClientSideImplicitWaitWrapperTest.java
+@@ -104,0 +105,15 @@
++  public void findElementShouldReturnEmptyListIfNoElementIsFound() {
++    final WebDriver mockedDriver = getMockedDriver();
++
++    when(mockedDriver.findElements(By.name("foo")))
++        .thenReturn(new ArrayList<WebElement>());
++
++    WebDriver driver = new ClientSideImplicitWaitWrapper(mockedDriver, 1, 100).getDriver();
++
++    List<WebElement> elements = driver.findElements(By.name("foo"));
++
++    verify(mockedDriver, times(11)).findElements(By.name("foo"));
++    assertThat(elements.size(), is(0));
++  }
++
++  @Test
+@@ -125,0 +141,24 @@
++  public void clickShouldThrowIfTheElementIsNotVisible() {
++    final WebDriver mockedDriver = getMockedDriver();
++    final WebElement mockedElement = mock(WebElement.class);
++
++    when(mockedDriver.findElement(By.name("foo")))
++        .thenReturn(mockedElement);
++
++    doThrow(ElementNotVisibleException.class)
++        .when(mockedElement).click();
++
++    WebDriver driver = new ClientSideImplicitWaitWrapper(mockedDriver, 1, 100).getDriver();
++
++    try {
++      driver.findElement(By.name("foo")).click();
++      fail("Exception expected");
++    } catch (Throwable t) {
++      assertThat(t, instanceOf(ElementNotVisibleException.class));
++    }
++
++    verify(mockedDriver, times(1)).findElement(By.name("foo"));
++    verify(mockedElement, times(11)).click();
++  }
++
++  @Test
+

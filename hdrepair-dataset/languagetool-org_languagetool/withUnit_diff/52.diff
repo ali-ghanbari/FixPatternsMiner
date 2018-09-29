@@ -1,0 +1,26 @@
+diff --git a/trunk/JLanguageTool/src/java/org/languagetool/Main.java b/trunk/JLanguageTool/src/java/org/languagetool/Main.java
+index 1e7143b..c7ad32d 100644
+--- a/trunk/JLanguageTool/src/java/org/languagetool/Main.java
++++ b/trunk/JLanguageTool/src/java/org/languagetool/Main.java
+@@ -221 +221 @@
+-    for (int ruleIndex = 0; ruleIndex < runCount; ruleIndex++) {
++    for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
+diff --git a/trunk/JLanguageTool/src/test/org/languagetool/MainTest.java b/trunk/JLanguageTool/src/test/org/languagetool/MainTest.java
+index d6d40e3..1a5a728 100644
+--- a/trunk/JLanguageTool/src/test/org/languagetool/MainTest.java
++++ b/trunk/JLanguageTool/src/test/org/languagetool/MainTest.java
+@@ -238,0 +239,13 @@
++
++  public void testEnglishFileFakeRuleEnabled() throws Exception {
++    final String test = "Zwuasdac?";
++    final byte[] b = test.getBytes();
++    System.setIn(new ByteArrayInputStream(b));
++    String[] args = new String[] {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
++
++    Main.main(args);
++    String output = new String(this.out.toByteArray());
++    assertTrue(output.indexOf("Expected text language: English") == 0);
++  }
++
++  
+

@@ -1,0 +1,115 @@
+diff --git a/core/java/android/hardware/Camera.java b/core/java/android/hardware/Camera.java
+index 6ff5a40..275e2eb 100644
+--- a/core/java/android/hardware/Camera.java
++++ b/core/java/android/hardware/Camera.java
+@@ -782,3 +782,3 @@
+-     * front-facing cameras is flipped horizontally, that is, the image is
+-     * reflected along the central vertical axis of the camera sensor. So the
+-     * users can see themselves as looking into a mirror.
++     * front-facing cameras is flipped horizontally before the rotation, that
++     * is, the image is reflected along the central vertical axis of the camera
++     * sensor. So the users can see themselves as looking into a mirror.
+diff --git a/include/camera/Camera.h b/include/camera/Camera.h
+index 964700b..e6d84ba 100644
+--- a/include/camera/Camera.h
++++ b/include/camera/Camera.h
+@@ -85,0 +86,12 @@
++    // Set the clockwise rotation of preview display (setPreviewDisplay) in
++    // degrees. This affects the preview frames and the picture displayed after
++    // snapshot. This method is useful for portrait mode applications. Note that
++    // preview display of front-facing cameras is flipped horizontally before
++    // the rotation, that is, the image is reflected along the central vertical
++    // axis of the camera sensor. So the users can see themselves as looking
++    // into a mirror.
++    //
++    // This does not affect the order of byte array of CAMERA_MSG_PREVIEW_FRAME,
++    // CAMERA_MSG_VIDEO_FRAME, CAMERA_MSG_POSTVIEW_FRAME, CAMERA_MSG_RAW_IMAGE,
++    // or CAMERA_MSG_COMPRESSED_IMAGE. This is not allowed to be set during
++    // preview.
+diff --git a/libs/ui/EventHub.cpp b/libs/ui/EventHub.cpp
+index 944731d..5c618fb 100644
+--- a/libs/ui/EventHub.cpp
++++ b/libs/ui/EventHub.cpp
+@@ -821 +821 @@
+-        for (size_t i = 0; i < sizeof(GAMEPAD_KEYCODES); i++) {
++        for (size_t i = 0; i < sizeof(GAMEPAD_KEYCODES)/sizeof(GAMEPAD_KEYCODES[0]); i++) {
+diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
+index 58209fd..121819a 100644
+--- a/services/camera/libcameraservice/CameraService.cpp
++++ b/services/camera/libcameraservice/CameraService.cpp
+@@ -153 +153,4 @@
+-    client = new Client(this, cameraClient, hardware, cameraId, callingPid);
++    CameraInfo info;
++    HAL_getCameraInfo(cameraId, &info);
++    client = new Client(this, cameraClient, hardware, cameraId, info.facing,
++                        info.orientation, callingPid);
+@@ -295 +298 @@
+-        int cameraId, int clientPid) {
++        int cameraId, int cameraFacing, int cameraOrientation, int clientPid) {
+@@ -302,0 +306,2 @@
++    mCameraFacing = cameraFacing;
++    mCameraOrientation = cameraOrientation;
+@@ -321 +326 @@
+-    mOrientation = 0;
++    mOrientation = getOrientation(0, mCameraFacing == CAMERA_FACING_FRONT);
+@@ -826,16 +831,4 @@
+-        switch (arg1) {
+-            case 0:
+-                orientation = ISurface::BufferHeap::ROT_0;
+-                break;
+-            case 90:
+-                orientation = ISurface::BufferHeap::ROT_90;
+-                break;
+-            case 180:
+-                orientation = ISurface::BufferHeap::ROT_180;
+-                break;
+-            case 270:
+-                orientation = ISurface::BufferHeap::ROT_270;
+-                break;
+-            default:
+-                return BAD_VALUE;
+-        }
++        // Mirror the preview if the camera is front-facing.
++        orientation = getOrientation(arg1, mCameraFacing == CAMERA_FACING_FRONT);
++        if (orientation == -1) return BAD_VALUE;
++
+@@ -1206,0 +1200,25 @@
++int CameraService::Client::getOrientation(int degrees, bool mirror) {
++    if (!mirror) {
++        if (degrees == 0) return 0;
++        else if (degrees == 90) return HAL_TRANSFORM_ROT_90;
++        else if (degrees == 180) return HAL_TRANSFORM_ROT_180;
++        else if (degrees == 270) return HAL_TRANSFORM_ROT_270;
++    } else {  // mirror (horizontal flip)
++        // Now overlay does ROT_90 before FLIP_V or FLIP_H. It should be FLIP_V
++        // or FLIP_H first.
++        // TODO: change this after overlay is fixed.
++        if (degrees == 0) {           // FLIP_H and ROT_0
++            return HAL_TRANSFORM_FLIP_H;
++        } else if (degrees == 90) {   // FLIP_H and ROT_90
++            return HAL_TRANSFORM_ROT_90 | HAL_TRANSFORM_FLIP_V;
++        } else if (degrees == 180) {  // FLIP_H and ROT_180
++            return HAL_TRANSFORM_FLIP_V;
++        } else if (degrees == 270) {  // FLIP_H and ROT_270
++            return HAL_TRANSFORM_ROT_90 | HAL_TRANSFORM_FLIP_H;
++        }
++    }
++    LOGE("Invalid setDisplayOrientation degrees=%d", degrees);
++    return -1;
++}
++
++
+diff --git a/services/camera/libcameraservice/CameraService.h b/services/camera/libcameraservice/CameraService.h
+index 8f0ed75..0dec2ab 100644
+--- a/services/camera/libcameraservice/CameraService.h
++++ b/services/camera/libcameraservice/CameraService.h
+@@ -110,0 +111,2 @@
++                                       int cameraFacing,
++                                       int mCameraOrientation,
+@@ -155,0 +158,2 @@
++        int                     getOrientation(int orientation, bool mirror);
++
+@@ -159,0 +164,2 @@
++        int                             mCameraFacing;   // immutable after constructor
++        int                             mCameraOrientation;  // immutable after constructor
+

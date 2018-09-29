@@ -1,0 +1,18 @@
+diff --git a/nuxeo-distribution-dm/ftest/webdriver/src/test/java/org/nuxeo/functionaltests/ITContextualActionsTest.java b/nuxeo-distribution-dm/ftest/webdriver/src/test/java/org/nuxeo/functionaltests/ITContextualActionsTest.java
+index ec524d7..d372d0c 100755
+--- a/nuxeo-distribution-dm/ftest/webdriver/src/test/java/org/nuxeo/functionaltests/ITContextualActionsTest.java
++++ b/nuxeo-distribution-dm/ftest/webdriver/src/test/java/org/nuxeo/functionaltests/ITContextualActionsTest.java
+@@ -26 +25,0 @@
+-import org.nuxeo.functionaltests.pages.forms.FileCreationFormPage;
+@@ -102,2 +101 @@
+-        // Log out
+-        navToUrl("http://localhost:8080/nuxeo/logout");
++        logout();
+diff --git a/nuxeo-functional-tests/src/main/java/org/nuxeo/functionaltests/pages/actions/ContextualActions.java b/nuxeo-functional-tests/src/main/java/org/nuxeo/functionaltests/pages/actions/ContextualActions.java
+index 013cbd7..e1b9311 100755
+--- a/nuxeo-functional-tests/src/main/java/org/nuxeo/functionaltests/pages/actions/ContextualActions.java
++++ b/nuxeo-functional-tests/src/main/java/org/nuxeo/functionaltests/pages/actions/ContextualActions.java
+@@ -39 +39 @@
+-    @FindBy(name = "documentActionsUpperButtons:permalinkAction_link")
++    @FindBy(xpath = "//img[@title=\"Permanent link to this document\"]")
+

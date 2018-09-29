@@ -1,0 +1,39 @@
+diff --git a/src/org/exist/xquery/Predicate.java b/src/org/exist/xquery/Predicate.java
+index b52f752..cff5710 100644
+--- a/src/org/exist/xquery/Predicate.java
++++ b/src/org/exist/xquery/Predicate.java
+@@ -412 +412 @@
+-                    context.setContextSequencePosition(p, contextSequence);
++                    context.setContextSequencePosition((reverseAxis ? contextSequence.getItemCount() - p - 1: p), contextSequence);
+diff --git a/test/src/xquery/axes.xml b/test/src/xquery/axes.xml
+index 2ea173c..95052c4 100644
+--- a/test/src/xquery/axes.xml
++++ b/test/src/xquery/axes.xml
+@@ -622,0 +623,26 @@
++    <test output="text">
++        <task>Position predicate reverse/forward</task>
++        <code><![CDATA[
++            let $doc := 
++                <doc>
++                    <entry>a</entry>
++                    <entry>b</entry>
++                    <entry>c</entry>
++                </doc>
++
++            let $preceding-siblings-pos  := $doc//entry[. eq "c"]/preceding-sibling::entry[position() = 1] (:incorrect:)
++            let $preceding-siblings-1    := $doc//entry[. eq "c"]/preceding-sibling::entry[1]
++            let $preceding-siblings-last := $doc//entry[. eq "c"]/preceding-sibling::entry[last()]
++            let $following-siblings-pos  := $doc//entry[. eq "a"]/following-sibling::entry[position() = 1]
++            let $following-siblings-1  := $doc//entry[. eq "a"]/following-sibling::entry[1]
++            let $following-siblings-last := $doc//entry[. eq "a"]/following-sibling::entry[last()]
++
++            return (
++                ($preceding-siblings-pos eq "b"),
++                ($preceding-siblings-1 eq "b"),
++                ($preceding-siblings-last eq "a"),
++                ($following-siblings-pos eq "b"),
++                ($following-siblings-1 eq "b"),
++                ($following-siblings-last eq "c"))]]></code>
++        <expected>true true true true true true</expected>
++    </test>
+

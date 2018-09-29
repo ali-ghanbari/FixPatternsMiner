@@ -1,0 +1,26 @@
+diff --git a/collections/src/main/java/net/openhft/collections/IntIntMultiMap.java b/collections/src/main/java/net/openhft/collections/IntIntMultiMap.java
+index a96b5cb..134f010 100644
+--- a/collections/src/main/java/net/openhft/collections/IntIntMultiMap.java
++++ b/collections/src/main/java/net/openhft/collections/IntIntMultiMap.java
+@@ -109 +109,2 @@
+-        while (pos >= pos0) {
++        // Note: because of the mask, the pos can be actually less than pos0, thus using != operator instead of >=
++        while (pos != pos0) {
+diff --git a/collections/src/test/java/net/openhft/collections/IntIntMultiMapTest.java b/collections/src/test/java/net/openhft/collections/IntIntMultiMapTest.java
+index fb11e72..23d8a31 100644
+--- a/collections/src/test/java/net/openhft/collections/IntIntMultiMapTest.java
++++ b/collections/src/test/java/net/openhft/collections/IntIntMultiMapTest.java
+@@ -80,0 +81,12 @@
++    
++    @Test
++    public void testPutRemoveLoop() {
++    	// Testing a specific case when the remove method on the map does (did) not work as expected. The size goes correctly to
++    	// 0 but the value is still present in the map.
++    	IntIntMultiMap map = new IntIntMultiMap(10);
++    	
++    	map.put(15, 1);
++		map.remove(15, 1);
++		map.startSearch(15);    		
++		assertEquals(IntIntMultiMap.UNSET, map.nextInt());
++    }
+

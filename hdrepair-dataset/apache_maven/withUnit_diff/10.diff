@@ -1,0 +1,69 @@
+diff --git a/maven-core/src/main/java/org/apache/maven/plugin/PluginParameterExpressionEvaluator.java b/maven-core/src/main/java/org/apache/maven/plugin/PluginParameterExpressionEvaluator.java
+index 164a1e6..69f31c3 100644
+--- a/maven-core/src/main/java/org/apache/maven/plugin/PluginParameterExpressionEvaluator.java
++++ b/maven-core/src/main/java/org/apache/maven/plugin/PluginParameterExpressionEvaluator.java
+@@ -196 +196 @@
+-        else if ( expr.startsWith( "${" ) && expr.endsWith( "}" ) )
++        else if ( expr.startsWith( "${" ) && expr.indexOf( "}" ) == expr.length() - 1 )
+diff --git a/maven-core/src/test/java/org/apache/maven/plugin/PluginParameterExpressionEvaluatorTest.java b/maven-core/src/test/java/org/apache/maven/plugin/PluginParameterExpressionEvaluatorTest.java
+index 7625d9f..8ee67c4 100644
+--- a/maven-core/src/test/java/org/apache/maven/plugin/PluginParameterExpressionEvaluatorTest.java
++++ b/maven-core/src/test/java/org/apache/maven/plugin/PluginParameterExpressionEvaluatorTest.java
+@@ -48,7 +47,0 @@
+-        ArtifactRepositoryLayout repoLayout = (ArtifactRepositoryLayout) lookup( ArtifactRepositoryLayout.ROLE,
+-                                                                                 "legacy" );
+-
+-        ArtifactRepository repo = new ArtifactRepository( "local", "here", repoLayout );
+-
+-        PlexusContainer container = getContainer();
+-
+@@ -64,3 +57 @@
+-        MavenSession session = createSession( project, container, repo );
+-
+-        ExpressionEvaluator expressionEvaluator = new PluginParameterExpressionEvaluator( session, null );
++        ExpressionEvaluator expressionEvaluator = createExpressionEvaluator( project );
+@@ -91 +82 @@
+-        MavenSession session = createSession( new MavenProject(new Model()), container, repo );
++        MavenSession session = createSession( createDefaultProject(), container, repo );
+@@ -100,0 +92,32 @@
++        ExpressionEvaluator expressionEvaluator = createExpressionEvaluator( createDefaultProject() );
++        Object value = expressionEvaluator.evaluate( "${localRepository}" );
++
++        assertEquals( "local", ( (ArtifactRepository) value ).getId() );
++    }
++
++    public void testTwoExpressions()
++        throws Exception
++    {
++        Build build = new Build();
++        build.setDirectory( "expected-directory" );
++        build.setFinalName( "expected-finalName" );
++
++        Model model = new Model();
++        model.setBuild( build );
++
++
++        ExpressionEvaluator expressionEvaluator = createExpressionEvaluator( new MavenProject( model ) );
++
++        Object value = expressionEvaluator.evaluate( "${project.build.directory}/${project.build.finalName}" );
++
++        assertEquals( "expected-directory/expected-finalName", value );
++    }
++
++    private MavenProject createDefaultProject()
++    {
++        return new MavenProject( new Model() );
++    }
++
++    private ExpressionEvaluator createExpressionEvaluator( MavenProject project )
++        throws Exception
++    {
+@@ -107 +130 @@
+-        MavenSession session = createSession( new MavenProject(new Model()), container, repo );
++        MavenSession session = createSession( project, container, repo );
+@@ -110,3 +133 @@
+-        Object value = expressionEvaluator.evaluate( "${localRepository}" );
+-
+-        assertEquals( "local", ( (ArtifactRepository) value ).getId() );
++        return expressionEvaluator;
+

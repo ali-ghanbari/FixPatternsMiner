@@ -1,0 +1,46 @@
+diff --git a/config/resources/ManagerResources_pt.properties b/config/resources/ManagerResources_pt.properties
+index ac0cb7f..a5447c7 100755
+--- a/config/resources/ManagerResources_pt.properties
++++ b/config/resources/ManagerResources_pt.properties
+@@ -577,0 +578,2 @@
++CANDIDATE = Candidato
++ALUMNI = Alumni
+diff --git a/jsp/spaceManager/createSpaceInformation.jsp b/jsp/spaceManager/createSpaceInformation.jsp
+index bd1666a..e4020d2 100755
+--- a/jsp/spaceManager/createSpaceInformation.jsp
++++ b/jsp/spaceManager/createSpaceInformation.jsp
+@@ -19 +19,5 @@
+-	
++
++	<bean:define name="cancelLink">
++		/manageSpaces.do?method=manageSpace&page=0&spaceInformationID=<bean:write name="space" property="spaceInformation.idInternal"/>
++	</bean:define>
++		
+@@ -22 +26,3 @@
+-				action="/manageSpaces.do?method=executeFactoryMethod"/>
++				action="/manageSpaces.do?method=executeFactoryMethod">
++			<fr:destination name="cancel" path="<%= cancelLink %>"/>	
++		</fr:edit>		
+@@ -26 +32,3 @@
+-				action="/manageSpaces.do?method=executeFactoryMethod"/>
++				action="/manageSpaces.do?method=executeFactoryMethod">
++			<fr:destination name="cancel" path="<%= cancelLink %>"/>	
++		</fr:edit>		
+@@ -30 +38,3 @@
+-				action="/manageSpaces.do?method=executeFactoryMethod"/>
++				action="/manageSpaces.do?method=executeFactoryMethod">
++			<fr:destination name="cancel" path="<%= cancelLink %>"/>	
++		</fr:edit>
+@@ -34 +44,3 @@
+-				action="/manageSpaces.do?method=executeFactoryMethod"/>
++				action="/manageSpaces.do?method=executeFactoryMethod">				
++			<fr:destination name="cancel" path="<%= cancelLink %>"/>	
++		</fr:edit>
+diff --git a/src/net/sourceforge/fenixedu/domain/Teacher.java b/src/net/sourceforge/fenixedu/domain/Teacher.java
+index 76b74a4..bddf090 100755
+--- a/src/net/sourceforge/fenixedu/domain/Teacher.java
++++ b/src/net/sourceforge/fenixedu/domain/Teacher.java
+@@ -599 +599 @@
+-            return 0;
++            return 0.0;
+

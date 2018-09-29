@@ -1,0 +1,47 @@
+diff --git a/core/src/main/java/hudson/model/AbstractProject.java b/core/src/main/java/hudson/model/AbstractProject.java
+index 9e032b2..9de5a1f 100644
+--- a/core/src/main/java/hudson/model/AbstractProject.java
++++ b/core/src/main/java/hudson/model/AbstractProject.java
+@@ -858,3 +858,2 @@
+-     *      true if the project is actually added to the queue.
+-     *      false if the queue contained it and therefore the add()
+-     *      was noop
++     *      true if the project is added to the queue.
++     *      false if the task was rejected from the queue (such as when the system is being shut down.)
+diff --git a/test/src/test/java/hudson/model/QueueTest.java b/test/src/test/java/hudson/model/QueueTest.java
+index 6a1d00a..4014022 100644
+--- a/test/src/test/java/hudson/model/QueueTest.java
++++ b/test/src/test/java/hudson/model/QueueTest.java
+@@ -252,10 +252,10 @@
+-        assertFalse(project.scheduleBuild(new SCMTriggerCause("")));
+-        assertFalse(project.scheduleBuild(new UserIdCause()));
+-        assertFalse(project.scheduleBuild(new TimerTriggerCause()));
+-        assertFalse(project.scheduleBuild(new RemoteCause("1.2.3.4", "test")));
+-        assertFalse(project.scheduleBuild(new RemoteCause("4.3.2.1", "test")));
+-        assertFalse(project.scheduleBuild(new SCMTriggerCause("")));
+-        assertFalse(project.scheduleBuild(new RemoteCause("1.2.3.4", "test")));
+-        assertFalse(project.scheduleBuild(new RemoteCause("1.2.3.4", "foo")));
+-        assertFalse(project.scheduleBuild(new SCMTriggerCause("")));
+-        assertFalse(project.scheduleBuild(new TimerTriggerCause()));
++        assertTrue(project.scheduleBuild(new SCMTriggerCause("")));
++        assertTrue(project.scheduleBuild(new UserIdCause()));
++        assertTrue(project.scheduleBuild(new TimerTriggerCause()));
++        assertTrue(project.scheduleBuild(new RemoteCause("1.2.3.4", "test")));
++        assertTrue(project.scheduleBuild(new RemoteCause("4.3.2.1", "test")));
++        assertTrue(project.scheduleBuild(new SCMTriggerCause("")));
++        assertTrue(project.scheduleBuild(new RemoteCause("1.2.3.4", "test")));
++        assertTrue(project.scheduleBuild(new RemoteCause("1.2.3.4", "foo")));
++        assertTrue(project.scheduleBuild(new SCMTriggerCause("")));
++        assertTrue(project.scheduleBuild(new TimerTriggerCause()));
+diff --git a/test/src/test/java/hudson/triggers/SCMTriggerTest.java b/test/src/test/java/hudson/triggers/SCMTriggerTest.java
+index 403a2e9..01535ae 100644
+--- a/test/src/test/java/hudson/triggers/SCMTriggerTest.java
++++ b/test/src/test/java/hudson/triggers/SCMTriggerTest.java
+@@ -127,3 +127,3 @@
+-        assertFalse(p.scheduleBuild(new SCMTriggerCause("First poll")));
+-        assertFalse(p.scheduleBuild(new SCMTriggerCause("Second poll")));
+-        assertFalse(p.scheduleBuild(new SCMTriggerCause("Third poll")));
++        assertTrue(p.scheduleBuild(new SCMTriggerCause("First poll")));
++        assertTrue(p.scheduleBuild(new SCMTriggerCause("Second poll")));
++        assertTrue(p.scheduleBuild(new SCMTriggerCause("Third poll")));
+

@@ -1,0 +1,21 @@
+diff --git a/metadata/schemas/coordinator-schemas.xml b/metadata/schemas/coordinator-schemas.xml
+index 3b0b21c..67b6644 100644
+--- a/metadata/schemas/coordinator-schemas.xml
++++ b/metadata/schemas/coordinator-schemas.xml
+@@ -455 +455 @@
+-		<slot name="studentCurricularPlan.registrationStateType" key="label.coordinator.registrationStateType"/>
++		<slot name="studentCurricularPlan.registration.activeStateType" key="label.coordinator.registrationStateType"/>
+@@ -503 +503 @@
+-	<slot name="registrationStateType" key="label.coordinator.registrationStateType"/>
++	<slot name="registration.activeStateType" key="label.coordinator.registrationStateType"/>
+@@ -533 +533 @@
+-	<slot name="registrationStateType" key="label.coordinator.registrationStateType"/>
++	<slot name="registration.activeStateType" key="label.coordinator.registrationStateType"/>
+diff --git a/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java b/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java
+index 4f935b9..92232de 100755
+--- a/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java
++++ b/src/net/sourceforge/fenixedu/domain/DegreeCurricularPlan.java
+@@ -1704 +1704 @@
+-		ExecutionYear currentExecutionYear = ExecutionYear.getExecutionYearByDate(new YearMonthDay());
++		ExecutionYear currentExecutionYear = ExecutionYear.readCurrentExecutionYear();
+

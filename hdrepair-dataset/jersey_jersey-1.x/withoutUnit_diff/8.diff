@@ -1,0 +1,15 @@
+diff --git a/jersey-server/src/main/java/com/sun/jersey/spi/container/servlet/ServletContainer.java b/jersey-server/src/main/java/com/sun/jersey/spi/container/servlet/ServletContainer.java
+index e5e4b05..9464986 100644
+--- a/jersey-server/src/main/java/com/sun/jersey/spi/container/servlet/ServletContainer.java
++++ b/jersey-server/src/main/java/com/sun/jersey/spi/container/servlet/ServletContainer.java
+@@ -855,0 +856,9 @@
++            // lets clear the response to OK before we forward to the next in the chain
++            // as OK is the default set by servlet containers before filters/servlets do any wor
++            // so lets hide our footsteps and pretend we were never in the chain at all and let the 
++            // next filter or servlet return the 404 if they can't find anything to return
++            // 
++            // We could add an optional flag to disable this step if anyone can ever find a case where
++            // this causes a problem, though I suspect any problems will really be with downstream
++            // servlets not correctly setting an error status if they cannot find something to return
++            response.setStatus(HttpServletResponse.SC_OK);
+

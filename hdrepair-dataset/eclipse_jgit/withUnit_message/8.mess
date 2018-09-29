@@ -1,0 +1,10 @@
+Fix GarbageCollection not to pack HEAD
+
+When working on a non-bare repository with a detached HEAD jgit's GC was
+packing the ref named "HEAD" into the packed-refs file and deleted the
+loose ref (the file .git/HEAD!). This made the repo unusable for native
+git. This is fixed by telling jgit to only pack refs starting from
+"refs/"
+
+Change-Id: I50018aa006f18b244d2cae2ff78b5ffe1b821d63
+

@@ -1,0 +1,29 @@
+diff --git a/modules/openlmis-web/src/main/resources/messages_en.properties b/modules/openlmis-web/src/main/resources/messages_en.properties
+index d9c8426..e8e6201 100644
+--- a/modules/openlmis-web/src/main/resources/messages_en.properties
++++ b/modules/openlmis-web/src/main/resources/messages_en.properties
+@@ -854 +854 @@
+-error.duplicate.serial.number = Duplicate Manufacturer Serial Number
++error.duplicate.serial.number = Duplicate Identifier / Serial number
+diff --git a/modules/openlmis-web/src/main/webapp/public/pages/logistics/distribution/partials/refrigerator.html b/modules/openlmis-web/src/main/webapp/public/pages/logistics/distribution/partials/refrigerator.html
+index 02e4296..e9fa80a 100644
+--- a/modules/openlmis-web/src/main/webapp/public/pages/logistics/distribution/partials/refrigerator.html
++++ b/modules/openlmis-web/src/main/webapp/public/pages/logistics/distribution/partials/refrigerator.html
+@@ -63 +63 @@
+-              <div ng-show="isDuplicateSerialNumber" class="rnr-form-error"
++              <div id="duplicateSerialNumberError" ng-show="isDuplicateSerialNumber" class="rnr-form-error"
+diff --git a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/RefrigeratorPage.java b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/RefrigeratorPage.java
+index 557b760..38c4477 100644
+--- a/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/RefrigeratorPage.java
++++ b/test-modules/functional-tests/src/main/java/org/openlmis/pageobjects/RefrigeratorPage.java
+@@ -122 +122 @@
+-  @FindBy(how = XPATH, using = "//div[@id='addRefrigeratorModal']/div[2]/div[3]/div/div")
++  @FindBy(how = ID, using = "duplicateSerialNumberError")
+diff --git a/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionRefrigeratorSyncTest.java b/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionRefrigeratorSyncTest.java
+index 01d2b11..b108e73 100644
+--- a/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionRefrigeratorSyncTest.java
++++ b/test-modules/functional-tests/src/test/java/org/openlmis/functional/DistributionRefrigeratorSyncTest.java
+@@ -354 +354 @@
+-    refrigeratorPage.verifyDuplicateErrorMessage("Duplicate Manufacturer Serial Number");
++    refrigeratorPage.verifyDuplicateErrorMessage("Duplicate Identifier / Serial number");
+

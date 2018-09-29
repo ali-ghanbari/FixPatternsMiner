@@ -1,0 +1,8 @@
+diff --git a/platform/lang-impl/src/com/intellij/codeInsight/generation/CommentByBlockCommentHandler.java b/platform/lang-impl/src/com/intellij/codeInsight/generation/CommentByBlockCommentHandler.java
+index 4a020bb..0057cf1 100644
+--- a/platform/lang-impl/src/com/intellij/codeInsight/generation/CommentByBlockCommentHandler.java
++++ b/platform/lang-impl/src/com/intellij/codeInsight/generation/CommentByBlockCommentHandler.java
+@@ -402 +402 @@
+-      if (endOffset == myDocument.getTextLength() || chars.charAt(endOffset - 1) == '\n') {
++      if (endOffset == myDocument.getTextLength() || endOffset > 0 && chars.charAt(endOffset - 1) == '\n') {
+

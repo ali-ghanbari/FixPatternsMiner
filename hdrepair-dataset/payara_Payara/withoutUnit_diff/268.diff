@@ -1,0 +1,28 @@
+diff --git a/appserver/paas/plugins/glassfish-plugin/src/main/java/org/glassfish/paas/gfplugin/cli/CreateGlassFishService.java b/appserver/paas/plugins/glassfish-plugin/src/main/java/org/glassfish/paas/gfplugin/cli/CreateGlassFishService.java
+index 43be989..c2b46f8 100644
+--- a/appserver/paas/plugins/glassfish-plugin/src/main/java/org/glassfish/paas/gfplugin/cli/CreateGlassFishService.java
++++ b/appserver/paas/plugins/glassfish-plugin/src/main/java/org/glassfish/paas/gfplugin/cli/CreateGlassFishService.java
+@@ -232,2 +232,2 @@
+-                    andConditions.add(new VirtualizationType(
+-                            serviceCharacteristics.getProperty("virtualization-type")));
++//                    andConditions.add(new VirtualizationType(
++//                            serviceCharacteristics.getProperty("virtualization-type")));
+diff --git a/appserver/tests/paas/basic/README.txt b/appserver/tests/paas/basic/README.txt
+index f7c51f4..9e19a5b 100644
+--- a/appserver/tests/paas/basic/README.txt
++++ b/appserver/tests/paas/basic/README.txt
+@@ -17 +17,5 @@
+-3. [Optional] Setup virtualization enviroment for your GlassFish installation. This step is optional, in which case the service(s) required for this PaaS app will be provisioned in non-virtualized environment.
++3. [Optional] Setup virtualization enviroment for your GlassFish installation. 
++
++   For example, modify kvm_setup.sh to suite your system details and run it.
++
++This step is optional in which case the service(s) required for this PaaS app will be provisioned in non-virtualized environment.
+diff --git a/appserver/tests/paas/basic/kvm_setup.sh b/appserver/tests/paas/basic/kvm_setup.sh
+index 4f545a0..0243576 100755
+--- a/appserver/tests/paas/basic/kvm_setup.sh
++++ b/appserver/tests/paas/basic/kvm_setup.sh
+@@ -9 +9 @@
+-$S1AS_HOME/bin/asadmin create-machine-user --machine local --userId 1000 --groupId 1000 bhavani
++$S1AS_HOME/bin/asadmin create-machine-user --serverPool cloud --machine local --userId 1000 --groupId 1000 bhavani
+

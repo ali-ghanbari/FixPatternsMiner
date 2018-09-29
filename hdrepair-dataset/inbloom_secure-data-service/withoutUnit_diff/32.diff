@@ -1,0 +1,22 @@
+diff --git a/sli/acceptance-tests/test/features/apiV1/integration/parent_path_security.feature b/sli/acceptance-tests/test/features/apiV1/integration/parent_path_security.feature
+index 2d99a4f..f03a96a 100644
+--- a/sli/acceptance-tests/test/features/apiV1/integration/parent_path_security.feature
++++ b/sli/acceptance-tests/test/features/apiV1/integration/parent_path_security.feature
+@@ -1 +1 @@
+-@parent_path @wip
++@parent_path 
+@@ -17,0 +18 @@
++@wip
+@@ -97,2 +98,2 @@
+-      | /parents/ac9d23542b310939801dec4d29cfddda7765353b_id/studentParentAssociations                                                                    |
+-      | /parents/ac9d23542b310939801dec4d29cfddda7765353b_id/studentParentAssociations/students                                                           |
++      | /students/ac9d23542b310939801dec4d29cfddda7765353b_id/studentParentAssociations                                                                    |
++      | /students/ac9d23542b310939801dec4d29cfddda7765353b_id/studentParentAssociations/parents                                                           |
+diff --git a/sli/api/src/main/java/org/slc/sli/api/security/context/ParentAccessValidator.java b/sli/api/src/main/java/org/slc/sli/api/security/context/ParentAccessValidator.java
+index 846c56c..02b916e 100644
+--- a/sli/api/src/main/java/org/slc/sli/api/security/context/ParentAccessValidator.java
++++ b/sli/api/src/main/java/org/slc/sli/api/security/context/ParentAccessValidator.java
+@@ -59 +59 @@
+-        DENIED_DELTA = Collections.unmodifiableSet(allowed_delta);
++        DENIED_DELTA = Collections.unmodifiableSet(denied_delta);
+

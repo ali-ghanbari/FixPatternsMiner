@@ -1,0 +1,14 @@
+diff --git a/src/net/sourceforge/fenixedu/domain/elections/YearDelegateElection.java b/src/net/sourceforge/fenixedu/domain/elections/YearDelegateElection.java
+index b45b349..d5fdb7b 100644
+--- a/src/net/sourceforge/fenixedu/domain/elections/YearDelegateElection.java
++++ b/src/net/sourceforge/fenixedu/domain/elections/YearDelegateElection.java
+@@ -118,6 +118,2 @@
+-	if (previousElection != null && !previousElection.getVotingPeriod().isPastPeriod()) { // future
+-												// voting
+-												// period
+-												// (must
+-												// be
+-												// deleted)
++	if (previousElection != null && previousElection.getVotingPeriod() != null && !previousElection.getVotingPeriod().isPastPeriod()) {
++	    // future voting period (must be deleted)
+

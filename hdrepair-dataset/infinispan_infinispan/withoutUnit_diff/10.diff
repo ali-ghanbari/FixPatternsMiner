@@ -1,0 +1,8 @@
+diff --git a/core/src/test/java/org/infinispan/test/fwk/UnitTestTestNGListener.java b/core/src/test/java/org/infinispan/test/fwk/UnitTestTestNGListener.java
+index 408a2a0..f93223d 100644
+--- a/core/src/test/java/org/infinispan/test/fwk/UnitTestTestNGListener.java
++++ b/core/src/test/java/org/infinispan/test/fwk/UnitTestTestNGListener.java
+@@ -200 +200 @@
+-                  .append(", group=").append(thread.getThreadGroup().getName())
++                  .append(", group=").append(thread.getThreadGroup() == null? null : thread.getThreadGroup().getName())
+

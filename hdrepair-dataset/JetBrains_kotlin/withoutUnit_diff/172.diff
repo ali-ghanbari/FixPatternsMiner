@@ -1,0 +1,24 @@
+diff --git a/idea/src/org/jetbrains/jet/plugin/codeInsight/OverrideImplementMethodsHandler.java b/idea/src/org/jetbrains/jet/plugin/codeInsight/OverrideImplementMethodsHandler.java
+index ce6ba4c..d4b668a 100644
+--- a/idea/src/org/jetbrains/jet/plugin/codeInsight/OverrideImplementMethodsHandler.java
++++ b/idea/src/org/jetbrains/jet/plugin/codeInsight/OverrideImplementMethodsHandler.java
+@@ -97 +97 @@
+-                afterAnchor = body.addBefore(target, afterAnchor);
++                afterAnchor = body.addAfter(target, afterAnchor);
+diff --git a/idea/testData/codeInsight/overrideImplement/property.kt.after b/idea/testData/codeInsight/overrideImplement/property.kt.after
+index d12fd5d..782da65 100644
+--- a/idea/testData/codeInsight/overrideImplement/property.kt.after
++++ b/idea/testData/codeInsight/overrideImplement/property.kt.after
+@@ -6 +5,0 @@
+-    override val v : Int = 0
+@@ -7,0 +7 @@
++    override val v : Int = 0
+diff --git a/idea/testData/codeInsight/overrideImplement/respectCaretPosition.kt.after b/idea/testData/codeInsight/overrideImplement/respectCaretPosition.kt.after
+index af65b63..a2d1f56 100644
+--- a/idea/testData/codeInsight/overrideImplement/respectCaretPosition.kt.after
++++ b/idea/testData/codeInsight/overrideImplement/respectCaretPosition.kt.after
+@@ -8 +7,0 @@
+-    override val testProp : Int = 0
+@@ -11,0 +11 @@
++    override val testProp : Int = 0
+

@@ -1,0 +1,8 @@
+diff --git a/plugins/git4idea/src/git4idea/GitBranch.java b/plugins/git4idea/src/git4idea/GitBranch.java
+index aba9ab2..f957ccf 100644
+--- a/plugins/git4idea/src/git4idea/GitBranch.java
++++ b/plugins/git4idea/src/git4idea/GitBranch.java
+@@ -201 +201 @@
+-          activeRemoteName = b.substring(idx + "HEAD ->".length() + remotePrefix.length());
++          activeRemoteName = b.substring(idx + "HEAD ->".length() + (remotePrefix == null ? 0 : remotePrefix.length()));
+

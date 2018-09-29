@@ -1,0 +1,33 @@
+diff --git a/src/main/java/net/masterthought/cucumber/json/Step.java b/src/main/java/net/masterthought/cucumber/json/Step.java
+index e19ea8b..7ae012f 100755
+--- a/src/main/java/net/masterthought/cucumber/json/Step.java
++++ b/src/main/java/net/masterthought/cucumber/json/Step.java
+@@ -120 +120 @@
+-            content = Util.result(getStatus()) + "<span class=\"step-keyword\">" + keyword + " </span><span class=\"step-name\">" + name + "</span><span class=\"step-duration\">" + Util.formatDuration(result.getDuration()) + "</span><div class=\"step-error-message\"><pre>" + formatError(errorMessage) + "</pre></div>" + Util.closeDiv();
++            content = Util.result(getStatus()) + "<span class=\"step-keyword\">" + keyword + " </span><span class=\"step-name\">" + name + "</span><span class=\"step-duration\"></span><div class=\"step-error-message\"><pre>" + formatError(errorMessage) + "</pre></div>" + Util.closeDiv();
+diff --git a/src/main/resources/templates/tagOverview.vm b/src/main/resources/templates/tagOverview.vm
+index 9f9ca7b..e0d8527 100755
+--- a/src/main/resources/templates/tagOverview.vm
++++ b/src/main/resources/templates/tagOverview.vm
+@@ -435 +435,3 @@
+-                              <br/><span> $customHeaders.get($tag.getTagName())</span>
++                            #if ($hasCustomHeader)
++                                <br/><span> $customHeaders.get($tag.getTagName())</span>
++                            #end
+diff --git a/src/test/java/net/masterthought/cucumber/StepTest.java b/src/test/java/net/masterthought/cucumber/StepTest.java
+index fa7f1e3..4199b81 100755
+--- a/src/test/java/net/masterthought/cucumber/StepTest.java
++++ b/src/test/java/net/masterthought/cucumber/StepTest.java
+@@ -55,0 +56,11 @@
++    public void shouldReturnRowsWhenNoResultsForStep() throws IOException {
++        List<String> jsonReports = new ArrayList<String>();
++            jsonReports.add(getAbsolutePathFromResource("net/masterthought/cucumber/no_step_results.json"));
++            ReportParser reportParser = new ReportParser(jsonReports);
++            Feature feature = reportParser.getFeatures().entrySet().iterator().next().getValue().get(0);
++            Step step = feature.getElements().get(0).getSteps().get(0);
++            feature.processSteps();
++            assertThat(step.getName(), is("<div class=\"missing\"><span class=\"step-keyword\">Given  </span><span class=\"step-name\">a \"PSA\" PSA customer</span><span class=\"step-duration\"></span><div class=\"step-error-message\"><pre><span class=\"missing\">Result was missing for this step</span></pre></div></div>"));
++    }
++
++    @Test
+

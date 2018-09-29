@@ -1,0 +1,15 @@
+diff --git a/imglib2/ops/src/main/java/net/imglib2/ops/operation/binary/complex/ComplexSubtract.java b/imglib2/ops/src/main/java/net/imglib2/ops/operation/binary/complex/ComplexSubtract.java
+index 530c78c..3071b1f 100644
+--- a/imglib2/ops/src/main/java/net/imglib2/ops/operation/binary/complex/ComplexSubtract.java
++++ b/imglib2/ops/src/main/java/net/imglib2/ops/operation/binary/complex/ComplexSubtract.java
+@@ -48 +48 @@
+-		double y = z1.getRealDouble() - z2.getRealDouble();
++		double y = z1.getImaginaryDouble() - z2.getImaginaryDouble();
+diff --git a/imglib2/ops/src/test/java/net/imglib2/ops/operation/binary/complex/ComplexAddTest.java b/imglib2/ops/src/test/java/net/imglib2/ops/operation/binary/complex/ComplexAddTest.java
+index 8408ab5..66b217e 100644
+--- a/imglib2/ops/src/test/java/net/imglib2/ops/operation/binary/complex/ComplexAddTest.java
++++ b/imglib2/ops/src/test/java/net/imglib2/ops/operation/binary/complex/ComplexAddTest.java
+@@ -12 +12 @@
+-			new ComplexAdd<ComplexDoubleType,ComplexDoubleType,ComplexDoubleType>(new ComplexDoubleType());
++			new ComplexAdd<ComplexDoubleType,ComplexDoubleType,ComplexDoubleType>();
+

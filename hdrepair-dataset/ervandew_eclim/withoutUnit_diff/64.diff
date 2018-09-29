@@ -1,0 +1,34 @@
+diff --git a/src/ant/lib/vunit.vim b/src/ant/lib/vunit.vim
+index a238d5c..409fd65 100644
+--- a/src/ant/lib/vunit.vim
++++ b/src/ant/lib/vunit.vim
+@@ -35,8 +34,0 @@
+-  let s:tests_run = 0
+-  let s:tests_failed = 0
+-
+-  let s:test_results = []
+-
+-  let s:suite_methods = []
+-  let s:redir_stack = []
+-
+@@ -145,0 +138,2 @@
++  let s:test_results = []
++  let s:redir_stack = []
+@@ -148,0 +143 @@
++  unlet! s:vimUnitOutputDir
+@@ -311 +306 @@
+-  let index = len(s:redir_stack) - 1
++  let index = len(s:redir_stack) - 2
+@@ -315 +310 @@
+-    call remove(s:redir_stack, index)
++    call remove(s:redir_stack, index, len(s:redir_stack) - 1)
+@@ -316,0 +312 @@
++    let s:redir_stack = []
+diff --git a/src/java/org/eclim/misc/ant/VUnitTask.java b/src/java/org/eclim/misc/ant/VUnitTask.java
+index bc58771..0a39795 100644
+--- a/src/java/org/eclim/misc/ant/VUnitTask.java
++++ b/src/java/org/eclim/misc/ant/VUnitTask.java
+@@ -60 +60 @@
+-    "\"silent call VURunnerRunTests('<basedir>', '<testcase>')\"";
++    "\"silent! call VURunnerRunTests('<basedir>', '<testcase>')\"";
+

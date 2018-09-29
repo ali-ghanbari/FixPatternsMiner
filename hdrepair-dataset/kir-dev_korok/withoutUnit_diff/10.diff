@@ -1,0 +1,233 @@
+diff --git a/pom.xml b/pom.xml
+index c125241..d0357ae 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -95,0 +96,2 @@
++        <wicket.version>6.9.1</wicket.version>
++        <wicketstuff.version>6.9.0</wicketstuff.version>
+@@ -212,0 +215,36 @@
++            <!-- web dependencies -->
++            <dependency>
++                <groupId>org.apache.wicket</groupId>
++                <artifactId>wicket-core</artifactId>
++                <version>${wicket.version}</version>
++            </dependency>
++            <dependency>
++                <groupId>org.apache.wicket</groupId>
++                <artifactId>wicket-datetime</artifactId>
++                <version>${wicket.version}</version>
++            </dependency>
++            <dependency>
++                <groupId>org.apache.wicket</groupId>
++                <artifactId>wicket-extensions</artifactId>
++                <version>${wicket.version}</version>
++            </dependency>
++            <dependency>
++                <groupId>org.apache.wicket</groupId>
++                <artifactId>wicket-ioc</artifactId>
++                <version>${wicket.version}</version>
++            </dependency>
++            <dependency>
++                <groupId>org.wicketstuff</groupId>
++                <artifactId>wicketstuff-javaee-inject</artifactId>
++                <version>${wicketstuff.version}</version>
++            </dependency>
++            <dependency>
++                <groupId>org.wicketstuff</groupId>
++                <artifactId>wicketstuff-tinymce</artifactId>
++                <version>${wicketstuff.version}</version>
++            </dependency>
++            <dependency>
++                <groupId>com.itextpdf</groupId>
++                <artifactId>itextpdf</artifactId>
++                <version>5.4.2</version>
++            </dependency>
+diff --git a/sch-pek-ear/pom.xml b/sch-pek-ear/pom.xml
+index b1b033e..01f8aca 100644
+--- a/sch-pek-ear/pom.xml
++++ b/sch-pek-ear/pom.xml
+@@ -30,0 +31,5 @@
++                    <archive>
++                        <manifest>
++                            <addClasspath>true</addClasspath>
++                        </manifest>
++                    </archive>
+@@ -74 +79 @@
+-        <!-- shared dependencies -->
++        <!-- shared dependencies, put all libraries to the ear's lib/ directory -->
+@@ -90,0 +96,32 @@
++        <dependency>
++            <groupId>org.apache.commons</groupId>
++            <artifactId>commons-lang3</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>com.itextpdf</groupId>
++            <artifactId>itextpdf</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.wicket</groupId>
++            <artifactId>wicket-core</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.wicket</groupId>
++            <artifactId>wicket-datetime</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.wicket</groupId>
++            <artifactId>wicket-extensions</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.wicket</groupId>
++            <artifactId>wicket-ioc</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.wicketstuff</groupId>
++            <artifactId>wicketstuff-javaee-inject</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.wicketstuff</groupId>
++            <artifactId>wicketstuff-tinymce</artifactId>
++        </dependency>
+diff --git a/sch-pek-ejb-impl/pom.xml b/sch-pek-ejb-impl/pom.xml
+index 5d85985..90b2f74 100644
+--- a/sch-pek-ejb-impl/pom.xml
++++ b/sch-pek-ejb-impl/pom.xml
+@@ -29,5 +28,0 @@
+-                    <archive>
+-                        <manifest>
+-                            <addClasspath>true</addClasspath>
+-                        </manifest>
+-                    </archive>
+diff --git a/sch-pek-web-services/pom.xml b/sch-pek-web-services/pom.xml
+index 159dea1..2f49477 100644
+--- a/sch-pek-web-services/pom.xml
++++ b/sch-pek-web-services/pom.xml
+@@ -22,0 +23,15 @@
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-war-plugin</artifactId>
++                <configuration>
++                    <webResources>
++                        <resource>
++                            <directory>src/main/webapp</directory>
++                            <filtering>true</filtering>
++                            <includes>
++                                <include>WEB-INF/web.xml</include>
++                            </includes>
++                        </resource>
++                    </webResources>
++                </configuration>
++            </plugin>
+@@ -27 +41,0 @@
+-        <!-- Modul függőségek -->
+diff --git a/sch-pek-web-services/src/main/webapp/WEB-INF/sun-web.xml b/sch-pek-web-services/src/main/webapp/WEB-INF/sun-web.xml
+deleted file mode 100644
+index 9361adf..0000000
+--- a/sch-pek-web-services/src/main/webapp/WEB-INF/sun-web.xml
++++ /dev/null
+@@ -1,7 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<!DOCTYPE sun-web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 9.0 Servlet 2.5//EN" "http://www.sun.com/software/appserver/dtds/sun-web-app_2_5-0.dtd">
+-<sun-web-app error-url="">
+-    <parameter-encoding default-charset="UTF-8"/>
+-    <context-root>/services</context-root>
+-    <class-loader delegate="true"/>
+-</sun-web-app>
+diff --git a/sch-pek-web/pom.xml b/sch-pek-web/pom.xml
+index edf3cb5..7ac89ad 100644
+--- a/sch-pek-web/pom.xml
++++ b/sch-pek-web/pom.xml
+@@ -16,3 +15,0 @@
+-                <directory>src/main/resources</directory>
+-            </resource>
+-            <resource>
+@@ -28,15 +24,0 @@
+-
+-        <testResources>
+-            <testResource>
+-                <directory>src/test/resources</directory>
+-            </testResource>
+-            <testResource>
+-                <directory>src/test/java</directory>
+-                <includes>
+-                    <include>**</include>
+-                </includes>
+-                <excludes>
+-                    <exclude>**/*.java</exclude>
+-                </excludes>
+-            </testResource>
+-        </testResources>
+@@ -63 +44,0 @@
+-                                <include>WEB-INF/sun-web.xml</include>
+@@ -69,4 +49,0 @@
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-surefire-plugin</artifactId>
+-            </plugin>
+@@ -77 +53,0 @@
+-        <!-- Modul függőségek -->
+@@ -86 +61,0 @@
+-        <!-- Wicket függőségek -->
+@@ -90 +64,0 @@
+-            <version>${wicket.version}</version>
+@@ -95 +68,0 @@
+-            <version>${wicket.version}</version>
+@@ -100 +72,0 @@
+-            <version>${wicket.version}</version>
+@@ -105 +76,0 @@
+-            <version>${wicket.version}</version>
+@@ -110 +80,0 @@
+-            <version>${wicketstuff.version}</version>
+@@ -112 +81,0 @@
+-        <!-- TinyMCE függőségek -->
+@@ -116 +84,0 @@
+-            <version>${wicketstuff.version}</version>
+@@ -122 +89,0 @@
+-        <!-- PDF generáláshoz kell -->
+@@ -126 +92,0 @@
+-            <version>5.0.6</version>
+@@ -128 +93,0 @@
+-        <!-- Profilba kódgeneráláshoz -->
+@@ -130,9 +95,2 @@
+-            <groupId>commons-lang</groupId>
+-            <artifactId>commons-lang</artifactId>
+-            <version>2.4</version>
+-            <scope>provided</scope>
+-        </dependency>
+-        <!-- Teszt függőségek -->
+-        <dependency>
+-            <groupId>junit</groupId>
+-            <artifactId>junit</artifactId>
++            <groupId>org.apache.commons</groupId>
++            <artifactId>commons-lang3</artifactId>
+@@ -145,4 +102,0 @@
+-    <properties>
+-        <wicket.version>6.8.0</wicket.version>
+-        <wicketstuff.version>6.8.0</wicketstuff.version>
+-    </properties>
+diff --git a/sch-pek-web/src/main/java/hu/sch/web/profile/community/CreateCommunityProfile.java b/sch-pek-web/src/main/java/hu/sch/web/profile/community/CreateCommunityProfile.java
+index 49d3c8c..0c12be8 100644
+--- a/sch-pek-web/src/main/java/hu/sch/web/profile/community/CreateCommunityProfile.java
++++ b/sch-pek-web/src/main/java/hu/sch/web/profile/community/CreateCommunityProfile.java
+@@ -13 +13 @@
+-import org.apache.commons.lang.RandomStringUtils;
++import org.apache.commons.lang3.RandomStringUtils;
+diff --git a/sch-pek-web/src/main/webapp/WEB-INF/glassfish-web.xml b/sch-pek-web/src/main/webapp/WEB-INF/glassfish-web.xml
+deleted file mode 100644
+index 6233bd0..0000000
+--- a/sch-pek-web/src/main/webapp/WEB-INF/glassfish-web.xml
++++ /dev/null
+@@ -1,12 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+-<glassfish-web-app error-url="">
+-    <class-loader delegate="true"/>
+-    <parameter-encoding default-charset="UTF-8"/>
+-    <context-root>/korok</context-root>
+-    <jsp-config>
+-        <property name="keepgenerated" value="true">
+-            <description>Keep a copy of the generated servlet class' java code.</description>
+-        </property>
+-    </jsp-config>
+-</glassfish-web-app>
+

@@ -1,0 +1,83 @@
+diff --git a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_8/StartClause.scala b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_8/StartClause.scala
+index af270c4..03d7fcb 100644
+--- a/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_8/StartClause.scala
++++ b/community/cypher/src/main/scala/org/neo4j/cypher/internal/parser/v1_8/StartClause.scala
+@@ -33,5 +33,2 @@
+-    expression ^^ (x => Map[String,Expression]("*" -> x)) |
+-      opt("{" ~> repsep(propertyAssignment, ",") <~ "}") ^^ {
+-        case None => Map[String,Expression]()
+-        case Some(x) => x.toMap
+-      }
++      expression ^^ (x => Map[String,Expression]("*" -> x)) |
++      "{" ~> repsep(propertyAssignment, ",") <~ "}" ^^ ( _.toMap)
+@@ -39,4 +36,2 @@
+-  def createdNodeName = opt(identity <~ "=") ^^ (x => namer.name(x))
+-
+-  def createNode: Parser[StartItem] = createdNodeName ~ properties ^^ {
+-    case id ~ props => CreateNodeStartItem(id, props)
++  def createNode: Parser[StartItem] = identity ~ opt("=" ~> properties) ^^ {
++    case id ~ props => CreateNodeStartItem(id, getProperties(props))
+@@ -45,2 +40,3 @@
+-  def createRel: Parser[StartItem] = expression ~ "-" ~ "[" ~ opt(identity) ~ ":" ~identity ~ properties ~ "]" ~ "->" ~ expression ^^ {
+-    case from ~ "-" ~ "[" ~ id ~ ":" ~ relType ~ props ~ "]" ~ "->" ~ to =>  CreateRelationshipStartItem(namer.name(id), from, to, relType, props)
++  def createRel: Parser[StartItem] = expression ~ "-" ~ "[" ~ opt(identity) ~ ":" ~identity ~ opt(properties) ~ "]" ~ "->" ~ expression ^^ {
++    case from ~ "-" ~ "[" ~ id ~ ":" ~ relType ~ props ~ "]" ~ "->" ~ to =>
++      CreateRelationshipStartItem(namer.name(id), from, to, relType, getProperties(props))
+@@ -48 +44,6 @@
+-  
++
++  private def getProperties(props: Option[Map[String, Expression]]): Map[String, Expression] = props match {
++    case None => Map[String, Expression]()
++    case Some(x) => x
++  }
++
+diff --git a/community/cypher/src/test/java/org/neo4j/cypher/javacompat/JavaExecutionEngineTests.java b/community/cypher/src/test/java/org/neo4j/cypher/javacompat/JavaExecutionEngineTests.java
+index 6281a82..aea886d 100644
+--- a/community/cypher/src/test/java/org/neo4j/cypher/javacompat/JavaExecutionEngineTests.java
++++ b/community/cypher/src/test/java/org/neo4j/cypher/javacompat/JavaExecutionEngineTests.java
+@@ -274 +274 @@
+-        engine.execute( "create {props}", params );
++        engine.execute( "create n = {props}", params );
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala
+index 60a9e96..f3d8633 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/CypherParserTest.scala
+@@ -1409 +1409 @@
+-    testFrom_1_8("create a = {} ",
++    testFrom_1_8("create a",
+@@ -1416,8 +1415,0 @@
+-  @Test def create_node_without_identifier() {
+-    testFrom_1_8("create {} ",
+-      Query.
+-        start(CreateNodeStartItem("  UNNAMED1", Map()))
+-        returns()
+-    )
+-  }
+-
+@@ -1425 +1417 @@
+-    testFrom_1_8("create a = {name : 'Andres'} ",
++    testFrom_1_8("create a = {name : 'Andres'}",
+@@ -1441 +1433 @@
+-    testFrom_1_8("create a = {name : 'Andres'}, b = {} return a,b",
++    testFrom_1_8("create a = {name : 'Andres'}, b return a,b",
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/MutatingIntegrationTests.scala b/community/cypher/src/test/scala/org/neo4j/cypher/MutatingIntegrationTests.scala
+index fc0cf09..035238a 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/MutatingIntegrationTests.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/MutatingIntegrationTests.scala
+@@ -205 +205 @@
+-    val result = parseAndExecute("start n=node(1,2,3) with collect(n.name) as names create {name : names}")
++    val result = parseAndExecute("start n=node(1,2,3) with collect(n.name) as names create new = {name : names}")
+@@ -219 +219 @@
+-    val result = parseAndExecute("start n=node(1) with filter(x in collect(n.name) : x = 12) as names create {x : names}")
++    val result = parseAndExecute("start n=node(1) with filter(x in collect(n.name) : x = 12) as names create new = {x : names}")
+diff --git a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateTest.scala b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateTest.scala
+index 6fd1263..cc654c2 100644
+--- a/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateTest.scala
++++ b/community/cypher/src/test/scala/org/neo4j/cypher/docgen/CreateTest.scala
+@@ -35 +35 @@
+-      queryText = "create {}",
++      queryText = "create n",
+@@ -44 +44 @@
+-      queryText = "create {name : 'Andres', title : 'Developer'}",
++      queryText = "create n = {name : 'Andres', title : 'Developer'}",
+

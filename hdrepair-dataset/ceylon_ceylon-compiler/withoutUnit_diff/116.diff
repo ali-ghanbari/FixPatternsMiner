@@ -1,0 +1,9 @@
+diff --git a/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java b/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java
+index 2de6b01..e45cded 100755
+--- a/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java
++++ b/src/com/redhat/ceylon/compiler/java/codegen/AbstractTransformer.java
+@@ -899,0 +900,3 @@
++            // do not include the implicit java module as a dependency
++            if(dependencyModule.getNameAsString().equals("java"))
++                continue;
+

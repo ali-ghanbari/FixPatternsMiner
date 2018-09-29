@@ -1,0 +1,24 @@
+diff --git a/core/src/main/java/brooklyn/location/basic/SingleMachineLocationResolver.java b/core/src/main/java/brooklyn/location/basic/SingleMachineLocationResolver.java
+index c64fbce..066277e 100644
+--- a/core/src/main/java/brooklyn/location/basic/SingleMachineLocationResolver.java
++++ b/core/src/main/java/brooklyn/location/basic/SingleMachineLocationResolver.java
+@@ -50 +50 @@
+-        Map<String, Object> filteredProperties = new LocationPropertiesFromBrooklynProperties().getLocationProperties("byon", namedLocation, properties);
++        Map<String, Object> filteredProperties = new LocationPropertiesFromBrooklynProperties().getLocationProperties(null, namedLocation, properties);
+diff --git a/locations/jclouds/src/test/java/brooklyn/location/jclouds/SingleMachineProvisioningLocationJcloudsTest.java b/locations/jclouds/src/test/java/brooklyn/location/jclouds/SingleMachineProvisioningLocationJcloudsTest.java
+index c7baaf9..8b2710f 100644
+--- a/locations/jclouds/src/test/java/brooklyn/location/jclouds/SingleMachineProvisioningLocationJcloudsTest.java
++++ b/locations/jclouds/src/test/java/brooklyn/location/jclouds/SingleMachineProvisioningLocationJcloudsTest.java
+@@ -56 +56,3 @@
+-                location.release(machineLocation);
++                // Do not attempt to release machine if it has already been released
++                if (location.getChildren().contains(machineLocation))
++                    location.release(machineLocation);
+@@ -74,0 +77 @@
++        machinesToTearDown.add(m1);
+@@ -79,2 +81,0 @@
+-        
+-        location.release(m1);
+@@ -152 +152,0 @@
+-        location.release(m1);
+

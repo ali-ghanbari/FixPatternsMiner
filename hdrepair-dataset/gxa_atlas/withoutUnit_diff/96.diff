@@ -1,0 +1,18 @@
+diff --git a/web/src/main/java/uk/ac/ebi/atlas/commands/MicroarrayGeneProfilesTSVWriter.java b/web/src/main/java/uk/ac/ebi/atlas/commands/MicroarrayGeneProfilesTSVWriter.java
+index be53fe4..dd1ee0a 100644
+--- a/web/src/main/java/uk/ac/ebi/atlas/commands/MicroarrayGeneProfilesTSVWriter.java
++++ b/web/src/main/java/uk/ac/ebi/atlas/commands/MicroarrayGeneProfilesTSVWriter.java
+@@ -68 +68 @@
+-                expressionLevels[i++] = getValueToString(expression.getTStatistic());
++                expressionLevels[i++] = getValueToString(expression.getTstatistic());
+diff --git a/web/src/main/webapp/WEB-INF/jsp/includes/request-preferences.jsp b/web/src/main/webapp/WEB-INF/jsp/includes/request-preferences.jsp
+index 5384225..6da9935 100644
+--- a/web/src/main/webapp/WEB-INF/jsp/includes/request-preferences.jsp
++++ b/web/src/main/webapp/WEB-INF/jsp/includes/request-preferences.jsp
+@@ -33 +32,0 @@
+-        <form:hidden path="arrayDesignAccession"/>
+@@ -35,0 +35,3 @@
++        <c:if test="${type == 'MICROARRAY'}">
++            <form:hidden path="arrayDesignAccession"/>
++        </c:if>
+

@@ -1,0 +1,195 @@
+diff --git a/modules/core/src/main/java/org/openlmis/core/repository/ProgramRepository.java b/modules/core/src/main/java/org/openlmis/core/repository/ProgramRepository.java
+index d104ea7..0af7cc3 100644
+--- a/modules/core/src/main/java/org/openlmis/core/repository/ProgramRepository.java
++++ b/modules/core/src/main/java/org/openlmis/core/repository/ProgramRepository.java
+@@ -40 +40 @@
+-    return programMapper.getActiveByFacility(facilityId);
++    return programMapper.getByFacilityId(facilityId);
+diff --git a/modules/core/src/test/java/org/openlmis/core/repository/FacilityRepositoryTest.java b/modules/core/src/test/java/org/openlmis/core/repository/FacilityRepositoryTest.java
+index 4389594..60c2748 100644
+--- a/modules/core/src/test/java/org/openlmis/core/repository/FacilityRepositoryTest.java
++++ b/modules/core/src/test/java/org/openlmis/core/repository/FacilityRepositoryTest.java
+@@ -285 +285 @@
+-    verify(programSupportedRepository).addSupportedProgram(new ProgramSupported(facility.getId(), 1, true, null, facility.getModifiedDate(), facility.getModifiedBy()));
++    verify(programSupportedRepository).addSupportedProgram(new ProgramSupported(facility.getId(), 1, true, now.toDate(), facility.getModifiedDate(), facility.getModifiedBy()));
+diff --git a/modules/core/src/test/java/org/openlmis/core/repository/ProgramRepositoryTest.java b/modules/core/src/test/java/org/openlmis/core/repository/ProgramRepositoryTest.java
+index c7fb207..d30b427 100644
+--- a/modules/core/src/test/java/org/openlmis/core/repository/ProgramRepositoryTest.java
++++ b/modules/core/src/test/java/org/openlmis/core/repository/ProgramRepositoryTest.java
+@@ -17,3 +17 @@
+-import static org.openlmis.core.domain.Right.APPROVE_REQUISITION;
+-import static org.openlmis.core.domain.Right.AUTHORIZE_REQUISITION;
+-import static org.openlmis.core.domain.Right.CREATE_REQUISITION;
++import static org.openlmis.core.domain.Right.*;
+@@ -92,0 +91,11 @@
++
++  @Test
++  public void shouldGetAllSupportedProgramsForFacility() throws Exception {
++    List<Program> expectedPrograms = new ArrayList<>();
++    when(programMapper.getByFacilityId(1)).thenReturn(expectedPrograms);
++
++    List<Program> programs = programRepository.getByFacility(1);
++
++    assertThat(programs, is(expectedPrograms));
++    verify(programMapper, times(1)).getByFacilityId(1);
++  }
+diff --git a/modules/openlmis-web/src/main/webapp/public/js/facility/controller/facility-controller.js b/modules/openlmis-web/src/main/webapp/public/js/facility/controller/facility-controller.js
+index 4d7558a..7f78cea 100644
+--- a/modules/openlmis-web/src/main/webapp/public/js/facility/controller/facility-controller.js
++++ b/modules/openlmis-web/src/main/webapp/public/js/facility/controller/facility-controller.js
+@@ -3,4 +3,17 @@
+-    $scope.facilityTypes = facilityReferenceData.facilityTypes;
+-    $scope.geographicZones = facilityReferenceData.geographicZones;
+-    $scope.facilityOperators = facilityReferenceData.facilityOperators;
+-    $scope.programs = facilityReferenceData.programs;
++  $scope.facilityTypes = facilityReferenceData.facilityTypes;
++  $scope.geographicZones = facilityReferenceData.geographicZones;
++  $scope.facilityOperators = facilityReferenceData.facilityOperators;
++  $scope.programs = facilityReferenceData.programs;
++
++  function getSupportedPrograms(programsSupported) {
++    var foo = [];
++    $.each(programsSupported, function (index, supportedProgram) {
++      $.each($scope.programs, function (index, program) {
++        if (supportedProgram.code == program.code) {
++          program.active = supportedProgram.active;
++          foo.push(program);
++        }
++      })
++    });
++    return foo;
++  }
+@@ -9,20 +22,10 @@
+-        if ($routeParams.facilityId) {
+-                $scope.facility = facility;
+-                $scope.originalFacilityCode = facility.code;
+-                $scope.originalFacilityName = facility.name;
+-                populateFlags($scope);
+-                //TODO Need a more elegant solution
+-                var foo = [];
+-                $.each($scope.facility.supportedPrograms, function (index, supportedProgram) {
+-                    $.each($scope.programs, function (index, program) {
+-                        if (supportedProgram.code == program.code) {
+-                            program.active = supportedProgram.active;
+-                            foo.push(program);
+-                        }
+-                    })
+-                });
+-                $scope.facility.supportedPrograms = foo;
+-        } else {
+-            $scope.facility = {};
+-            $scope.facility.dataReportable = "true";
+-        }
++  if ($routeParams.facilityId) {
++    $scope.facility = facility;
++    $scope.originalFacilityCode = facility.code;
++    $scope.originalFacilityName = facility.name;
++    populateFlags($scope);
++    $scope.facility.supportedPrograms = getSupportedPrograms($scope.facility.supportedPrograms);
++  } else {
++    $scope.facility = {};
++    $scope.facility.dataReportable = "true";
++  }
+@@ -45,0 +49 @@
++        $scope.facility.supportedPrograms = getSupportedPrograms($scope.facility.supportedPrograms);
+@@ -47,4 +51,4 @@
+-          $scope.showError = "true";
+-          $scope.message = "";
+-          $scope.error = data.error;
+-        });
++            $scope.showError = "true";
++            $scope.message = "";
++            $scope.error = data.error;
++          });
+@@ -52,0 +57 @@
++
+@@ -64,8 +69,8 @@
+-        $scope.showError = "true";
+-        $scope.message = "";
+-        $scope.error = data.error;
+-        $scope.facility = facility;
+-        $scope.originalFacilityCode = data.facility.code;
+-        $scope.originalFacilityName = data.facility.name;
+-        populateFlags($scope);
+-      });
++          $scope.showError = "true";
++          $scope.message = "";
++          $scope.error = data.error;
++          $scope.facility = facility;
++          $scope.originalFacilityCode = data.facility.code;
++          $scope.originalFacilityName = data.facility.name;
++          populateFlags($scope);
++        });
+@@ -82 +87 @@
+-  $scope.blurDateFields = function() {
++  $scope.blurDateFields = function () {
+@@ -98 +103 @@
+-  facilityReferenceData :function ($q, $timeout, FacilityReferenceData) {
++  facilityReferenceData:function ($q, $timeout, FacilityReferenceData) {
+@@ -108,2 +113,2 @@
+-  facility : function ($q, $timeout, Facility, $route) {
+-    if($route.current.params.facilityId == undefined) return undefined;
++  facility:function ($q, $timeout, Facility, $route) {
++    if ($route.current.params.facilityId == undefined) return undefined;
+@@ -115 +120 @@
+-      Facility.get({id : facilityId}, function(data) {
++      Facility.get({id:facilityId}, function (data) {
+diff --git a/modules/openlmis-web/src/test/javascript/specs/facility-controller-test.js b/modules/openlmis-web/src/test/javascript/specs/facility-controller-test.js
+index 860d009..40c2e81 100644
+--- a/modules/openlmis-web/src/test/javascript/specs/facility-controller-test.js
++++ b/modules/openlmis-web/src/test/javascript/specs/facility-controller-test.js
+@@ -22,2 +22,3 @@
+-      $rootScope.fixToolBar = function () {};
+-      ctrl = $controller(FacilityController, {$scope:scope, $routeParams:routeParams, facilityReferenceData : facilityReferenceData, facility: undefined});
++      $rootScope.fixToolBar = function () {
++      };
++      ctrl = $controller(FacilityController, {$scope:scope, $routeParams:routeParams, facilityReferenceData:facilityReferenceData, facility:undefined});
+@@ -43,2 +44,2 @@
+-      facility={"code":"code"};
+-      $httpBackend.expectPOST('/admin/facility.json').respond(200, {"success":"Saved successfully", "facility": facility});
++      facility = {"code":"code", supportedPrograms:[]};
++      $httpBackend.expectPOST('/admin/facility.json').respond(200, {"success":"Saved successfully", "facility":facility});
+@@ -80 +81,2 @@
+-      $rootScope.fixToolBar = function(){};
++      $rootScope.fixToolBar = function () {
++      };
+@@ -87,8 +88,0 @@
+-        {"code":"programCode", "id":"programId"}
+-      ], "geographicZones":[
+-        {"zoneId":"testId"}
+-      ], "facilityOperators":[
+-        {"operatorCode":"testCode"}
+-      ]};
+-//      $httpBackend.expectGET('/admin/facility/reference-data.json').respond(facilityReferenceData);
+-      facility = {"id":1, "code":"F1756", "name":"Village Dispensary", "description":"IT department", "gln":"G7645", "mainPhone":"9876234981", "fax":"fax", "address1":"A", "address2":"B", "geographicZone":{"id":1}, "facilityType":{"code":"warehouse"}, "catchmentPopulation":333, "latitude":22.1, "longitude":1.2, "altitude":3.3, "operatedBy":{"code":"NGO"}, "coldStorageGrossCapacity":9.9, "coldStorageNetCapacity":6.6, "suppliesOthers":true, "sdp":true, "hasElectricity":true, "online":true, "hasElectronicScc":true, "hasElectronicDar":null, "active":true, "goLiveDate":1352572200000, "goDownDate":-2592106200000, "satellite":true, "satelliteParentCode":null, "comment":"fc", "dataReportable":true, "supportedPrograms":[
+@@ -96,4 +90,18 @@
+-        {"code":"HIV", "name":"HIV", "description":"HIV", "active":true}
+-      ], "modifiedBy":null, "modifiedDate":null};
+-   //   $httpBackend.expectGET('/admin/facility/1.json').respond({"facility":facility});
+-      ctrl = $controller(FacilityController, {$scope:scope, $routeParams:routeParams, facilityReferenceData: facilityReferenceData, facility:facility});
++        {"code":"HIV", "name":"HIV", "description":"HIV", "active":true},
++        {"code":"ABC", "name":"ABC", "description":"ABC", "active":false}
++      ],
++        "geographicZones":[
++          {"zoneId":"testId"}
++        ], "facilityOperators":[
++          {"operatorCode":"testCode"}
++        ]};
++      facility = {"id":1, "code":"F1756", "name":"Village Dispensary", "description":"IT department", "gln":"G7645", "mainPhone":"9876234981",
++        "fax":"fax", "address1":"A", "address2":"B", "geographicZone":{"id":1}, "facilityType":{"code":"warehouse"}, "catchmentPopulation":333,
++        "latitude":22.1, "longitude":1.2, "altitude":3.3, "operatedBy":{"code":"NGO"}, "coldStorageGrossCapacity":9.9, "coldStorageNetCapacity":6.6,
++        "suppliesOthers":true, "sdp":true, "hasElectricity":true, "online":true, "hasElectronicScc":true, "hasElectronicDar":null, "active":true,
++        "goLiveDate":1352572200000, "goDownDate":-2592106200000, "satellite":true, "satelliteParentCode":null, "comment":"fc", "dataReportable":true,
++        "supportedPrograms":[
++          {"code":"ARV", "name":"ARV", "description":"ARV", "active":true},
++          {"code":"HIV", "name":"HIV", "description":"HIV", "active":true}
++        ], "modifiedBy":null, "modifiedDate":null};
++      ctrl = $controller(FacilityController, {$scope:scope, $routeParams:routeParams, facilityReferenceData:facilityReferenceData, facility:facility});
+@@ -105 +113,5 @@
+-      expect(scope.facility.supportedPrograms).toEqual([]);
++      console.log(scope.facility);
++      expect(scope.facility.supportedPrograms).toEqual([
++        {"code":"ARV", "name":"ARV", "description":"ARV", "active":true},
++        {"code":"HIV", "name":"HIV", "description":"HIV", "active":true}
++      ]);
+

@@ -1,0 +1,8 @@
+diff --git a/platform/platform-impl/src/com/intellij/util/CachedValueBase.java b/platform/platform-impl/src/com/intellij/util/CachedValueBase.java
+index fb3830f..e9b00e7 100644
+--- a/platform/platform-impl/src/com/intellij/util/CachedValueBase.java
++++ b/platform/platform-impl/src/com/intellij/util/CachedValueBase.java
+@@ -75 +75 @@
+-      return result.getValue() == null ? items : ArrayUtil.append(items, result.getValue());
++      return result.getValue() == null ? items : items == null ? new Object[] {result.getValue()}: ArrayUtil.append(items, result.getValue());
+

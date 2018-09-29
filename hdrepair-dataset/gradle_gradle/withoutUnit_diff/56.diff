@@ -1,0 +1,16 @@
+diff --git a/subprojects/code-quality/src/main/groovy/org/gradle/api/plugins/quality/internal/findbugs/FindBugsClasspathValidator.java b/subprojects/code-quality/src/main/groovy/org/gradle/api/plugins/quality/internal/findbugs/FindBugsClasspathValidator.java
+index 38b4461..87d3f68 100644
+--- a/subprojects/code-quality/src/main/groovy/org/gradle/api/plugins/quality/internal/findbugs/FindBugsClasspathValidator.java
++++ b/subprojects/code-quality/src/main/groovy/org/gradle/api/plugins/quality/internal/findbugs/FindBugsClasspathValidator.java
+@@ -40 +40 @@
+-                    + " Please use lower version of FindBugs or newer version of Java. Inspected FindBugs classpath: " + fileNamesOnClasspath);
++                    + " Please use lower version of FindBugs or use newer version of Java. Inspected FindBugs classpath: " + fileNamesOnClasspath);
+diff --git a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/samples/SamplesCodeQualityIntegrationTest.groovy b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/samples/SamplesCodeQualityIntegrationTest.groovy
+index ec149bc..fa4e744 100755
+--- a/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/samples/SamplesCodeQualityIntegrationTest.groovy
++++ b/subprojects/integ-test/src/integTest/groovy/org/gradle/integtests/samples/SamplesCodeQualityIntegrationTest.groovy
+@@ -25,2 +25 @@
+-// FindBugs does not support Java 8 yet
+-@Requires(TestPrecondition.JDK7_OR_EARLIER)
++@Requires(TestPrecondition.JDK7_OR_LATER)
+

@@ -1,0 +1,14 @@
+diff --git a/errai-ioc/src/main/java/org/jboss/errai/ioc/rebind/ioc/codegen/meta/impl/gwt/GWTClass.java b/errai-ioc/src/main/java/org/jboss/errai/ioc/rebind/ioc/codegen/meta/impl/gwt/GWTClass.java
+index 1705733..bfe4747 100644
+--- a/errai-ioc/src/main/java/org/jboss/errai/ioc/rebind/ioc/codegen/meta/impl/gwt/GWTClass.java
++++ b/errai-ioc/src/main/java/org/jboss/errai/ioc/rebind/ioc/codegen/meta/impl/gwt/GWTClass.java
+@@ -212 +212 @@
+-    return MetaClassFactory.get(type.getEnclosingType());
++    return MetaClassFactory.get(type.getSuperclass());
+diff --git a/errai-ioc/src/test/java/org/jboss/errai/ioc/tests/rebind/StatementBuilderTest.java b/errai-ioc/src/test/java/org/jboss/errai/ioc/tests/rebind/StatementBuilderTest.java
+index cb53b79..2201b69 100644
+--- a/errai-ioc/src/test/java/org/jboss/errai/ioc/tests/rebind/StatementBuilderTest.java
++++ b/errai-ioc/src/test/java/org/jboss/errai/ioc/tests/rebind/StatementBuilderTest.java
+@@ -30,0 +31 @@
++import org.jboss.errai.bus.server.annotations.ExposeEntity;
+

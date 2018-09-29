@@ -1,0 +1,8 @@
+diff --git a/src/net/sourceforge/fenixedu/applicationTier/Filtro/student/StudentTutorAuthorizationFilter.java b/src/net/sourceforge/fenixedu/applicationTier/Filtro/student/StudentTutorAuthorizationFilter.java
+index d9c4cc1..09c716d 100755
+--- a/src/net/sourceforge/fenixedu/applicationTier/Filtro/student/StudentTutorAuthorizationFilter.java
++++ b/src/net/sourceforge/fenixedu/applicationTier/Filtro/student/StudentTutorAuthorizationFilter.java
+@@ -96 +96 @@
+-            if (student.hasAssociatedTutor()) {
++            if (student.getAssociatedTutor() != null && student.getAssociatedTutor().getTeacher() == teacher) {
+

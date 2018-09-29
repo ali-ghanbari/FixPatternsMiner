@@ -1,0 +1,8 @@
+diff --git a/lucene/src/test/org/apache/lucene/index/TestIndexReader.java b/lucene/src/test/org/apache/lucene/index/TestIndexReader.java
+index e805c5e..46f7354 100644
+--- a/lucene/src/test/org/apache/lucene/index/TestIndexReader.java
++++ b/lucene/src/test/org/apache/lucene/index/TestIndexReader.java
+@@ -98 +98 @@
+-      assertFalse(r2.getIndexCommit().getSegmentCount() == 1);
++      assertFalse(r2.getIndexCommit().getSegmentCount() == 1 && !r2.hasDeletions());
+

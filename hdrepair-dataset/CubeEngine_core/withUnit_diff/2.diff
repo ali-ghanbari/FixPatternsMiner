@@ -1,0 +1,33 @@
+diff --git a/cubeengine/src/main/java/de/cubeisland/cubeengine/core/bukkit/BukkitModuleManager.java b/cubeengine/src/main/java/de/cubeisland/cubeengine/core/bukkit/BukkitModuleManager.java
+index 3f0f802..7a50afd 100644
+--- a/cubeengine/src/main/java/de/cubeisland/cubeengine/core/bukkit/BukkitModuleManager.java
++++ b/cubeengine/src/main/java/de/cubeisland/cubeengine/core/bukkit/BukkitModuleManager.java
+@@ -186 +186 @@
+-            consoleLayout.setPattern("[" + module.getName() + "] color(%msg)");
++            consoleLayout.setPattern("[" + module.getName() + "] %color(%msg)");
+diff --git a/test/src/main/java/de/cubeisland/cubeengine/test/Test.java b/test/src/main/java/de/cubeisland/cubeengine/test/Test.java
+index d97f674..219d7ce 100644
+--- a/test/src/main/java/de/cubeisland/cubeengine/test/Test.java
++++ b/test/src/main/java/de/cubeisland/cubeengine/test/Test.java
+@@ -108,8 +107,0 @@
+-        try
+-        {
+-            //TODO logback! this.getLog().addHandler(new CubeFileHandler(LogLevel.ALL, new File(this.getCore().getFileManager().getLogDir(), "test").toString()));
+-        }
+-        catch (Exception ex)
+-        {
+-            this.getLog().error("Error while adding the FileHandler", ex);
+-        }
+@@ -135,0 +128,11 @@
++        CubeEngine.getLog().trace("Trace log on core's logger");
++        CubeEngine.getLog().debug("Debug log on core's logger");
++        CubeEngine.getLog().info("Info log on core's logger");
++        CubeEngine.getLog().warn("Warn log on core's logger");
++        CubeEngine.getLog().error("Error log on test's logger");
++        this.getLog().trace("Trace log on test's logger");
++        this.getLog().debug("Debug log on test's logger");
++        this.getLog().info("Info log on test's logger");
++        this.getLog().warn("Warn log on test's logger");
++        this.getLog().error("Error log on test's logger");
++
+

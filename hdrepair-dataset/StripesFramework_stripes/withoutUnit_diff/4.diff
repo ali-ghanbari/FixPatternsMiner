@@ -1,0 +1,8 @@
+diff --git a/stripes/src/main/java/net/sourceforge/stripes/controller/DynamicMappingFilter.java b/stripes/src/main/java/net/sourceforge/stripes/controller/DynamicMappingFilter.java
+index 177d54f..99d2503 100644
+--- a/stripes/src/main/java/net/sourceforge/stripes/controller/DynamicMappingFilter.java
++++ b/stripes/src/main/java/net/sourceforge/stripes/controller/DynamicMappingFilter.java
+@@ -409 +409 @@
+-        if (!initializing && (errorCode != null && errorCode == HttpServletResponse.SC_NOT_FOUND)
++        if (!initializing && (errorCode != null && (errorCode == HttpServletResponse.SC_NOT_FOUND || errorCode == HttpServletResponse.SC_METHOD_NOT_ALLOWED))
+

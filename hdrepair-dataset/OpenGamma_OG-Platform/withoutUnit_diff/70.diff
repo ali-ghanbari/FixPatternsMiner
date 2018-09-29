@@ -1,0 +1,58 @@
+diff --git a/projects/OG-MasterDB/install/db/postgres/patch_8/create-db-security.sql b/projects/OG-MasterDB/install/db/postgres/patch_8/create-db-security.sql
+index 0b4a9aa..401f999 100644
+--- a/projects/OG-MasterDB/install/db/postgres/patch_8/create-db-security.sql
++++ b/projects/OG-MasterDB/install/db/postgres/patch_8/create-db-security.sql
+@@ -37,0 +38 @@
++CREATE INDEX ix_sec_security_sec_typeu ON sec_security(upper(sec_type));
+diff --git a/projects/OG-MasterDB/install/db/postgres/patch_8/create-db.sql b/projects/OG-MasterDB/install/db/postgres/patch_8/create-db.sql
+index fabdd13..0473bc5 100644
+--- a/projects/OG-MasterDB/install/db/postgres/patch_8/create-db.sql
++++ b/projects/OG-MasterDB/install/db/postgres/patch_8/create-db.sql
+@@ -192,0 +193 @@
++CREATE INDEX ix_sec_security_sec_typeu ON sec_security(upper(sec_type));
+diff --git a/projects/OG-MasterDB/install/db/postgres/patch_8/upgrade-db.sql b/projects/OG-MasterDB/install/db/postgres/patch_8/upgrade-db.sql
+index 85097ff..b3299a3 100644
+--- a/projects/OG-MasterDB/install/db/postgres/patch_8/upgrade-db.sql
++++ b/projects/OG-MasterDB/install/db/postgres/patch_8/upgrade-db.sql
+@@ -6 +6,3 @@
+-alter table pos_trade add column premium_zone_offset int;
+\ No newline at end of file
++alter table pos_trade add column premium_zone_offset int;
++
++CREATE INDEX ix_sec_security_sec_typeu ON sec_security(upper(sec_type));
+\ No newline at end of file
+diff --git a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/DbSecurityMaster.java b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/DbSecurityMaster.java
+index 7171b33..001b513 100644
+--- a/projects/OG-MasterDB/src/com/opengamma/masterdb/security/DbSecurityMaster.java
++++ b/projects/OG-MasterDB/src/com/opengamma/masterdb/security/DbSecurityMaster.java
+@@ -188 +188 @@
+-      where += "AND sec_type = :sec_type ";
++      where += "AND UPPER(sec_type) = UPPER(:sec_type) ";
+diff --git a/projects/OG-Web/web-engine/WEB-INF/pages/securities/jsonsecurity.ftl b/projects/OG-Web/web-engine/WEB-INF/pages/securities/jsonsecurity.ftl
+index d71fd3a..a4d88f3 100644
+--- a/projects/OG-Web/web-engine/WEB-INF/pages/securities/jsonsecurity.ftl
++++ b/projects/OG-Web/web-engine/WEB-INF/pages/securities/jsonsecurity.ftl
+@@ -13,0 +14,10 @@
++      <#case "Cash">
++      "amount":"${security.amount}",
++      "currency":"${security.currency}",
++      "maturity": {
++            "date": "${security.maturity.date}",
++            "zone": "${security.maturity.zone}"
++        },
++      "rate":"${security.rate}",
++      "region":"${security.region?replace("_", " ")}"
++      <#break>
+diff --git a/projects/OG-Web/web-engine/WEB-INF/pages/securities/security.ftl b/projects/OG-Web/web-engine/WEB-INF/pages/securities/security.ftl
+index 5c0a708..37ecba2 100644
+--- a/projects/OG-Web/web-engine/WEB-INF/pages/securities/security.ftl
++++ b/projects/OG-Web/web-engine/WEB-INF/pages/securities/security.ftl
+@@ -19,0 +20,7 @@
++      <#case "Cash">
++        <@rowout label="Amount">${security.amount}</@rowout>
++        <@rowout label="Currency">${security.currency}</@rowout>
++        <@rowout label="Maturity">${security.maturity.date} - ${security.maturity.zone}</@rowout>
++        <@rowout label="Rate">${security.rate}</@rowout>
++        <@rowout label="Region">${security.region?replace("_", " ")}</@rowout>
++        <#break>
+

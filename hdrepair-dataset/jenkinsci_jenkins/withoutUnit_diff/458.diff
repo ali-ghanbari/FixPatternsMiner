@@ -1,0 +1,8 @@
+diff --git a/core/src/main/java/hudson/maven/MavenModuleSetBuild.java b/core/src/main/java/hudson/maven/MavenModuleSetBuild.java
+index ada3057..694677c 100644
+--- a/core/src/main/java/hudson/maven/MavenModuleSetBuild.java
++++ b/core/src/main/java/hudson/maven/MavenModuleSetBuild.java
+@@ -61 +61 @@
+-                List<PomInfo> poms = project.getWorkspace().act(new PomParser(listener,project.getRootPOM()));
++                List<PomInfo> poms = project.getModuleRoot().act(new PomParser(listener,project.getRootPOM()));
+

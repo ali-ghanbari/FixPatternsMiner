@@ -1,0 +1,8 @@
+diff --git a/src/main/org/codehaus/groovy/runtime/DefaultGroovyMethods.java b/src/main/org/codehaus/groovy/runtime/DefaultGroovyMethods.java
+index d957e36..5f46691 100644
+--- a/src/main/org/codehaus/groovy/runtime/DefaultGroovyMethods.java
++++ b/src/main/org/codehaus/groovy/runtime/DefaultGroovyMethods.java
+@@ -441 +441 @@
+-            closure.call(new Object[]{iter.next(), new Integer(counter++)});
++            closure.call(new ParameterArray(new Object[]{iter.next(), new Integer(counter++)}));
+

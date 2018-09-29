@@ -1,0 +1,17 @@
+diff --git a/build.xml b/build.xml
+index 9715071..8e9de22 100644
+--- a/build.xml
++++ b/build.xml
+@@ -958,2 +958,2 @@
+-                 <jvmarg value="-Xdebug"/>  
+-                 <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5678"/>  
++                <!-- <jvmarg value="-Xdebug"/> --> 
++                <!-- <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5678"/> -->  
+diff --git a/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyper.java b/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyper.java
+index 820d588..9a6b3b1 100755
+--- a/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyper.java
++++ b/public/java/src/org/broadinstitute/sting/gatk/walkers/genotyper/UnifiedGenotyper.java
+@@ -224 +224 @@
+-        UG_engine = new UnifiedGenotyperEngine(getToolkit(), UAC, logger, verboseWriter, annotationEngine, samples, samples.size());
++        UG_engine = new UnifiedGenotyperEngine(getToolkit(), UAC, logger, verboseWriter, annotationEngine, samples, 2*samples.size());
+

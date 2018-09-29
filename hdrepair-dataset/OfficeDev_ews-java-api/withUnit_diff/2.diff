@@ -1,0 +1,51 @@
+diff --git a/src/main/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollection.java b/src/main/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollection.java
+index 09c9edb..ab636d4 100644
+--- a/src/main/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollection.java
++++ b/src/main/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollection.java
+@@ -200 +200 @@
+-      if (cls.isAssignableFrom(propertyDefinition.getType())) {
++      if (!cls.isAssignableFrom(propertyDefinition.getType())) {
+diff --git a/src/test/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollectionTest.java b/src/test/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollectionTest.java
+index 899b890..32e568c 100644
+--- a/src/test/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollectionTest.java
++++ b/src/test/java/microsoft/exchange/webservices/data/property/complex/ExtendedPropertyCollectionTest.java
+@@ -26,3 +26,2 @@
+-import microsoft.exchange.webservices.data.core.exception.misc.ArgumentException;
+-import microsoft.exchange.webservices.data.misc.OutParam;
+-import microsoft.exchange.webservices.data.property.definition.ExtendedPropertyDefinition;
++import java.util.ArrayList;
++
+@@ -34 +33,4 @@
+-import java.util.ArrayList;
++import microsoft.exchange.webservices.data.core.exception.misc.ArgumentException;
++import microsoft.exchange.webservices.data.enumeration.MapiPropertyType;
++import microsoft.exchange.webservices.data.misc.OutParam;
++import microsoft.exchange.webservices.data.property.definition.ExtendedPropertyDefinition;
+@@ -49 +51,2 @@
+-     Class<String> cls = String.class;
++     Class<Long> cls = Long.class;
++     // By default - type of ExtendedPropertyDefinition will be String
+@@ -52 +55,2 @@
+-     OutParam<String> propertyValueOut = new OutParam<String>();
++     OutParam<Long> propertyValueOut = new OutParam<Long>();
++     // It should fail here due to incompatibility between default String and passed Long
+@@ -54,0 +59,18 @@
++
++   /**
++    * Calling tryGetValue with non-default input 
++    * expecting positive result.
++    * 
++    */
++    @Test()
++    public void tryGetValueWithProperInput() throws Exception{
++      ExtendedPropertyCollection epc = new ExtendedPropertyCollection();
++      Class<Integer> cls = Integer.class;
++      Integer testValue = new Integer(456);
++      ExtendedPropertyDefinition propertyDefinition = new ExtendedPropertyDefinition(123, MapiPropertyType.Integer);
++      epc.setExtendedProperty(propertyDefinition, testValue);
++      
++      OutParam<Integer> propertyValueOut = new OutParam<Integer>();
++      Assert.assertTrue(epc.tryGetValue(cls, propertyDefinition, propertyValueOut));
++      Assert.assertTrue(propertyValueOut.getParam().equals(testValue));
++    }
+

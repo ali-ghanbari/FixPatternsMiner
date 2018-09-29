@@ -1,0 +1,27 @@
+diff --git a/examples-ee6/dvdstore/dvdstore-ejb/src/main/java/com/jboss/dvd/seam/Product.java b/examples-ee6/dvdstore/dvdstore-ejb/src/main/java/com/jboss/dvd/seam/Product.java
+index 6575bff..e10863c 100644
+--- a/examples-ee6/dvdstore/dvdstore-ejb/src/main/java/com/jboss/dvd/seam/Product.java
++++ b/examples-ee6/dvdstore/dvdstore-ejb/src/main/java/com/jboss/dvd/seam/Product.java
+@@ -75 +74,0 @@
+-    @Field(index=Index.NO)
+diff --git a/examples-ee6/dvdstore/dvdstore-tests/pom.xml b/examples-ee6/dvdstore/dvdstore-tests/pom.xml
+index 9ba8e92..99a479c 100644
+--- a/examples-ee6/dvdstore/dvdstore-tests/pom.xml
++++ b/examples-ee6/dvdstore/dvdstore-tests/pom.xml
+@@ -87,0 +88,15 @@
++        <testResources>
++            <testResource>
++                <directory>src/test/resources</directory>
++                <filtering>true</filtering>
++            </testResource>
++            <testResource>
++                <directory>src/test/resources-integration</directory>
++                <filtering>true</filtering>
++            </testResource>
++            <testResource> <!-- this takes datasource dvdstore-ds.xml -->
++                <directory>${basedir}/../dvdstore-ear/src/main/resources</directory>
++                <filtering>true</filtering>
++            </testResource>
++        </testResources>
++        
+

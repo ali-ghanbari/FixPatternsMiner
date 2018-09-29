@@ -1,0 +1,8 @@
+diff --git a/deegree-services/deegree-services-wmts/src/main/java/org/deegree/services/wmts/controller/WMTSController.java b/deegree-services/deegree-services-wmts/src/main/java/org/deegree/services/wmts/controller/WMTSController.java
+index c1836de..0d910db 100644
+--- a/deegree-services/deegree-services-wmts/src/main/java/org/deegree/services/wmts/controller/WMTSController.java
++++ b/deegree-services/deegree-services-wmts/src/main/java/org/deegree/services/wmts/controller/WMTSController.java
+@@ -162 +162 @@
+-            req = (WMTSRequestType) serviceInfo.getRequestTypeByName( map.get( "REQUEST" ) );
++            req = (WMTSRequestType) ( (ImplementationMetadata) serviceInfo ).getRequestTypeByName( map.get( "REQUEST" ) );
+

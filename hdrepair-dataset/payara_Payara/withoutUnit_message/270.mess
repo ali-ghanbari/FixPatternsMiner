@@ -1,0 +1,8 @@
+Fix for 17094
+
+An earlier change addressed problems with "stale" files left in the applications/appName directory which confused later deployments using the same app name.  There were actually two attempts to fix this.  The first attempt involved reading submodules from the original archive, not the expanded directory.  The second attempt does not require that but this logic from the original fix was left as-is.  Reading large submodules from the archive is much slower than reading them from the expanded directory.  We no longer need to do and this check-in changes that.
+
+Tests: deployment devtests, QL, manual tests of the bug scenario that gave rise to 13774 (the original "stale" file problem)
+
+git-svn-id: https://svn.java.net/svn/glassfish~svn/trunk/main@48852 6f3ba3e3-413c-0410-a8aa-90bee3ab43b5
+

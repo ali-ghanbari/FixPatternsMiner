@@ -1,0 +1,10 @@
+diff --git a/src/edu/washington/escience/myriad/parallel/Worker.java b/src/edu/washington/escience/myriad/parallel/Worker.java
+index 506dd03..7baaaa8 100644
+--- a/src/edu/washington/escience/myriad/parallel/Worker.java
++++ b/src/edu/washington/escience/myriad/parallel/Worker.java
+@@ -218 +218,3 @@
+-   * Periodically detect whether the {@link Worker} should be shutdown.
++   * This class manages all currently running user threads. It waits all these threads to finish within some given
++   * timeout. If timeout, try interrupting them. If any thread is interrupted for a given number of times, stop waiting
++   * and kill it directly.
+

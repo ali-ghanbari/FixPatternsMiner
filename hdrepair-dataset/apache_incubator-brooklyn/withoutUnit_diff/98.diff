@@ -1,0 +1,34 @@
+diff --git a/software/database/src/main/java/brooklyn/entity/database/mysql/MySqlNode.java b/software/database/src/main/java/brooklyn/entity/database/mysql/MySqlNode.java
+index f008c3d..ad0386b 100644
+--- a/software/database/src/main/java/brooklyn/entity/database/mysql/MySqlNode.java
++++ b/software/database/src/main/java/brooklyn/entity/database/mysql/MySqlNode.java
+@@ -23 +23 @@
+-    public static final BasicConfigKey<String> SUGGESTED_VERSION = new BasicConfigKey<String>(SoftwareProcess.SUGGESTED_VERSION, "5.5.29");
++    public static final BasicConfigKey<String> SUGGESTED_VERSION = new BasicConfigKey<String>(SoftwareProcess.SUGGESTED_VERSION, "5.5.30");
+diff --git a/software/database/src/test/java/brooklyn/entity/database/mysql/MySqlIntegrationTest.groovy b/software/database/src/test/java/brooklyn/entity/database/mysql/MySqlIntegrationTest.groovy
+index aa63ce1..2513bbd 100644
+--- a/software/database/src/test/java/brooklyn/entity/database/mysql/MySqlIntegrationTest.groovy
++++ b/software/database/src/test/java/brooklyn/entity/database/mysql/MySqlIntegrationTest.groovy
+@@ -41,0 +42 @@
++    static String hostname = java.net.InetAddress.getLocalHost().getHostName()
+@@ -45,7 +46,10 @@
+-create database feedback;
+-use feedback;
+-CREATE USER sqluser@'localhost' IDENTIFIED BY 'sqluserpw';
+-grant usage on *.* to sqluser@localhost identified by 'sqluserpw';
+-grant all privileges on feedback.* to sqluser@localhost;
+-CREATE USER sqluser@'%' IDENTIFIED BY 'sqluserpw';
+-grant all privileges on feedback.* to 'sqluser'@'%' identified by 'sqluserpw';
++CREATE DATABASE feedback;
++CREATE USER 'sqluser'@'localhost' IDENTIFIED BY 'sqluserpw';
++GRANT USAGE ON *.* TO 'sqluser'@'localhost';
++GRANT ALL PRIVILEGES ON feedback.* TO 'sqluser'@'localhost';
++CREATE USER 'sqluser'@'%' IDENTIFIED BY 'sqluserpw';
++GRANT USAGE ON *.* TO 'sqluser'@'%';
++GRANT ALL PRIVILEGES ON feedback.* TO 'sqluser'@'%';
++CREATE USER 'sqluser'@'$hostname' IDENTIFIED BY 'sqluserpw';
++GRANT USAGE ON *.* TO 'sqluser'@'$hostname';
++GRANT ALL PRIVILEGES ON feedback.* TO 'sqluser'@'$hostname';
+@@ -52,0 +57 @@
++USE feedback;
+

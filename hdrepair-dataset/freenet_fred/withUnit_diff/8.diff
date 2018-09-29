@@ -1,0 +1,33 @@
+diff --git a/src/freenet/support/io/TempBucketFactory.java b/src/freenet/support/io/TempBucketFactory.java
+index fcf6bac..db0e752 100644
+--- a/src/freenet/support/io/TempBucketFactory.java
++++ b/src/freenet/support/io/TempBucketFactory.java
+@@ -104 +104 @@
+-		private final void migrateToFileBucket() throws IOException {
++		public final void migrateToFileBucket() throws IOException {
+diff --git a/test/freenet/support/io/TempBucketTest.java b/test/freenet/support/io/TempBucketTest.java
+index 6287974..7d6dbf3 100644
+--- a/test/freenet/support/io/TempBucketTest.java
++++ b/test/freenet/support/io/TempBucketTest.java
+@@ -6,0 +7 @@
++import java.io.InputStream;
+@@ -103,0 +105,18 @@
++		
++		// This CAN happen due to memory pressure.
++		public void testConversionWhileReading() throws IOException {
++			TempBucketFactory tbf = new TempBucketFactory(exec, fg, 1024, 65536, strongPRNG, weakPRNG, false);
++			
++			TempBucket bucket = (TempBucket) tbf.makeBucket(64);
++			OutputStream os = bucket.getOutputStream();
++			os.write(new byte[16]);
++			InputStream is = bucket.getInputStream();
++			bucket.migrateToFileBucket();
++			byte[] readTo = new byte[16];
++			assertTrue(is.read(readTo, 0, 16) == 16);
++			for(int i=0;i<readTo.length;i++)
++				assertTrue(readTo[i] == 0);
++			is.close();
++			os.close();
++		}
++		
+

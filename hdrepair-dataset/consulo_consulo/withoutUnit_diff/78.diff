@@ -1,0 +1,1206 @@
+diff --git a/platform/platform-resources/src/idea/ContextViewSettings.xml b/platform/platform-resources/src/idea/ContextViewSettings.xml
+new file mode 100644
+index 0000000..8f467b7
+--- /dev/null
++++ b/platform/platform-resources/src/idea/ContextViewSettings.xml
+@@ -0,0 +1,3 @@
++<component>
++  <option name="AUTOSCROLL_TO_NEW_LOCALS" value="true" />
++</component>
+diff --git a/platform/platform-resources/src/idea/Debugger.xml b/platform/platform-resources/src/idea/Debugger.xml
+new file mode 100644
+index 0000000..18ba69f
+--- /dev/null
++++ b/platform/platform-resources/src/idea/Debugger.xml
+@@ -0,0 +1,19 @@
++<component>
++  <exception_breakpoints>
++    <breakpoint_any>
++      <option name="ENABLED" value="false" />
++      <option name="SUSPEND_VM" value="true" />
++      <option name="COUNT_FILTER_ENABLED" value="false" />
++      <option name="COUNT_FILTER" value="0" />
++      <option name="CONDITION_ENABLED" value="false" />
++      <option name="CONDITION" />
++      <option name="LOG_ENABLED" value="false" />
++      <option name="LOG_EXPRESSION_ENABLED" value="false" />
++      <option name="LOG_MESSAGE" />
++      <option name="CLASS_FILTERS_ENABLED" value="false" />
++      <option name="INVERSE_CLASS_FILLTERS" value="false" />
++      <option name="NOTIFY_CAUGHT" value="false" />
++      <option name="NOTIFY_UNCAUGHT" value="true" />
++    </breakpoint_any>
++  </exception_breakpoints>
++</component>
+diff --git a/platform/platform-resources/src/idea/DefaultKeymap.xml b/platform/platform-resources/src/idea/DefaultKeymap.xml
+new file mode 100644
+index 0000000..409ea9d
+--- /dev/null
++++ b/platform/platform-resources/src/idea/DefaultKeymap.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<component>
++
++  <!--
++   Deprecated.
++    See Keymap_*.xml files.  The only reason this file is not deleted is to ease browsing history of
++    changes in default keymaps
++  -->
++  
++</component>
+diff --git a/platform/platform-resources/src/idea/ExternalSystemActions.xml b/platform/platform-resources/src/idea/ExternalSystemActions.xml
+new file mode 100644
+index 0000000..52fb84b
+--- /dev/null
++++ b/platform/platform-resources/src/idea/ExternalSystemActions.xml
+@@ -0,0 +1,13 @@
++<component>
++  <actions>
++    
++    <!--Tool window actions-->
++    <action id="ExternalSystem.RefreshAllProjects"
++            class="com.intellij.openapi.externalSystem.action.RefreshAllExternalProjectsAction"
++            icon="AllIcons.Actions.Refresh"/>
++    <group id="ExternalSystem.ToolWindow.Toolbar">
++      <reference id="ExternalSystem.RefreshAllProjects"/>
++    </group>
++    
++  </actions>
++</component>
+\ No newline at end of file
+diff --git a/platform/platform-resources/src/idea/FindViewColorsScheme.xml b/platform/platform-resources/src/idea/FindViewColorsScheme.xml
+new file mode 100644
+index 0000000..3c2a8f9
+--- /dev/null
++++ b/platform/platform-resources/src/idea/FindViewColorsScheme.xml
+@@ -0,0 +1,97 @@
++<component>
++  <scheme name="FindView">
++    <colors>
++    </colors>
++
++    <attributes>
++      <!-- "INVALID" prefix before invalidated usage -->
++      <option name="$INVALID_PREFIX">
++        <value>
++          <option name="FOREGROUND" value="FF0000" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" />
++          <option name="EFFECT_COLOR" />
++          <option name="FONT_TYPE" />
++        </value>
++      </option>
++
++      <!-- "Read-only" prefix before read-only usage -->
++      <option name="$READ_ONLY_PREFIX">
++        <value>
++          <option name="FOREGROUND" value="FF0000" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" />
++          <option name="EFFECT_COLOR" />
++          <option name="FONT_TYPE" />
++        </value>
++      </option>
++
++      <!-- Directory node which has read-only child -->
++      <option name="$HAS_READ_ONLY_CHILD">
++        <value>
++          <option name="FOREGROUND" value="FF0000" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" />
++          <option name="EFFECT_COLOR" />
++          <option name="FONT_TYPE" />
++        </value>
++      </option>
++
++      <!-- Node with text only -->
++      <option name="$TEXT_NODE">
++        <value>
++          <option name="FOREGROUND" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" />
++          <option name="EFFECT_COLOR" />
++          <option name="FONT_TYPE" value="1" />
++        </value>
++      </option>
++
++      <!-- Number of usages comment for classes, methods, files -->
++      <option name="$NUMBER_OF_USAGES">
++        <value>
++          <option name="FOREGROUND" value="808080" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" />
++          <option name="EFFECT_COLOR" />
++          <option name="FONT_TYPE" value="2" />
++        </value>
++      </option>
++
++      <!-- Occurence -->
++      <option name="$OCCURENCE">
++        <value>
++          <option name="FOREGROUND" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" />
++          <option name="EFFECT_COLOR" />
++          <option name="FONT_TYPE" value="1" />
++        </value>
++      </option>
++
++      <!-- Selected occurence -->
++      <option name="$SELECTED_OCCURENCE">
++        <value>
++          <option name="FOREGROUND" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" />
++          <option name="EFFECT_COLOR" />
++          <option name="FONT_TYPE" value="1" />
++        </value>
++      </option>
++
++      <!-- Excluded node -->
++      <option name="$EXCLUDED_NODE">
++        <value>
++          <option name="FOREGROUND" />
++          <option name="BACKGROUND" />
++          <option name="EFFECT_TYPE" value="3" />
++          <option name="EFFECT_COLOR" value="808080" />
++          <option name="FONT_TYPE" />
++        </value>
++      </option>
++    </attributes>
++
++  </scheme>
++</component>
+\ No newline at end of file
+diff --git a/platform/platform-resources/src/idea/Palette2.xml b/platform/platform-resources/src/idea/Palette2.xml
+new file mode 100644
+index 0000000..7f92643
+--- /dev/null
++++ b/platform/platform-resources/src/idea/Palette2.xml
+@@ -0,0 +1,272 @@
++<component version="2">
++  <group name="Swing">
++    <item
++      class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer"
++      icon="/com/intellij/uiDesigner/icons/hspacer.png" small-icon="/com/intellij/uiDesigner/icons/hspacer-small.png"
++      removable="false"
++      >
++      <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
++    </item>
++    <item
++      class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer"
++      icon="/com/intellij/uiDesigner/icons/vspacer.png" small-icon="/com/intellij/uiDesigner/icons/vspacer-small.png"
++      removable="false"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2"/>
++    </item>
++    <item
++      class="javax.swing.JPanel"
++      icon="/com/intellij/uiDesigner/icons/panel.png"
++      removable="false"
++      >
++      <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
++    </item>
++    <item
++      class="javax.swing.JScrollPane"
++      icon="/com/intellij/uiDesigner/icons/scrollPane.png"
++      removable="false"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
++    </item>
++    <item
++      class="javax.swing.JButton"
++      icon="/com/intellij/uiDesigner/icons/button.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
++      <initial-values>
++        <property name="text" value="Button"/>
++      </initial-values>
++    </item>
++    <item
++      class="javax.swing.JRadioButton"
++      icon="/com/intellij/uiDesigner/icons/radioButton.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
++      <initial-values>
++        <property name="text" value="RadioButton"/>
++      </initial-values>
++    </item>
++    <item
++      class="javax.swing.JCheckBox"
++      icon="/com/intellij/uiDesigner/icons/checkBox.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
++      <initial-values>
++        <property name="text" value="CheckBox"/>
++      </initial-values>
++    </item>
++    <item
++      class="javax.swing.JLabel"
++      icon="/com/intellij/uiDesigner/icons/label.png"
++      removable="false"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
++      <initial-values>
++        <property name="text" value="Label"/>
++      </initial-values>
++    </item>
++    <item
++      class="javax.swing.JTextField"
++      icon="/com/intellij/uiDesigner/icons/textField.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++        <preferred-size width="150" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JPasswordField"
++      icon="/com/intellij/uiDesigner/icons/passwordField.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++        <preferred-size width="150" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JFormattedTextField"
++      icon="/com/intellij/uiDesigner/icons/formattedTextField.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++        <preferred-size width="150" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JTextArea"
++      icon="/com/intellij/uiDesigner/icons/textArea.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++        <preferred-size width="150" height="50"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JTextPane"
++      icon="/com/intellij/uiDesigner/icons/textPane.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++        <preferred-size width="150" height="50"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JEditorPane"
++      icon="/com/intellij/uiDesigner/icons/editorPane.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++        <preferred-size width="150" height="50"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JComboBox"
++      icon="/com/intellij/uiDesigner/icons/comboBox.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1"/>
++    </item>
++    <item
++      class="javax.swing.JTable"
++      icon="/com/intellij/uiDesigner/icons/table.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++        <preferred-size width="150" height="50"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JList"
++      icon="/com/intellij/uiDesigner/icons/list.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++        <preferred-size width="150" height="50"/>
++      </default-constraints>
++    </item>
++    <item class="javax.swing.JTree"
++      icon="/com/intellij/uiDesigner/icons/tree.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++        <preferred-size width="150" height="50"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JTabbedPane"
++      icon="/com/intellij/uiDesigner/icons/tabbedPane.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++        <preferred-size width="200" height="200"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JSplitPane"
++      icon="/com/intellij/uiDesigner/icons/splitPane.png"
++      removable="false"
++      >
++      <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++        <preferred-size width="200" height="200"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JSpinner"
++      icon="/com/intellij/uiDesigner/icons/spinner.png"
++      removable="false"
++      auto-create-binding="true"
++      can-attach-label="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++        <preferred-size width="-1" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JSlider"
++      icon="/com/intellij/uiDesigner/icons/slider.png"
++      removable="false"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++        <preferred-size width="-1" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JSeparator"
++      icon="/com/intellij/uiDesigner/icons/separator.png"
++      removable="false"
++      since-version="2"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++        <preferred-size width="-1" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JProgressBar"
++      icon="/com/intellij/uiDesigner/icons/progressbar.png"
++      removable="false"
++      since-version="2"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++        <preferred-size width="-1" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JToolBar"
++      icon="/com/intellij/uiDesigner/icons/toolbar.png"
++      removable="false"
++      since-version="2"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++        <preferred-size width="-1" height="20"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JToolBar$Separator"
++      icon="/com/intellij/uiDesigner/icons/toolbarSeparator.png"
++      removable="false"
++      since-version="2"
++      >
++      <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1">
++        <preferred-size width="-1" height="-1"/>
++      </default-constraints>
++    </item>
++    <item
++      class="javax.swing.JScrollBar"
++      icon="/com/intellij/uiDesigner/icons/scrollbar.png"
++      removable="false"
++      since-version="2"
++      auto-create-binding="true"
++      >
++      <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2">
++        <preferred-size width="-1" height="-1"/>
++      </default-constraints>
++    </item>
++  </group>
++</component>
+diff --git a/platform/platform-resources/src/idea/PropertiesComponent.xml b/platform/platform-resources/src/idea/PropertiesComponent.xml
+new file mode 100644
+index 0000000..4931274
+--- /dev/null
++++ b/platform/platform-resources/src/idea/PropertiesComponent.xml
+@@ -0,0 +1,8 @@
++<component>
++  <property name="GoToClass.includeLibraries" value="false" />
++  <property name="GoToClass.toSaveIncludeLibraries" value="false" />
++  <property name="GoToFile.includeJavaFiles" value="false" />
++  <property name="MemberChooser.sorted" value="false" />
++  <property name="MemberChooser.showClasses" value="true" />
++  <property name="MemberChooser.copyJavadoc" value="false" />
++</component>
+diff --git a/platform/platform-resources/src/idea/RunManager.xml b/platform/platform-resources/src/idea/RunManager.xml
+new file mode 100644
+index 0000000..7c5577d
+--- /dev/null
++++ b/platform/platform-resources/src/idea/RunManager.xml
+@@ -0,0 +1,52 @@
++<component>
++  <option name="SHOW_SETTINGS_BEFORE_RUNNING" value="true" />
++  <option name="COMPILE_BEFORE_RUNNING" value="true" />
++  <activeType name="Application" />
++
++  <configuration name="&lt;template&gt;" type="Application" default="true" selected="false">
++    <option name="MAIN_CLASS_NAME" />
++    <option name="VM_PARAMETERS" />
++    <option name="PROGRAM_PARAMETERS" />
++    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
++  </configuration>
++
++  <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
++    <option name="MAIN_CLASS_NAME" />
++    <option name="HTML_FILE_NAME" />
++    <option name="HTML_USED" value="false" />
++    <option name="WIDTH" value="400" />
++    <option name="HEIGHT" value="300" />
++    <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
++    <option name="VM_PARAMETERS" />
++  </configuration>
++
++  <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
++    <option name="MAIN_CLASS_NAME" />
++    <option name="VM_PARAMETERS" value="-ea"/>
++    <option name="PARAMETERS" />
++    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
++  </configuration>
++
++  <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
++    <option name="MAIN_CLASS_NAME"/>
++    <option name="VM_PARAMETERS" value="-ea"/>
++    <option name="PARAMETERS"/>
++    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$"/>
++  </configuration>
++
++  <configuration name="&lt;template&gt;" type="Remote" default="true" selected="false">
++    <option name="USE_SOCKET_TRANSPORT" value="true" />
++    <option name="SHMEM_ADDRESS" value="javadebug" />
++    <option name="HOST" value="localhost" />
++    <option name="PORT" value="5005" />
++  </configuration>
++
++  <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
++    <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
++  </configuration>
++
++  <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
++    <Host>localhost</Host>
++    <Port>5050</Port>
++  </configuration>
++</component>
+diff --git a/platform/platform-resources/src/idea/TeamServerApplicationInfo.xml b/platform/platform-resources/src/idea/TeamServerApplicationInfo.xml
+new file mode 100644
+index 0000000..d171332
+--- /dev/null
++++ b/platform/platform-resources/src/idea/TeamServerApplicationInfo.xml
+@@ -0,0 +1,16 @@
++<component>
++  <!-- <version name="IntelliJ IDEA" major="5" minor="0.2"/> -->
++  <version name="IntelliJ IDEA (Demetra)" />
++  <build number="__BUILD_NUMBER__" date="__BUILD_DATE__"/>
++  <logo url="/idea_logo.png"/>
++  <about url="/idea_about.png"/>
++  <package code="TeamServer"/>
++  <names product="IDEA" fullname="IntelliJ IDEA"/>
++
++  <welcome-screen logo-url="/Logo_welcomeScreen.png"
++                  caption-url="/general/welcomeCaption.png" 
++                  slogan-url="/general/developSlogan.png"/>
++
++  <update-urls check="http://www.jetbrains.com/updates/update.xml" download="http://www.jetbrains.com/idea/download/"/>
++  <eap-update-urls check="http://www.jetbrains.com/updates/eap-update.xml" download="http://www.intellij.net/eap/products/idea/download.jsp"/>
++</component>
+diff --git a/platform/platform-resources/src/idea/TodoView.xml b/platform/platform-resources/src/idea/TodoView.xml
+new file mode 100644
+index 0000000..c2985ee
+--- /dev/null
++++ b/platform/platform-resources/src/idea/TodoView.xml
+@@ -0,0 +1,12 @@
++<component selected-index="0">
++  <todo-panel id="selected-file">
++    <are-packages-shown value="false"/>
++    <flattern-packages value="false"/>
++    <is-autoscroll-to-source value="true"/>
++  </todo-panel>
++  <todo-panel id="all">
++    <are-packages-shown value="true"/>
++    <flattern-packages value="false"/>
++    <is-autoscroll-to-source value="true"/>
++  </todo-panel>
++</component>
+diff --git a/platform/platform-resources/src/idea/UsageViewSettings.xml b/platform/platform-resources/src/idea/UsageViewSettings.xml
+new file mode 100644
+index 0000000..cc4fea0
+--- /dev/null
++++ b/platform/platform-resources/src/idea/UsageViewSettings.xml
+@@ -0,0 +1,3 @@
++<component>
++  <option name="EXPORT_FILE_NAME" value="report.txt" />
++</component>
+diff --git a/platform/platform-resources/src/idea/WindowManager.xml b/platform/platform-resources/src/idea/WindowManager.xml
+new file mode 100644
+index 0000000..4845dd1
+--- /dev/null
++++ b/platform/platform-resources/src/idea/WindowManager.xml
+@@ -0,0 +1,20 @@
++<component>
++  <!-- default layout for all projects -->
++  <layout>
++    <!-- left stripe -->
++    <window_info id="Project" active="false" anchor="left" order="0" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
++    <window_info id="Structure" active="false" anchor="left" order="1" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
++    <!-- bottom stripe -->
++    <window_info id="Message" active="false" anchor="bottom" order="0" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
++    <window_info id="Find" active="false" anchor="bottom" order="1" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
++    <window_info id="Run" active="false" anchor="bottom" order="2" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
++    <window_info id="Debug" active="false" anchor="bottom" order="3" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" />
++    <window_info id="Cvs" active="false" anchor="bottom" order="4" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
++    <window_info id="Inspection" active="false" anchor="bottom" order="5" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" />
++    <window_info id="TODO" active="false" anchor="bottom" order="6" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
++    <!-- right stripe -->
++    <window_info id="Commander" active="false" anchor="right" order="0" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" />
++    <window_info id="Ant Build" active="false" anchor="right" order="1" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
++    <window_info id="Hierarchy" active="false" anchor="right" order="2" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" content_ui="combo"/>
++  </layout>
++</component>
+diff --git a/plugins/core/src/idea/ContextViewSettings.xml b/plugins/core/src/idea/ContextViewSettings.xml
+deleted file mode 100644
+index 8f467b7..0000000
+--- a/plugins/core/src/idea/ContextViewSettings.xml
++++ /dev/null
+@@ -1,3 +0,0 @@
+-<component>
+-  <option name="AUTOSCROLL_TO_NEW_LOCALS" value="true" />
+-</component>
+diff --git a/plugins/core/src/idea/Debugger.xml b/plugins/core/src/idea/Debugger.xml
+deleted file mode 100644
+index 18ba69f..0000000
+--- a/plugins/core/src/idea/Debugger.xml
++++ /dev/null
+@@ -1,19 +0,0 @@
+-<component>
+-  <exception_breakpoints>
+-    <breakpoint_any>
+-      <option name="ENABLED" value="false" />
+-      <option name="SUSPEND_VM" value="true" />
+-      <option name="COUNT_FILTER_ENABLED" value="false" />
+-      <option name="COUNT_FILTER" value="0" />
+-      <option name="CONDITION_ENABLED" value="false" />
+-      <option name="CONDITION" />
+-      <option name="LOG_ENABLED" value="false" />
+-      <option name="LOG_EXPRESSION_ENABLED" value="false" />
+-      <option name="LOG_MESSAGE" />
+-      <option name="CLASS_FILTERS_ENABLED" value="false" />
+-      <option name="INVERSE_CLASS_FILLTERS" value="false" />
+-      <option name="NOTIFY_CAUGHT" value="false" />
+-      <option name="NOTIFY_UNCAUGHT" value="true" />
+-    </breakpoint_any>
+-  </exception_breakpoints>
+-</component>
+diff --git a/plugins/core/src/idea/DefaultKeymap.xml b/plugins/core/src/idea/DefaultKeymap.xml
+deleted file mode 100644
+index 409ea9d..0000000
+--- a/plugins/core/src/idea/DefaultKeymap.xml
++++ /dev/null
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<component>
+-
+-  <!--
+-   Deprecated.
+-    See Keymap_*.xml files.  The only reason this file is not deleted is to ease browsing history of
+-    changes in default keymaps
+-  -->
+-  
+-</component>
+diff --git a/plugins/core/src/idea/ExternalSystemActions.xml b/plugins/core/src/idea/ExternalSystemActions.xml
+deleted file mode 100644
+index 52fb84b..0000000
+--- a/plugins/core/src/idea/ExternalSystemActions.xml
++++ /dev/null
+@@ -1,13 +0,0 @@
+-<component>
+-  <actions>
+-    
+-    <!--Tool window actions-->
+-    <action id="ExternalSystem.RefreshAllProjects"
+-            class="com.intellij.openapi.externalSystem.action.RefreshAllExternalProjectsAction"
+-            icon="AllIcons.Actions.Refresh"/>
+-    <group id="ExternalSystem.ToolWindow.Toolbar">
+-      <reference id="ExternalSystem.RefreshAllProjects"/>
+-    </group>
+-    
+-  </actions>
+-</component>
+\ No newline at end of file
+diff --git a/plugins/core/src/idea/FindViewColorsScheme.xml b/plugins/core/src/idea/FindViewColorsScheme.xml
+deleted file mode 100644
+index 3c2a8f9..0000000
+--- a/plugins/core/src/idea/FindViewColorsScheme.xml
++++ /dev/null
+@@ -1,97 +0,0 @@
+-<component>
+-  <scheme name="FindView">
+-    <colors>
+-    </colors>
+-
+-    <attributes>
+-      <!-- "INVALID" prefix before invalidated usage -->
+-      <option name="$INVALID_PREFIX">
+-        <value>
+-          <option name="FOREGROUND" value="FF0000" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" />
+-          <option name="EFFECT_COLOR" />
+-          <option name="FONT_TYPE" />
+-        </value>
+-      </option>
+-
+-      <!-- "Read-only" prefix before read-only usage -->
+-      <option name="$READ_ONLY_PREFIX">
+-        <value>
+-          <option name="FOREGROUND" value="FF0000" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" />
+-          <option name="EFFECT_COLOR" />
+-          <option name="FONT_TYPE" />
+-        </value>
+-      </option>
+-
+-      <!-- Directory node which has read-only child -->
+-      <option name="$HAS_READ_ONLY_CHILD">
+-        <value>
+-          <option name="FOREGROUND" value="FF0000" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" />
+-          <option name="EFFECT_COLOR" />
+-          <option name="FONT_TYPE" />
+-        </value>
+-      </option>
+-
+-      <!-- Node with text only -->
+-      <option name="$TEXT_NODE">
+-        <value>
+-          <option name="FOREGROUND" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" />
+-          <option name="EFFECT_COLOR" />
+-          <option name="FONT_TYPE" value="1" />
+-        </value>
+-      </option>
+-
+-      <!-- Number of usages comment for classes, methods, files -->
+-      <option name="$NUMBER_OF_USAGES">
+-        <value>
+-          <option name="FOREGROUND" value="808080" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" />
+-          <option name="EFFECT_COLOR" />
+-          <option name="FONT_TYPE" value="2" />
+-        </value>
+-      </option>
+-
+-      <!-- Occurence -->
+-      <option name="$OCCURENCE">
+-        <value>
+-          <option name="FOREGROUND" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" />
+-          <option name="EFFECT_COLOR" />
+-          <option name="FONT_TYPE" value="1" />
+-        </value>
+-      </option>
+-
+-      <!-- Selected occurence -->
+-      <option name="$SELECTED_OCCURENCE">
+-        <value>
+-          <option name="FOREGROUND" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" />
+-          <option name="EFFECT_COLOR" />
+-          <option name="FONT_TYPE" value="1" />
+-        </value>
+-      </option>
+-
+-      <!-- Excluded node -->
+-      <option name="$EXCLUDED_NODE">
+-        <value>
+-          <option name="FOREGROUND" />
+-          <option name="BACKGROUND" />
+-          <option name="EFFECT_TYPE" value="3" />
+-          <option name="EFFECT_COLOR" value="808080" />
+-          <option name="FONT_TYPE" />
+-        </value>
+-      </option>
+-    </attributes>
+-
+-  </scheme>
+-</component>
+\ No newline at end of file
+diff --git a/plugins/core/src/idea/Palette2.xml b/plugins/core/src/idea/Palette2.xml
+deleted file mode 100644
+index 7f92643..0000000
+--- a/plugins/core/src/idea/Palette2.xml
++++ /dev/null
+@@ -1,272 +0,0 @@
+-<component version="2">
+-  <group name="Swing">
+-    <item
+-      class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer"
+-      icon="/com/intellij/uiDesigner/icons/hspacer.png" small-icon="/com/intellij/uiDesigner/icons/hspacer-small.png"
+-      removable="false"
+-      >
+-      <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+-    </item>
+-    <item
+-      class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer"
+-      icon="/com/intellij/uiDesigner/icons/vspacer.png" small-icon="/com/intellij/uiDesigner/icons/vspacer-small.png"
+-      removable="false"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2"/>
+-    </item>
+-    <item
+-      class="javax.swing.JPanel"
+-      icon="/com/intellij/uiDesigner/icons/panel.png"
+-      removable="false"
+-      >
+-      <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+-    </item>
+-    <item
+-      class="javax.swing.JScrollPane"
+-      icon="/com/intellij/uiDesigner/icons/scrollPane.png"
+-      removable="false"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+-    </item>
+-    <item
+-      class="javax.swing.JButton"
+-      icon="/com/intellij/uiDesigner/icons/button.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1"/>
+-      <initial-values>
+-        <property name="text" value="Button"/>
+-      </initial-values>
+-    </item>
+-    <item
+-      class="javax.swing.JRadioButton"
+-      icon="/com/intellij/uiDesigner/icons/radioButton.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+-      <initial-values>
+-        <property name="text" value="RadioButton"/>
+-      </initial-values>
+-    </item>
+-    <item
+-      class="javax.swing.JCheckBox"
+-      icon="/com/intellij/uiDesigner/icons/checkBox.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+-      <initial-values>
+-        <property name="text" value="CheckBox"/>
+-      </initial-values>
+-    </item>
+-    <item
+-      class="javax.swing.JLabel"
+-      icon="/com/intellij/uiDesigner/icons/label.png"
+-      removable="false"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+-      <initial-values>
+-        <property name="text" value="Label"/>
+-      </initial-values>
+-    </item>
+-    <item
+-      class="javax.swing.JTextField"
+-      icon="/com/intellij/uiDesigner/icons/textField.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-        <preferred-size width="150" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JPasswordField"
+-      icon="/com/intellij/uiDesigner/icons/passwordField.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-        <preferred-size width="150" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JFormattedTextField"
+-      icon="/com/intellij/uiDesigner/icons/formattedTextField.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-        <preferred-size width="150" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JTextArea"
+-      icon="/com/intellij/uiDesigner/icons/textArea.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-        <preferred-size width="150" height="50"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JTextPane"
+-      icon="/com/intellij/uiDesigner/icons/textPane.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-        <preferred-size width="150" height="50"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JEditorPane"
+-      icon="/com/intellij/uiDesigner/icons/editorPane.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-        <preferred-size width="150" height="50"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JComboBox"
+-      icon="/com/intellij/uiDesigner/icons/comboBox.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1"/>
+-    </item>
+-    <item
+-      class="javax.swing.JTable"
+-      icon="/com/intellij/uiDesigner/icons/table.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-        <preferred-size width="150" height="50"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JList"
+-      icon="/com/intellij/uiDesigner/icons/list.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
+-        <preferred-size width="150" height="50"/>
+-      </default-constraints>
+-    </item>
+-    <item class="javax.swing.JTree"
+-      icon="/com/intellij/uiDesigner/icons/tree.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-        <preferred-size width="150" height="50"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JTabbedPane"
+-      icon="/com/intellij/uiDesigner/icons/tabbedPane.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+-        <preferred-size width="200" height="200"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JSplitPane"
+-      icon="/com/intellij/uiDesigner/icons/splitPane.png"
+-      removable="false"
+-      >
+-      <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+-        <preferred-size width="200" height="200"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JSpinner"
+-      icon="/com/intellij/uiDesigner/icons/spinner.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      can-attach-label="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-        <preferred-size width="-1" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JSlider"
+-      icon="/com/intellij/uiDesigner/icons/slider.png"
+-      removable="false"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-        <preferred-size width="-1" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JSeparator"
+-      icon="/com/intellij/uiDesigner/icons/separator.png"
+-      removable="false"
+-      since-version="2"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-        <preferred-size width="-1" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JProgressBar"
+-      icon="/com/intellij/uiDesigner/icons/progressbar.png"
+-      removable="false"
+-      since-version="2"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
+-        <preferred-size width="-1" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JToolBar"
+-      icon="/com/intellij/uiDesigner/icons/toolbar.png"
+-      removable="false"
+-      since-version="2"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
+-        <preferred-size width="-1" height="20"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JToolBar$Separator"
+-      icon="/com/intellij/uiDesigner/icons/toolbarSeparator.png"
+-      removable="false"
+-      since-version="2"
+-      >
+-      <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1">
+-        <preferred-size width="-1" height="-1"/>
+-      </default-constraints>
+-    </item>
+-    <item
+-      class="javax.swing.JScrollBar"
+-      icon="/com/intellij/uiDesigner/icons/scrollbar.png"
+-      removable="false"
+-      since-version="2"
+-      auto-create-binding="true"
+-      >
+-      <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2">
+-        <preferred-size width="-1" height="-1"/>
+-      </default-constraints>
+-    </item>
+-  </group>
+-</component>
+diff --git a/plugins/core/src/idea/PropertiesComponent.xml b/plugins/core/src/idea/PropertiesComponent.xml
+deleted file mode 100644
+index 4931274..0000000
+--- a/plugins/core/src/idea/PropertiesComponent.xml
++++ /dev/null
+@@ -1,8 +0,0 @@
+-<component>
+-  <property name="GoToClass.includeLibraries" value="false" />
+-  <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+-  <property name="GoToFile.includeJavaFiles" value="false" />
+-  <property name="MemberChooser.sorted" value="false" />
+-  <property name="MemberChooser.showClasses" value="true" />
+-  <property name="MemberChooser.copyJavadoc" value="false" />
+-</component>
+diff --git a/plugins/core/src/idea/RunManager.xml b/plugins/core/src/idea/RunManager.xml
+deleted file mode 100644
+index 7c5577d..0000000
+--- a/plugins/core/src/idea/RunManager.xml
++++ /dev/null
+@@ -1,52 +0,0 @@
+-<component>
+-  <option name="SHOW_SETTINGS_BEFORE_RUNNING" value="true" />
+-  <option name="COMPILE_BEFORE_RUNNING" value="true" />
+-  <activeType name="Application" />
+-
+-  <configuration name="&lt;template&gt;" type="Application" default="true" selected="false">
+-    <option name="MAIN_CLASS_NAME" />
+-    <option name="VM_PARAMETERS" />
+-    <option name="PROGRAM_PARAMETERS" />
+-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+-  </configuration>
+-
+-  <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
+-    <option name="MAIN_CLASS_NAME" />
+-    <option name="HTML_FILE_NAME" />
+-    <option name="HTML_USED" value="false" />
+-    <option name="WIDTH" value="400" />
+-    <option name="HEIGHT" value="300" />
+-    <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+-    <option name="VM_PARAMETERS" />
+-  </configuration>
+-
+-  <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
+-    <option name="MAIN_CLASS_NAME" />
+-    <option name="VM_PARAMETERS" value="-ea"/>
+-    <option name="PARAMETERS" />
+-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+-  </configuration>
+-
+-  <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
+-    <option name="MAIN_CLASS_NAME"/>
+-    <option name="VM_PARAMETERS" value="-ea"/>
+-    <option name="PARAMETERS"/>
+-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$"/>
+-  </configuration>
+-
+-  <configuration name="&lt;template&gt;" type="Remote" default="true" selected="false">
+-    <option name="USE_SOCKET_TRANSPORT" value="true" />
+-    <option name="SHMEM_ADDRESS" value="javadebug" />
+-    <option name="HOST" value="localhost" />
+-    <option name="PORT" value="5005" />
+-  </configuration>
+-
+-  <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
+-    <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+-  </configuration>
+-
+-  <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+-    <Host>localhost</Host>
+-    <Port>5050</Port>
+-  </configuration>
+-</component>
+diff --git a/plugins/core/src/idea/TeamServerApplicationInfo.xml b/plugins/core/src/idea/TeamServerApplicationInfo.xml
+deleted file mode 100644
+index d171332..0000000
+--- a/plugins/core/src/idea/TeamServerApplicationInfo.xml
++++ /dev/null
+@@ -1,16 +0,0 @@
+-<component>
+-  <!-- <version name="IntelliJ IDEA" major="5" minor="0.2"/> -->
+-  <version name="IntelliJ IDEA (Demetra)" />
+-  <build number="__BUILD_NUMBER__" date="__BUILD_DATE__"/>
+-  <logo url="/idea_logo.png"/>
+-  <about url="/idea_about.png"/>
+-  <package code="TeamServer"/>
+-  <names product="IDEA" fullname="IntelliJ IDEA"/>
+-
+-  <welcome-screen logo-url="/Logo_welcomeScreen.png"
+-                  caption-url="/general/welcomeCaption.png" 
+-                  slogan-url="/general/developSlogan.png"/>
+-
+-  <update-urls check="http://www.jetbrains.com/updates/update.xml" download="http://www.jetbrains.com/idea/download/"/>
+-  <eap-update-urls check="http://www.jetbrains.com/updates/eap-update.xml" download="http://www.intellij.net/eap/products/idea/download.jsp"/>
+-</component>
+diff --git a/plugins/core/src/idea/TodoView.xml b/plugins/core/src/idea/TodoView.xml
+deleted file mode 100644
+index c2985ee..0000000
+--- a/plugins/core/src/idea/TodoView.xml
++++ /dev/null
+@@ -1,12 +0,0 @@
+-<component selected-index="0">
+-  <todo-panel id="selected-file">
+-    <are-packages-shown value="false"/>
+-    <flattern-packages value="false"/>
+-    <is-autoscroll-to-source value="true"/>
+-  </todo-panel>
+-  <todo-panel id="all">
+-    <are-packages-shown value="true"/>
+-    <flattern-packages value="false"/>
+-    <is-autoscroll-to-source value="true"/>
+-  </todo-panel>
+-</component>
+diff --git a/plugins/core/src/idea/UsageViewSettings.xml b/plugins/core/src/idea/UsageViewSettings.xml
+deleted file mode 100644
+index cc4fea0..0000000
+--- a/plugins/core/src/idea/UsageViewSettings.xml
++++ /dev/null
+@@ -1,3 +0,0 @@
+-<component>
+-  <option name="EXPORT_FILE_NAME" value="report.txt" />
+-</component>
+diff --git a/plugins/core/src/idea/WindowManager.xml b/plugins/core/src/idea/WindowManager.xml
+deleted file mode 100644
+index 4845dd1..0000000
+--- a/plugins/core/src/idea/WindowManager.xml
++++ /dev/null
+@@ -1,20 +0,0 @@
+-<component>
+-  <!-- default layout for all projects -->
+-  <layout>
+-    <!-- left stripe -->
+-    <window_info id="Project" active="false" anchor="left" order="0" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
+-    <window_info id="Structure" active="false" anchor="left" order="1" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
+-    <!-- bottom stripe -->
+-    <window_info id="Message" active="false" anchor="bottom" order="0" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
+-    <window_info id="Find" active="false" anchor="bottom" order="1" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
+-    <window_info id="Run" active="false" anchor="bottom" order="2" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
+-    <window_info id="Debug" active="false" anchor="bottom" order="3" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" />
+-    <window_info id="Cvs" active="false" anchor="bottom" order="4" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
+-    <window_info id="Inspection" active="false" anchor="bottom" order="5" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" />
+-    <window_info id="TODO" active="false" anchor="bottom" order="6" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" />
+-    <!-- right stripe -->
+-    <window_info id="Commander" active="false" anchor="right" order="0" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" />
+-    <window_info id="Ant Build" active="false" anchor="right" order="1" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" />
+-    <window_info id="Hierarchy" active="false" anchor="right" order="2" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" content_ui="combo"/>
+-  </layout>
+-</component>
+diff --git a/plugins/xml-dom/xml-dom-api/src/com/intellij/util/xml/highlighting/DomCustomAnnotationChecker.java b/plugins/xml-dom/xml-dom-api/src/com/intellij/util/xml/highlighting/DomCustomAnnotationChecker.java
+index 9d0c38f..10fea44 100644
+--- a/plugins/xml-dom/xml-dom-api/src/com/intellij/util/xml/highlighting/DomCustomAnnotationChecker.java
++++ b/plugins/xml-dom/xml-dom-api/src/com/intellij/util/xml/highlighting/DomCustomAnnotationChecker.java
+@@ -32 +32 @@
+-  public static final ExtensionPointName<DomCustomAnnotationChecker> EP_NAME = ExtensionPointName.create("com.intellij.dom.customAnnotationChecker");
++  public static final ExtensionPointName<DomCustomAnnotationChecker> EP_NAME = ExtensionPointName.create("com.intellij.xml.dom.customAnnotationChecker");
+

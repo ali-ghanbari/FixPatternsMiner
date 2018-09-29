@@ -1,0 +1,8 @@
+diff --git a/src/com/dotcms/cluster/business/ServerFactoryImpl.java b/src/com/dotcms/cluster/business/ServerFactoryImpl.java
+index 351b90b..ddde9cd 100644
+--- a/src/com/dotcms/cluster/business/ServerFactoryImpl.java
++++ b/src/com/dotcms/cluster/business/ServerFactoryImpl.java
+@@ -93 +93 @@
+-			dc.setSQL("select id from (select id from cluster_server_uptime where server_id = order by startup desc ) where rownum = 1");
++			dc.setSQL("select id from (select id from cluster_server_uptime where server_id = ? order by startup desc ) where rownum = 1");
+

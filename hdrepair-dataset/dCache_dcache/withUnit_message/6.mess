@@ -1,0 +1,18 @@
+Fixed double overallocation bug
+
+If WriteHandleImpl.commit fails, then overallocation would be adjusted
+twice, thus breaking accounting.
+
+A test case (actually extends an existing test case) was added to cover
+this bug. WriteHandleImpl is fixed such that overallocation is only
+resolved once.
+
+I eliminated an unused parameter in RepositorySubsystemTest, which is
+why several test cases have been touched.
+
+Targets: 1.9.1, 1.9, trunk
+Patch: #4052
+Signed-off-by: Timur
+
+
+

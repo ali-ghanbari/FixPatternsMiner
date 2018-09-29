@@ -1,0 +1,53 @@
+diff --git a/lucene/contrib/benchmark/conf/collector-small.alg b/lucene/contrib/benchmark/conf/collector-small.alg
+index f647054..c67cab9 100644
+--- a/lucene/contrib/benchmark/conf/collector-small.alg
++++ b/lucene/contrib/benchmark/conf/collector-small.alg
+@@ -26 +26 @@
+-analyzer=org.apache.lucene.analysis.WhitespaceAnalyzer
++analyzer=org.apache.lucene.analysis.core.WhitespaceAnalyzer
+diff --git a/lucene/contrib/benchmark/conf/collector.alg b/lucene/contrib/benchmark/conf/collector.alg
+index a105ad8..a80d564 100644
+--- a/lucene/contrib/benchmark/conf/collector.alg
++++ b/lucene/contrib/benchmark/conf/collector.alg
+@@ -26 +26 @@
+-analyzer=org.apache.lucene.analysis.WhitespaceAnalyzer
++analyzer=org.apache.lucene.analysis.core.WhitespaceAnalyzer
+diff --git a/lucene/contrib/benchmark/conf/indexLineFile.alg b/lucene/contrib/benchmark/conf/indexLineFile.alg
+index 2624ea3..bcb9922 100644
+--- a/lucene/contrib/benchmark/conf/indexLineFile.alg
++++ b/lucene/contrib/benchmark/conf/indexLineFile.alg
+@@ -32 +32 @@
+-analyzer=org.apache.lucene.analysis.SimpleAnalyzer
++analyzer=org.apache.lucene.analysis.core.SimpleAnalyzer
+diff --git a/lucene/docs/demo2.html b/lucene/docs/demo2.html
+index ebd1076..9d3f8f9 100644
+--- a/lucene/docs/demo2.html
++++ b/lucene/docs/demo2.html
+@@ -319 +319 @@
+-different languages (see the <span class="codefrag">*Analyzer.java</span> sources under <a href="http://svn.apache.org/repos/asf/lucene/dev/trunk/lucene/contrib/analyzers/common/src/java/org/apache/lucene/analysis/">contrib/analyzers/src/java/org/apache/lucene/analysis</a>).
++different languages (see the <span class="codefrag">*Analyzer.java</span> sources under <a href="http://svn.apache.org/repos/asf/lucene/dev/trunk/modules/analysis/common/src/java/org/apache/lucene/analysis/">modules/analysis/common/src/java/org/apache/lucene/analysis</a>).
+diff --git a/lucene/src/java/org/apache/lucene/analysis/package.html b/lucene/src/java/org/apache/lucene/analysis/package.html
+index dd944ad..eb23fc7 100644
+--- a/lucene/src/java/org/apache/lucene/analysis/package.html
++++ b/lucene/src/java/org/apache/lucene/analysis/package.html
+@@ -108 +108 @@
+-    <li>The contrib/analyzers library located at the root of the Lucene distribution has a number of different Analyzer implementations to solve a variety
++    <li>The modules/analysis library located at the root of the Lucene distribution has a number of different Analyzer implementations to solve a variety
+@@ -171 +171 @@
+-to explore the contrib/analyzers library and/or ask on the java-user@lucene.apache.org mailing list first to see if what you need already exists.
++to explore the modules/analysis library and/or ask on the java-user@lucene.apache.org mailing list first to see if what you need already exists.
+diff --git a/lucene/src/site/src/documentation/content/xdocs/demo2.xml b/lucene/src/site/src/documentation/content/xdocs/demo2.xml
+index 44cd327..0509b2f 100644
+--- a/lucene/src/site/src/documentation/content/xdocs/demo2.xml
++++ b/lucene/src/site/src/documentation/content/xdocs/demo2.xml
+@@ -77 +77 @@
+-href="http://svn.apache.org/repos/asf/lucene/dev/trunk/lucene/contrib/analyzers/common/src/java/org/apache/lucene/analysis/">contrib/analyzers/src/java/org/apache/lucene/analysis</a>).
++href="http://svn.apache.org/repos/asf/lucene/dev/trunk/modules/analysis/common/src/java/org/apache/lucene/analysis/">modules/analysis/common/src/java/org/apache/lucene/analysis</a>).
+diff --git a/modules/analysis/common/src/java/org/apache/lucene/analysis/snowball/SnowballAnalyzer.java b/modules/analysis/common/src/java/org/apache/lucene/analysis/snowball/SnowballAnalyzer.java
+index 666d012..3766f63 100644
+--- a/modules/analysis/common/src/java/org/apache/lucene/analysis/snowball/SnowballAnalyzer.java
++++ b/modules/analysis/common/src/java/org/apache/lucene/analysis/snowball/SnowballAnalyzer.java
+@@ -45 +45 @@
+- * @deprecated Use the language-specific analyzer in contrib/analyzers instead. 
++ * @deprecated Use the language-specific analyzer in modules/analysis instead. 
+

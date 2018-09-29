@@ -1,0 +1,52 @@
+1017:
+- 1016 is mandatory on 1/3/07 (as of 19 feb)
+- memory optimisations:
+-- fix BDB using 60% of VM rather than the set 20M: we need to setMutableConfig() !!! (thanks aku)
+-- do not use individual SingleFileFetcher objects within a SplitFileFetcherSegment: we now have one SplitFileFetcherSubSegment per retry count per segment (and it's a very lightweight object too), rather than up to 192 SingleFileFetcher's per segment
+-- remove last vestiges of irregular splitfile support, use ClientCHK[] in splitfile fetcher code
+-- buffer all SimpleFieldSet writes, and take advantage of this to reduce string allocations
+-- get rid of/simplify finalizers
+-- SimpleSingleFileFetcher - new base class of SingleFileFetcher, much lighter, can be used directly under certain circumstances, simplifies SFF
+-- maybe fix the USKFetcher leak; add some stats to track it down
+-- more minor stuff
+- refactoring client layer
+-- fetchers: long token instead of Object token
+-- rename and document RandomGrabArrayItem.isFinished -> isCancelled.
+-- FetcherContext -> FetchContext
+-- SplitFileFetcherSegment: data/checkBlocks -> data/checkKeys
+-- SendableGet is now an abstract class rather than an interface
+-- promote send() and schedule() to SendableGet
+-- onTransition promoted to ClientRequester
+-- use ClientRequester pretty much everywhere rather than the specific subclass
+- cpu optimisations:
+-- lots of HashSet -> LinkedHashSet
+-- token not used on USKFetcher
+- add node.disableHangCheckers (useful when e.g. profiling)
+- fix arithmetic errors on stats page
+- FCP
+-- require that the message end marker in FCP be either Data or some string starting with End
+-- fix invalid SimpleProgress messages in various cases
+-- send error message for invalid identifier on ModifyPersistentRequest
+-- don't report failures once the request has been removed/cancelled
+- many synchronization fixes
+- containers: synchronization fixes, cached bytes estimate may have been wrong leading to the cache not being used after a while (???)
+- fix temp bucket leak in container cache
+- set the free-on-exit flag for temp buckets from the container cache
+- default to 3 retries not 5 (the limit for ignoring retry count is 3, so we could either reduce the default max retries or increase the ignore-retry-count limit)
+- detect that a splitfile is over the maximum size *before* fetching it if possible
+- specify the decompressed length in splitfile metadata; this will change the CHK generated on all compressible CHKs, but we get a correct size earlier on
+- detect interface MTU in jSTUN, and use it
+- show details of splitfile error on error page
+- minor bugfixes in ReadOnlyFileSliceBucket
+- fractionally better tempfile space usage estimation
+- update the default bookmark URIs
+- add link to stats page to the last few lines of the logfile
+- move bookmarks up/down
+- open plugins page in a new window
+- MEMSTAT command on TMCI
+- minor bugfix in config
+- imports, add final's, logging, toString(), bug paranoia, variable renaming, remove dead code, etc
+Thanks to aku, nextgens, Anonymous@o9_0DTuZniSf_+oDmRsonByWxsI, Mc2, mario (last 2 same person?)
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@11986 67a373e5-eb02-0410-a15c-ee090a768436
+

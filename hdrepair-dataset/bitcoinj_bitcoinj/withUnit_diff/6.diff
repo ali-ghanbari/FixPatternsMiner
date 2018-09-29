@@ -1,0 +1,31 @@
+diff --git a/src/com/google/bitcoin/core/PeerAddress.java b/src/com/google/bitcoin/core/PeerAddress.java
+index f4aae94..d83a825 100644
+--- a/src/com/google/bitcoin/core/PeerAddress.java
++++ b/src/com/google/bitcoin/core/PeerAddress.java
+@@ -48,0 +49 @@
++        this.services = BigInteger.ZERO;
+diff --git a/tests/com/google/bitcoin/core/PeerAddressTest.java b/tests/com/google/bitcoin/core/PeerAddressTest.java
+index 9a6ee71..6d22f10 100644
+--- a/tests/com/google/bitcoin/core/PeerAddressTest.java
++++ b/tests/com/google/bitcoin/core/PeerAddressTest.java
+@@ -1,2 +1,2 @@
+-/**
+- * Copyright 2011 Noa Resare
++/*
++ * Copyright 2011 Google Inc.
+@@ -21,0 +22,2 @@
++import java.net.InetAddress;
++
+@@ -27,2 +29 @@
+-    public void testPeerAddressSerialize() throws Exception
+-    {
++    public void testPeerAddressRoundtrip() throws Exception {
+@@ -35,0 +37,7 @@
++
++    @Test
++    public void testBitcoinSerialize() throws Exception {
++        PeerAddress pa = new PeerAddress(InetAddress.getByName(null), 8333, 0);
++        assertEquals("000000000000000000000000000000000000ffff7f000001208d",
++                Utils.bytesToHexString(pa.bitcoinSerialize()));
++    }
+

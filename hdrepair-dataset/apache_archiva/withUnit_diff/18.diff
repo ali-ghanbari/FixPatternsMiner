@@ -1,0 +1,60 @@
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/rss/RssFeedServlet.java b/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/rss/RssFeedServlet.java
+index 2dbb22f..07c08e7 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/rss/RssFeedServlet.java
++++ b/archiva-modules/archiva-web/archiva-webapp/src/main/java/org/apache/maven/archiva/web/rss/RssFeedServlet.java
+@@ -101 +101 @@
+-        repositorySessionFactory = wac.getBean( RepositorySessionFactory.class );
++        repositorySessionFactory = wac.getBean( "repositorySessionFactory", RepositorySessionFactory.class );
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java b/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java
+index 73677e1..c0ccdc8 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java
++++ b/archiva-modules/archiva-web/archiva-webapp/src/test/java/org/apache/maven/archiva/web/action/admin/repositories/SortRepositoriesActionTest.java
+@@ -67 +67 @@
+-        action = (SortRepositoriesAction) getActionProxy( "sortDownRepositoryFromGroup.action" ).getAction();
++        action = (SortRepositoriesAction) getActionProxy( "/admin/sortDownRepositoryFromGroup.action" ).getAction();
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/feedServletTest-web.xml b/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/feedServletTest-web.xml
+index 7741913..0584474 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/feedServletTest-web.xml
++++ b/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/feedServletTest-web.xml
+@@ -30,0 +31,5 @@
++  <context-param>
++    <param-name>contextClass</param-name>
++    <param-value>org.codehaus.redback.components.springutils.CachingWebApplicationContext</param-value>
++  </context-param>
++
+@@ -32,2 +37,2 @@
+-	<servlet-name>RssFeedServlet</servlet-name>
+-	<servlet-class>org.apache.maven.archiva.web.rss.RssFeedServlet</servlet-class>
++    <servlet-name>RssFeedServlet</servlet-name>
++    <servlet-class>org.apache.maven.archiva.web.rss.RssFeedServlet</servlet-class>
+@@ -37,2 +42,2 @@
+-  	<servlet-name>RssFeedServlet</servlet-name>
+-	<url-pattern>/feeds/*</url-pattern>
++    <servlet-name>RssFeedServlet</servlet-name>
++    <url-pattern>/feeds/*</url-pattern>
+@@ -42 +47 @@
+-   <context-param>
++  <context-param>
+@@ -45,2 +50,2 @@
+-        classpath*:/spring-context.xml
+-        classpath*:/META-INF/spring-context.xml
++      classpath*:/spring-context.xml
++      classpath*:/META-INF/spring-context.xml
+diff --git a/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/web.xml b/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/web.xml
+index 7df481a..e9982ea 100644
+--- a/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/web.xml
++++ b/archiva-modules/archiva-web/archiva-webapp/src/test/webapp/WEB-INF/web.xml
+@@ -31 +31,6 @@
+-   <context-param>
++  <context-param>
++    <param-name>contextClass</param-name>
++    <param-value>org.codehaus.redback.components.springutils.CachingWebApplicationContext</param-value>
++  </context-param>
++
++  <context-param>
+@@ -34,2 +39,2 @@
+-        classpath*:/spring-context.xml
+-        classpath*:/META-INF/spring-context.xml
++      classpath*:/spring-context.xml
++      classpath*:/META-INF/spring-context.xml
+

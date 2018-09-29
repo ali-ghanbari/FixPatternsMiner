@@ -1,0 +1,40 @@
+diff --git a/core/src/main/java/com/nuodb/migrator/backup/loader/SimpleRowSetMapper.java b/core/src/main/java/com/nuodb/migrator/backup/loader/SimpleRowSetMapper.java
+index a1ebee4..b73b840 100644
+--- a/core/src/main/java/com/nuodb/migrator/backup/loader/SimpleRowSetMapper.java
++++ b/core/src/main/java/com/nuodb/migrator/backup/loader/SimpleRowSetMapper.java
+@@ -81 +81 @@
+-                backup.getDatabase() != null && backup.getDatabase().getSchemas().size() == 1) {
++                backup.getDatabase() != null && backup.getDatabase().getSchemas().size() <= 1) {
+diff --git a/core/src/test/java/com/nuodb/migrator/backup/XmlBackupTest.java b/core/src/test/java/com/nuodb/migrator/backup/XmlBackupTest.java
+index 0311cda..e04a323 100644
+--- a/core/src/test/java/com/nuodb/migrator/backup/XmlBackupTest.java
++++ b/core/src/test/java/com/nuodb/migrator/backup/XmlBackupTest.java
+@@ -147 +147 @@
+-        JdbcEnumType jdbcEnumType =
++        JdbcEnumType jdbcType =
+@@ -149,4 +149,4 @@
+-        jdbcEnumType.addValue("a");
+-        jdbcEnumType.addValue("b");
+-        jdbcEnumType.addValue("c");
+-        column.setJdbcType(jdbcEnumType);
++        jdbcType.addValue("a");
++        jdbcType.addValue("b");
++        jdbcType.addValue("c");
++        column.setJdbcType(jdbcType);
+@@ -223 +222,0 @@
+-
+@@ -225 +223,0 @@
+-
+@@ -227 +224,0 @@
+-
+@@ -240 +237 @@
+-        JdbcEnumType jdbcEnumType =
++        JdbcEnumType jdbcType =
+@@ -242,3 +239,3 @@
+-        jdbcEnumType.addValue("1");
+-        jdbcEnumType.addValue("2");
+-        column.setJdbcType(jdbcEnumType);
++        jdbcType.addValue("1");
++        jdbcType.addValue("2");
++        column.setJdbcType(jdbcType);
+

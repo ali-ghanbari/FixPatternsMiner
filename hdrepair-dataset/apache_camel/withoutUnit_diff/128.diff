@@ -1,0 +1,27 @@
+diff --git a/examples/camel-example-spring/src/main/java/org/apache/camel/example/spring/MyRouteBuilder.java b/examples/camel-example-spring/src/main/java/org/apache/camel/example/spring/MyRouteBuilder.java
+index 04af410..22324f1 100644
+--- a/examples/camel-example-spring/src/main/java/org/apache/camel/example/spring/MyRouteBuilder.java
++++ b/examples/camel-example-spring/src/main/java/org/apache/camel/example/spring/MyRouteBuilder.java
+@@ -43 +43 @@
+-                to("activemq:test.MyQueue");
++                to("jms:test.MyQueue");
+diff --git a/examples/camel-example-spring/src/main/resources/META-INF/spring/camel-context.xml b/examples/camel-example-spring/src/main/resources/META-INF/spring/camel-context.xml
+index 79f5da3..df51104 100644
+--- a/examples/camel-example-spring/src/main/resources/META-INF/spring/camel-context.xml
++++ b/examples/camel-example-spring/src/main/resources/META-INF/spring/camel-context.xml
+@@ -40 +40 @@
+-         <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
++         <property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=false"/>
+@@ -43,0 +44,3 @@
++
++  <bean id="jmxAgent" class="org.apache.camel.spring.SpringInstrumentationAgent"/>
++
+diff --git a/examples/camel-example-spring/src/main/resources/log4j.properties b/examples/camel-example-spring/src/main/resources/log4j.properties
+index e9b4b30..678535c 100644
+--- a/examples/camel-example-spring/src/main/resources/log4j.properties
++++ b/examples/camel-example-spring/src/main/resources/log4j.properties
+@@ -22,0 +23,3 @@
++#
++# uncomment the following line to enable debugging of Camel
++#
+

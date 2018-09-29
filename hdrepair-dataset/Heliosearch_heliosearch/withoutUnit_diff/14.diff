@@ -1,0 +1,36 @@
+diff --git a/dev-tools/scripts/smokeTestRelease.py b/dev-tools/scripts/smokeTestRelease.py
+index a8d8029..5b2b050 100644
+--- a/dev-tools/scripts/smokeTestRelease.py
++++ b/dev-tools/scripts/smokeTestRelease.py
+@@ -941,0 +942,9 @@
++  print('    checkindex with %s...' % jdk)
++  run('%s; java -ea -cp "%s" org.apache.lucene.index.CheckIndex index' % (javaExe(jdk), cp), 'checkindex.log')
++  s = open('checkindex.log').read()
++  m = re.search(r'^\s+version=(.*?)$', s, re.MULTILINE)
++  if m is None:
++    raise RuntimeError('unable to locate version=NNN output from CheckIndex; see checkindex.log')
++  actualVersion = m.group(1)
++  if removeTrailingZeros(actualVersion) != removeTrailingZeros(version):
++    raise RuntimeError('wrong version from CheckIndex: got "%s" but expected "%s"' % (actualVersion, version))
+@@ -942,0 +952,3 @@
++def removeTrailingZeros(version):
++  return re.sub(r'(\.0)*$', '', version)
++  
+@@ -1281 +1293 @@
+-      isSigned = (sys.argv[nextArgNum] == "True")
++      isSigned = (sys.argv[nextArgNum].lower() == "true")
+diff --git a/lucene/CHANGES.txt b/lucene/CHANGES.txt
+index f963f04..252bf8e 100644
+--- a/lucene/CHANGES.txt
++++ b/lucene/CHANGES.txt
+@@ -63,0 +64,3 @@
++* LUCENE-5850: CheckIndex now prints the Lucene version used to write
++  each segment.  (Robert Muir, Mike McCandless)
++
+diff --git a/lucene/core/src/java/org/apache/lucene/index/CheckIndex.java b/lucene/core/src/java/org/apache/lucene/index/CheckIndex.java
+index b25fa46..e04bcb3 100644
+--- a/lucene/core/src/java/org/apache/lucene/index/CheckIndex.java
++++ b/lucene/core/src/java/org/apache/lucene/index/CheckIndex.java
+@@ -553,0 +554 @@
++        msg(infoStream, "    version=" + (version == null ? "3.0" : version));
+

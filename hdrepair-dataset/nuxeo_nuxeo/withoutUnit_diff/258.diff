@@ -1,0 +1,205 @@
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/java/org/nuxeo/connect/client/we/PackageListingProvider.java b/nuxeo-admin-center/nuxeo-admin-center/src/main/java/org/nuxeo/connect/client/we/PackageListingProvider.java
+index 116a9f9..c2eb04b 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/java/org/nuxeo/connect/client/we/PackageListingProvider.java
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/java/org/nuxeo/connect/client/we/PackageListingProvider.java
+@@ -233 +233 @@
+-        return InstallAfterRestart.isMarkedForInstallAfterRestart(pkg.getId());
++        return InstallAfterRestart.isMarkedForInstallAfterRestart(pkg.getId()) || PackageState.INSTALLED == pkg.getState();
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/resources/css/connect_client_style.css b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/resources/css/connect_client_style.css
+index 7aeaef3..eb6a3ba 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/resources/css/connect_client_style.css
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/resources/css/connect_client_style.css
+@@ -4 +4 @@
+-height:100%;
++height:95%;
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/installHandler/installedOK.ftl b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/installHandler/installedOK.ftl
+index 66ee2e4..1087670 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/installHandler/installedOK.ftl
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/installHandler/installedOK.ftl
+@@ -13,2 +13 @@
+-   <h1> Installation of ${pkg.title} (${pkg.id}) completed </h1>
+-
++   <h3> Installation of ${pkg.title} (${pkg.id}) completed </h3>
+@@ -27 +25,0 @@
+-
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallDone.ftl b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallDone.ftl
+index 925d61e..e6e695e 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallDone.ftl
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallDone.ftl
+@@ -9 +9 @@
+- 		<h1> Uninstall of ${pkg.title} (${pkg.id}) completed </h1>
++     <h3> Uninstall of ${pkg.title} (${pkg.id}) completed </h3>
+@@ -12,9 +12,9 @@
+-  	<#if uninstallTask.isRestartRequired()>
+-   		<div>
+-      	 You will need to restart your server to complete the uninstall.
+-      	 <br/>
+-      	 <form method="POST" action=""${This.path}/restart">
+-       	Click on the restart button to restart the server now <input type="submit" value="Restart"/>
+-       	</form>
+-   		</div>
+-  	</#if>
++    <#if uninstallTask.isRestartRequired()>
++       <div>
++         You will need to restart your server to complete the uninstall.
++         <br/>
++         <form method="POST" action=""${This.path}/restart">
++         Click on the restart button to restart the server now <input type="submit" value="Restart"/>
++         </form>
++       </div>
++    </#if>
+@@ -22 +22 @@
+-  	<br/>
++    <br/>
+@@ -24 +24 @@
+-  	<a href="${Root.path}/packages/${source}" class="installButton"> Finish </a>
++    <a href="${Root.path}/packages/${source}" class="installButton"> Finish </a>
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallError.ftl b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallError.ftl
+index b478f5b..b566392 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallError.ftl
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/skin/views/uninstallHandler/uninstallError.ftl
+@@ -9,4 +9,4 @@
+- 	  Uninstall failed : ${e.message}.
+- 
+-  	<br/>
+-  	<a href="${Root.path}/packages/${source}" class="installButton"> Cancel </a>
++     Uninstall failed : ${e.message}.
++
++    <br/>
++    <a href="${Root.path}/packages/${source}" class="installButton"> Cancel </a>
+@@ -14 +14 @@
+- 
++
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/themes/css/nuxeo_admincenter_specific.css b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/themes/css/nuxeo_admincenter_specific.css
+index 2b5c116..50ec1c5 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/themes/css/nuxeo_admincenter_specific.css
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/themes/css/nuxeo_admincenter_specific.css
+@@ -11 +11,2 @@
+-.adminTabsColumn { background: "neutral.light (__FLAVOR__ background)"; box-shadow: -2px -1px 5px #9F9F9F inset; min-height: 660px; height: auto!important; height: 660px; padding: 0; vertical-align: top; width: 210px }
++.adminTabsColumn { background: "neutral.light (__FLAVOR__ background)"; box-shadow: -2px -1px 5px #9F9F9F inset;  height: auto!important; padding: 0; vertical-align: top; width: 210px }
++
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectLocal.xhtml b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectLocal.xhtml
+index 6f30601..9e8922a 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectLocal.xhtml
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectLocal.xhtml
+@@ -15,0 +16,15 @@
++<script>
++<!--
++function displayConnectIframe() {
++    var margin = 80;
++    var min = 200;
++    jQuery('#connectLoaderWaiter').css('display','none');
++    var h = jQuery(document).height() - jQuery("#beforeIframe").position().top -margin;
++    if (h<min) {
++      h=min;
++    }
++    jQuery("#connectIframe").height(h);
++    jQuery("#connectIframe").css("display","block");
++}
++-->
++</script>
+@@ -37,3 +52,2 @@
+-
+-  <iframe src="#{contextPath}/site/connectClient/packages/local?type=#{appsViews.packageTypeFilter}" frameborder="0" scrolling="auto" width="100%" height="500px">
+-    <img src="#{contextPath}/img/big_loading.gif"/>
++  <span id="beforeIframe"></span>
++  <iframe id="connectIframe" src="#{contextPath}/site/connectClient/packages/local?type=#{appsViews.packageTypeFilter}" frameborder="0" scrolling="auto" width="100%" onload="javascript:displayConnectIframe();"  style="display:none">
+@@ -40,0 +55,3 @@
++    <div id="connectLoaderWaiter" style="width:100%;height:100px;text-align:center">
++      <img src="#{contextPath}/img/big_loading.gif"/>
++  </div>
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectRemote.xhtml b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectRemote.xhtml
+index 23cda73..62145b8 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectRemote.xhtml
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectRemote.xhtml
+@@ -56,2 +56,11 @@
+-function hideWaiter() {
+-  jQuery('#connectLoaderWaiter').css('display','none');
++<!--
++function displayConnectIframe() {
++    var margin = 80;
++    var min = 200;
++    jQuery('#connectLoaderWaiter').css('display','none');
++    var h = jQuery(document).height() - jQuery("#beforeIframe").position().top -margin;
++    if (h<min) {
++      h=min;
++    }
++    jQuery("#connectIframe").height(h);
++    jQuery("#connectIframe").css("display","block");
+@@ -58,0 +68 @@
++-->
+@@ -59,0 +70 @@
++<span id="beforeIframe"></span>
+@@ -62,2 +73,2 @@
+-    <iframe src="#{contextPath}/site/connectClient/packages/remote?type=#{appsViews.packageTypeFilter}&amp;onlyRemote=#{appsViews.onlyRemote}&amp;filterOnPlatform=#{appsViews.platformFilter}" frameborder="0" scrolling="auto" width="100%" height="500px"
+-    style="display:none" onload="javascript:hideWaiter();this.style.display='block';">
++    <iframe id="connectIframe" src="#{contextPath}/site/connectClient/packages/remote?type=#{appsViews.packageTypeFilter}&amp;onlyRemote=#{appsViews.onlyRemote}&amp;filterOnPlatform=#{appsViews.platformFilter}" frameborder="0" scrolling="auto" width="100%"
++    style="display:none" onload="javascript:displayConnectIframe();">
+@@ -67,2 +78,2 @@
+-    <iframe src="#{contextPath}/site/connectClient/download/start/#{adminViews.getExternalPackageDownloadRequest()}?source=remote" frameborder="0" scrolling="auto" width="100%" height="500px"
+-    style="display:none" onload="javascript:hideWaiter();this.style.display='block';" >
++    <iframe id="connectIframe" src="#{contextPath}/site/connectClient/download/start/#{adminViews.getExternalPackageDownloadRequest()}?source=remote" frameborder="0" scrolling="auto" width="100%"
++    style="display:none" onload="javascript:displayConnectIframe();" >
+@@ -72 +83 @@
+-  <div id="connectLoaderWaiter" style="width:100%;height:200px;text-align:center">
++  <div id="connectLoaderWaiter" style="width:100%;height:100px;text-align:center">
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectUpdates.xhtml b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectUpdates.xhtml
+index 8573aeb..ee7b20d 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectUpdates.xhtml
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/connectUpdates.xhtml
+@@ -40 +40 @@
+-
++  <span id="beforeIframe"></span>
+@@ -42 +42,4 @@
+-function hideWaiter() {
++<!--
++function displayConnectIframe() {
++  var margin = 80;
++  var min = 200;
+@@ -43,0 +47,6 @@
++  var h = jQuery(document).height() - jQuery("#beforeIframe").position().top -margin;
++  if (h < min) {
++    h=min;
++  }
++  jQuery("#connectIframe").height(h);
++  jQuery("#connectIframe").css("display","block");
+@@ -44,0 +54 @@
++-->
+@@ -48,2 +58,2 @@
+-    <iframe src="#{contextPath}/site/connectClient/packages/updates?type=#{appsViews.packageTypeFilter}&amp;filterOnPlatform=#{appsViews.platformFilter}" frameborder="0" scrolling="auto" width="100%" height="500px"
+-    style="display:none" onload="javascript:hideWaiter();this.style.display='block';" >
++    <iframe id="connectIframe" src="#{contextPath}/site/connectClient/packages/updates?type=#{appsViews.packageTypeFilter}&amp;filterOnPlatform=#{appsViews.platformFilter}" frameborder="0" scrolling="auto" width="100%"
++    style="display:none" onload="javascript:displayConnectIframe();" >
+@@ -52 +62 @@
+-  <div id="connectLoaderWaiter" style="width:100%;height:200px;text-align:center">
++  <div id="connectLoaderWaiter" style="width:100%;height:100px;text-align:center">
+diff --git a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/studio.xhtml b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/studio.xhtml
+index 5e629c9..80882ee 100644
+--- a/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/studio.xhtml
++++ b/nuxeo-admin-center/nuxeo-admin-center/src/main/resources/web/nuxeo.war/incl/appcenter/studio.xhtml
+@@ -79,2 +79,11 @@
+-  function hideWaiter() {
+-    jQuery('#connectLoaderWaiter').css('display','none');
++  <!--
++  function displayConnectIframe() {
++      var margin = 80;
++      var min = 200;
++      jQuery('#connectLoaderWaiter').css('display','none');
++      var h = jQuery(document).height() - jQuery("#beforeIframe").position().top -margin;
++      if (h<min) {
++        h=min;
++      }
++      jQuery("#connectIframe").height(h);
++      jQuery("#connectIframe").css("display","block");
+@@ -86,0 +96 @@
++  -->
+@@ -90,2 +100,3 @@
+-    <iframe src="#{contextPath}/site/connectClient/packages/studio" frameborder="0" scrolling="auto" width="100%" height="200px"
+-    style="display:none" onload="javascript:hideWaiter();this.style.display='block';">
++    <span id="beforeIframe"></span>
++    <iframe id="connectIframe" src="#{contextPath}/site/connectClient/packages/studio" frameborder="0" scrolling="auto" width="100%"
++    style="display:none" onload="javascript:displayConnectIframe();">
+@@ -94 +105 @@
+-    <div id="connectLoaderWaiter" style="width:100%;height:200px;text-align:center">
++    <div id="connectLoaderWaiter" style="width:100%;height:100px;text-align:center">
+

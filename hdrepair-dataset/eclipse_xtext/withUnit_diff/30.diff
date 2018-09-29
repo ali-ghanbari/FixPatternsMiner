@@ -1,0 +1,90 @@
+diff --git a/plugins/org.eclipse.xtend.core/src/org/eclipse/xtend/core/conversion/JavaIDValueConverter.java b/plugins/org.eclipse.xtend.core/src/org/eclipse/xtend/core/conversion/JavaIDValueConverter.java
+index d90d49c..30b2545 100644
+--- a/plugins/org.eclipse.xtend.core/src/org/eclipse/xtend/core/conversion/JavaIDValueConverter.java
++++ b/plugins/org.eclipse.xtend.core/src/org/eclipse/xtend/core/conversion/JavaIDValueConverter.java
+@@ -137 +137 @@
+-				throw new ValueConverterException("Illegal character in identifier '" + identifier + "'", node, null);
++				throw new ValueConverterWithValueException("Illegal character in identifier '" + identifier + "'", node, null, null);
+diff --git a/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend b/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend
+index 5ea607c..7b6076e 100644
+--- a/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend
++++ b/tests/org.eclipse.xtend.core.tests/src/org/eclipse/xtend/core/tests/typesystem/ErrorTest.xtend
+@@ -1077,0 +1078,24 @@
++	@Test
++	def void testErrorModel_71() throws Exception {
++		'''
++			import java.util.Map
++			class C {
++				def <A> Map<A, Expression<A>> then(Expression<A> expr) {}
++				def <A extends Number & Comparable<?>> Map<A, NumberExpression<A>> then(NumberExpression<A> expr) {}
++				
++				def void m() {
++					val NumberPath<Long> = null
++					val y = then(count)
++					println(y)
++				}
++			}
++			
++			class NumberPath<T extends Number & Comparable<?>> extends NumberExpression<T> {}
++			class NumberExpression<T extends Number & Comparable<?>> extends ComparableExpressionBase<T> {}
++			class ComparableExpressionBase<T extends Comparable<?>> extends SimpleExpression<T> {}
++			class SimpleExpression<T> extends ExpressionBase<T> {}
++			class ExpressionBase<T> implements Expression<T> {}
++			interface Expression<T> {}
++		'''.processWithoutException
++	}
++	
+diff --git a/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java b/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java
+index 54f3f35..ad5e643 100644
+--- a/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java
++++ b/tests/org.eclipse.xtend.core.tests/xtend-gen/org/eclipse/xtend/core/tests/typesystem/ErrorTest.java
+@@ -2009,0 +2010,48 @@
++  @Test
++  public void testErrorModel_71() throws Exception {
++    StringConcatenation _builder = new StringConcatenation();
++    _builder.append("import java.util.Map");
++    _builder.newLine();
++    _builder.append("class C {");
++    _builder.newLine();
++    _builder.append("\t");
++    _builder.append("def <A> Map<A, Expression<A>> then(Expression<A> expr) {}");
++    _builder.newLine();
++    _builder.append("\t");
++    _builder.append("def <A extends Number & Comparable<?>> Map<A, NumberExpression<A>> then(NumberExpression<A> expr) {}");
++    _builder.newLine();
++    _builder.append("\t");
++    _builder.newLine();
++    _builder.append("\t");
++    _builder.append("def void m() {");
++    _builder.newLine();
++    _builder.append("\t\t");
++    _builder.append("val NumberPath<Long> = null");
++    _builder.newLine();
++    _builder.append("\t\t");
++    _builder.append("val y = then(count)");
++    _builder.newLine();
++    _builder.append("\t\t");
++    _builder.append("println(y)");
++    _builder.newLine();
++    _builder.append("\t");
++    _builder.append("}");
++    _builder.newLine();
++    _builder.append("}");
++    _builder.newLine();
++    _builder.newLine();
++    _builder.append("class NumberPath<T extends Number & Comparable<?>> extends NumberExpression<T> {}");
++    _builder.newLine();
++    _builder.append("class NumberExpression<T extends Number & Comparable<?>> extends ComparableExpressionBase<T> {}");
++    _builder.newLine();
++    _builder.append("class ComparableExpressionBase<T extends Comparable<?>> extends SimpleExpression<T> {}");
++    _builder.newLine();
++    _builder.append("class SimpleExpression<T> extends ExpressionBase<T> {}");
++    _builder.newLine();
++    _builder.append("class ExpressionBase<T> implements Expression<T> {}");
++    _builder.newLine();
++    _builder.append("interface Expression<T> {}");
++    _builder.newLine();
++    this.processWithoutException(_builder);
++  }
++  
+

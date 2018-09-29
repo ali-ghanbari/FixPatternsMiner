@@ -1,0 +1,18 @@
+diff --git a/sql/src/main/java/io/crate/analyze/Analysis.java b/sql/src/main/java/io/crate/analyze/Analysis.java
+index 698cde5..d2c97d8 100644
+--- a/sql/src/main/java/io/crate/analyze/Analysis.java
++++ b/sql/src/main/java/io/crate/analyze/Analysis.java
+@@ -54,0 +55 @@
++        updateRowGranularity(table.rowGranularity());
+diff --git a/sql/src/test/java/io/crate/analyze/AnalyzerTest.java b/sql/src/test/java/io/crate/analyze/AnalyzerTest.java
+index d3677cd..1512c77 100644
+--- a/sql/src/test/java/io/crate/analyze/AnalyzerTest.java
++++ b/sql/src/test/java/io/crate/analyze/AnalyzerTest.java
+@@ -318,0 +319,6 @@
++    public void testGranularityWithSingleAggregation() throws Exception {
++        Analysis analyze = analyze("select count(*) from sys.nodes");
++        assertThat(analyze.rowGranularity(), is(RowGranularity.NODE));
++    }
++
++    @Test
+

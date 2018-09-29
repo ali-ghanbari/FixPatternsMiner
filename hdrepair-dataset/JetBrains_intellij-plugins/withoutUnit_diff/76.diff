@@ -1,0 +1,9 @@
+diff --git a/osmorc/src/org/osmorc/settings/LibraryBundlingEditor.java b/osmorc/src/org/osmorc/settings/LibraryBundlingEditor.java
+index 6a3061a..43543f1 100644
+--- a/osmorc/src/org/osmorc/settings/LibraryBundlingEditor.java
++++ b/osmorc/src/org/osmorc/settings/LibraryBundlingEditor.java
+@@ -46 +46,2 @@
+-    return myComponent.isModified();
++    // Fixes:    EA-23199. This probably occurs when isModified is called after disposing the UI. should not happen but does.. :(
++    return myComponent != null ? myComponent.isModified() : false;
+

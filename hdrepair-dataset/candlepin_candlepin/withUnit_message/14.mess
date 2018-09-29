@@ -1,0 +1,18 @@
+676870: Fix entitling modifier and modifiee in the same call
+
+If a bind by product was run, and the pool serials were such that a pool
+providing a modifier product was listed before a product it modified,
+then the PoolManager would attempt to:
+- create certificates for modifier product
+- create certificates for modifiee product
+  - notice that modifier affects modifiee
+  - revoke old modifier certificates
+  - attempt to delete old modifier certificates from the db
+At this point, we'd get an ISE from jpa/hibernate trying to save the
+deleted state to the db for an object that was saved by hibernate, but
+not yet written out.
+
+Removing the flush() call in delete seems to fix things up, since we
+don't try to flush out early, and jpa/hibernate can then examine things
+all at once later, and figure out what has to be done.
+

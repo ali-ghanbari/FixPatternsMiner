@@ -1,0 +1,22 @@
+Fix issues with noticing that a VPN interface is gone.
+
+The root cause of both bugs linked below is the same. In establish(), we call
+agentConnect(), which sets the state to CONNECTED. But right before returning
+from establish(), we set the state to AUTHENTICATING, which is a "CONNECTING"
+state. Later, when the interface is gone (either because the VpnService closed
+it, or because the process got killed), agentDisconnect() doesn't do anything
+because "isConnected()" is false.
+
+We could fix it by changing that to "isConnectedOrConnecting()", but I think a
+superior fix is to get rid of the bogus AUTHENTICATING state. It was added in
+http://ag/214042 two years ago, with a TODO saying to eventually make sure it
+becomes CONNECTED, but that never seems to have been followed up on.
+
+I don't see any use for this AUTHENTICATING state. Although I haven't tested it,
+code inspection suggests that the legacy VPN doesn't seem to care, and it sets
+its own states in execute() and such.
+
+Bug: 16495146
+Bug: 16495887
+Change-Id: Ie2a40aa1a8a173665d8b7aa9fab5ae6e800ba5fb
+

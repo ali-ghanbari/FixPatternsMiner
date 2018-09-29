@@ -1,0 +1,27 @@
+diff --git a/examples/booking/resources/import.sql b/examples/booking/resources/import.sql
+index b0b8d0a..47f1725 100644
+--- a/examples/booking/resources/import.sql
++++ b/examples/booking/resources/import.sql
+@@ -10 +9,0 @@
+-insert into Hotel (id, name, address, city, state, zip) values (7, 'W Hotel', 'Union Square, Manhattan', 'NY', 'NY', '10011')
+diff --git a/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java b/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java
+index 990ee28..c3fcead 100644
+--- a/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java
++++ b/examples/booking/src/org/jboss/seam/example/booking/HotelBookingAction.java
+@@ -69 +69 @@
+-      hotels = bookingDatabase.createQuery("from Hotel where lower(city) like :search or lower(zip) like :search or lower(address) like :search")
++      hotels = bookingDatabase.createQuery("from Hotel where lower(name) like :search or lower(city) like :search or lower(zip) like :search or lower(address) like :search")
+diff --git a/examples/booking/src/org/jboss/seam/example/booking/test/BookingTest.java b/examples/booking/src/org/jboss/seam/example/booking/test/BookingTest.java
+index f9c8855..d2282bb 100644
+--- a/examples/booking/src/org/jboss/seam/example/booking/test/BookingTest.java
++++ b/examples/booking/src/org/jboss/seam/example/booking/test/BookingTest.java
+@@ -47 +47 @@
+-            hotelBooking.setSearchString("NY");
++            hotelBooking.setSearchString("Union Square");
+@@ -63 +63 @@
+-            assert "NY".equals( hotelBooking.getSearchString() );
++            assert "Union Square".equals( hotelBooking.getSearchString() );
+@@ -85 +85 @@
+-            assert hotel.getZip().equals("11111");
++            assert hotel.getZip().equals("10011");
+

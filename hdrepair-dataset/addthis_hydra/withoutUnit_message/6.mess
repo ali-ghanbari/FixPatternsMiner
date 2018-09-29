@@ -1,0 +1,10 @@
+dereference raw bytes for deser of CMSUpperBound
+
+This halves the memory usage for the query system, and most importantly,
+brings it into line with what the query system is expecting it to be
+about the size of. It is possible that the "sketch" field should be set
+to null during "preEncode" but the query system doesn't do that, and it
+is less likely to matter. Therefore it is kept aside here.
+
+fixes T54623
+

@@ -1,0 +1,23 @@
+diff --git a/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/client/HudsonClientTest.java b/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/client/HudsonClientTest.java
+index 2da953e..d8f1651 100644
+--- a/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/client/HudsonClientTest.java
++++ b/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/client/HudsonClientTest.java
+@@ -24,0 +25 @@
++import org.eclipse.mylyn.internal.hudson.core.client.HudsonResourceNotFoundException;
+@@ -119,2 +120,6 @@
+-		HudsonModelBuild build = client.getBuild(job, BuildId.LAST.getBuild(), null);
+-		assertNull("Expected null, since " + PLAN_DISABLED + " was never built", build);
++		try {
++			HudsonModelBuild build = client.getBuild(job, BuildId.LAST.getBuild(), null);
++			fail("Expected HudsonResourceNotFoundException, since " + PLAN_DISABLED + " was never built, got: " + build);
++		} catch (HudsonResourceNotFoundException e) {
++			// expected
++		}
+diff --git a/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/support/HudsonFixture.java b/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/support/HudsonFixture.java
+index 0e61d20..cfe767f 100644
+--- a/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/support/HudsonFixture.java
++++ b/org.eclipse.mylyn.hudson.tests/src/org/eclipse/mylyn/hudson/tests/support/HudsonFixture.java
+@@ -42 +42 @@
+-	private static final HudsonFixture DEFAULT = new HudsonFixture(HUDSON_TEST_URL, "1.339", "REST");
++	private static final HudsonFixture DEFAULT = new HudsonFixture(HUDSON_TEST_URL, "1.367", "REST");
+

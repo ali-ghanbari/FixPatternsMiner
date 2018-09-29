@@ -1,0 +1,20 @@
+diff --git a/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/Oprofile.java b/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/Oprofile.java
+index a4f598b..7906d7d 100644
+--- a/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/Oprofile.java
++++ b/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/Oprofile.java
+@@ -88 +88 @@
+-			e.getStatus().getException();
++			OprofileCorePlugin.showErrorDialog("opcontrolProvider", e);
+diff --git a/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/oprofile.properties b/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/oprofile.properties
+index e64fbe8..58c3bba 100644
+--- a/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/oprofile.properties
++++ b/oprofile/org.eclipse.linuxtools.oprofile.core/src/org/eclipse/linuxtools/oprofile/core/oprofile.properties
+@@ -20,0 +21 @@
++opcontrolProvider.error.statusMessage=Could not find an OpcontrolProvider, or no opcontrol binary exists. Please ensure you have run the install script located in org.eclipse.linuxtools.oprofile.core/natives/linux/scripts/.
+@@ -22,2 +22,0 @@
+-opcontrolProvider.error.missing=Could not find an OpcontrolProvider, or no opcontrol binary exists. Please ensure you have run the install script located in org.eclipse.linuxtools.oprofile.core/natives/linux/.
+-opcontrolProvider.error.missing.binary=Could not find opcontrol binary
+@@ -25 +24 @@
+-opcontrolProvider.error.dialog.message=An error occurred running opcontrol.
++opcontrolProvider.error.dialog.message=FATAL: An error occurred running opcontrol.
+

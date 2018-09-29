@@ -1,0 +1,19 @@
+diff --git a/modules/grizzly/src/main/java/org/glassfish/grizzly/threadpool/ThreadPoolConfig.java b/modules/grizzly/src/main/java/org/glassfish/grizzly/threadpool/ThreadPoolConfig.java
+index 3b30044..0eacdfe 100644
+--- a/modules/grizzly/src/main/java/org/glassfish/grizzly/threadpool/ThreadPoolConfig.java
++++ b/modules/grizzly/src/main/java/org/glassfish/grizzly/threadpool/ThreadPoolConfig.java
+@@ -335 +335 @@
+-                + "  queue: " + queue.getClass() + "\r\n"
++                + "  queue: " + (queue != null ? queue.getClass() : "undefined") + "\r\n"
+diff --git a/modules/grizzly/src/test/java/org/glassfish/grizzly/GrizzlyExecutorServiceTest.java b/modules/grizzly/src/test/java/org/glassfish/grizzly/GrizzlyExecutorServiceTest.java
+index 4424bd6..724afcd 100644
+--- a/modules/grizzly/src/test/java/org/glassfish/grizzly/GrizzlyExecutorServiceTest.java
++++ b/modules/grizzly/src/test/java/org/glassfish/grizzly/GrizzlyExecutorServiceTest.java
+@@ -180,0 +181,6 @@
++    public void testThreadPoolConfig() throws Exception {
++        ThreadPoolConfig defaultThreadPool = ThreadPoolConfig.defaultConfig();
++        assertNotNull(defaultThreadPool);
++        assertNotNull(defaultThreadPool.toString());
++    }
++    
+

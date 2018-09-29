@@ -1,0 +1,8 @@
+diff --git a/jps/jps-builders/src/org/jetbrains/jps/incremental/CompileScopeImpl.java b/jps/jps-builders/src/org/jetbrains/jps/incremental/CompileScopeImpl.java
+index ed6dd2e..e261a0e 100644
+--- a/jps/jps-builders/src/org/jetbrains/jps/incremental/CompileScopeImpl.java
++++ b/jps/jps-builders/src/org/jetbrains/jps/incremental/CompileScopeImpl.java
+@@ -71 +71 @@
+-    return myTypesToForceBuild.contains(type) && myFiles.get(target) == null &&(myTypes.contains(type) || myTargets.contains(target) || isAffectedByAssociatedModule(target));
++    return myTypesToForceBuild.contains(type) && myFiles.isEmpty() && (myTypes.contains(type) || myTargets.contains(target) || isAffectedByAssociatedModule(target));
+

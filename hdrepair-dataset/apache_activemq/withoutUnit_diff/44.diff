@@ -1,0 +1,8 @@
+diff --git a/activemq-core/src/main/java/org/apache/activemq/store/kahadb/KahaDBStore.java b/activemq-core/src/main/java/org/apache/activemq/store/kahadb/KahaDBStore.java
+index eccf8a7..39ece7c 100644
+--- a/activemq-core/src/main/java/org/apache/activemq/store/kahadb/KahaDBStore.java
++++ b/activemq-core/src/main/java/org/apache/activemq/store/kahadb/KahaDBStore.java
+@@ -713 +713 @@
+-            command.setTransactionInfo(transactionIdTransformer.transform(ack.getTransactionId()));
++            command.setTransactionInfo(ack != null ? transactionIdTransformer.transform(ack.getTransactionId()) : null);
+

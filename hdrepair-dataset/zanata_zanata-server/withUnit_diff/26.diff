@@ -1,0 +1,22 @@
+diff --git a/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitListHandler.java b/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitListHandler.java
+index 360faef..9797db0 100755
+--- a/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitListHandler.java
++++ b/zanata-war/src/main/java/org/zanata/webtrans/server/rpc/GetTransUnitListHandler.java
+@@ -45,0 +46,2 @@
++import com.google.common.base.Strings;
++
+diff --git a/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationControllerTest.java b/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationControllerTest.java
+index 33cc371..0ee0816 100644
+--- a/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationControllerTest.java
++++ b/zanata-war/src/test/java/org/zanata/webtrans/client/service/NavigationControllerTest.java
+@@ -44,0 +45 @@
++import org.zanata.service.TextFlowSearchService;
+@@ -131,0 +133,2 @@
++   @Mock
++   private TextFlowSearchService textFlowSearchServiceImpl;
+@@ -184,0 +188 @@
++            .use("textFlowSearchServiceImpl", textFlowSearchServiceImpl)
+@@ -189 +193 @@
+-      when(textFlowDAO.getTransUnitList(documentId.getId())).thenReturn(hTextFlows);
++      when(textFlowDAO.getTextFlows(documentId.getId())).thenReturn(hTextFlows);
+

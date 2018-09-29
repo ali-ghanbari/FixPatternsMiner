@@ -1,0 +1,21 @@
+diff --git a/jdbm-store/src/main/java/org/apache/directory/server/core/partition/impl/btree/jdbm/JdbmTable.java b/jdbm-store/src/main/java/org/apache/directory/server/core/partition/impl/btree/jdbm/JdbmTable.java
+index 1136367..b691063 100644
+--- a/jdbm-store/src/main/java/org/apache/directory/server/core/partition/impl/btree/jdbm/JdbmTable.java
++++ b/jdbm-store/src/main/java/org/apache/directory/server/core/partition/impl/btree/jdbm/JdbmTable.java
+@@ -159 +159 @@
+-            bt = BTree.createInstance( recMan, keyComparator, keySerializer, valueSerializer );
++            bt = BTree.createInstance( recMan, keyComparator, keySerializer, null );
+diff --git a/jdbm-store/src/test/java/org/apache/directory/server/core/partition/impl/btree/jdbm/KeyTupleBTreeCursorTest.java b/jdbm-store/src/test/java/org/apache/directory/server/core/partition/impl/btree/jdbm/KeyTupleBTreeCursorTest.java
+index ff56b94..4195cc5 100644
+--- a/jdbm-store/src/test/java/org/apache/directory/server/core/partition/impl/btree/jdbm/KeyTupleBTreeCursorTest.java
++++ b/jdbm-store/src/test/java/org/apache/directory/server/core/partition/impl/btree/jdbm/KeyTupleBTreeCursorTest.java
+@@ -20,0 +21 @@
++
+@@ -43,0 +45 @@
++
+@@ -45 +46,0 @@
+- * 
+@@ -58 +59 @@
+-    private static final Integer KEY = new Integer( 1 );
++    private static final Integer KEY = 1;
+

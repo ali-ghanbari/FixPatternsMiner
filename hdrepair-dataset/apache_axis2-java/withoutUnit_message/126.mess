@@ -1,0 +1,19 @@
+Part of fix for AXIS2-1222 - WSDL2Java throws a StackOverflowError
+
+Now with this change, w2j is able to pick up the porttype from the original wsdl rather than the one in the abstract wsdl. Gets us past the unable to find MEP problem. Next step is to figure out why the policy is not found.
+
+Caused by: java.lang.RuntimeException: #X10-NoTimestamp_IPingService_policy can't be resolved
+        at org.apache.neethi.PolicyReference.normalize(PolicyReference.java:52)
+        at org.apache.axis2.description.PolicyInclude.calculatePolicy(PolicyInclude.java:166)
+        at org.apache.axis2.description.PolicyInclude.getPolicy(PolicyInclude.java:213)
+        at org.apache.axis2.description.PolicyInclude.calculateEffectivePolicy(PolicyInclude.java:204)
+        at org.apache.axis2.description.PolicyInclude.getEffectivePolicy(PolicyInclude.java:222)
+        at org.apache.axis2.description.PolicyInclude.calculateEffectivePolicy(PolicyInclude.java:188)
+        at org.apache.axis2.description.PolicyInclude.getEffectivePolicy(PolicyInclude.java:222)
+        at org.apache.axis2.wsdl.codegen.extension.PolicyEvaluator.engage(PolicyEvaluator.java:129)
+        at org.apache.axis2.wsdl.codegen.CodeGenerationEngine.generate(CodeGenerationEngine.java:177)
+
+
+
+git-svn-id: https://svn.apache.org/repos/asf/webservices/axis2/trunk/java@450499 13f79535-47bb-0310-9956-ffa450edef68
+

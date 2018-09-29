@@ -1,0 +1,29 @@
+diff --git a/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/UnnecessaryAnnotationParentheses.java b/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/UnnecessaryAnnotationParentheses.java
+index 3b5fddd..435f3ef 100644
+--- a/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/UnnecessaryAnnotationParentheses.java
++++ b/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/UnnecessaryAnnotationParentheses.java
+@@ -7 +7 @@
+-    @NotNull()
++    @Deprecated()
+diff --git a/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/expected.xml b/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/expected.xml
+index e8f00e8..405af64 100644
+--- a/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/expected.xml
++++ b/plugins/InspectionGadgets/test/com/siyeh/igtest/style/unnecessary_annotation_parentheses/expected.xml
+@@ -3 +3,6 @@
+-
++  <problem>
++    <file>UnnecessaryAnnotationParentheses.java</file>
++    <line>7</line>
++    <problem_class severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Unnecessary annotation parentheses</problem_class>
++    <description>&lt;code&gt;()&lt;/code&gt; has unnecessary parentheses #loc</description>
++  </problem>
+diff --git a/plugins/InspectionGadgets/testsrc/com/siyeh/ig/style/UnnecessaryAnnotationParenthesesInspectionTest.java b/plugins/InspectionGadgets/testsrc/com/siyeh/ig/style/UnnecessaryAnnotationParenthesesInspectionTest.java
+index 592a3b1..9a41f42 100644
+--- a/plugins/InspectionGadgets/testsrc/com/siyeh/ig/style/UnnecessaryAnnotationParenthesesInspectionTest.java
++++ b/plugins/InspectionGadgets/testsrc/com/siyeh/ig/style/UnnecessaryAnnotationParenthesesInspectionTest.java
+@@ -8,2 +8,2 @@
+-        //doTest("com/siyeh/igtest/style/unnecessary_annotation_parentheses",
+-        //        new UnnecessaryAnnotationParenthesesInspection());
++        doTest("com/siyeh/igtest/style/unnecessary_annotation_parentheses",
++                new UnnecessaryAnnotationParenthesesInspection());
+

@@ -1,0 +1,19 @@
+diff --git a/enzyme-portal/mega-mapper/src/changes/changes.xml b/enzyme-portal/mega-mapper/src/changes/changes.xml
+index bb87b89..77ef36d 100644
+--- a/enzyme-portal/mega-mapper/src/changes/changes.xml
++++ b/enzyme-portal/mega-mapper/src/changes/changes.xml
+@@ -12,0 +13,7 @@
++	<release version="1.0.7" date=""
++		description="Bug fix.">
++		<action dev="rafalcan" type="fix">
++            Organism common name is reset after every UniProt entry (it wasn't,
++            which resulted in many species having 'Human' as common name.
++		</action>
++    </release>
+diff --git a/enzyme-portal/mega-mapper/src/main/java/uk/ac/ebi/ep/mm/app/UniprotSaxParser.java b/enzyme-portal/mega-mapper/src/main/java/uk/ac/ebi/ep/mm/app/UniprotSaxParser.java
+index 5786a84..752642b 100644
+--- a/enzyme-portal/mega-mapper/src/main/java/uk/ac/ebi/ep/mm/app/UniprotSaxParser.java
++++ b/enzyme-portal/mega-mapper/src/main/java/uk/ac/ebi/ep/mm/app/UniprotSaxParser.java
+@@ -346,0 +347 @@
++            orgComName = null;
+

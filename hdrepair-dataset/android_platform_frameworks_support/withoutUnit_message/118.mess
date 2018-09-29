@@ -1,0 +1,12 @@
+fix default background is lost when transition back.
+
+Both Browse and Detail activity shared the same theme
+drawable.  When pops Detail activity,  transition fades out
+window background of Detail activity which sets alpha to 0
+on theme drawable.
+
+Fix is to having each window manager maintain a different
+drawable state for theme drawable.
+
+Change-Id: I5c9556befca5f46099e74ec9abd8aa50415e1e85
+

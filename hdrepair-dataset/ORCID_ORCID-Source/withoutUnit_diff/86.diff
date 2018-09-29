@@ -1,0 +1,35 @@
+diff --git a/orcid-web/src/main/java/org/orcid/frontend/web/controllers/RegistrationController.java b/orcid-web/src/main/java/org/orcid/frontend/web/controllers/RegistrationController.java
+index 0b501a6..39c5e36 100644
+--- a/orcid-web/src/main/java/org/orcid/frontend/web/controllers/RegistrationController.java
++++ b/orcid-web/src/main/java/org/orcid/frontend/web/controllers/RegistrationController.java
+@@ -740,0 +741 @@
++        claim.setErrors(new ArrayList<String>());
+diff --git a/orcid-web/src/main/resources/freemarker/claim.ftl b/orcid-web/src/main/resources/freemarker/claim.ftl
+index 4135b53..d56ac2c 100644
+--- a/orcid-web/src/main/resources/freemarker/claim.ftl
++++ b/orcid-web/src/main/resources/freemarker/claim.ftl
+@@ -24 +24 @@
+-<h2>${springMacroRequestContext.getMessage("claim.claimyourrecord")}</h2>
++		<h2>${springMacroRequestContext.getMessage("claim.claimyourrecord")}</h2>
+@@ -103,0 +104,3 @@
++		                      <span ng-show="postingClaim" ng-cloak>
++		                      	<i class="icon-spinner icon-2x icon-spin  green"></i>
++		                      </span>
+diff --git a/orcid-web/src/main/webapp/static/javascript/angularOrcid.js b/orcid-web/src/main/webapp/static/javascript/angularOrcid.js
+index c873d42..3250356 100755
+--- a/orcid-web/src/main/webapp/static/javascript/angularOrcid.js
++++ b/orcid-web/src/main/webapp/static/javascript/angularOrcid.js
+@@ -713,0 +714 @@
++	$scope.postingClaim = false;
+@@ -728,0 +730,2 @@
++		if ($scope.postingClaim) return;
++		$scope.postingClaim = true;
+@@ -737 +740 @@
+-	        	$scope.$apply();
++	        	
+@@ -743,0 +747,2 @@
++	        	$scope.postingClaim = false;
++	        	$scope.$apply();
+@@ -747,0 +753 @@
++	    	$scope.postingClaim = false;
+

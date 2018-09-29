@@ -1,0 +1,19 @@
+Re-enable ActionMenuPresenter view recycling
+
+Since action bar transitions are turned off again for now, re-enabling
+item view recycling fixes an unfortunate regression with submenus.
+
+If a menu view is invalidated while a submenu is open we need to keep
+its anchor consistent. With view recycling active we preserve status
+quo and the previous anchor view instance for the popup window remains
+in place.
+
+In the future this will need to get more sophisticated;
+ActionMenuPresenter will need to re-parent an open submenu against the
+proper anchor view by menu item id. But that is a change for another
+day.
+
+Bug 11174504
+
+Change-Id: I7e8a444f6996ec95417d20e87938f496e9c3a4dd
+

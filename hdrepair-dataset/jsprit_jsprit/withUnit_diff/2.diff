@@ -1,0 +1,41 @@
+diff --git a/jsprit-core/src/main/java/jsprit/core/problem/Skills.java b/jsprit-core/src/main/java/jsprit/core/problem/Skills.java
+index 3614257..fcee453 100644
+--- a/jsprit-core/src/main/java/jsprit/core/problem/Skills.java
++++ b/jsprit-core/src/main/java/jsprit/core/problem/Skills.java
+@@ -61 +61 @@
+-            for(String skill : skills) this.skills.add(skill);
++            for(String skill : skills) addSkill(skill);
+diff --git a/jsprit-core/src/test/java/jsprit/core/problem/SkillsTest.java b/jsprit-core/src/test/java/jsprit/core/problem/SkillsTest.java
+index 38628a8..88f87d5 100644
+--- a/jsprit-core/src/test/java/jsprit/core/problem/SkillsTest.java
++++ b/jsprit-core/src/test/java/jsprit/core/problem/SkillsTest.java
+@@ -29,0 +30,7 @@
++    public void whenSkillsAddedCaseInsensitive2_theyShouldBeinSkillSet(){
++        Skills skills = Skills.Builder.newInstance().addSkill("Skill1").addSkill("skill2").build();
++        assertTrue(skills.containsSkill("skilL1"));
++        assertTrue(skills.containsSkill("skIll2"));
++    }
++
++    @Test
+@@ -38,0 +46,20 @@
++    @Test
++    public void whenSkillsAddedThroughAddAllCaseInsensitive_theyShouldBeinSkillSet(){
++        Set<String> skillSet = new HashSet<String>();
++        skillSet.add("skill1");
++        skillSet.add("skill2");
++        Skills skills = Skills.Builder.newInstance().addAllSkills(skillSet).build();
++        assertTrue(skills.containsSkill("skilL1"));
++        assertTrue(skills.containsSkill("skill2"));
++    }
++
++    @Test
++    public void whenSkillsAddedThroughAddAllCaseInsensitive2_theyShouldBeinSkillSet(){
++        Set<String> skillSet = new HashSet<String>();
++        skillSet.add("skill1");
++        skillSet.add("Skill2");
++        Skills skills = Skills.Builder.newInstance().addAllSkills(skillSet).build();
++        assertTrue(skills.containsSkill("skill1"));
++        assertTrue(skills.containsSkill("skill2"));
++    }
++
+

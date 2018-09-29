@@ -1,0 +1,80 @@
+diff --git a/pax-url-bnd/src/main/java/org/ops4j/pax/url/bnd/BndUtils.java b/pax-url-bnd/src/main/java/org/ops4j/pax/url/bnd/BndUtils.java
+index c9f2159..a3c945b 100644
+--- a/pax-url-bnd/src/main/java/org/ops4j/pax/url/bnd/BndUtils.java
++++ b/pax-url-bnd/src/main/java/org/ops4j/pax/url/bnd/BndUtils.java
+@@ -56 +56 @@
+-        Pattern.compile( "([a-zA-Z_0-9-]+)=([-!\"'()*+,.0-9A-Z_a-z%]+)" );
++        Pattern.compile( "([a-zA-Z_0-9-]+)=([-!\"'()*+,.0-9A-Z_a-z%;=]+)" );
+diff --git a/pax-url-bnd/src/test/java/org/ops4j/pax/url/bnd/BndUtilsTest.java b/pax-url-bnd/src/test/java/org/ops4j/pax/url/bnd/BndUtilsTest.java
+new file mode 100644
+index 0000000..4aff947
+--- /dev/null
++++ b/pax-url-bnd/src/test/java/org/ops4j/pax/url/bnd/BndUtilsTest.java
+@@ -0,0 +1,66 @@
++package org.ops4j.pax.url.bnd;
++
++import java.io.IOException;
++import java.net.MalformedURLException;
++import java.util.Properties;
++import org.junit.Test;
++import static org.junit.Assert.*;
++
++/**
++ * @author Toni Menzel (tonit)
++ * @since Jan 13, 2009
++ */
++public class BndUtilsTest
++{
++
++    @Test
++    public void emptyInstructionTest()
++        throws MalformedURLException
++
++    {
++        Properties p = BndUtils.parseInstructions( "" );
++        assertEquals( 0, p.size() );
++
++    }
++
++    @Test
++    public void oneInstructionTest()
++        throws MalformedURLException
++
++    {
++        Properties p = BndUtils.parseInstructions( "foo=bar" );
++        assertEquals( "bar", p.getProperty( "foo" ) );
++    }
++
++    @Test
++    public void multipleSimpleInstructionTest()
++        throws MalformedURLException
++
++    {
++        Properties p = BndUtils.parseInstructions( "foo=bar&sing=sang&cheese=bacon" );
++        assertEquals( "bar", p.getProperty( "foo" ) );
++        assertEquals( "sang", p.getProperty( "sing" ) );
++        assertEquals( "bacon", p.getProperty( "cheese" ) );
++
++    }
++
++    @Test
++    public void complexOneInstructionTest()
++        throws MalformedURLException
++
++    {
++        Properties p = BndUtils.parseInstructions( "Export-Package=*;version=\"2.4.0\"" );
++        assertEquals( "*;version=\"2.4.0\"", p.getProperty( "Export-Package" ) );
++    }
++
++    @Test
++    public void complexManyInstructionTest()
++        throws MalformedURLException
++
++    {
++        Properties p = BndUtils.parseInstructions( "Export-Package=*;version=\"2.4.0\"&sec=two" );
++        assertEquals( "*;version=\"2.4.0\"", p.getProperty( "Export-Package" ) );
++        assertEquals( "two", p.getProperty( "sec" ) );
++    }
++
++}
+

@@ -1,0 +1,138 @@
+diff --git a/sonar-core/src/main/java/org/sonar/core/properties/PropertiesDao.java b/sonar-core/src/main/java/org/sonar/core/properties/PropertiesDao.java
+index 7dfab47..a496d82 100644
+--- a/sonar-core/src/main/java/org/sonar/core/properties/PropertiesDao.java
++++ b/sonar-core/src/main/java/org/sonar/core/properties/PropertiesDao.java
+@@ -125 +124,0 @@
+-      session.commit();//required for postgresql bulk inserts (?)
+diff --git a/sonar-core/src/test/java/org/sonar/core/properties/PropertiesDaoTest.java b/sonar-core/src/test/java/org/sonar/core/properties/PropertiesDaoTest.java
+index 6fef82d..6e7ad7f 100644
+--- a/sonar-core/src/test/java/org/sonar/core/properties/PropertiesDaoTest.java
++++ b/sonar-core/src/test/java/org/sonar/core/properties/PropertiesDaoTest.java
+@@ -22 +22 @@
+-import com.google.common.collect.Maps;
++import com.google.common.collect.ImmutableMap;
+@@ -28 +27,0 @@
+-import java.util.TreeMap;
+@@ -119,2 +118,2 @@
+-  public void saveGlobalProperties() {
+-    setupData("saveGlobalProperties");
++  public void insertGlobalProperties() {
++    setupData("insertGlobalProperties");
+@@ -122,4 +121 @@
+-    TreeMap<String, String> props = Maps.newTreeMap();
+-    props.put("to_be_inserted", "inserted");
+-    props.put("to_be_updated", "updated");
+-    dao.saveGlobalProperties(props);
++    dao.saveGlobalProperties(ImmutableMap.of("to_be_inserted", "inserted"));
+@@ -127 +123,10 @@
+-    checkTable("saveGlobalProperties", "properties", "prop_key", "text_value", "resource_id", "user_id");
++    checkTable("insertGlobalProperties", "properties", "prop_key", "text_value", "resource_id", "user_id");
++  }
++
++  @Test
++  public void updateGlobalProperties() {
++    setupData("updateGlobalProperties");
++
++    dao.saveGlobalProperties(ImmutableMap.of("to_be_updated", "updated"));
++
++    checkTable("updateGlobalProperties", "properties", "prop_key", "text_value", "resource_id", "user_id");
+diff --git a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/insertGlobalProperties-result.xml b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/insertGlobalProperties-result.xml
+new file mode 100644
+index 0000000..5594180
+--- /dev/null
++++ b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/insertGlobalProperties-result.xml
+@@ -0,0 +1,5 @@
++<dataset>
++
++  <properties prop_key="to_be_inserted" text_value="inserted" resource_id="[null]" user_id="[null]"/>
++
++</dataset>
+\ No newline at end of file
+diff --git a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/insertGlobalProperties.xml b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/insertGlobalProperties.xml
+new file mode 100644
+index 0000000..871dedc
+--- /dev/null
++++ b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/insertGlobalProperties.xml
+@@ -0,0 +1,3 @@
++<dataset>
++
++</dataset>
+diff --git a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/saveGlobalProperties-result.xml b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/saveGlobalProperties-result.xml
+deleted file mode 100644
+index f12984a..0000000
+--- a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/saveGlobalProperties-result.xml
++++ /dev/null
+@@ -1,18 +0,0 @@
+-<dataset>
+-
+-  <!-- global -->
+-  <!--<properties id="1" prop_key="to_be_updated" text_value="old value" resource_id="[null]" user_id="[null]"/>-->
+-  <properties id="2" prop_key="to_not_change" text_value="xxx" resource_id="[null]" user_id="[null]"/>
+-
+-  <!-- project - do not update this project property that has the same key -->
+-  <properties id="3" prop_key="to_be_updated" text_value="new_project" resource_id="10" user_id="[null]"/>
+-
+-  <!-- user -->
+-  <properties id="4" prop_key="user.key" text_value="new_user" resource_id="[null]" user_id="100"/>
+-
+-
+-  <properties id="5" prop_key="to_be_inserted" text_value="inserted" resource_id="[null]" user_id="[null]"/>
+-  <properties id="6" prop_key="to_be_updated" text_value="updated" resource_id="[null]" user_id="[null]"/>
+-
+-
+-</dataset>
+\ No newline at end of file
+diff --git a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/saveGlobalProperties.xml b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/saveGlobalProperties.xml
+deleted file mode 100644
+index b0fa0be..0000000
+--- a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/saveGlobalProperties.xml
++++ /dev/null
+@@ -1,13 +0,0 @@
+-<dataset>
+-
+-  <!-- global -->
+-  <properties id="1" prop_key="to_be_updated" text_value="old value" resource_id="[null]" user_id="[null]"/>
+-  <properties id="2" prop_key="to_not_change" text_value="xxx" resource_id="[null]" user_id="[null]"/>
+-
+-  <!-- project - do not update this project property that has the same key -->
+-  <properties id="3" prop_key="to_be_updated" text_value="new_project" resource_id="10" user_id="[null]"/>
+-
+-  <!-- user -->
+-  <properties id="4" prop_key="user.key" text_value="new_user" resource_id="[null]" user_id="100"/>
+-
+-</dataset>
+diff --git a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/updateGlobalProperties-result.xml b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/updateGlobalProperties-result.xml
+new file mode 100644
+index 0000000..c873ec3
+--- /dev/null
++++ b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/updateGlobalProperties-result.xml
+@@ -0,0 +1,12 @@
++<dataset>
++
++  <!-- global -->
++  <!--<properties prop_key="to_be_updated" text_value="old value" resource_id="[null]" user_id="[null]"/>-->
++  <properties prop_key="to_not_change" text_value="xxx" resource_id="[null]" user_id="[null]"/>
++
++  <!-- project - do not update this project property that has the same key -->
++  <properties prop_key="to_be_updated" text_value="new_project" resource_id="10" user_id="[null]"/>
++
++
++  <properties prop_key="to_be_updated" text_value="updated" resource_id="[null]" user_id="[null]"/>
++</dataset>
+diff --git a/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/updateGlobalProperties.xml b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/updateGlobalProperties.xml
+new file mode 100644
+index 0000000..43cdd8c
+--- /dev/null
++++ b/sonar-core/src/test/resources/org/sonar/core/properties/PropertiesDaoTest/updateGlobalProperties.xml
+@@ -0,0 +1,10 @@
++<dataset>
++
++  <!-- global -->
++  <properties id="1" prop_key="to_be_updated" text_value="old value" resource_id="[null]" user_id="[null]"/>
++  <properties id="2" prop_key="to_not_change" text_value="xxx" resource_id="[null]" user_id="[null]"/>
++
++  <!-- project - do not update this project property that has the same key -->
++  <properties id="3" prop_key="to_be_updated" text_value="new_project" resource_id="10" user_id="[null]"/>
++
++</dataset>
+

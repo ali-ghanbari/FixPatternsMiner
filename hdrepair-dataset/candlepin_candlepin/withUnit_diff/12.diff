@@ -1,0 +1,16 @@
+diff --git a/proxy/src/main/java/org/candlepin/resource/ConsumerResource.java b/proxy/src/main/java/org/candlepin/resource/ConsumerResource.java
+index 77b9ed2..099664e 100644
+--- a/proxy/src/main/java/org/candlepin/resource/ConsumerResource.java
++++ b/proxy/src/main/java/org/candlepin/resource/ConsumerResource.java
+@@ -260 +260 @@
+-            if (expire.compareTo(futureExpire) < 0) {
++            if (expire.before(futureExpire)) {
+diff --git a/proxy/src/test/java/org/candlepin/resource/test/ConsumerResourceTest.java b/proxy/src/test/java/org/candlepin/resource/test/ConsumerResourceTest.java
+index 648136a..2388750 100644
+--- a/proxy/src/test/java/org/candlepin/resource/test/ConsumerResourceTest.java
++++ b/proxy/src/test/java/org/candlepin/resource/test/ConsumerResourceTest.java
+@@ -74,0 +75 @@
++import java.util.ArrayList;
+@@ -88 +88,0 @@
+-    private Config config;
+

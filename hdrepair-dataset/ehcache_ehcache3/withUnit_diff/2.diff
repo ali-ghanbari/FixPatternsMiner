@@ -1,0 +1,133 @@
+diff --git a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreCloseTest.java b/core-spi-test/src/main/java/org/ehcache/internal/store/StoreCloseTest.java
+index ed9cff3..fc03c61 100644
+--- a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreCloseTest.java
++++ b/core-spi-test/src/main/java/org/ehcache/internal/store/StoreCloseTest.java
+@@ -22,0 +23,3 @@
++import org.hamcrest.Matchers;
++
++import static org.hamcrest.MatcherAssert.assertThat;
+@@ -44,2 +46,0 @@
+-    kvStore.close();
+-
+@@ -49,0 +51,9 @@
++
++    kvStore.close();
++
++    try {
++      assertThat(kvStore.containsKey(key), Matchers.is(false));
++    } catch (Exception e) {
++      System.err.println("An exception is thrown, This might happen since the store is closed.");
++      e.printStackTrace();
++    }
+diff --git a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreDestroyTest.java b/core-spi-test/src/main/java/org/ehcache/internal/store/StoreDestroyTest.java
+index f1ed1c0..dab3175 100644
+--- a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreDestroyTest.java
++++ b/core-spi-test/src/main/java/org/ehcache/internal/store/StoreDestroyTest.java
+@@ -59 +59,6 @@
+-    assertThat(kvStore.containsKey(key), is(false));
++    try {
++      assertThat(kvStore.containsKey(key), is(false));
++    } catch (Exception e) {
++      System.err.println("An exception is thrown, This might happen since the store is destroyed.");
++      e.printStackTrace();
++    }
+diff --git a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreProviderReleaseStoreTest.java b/core-spi-test/src/main/java/org/ehcache/internal/store/StoreProviderReleaseStoreTest.java
+deleted file mode 100644
+index 2bfd213..0000000
+--- a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreProviderReleaseStoreTest.java
++++ /dev/null
+@@ -1,45 +0,0 @@
+-/*
+- * Copyright Terracotta, Inc.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package org.ehcache.internal.store;
+-
+-import org.ehcache.spi.cache.Store;
+-import org.ehcache.spi.test.SPITest;
+-
+-/**
+- * Test the {@link org.ehcache.spi.cache.Store.Provider#releaseStore(org.ehcache.spi.cache.Store)} contract of the
+- * {@link org.ehcache.spi.cache.Store.Provider Store.Provider} interface.
+- * <p/>
+- *
+- * @author Aurelien Broszniowski
+- */
+-
+-public class StoreProviderReleaseStoreTest<K, V> extends SPIStoreTester<K, V> {
+-
+-  public StoreProviderReleaseStoreTest(final StoreFactory<K, V> factory) {
+-    super(factory);
+-  }
+-
+-  @SPITest
+-  public void releaseStore() throws IllegalAccessException, InstantiationException {
+-    Store.Provider provider = factory.newProvider();
+-
+-    Store.Configuration<K, V> storeConfig = factory.newConfiguration(factory.getKeyType(), factory.getValueType(), null, null, null);
+-    Store<K, V> store = provider.createStore(storeConfig, factory.getServiceConfigurations());
+-
+-    provider.releaseStore(store);
+-  }
+-}
+diff --git a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreSPITest.java b/core-spi-test/src/main/java/org/ehcache/internal/store/StoreSPITest.java
+index 038d7d2..ac8168f 100644
+--- a/core-spi-test/src/main/java/org/ehcache/internal/store/StoreSPITest.java
++++ b/core-spi-test/src/main/java/org/ehcache/internal/store/StoreSPITest.java
+@@ -27 +27 @@
+-  
++
+@@ -33 +33 @@
+-  
++
+@@ -39 +39 @@
+-  
++
+@@ -150,7 +149,0 @@
+-    testSuite.runTestSuite().reportAndThrow();
+-  }
+-
+-  @Test
+-  public void testProviderReleaseStore() throws Exception {
+-    StoreProviderReleaseStoreTest<K, V> testSuite =
+-      new StoreProviderReleaseStoreTest<K, V>(getStoreFactory());
+diff --git a/core/src/main/java/org/ehcache/spi/cache/Store.java b/core/src/main/java/org/ehcache/spi/cache/Store.java
+index 071b292..0b0aca1 100644
+--- a/core/src/main/java/org/ehcache/spi/cache/Store.java
++++ b/core/src/main/java/org/ehcache/spi/cache/Store.java
+@@ -214 +214 @@
+-   * The instance can't be used any further upon the method returning.
++   * The instance should not be used any further upon the method returning.
+diff --git a/impl/src/test/java/org/ehcache/internal/store/disk/DiskStoreSPITest.java b/impl/src/test/java/org/ehcache/internal/store/disk/DiskStoreSPITest.java
+index 5518571..ac84068 100755
+--- a/impl/src/test/java/org/ehcache/internal/store/disk/DiskStoreSPITest.java
++++ b/impl/src/test/java/org/ehcache/internal/store/disk/DiskStoreSPITest.java
+@@ -32,0 +33 @@
++import org.junit.Test;
+@@ -127,5 +127,0 @@
+-  public void testClose() throws Exception {
+-    throw new AssumptionViolatedException("disabled - SPITest bug or SPI is unclear");
+-  }
+-
+-  @Override
+@@ -133,6 +129 @@
+-    throw new AssumptionViolatedException("disabled - SPITest bug or SPI is unclear");
+-  }
+-
+-  @Override
+-  public void testProviderReleaseStore() throws Exception {
+-    throw new AssumptionViolatedException("disabled - SPITest bug or SPI is unclear");
++    throw new AssumptionViolatedException("disabled - SPITest bug");
+

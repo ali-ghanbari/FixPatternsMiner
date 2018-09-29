@@ -1,0 +1,9 @@
+engine: watchdog device fix
+
+After Icada39e3918fb053cb0ad0388178ccf5c6338ca2 the engine was trying to
+send VmDeviceGeneralType through xmlrpc to vdsm in case the VM has a
+watchdog device at VM startup. This patch changes it to string.
+
+Change-Id: Iac0471d994c9aa9e8886f77185f13986cdab0edd
+Signed-off-by: Laszlo Hornyak <lhornyak@redhat.com>
+

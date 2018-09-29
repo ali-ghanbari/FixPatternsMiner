@@ -1,0 +1,8 @@
+ISPN-4484 fix caused unnecessary InterruptedExceptions
+
+When state transfer is over, the response to the last StateResponseCommand
+could reach the provider node after the CH_UPDATE from the coordinator.
+
+If that happens, no data is lost, but the OutboundTransferTask thread is
+interrupted and it logs the InterruptedException stack trace.
+

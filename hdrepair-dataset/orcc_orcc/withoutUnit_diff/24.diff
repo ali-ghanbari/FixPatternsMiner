@@ -1,0 +1,148 @@
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CBackend.java b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CBackend.java
+index 1fc939c..af98229 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CBackend.java
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CBackend.java
+@@ -347 +347 @@
+-		return new InstancePrinter(instance, options).printInstance(srcPath);
++		return new InstancePrinter(instance, options).printInstance(srcPath) > 0;
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CTemplate.xtend b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CTemplate.xtend
+index 82b9b8e..bce88c4 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CTemplate.xtend
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/CTemplate.xtend
+@@ -40,0 +41,2 @@
++import net.sf.orcc.ir.Var
++import net.sf.orcc.util.Attributable
+@@ -54,5 +56,3 @@
+-	/******************************************
+-	 * 
+-	 * Expressions
+-	 *
+-	 *****************************************/
++	/////////////////////////////////
++	// Expressions
++	/////////////////////////////////
+@@ -62,5 +62,3 @@
+-	/******************************************
+-	 * 
+-	 * Types
+-	 *
+-	 *****************************************/
++	/////////////////////////////////
++	// Types
++	/////////////////////////////////
+@@ -92,5 +90,14 @@
+-	/******************************************
+-	 * 
+-	 * Helpers
+-	 *
+-	 *****************************************/
++	def declare(Var variable)
++		'''«variable.type.doSwitch» «variable.indexedName»«variable.type.dimensionsExpr.printArrayIndexes»'''
++	
++	
++	/////////////////////////////////
++	// Helpers
++	/////////////////////////////////
++	
++	 /**
++	  * Print for a type, the corresponding formatted text to
++	  * use inside a printf() call.
++	  * @param type the type to print
++	  * @return printf() type format
++	  */
+@@ -109,0 +117,15 @@
++	
++	/**
++	 * Print attributes objectValues list as a comment (preceded by '//')
++	 * for an Attributable object
++	 * @param object the object
++	 * @return comment block
++	 */
++	def printAttributes(Attributable object) '''
++		«IF false && ! object.attributes.empty»
++			//Attributes for «object.toString» :
++			«FOR attr : object.attributes»
++				// - «attr.name» = «attr.objectValue»
++			«ENDFOR»
++		«ENDIF»
++	'''
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/InstancePrinter.xtend b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/InstancePrinter.xtend
+index 605e582..d713a91 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/InstancePrinter.xtend
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/InstancePrinter.xtend
+@@ -30,2 +30,2 @@
+-import static net.sf.orcc.backends.OrccBackendsConstants.*
+-import static net.sf.orcc.OrccLaunchConstants.*
++
++import java.io.File
+@@ -59 +58,0 @@
+-import net.sf.orcc.util.Attributable
+@@ -61 +59,0 @@
+-import java.io.File
+@@ -63,2 +61,5 @@
+-/*
+- * Compile Instance c source code
++import static net.sf.orcc.OrccLaunchConstants.*
++import static net.sf.orcc.backends.OrccBackendsConstants.*
++
++/**
++ * Generate and print instance source file for C backend.
+@@ -137 +138,2 @@
+-	 * 
++	 * @param targetFolder folder to print the instance file
++	 * @return 1 if file was cached, 0 if file was printed
+@@ -145 +147 @@
+-			return false
++			return 0
+@@ -147 +149 @@
+-			return true
++			return 1
+@@ -680,2 +681,0 @@
+-	def declare(Var variable)
+-		'''«variable.type.doSwitch» «variable.indexedName»«variable.type.dimensionsExpr.printArrayIndexes»'''
+@@ -683,9 +682,0 @@
+-	
+-	def printAttributes(Attributable object) '''
+-		«IF false && ! object.attributes.empty»
+-			//Attributes for «object.toString» :
+-			«FOR attr : object.attributes»
+-				//«attr.name» = «attr.objectValue»
+-			«ENDFOR»
+-		«ENDIF»
+-	'''
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/NetworkPrinter.xtend b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/NetworkPrinter.xtend
+index 0132c6d..941cd3e 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/NetworkPrinter.xtend
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/c/NetworkPrinter.xtend
+@@ -45 +45 @@
+- * Compile top Network c source code 
++ * Generate and print network source file for C backend.
+@@ -94,0 +95,5 @@
++	/**
++	 * Print file content for the network
++	 * @param targetFolder folder to print the network file
++	 * @return 1 if file was cached, 0 if file was printed
++	 */
+diff --git a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/util/CommonPrinter.xtend b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/util/CommonPrinter.xtend
+index 1f934c9..1d2273e 100644
+--- a/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/util/CommonPrinter.xtend
++++ b/eclipse/plugins/net.sf.orcc.backends/src/net/sf/orcc/backends/util/CommonPrinter.xtend
+@@ -54 +54 @@
+-	def printArrayIndexes(List<Expression> exprList) {
++	def protected printArrayIndexes(List<Expression> exprList) {
+@@ -61 +61 @@
+-	def wrap(CharSequence charSeq, int n) {
++	def protected wrap(CharSequence charSeq, int n) {
+@@ -65 +65 @@
+-	def wrap(CharSequence charSeq) {
++	def protected wrap(CharSequence charSeq) {
+@@ -93 +93 @@
+-	def hash(File file) {
++	def protected hash(File file) {
+@@ -131 +131 @@
+-	def needToWriteFile(CharSequence content, File target) {
++	def protected needToWriteFile(CharSequence content, File target) {
+@@ -146 +146 @@
+-	def printFile(CharSequence content, File target) {
++	def protected printFile(CharSequence content, File target) {
+

@@ -1,0 +1,29 @@
+diff --git a/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoDbFacadeImpl.java b/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoDbFacadeImpl.java
+index 4868664..b6a0932 100644
+--- a/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoDbFacadeImpl.java
++++ b/backend/manager/modules/dal/src/main/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoDbFacadeImpl.java
+@@ -25,0 +26 @@
++        setProcedureNameForRemove("DeleteGlusterVolumeBrick");
+diff --git a/backend/manager/modules/dal/src/test/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoTest.java b/backend/manager/modules/dal/src/test/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoTest.java
+index fce410e..c1650ec 100644
+--- a/backend/manager/modules/dal/src/test/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoTest.java
++++ b/backend/manager/modules/dal/src/test/java/org/ovirt/engine/core/dao/gluster/GlusterBrickDaoTest.java
+@@ -184,0 +185,17 @@
++    public void testRemoveBricksInBatch() {
++        GlusterBrickEntity existingBrick1 = dao.getById(FixturesTool.GLUSTER_BRICK_UUID1);
++        GlusterBrickEntity existingBrick2 = dao.getById(FixturesTool.GLUSTER_BRICK_UUID2);
++
++        List<GlusterBrickEntity> bricks = new ArrayList<>();
++        bricks.add(existingBrick1);
++        bricks.add(existingBrick2);
++
++        dao.removeAllInBatch(bricks);
++
++        GlusterBrickEntity newEnity1 = dao.getById(FixturesTool.GLUSTER_BRICK_UUID1);
++        GlusterBrickEntity newEnity2 = dao.getById(FixturesTool.GLUSTER_BRICK_UUID2);
++        assertNull(newEnity1);
++        assertNull(newEnity2);
++    }
++
++    @Test
+

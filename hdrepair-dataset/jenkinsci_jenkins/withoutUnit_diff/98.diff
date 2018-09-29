@@ -1,0 +1,32 @@
+diff --git a/changelog.html b/changelog.html
+index 44cbc79..014dc3e 100644
+--- a/changelog.html
++++ b/changelog.html
+@@ -58 +58,3 @@
+-  <li class=>
++  <li class=bug>
++    Fixed the OutOfMemoryError in trying to download/install JDK
++    (<a href="https://issues.jenkins-ci.org/browse/JENKINS-10689">issue 10689</a>)
+diff --git a/core/pom.xml b/core/pom.xml
+index 0133164..14f4eb4 100644
+--- a/core/pom.xml
++++ b/core/pom.xml
+@@ -160 +160 @@
+-      <version>2.6-jenkins-4</version>
++      <version>2.6-jenkins-5</version>
+diff --git a/core/src/main/java/hudson/tools/JDKInstaller.java b/core/src/main/java/hudson/tools/JDKInstaller.java
+index c58b45d..e013508 100644
+--- a/core/src/main/java/hudson/tools/JDKInstaller.java
++++ b/core/src/main/java/hudson/tools/JDKInstaller.java
+@@ -396,3 +395,0 @@
+-        // TODO: there's awful inefficiency in htmlunit where it loads the whole binary into one big byte array.
+-        // needs to modify it to use temporary file or something
+-
+diff --git a/test/pom.xml b/test/pom.xml
+index 4b52897..dcd057f 100644
+--- a/test/pom.xml
++++ b/test/pom.xml
+@@ -103 +103 @@
+-      <version>2.6-jenkins-4</version>
++      <version>2.6-jenkins-5</version>
+

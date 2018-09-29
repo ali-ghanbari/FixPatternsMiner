@@ -1,0 +1,8 @@
+diff --git a/src/main/org/apache/tools/ant/taskdefs/HostInfo.java b/src/main/org/apache/tools/ant/taskdefs/HostInfo.java
+index 1a0deb8..0a15de7 100644
+--- a/src/main/org/apache/tools/ant/taskdefs/HostInfo.java
++++ b/src/main/org/apache/tools/ant/taskdefs/HostInfo.java
+@@ -198 +198 @@
+-                        || !hasHostName(best)) {
++                        || (best.isSiteLocalAddress() && !hasHostName(best))) {
+

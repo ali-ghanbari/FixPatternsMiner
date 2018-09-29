@@ -1,0 +1,15 @@
+diff --git a/trunk/JLanguageTool/CHANGES.txt b/trunk/JLanguageTool/CHANGES.txt
+index 1284728..258d324 100644
+--- a/trunk/JLanguageTool/CHANGES.txt
++++ b/trunk/JLanguageTool/CHANGES.txt
+@@ -8,0 +9,2 @@
++ -Fixed bug with no errors visible in context menu for some languages
++  in OpenOffice.org, for example French. 
+diff --git a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/Main.java b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/Main.java
+index fdae5b0..5f3c18f 100644
+--- a/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/Main.java
++++ b/trunk/JLanguageTool/src/java/de/danielnaber/languagetool/openoffice/Main.java
+@@ -322 +322 @@
+-    if (myMatch.getShortMessage() != null) {
++    if (!StringTools.isEmpty(myMatch.getShortMessage())) {
+

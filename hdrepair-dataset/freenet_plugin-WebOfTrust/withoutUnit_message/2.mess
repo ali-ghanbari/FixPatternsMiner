@@ -1,0 +1,48 @@
+TransferThread: Fix unit tests failing due to "Should not be called
+before start() or after stop()"
+
+All unit tests should succeed now.
+
+SubscriptionManagerFCPTest.testAllRandomized() did fail with:
+    [junit] Testcase: testAllRandomized took 19.799 sec
+    [junit]     FAILED
+    [junit] null
+    [junit] junit.framework.AssertionFailedError
+    [junit]     at
+plugins.WebOfTrust.util.TransferThread.nextIteration(TransferThread.java:124)
+    [junit]     at
+plugins.WebOfTrust.util.TransferThread.nextIteration(TransferThread.java:117)
+    [junit]     at
+plugins.WebOfTrust.WebOfTrust.createOwnIdentity(WebOfTrust.java:3241)
+    [junit]     at
+plugins.WebOfTrust.AbstractJUnit4BaseTest.addRandomOwnIdentities(AbstractJUnit4BaseTest.java:140)
+    [junit]     at
+plugins.WebOfTrust.SubscriptionManagerFCPTest.testAllRandomized(SubscriptionManagerFCPTest.java:264)
+    [junit]
+    [junit] Testcase: testSetupUncaughtExceptionHandler took 4.654 sec
+
+The fix is to make TransferThread.nextIteration() NOT assert() that the
+TransferThread was not terminate()ed yet. The unit tests intentionally
+terminate() it (by terminating IntroductionClient/Server), see
+AbstractFullNodeTest.setUpNode().
+
+Notice: As opposed to similar recently comitted fixes for
+SubscriptionManager and IdentityFetcher, this does NOT add a replacement
+assert() to at least test whether start() was called before
+nextIteration(). We cannot check whether start() was called because this
+class has no state to keep track of whether start() was called. start()
+only calls  triggerExecution() on the DelayedBackgroundJob, and there is
+no way to  query the job to find out whether it was called already.
+I think this assert() isn't necessary in this class anyway though: We
+only this class for IntroductionClient/IntroductionServer, and  timing
+of nextIteration() is not critically important in this class to not happen
+before start() as it is in SubscriptionManager / IdentityFetcher:
+SubscriptionManager and IdentityFetcher keep a database of commands
+which need to be processed, and processing happens only if start() is
+called before their nextIteration() (called schedule...() in them.
+IntroductionClient and IntroductionServer don't keep a command queue, it
+doesn't matter if they lose one iteration. In fact they will continously
+schedule the next iteration for each one, which is different to
+SubscriptionManager/IdentityFetcher - they only schedule 1 iteration. So
+losing an iteration doesn't matter in IntroductionClient/Server at all.
+

@@ -1,0 +1,8 @@
+diff --git a/app/models/CommitComment.java b/app/models/CommitComment.java
+index 2af640d..615491e 100644
+--- a/app/models/CommitComment.java
++++ b/app/models/CommitComment.java
+@@ -83 +83 @@
+-            list.addAll(CommitComment.find.where().eq("project.id", project.id).eq("commitId", commit.getCommitId()).findList());
++            list.addAll(CommitComment.find.where().eq("project.id", project.id).eq("commitId", commit.getCommitId()).setOrderBy("createdDate asc").findList());
+

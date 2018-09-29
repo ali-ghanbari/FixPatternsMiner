@@ -1,0 +1,287 @@
+diff --git a/db/postgres/create-og-tss-tables.sql b/db/postgres/create-og-tss-tables.sql
+index ac08daa..4e73354 100644
+--- a/db/postgres/create-og-tss-tables.sql
++++ b/db/postgres/create-og-tss-tables.sql
+@@ -1,10 +1,10 @@
+-DROP TABLE IF EXISTS domain_spec_identifier CASCADE;
+-DROP TABLE IF EXISTS domain CASCADE;
+-DROP TABLE IF EXISTS time_series_data CASCADE;
+-DROP TABLE IF EXISTS time_series_data_delta CASCADE;
+-DROP TABLE IF EXISTS time_series_key CASCADE;
+-DROP TABLE IF EXISTS quoted_object CASCADE;
+-DROP TABLE IF EXISTS data_source CASCADE;
+-DROP TABLE IF EXISTS data_provider CASCADE;
+-DROP TABLE IF EXISTS data_field CASCADE;
+-DROP TABLE IF EXISTS observation_time CASCADE;
++DROP TABLE IF EXISTS tss_domain_spec_identifier CASCADE;
++DROP TABLE IF EXISTS tss_domain CASCADE;
++DROP TABLE IF EXISTS tss_time_series_data CASCADE;
++DROP TABLE IF EXISTS tss_time_series_data_delta CASCADE;
++DROP TABLE IF EXISTS tss_time_series_key CASCADE;
++DROP TABLE IF EXISTS tss_quoted_object CASCADE;
++DROP TABLE IF EXISTS tss_data_source CASCADE;
++DROP TABLE IF EXISTS tss_data_provider CASCADE;
++DROP TABLE IF EXISTS tss_data_field CASCADE;
++DROP TABLE IF EXISTS tss_observation_time CASCADE;
+@@ -12,8 +12,8 @@
+-CREATE SEQUENCE data_field_id_seq START 1;
+-CREATE SEQUENCE data_provider_id_seq START 1;
+-CREATE SEQUENCE data_source_id_seq START 1;
+-CREATE SEQUENCE domain_id_seq START 1;
+-CREATE SEQUENCE domain_spec_identifier_id_seq START 1;
+-CREATE SEQUENCE observation_time_id_seq START 1;
+-CREATE SEQUENCE quoted_object_id_seq START 1;
+-CREATE SEQUENCE time_series_key_id_seq START 1;
++CREATE SEQUENCE tss_data_field_id_seq START 1;
++CREATE SEQUENCE tss_data_provider_id_seq START 1;
++CREATE SEQUENCE tss_data_source_id_seq START 1;
++CREATE SEQUENCE tss_domain_id_seq START 1;
++CREATE SEQUENCE tss_domain_spec_identifier_id_seq START 1;
++CREATE SEQUENCE tss_observation_time_id_seq START 1;
++CREATE SEQUENCE tss_quoted_object_id_seq START 1;
++CREATE SEQUENCE tss_time_series_key_id_seq START 1;
+@@ -21 +21 @@
+-CREATE TABLE data_source (
++CREATE TABLE tss_data_source (
+@@ -24 +24 @@
+-	  DEFAULT nextval('data_source_id_seq'),
++	  DEFAULT nextval('tss_data_source_id_seq'),
+@@ -29 +29 @@
+-ALTER SEQUENCE data_source_id_seq OWNED BY data_source.id;
++ALTER SEQUENCE tss_data_source_id_seq OWNED BY tss_data_source.id;
+@@ -31 +31 @@
+-CREATE UNIQUE INDEX idx_data_source_name ON data_source(name);
++CREATE UNIQUE INDEX idx_data_source_name ON tss_data_source(name);
+@@ -33,4 +33,4 @@
+-REVOKE ALL ON data_source FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE data_source TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE data_source_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE data_source TO PUBLIC;
++REVOKE ALL ON tss_data_source FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_data_source TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_data_source_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_data_source TO PUBLIC;
+@@ -38 +38 @@
+-CREATE TABLE data_provider (
++CREATE TABLE tss_data_provider (
+@@ -41 +41 @@
+-	  DEFAULT nextval('data_provider_id_seq'),
++	  DEFAULT nextval('tss_data_provider_id_seq'),
+@@ -45 +45 @@
+-ALTER SEQUENCE data_provider_id_seq OWNED BY data_provider.id;
++ALTER SEQUENCE tss_data_provider_id_seq OWNED BY tss_data_provider.id;
+@@ -47 +47 @@
+-CREATE UNIQUE INDEX idx_data_provider_name ON data_provider(name);
++CREATE UNIQUE INDEX idx_data_provider_name ON tss_data_provider(name);
+@@ -49,4 +49,4 @@
+-REVOKE ALL ON data_provider FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE data_provider TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE data_provider_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE data_provider TO PUBLIC;
++REVOKE ALL ON tss_data_provider FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_data_provider TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_data_provider_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_data_provider TO PUBLIC;
+@@ -54 +54 @@
+-CREATE TABLE data_field (
++CREATE TABLE tss_data_field (
+@@ -57 +57 @@
+-	  DEFAULT nextval('data_field_id_seq'),
++	  DEFAULT nextval('tss_data_field_id_seq'),
+@@ -61 +61 @@
+-ALTER SEQUENCE data_field_id_seq OWNED BY data_field.id;
++ALTER SEQUENCE tss_data_field_id_seq OWNED BY tss_data_field.id;
+@@ -63 +63 @@
+-CREATE UNIQUE INDEX idx_data_field_name ON data_field(name);
++CREATE UNIQUE INDEX idx_data_field_name ON tss_data_field(name);
+@@ -65,4 +65,4 @@
+-REVOKE ALL ON data_field FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE data_field TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE data_field_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE data_field TO PUBLIC;
++REVOKE ALL ON tss_data_field FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_data_field TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_data_field_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_data_field TO PUBLIC;
+@@ -70 +70 @@
+-CREATE TABLE observation_time (
++CREATE TABLE tss_observation_time (
+@@ -73 +73 @@
+-	  DEFAULT nextval('observation_time_id_seq'),
++	  DEFAULT nextval('tss_observation_time_id_seq'),
+@@ -77 +77 @@
+-ALTER SEQUENCE observation_time_id_seq OWNED BY observation_time.id;
++ALTER SEQUENCE tss_observation_time_id_seq OWNED BY tss_observation_time.id;
+@@ -79 +79 @@
+-CREATE UNIQUE INDEX idx_observation_time_name ON observation_time(name);
++CREATE UNIQUE INDEX idx_observation_time_name ON tss_observation_time(name);
+@@ -81,4 +81,4 @@
+-REVOKE ALL ON observation_time FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE observation_time TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE observation_time_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE observation_time TO PUBLIC;
++REVOKE ALL ON tss_observation_time FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_observation_time TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_observation_time_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_observation_time TO PUBLIC;
+@@ -86 +86 @@
+-CREATE TABLE domain (
++CREATE TABLE tss_domain (
+@@ -89 +89 @@
+-	  DEFAULT nextval('domain_id_seq'),
++	  DEFAULT nextval('tss_domain_id_seq'),
+@@ -93 +93 @@
+-ALTER SEQUENCE domain_id_seq OWNED BY domain.id;
++ALTER SEQUENCE tss_domain_id_seq OWNED BY tss_domain.id;
+@@ -95 +95 @@
+-CREATE UNIQUE INDEX idx_domain_name ON domain(name);
++CREATE UNIQUE INDEX idx_domain_name ON tss_domain(name);
+@@ -97,4 +97,4 @@
+-REVOKE ALL ON domain FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE domain TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE domain_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE domain TO PUBLIC;
++REVOKE ALL ON tss_domain FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_domain TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_domain_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_domain TO PUBLIC;
+@@ -102 +102 @@
+-CREATE TABLE quoted_object (
++CREATE TABLE tss_quoted_object (
+@@ -105 +105 @@
+-	  DEFAULT nextval('quoted_object_id_seq'),
++	  DEFAULT nextval('tss_quoted_object_id_seq'),
+@@ -109 +109 @@
+-ALTER SEQUENCE quoted_object_id_seq OWNED BY quoted_object.id;
++ALTER SEQUENCE tss_quoted_object_id_seq OWNED BY tss_quoted_object.id;
+@@ -111 +111 @@
+-CREATE UNIQUE INDEX idx_quoted_object_name ON quoted_object(name);
++CREATE UNIQUE INDEX idx_quoted_object_name ON tss_quoted_object(name);
+@@ -113,4 +113,4 @@
+-REVOKE ALL ON quoted_object FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE quoted_object TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE quoted_object_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE quoted_object TO PUBLIC;
++REVOKE ALL ON tss_quoted_object FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_quoted_object TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_quoted_object_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_quoted_object TO PUBLIC;
+@@ -118 +118 @@
+-CREATE TABLE time_series_key (
++CREATE TABLE tss_time_series_key (
+@@ -121 +121 @@
+-	  DEFAULT nextval('time_series_key_id_seq'),
++	  DEFAULT nextval('tss_time_series_key_id_seq'),
+@@ -123 +123 @@
+-	  constraint fk_tsk_quoted_obj  REFERENCES quoted_object(id),
++	  constraint fk_tsk_quoted_obj  REFERENCES tss_quoted_object(id),
+@@ -125 +125 @@
+-	  constraint fk_tsk_data_source  REFERENCES data_source(id),
++	  constraint fk_tsk_data_source  REFERENCES tss_data_source(id),
+@@ -127 +127 @@
+-	  constraint fk_tsk_data_provider  REFERENCES data_provider(id),
++	  constraint fk_tsk_data_provider  REFERENCES tss_data_provider(id),
+@@ -129 +129 @@
+-	  constraint fk_tsk_data_field  REFERENCES data_field(id),
++	  constraint fk_tsk_data_field  REFERENCES tss_data_field(id),
+@@ -131 +131 @@
+-	  constraint fk_tsk_observation_time  REFERENCES observation_time(id)
++	  constraint fk_tsk_observation_time  REFERENCES tss_observation_time(id)
+@@ -133 +133 @@
+-ALTER SEQUENCE time_series_key_id_seq OWNED BY time_series_key.id;
++ALTER SEQUENCE tss_time_series_key_id_seq OWNED BY tss_time_series_key.id;
+@@ -135 +135 @@
+-CREATE INDEX idx_time_series_key ON time_series_key (data_source_id, data_provider_id, data_field_id, observation_time_id);
++CREATE INDEX idx_time_series_key ON tss_time_series_key (data_source_id, data_provider_id, data_field_id, observation_time_id);
+@@ -137,4 +137,4 @@
+-REVOKE ALL ON time_series_key FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE time_series_key TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE time_series_key_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE time_series_key TO PUBLIC;
++REVOKE ALL ON tss_time_series_key FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_time_series_key TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_time_series_key_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_time_series_key TO PUBLIC;
+@@ -142 +142 @@
+-CREATE TABLE time_series_data (
++CREATE TABLE tss_time_series_data (
+@@ -144 +144 @@
+-	  constraint fk_tsd_time_series  REFERENCES time_series_key (id),
++	  constraint fk_tsd_time_series  REFERENCES tss_time_series_key (id),
+@@ -146 +146,2 @@
+-	value DOUBLE PRECISION NOT NULL
++	value DOUBLE PRECISION NOT NULL,
++	PRIMARY KEY (time_series_id)
+@@ -149 +150 @@
+-CREATE UNIQUE INDEX idx_tsdata_id_date ON time_series_data (time_series_id, ts_date);
++CREATE UNIQUE INDEX idx_tsdata_id_date ON tss_time_series_data (time_series_id, ts_date);
+@@ -151,3 +152,3 @@
+-REVOKE ALL ON time_series_data FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE time_series_data TO tssupdater;
+-GRANT SELECT ON TABLE time_series_data TO PUBLIC;
++REVOKE ALL ON tss_time_series_data FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_time_series_data TO tssupdater;
++GRANT SELECT ON TABLE tss_time_series_data TO PUBLIC;
+@@ -155 +156 @@
+-CREATE TABLE time_series_data_delta (
++CREATE TABLE tss_time_series_data_delta (
+@@ -157 +158 @@
+-	  constraint fk_tsd_delta_time_series  REFERENCES time_series_key (id),
++	  constraint fk_tsd_delta_time_series  REFERENCES tss_time_series_key (id),
+@@ -166,3 +167,3 @@
+-REVOKE ALL ON time_series_data_delta FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE time_series_data_delta TO tssupdater;
+-GRANT SELECT ON TABLE time_series_data_delta TO PUBLIC;
++REVOKE ALL ON tss_time_series_data_delta FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_time_series_data_delta TO tssupdater;
++GRANT SELECT ON TABLE tss_time_series_data_delta TO PUBLIC;
+@@ -170 +171 @@
+-CREATE TABLE domain_spec_identifier (
++CREATE TABLE tss_domain_spec_identifier (
+@@ -173 +174 @@
+-	  DEFAULT nextval('domain_spec_identifier_id_seq'),
++	  DEFAULT nextval('tss_domain_spec_identifier_id_seq'),
+@@ -175 +176 @@
+-	  constraint fk_dsi_quoted_object  REFERENCES quoted_object(id),
++	  constraint fk_dsi_quoted_object  REFERENCES tss_quoted_object(id),
+@@ -177 +178 @@
+-	  constraint fk_dsi_domain  REFERENCES domain(id),
++	  constraint fk_dsi_domain  REFERENCES tss_domain(id),
+@@ -180 +181 @@
+-ALTER SEQUENCE domain_spec_identifier_id_seq OWNED BY domain_spec_identifier.id;
++ALTER SEQUENCE tss_domain_spec_identifier_id_seq OWNED BY tss_domain_spec_identifier.id;
+@@ -182 +183 @@
+-CREATE UNIQUE INDEX idx_dsi_domain_identifier ON domain_spec_identifier (domain_id, identifier);
++CREATE UNIQUE INDEX idx_dsi_domain_identifier ON tss_domain_spec_identifier (domain_id, identifier);
+@@ -184 +185 @@
+-CREATE INDEX idx_dsi_identifier ON domain_spec_identifier(identifier);
++CREATE INDEX idx_dsi_identifier ON tss_domain_spec_identifier(identifier);
+@@ -186,4 +187,4 @@
+-REVOKE ALL ON domain_spec_identifier FROM PUBLIC;
+-GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE domain_spec_identifier TO tssupdater;
+-GRANT SELECT, UPDATE ON SEQUENCE domain_spec_identifier_id_seq TO tssupdater;
+-GRANT SELECT ON TABLE domain_spec_identifier TO PUBLIC;
+\ No newline at end of file
++REVOKE ALL ON tss_domain_spec_identifier FROM PUBLIC;
++GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE tss_domain_spec_identifier TO tssupdater;
++GRANT SELECT, UPDATE ON SEQUENCE tss_domain_spec_identifier_id_seq TO tssupdater;
++GRANT SELECT ON TABLE tss_domain_spec_identifier TO PUBLIC;
+\ No newline at end of file
+diff --git a/src/com/opengamma/historical/dao/RowStoreJdbcDao.java b/src/com/opengamma/historical/dao/RowStoreJdbcDao.java
+index 6e6b808..538f0b9 100644
+--- a/src/com/opengamma/historical/dao/RowStoreJdbcDao.java
++++ b/src/com/opengamma/historical/dao/RowStoreJdbcDao.java
+@@ -59 +59 @@
+-  private static final int INVALID_KEY = -1;
++  public static final int INVALID_KEY = -1;
+diff --git a/tests/unit/com/opengamma/historical/dao/RowStoreTimeSeriesDaoTest.java b/tests/unit/com/opengamma/historical/dao/RowStoreTimeSeriesDaoTest.java
+index 6f6acd4..b75b61a 100644
+--- a/tests/unit/com/opengamma/historical/dao/RowStoreTimeSeriesDaoTest.java
++++ b/tests/unit/com/opengamma/historical/dao/RowStoreTimeSeriesDaoTest.java
+@@ -11,0 +12 @@
++import static com.opengamma.historical.dao.RowStoreJdbcDao.INVALID_KEY;
+@@ -123 +124,2 @@
+-    assertEquals(-1, id);
++    assertEquals(INVALID_KEY, id);
++    
+

@@ -1,0 +1,36 @@
+diff --git a/examples-ee6/seambay/seambay-ear/pom.xml b/examples-ee6/seambay/seambay-ear/pom.xml
+index 37cb061..61bc382 100644
+--- a/examples-ee6/seambay/seambay-ear/pom.xml
++++ b/examples-ee6/seambay/seambay-ear/pom.xml
+@@ -32,10 +31,0 @@
+-            <exclusions>
+-                <exclusion>
+-                    <groupId>com.thoughtworks.xstream</groupId>
+-                    <artifactId>xstream</artifactId>
+-                </exclusion>
+-                <exclusion>
+-                    <groupId>xpp3</groupId>
+-                    <artifactId>xpp3_min</artifactId>
+-                </exclusion>
+-            </exclusions>
+diff --git a/examples-ee6/seambay/seambay-ejb/src/main/java/org/jboss/seam/example/seambay/CategoryAction.java b/examples-ee6/seambay/seambay-ejb/src/main/java/org/jboss/seam/example/seambay/CategoryAction.java
+index 12c5434..54a3b54 100644
+--- a/examples-ee6/seambay/seambay-ejb/src/main/java/org/jboss/seam/example/seambay/CategoryAction.java
++++ b/examples-ee6/seambay/seambay-ejb/src/main/java/org/jboss/seam/example/seambay/CategoryAction.java
+@@ -51 +51 @@
+-      allCategories = entityManager.createQuery("from Category").getResultList(); 
++      allCategories = entityManager.createQuery("from Category c order by c.categoryId").getResultList(); 
+diff --git a/examples-ee6/seambay/seambay-tests/src/test/java/org/jboss/seam/example/seambay/test/webdriver/WebServicesTest.java b/examples-ee6/seambay/seambay-tests/src/test/java/org/jboss/seam/example/seambay/test/webdriver/WebServicesTest.java
+index b2ec3a6..c66ec6f 100644
+--- a/examples-ee6/seambay/seambay-tests/src/test/java/org/jboss/seam/example/seambay/test/webdriver/WebServicesTest.java
++++ b/examples-ee6/seambay/seambay-tests/src/test/java/org/jboss/seam/example/seambay/test/webdriver/WebServicesTest.java
+@@ -64 +64 @@
+-   protected static final String AUCTION_DETAILS_PRICE_RESPONSE = "<ns2:getNewAuctionDetailsResponse xmlns:ns2=\"http://seambay.example.seam.jboss.org/\"><return><account><accountId>1</accountId><feedbackPercent>0.0</feedbackPercent><feedbackScore>0</feedbackScore><location>Sydney, NSW, Australia</location>";
++   protected static final String AUCTION_DETAILS_PRICE_RESPONSE = "<ns2:getNewAuctionDetailsResponse xmlns:ns2=\"http://seambay.example.seam.jboss.org/\"><return><account><accountId>-1</accountId><feedbackPercent>0.0</feedbackPercent><feedbackScore>0</feedbackScore><location>Sydney, NSW, Australia</location>";
+diff --git a/examples-ee6/seambay/seambay-web/pom.xml b/examples-ee6/seambay/seambay-web/pom.xml
+index 766dd13..aceb9e8 100644
+--- a/examples-ee6/seambay/seambay-web/pom.xml
++++ b/examples-ee6/seambay/seambay-web/pom.xml
+@@ -31,0 +32 @@
++            <scope>provided</scope>
+

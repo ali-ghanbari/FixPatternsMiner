@@ -1,0 +1,26 @@
+gPlazma: fix unit tests
+
+Patch
+
+   http://rb.dcache.org/r/2079/
+
+was committed as SVN r.14208.  Amongst other things, this patch fixed a bug in how the 
+ConfigurationParserFactory.getInstance static method worked, when given the name of the 
+class to instantiate.
+
+Unfortunately, this bug was hiding another bug in the ConfigurationParserTests unit-tests.  
+There, the wrong class name was being passed (DefaultConfigurationParserFactory).  Because 
+of the bug in ConfigurationParserFactory.getInstance, this incorrect class name was ignored 
+and a default (and valid) value was used instead.
+
+When the bug in ConfigurationParserFactory.getInstance was fixed, the bug in 
+ConfigurationParserTests was revealed and unit-tests started to fail.
+
+This patch fixes these tests by setting the class name to the correct value.
+
+Patch: http://rb.dcache.org/r/2105/
+Target: trunk
+Acked-by: Jan
+
+
+

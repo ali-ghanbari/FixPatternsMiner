@@ -1,0 +1,26 @@
+diff --git a/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java b/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java
+index 9517b9e..3e81487 100644
+--- a/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java
++++ b/src/org/intellij/erlang/inspection/ErlangUnresolvedRecordFieldInspection.java
+@@ -48 +48 @@
+-          if (atom == null) return;
++          if (atom == null || atom.getMacros() != null) return;
+diff --git a/testData/highlighting/UnresolvedField.erl b/testData/highlighting/UnresolvedField.erl
+index a165b94..b3fe85e 100644
+--- a/testData/highlighting/UnresolvedField.erl
++++ b/testData/highlighting/UnresolvedField.erl
+@@ -1 +1 @@
+--export([f/0, f/1]).
++-export([f/0, f/1, f_macro/0]).
+@@ -3,0 +4,2 @@
++
++-define(KKK_MACRO, kkk).
+@@ -9 +11,4 @@
+-    A#tid.kkk, A#tid.<error>kkk1</error>.
+\ No newline at end of file
++    A#tid.kkk, A#tid.<error>kkk1</error>.
++
++f_macro() ->
++    #tid{?KKK_MACRO=1, id=0}.
+\ No newline at end of file
+

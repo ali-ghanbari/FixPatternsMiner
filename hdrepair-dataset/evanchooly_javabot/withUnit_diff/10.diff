@@ -1,0 +1,21 @@
+diff --git a/src/main/java/javabot/dao/impl/SeenDaoHibernate.java b/src/main/java/javabot/dao/impl/SeenDaoHibernate.java
+index d7155ba..c72a585 100644
+--- a/src/main/java/javabot/dao/impl/SeenDaoHibernate.java
++++ b/src/main/java/javabot/dao/impl/SeenDaoHibernate.java
+@@ -36 +36 @@
+-        return getSeen(nick, channel).getNick() != null;
++        return getSeen(nick, channel) != null;
+diff --git a/src/test/java/javabot/operations/KarmaChangeOperationTest.java b/src/test/java/javabot/operations/KarmaChangeOperationTest.java
+index 56578c9..799a815 100644
+--- a/src/test/java/javabot/operations/KarmaChangeOperationTest.java
++++ b/src/test/java/javabot/operations/KarmaChangeOperationTest.java
+@@ -68,3 +68,2 @@
+-        Karma factoid = karmaDao.find(target);
+-        String value = factoid.getValue().toString();
+-        log.debug("value = " + value);
++        Karma karma = karmaDao.find(target);
++        log.debug("value = " + karma.getValue());
+@@ -72 +71 @@
+-        return Integer.parseInt(value);
++        return karma.getValue();
+

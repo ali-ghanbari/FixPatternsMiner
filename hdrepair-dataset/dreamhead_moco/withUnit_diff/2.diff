@@ -1,0 +1,16 @@
+diff --git a/moco-core/src/test/java/com/github/dreamhead/moco/MocoTest.java b/moco-core/src/test/java/com/github/dreamhead/moco/MocoTest.java
+index 805d48f..b8b9c7f 100644
+--- a/moco-core/src/test/java/com/github/dreamhead/moco/MocoTest.java
++++ b/moco-core/src/test/java/com/github/dreamhead/moco/MocoTest.java
+@@ -397,2 +397,2 @@
+-                assertThat(helper.getWithHeader(root(), of("foo", "barA")), is("bar"));
+-                assertThat(helper.getWithHeader(root(), of("foo", "barB")), is("bar"));
++                assertThat(helper.getWithHeader(root(), of("foo", "Abar")), is("bar"));
++                assertThat(helper.getWithHeader(root(), of("foo", "Bbar")), is("bar"));
+diff --git a/moco-core/src/test/java/com/github/dreamhead/moco/helper/MocoTestHelper.java b/moco-core/src/test/java/com/github/dreamhead/moco/helper/MocoTestHelper.java
+index d480278..8cad6bd 100644
+--- a/moco-core/src/test/java/com/github/dreamhead/moco/helper/MocoTestHelper.java
++++ b/moco-core/src/test/java/com/github/dreamhead/moco/helper/MocoTestHelper.java
+@@ -10 +9,0 @@
+-import org.apache.http.client.fluent.Response;
+

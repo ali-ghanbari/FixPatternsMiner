@@ -1,0 +1,17 @@
+diff --git a/mifosng-db/migrations/core_db/V44__document-increase-size-of-column-type.sql b/mifosng-db/migrations/core_db/V44__document-increase-size-of-column-type.sql
+new file mode 100755
+index 0000000..c09286c
+--- /dev/null
++++ b/mifosng-db/migrations/core_db/V44__document-increase-size-of-column-type.sql
+@@ -0,0 +1,2 @@
++ALTER TABLE `m_document`
++	CHANGE COLUMN `type` `type` VARCHAR(500) NULL DEFAULT NULL AFTER `size`;
+\ No newline at end of file
+diff --git a/mifosng-provider/src/main/java/org/mifosplatform/accounting/common/AccountingConstants.java b/mifosng-provider/src/main/java/org/mifosplatform/accounting/common/AccountingConstants.java
+index 6fc68c2..f9b47b3 100755
+--- a/mifosng-provider/src/main/java/org/mifosplatform/accounting/common/AccountingConstants.java
++++ b/mifosng-provider/src/main/java/org/mifosplatform/accounting/common/AccountingConstants.java
+@@ -106 +106 @@
+-    /*** Accounting placeholders for cash based accounting for loan products ***/
++    /*** Accounting placeholders for cash based accounting for savings products ***/
+

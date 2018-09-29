@@ -1,0 +1,8 @@
+diff --git a/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/user/UserManager.java b/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/user/UserManager.java
+index e7c040b..7eb4bb2 100644
+--- a/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/user/UserManager.java
++++ b/CubeEngine/src/main/java/de/cubeisland/cubeengine/core/user/UserManager.java
+@@ -71 +71 @@
+-                    database.getQueryBuilder().alterTable(table).add("lastseen", AttrType.DATETIME).rawSQL(" DEFAULT NOW()").end().end());
++                    database.getQueryBuilder().alterTable(table).add("lastseen", AttrType.DATETIME).rawSQL(" DEFAULT CURRENT_TIMESTAMP").end().end());
+

@@ -1,0 +1,8 @@
+diff --git a/dom/impl/src/com/intellij/util/xml/impl/AttributeChildDescriptionImpl.java b/dom/impl/src/com/intellij/util/xml/impl/AttributeChildDescriptionImpl.java
+index 234d71a..67f7a55 100644
+--- a/dom/impl/src/com/intellij/util/xml/impl/AttributeChildDescriptionImpl.java
++++ b/dom/impl/src/com/intellij/util/xml/impl/AttributeChildDescriptionImpl.java
+@@ -56 +56 @@
+-      return (GenericAttributeValue)DomManagerImpl.getDomInvocationHandler(parent).doInvoke(myGetterMethod);
++      return (GenericAttributeValue)DomManagerImpl.getDomInvocationHandler(ModelMergerUtil.getImplementation(parent, DomElement.class)).doInvoke(myGetterMethod);
+

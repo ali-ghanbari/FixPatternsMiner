@@ -1,0 +1,8 @@
+diff --git a/src/joshua/decoder/ff/lm/berkeley_lm/LMGrammarBerkeley.java b/src/joshua/decoder/ff/lm/berkeley_lm/LMGrammarBerkeley.java
+index 9e6b501..a81d4ec 100644
+--- a/src/joshua/decoder/ff/lm/berkeley_lm/LMGrammarBerkeley.java
++++ b/src/joshua/decoder/ff/lm/berkeley_lm/LMGrammarBerkeley.java
+@@ -102 +102 @@
+-        vocabIdToMyIdMapping[id] = myid;
++        vocabIdToMyIdMapping[id] = myid == unkIndex ? -1 : myid;
+

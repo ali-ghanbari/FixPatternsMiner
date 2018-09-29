@@ -1,0 +1,26 @@
+1179:
+Connections:
+- Don't wake up PacketSender if we don't need to; logging.
+- Avoid (hypothetical) NPEs registering useralerts.
+Misc:
+- FreenetURI.equalsKeypair(). Useful for plugins.
+
+Meanwhile:
+
+db4o:
+- Merge trunk changes up to 1169.
+
+WoT:
+- Wire in introduction code.
+- Wire in kaptcha for puzzle generation.
+- Add introduction context to existing identities and when creating a new one.
+- Store solved puzzles in the database until they expire.
+- URI fixes.
+- Don't put /'s in the URIs.
+- Fix indexing of IntroductionPuzzle fields.
+- Wait longer on startup before inserting stuff.
+- Make some exceptions RuntimeException's so we don't have to handle them, and throw them again on paranoid checks failing.
+
+
+git-svn-id: file:///home/toad/git-migration/temprepository/trunk/freenet@23606 67a373e5-eb02-0410-a15c-ee090a768436
+

@@ -1,0 +1,54 @@
+diff --git a/camel-core/src/main/java/org/apache/camel/support/XMLTokenExpressionIterator.java b/camel-core/src/main/java/org/apache/camel/support/XMLTokenExpressionIterator.java
+index 6c5e2b5..655feef 100644
+--- a/camel-core/src/main/java/org/apache/camel/support/XMLTokenExpressionIterator.java
++++ b/camel-core/src/main/java/org/apache/camel/support/XMLTokenExpressionIterator.java
+@@ -125 +125 @@
+-        private static final Pattern NAMESPACE_PATTERN = Pattern.compile("xmlns(:\\w+|)\\s*=\\s*('[^']+'|\"[^\"]+\")");
++        private static final Pattern NAMESPACE_PATTERN = Pattern.compile("xmlns(:\\w+|)\\s*=\\s*('[^']*'|\"[^\"]*\")");
+diff --git a/camel-core/src/test/java/org/apache/camel/support/XMLTokenExpressionIteratorTest.java b/camel-core/src/test/java/org/apache/camel/support/XMLTokenExpressionIteratorTest.java
+index 7b91e7a..3954038 100644
+--- a/camel-core/src/test/java/org/apache/camel/support/XMLTokenExpressionIteratorTest.java
++++ b/camel-core/src/test/java/org/apache/camel/support/XMLTokenExpressionIteratorTest.java
+@@ -58,0 +59 @@
++    // mixing a default namespace with an explicit namespace for child
+@@ -67,0 +69,15 @@
++            + "<c:child some_attr='d' anotherAttr='d'/>"
++            + "</c:parent>"
++            + "</grandparent>"
++            + "</g:greatgrandparent>").getBytes();
++
++    // mixing a no namespace with an explicit namespace for child
++    private static final byte[] TEST_BODY_NO_NS_MIXED =
++        ("<?xml version='1.0' encoding='UTF-8'?>"
++            + "<g:greatgrandparent xmlns:g='urn:g'><grandparent>"
++            + "<parent some_attr='1' xmlns:c='urn:c' xmlns=\"urn:c\">"
++            + "<child some_attr='a' anotherAttr='a' xmlns=''></child>"
++            + "<x:child xmlns:x='urn:c' some_attr='b' anotherAttr='b'/>"
++            + "</parent>"
++            + "<c:parent some_attr='2' xmlns:c='urn:c'>"
++            + "<child some_attr='c' anotherAttr='c'></child>"
+@@ -134,0 +151,14 @@
++    };
++
++    private static final String[] RESULTS_CHILD_NO_NS_MIXED = {
++        "<child some_attr='a' anotherAttr='a' xmlns='' xmlns:g='urn:g' xmlns:c='urn:c'></child>",
++        "<child some_attr='c' anotherAttr='c' xmlns:g=\"urn:g\" xmlns:c=\"urn:c\"></child>",
++    };
++
++    private static final String[] RESULTS_CHILD_NO_NS_MIXED_WRAPPED = {
++        "<?xml version='1.0' encoding='UTF-8'?><g:greatgrandparent xmlns:g='urn:g'><grandparent>"
++            + "<parent some_attr='1' xmlns:c='urn:c' xmlns=\"urn:c\">"
++            + "<child some_attr='a' anotherAttr='a' xmlns=''></child></parent></grandparent></g:greatgrandparent>",
++        "<?xml version='1.0' encoding='UTF-8'?><g:greatgrandparent xmlns:g='urn:g'><grandparent>"
++            + "<c:parent some_attr='2' xmlns:c='urn:c'>"
++            + "<child some_attr='c' anotherAttr='c'></child></c:parent></grandparent></g:greatgrandparent>",
+@@ -241,0 +272,8 @@
++    public void testExtractSomeUnqualifiedChild() throws Exception {
++        invokeAndVerify("//child", 'w', new ByteArrayInputStream(TEST_BODY_NO_NS_MIXED), RESULTS_CHILD_NO_NS_MIXED_WRAPPED);
++    }
++
++    public void testExtractSomeUnqualifiedChildInjected() throws Exception {
++        invokeAndVerify("//child", 'i', new ByteArrayInputStream(TEST_BODY_NO_NS_MIXED), RESULTS_CHILD_NO_NS_MIXED);
++    }
++
+

@@ -1,0 +1,38 @@
+diff --git a/core/interpreter/src/main/java/org/overture/interpreter/values/RecordValue.java b/core/interpreter/src/main/java/org/overture/interpreter/values/RecordValue.java
+index 28b5138..a70e557 100644
+--- a/core/interpreter/src/main/java/org/overture/interpreter/values/RecordValue.java
++++ b/core/interpreter/src/main/java/org/overture/interpreter/values/RecordValue.java
+@@ -137 +137 @@
+-					abort(4079, "Type invariant violated by mk_ arguments", ctxt);
++					abort(4079, "Type invariant violated by mk_" + type.getName()+ " arguments", ctxt);
+diff --git a/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-04.vdm.result b/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-04.vdm.result
+index 7269b09..ec51d42 100644
+--- a/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-04.vdm.result
++++ b/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-04.vdm.result
+@@ -3 +3 @@
+-<message column="18" line="19" message="Error 4079: Type invariant violated by mk_ arguments in 'A' (recordexpr-04.vdm) at line 19:18" messageType="error" number="4079" resource="recordexpr-04.vdm"/>
++<message column="18" line="19" message="Error 4079: Type invariant violated by mk_E arguments in 'A' (recordexpr-04.vdm) at line 19:18" messageType="error" number="4079" resource="recordexpr-04.vdm"/>
+diff --git a/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-09.vdm.result b/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-09.vdm.result
+index 687ac06..b105150 100644
+--- a/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-09.vdm.result
++++ b/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/CORE/expr/recordexpr/recordexpr-09.vdm.result
+@@ -3 +3 @@
+-<message column="8" line="15" message="Error 4079: Type invariant violated by mk_ arguments in 'A' (recordexpr-09.vdm) at line 15:8" messageType="error" number="4079" resource="recordexpr-09.vdm"/>
++<message column="8" line="15" message="Error 4079: Type invariant violated by mk_E arguments in 'A' (recordexpr-09.vdm) at line 15:8" messageType="error" number="4079" resource="recordexpr-09.vdm"/>
+diff --git a/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/SL/state/state-11.vdm.result b/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/SL/state/state-11.vdm.result
+index d6ed4ed..d07a9ce 100644
+--- a/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/SL/state/state-11.vdm.result
++++ b/core/interpreter/src/test/resources/Interpreter_SL_Modules_TestSuite_External/SL/state/state-11.vdm.result
+@@ -3,2 +3,2 @@
+-<message column="9" line="24" message="Error 4079: Type invariant violated by mk_ arguments in 'A' (state-11.vdm) at line 24:9" messageType="error" number="4079" resource="state-11.vdm"/>
+-<message column="29" line="15" message="Error 4079: Type invariant violated by mk_ arguments in 'A' (state-11.vdm) at line 15:29" messageType="error" number="4079" resource="state-11.vdm"/>
++<message column="9" line="24" message="Error 4079: Type invariant violated by mk_B arguments in 'A' (state-11.vdm) at line 24:9" messageType="error" number="4079" resource="state-11.vdm"/>
++<message column="29" line="15" message="Error 4079: Type invariant violated by mk_B arguments in 'A' (state-11.vdm) at line 15:29" messageType="error" number="4079" resource="state-11.vdm"/>
+diff --git a/documentation/UserGuideOvertureIDE/MESSAGES_Runtime.tex b/documentation/UserGuideOvertureIDE/MESSAGES_Runtime.tex
+index 9290305..38feb2d 100644
+--- a/documentation/UserGuideOvertureIDE/MESSAGES_Runtime.tex
++++ b/documentation/UserGuideOvertureIDE/MESSAGES_Runtime.tex
+@@ -96 +96 @@
+-\item[4079:] \texttt{"Type invariant violated by mk\_ arguments"}
++\item[4079:] \texttt{"Type invariant violated by mk\_<type> arguments"}
+

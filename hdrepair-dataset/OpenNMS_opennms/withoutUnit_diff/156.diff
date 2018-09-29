@@ -1,0 +1,27 @@
+diff --git a/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/java/org/opennms/features/topology/netutils/internal/operations/NodeInfoOperation.java b/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/java/org/opennms/features/topology/netutils/internal/operations/NodeInfoOperation.java
+index 4b38b7b..224a854 100644
+--- a/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/java/org/opennms/features/topology/netutils/internal/operations/NodeInfoOperation.java
++++ b/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/java/org/opennms/features/topology/netutils/internal/operations/NodeInfoOperation.java
+@@ -66 +66 @@
+-                nodeURL = new URL(baseURL, getNodePageURL() + "[" + node.getNodeID() + "]");
++                nodeURL = new URL(baseURL, getNodePageURL() + "" + node.getNodeID());
+diff --git a/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/resources/OSGI-INF/blueprint/blueprint.xml b/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/resources/OSGI-INF/blueprint/blueprint.xml
+index bbbaa9e..4645564 100644
+--- a/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/resources/OSGI-INF/blueprint/blueprint.xml
++++ b/features/topology-map/plugins/org.opennms.features.topology.plugins.netutils/src/main/resources/OSGI-INF/blueprint/blueprint.xml
+@@ -47,7 +47,7 @@
+-    <service interface="org.opennms.features.topology.api.Operation" ref="tracerouteOperation">
+-        <service-properties>
+-            <entry key="operation.label" value="Traceroute?group=additions"/>
+-            <entry key="operation.menuLocation" value="Device"/>
+-            <entry key="operation.contextMenuLocation" value="Utils"/>
+-        </service-properties>
+-    </service>
++<!--     <service interface="org.opennms.features.topology.api.Operation" ref="tracerouteOperation"> -->
++<!--         <service-properties> -->
++<!--             <entry key="operation.label" value="Traceroute?group=additions"/> -->
++<!--             <entry key="operation.menuLocation" value="Device"/> -->
++<!--             <entry key="operation.contextMenuLocation" value="Utils"/> -->
++<!--         </service-properties> -->
++<!--     </service> -->
+

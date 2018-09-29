@@ -1,0 +1,18 @@
+diff --git a/app/controllers/BoardApp.java b/app/controllers/BoardApp.java
+index 49db08b..a318732 100644
+--- a/app/controllers/BoardApp.java
++++ b/app/controllers/BoardApp.java
+@@ -245 +245 @@
+-        return ok(edit.render("board.post.modify", editForm, number, project, isAllowedToNotice));
++        return ok(edit.render("board.post.modify", editForm, posting, number, project, isAllowedToNotice));
+diff --git a/app/views/board/edit.scala.html b/app/views/board/edit.scala.html
+index dc2c5e9..a162686 100644
+--- a/app/views/board/edit.scala.html
++++ b/app/views/board/edit.scala.html
+@@ -1 +1 @@
+-@(title:String, form:Form[Posting], number:Long,  project:Project, isAllowedToNotice:Boolean)
++@(title:String, form:Form[Posting], posting:Posting, number:Long,  project:Project, isAllowedToNotice:Boolean)
+@@ -23 +23 @@
+-                <textarea id="body" name="body" class="zen-mode text content" markdown="true" tabindex="2" data-label="@Messages("post.error.emptyBody")"></textarea>
++                <textarea id="body" name="body" class="zen-mode text content" markdown="true" tabindex="2" data-label="@Messages("post.error.emptyBody")">@posting.body</textarea>
+

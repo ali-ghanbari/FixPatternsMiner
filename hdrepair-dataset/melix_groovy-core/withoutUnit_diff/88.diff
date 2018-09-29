@@ -1,0 +1,9 @@
+diff --git a/src/main/org/codehaus/groovy/tools/javac/JavaStubGenerator.java b/src/main/org/codehaus/groovy/tools/javac/JavaStubGenerator.java
+index 9504018..3f3d291 100644
+--- a/src/main/org/codehaus/groovy/tools/javac/JavaStubGenerator.java
++++ b/src/main/org/codehaus/groovy/tools/javac/JavaStubGenerator.java
+@@ -66,0 +67,3 @@
++        // don't generate stubs for private classes, as they are only visible in the same file
++        if ((classNode.getModifiers() & Opcodes.ACC_PRIVATE) != 0) return;
++
+
