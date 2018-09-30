@@ -8,12 +8,15 @@ import gumtree.spoon.diff.Diff;
 import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.commons.FileListParser;
 import org.mudebug.fpm.commons.FilePairVisitor;
+import org.mudebug.fpm.pattern.Handler;
 
 import static java.lang.System.out;
 
 public class Main implements FilePairVisitor {
-    private Main() {
+    private final Handler patternHandler;
 
+    private Main() {
+        this.patternHandler = Handler.createHandlerChain();
     }
 
     public static void main(String[] args) {
@@ -38,7 +41,9 @@ public class Main implements FilePairVisitor {
             final Diff diff = ac.compare(buggy, fixed);
             final List<Operation> ops = diff.getRootOperations();
             if (!ops.isEmpty()) {
-
+                for (final Operation op : ops) {
+                    patternHandler.match(op);
+                }
             } else {
                 out.println("warning: no diff found.");
             }
