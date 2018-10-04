@@ -2,6 +2,7 @@ package org.mudebug.fpm.pattern.handler.update;
 
 import org.mudebug.fpm.pattern.rules.BinOpReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
+import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtInvocation;
@@ -56,13 +57,12 @@ public class UpdateBinOpHandler extends UpdateHandler {
                         || (args.get(1).equals(bo.getLeftHandOperand()) && args.get(0).equals(bo.getRightHandOperand()))) {
                         if (bo == e1) {
                             return new BinOpReplacementRule(bo.getKind(), in.getExecutable().getSignature());
-                        } else {
-                            return new BinOpReplacementRule(in.getExecutable().getSignature(), bo.getKind());
                         }
+                        return new BinOpReplacementRule(in.getExecutable().getSignature(), bo.getKind());
                     }
                 }
             }
         }
-        return null;
+        return UnknownRule.UNKNOWN_RULE;
     }
 }

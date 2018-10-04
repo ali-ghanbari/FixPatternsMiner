@@ -1,9 +1,6 @@
 package org.mudebug.fpm.pattern.handler.update;
 
-import org.mudebug.fpm.pattern.rules.ArgumentListRule;
-import org.mudebug.fpm.pattern.rules.InvRecTypeRule;
-import org.mudebug.fpm.pattern.rules.MethodNameRule;
-import org.mudebug.fpm.pattern.rules.Rule;
+import org.mudebug.fpm.pattern.rules.*;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtTypeReference;
@@ -49,8 +46,7 @@ public class UpdateInvocationHandler extends UpdateHandler {
                 return new MethodNameRule(methodNameSrc, methodNameDst);
             }
         }
-
-        return null;
+        return UnknownRule.UNKNOWN_RULE;
     }
 
     private String getMethodName(final CtInvocation in) {

@@ -33,7 +33,7 @@ public abstract class OperationHandler {
         } else if (this.next != null) {
             result = this.next.handleOperation(src, dst);
         } else {
-            result = new UnknownRule();
+            result = UnknownRule.UNKNOWN_RULE;
         }
         return result;
     }
