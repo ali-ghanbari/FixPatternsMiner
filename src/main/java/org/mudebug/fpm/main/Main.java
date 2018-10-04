@@ -42,7 +42,7 @@ public final class Main implements FilePairVisitor {
 
     @Override
     public void visit(final File buggy, final File fixed) {
-        out.printf("Diffing:%n\t%s%n\t%s%n", buggy.getName(), fixed.getName());
+        out.printf("Diffing (%s):%n\t%s%n\t%s%n", buggy.getParent(), buggy.getName(), fixed.getName());
         final AstComparator ac = new AstComparator();
         try {
             final Diff diff = ac.compare(buggy, fixed);

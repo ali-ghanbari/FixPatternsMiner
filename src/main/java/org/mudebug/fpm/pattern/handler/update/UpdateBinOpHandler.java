@@ -1,5 +1,6 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.rules.BinOpReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.code.CtInvocation;
@@ -32,11 +33,11 @@ public class UpdateBinOpHandler extends UpdateHandler {
         if (e1 instanceof CtBinaryOperator && e2 instanceof CtBinaryOperator) {
             final CtBinaryOperator bo1 = (CtBinaryOperator) e1;
             final CtBinaryOperator bo2 = (CtBinaryOperator) e2;
-            if (bo1.getKind() != bo2.getKind()) {
-                System.out.println("********************");
-                System.out.println(bo1.toString());
-                System.out.println(bo2.toString());
-                System.out.println("********************");
+            if (bo1.getKind() != bo2.getKind()
+                    && bo1.getType().equals(bo2.getType())
+                    && bo1.getLeftHandOperand().equals(bo2.getLeftHandOperand())
+                    && bo1.getRightHandOperand().equals(bo2.getRightHandOperand())) {
+                return new BinOpReplacementRule(bo1.getKind(), bo2.getKind());
             }
         }
         return null;
