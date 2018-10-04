@@ -410,7 +410,7 @@ public class FSTObjectInput implements ObjectInput {
         int handle = codec.readFInt();
         Object res = objects.getReadRegisteredObject(handle);
         if (res == null) {
-            throw new IOException("unable to ressolve handle " + handle + " " + referencee.getDesc() + " " + codec.getInputPos() );
+            throw new IOException("unable to ressolve handleOperation " + handle + " " + referencee.getDesc() + " " + codec.getInputPos() );
         }
         return res;
     }

@@ -549,7 +549,7 @@ public class BAQ {
         // iterate over the cigar elements to determine the start and stop of the read bases for the BAQ calculation
         for ( CigarElement elt : read.getCigar().getCigarElements() ) {
             switch (elt.getOperator()) {
-                case N:  return null; // cannot handle these
+                case N:  return null; // cannot handleOperation these
                 case H : case P : case D: break; // ignore pads, hard clips, and deletions
                 case I : case S: case M:
                     int prev = readI;
@@ -578,7 +578,7 @@ public class BAQ {
 
     // we need to pad ref by at least the bandwidth / 2 on either side
     public BAQCalculationResult calcBAQFromHMM(SAMRecord read, byte[] ref, int refOffset) {
-        // todo -- need to handle the case where the cigar sum of lengths doesn't cover the whole read
+        // todo -- need to handleOperation the case where the cigar sum of lengths doesn't cover the whole read
         Pair<Integer, Integer> queryRange = calculateQueryRange(read);
         if ( queryRange == null ) return null; // read has Ns, or is completely clipped away
 
@@ -592,7 +592,7 @@ public class BAQ {
         for ( CigarElement elt : read.getCigar().getCigarElements() ) {
             int l = elt.getLength();
             switch (elt.getOperator()) {
-                case N: // cannot handle these
+                case N: // cannot handleOperation these
                     return null;
                 case H : case P : // ignore pads and hard clips
                     break;

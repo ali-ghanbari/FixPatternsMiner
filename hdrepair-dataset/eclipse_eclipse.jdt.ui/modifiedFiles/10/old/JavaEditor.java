@@ -3691,7 +3691,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Overrides the default implementation to handle {@link IJavaAnnotation}.
+	 * Overrides the default implementation to handleOperation {@link IJavaAnnotation}.
 	 * </p>
 	 *
 	 * @param offset the region offset

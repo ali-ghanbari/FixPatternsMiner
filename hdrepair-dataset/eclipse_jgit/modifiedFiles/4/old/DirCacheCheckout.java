@@ -1032,7 +1032,7 @@ public class DirCacheCheckout {
 	}
 
 	/**
-	 * This method implements how to handle conflicts when
+	 * This method implements how to handleOperation conflicts when
 	 * {@link #failOnConflict} is false
 	 *
 	 * @throws CheckoutConflictException

@@ -339,7 +339,7 @@ public class MessageListenerAdapter implements InitializingBean, MessageListener
 	 * default implementation logs the exception at error level.
 	 * 
 	 * @param ex
-	 *            the exception to handle
+	 *            the exception to handleOperation
 	 */
 	protected void handleListenerException(Throwable ex) {
 		logger.error("Listener execution failed", ex);
@@ -361,7 +361,7 @@ public class MessageListenerAdapter implements InitializingBean, MessageListener
 	}
 
 	/**
-	 * Determine the name of the listener method that is supposed to handle the
+	 * Determine the name of the listener method that is supposed to handleOperation the
 	 * given message.
 	 * <p>
 	 * The default implementation simply returns the configured default listener

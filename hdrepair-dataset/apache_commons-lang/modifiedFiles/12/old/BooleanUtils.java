@@ -21,7 +21,7 @@ import org.apache.commons.lang.math.NumberUtils;
 /**
  * <p>Operations on boolean primitives and Boolean objects.</p>
  *
- * <p>This class tries to handle <code>null</code> input gracefully.
+ * <p>This class tries to handleOperation <code>null</code> input gracefully.
  * An exception will not be thrown for a <code>null</code> input.
  * Each method documents its behaviour in more detail.</p>
  * 

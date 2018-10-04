@@ -1323,7 +1323,7 @@ public class ActionScriptParser {
                     if (ss2.type == SymbolType.PARENT_OPEN) {
                         List<GraphTargetItem> args = call(thisType, pkg, needsActivation, importedClasses, openedNamespaces, registerVars, inFunction, inMethod, variables);
                         ret = new ConstructSuperAVM2Item(null, new LocalRegAVM2Item(null, 0, null), args);
-                    } else {//no costructor call, but it could be calling parent methods... => handle in expression
+                    } else {//no costructor call, but it could be calling parent methods... => handleOperation in expression
                         lexer.pushback(ss2);
                         lexer.pushback(s);
                     }
@@ -1538,7 +1538,7 @@ public class ActionScriptParser {
                             throw new AVM2ParseException("No loop to continue", lexer.yyline());
                         }
                     }
-                    //TODO: handle switch
+                    //TODO: handleOperation switch
                     ret = new ContinueItem(null, cloopId);
                     break;
                 case RETURN:

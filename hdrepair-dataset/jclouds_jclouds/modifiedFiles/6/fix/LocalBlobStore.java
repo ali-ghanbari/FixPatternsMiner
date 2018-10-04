@@ -218,7 +218,7 @@ public final class LocalBlobStore implements BlobStore {
             new Function<String, StorageMetadata>() {
                public StorageMetadata apply(String key) {
                   if (!storageStrategy.blobExists(containerName, key)) {
-                     // handle directory
+                     // handleOperation directory
                      return new StorageMetadataImpl(StorageType.FOLDER, /*id=*/ null, key,
                            /*location=*/ null, /*uri=*/ null, /*eTag=*/ null, /*creationDate=*/ null,
                            /*lastModified=*/ null, ImmutableMap.<String, String>of());

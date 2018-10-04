@@ -31,7 +31,7 @@ import junit.framework.TestSuite;
 //dropins/Foo   (Foo is a feature or bundle, in folder or jar shape)
 //dropins/some.link
 //
-//handle both dropins and plugins directory
+//handleOperation both dropins and plugins directory
 public class BasicTests extends AbstractReconcilerTest {
 
 	/*
@@ -52,7 +52,7 @@ public class BasicTests extends AbstractReconcilerTest {
 		suite.addTest(new BasicTests("testSingleton"));
 		suite.addTest(new BasicTests("testDirectoryBasedPlugin"));
 		suite.addTest(new BasicTests("testSimpleRepoWithSiteXMLPlaceHolder"));
-		// NOTE: Enable this tests when we can handle a simple repo without the site.xml placeholder
+		// NOTE: Enable this tests when we can handleOperation a simple repo without the site.xml placeholder
 		// see bug 252752
 		//suite.addTest(new BasicTests("testSimpleRepo"));
 		return suite;

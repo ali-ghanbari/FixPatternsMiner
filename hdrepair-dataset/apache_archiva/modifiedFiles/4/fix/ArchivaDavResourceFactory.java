@@ -260,7 +260,7 @@ public class ArchivaDavResourceFactory
 
             log.debug( "Repository group '{}' accessed by '{}", repoGroupConfig.getId(), activePrincipal );
 
-            // handle browse requests for virtual repos
+            // handleOperation browse requests for virtual repos
             if ( RepositoryPathUtil.getLogicalResource( archivaLocator.getOrigResourcePath() ).endsWith( "/" ) )
             {
                 return getResourceFromGroup( request, repoGroupConfig.getRepositories(), archivaLocator,
@@ -347,7 +347,7 @@ public class ArchivaDavResourceFactory
                                                      "/" );
                 filePath = filePath + "/maven-metadata-" + repoGroupConfig.getId() + ".xml";
 
-                // for MRM-872 handle checksums of the merged metadata files
+                // for MRM-872 handleOperation checksums of the merged metadata files
                 if ( repositoryRequest.isSupportFile( requestedResource ) )
                 {
                     File metadataChecksum =

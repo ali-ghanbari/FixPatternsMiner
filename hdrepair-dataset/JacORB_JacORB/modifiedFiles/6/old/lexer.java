@@ -42,7 +42,7 @@ import org.jacorb.idl.runtime.token;
  *  with  next_token() to get  each token) this class  provides simple
  *  error  and warning  routines  and keeps  a  count  of errors  and
  *  warnings that  is  publicly accessible.  It  also provides  basic
- *  preprocessing   facilties,  i.e.  it   does  handle  preprocessor
+ *  preprocessing   facilties,  i.e.  it   does  handleOperation  preprocessor
  *  directives  such as #define,  #undef, #include, etc.   although it
  *  does not provide full C++ preprocessing
  *

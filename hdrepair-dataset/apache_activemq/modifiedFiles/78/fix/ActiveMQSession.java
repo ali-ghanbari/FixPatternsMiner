@@ -157,7 +157,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * The JMS API does not require support for JTA; however, it does define how a
  * provider supplies this support.
  * <P>
- * Although it is also possible for a JMS client to handle distributed
+ * Although it is also possible for a JMS client to handleOperation distributed
  * transactions directly, it is unlikely that many JMS clients will do this.
  * Support for JTA in the JMS API is targeted at systems vendors who will be
  * integrating the JMS API into their application server products.
@@ -697,7 +697,7 @@ public class ActiveMQSession implements Session, QueueSession, TopicSession, Sta
             try { 
                 messageListener.onMessage(message);
             } catch ( Throwable e ) {  
-                // TODO: figure out proper way to handle error.
+                // TODO: figure out proper way to handleOperation error.
                 log.error("error dispatching message: ",e);
                 connection.onAsyncException(e);
             }

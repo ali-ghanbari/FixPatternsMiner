@@ -137,7 +137,7 @@ public abstract class AbstractISOTest {
                 try {
                     stmt.executeUpdate( sql );
                 } catch ( Exception e ) {
-                    // TODO: handle exception
+                    // TODO: handleOperation exception
                     System.out.println( e.getMessage() );
                 }
             }

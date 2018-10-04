@@ -100,7 +100,7 @@ public class RDBMSDatabase implements Database {
 	private final Set<StandardPredicate> closedPredicates;
 	
 	/** 
-	 * Mapping from a predicate to its database handle.
+	 * Mapping from a predicate to its database handleOperation.
 	 */
 	private final Map<Predicate, RDBMSPredicateHandle> predicateHandles;
 
@@ -256,9 +256,9 @@ public class RDBMSDatabase implements Database {
 	}
 	
 	/**
-	 * Helper method for getting a predicate handle
+	 * Helper method for getting a predicate handleOperation
 	 * @param p	The predicate to lookup
-	 * @return	The handle associated with the predicate
+	 * @return	The handleOperation associated with the predicate
 	 */
 	protected RDBMSPredicateHandle getHandle(Predicate p) {
 		RDBMSPredicateHandle ph = predicateHandles.get(p);

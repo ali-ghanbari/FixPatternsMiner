@@ -93,7 +93,7 @@ public class DomainUpdateControllerTest extends BaseTest {
         String updateLang = "us";
         String originalHandle = "h1";
         String updatePort43 = "update-port43";
-        String updateHandle = "new-handle";
+        String updateHandle = "new-handleOperation";
         String updateStatusRenewProbibited = "renew prohibited";
         String updateStatusTransferProbibited = "transfer prohibited";
         String updateStatusDeleteProbibited = "delete prohibited";
@@ -125,7 +125,7 @@ public class DomainUpdateControllerTest extends BaseTest {
     @Test
     @DatabaseTearDown("classpath:org/restfulwhois/rdap/dao/impl/teardown.xml")
     public void test_invalid_handle_not_exist() throws Exception {
-        String notExistHandle = "not-exist-handle";
+        String notExistHandle = "not-exist-handleOperation";
         mockMvc.perform(
                 put(URI_DOMAIN_U + notExistHandle).contentType(
                         MediaType.parseMediaType(rdapJson)).content("{}"))

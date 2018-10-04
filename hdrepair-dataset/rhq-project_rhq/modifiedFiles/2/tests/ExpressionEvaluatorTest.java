@@ -189,7 +189,7 @@ public class ExpressionEvaluatorTest extends AbstractEJB3Test {
                 evaluator.setTestMode(true); // to prevent actual query from happening
                 for (String expression : inputExpressions.split(";")) {
                     try {
-                        evaluator.addExpression(expression); // do not trim, evaluator must handle sloppy expressions
+                        evaluator.addExpression(expression); // do not trim, evaluator must handleOperation sloppy expressions
                     } catch (Exception e) {
                         e.printStackTrace(System.out);
                         assert false : "Error in TestCase[" + i + "], could not add expression[" + expression

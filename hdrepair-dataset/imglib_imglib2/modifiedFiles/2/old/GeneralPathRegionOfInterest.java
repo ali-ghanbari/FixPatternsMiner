@@ -178,7 +178,7 @@ public class GeneralPathRegionOfInterest extends
 		if ( stripes != null )
 			return;
 
-		// handle degenerate case gracefully
+		// handleOperation degenerate case gracefully
 		if ( path.getPathIterator( null ).isDone() )
 		{
 			stripes = new long[ 0 ];

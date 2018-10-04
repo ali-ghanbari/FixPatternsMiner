@@ -102,7 +102,7 @@ public class PlotRequestParser {
             return DEFAULT_STATS;
         } else {
             Set<BasicRollupsOutputSerializer.MetricStat> filters = new HashSet<BasicRollupsOutputSerializer.MetricStat>();
-            // handle case when someone does select=average,min instead of select=average&select=min
+            // handleOperation case when someone does select=average,min instead of select=average&select=min
             for (String stat : select) {
                 if (stat.contains(",")) {
                     List<String> nestedStats = Arrays.asList(stat.split(","));

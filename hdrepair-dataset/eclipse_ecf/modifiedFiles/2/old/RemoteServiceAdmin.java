@@ -386,7 +386,7 @@ public class RemoteServiceAdmin implements
 					"No defaultConsumerContainerSelector available"); //$NON-NLS-1$
 			return null;
 		}
-		// Select the rsContainer to handle the endpoint description
+		// Select the rsContainer to handleOperation the endpoint description
 		IRemoteServiceContainer rsContainer = null;
 		try {
 			rsContainer = AccessController

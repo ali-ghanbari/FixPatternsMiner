@@ -55,7 +55,7 @@ import com.dotmarketing.util.UtilMethods;
 import com.liferay.portal.model.User;
 
 /**
- * This class upgrades the old permissionsfactoryimpl to handle the storage and retrieval of bit permissions from the database
+ * This class upgrades the old permissionsfactoryimpl to handleOperation the storage and retrieval of bit permissions from the database
  * a big storage improvement that will let us reduces the amount of rows in the permissions table
  * as much as three times.
  *

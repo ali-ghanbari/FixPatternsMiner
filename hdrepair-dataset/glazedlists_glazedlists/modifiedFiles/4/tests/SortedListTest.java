@@ -817,7 +817,7 @@ public class SortedListTest extends TestCase {
 
 
     /**
-     * Tests that the SortedList can handle reordering events.
+     * Tests that the SortedList can handleOperation reordering events.
      */
     public void testReorder() {
         // prepare a source list

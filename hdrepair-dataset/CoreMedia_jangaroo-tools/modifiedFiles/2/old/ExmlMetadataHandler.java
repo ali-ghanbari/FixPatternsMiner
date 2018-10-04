@@ -77,7 +77,7 @@ public class ExmlMetadataHandler extends CharacterRecordingHandler {
           startRecordingCharacters();
         }
       } else if (Exmlc.EXML_CFG_NODE_NAME.equals(localName)) {
-        //handle config elements
+        //handleOperation config elements
         ConfigAttribute cfg = new ConfigAttribute(atts.getValue(Exmlc.EXML_CFG_NAME_ATTRIBUTE), atts.getValue(Exmlc.EXML_CFG_TYPE_ATTRIBUTE), null);
         if(!configClass.contains(cfg)) {
           configClass.addCfg(cfg);

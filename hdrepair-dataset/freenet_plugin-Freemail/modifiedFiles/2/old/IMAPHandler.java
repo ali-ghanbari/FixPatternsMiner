@@ -706,7 +706,7 @@ public class IMAPHandler extends ServerHandler implements Runnable {
 	private boolean sendBody(MailMessage mmsg, String attr) {
 		if (attr.length() < 1) return false;
 		
-		// handle byte ranges (e.g. body.peek[]<0.10240>
+		// handleOperation byte ranges (e.g. body.peek[]<0.10240>
 
 		int range_start=-1;
 		int range_len=-1;

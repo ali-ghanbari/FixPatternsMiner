@@ -246,10 +246,10 @@ public class Tokenizer {
                     appendCurrentChar = true;
                 } else if (isOfChars(c, Geresh)) {
                     c = '\'';
-                    // Tokenize if previous char wasn't part of a word or another Geresh (which we handle below)
+                    // Tokenize if previous char wasn't part of a word or another Geresh (which we handleOperation below)
                     // and only do this for Hebrew tokens
                     if ((tokenType & TokenType.Hebrew) > 0) {
-                        // TODO: Is it possible to handle cases which are similar to Merchaot - ה'חלל הפנוי' here?
+                        // TODO: Is it possible to handleOperation cases which are similar to Merchaot - ה'חלל הפנוי' here?
                         if (!isHebrewLetter(wordBuffer[length - 1]) && !isNiqqudChar(wordBuffer[length - 1])
                                 && !isOfChars(wordBuffer[length - 1], Geresh))
                             break;

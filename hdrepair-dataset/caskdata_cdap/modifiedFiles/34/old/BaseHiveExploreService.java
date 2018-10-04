@@ -116,7 +116,7 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
     this.previewsDir = previewsDir;
 
     this.scheduledExecutorService =
-      Executors.newSingleThreadScheduledExecutor(Threads.createDaemonThreadFactory("explore-handle-timeout"));
+      Executors.newSingleThreadScheduledExecutor(Threads.createDaemonThreadFactory("explore-handleOperation-timeout"));
 
     this.activeHandleCache =
       CacheBuilder.newBuilder()
@@ -135,8 +135,8 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
 
     cleanupJobSchedule = cConf.getLong(Constants.Explore.CLEANUP_JOB_SCHEDULE_SECS);
 
-    LOG.info("Active handle timeout = {} secs", cConf.getLong(Constants.Explore.ACTIVE_OPERATION_TIMEOUT_SECS));
-    LOG.info("Inactive handle timeout = {} secs", cConf.getLong(Constants.Explore.INACTIVE_OPERATION_TIMEOUT_SECS));
+    LOG.info("Active handleOperation timeout = {} secs", cConf.getLong(Constants.Explore.ACTIVE_OPERATION_TIMEOUT_SECS));
+    LOG.info("Inactive handleOperation timeout = {} secs", cConf.getLong(Constants.Explore.INACTIVE_OPERATION_TIMEOUT_SECS));
     LOG.info("Cleanup job schedule = {} secs", cleanupJobSchedule);
   }
 
@@ -389,7 +389,7 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
       try {
         OperationHandle operationHandle = doExecute(sessionHandle, statement);
         QueryHandle handle = saveOperationInfo(operationHandle, sessionHandle, sessionConf, statement);
-        LOG.trace("Executing statement: {} with handle {}", statement, handle);
+        LOG.trace("Executing statement: {} with handleOperation {}", statement, handle);
         return handle;
       } catch (Throwable e) {
         closeSession(sessionHandle);
@@ -407,14 +407,14 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
     InactiveOperationInfo inactiveOperationInfo = inactiveHandleCache.getIfPresent(handle);
     if (inactiveOperationInfo != null) {
       // Operation has been made inactive, so return the saved status.
-      LOG.trace("Returning saved status for inactive handle {}", handle);
+      LOG.trace("Returning saved status for inactive handleOperation {}", handle);
       return inactiveOperationInfo.getStatus();
     }
 
     try {
       // Fetch status from Hive
       QueryStatus status = fetchStatus(getOperationHandle(handle));
-      LOG.trace("Status of handle {} is {}", handle, status);
+      LOG.trace("Status of handleOperation {} is {}", handle, status);
 
       // No results or error, so can be timed out aggressively
       if (status.getStatus() == QueryStatus.OpStatus.FINISHED && !status.hasResults()) {
@@ -435,18 +435,18 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
     InactiveOperationInfo inactiveOperationInfo = inactiveHandleCache.getIfPresent(handle);
     if (inactiveOperationInfo != null) {
       // Operation has been made inactive, so all results should have been fetched already - return empty list.
-      LOG.trace("Returning empty result for inactive handle {}", handle);
+      LOG.trace("Returning empty result for inactive handleOperation {}", handle);
       return ImmutableList.of();
     }
 
     try {
       // Fetch results from Hive
-      LOG.trace("Getting results for handle {}", handle);
+      LOG.trace("Getting results for handleOperation {}", handle);
       List<QueryResult> results = fetchNextResults(getOperationHandle(handle), size);
 
       QueryStatus status = getStatus(handle);
       if (results.isEmpty() && status.getStatus() == QueryStatus.OpStatus.FINISHED) {
-        // Since operation has fetched all the results, handle can be timed out aggressively.
+        // Since operation has fetched all the results, handleOperation can be timed out aggressively.
         timeoutAggresively(handle, getResultSchema(handle), status);
       }
       return results;
@@ -539,12 +539,12 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
       InactiveOperationInfo inactiveOperationInfo = inactiveHandleCache.getIfPresent(handle);
       if (inactiveOperationInfo != null) {
         // Operation has been made inactive, so return saved schema.
-        LOG.trace("Returning saved schema for inactive handle {}", handle);
+        LOG.trace("Returning saved schema for inactive handleOperation {}", handle);
         return inactiveOperationInfo.getSchema();
       }
 
       // Fetch schema from hive
-      LOG.trace("Getting schema for handle {}", handle);
+      LOG.trace("Getting schema for handleOperation {}", handle);
       ImmutableList.Builder<ColumnDesc> listBuilder = ImmutableList.builder();
       OperationHandle operationHandle = getOperationHandle(handle);
       if (operationHandle.hasResultSet()) {
@@ -564,9 +564,9 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
    * Cancel a running Hive operation. After the operation moves into a {@link QueryStatus.OpStatus#CANCELED},
    * {@link #close(QueryHandle)} needs to be called to release resources.
    *
-   * @param handle handle returned by {@link #execute(String)}.
+   * @param handle handleOperation returned by {@link #execute(String)}.
    * @throws ExploreException on any error cancelling operation.
-   * @throws HandleNotFoundException when handle is not found.
+   * @throws HandleNotFoundException when handleOperation is not found.
    * @throws SQLException if there are errors in the SQL statement.
    */
   void cancelInternal(QueryHandle handle) throws ExploreException, HandleNotFoundException, SQLException {
@@ -574,7 +574,7 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
       InactiveOperationInfo inactiveOperationInfo = inactiveHandleCache.getIfPresent(handle);
       if (inactiveOperationInfo != null) {
         // Operation has been made inactive, so no point in cancelling it.
-        LOG.trace("Not running cancel for inactive handle {}", handle);
+        LOG.trace("Not running cancel for inactive handleOperation {}", handle);
         return;
       }
 
@@ -602,8 +602,8 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
                                    entry.getKey(), status, true));
         }
       } catch (HandleNotFoundException e) {
-        // ignore the handle not found exception. this method returns all queries and handle, if the
-        // handle is removed from the internal cache, then there is no point returning them from here.
+        // ignore the handleOperation not found exception. this method returns all queries and handleOperation, if the
+        // handleOperation is removed from the internal cache, then there is no point returning them from here.
       }
     }
 
@@ -616,8 +616,8 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
                                    entry.getValue().getStatement(), entry.getKey(), status, false));
         }
       } catch (HandleNotFoundException e) {
-        // ignore the handle not found exception. this method returns all queries and handle, if the
-        // handle is removed from the internal cache, then there is no point returning them from here.
+        // ignore the handleOperation not found exception. this method returns all queries and handleOperation, if the
+        // handleOperation is removed from the internal cache, then there is no point returning them from here.
       }
     }
     Collections.sort(result);
@@ -666,7 +666,7 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
 
   /**
    * Returns {@link OperationHandle} associated with Explore {@link QueryHandle}.
-   * @param handle explore handle.
+   * @param handle explore handleOperation.
    * @return OperationHandle.
    * @throws ExploreException
    */
@@ -690,20 +690,20 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
   }
 
   /**
-   * Called after a handle has been used to fetch all its results. This handle can be timed out aggressively.
+   * Called after a handleOperation has been used to fetch all its results. This handleOperation can be timed out aggressively.
    *
-   * @param handle operation handle.
+   * @param handle operation handleOperation.
    */
   private void timeoutAggresively(QueryHandle handle, List<ColumnDesc> schema, QueryStatus status)
     throws HandleNotFoundException {
     OperationInfo opInfo = activeHandleCache.getIfPresent(handle);
     if (opInfo == null) {
-      LOG.trace("Could not find OperationInfo for handle {}, it might already have been moved to inactive list",
+      LOG.trace("Could not find OperationInfo for handleOperation {}, it might already have been moved to inactive list",
                 handle);
       return;
     }
 
-    LOG.trace("Timing out handle {} aggressively", handle);
+    LOG.trace("Timing out handleOperation {} aggressively", handle);
     inactiveHandleCache.put(handle, new InactiveOperationInfo(opInfo, schema, status));
     activeHandleCache.invalidate(handle);
   }
@@ -714,12 +714,12 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
     if (opInfo != null) {
       return opInfo;
     }
-    throw new HandleNotFoundException("Invalid handle provided");
+    throw new HandleNotFoundException("Invalid handleOperation provided");
   }
 
   /**
    * Cleans up the metadata associated with active {@link QueryHandle}. It also closes associated transaction.
-   * @param handle handle of the running Hive operation.
+   * @param handle handleOperation of the running Hive operation.
    */
   protected void cleanUp(QueryHandle handle, OperationInfo opInfo) {
     try {
@@ -743,7 +743,7 @@ public abstract class BaseHiveExploreService extends AbstractIdleService impleme
       Transaction tx = ConfigurationUtil.get(opInfo.getSessionConf(),
                                              Constants.Explore.TX_QUERY_KEY,
                                              TxnCodec.INSTANCE);
-      LOG.trace("Closing transaction {} for handle {}", tx, handle);
+      LOG.trace("Closing transaction {} for handleOperation {}", tx, handle);
 
       // Transaction doesn't involve any changes. We still commit it to take care of any side effect changes that
       // SplitReader may have.

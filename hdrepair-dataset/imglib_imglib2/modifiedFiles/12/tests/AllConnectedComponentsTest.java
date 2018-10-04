@@ -105,7 +105,7 @@ public class AllConnectedComponentsTest {
 	@Test
 	public void testOutOfBounds() {
 		/*
-		 * Make sure that the labeler can handle out of bounds conditions
+		 * Make sure that the labeler can handleOperation out of bounds conditions
 		 */
 		for (long [] offset:AllConnectedComponents.getStructuringElement(2)) {
 			boolean [][] input = new boolean [3][3];

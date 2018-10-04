@@ -23,7 +23,7 @@
  *								Bug 424710 - [1.8][compiler] CCE in SingleNameReference.localVariableBinding
  *								Bug 424205 - [1.8] Cannot infer type for diamond type with lambda on method invocation
  *								Bug 424415 - [1.8][compiler] Eventual resolution of ReferenceExpression is not seen to be happening.
- *								Bug 426366 - [1.8][compiler] Type inference doesn't handle multiple candidate target types in outer overload context
+ *								Bug 426366 - [1.8][compiler] Type inference doesn't handleOperation multiple candidate target types in outer overload context
  *								Bug 426290 - [1.8][compiler] Inference + overloading => wrong method resolution ?
  *								Bug 426589 - [1.8][compiler] Compiler error with generic method/constructor invocation as vargs argument
  *								Bug 426590 - [1.8][compiler] Compiler error with tenary operator
@@ -1798,7 +1798,7 @@ public abstract class Scope {
 		ReferenceBinding object = getJavaLangObject();
 		MethodBinding methodBinding = object.getExactMethod(selector, argumentTypes, null);
 		if (methodBinding != null) {
-			// handle the method clone() specially... cannot be protected or throw exceptions
+			// handleOperation the method clone() specially... cannot be protected or throw exceptions
 			if (argumentTypes == Binding.NO_PARAMETERS) {
 			    switch (selector[0]) {
 			        case 'c':
@@ -2893,7 +2893,7 @@ public abstract class Scope {
 	// NOTE: We could support looking for Base Types last in the search, however any code using
 	// this feature would be extraordinarily slow. Therefore we don't do this.
 	public final TypeBinding getType(char[] name) {
-		// Would like to remove this test and require senders to specially handle base types
+		// Would like to remove this test and require senders to specially handleOperation base types
 		TypeBinding binding = getBaseType(name);
 		if (binding != null) return binding;
 		return (ReferenceBinding) getTypeOrPackage(name, Binding.TYPE, true);
@@ -2936,7 +2936,7 @@ public abstract class Scope {
 	*/
 	public final TypeBinding getType(char[][] compoundName, int typeNameLength) {
 		if (typeNameLength == 1) {
-			// Would like to remove this test and require senders to specially handle base types
+			// Would like to remove this test and require senders to specially handleOperation base types
 			TypeBinding binding = getBaseType(compoundName[0]);
 			if (binding != null) return binding;
 		}
@@ -3044,7 +3044,7 @@ public abstract class Scope {
 								if (typeVariable != null)
 									return typeVariable;
 							} else {
-								// use the methodDecl's typeParameters to handle problem cases when the method binding doesn't exist
+								// use the methodDecl's typeParameters to handleOperation problem cases when the method binding doesn't exist
 								TypeParameter[] params = methodDecl.typeParameters();
 								for (int i = params == null ? 0 : params.length; --i >= 0;)
 									if (CharOperation.equals(params[i].name, name))

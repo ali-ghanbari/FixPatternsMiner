@@ -28,7 +28,7 @@ import com.fasterxml.jackson.jr.type.TypeResolver;
  * by each {@link com.fasterxml.jackson.jr.ob.JSON} instance; and
  * an actual per-operation instance must be constructed by calling
  * {@link #perOperationInstance}: reason for this is that instances
- * use simple caching to handle the common case of repeating types
+ * use simple caching to handleOperation the common case of repeating types
  * within JSON Arrays.
  */
 public class TypeDetector

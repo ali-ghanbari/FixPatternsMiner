@@ -103,7 +103,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
         super.assertTablesForUpdate("autnum-create.xml", "RDAP_AUTNUM");
     }
 
@@ -121,7 +121,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_AUTNUM",
                         "select CUSTOM_PROPERTIES from RDAP_AUTNUM where HANDLE='h1'");
@@ -160,7 +160,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_AUTNUM",
                         "select CUSTOM_PROPERTIES from RDAP_AUTNUM where HANDLE='h1'");
@@ -182,7 +182,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_AUTNUM",
                         "select CUSTOM_PROPERTIES from RDAP_AUTNUM where HANDLE='h1'");
@@ -195,21 +195,21 @@ public class AutnumCreateControllerTest extends BaseTest {
     @DatabaseTearDown("classpath:org/restfulwhois/rdap/dao/impl/teardown.xml")
     public void test_ok_ignore_unrecognized_properties() throws Exception {
         String content =
-                "{\"handle\":\"1\",\"startAutnum\":1,\"endAutnum\":2"
+                "{\"handleOperation\":\"1\",\"startAutnum\":1,\"endAutnum\":2"
                         + ",\"\":1,\"unknownP\":\"x\"}";
         mockMvc.perform(
                 post(URI_AUTNUM_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     } 
     
     @Test
     public void test_invalid_propertyType_should_be_long_but_is_string()
             throws Exception {
         String content =
-                "{\"handle\":\"1\",\"startAutnum\":\" i-am-not-long-value\","
+                "{\"handleOperation\":\"1\",\"startAutnum\":\" i-am-not-long-value\","
                 + "\"endAutnum\":2}";
                     
         mockMvc.perform(
@@ -232,21 +232,21 @@ public class AutnumCreateControllerTest extends BaseTest {
             test_ok_propertyType_should_be_int_but_is_long_with_dot_will_truncated_to_long()
                     throws Exception {
     	String content =
-                "{\"handle\":\"1\",\"startAutnum\":1,\"endAutnum\":2.8}";
+                "{\"handleOperation\":\"1\",\"startAutnum\":1,\"endAutnum\":2.8}";
                       
         mockMvc.perform(
                 post(URI_AUTNUM_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     }
     @Test
     public void
             test_invalid_propertyType_long_but_exceed_max_value_as_minus_long()
                     throws Exception {
     	String content =
-    			"{\"handle\":\"1\",\"startAutnum\":1,\"endAutnum\":"
+    			"{\"handleOperation\":\"1\",\"startAutnum\":1,\"endAutnum\":"
                    + (UpdateValidateUtil.MAX_VAL_FOR_BIGINT_COLUMN + 1) + "}]}";
                        
         mockMvc.perform(
@@ -261,7 +261,7 @@ public class AutnumCreateControllerTest extends BaseTest {
     public void test_invalid_propertyType_long_but_exceed_max_value()
             throws Exception {
     	String content =
-    			"{\"handle\":\"1\",\"startAutnum\":1,\"endAutnum\":"
+    			"{\"handleOperation\":\"1\",\"startAutnum\":1,\"endAutnum\":"
     			+ "18446744073709551616}";
                         
         mockMvc.perform(
@@ -292,7 +292,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
         // RemarkUpdateDaoTest.assertCreate();/link duplicated.
         // LinkUpdateDaoTest.assertCreate();       
         List<Map<?, ?>> actualAutnumIds =
@@ -335,7 +335,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
     }
 
     
@@ -354,7 +354,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
     }
 
     @Test
@@ -375,7 +375,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4002
-                                                .getMessage(), "handle"))));
+                                                .getMessage(), "handleOperation"))));
     }
 
     @Test
@@ -399,7 +399,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4003
-                                                .getMessage(), "handle",
+                                                .getMessage(), "handleOperation",
                                         UpdateValidateUtil.MAX_LENGTH_HANDLE
                                                 + ""))));
     }
@@ -437,7 +437,7 @@ public class AutnumCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(autnum.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(autnum.getHandle()));
         mockMvc.perform(
                 post(URI_AUTNUM_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))

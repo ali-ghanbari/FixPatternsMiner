@@ -562,7 +562,7 @@ public class LeapFrogJoin extends NAryOperator {
     }
     /* Initialization before LeapFrog starts. */
     if (currentDepth == -1) {
-      /* handle the case that one of input tables is empty. */
+      /* handleOperation the case that one of input tables is empty. */
       for (MutableTupleBuffer table : tables) {
         if (table.numTuples() == 0) {
           joinFinished = true;

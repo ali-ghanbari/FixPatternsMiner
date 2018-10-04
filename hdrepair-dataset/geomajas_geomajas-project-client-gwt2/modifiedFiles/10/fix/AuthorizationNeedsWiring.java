@@ -26,7 +26,7 @@ import org.springframework.context.ApplicationContext;
 public interface AuthorizationNeedsWiring {
 
 	/**
-	 * Method which is called to handle the wiring.
+	 * Method which is called to handleOperation the wiring.
 	 *
 	 * @param applicationContext Spring application context
 	 */

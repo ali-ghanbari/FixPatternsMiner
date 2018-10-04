@@ -176,7 +176,7 @@ public class HadoopTapPlatformTest extends PlatformTestCase implements Serializa
 
     iterator.close();
 
-    // confirm the tuple iterator can handle nulls from the source
+    // confirm the tuple iterator can handleOperation nulls from the source
     validateLength( flow.openSource(), 5 );
     }
 
@@ -238,7 +238,7 @@ public class HadoopTapPlatformTest extends PlatformTestCase implements Serializa
 
     iterator.close();
 
-    // confirm the tuple iterator can handle nulls from the source
+    // confirm the tuple iterator can handleOperation nulls from the source
     validateLength( flow.openSource(), 5 );
     }
 

@@ -52,7 +52,7 @@ public final class SubscriptionManagerFCPTest extends AbstractFullNodeTest {
 		LinkedList<SimpleFieldSet> results = new LinkedList<SimpleFieldSet>();
 
 		/**
-		 * Called by fred to handle messages from WOT's FCP server.
+		 * Called by fred to handleOperation messages from WOT's FCP server.
 		 */
 		@Override
         public FCPPluginMessage handlePluginFCPMessage(FCPPluginClient client,

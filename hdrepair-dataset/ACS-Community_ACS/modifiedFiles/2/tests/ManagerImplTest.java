@@ -483,7 +483,7 @@ public class ManagerImplTest extends TestCase
 
 		/* 
 		// THIS TAKES WAY TOO MUCH TIME
-		// DoS attack, there should be no handle left...
+		// DoS attack, there should be no handleOperation left...
 		try
 		{
 			Client differentClient = new TestAlwaysNotEqualClient("different");
@@ -3517,7 +3517,7 @@ public class ManagerImplTest extends TestCase
 		
 		
 		try {
-			// mount2 is immortal and stays active, has managers handle as an owner
+			// mount2 is immortal and stays active, has managers handleOperation as an owner
 			infos = manager.getComponentInfo(adminInfo.getHandle(), new int[0], "MOUNT2", "*", true);
 			assertEquals(1, infos.length);
 			assertTrue(infos[0].getClients().contains(manager.getHandle()));

@@ -185,7 +185,7 @@ public final class TableDiskAccess extends TableAccess {
     int from = first - fpre;
     final int last = first + nr;
 
-    // check if all entries are in current block => handle and return
+    // check if all entries are in current block => handleOperation and return
     if(last - 1 < npre) {
       copy(bf.data, from + nr, bf.data, from, npre - last);
       updatePre(nr);
@@ -204,7 +204,7 @@ public final class TableDiskAccess extends TableAccess {
       return;
     }
 
-    // handle blocks whose entries are to be deleted entirely
+    // handleOperation blocks whose entries are to be deleted entirely
 
     // first count them
     int unused = 0;
@@ -258,7 +258,7 @@ public final class TableDiskAccess extends TableAccess {
       bf.dirty = true;
     }
 
-    // handle the remaining entries if the two subtrees are of different size
+    // handleOperation the remaining entries if the two subtrees are of different size
     // case1: new subtree bigger than old one, insert remaining new nodes
     if(diff < 0) {
       final byte[] tmp = new byte[entries.length - off];

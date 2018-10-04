@@ -43,7 +43,7 @@ public class ParseInModule implements Serializable {
      * @return the Term representation of the parsed input.
      */
     // TODO: require source location to this call
-    // TODO: figure out how to handle parsing errors
+    // TODO: figure out how to handleOperation parsing errors
     public Tuple2<Either<Set<ParseFailedException>, Term>, Set<ParseFailedException>> parseString(CharSequence input, String startSymbol) {
         Parser parser = new Parser(input);
         Term parsed = parser.parse(grammar.get(startSymbol), 0);

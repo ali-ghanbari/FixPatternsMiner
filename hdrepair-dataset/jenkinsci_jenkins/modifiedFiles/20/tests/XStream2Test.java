@@ -91,7 +91,7 @@ public class XStream2Test extends TestCase {
     }
 
     /**
-     * Verify RobustReflectionConverter can handle missing fields in a class extending
+     * Verify RobustReflectionConverter can handleOperation missing fields in a class extending
      * Throwable/Exception (default ThrowableConverter registered by XStream calls
      * ReflectionConverter directly, rather than our RobustReflectionConverter replacement).
      * (HUDSON-5769)

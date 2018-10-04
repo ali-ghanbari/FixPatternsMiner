@@ -5435,7 +5435,7 @@ public void testBug260381_wksp2_09() throws JavaModelException {
 		"	A Conditional represents an if/then/else block.\n" +
 		"	When this is created the code  will already have\n" +
 		"	the conditional check code. The code is optimized for branch\n" +
-		"	offsets that fit in 2 bytes, though will handle 4 byte offsets.\n" +
+		"	offsets that fit in 2 bytes, though will handleOperation 4 byte offsets.\n" +
 		"<code>\n" +
 		"     if condition\n" +
 		"	 then code\n" +
@@ -5460,7 +5460,7 @@ public void testBug260381_wksp2_09() throws JavaModelException {
 		"/**\n" +
 		" * A Conditional represents an if/then/else block. When this is created the code\n" +
 		" * will already have the conditional check code. The code is optimized for\n" +
-		" * branch offsets that fit in 2 bytes, though will handle 4 byte offsets. <code>\n" +
+		" * branch offsets that fit in 2 bytes, though will handleOperation 4 byte offsets. <code>\n" +
 		"     if condition\n" +
 		"	 then code\n" +
 		"	 else code\n" +

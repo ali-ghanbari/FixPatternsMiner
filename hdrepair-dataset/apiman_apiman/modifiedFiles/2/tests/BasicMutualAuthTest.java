@@ -209,7 +209,7 @@ public class BasicMutualAuthTest {
             System.out.println(result.getError());
             Assert.assertTrue(result.getError() instanceof ConnectorException);
             // Would like to assert on SSL error, but is sun specific info
-            // TODO improve connector to handle this situation better
+            // TODO improve connector to handleOperation this situation better
         }
        });
 
@@ -245,7 +245,7 @@ public class BasicMutualAuthTest {
              System.out.println(result.getError());
              Assert.assertTrue(result.getError() instanceof ConnectorException);
              // Would like to assert on SSL error, but is sun specific info
-             // TODO improve connector to handle this situation better
+             // TODO improve connector to handleOperation this situation better
          }
         });
 

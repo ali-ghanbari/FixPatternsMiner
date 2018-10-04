@@ -2091,7 +2091,7 @@ public class MiscTest extends CommonTestMethodBase {
         rule += "  dialect \"mvel\"\n";
         rule += "  when\n";
         rule += "  then\n";
-        // Can't handle the TestFact.TEST
+        // Can't handleOperation the TestFact.TEST
         rule += "    new TestFact(TestFact.TEST);\n";
         rule += "end";
 
@@ -2790,7 +2790,7 @@ public class MiscTest extends CommonTestMethodBase {
         person.setStatus( "start" );
         workingMemory.insert( person );
 
-        // TODO org.drools.spi.ConsequenceException: org.drools.FactException: Update error: handle not found for object:
+        // TODO org.drools.spi.ConsequenceException: org.drools.FactException: Update error: handleOperation not found for object:
         //        workingMemory    = SerializationHelper.serializeObject(workingMemory);
         workingMemory.fireAllRules();
 

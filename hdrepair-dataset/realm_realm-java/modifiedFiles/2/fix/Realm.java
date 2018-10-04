@@ -1781,7 +1781,7 @@ public final class Realm implements Closeable {
     /**
      * Encapsulates a Realm transaction.
      * <p>
-     * Using this class will automatically handle {@link #beginTransaction()} and {@link #commitTransaction()}
+     * Using this class will automatically handleOperation {@link #beginTransaction()} and {@link #commitTransaction()}
      * If any exception is thrown during the transaction {@link #cancelTransaction()} will be called
      * instead of {@link #commitTransaction()}.
      */

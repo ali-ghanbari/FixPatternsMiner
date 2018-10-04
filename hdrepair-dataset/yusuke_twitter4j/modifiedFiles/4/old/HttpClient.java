@@ -29,7 +29,7 @@ package twitter4j.internal.http;
 import twitter4j.TwitterException;
 
 /**
- * A utility class to handle HTTP request/response.
+ * A utility class to handleOperation HTTP request/response.
  *
  * @author Yusuke Yamamoto - yusuke at mac.com
  */

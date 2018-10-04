@@ -569,7 +569,7 @@ abstract public class InetAddressUtils {
 			}
 			return sb.toString();
 		} else {
-			LogUtils.debugf(InetAddressUtils.class, "don't know how to handle %s", addr);
+			LogUtils.debugf(InetAddressUtils.class, "don't know how to handleOperation %s", addr);
 			return null;
 		}
 	}

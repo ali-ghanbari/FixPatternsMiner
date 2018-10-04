@@ -1354,7 +1354,7 @@ public abstract class Scope implements TypeConstants, TypeIds {
 		ReferenceBinding object = getJavaLangObject();
 		MethodBinding methodBinding = object.getExactMethod(selector, argumentTypes, null);
 		if (methodBinding != null) {
-			// handle the method clone() specially... cannot be protected or throw exceptions
+			// handleOperation the method clone() specially... cannot be protected or throw exceptions
 			if (argumentTypes == Binding.NO_PARAMETERS) {
 			    switch (selector[0]) {
 			        case 'c': 
@@ -2257,7 +2257,7 @@ public abstract class Scope implements TypeConstants, TypeIds {
 	// NOTE: We could support looking for Base Types last in the search, however any code using
 	// this feature would be extraordinarily slow.  Therefore we don't do this
 	public final TypeBinding getType(char[] name) {
-		// Would like to remove this test and require senders to specially handle base types
+		// Would like to remove this test and require senders to specially handleOperation base types
 		TypeBinding binding = getBaseType(name);
 		if (binding != null) return binding;
 		return (ReferenceBinding) getTypeOrPackage(name, Binding.TYPE);
@@ -2299,7 +2299,7 @@ public abstract class Scope implements TypeConstants, TypeIds {
 	*/
 	public final TypeBinding getType(char[][] compoundName, int typeNameLength) {
 		if (typeNameLength == 1) {
-			// Would like to remove this test and require senders to specially handle base types
+			// Would like to remove this test and require senders to specially handleOperation base types
 			TypeBinding binding = getBaseType(compoundName[0]);
 			if (binding != null) return binding;
 		}

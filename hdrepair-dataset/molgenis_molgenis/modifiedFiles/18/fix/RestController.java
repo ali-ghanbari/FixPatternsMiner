@@ -738,7 +738,7 @@ public class RestController
 		throw new UnknownEntityException("Unknown entity " + inputEntityName);
 	}
 
-	// Handle a bit of lagacy, handle query like 'SELECT FROM Category WHERE observableFeature_Identifier=xxx'
+	// Handle a bit of lagacy, handleOperation query like 'SELECT FROM Category WHERE observableFeature_Identifier=xxx'
 	// Resolve xref ids.
 	// TODO Do this in a cleaner way and support more operators, Move to util class or remove this completely?
 	private List<QueryRule> resolveRefIdentifiers(List<QueryRule> rules, EntityMetaData meta)

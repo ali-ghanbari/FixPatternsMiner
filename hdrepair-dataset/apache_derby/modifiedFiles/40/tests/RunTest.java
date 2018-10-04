@@ -313,7 +313,7 @@ public class RunTest
             //  With useprocess=true, we have a new dir for each test, and all files for
             // the test, including a clean database, go in that directory. So, network server
             // for each test runs in that dir, and stops when done. If the test's properties
-            // file has startServer=false the test will handle start/stop, otherwise the harness
+            // file has startServer=false the test will handleOperation start/stop, otherwise the harness
             // needs to start and stop the server.
             //  But with useprocess=false we're using the same directory and thus the same
             // database, so there's little point in bouncing the server for each test in a suite,
@@ -2476,7 +2476,7 @@ clp.list(System.out);
     private static void execTestProcess(String[] testCmd)
         throws Exception
     {
-        // Execute the process and handle the results
+        // Execute the process and handleOperation the results
     	Process pr = null;
     	try
     	{

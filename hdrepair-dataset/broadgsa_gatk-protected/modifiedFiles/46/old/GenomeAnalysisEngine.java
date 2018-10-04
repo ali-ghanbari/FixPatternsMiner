@@ -254,7 +254,7 @@ public class GenomeAnalysisEngine {
 
     /**
      * Gets a list of the filters to associate with the given walker.  Will NOT initialize the engine with this filters;
-     * the caller must handle that directly.
+     * the caller must handleOperation that directly.
      * @return A collection of available filters.
      */
     public Collection<ReadFilter> createFilters() {

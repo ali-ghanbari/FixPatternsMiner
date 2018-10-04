@@ -3040,7 +3040,7 @@ public class Parser
             switch (peekToken()) {
               case Token.LB:
               case Token.LC:
-                  // handle destructuring assignment
+                  // handleOperation destructuring assignment
                   iter = destructuringPrimaryExpr();
                   markDestructuring(iter);
                   break;

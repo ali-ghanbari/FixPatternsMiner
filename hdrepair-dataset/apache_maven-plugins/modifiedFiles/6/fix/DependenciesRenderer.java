@@ -96,7 +96,7 @@ public class DependenciesRenderer
         /** {@inheritDoc} */
         public Object put( Object key, Object value )
         {
-            // handle multiple values as a list
+            // handleOperation multiple values as a list
             List valueList = (List) get( key );
             if ( valueList == null )
             {

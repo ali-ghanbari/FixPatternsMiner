@@ -3299,7 +3299,7 @@ public class UserVmManagerImpl extends ManagerBase implements UserVmManager, Use
         Pair<List<UserVmJoinVO>, Integer> uniqueVmPair =  _vmJoinDao.searchAndCount(sc, searchFilter);
         Integer count = uniqueVmPair.second();
         if ( count.intValue() == 0 ){
-            // handle empty result cases
+            // handleOperation empty result cases
             return uniqueVmPair;
         }
         List<UserVmJoinVO> uniqueVms = uniqueVmPair.first();

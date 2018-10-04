@@ -393,7 +393,7 @@ public class ZxtmAdapterImpl implements ReverseProxyLoadBalancerAdapter {
             throw new ZxtmRollBackException(rollBackMessage, e);
         }
 
-        // TODO: Refactor and handle exceptions properly
+        // TODO: Refactor and handleOperation exceptions properly
         // Enable and set failover traffic managers for traffic ip groups
         for (String trafficIpGroup : updatedTrafficIpGroups) {
             try {

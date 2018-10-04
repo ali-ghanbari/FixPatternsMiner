@@ -189,7 +189,7 @@ public class BlockingHttpConnection extends AbstractHttpConnection
                                 // TODO should we check the exchange is done?
                             }
                             
-                            // handle switched protocols
+                            // handleOperation switched protocols
                             if (_status==HttpStatus.SWITCHING_PROTOCOLS_101)
                             {
                                 Connection switched=exchange.onSwitchProtocol(_endp);
@@ -206,7 +206,7 @@ public class BlockingHttpConnection extends AbstractHttpConnection
                                 }
                             }
                             
-                            // handle pipelined requests
+                            // handleOperation pipelined requests
                             if (_pipeline!=null)
                             {
                                 if (!persistent || connection!=this)

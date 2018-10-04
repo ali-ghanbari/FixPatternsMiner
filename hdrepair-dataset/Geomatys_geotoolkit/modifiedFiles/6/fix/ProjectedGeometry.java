@@ -191,7 +191,7 @@ public class ProjectedGeometry  {
                 final double dy = params.context.wraps.wrapPoints[1].getOrdinate(1) - params.context.wraps.wrapPoints[0].getOrdinate(1);
                 
                 // fix the geometry if some points wrap around the meridian
-                // we expect the warp points to be axis aligned, TODO handle other cases
+                // we expect the warp points to be axis aligned, TODO handleOperation other cases
                 if(dx!=0 && dy!=0){
                     throw new TransformException("Coordinate Reference System, wrap around points are not axis aligned.");
                 }

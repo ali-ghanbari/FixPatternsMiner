@@ -38,7 +38,7 @@ public final class MasterApiServer {
   /**
    * Constructor for the Master API Server.
    * 
-   * @param server the Myria server that will handle API requests.
+   * @param server the Myria server that will handleOperation API requests.
    * @param daemon the Myria master daemon.
    */
   public MasterApiServer(final Server server, final MasterDaemon daemon) {

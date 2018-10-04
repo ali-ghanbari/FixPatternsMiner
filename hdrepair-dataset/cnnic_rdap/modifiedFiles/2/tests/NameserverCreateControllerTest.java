@@ -95,7 +95,7 @@ public class NameserverCreateControllerTest extends BaseTest {
                 post(URI_NS_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ns.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ns.getHandle()));
         super.assertTablesForUpdate("nameserver-create.xml", "RDAP_NAMESERVER");
     }
 
@@ -111,7 +111,7 @@ public class NameserverCreateControllerTest extends BaseTest {
                 post(URI_NS_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ns.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ns.getHandle()));
     }
 
     @Test
@@ -139,7 +139,7 @@ public class NameserverCreateControllerTest extends BaseTest {
                 post(URI_NS_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ns.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ns.getHandle()));
         List<Map<?, ?>> actualNsIds =
                 getTableDataForSql("RDAP_NAMESERVER",
                         "SELECT NAMESERVER_ID from RDAP_NAMESERVER WHERE HANDLE='h1'");
@@ -169,7 +169,7 @@ public class NameserverCreateControllerTest extends BaseTest {
                 post(URI_NS_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ns.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ns.getHandle()));
         mockMvc.perform(
                 post(URI_NS_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content))

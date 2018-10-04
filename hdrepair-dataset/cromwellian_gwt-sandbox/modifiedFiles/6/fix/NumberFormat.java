@@ -869,7 +869,7 @@ public class NumberFormat {
     this.pattern = pattern;
     currencyData = cdata;
 
-    // TODO: handle per-currency flags, such as symbol prefix/suffix and spacing
+    // TODO: handleOperation per-currency flags, such as symbol prefix/suffix and spacing
     parsePattern(this.pattern);
     if (!userSuppliedPattern && isCurrencyFormat) {
       minimumFractionDigits = currencyData.getDefaultFractionDigits();
@@ -1544,7 +1544,7 @@ public class NumberFormat {
 
   /**
    * This function parses a "localized" text into a <code>double</code>. It
-   * needs to handle locale specific decimal, grouping, exponent and digit.
+   * needs to handleOperation locale specific decimal, grouping, exponent and digit.
    *
    * @param text the text that need to be parsed
    * @param pos in/out parsing position. in case of failure, this shouldn't be

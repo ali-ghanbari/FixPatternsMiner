@@ -54,7 +54,7 @@ public class OboConverter extends DataConverter
     /**
      * Constructor for this class.
      *
-     * @param writer an ItemWriter used to handle the resultant Items
+     * @param writer an ItemWriter used to handleOperation the resultant Items
      * @param model the Model
      * @param dagFilename the name of the DAG file
      * @param dagName the title of the dag, as present in any static data

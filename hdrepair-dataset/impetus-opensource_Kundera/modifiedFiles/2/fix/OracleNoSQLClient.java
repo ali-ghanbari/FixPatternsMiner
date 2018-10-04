@@ -314,7 +314,7 @@ public class OracleNoSQLClient extends ClientBase implements Client<OracleNoSQLQ
                 "Persist data into " + entityMetadata.getSchema() + "." + entityMetadata.getTableName() + " for " + id,
                 showQuery);
         Row row = createRow(entityMetadata, entity, id, rlHolders);
-        // TODO:: handle case for putDate??????
+        // TODO:: handleOperation case for putDate??????
 
         tableAPI.put(row, null, null);
     }

@@ -91,7 +91,7 @@ public class EventsListener implements EventListener {
     elem.__gqueryevent = gqevent;
   }-*/;
 
-  // Gwt does't handle submit events in DOM.sinkEvents
+  // Gwt does't handleOperation submit events in DOM.sinkEvents
   private static native void sinkSubmitEvent(Element elem) /*-{
     if (elem.__gquerysubmit) return;
     elem.__gquerysubmit = true;

@@ -564,7 +564,7 @@ public class TypeResolverVisitor extends ScopedVisitor {
       if (argumentCount < parameterCount) {
         //
         // If there were too many arguments, we already handled it by not adding the values of the
-        // extra arguments to the list. If there are too few, we handle it by adding 'dynamic'
+        // extra arguments to the list. If there are too few, we handleOperation it by adding 'dynamic'
         // enough times to make the count equal.
         //
         for (int i = argumentCount; i < parameterCount; i++) {

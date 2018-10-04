@@ -779,7 +779,7 @@ public class Model extends XFormsElement implements XFormsModelElement, DefaultA
             }
         }
         catch (Exception e) {
-            // handle exception and stop event propagation
+            // handleOperation exception and stop event propagation
             this.container.handleEventException(e);
             event.stopPropagation();
         }

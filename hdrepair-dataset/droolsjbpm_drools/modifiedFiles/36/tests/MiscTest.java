@@ -2658,7 +2658,7 @@ public class MiscTest {
         person.setStatus( "start" );
         workingMemory.insert( person );
 
-        // TODO org.drools.spi.ConsequenceException: org.drools.FactException: Update error: handle not found for object:
+        // TODO org.drools.spi.ConsequenceException: org.drools.FactException: Update error: handleOperation not found for object:
         //        workingMemory    = SerializationHelper.serializeObject(workingMemory);
         workingMemory.fireAllRules();
 

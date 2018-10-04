@@ -139,12 +139,12 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
                 });
             } else {
                 // this redelivery task was scheduled from asynchronous, which means we should only
-                // handle when the asynchronous task was done
+                // handleOperation when the asynchronous task was done
                 sync = AsyncProcessorHelper.process(outputAsync, exchange, new AsyncCallback() {
                     public void done(boolean doneSync) {
                         log.trace("Redelivering exchangeId: {} done sync: {}", exchange.getExchangeId(), doneSync);
 
-                        // this callback should only handle the async case
+                        // this callback should only handleOperation the async case
                         if (doneSync) {
                             return;
                         }
@@ -308,7 +308,7 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
             // process the exchange (also redelivery)
             boolean sync = AsyncProcessorHelper.process(outputAsync, exchange, new AsyncCallback() {
                 public void done(boolean sync) {
-                    // this callback should only handle the async case
+                    // this callback should only handleOperation the async case
                     if (sync) {
                         return;
                     }
@@ -417,7 +417,7 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
     }
 
     /**
-     * Strategy whether the exchange has an exception that we should try to handle.
+     * Strategy whether the exchange has an exception that we should try to handleOperation.
      * <p/>
      * Standard implementations should just look for an exception.
      */
@@ -493,7 +493,7 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
     }
 
     protected Predicate getDefaultHandledPredicate() {
-        // Default is not not handle errors
+        // Default is not not handleOperation errors
         return null;
     }
 
@@ -598,8 +598,8 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
 
         Exception caught = exchange.getException();
 
-        // we did not success with the redelivery so now we let the failure processor handle it
-        // clear exception as we let the failure processor handle it
+        // we did not success with the redelivery so now we let the failure processor handleOperation it
+        // clear exception as we let the failure processor handleOperation it
         exchange.setException(null);
 
         boolean handled = false;
@@ -645,7 +645,7 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
                     log.trace("Failure processor done: {} processing Exchange: {}", processor, exchange);
                     try {
                         prepareExchangeAfterFailure(exchange, data);
-                        // fire event as we had a failure processor to handle it, which there is a event for
+                        // fire event as we had a failure processor to handleOperation it, which there is a event for
                         boolean deadLetterChannel = processor == data.deadLetterProcessor && data.deadLetterProcessor != null;
                         EventHelper.notifyExchangeFailureHandled(exchange.getContext(), exchange, processor, deadLetterChannel);
                     } finally {
@@ -812,17 +812,17 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
     }
 
     /**
-     * Determines whether or not to handle if we are exhausted.
+     * Determines whether or not to handleOperation if we are exhausted.
      *
      * @param exchange the current exchange
      * @param data     the redelivery data
-     * @return <tt>true</tt> to handle, or <tt>false</tt> to exhaust.
+     * @return <tt>true</tt> to handleOperation, or <tt>false</tt> to exhaust.
      */
     private boolean shouldHandled(Exchange exchange, RedeliveryData data) {
         if (data.handledPredicate != null) {
             return data.handledPredicate.matches(exchange);
         }
-        // do not handle by default
+        // do not handleOperation by default
         return false;
     }
 
@@ -847,7 +847,7 @@ public abstract class RedeliveryErrorHandler extends ErrorHandlerSupport impleme
     }
 
     /**
-     * Prepares the redelivery counter and boolean flag for the failure handle processor
+     * Prepares the redelivery counter and boolean flag for the failure handleOperation processor
      */
     private void decrementRedeliveryCounter(Exchange exchange) {
         Message in = exchange.getIn();

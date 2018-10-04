@@ -241,7 +241,7 @@ public class PolicyEntry extends DestinationMapEntry {
 
         // TODO
         // We currently need an infinite audit because of the way that browser dispatch
-        // is done.  We should refactor the browsers to better handle message dispatch so
+        // is done.  We should refactor the browsers to better handleOperation message dispatch so
         // we can remove this and perform a more efficient dispatch.
         sub.setMaxProducersToAudit(Integer.MAX_VALUE);
     }

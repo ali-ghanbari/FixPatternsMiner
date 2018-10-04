@@ -106,7 +106,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
         super.assertTablesForUpdate("entity-create.xml", "RDAP_ENTITY");
     }
 
@@ -124,7 +124,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_ENTITY",
                         "select CUSTOM_PROPERTIES from RDAP_ENTITY where HANDLE='h1'");
@@ -163,7 +163,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_ENTITY",
                         "select CUSTOM_PROPERTIES from RDAP_ENTITY where HANDLE='h1'");
@@ -185,7 +185,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_ENTITY",
                         "select CUSTOM_PROPERTIES from RDAP_ENTITY where HANDLE='h1'");
@@ -198,21 +198,21 @@ public class EntityCreateControllerTest extends BaseTest {
     @DatabaseTearDown("classpath:org/restfulwhois/rdap/dao/impl/teardown.xml")
     public void test_ok_ignore_unrecognized_properties() throws Exception {
         String content =
-                "{\"handle\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
                         + ",\"\":1,\"unknownP\":\"x\"}";
         mockMvc.perform(
                 post(URI_ENTITY_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     } 
     
     @Test
     public void test_invalid_propertyType_should_be_int_but_is_string()
             throws Exception {
         String content =
-                "{\"handle\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
                         + ",\"addresses\":[{\"pref\":\"i-am-not-int-value\"}]}";
         mockMvc.perform(
                 post(URI_ENTITY_U).contentType(
@@ -234,21 +234,21 @@ public class EntityCreateControllerTest extends BaseTest {
             test_ok_propertyType_should_be_int_but_is_int_with_dot_will_truncated_to_int()
                     throws Exception {
     	String content =
-                "{\"handle\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
                         + ",\"addresses\":[{\"pref\":1.8}]}";
         mockMvc.perform(
                 post(URI_ENTITY_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     }
     @Test
     public void
             test_invalid_propertyType_int_but_exceed_max_value_as_minus_int()
                     throws Exception {
     	String content =
-                "{\"handle\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
                      + ",\"addresses\":[{\"pref\":"
                     + (UpdateValidateUtil.MAX_VAL_FOR_INT_COLUMN + 1) + "}]}";
                        
@@ -264,7 +264,7 @@ public class EntityCreateControllerTest extends BaseTest {
     public void test_invalid_propertyType_int_but_exceed_max_value()
             throws Exception {
     	String content =
-                "{\"handle\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"fn\":\"00miss\",\"org\":\"dnr\""
                         + ",\"addresses\":[{\"pref\":4294967296}]}";
                         
         mockMvc.perform(
@@ -299,7 +299,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
         // RemarkUpdateDaoTest.assertCreate();/link duplicated.
         // LinkUpdateDaoTest.assertCreate();
         super.assertTablesForUpdate("publicId-create-for-entity.xml", 
@@ -347,7 +347,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
     }
 
     
@@ -366,7 +366,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
     }
 
     @Test
@@ -387,7 +387,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4002
-                                                .getMessage(), "handle"))));
+                                                .getMessage(), "handleOperation"))));
     }
 
     @Test
@@ -411,7 +411,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4003
-                                                .getMessage(), "handle",
+                                                .getMessage(), "handleOperation",
                                         UpdateValidateUtil.MAX_LENGTH_HANDLE
                                                 + ""))));
     }
@@ -449,7 +449,7 @@ public class EntityCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(entity.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(entity.getHandle()));
         mockMvc.perform(
                 post(URI_ENTITY_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))

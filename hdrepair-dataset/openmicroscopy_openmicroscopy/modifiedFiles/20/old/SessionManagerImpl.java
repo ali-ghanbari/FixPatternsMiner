@@ -314,7 +314,7 @@ public class SessionManagerImpl implements SessionManager, StaleCacheListener,
         SessionContext newctx = createSessionContext(rv);
 
         // This the publishEvent returns successfully, then we will have to
-        // handle rolling back this addition our selves
+        // handleOperation rolling back this addition our selves
         String uuid = newctx.getCurrentSessionUuid();
         cache.putSession(uuid, newctx);
         try {
@@ -401,7 +401,7 @@ public class SessionManagerImpl implements SessionManager, StaleCacheListener,
                 parseAndSetTimeouts(session.getTimeToLive(), session
                         .getTimeToIdle(), orig, trusted);
 
-                // TODO Need to handle notifications
+                // TODO Need to handleOperation notifications
                 return executeSessionContextLookup(sf, principal, orig);
 
             }

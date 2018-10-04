@@ -157,7 +157,7 @@ public class Maven2ScriptTest extends TestCase {
             "-B",
             "-f",
             CMD_POM //,
-            // @todo Fix Maven2Scipt to handle props w/ spaces
+            // @todo Fix Maven2Scipt to handleOperation props w/ spaces
             //"-DpropertyWithSpace=I have a space"
             },
             script.buildCommandline().getCommandline());

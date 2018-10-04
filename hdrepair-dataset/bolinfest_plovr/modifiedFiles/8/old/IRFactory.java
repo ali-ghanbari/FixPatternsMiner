@@ -1010,7 +1010,7 @@ class IRFactory {
         // how the original string was encoded without making the
         // representation of strings much more complicated.
         //
-        // To handle this, we look at the original source test, and
+        // To handleOperation this, we look at the original source test, and
         // mark the string as \v-encoded or not. If a string is
         // \v encoded, then all the vertical tabs in that string
         // will be encoded with a \v.

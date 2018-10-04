@@ -548,7 +548,7 @@ public class StatisticsHandlerTest extends TestCase
 
     /**
      * This handler is external to the statistics handler and it is used to ensure that statistics handler's
-     * handle() is fully executed before asserting its values in the tests, to avoid race conditions with the
+     * handleOperation() is fully executed before asserting its values in the tests, to avoid race conditions with the
      * tests' code where the test executes but the statistics handler has not finished yet.
      */
     private static class LatchHandler extends HandlerWrapper

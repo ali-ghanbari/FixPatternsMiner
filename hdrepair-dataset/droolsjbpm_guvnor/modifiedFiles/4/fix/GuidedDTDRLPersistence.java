@@ -88,7 +88,7 @@ public class GuidedDTDRLPersistence {
 
             List<DTCellValue52> row = data.get( i );
 
-            //Specialised BRDRLPersistence provider than can handle template key expansion
+            //Specialised BRDRLPersistence provider than can handleOperation template key expansion
             TemplateDataProvider rowDataProvider = new GuidedDTTemplateDataProvider( allColumns,
                                                                                      row );
 
@@ -700,7 +700,7 @@ public class GuidedDTDRLPersistence {
                         pred.setConstraintValueType( c.getConstraintValueType() );
                         if ( c.getFactField() != null
                              && c.getFactField().indexOf( "$param" ) > -1 ) {
-                            // handle interpolation
+                            // handleOperation interpolation
                             pred.setValue( c.getFactField().replace( "$param",
                                                                      cell ) );
                         } else {

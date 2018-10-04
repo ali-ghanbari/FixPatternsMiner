@@ -381,7 +381,7 @@ public abstract class DBCollection {
     }
 
     /**
-     * Doesn't yet handle internal classes properly, so this method only does something if object class is set but
+     * Doesn't yet handleOperation internal classes properly, so this method only does something if object class is set but
      * no internal classes are set.
      *
      * @param oldObj  the original value from the command result

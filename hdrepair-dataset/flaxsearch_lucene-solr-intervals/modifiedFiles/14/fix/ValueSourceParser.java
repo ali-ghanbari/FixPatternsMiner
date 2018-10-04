@@ -875,7 +875,7 @@ class DateValueSourceParser extends ValueSourceParser {
     final long ms1 = (d1 == null) ? 0 : d1.getTime();
     final long ms2 = (d2 == null) ? 0 : d2.getTime();
 
-    // "d,dd" handle both constant cases
+    // "d,dd" handleOperation both constant cases
 
     if (d1 != null && v2 == null) {
       return new LongConstValueSource(ms1 - ms2);
@@ -935,7 +935,7 @@ class DateValueSourceParser extends ValueSourceParser {
 }
 
 
-// Private for now - we need to revisit how to handle typing in function queries
+// Private for now - we need to revisit how to handleOperation typing in function queries
 class LongConstValueSource extends ConstNumberSource {
   final long constant;
   final double dv;

@@ -96,7 +96,7 @@ class ReadBin implements HasGenomeLocation {
     public byte[] getReference(CachingIndexedFastaSequenceFile referenceReader) {
         // set up the reference if we haven't done so yet
         if ( reference == null ) {
-            // first, pad the reference to handle deletions in narrow windows (e.g. those with only 1 read)
+            // first, pad the reference to handleOperation deletions in narrow windows (e.g. those with only 1 read)
             int padLeft = Math.max(loc.getStart()- referencePadding, 1);
             int padRight = Math.min(loc.getStop()+ referencePadding, referenceReader.getSequenceDictionary().getSequence(loc.getContig()).getSequenceLength());
             loc = parser.createGenomeLoc(loc.getContig(), loc.getContigIndex(), padLeft, padRight);

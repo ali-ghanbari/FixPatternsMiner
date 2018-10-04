@@ -91,7 +91,7 @@ public final class Team {
    * @throws SQLException on a database access error.
    */
   public static Team getTeamFromDatabase(final Connection connection, final int teamNumber) throws SQLException {
-    // First, handle known non-database team numbers...
+    // First, handleOperation known non-database team numbers...
     if (teamNumber == NULL_TEAM_NUMBER) {
       return NULL;
     }

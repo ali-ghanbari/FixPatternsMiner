@@ -2110,7 +2110,7 @@ public final class StreamingRenderer implements GTRenderer {
         } else if(result instanceof AbstractGridCoverage2DReader) {
             return FeatureUtilities.wrapGridCoverageReader((AbstractGridCoverage2DReader) result, null);
         } else {
-            throw new IllegalArgumentException("Don't know how to handle the results of the transformation, " +
+            throw new IllegalArgumentException("Don't know how to handleOperation the results of the transformation, " +
                     "the supported result types are FeatureCollection, GridCoverage2D " +
                     "and AbstractGridCoverage2DReader, but we got: " + result.getClass());
         }

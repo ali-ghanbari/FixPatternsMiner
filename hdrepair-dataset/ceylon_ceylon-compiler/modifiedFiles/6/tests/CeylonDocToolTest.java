@@ -453,7 +453,7 @@ public class CeylonDocToolTest {
     }
 
     /**
-     * This is disgusting, but the current CeylonDoc doesn't handle source files, so we need to compile them first,
+     * This is disgusting, but the current CeylonDoc doesn't handleOperation source files, so we need to compile them first,
      * and we do it using javac to avoid compiling the whole SDK for one java file.
      */
     private void compileSdkJavaFiles() throws FileNotFoundException, IOException {

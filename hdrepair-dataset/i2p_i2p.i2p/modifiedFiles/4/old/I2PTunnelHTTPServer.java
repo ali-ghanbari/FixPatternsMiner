@@ -76,7 +76,7 @@ public class I2PTunnelHTTPServer extends I2PTunnelServer {
 
     private void setupI2PTunnelHTTPServer(String spoofHost) {
         _spoofHost = spoofHost;
-        getTunnel().getContext().statManager().createRateStat("i2ptunnel.httpserver.blockingHandleTime", "how long the blocking handle takes to complete", "I2PTunnel.HTTPServer", new long[] { 60*1000, 10*60*1000, 3*60*60*1000 });
+        getTunnel().getContext().statManager().createRateStat("i2ptunnel.httpserver.blockingHandleTime", "how long the blocking handleOperation takes to complete", "I2PTunnel.HTTPServer", new long[] { 60*1000, 10*60*1000, 3*60*60*1000 });
         getTunnel().getContext().statManager().createRateStat("i2ptunnel.httpNullWorkaround", "How often an http server works around a streaming lib or i2ptunnel bug", "I2PTunnel.HTTPServer", new long[] { 60*1000, 10*60*1000 });
     }
 
@@ -155,7 +155,7 @@ public class I2PTunnelHTTPServer extends I2PTunnelServer {
             long timeToHandle = afterHandle - afterAccept;
             getTunnel().getContext().statManager().addRateData("i2ptunnel.httpserver.blockingHandleTime", timeToHandle, 0);
             if ( (timeToHandle > 1000) && (_log.shouldLog(Log.WARN)) )
-                _log.warn("Took a while to handle the request for " + remoteHost + ':' + remotePort +
+                _log.warn("Took a while to handleOperation the request for " + remoteHost + ':' + remotePort +
                           " [" + timeToHandle + ", socket create: " + (afterSocket-afterAccept) + "]");
         } catch (SocketException ex) {
             try {

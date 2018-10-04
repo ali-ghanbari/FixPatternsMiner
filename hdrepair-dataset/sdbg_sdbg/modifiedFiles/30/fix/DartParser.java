@@ -3171,7 +3171,7 @@ public class DartParser extends CompletionHooksParserBase {
 
   /**
    * Parse any literal that is not a function literal (those have already been
-   * handled before this method is called, so we don't need to handle them
+   * handled before this method is called, so we don't need to handleOperation them
    * here).
    *
    * <pre>
@@ -3650,7 +3650,7 @@ public class DartParser extends CompletionHooksParserBase {
       rollback();
       return false;
     }
-    // handle prefixed identifiers
+    // handleOperation prefixed identifiers
     if (optional(Token.PERIOD)) {
       if (!optional(Token.IDENTIFIER)) {
         rollback();

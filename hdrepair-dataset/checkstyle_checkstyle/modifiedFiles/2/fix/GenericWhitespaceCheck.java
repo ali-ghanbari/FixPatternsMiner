@@ -119,7 +119,7 @@ public class GenericWhitespaceCheck extends Check
             if (1 == mDepth) {
                 final char charAfter = line.charAt(after);
 
-                // Need to handle a number of cases. First is:
+                // Need to handleOperation a number of cases. First is:
                 //    Collections.<Object>emptySet();
                 //                        ^
                 //                        +--- whitespace not allowed
@@ -178,7 +178,7 @@ public class GenericWhitespaceCheck extends Check
         final int before = aAST.getColumnNo() - 1;
         final int after = aAST.getColumnNo() + 1;
 
-        // Need to handle two cases as in:
+        // Need to handleOperation two cases as in:
         //
         //   public static <T> Callable<T> callable(Runnable task, T result)
         //                 ^           ^

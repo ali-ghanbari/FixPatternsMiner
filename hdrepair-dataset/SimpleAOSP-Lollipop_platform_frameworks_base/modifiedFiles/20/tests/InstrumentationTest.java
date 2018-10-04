@@ -23,7 +23,7 @@ public class InstrumentationTest extends InstrumentationTestCase {
 
     /**
      * Simple stress test for {@link Instrumentation#sendStatus(int, android.os.Bundle)}, to
-     * ensure it can handle many rapid calls without failing.
+     * ensure it can handleOperation many rapid calls without failing.
      */
     public void testSendStatus() {
         for (int i = 0; i < 10000; i++) {

@@ -150,7 +150,7 @@ public final class BuildHistoryTest {
     }
 
     /**
-     * BuildHistory can gracefully handle broken tags.
+     * BuildHistory can gracefully handleOperation broken tags.
      * @throws Exception If fails
      */
     @Test

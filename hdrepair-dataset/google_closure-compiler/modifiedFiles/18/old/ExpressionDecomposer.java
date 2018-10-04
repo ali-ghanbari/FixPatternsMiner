@@ -195,7 +195,7 @@ class ExpressionDecomposer {
           Node functionExpression = parent.getFirstChild();
           decomposeSubExpressions(
               functionExpression.getNext(), child, state);
-          // Now handle the call expression
+          // Now handleOperation the call expression
           if (isExpressionTreeUnsafe(functionExpression, state.sideEffects)) {
             // Either there were preexisting side-effects, or this node has
             // side-effects.

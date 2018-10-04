@@ -1603,7 +1603,7 @@ public class ExpressionCodegen extends JetVisitor<StackValue, StackValue> {
             JetType jetType = bindingContext.get(BindingContext.TYPE, typeReference);
             DeclarationDescriptor descriptor = jetType.getConstructor().getDeclarationDescriptor();
             if (!(descriptor instanceof ClassDescriptor)) {
-                throw new UnsupportedOperationException("don't know how to handle non-class types in as/as?");
+                throw new UnsupportedOperationException("don't know how to handleOperation non-class types in as/as?");
             }
             Type type = typeMapper.mapType(jetType, OwnerKind.INTERFACE);
             generateInstanceOf(StackValue.expression(OBJECT_TYPE, expression.getLeft(), this), jetType, true);

@@ -97,7 +97,7 @@ public abstract class ProcessorDefinition<Type extends ProcessorDefinition> exte
      * must override this method and return <tt>true</tt> instead.
      * <p/>
      * This information is used in camel-spring to let Camel work a bit on the model provided by JAXB from the
-     * Spring XML file. This is needed to handle those cross cutting concerns properly. The Java DSL does not
+     * Spring XML file. This is needed to handleOperation those cross cutting concerns properly. The Java DSL does not
      * have this issue as it can work this out directly using the fluent builder methods.
      *
      * @return <tt>true</tt> for abstract, otherwise <tt>false</tt> for regular.
@@ -199,7 +199,7 @@ public abstract class ProcessorDefinition<Type extends ProcessorDefinition> exte
 
         // set the error handler, must be done after init as we can set the error handler as first in the chain
         if (defn instanceof TryDefinition || defn instanceof CatchDefinition || defn instanceof FinallyDefinition) {
-            // do not use error handler for try .. catch .. finally blocks as it will handle errors itself
+            // do not use error handler for try .. catch .. finally blocks as it will handleOperation errors itself
             return channel;
         } else if (defn instanceof MulticastDefinition || defn instanceof RecipientListDefinition) {
             // do not use error handler for multicast or recipientlist based as it offers fine grained error handlers for its outputs
@@ -249,7 +249,7 @@ public abstract class ProcessorDefinition<Type extends ProcessorDefinition> exte
                 continue;
             }
             if (!routeContext.isHandleFault() && strategy instanceof HandleFault) {
-                // handle fault is disabled so we should not add it
+                // handleOperation fault is disabled so we should not add it
                 continue;
             }
             if (strategy instanceof Delayer) {
@@ -876,8 +876,8 @@ public abstract class ProcessorDefinition<Type extends ProcessorDefinition> exte
      * <p/>
      * The caller thread will either wait for the async route
      * to complete or imeddiately continue. If continue the OUT message will
-     * contain a {@link java.util.concurrent.Future} handle so you can get the real response
-     * later using this handle.
+     * contain a {@link java.util.concurrent.Future} handleOperation so you can get the real response
+     * later using this handleOperation.
      * <p/>
      * Will default <tt>Always</tt> wait for the async route to complete, but this behavior can be overriden by:
      * <ul>

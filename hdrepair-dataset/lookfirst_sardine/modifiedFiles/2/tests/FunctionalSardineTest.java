@@ -462,7 +462,7 @@ public class FunctionalSardineTest
 		}
 		catch (SardineException e)
 		{
-			// Should handle a 301 response transparently
+			// Should handleOperation a 301 response transparently
 			fail("Redirect handling failed");
 		}
 	}

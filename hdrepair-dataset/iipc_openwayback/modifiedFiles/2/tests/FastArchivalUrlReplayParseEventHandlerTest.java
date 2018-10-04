@@ -138,7 +138,7 @@ public class FastArchivalUrlReplayParseEventHandlerTest extends TestCase {
 		context.setJspExec(null);
 		
 		// and finally, parse, using the special lexer that knows how to
-		// handle javascript blocks containing unescaped HTML entities:
+		// handleOperation javascript blocks containing unescaped HTML entities:
 		Page lexPage = new Page(bais,charSet);
 		Lexer lexer = new Lexer(lexPage);
 		Lexer.STRICT_REMARKS = false;

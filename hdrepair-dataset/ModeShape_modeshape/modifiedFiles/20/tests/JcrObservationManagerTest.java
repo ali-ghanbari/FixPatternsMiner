@@ -1086,7 +1086,7 @@ public final class JcrObservationManagerTest extends TestSuite {
         getRoot().orderBefore(n3.getName(), n2.getName());
         save();
 
-        // handle events
+        // handleOperation events
         moveNodeListener.waitForEvents();
         removeListener(moveNodeListener);
         addNodeListener.waitForEvents();
@@ -1134,7 +1134,7 @@ public final class JcrObservationManagerTest extends TestSuite {
         getRoot().orderBefore(node1 + "[3]", node1 + "[2]");
         save();
 
-        // handle events
+        // handleOperation events
         moveNodeListener.waitForEvents();
         removeListener(moveNodeListener);
         addNodeListener.waitForEvents();
@@ -1187,7 +1187,7 @@ public final class JcrObservationManagerTest extends TestSuite {
         n3.remove();
         save();
 
-        // handle events
+        // handleOperation events
         moveNodeListener.waitForEvents();
         removeListener(moveNodeListener);
         addNodeListener.waitForEvents();
@@ -1585,7 +1585,7 @@ public final class JcrObservationManagerTest extends TestSuite {
         n2.addNode(node3, UNSTRUCTURED);
         save();
 
-        // handle events
+        // handleOperation events
         listener.waitForEvents();
         removeListener(listener);
 

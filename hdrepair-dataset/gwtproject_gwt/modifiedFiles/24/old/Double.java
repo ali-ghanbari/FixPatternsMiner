@@ -84,7 +84,7 @@ public final class Double extends Number implements Comparable<Double> {
     } else {
       if (absV == 0.0) {
         // IEEE754, exponent is 0, mantissa is zero
-        // we don't handle negative zero at the moment, it is treated as
+        // we don't handleOperation negative zero at the moment, it is treated as
         // positive zero
         exponent = 0L;
       } else {
@@ -156,7 +156,7 @@ public final class Double extends Number implements Comparable<Double> {
   public static double longBitsToDouble(long value) {
     // exponent in MSB bits 1-11
     int exp = (int) ((value & EXPONENT_MASK) >> MANTISSA_BITSIZE);
-    // unbias exponent handle denorm case
+    // unbias exponent handleOperation denorm case
     int denorm = (exp == 0 ? 1 : 0);
     // denorm exponent becomes -1022
     exp = exp - EXPONENT_BIAS + denorm;

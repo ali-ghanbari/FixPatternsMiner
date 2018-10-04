@@ -1179,7 +1179,7 @@ public class XbaseTypeComputer implements ITypeComputer {
 			catchClauseState.withinScope(catchClause);
 			catchClauseState.computeTypes(catchClause.getExpression());
 		}
-		// TODO validate / handle return / throw in finally block
+		// TODO validate / handleOperation return / throw in finally block
 		state.withoutExpectation().computeTypes(object.getFinallyExpression());
 	}
 	

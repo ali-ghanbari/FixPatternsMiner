@@ -34,7 +34,7 @@ public class LibvirtComputingResourceTest {
     Random _random = new Random();
 
     /**
-        This test tests if the Agent can handle a vmSpec coming
+        This test tests if the Agent can handleOperation a vmSpec coming
         from a <=4.1 management server.
 
         The overcommit feature has not been merged in there and thus
@@ -109,10 +109,10 @@ public class LibvirtComputingResourceTest {
     }
 
     /**
-        This test tests if the Agent can handle a vmSpec coming
+        This test tests if the Agent can handleOperation a vmSpec coming
         from a >4.1 management server.
 
-        It tests if the Agent can handle a vmSpec with overcommit
+        It tests if the Agent can handleOperation a vmSpec with overcommit
         data like minSpeed and maxSpeed in there
     */
     @Test

@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Extension of DefaultHandler to handle parsing PathQuery objects
+ * Extension of DefaultHandler to handleOperation parsing PathQuery objects
  *
  * @author Mark Woodbridge
  * @author Kim Rutherford

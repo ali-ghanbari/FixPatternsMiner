@@ -189,7 +189,7 @@ public class DefaultKnowledgeHelper
             handle = getFactHandleFromWM( object );
         }
         if ( handle == null ) {
-            throw new FactException( "Update error: handle not found for object: " + object + ". Is it in the working memory?" );
+            throw new FactException( "Update error: handleOperation not found for object: " + object + ". Is it in the working memory?" );
         }
         return handle;
     }
@@ -198,7 +198,7 @@ public class DefaultKnowledgeHelper
         Object object = ((InternalFactHandle)handle).getObject();
         handle = getFactHandleFromWM( object );
         if ( handle == null ) {
-            throw new FactException( "Update error: handle not found for object: " + object + ". Is it in the working memory?" );
+            throw new FactException( "Update error: handleOperation not found for object: " + object + ". Is it in the working memory?" );
         }
         return handle;
     }

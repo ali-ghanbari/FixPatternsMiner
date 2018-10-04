@@ -153,7 +153,7 @@ public final class ResourceCoordinator extends AbstractService {
         if (result != null) {
           fetchAndProcessAllResources(watcher);
         }
-        // If the node doesn't exists yet, that's ok, the watcher would handle it once it's created.
+        // If the node doesn't exists yet, that's ok, the watcher would handleOperation it once it's created.
       }
 
       @Override
@@ -449,7 +449,7 @@ public final class ResourceCoordinator extends AbstractService {
   }
 
   /**
-   * Watcher to handle children nodes changes in the resource requirement. Child node will be added / removed
+   * Watcher to handleOperation children nodes changes in the resource requirement. Child node will be added / removed
    * when requirement is added or removed.
    */
   private final class ResourceWatcher implements Watcher {

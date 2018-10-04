@@ -298,7 +298,7 @@ public class AbstractServerTest
      * Changes the permissions of the group.
      * 
      * @param perms The permissions level.
-     * @param groupId The identifier of the group to handle.
+     * @param groupId The identifier of the group to handleOperation.
      * @throws Exception Thrown if an error occurred.
      */
     protected void resetGroupPerms(String perms, long groupId)
@@ -641,8 +641,8 @@ public class AbstractServerTest
     /**
      * Resets the client and return the event context.
      * 
-     * @param client The client to handle.
-     * @return The event context to handle.
+     * @param client The client to handleOperation.
+     * @return The event context to handleOperation.
      * @throws Exception
      */
     protected EventContext init(omero.client client) throws Exception {
@@ -666,8 +666,8 @@ public class AbstractServerTest
     /**
      * Compares the passed rendering definitions.
      * 
-     * @param def1 The first rendering definition to handle.
-     * @param def2 The second rendering definition to handle.
+     * @param def1 The first rendering definition to handleOperation.
+     * @param def2 The second rendering definition to handleOperation.
      * @throws Exception Thrown if an error occurred.
      */
     protected void compareRenderingDef(RenderingDef def1, RenderingDef def2)
@@ -802,7 +802,7 @@ public class AbstractServerTest
     /**
      * Makes sure that the passed object exists.
      * 
-     * @param obj The object to handle.
+     * @param obj The object to handleOperation.
      *  @throws Exception  Thrown if an error occurred.
      */
     protected void assertExists(IObject obj)
@@ -825,7 +825,7 @@ public class AbstractServerTest
     /**
      * Makes sure that the passed object does not exist.
      * 
-     * @param obj The object to handle.
+     * @param obj The object to handleOperation.
      *  @throws Exception  Thrown if an error occurred.
      */
     protected void assertDoesNotExist(IObject obj)
@@ -972,7 +972,7 @@ public class AbstractServerTest
      * Basic asynchronous delete command. Used in order to reduce the number
      * of places that we do the same thing in case the API changes.
      *
-     * @param dc The command to handle.
+     * @param dc The command to handleOperation.
      * @throws ApiUsageException
      * @throws ServerError
      * @throws InterruptedException
@@ -990,7 +990,7 @@ public class AbstractServerTest
      * 
      * @param passes Pass <code>true</code> to indicate that no error
      *               found in report, <code>false</code> otherwise.
-     * @param dc The command to handle.
+     * @param dc The command to handleOperation.
      * @param strict whether or not the method should succeed.
      * @throws ApiUsageException
      * @throws ServerError
@@ -1024,7 +1024,7 @@ public class AbstractServerTest
      * Asynchronous command for a single delete, this means a single
      * report is returned for testing. 
      * 
-     * @param dc The SINGLE command to handle.
+     * @param dc The SINGLE command to handleOperation.
      * @throws ApiUsageException
      * @throws ServerError
      * @throws InterruptedException
@@ -1038,7 +1038,7 @@ public class AbstractServerTest
     /**
      * Asynchronous command for delete, report array is returned.
      * 
-     * @param dc The command to handle.
+     * @param dc The command to handleOperation.
      * @throws ApiUsageException
      * @throws ServerError
      * @throws InterruptedException

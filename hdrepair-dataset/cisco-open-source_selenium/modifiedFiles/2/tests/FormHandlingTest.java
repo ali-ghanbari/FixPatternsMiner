@@ -191,7 +191,7 @@ public class FormHandlingTest extends JUnit4TestBase {
   @Test
   public void testShouldBeAbleToSendKeysToAFileUploadInputElementInAnXhtmlDocument()
       throws IOException {
-    assumeFalse("IE before 9 doesn't handle pages served with an XHTML content type,"
+    assumeFalse("IE before 9 doesn't handleOperation pages served with an XHTML content type,"
                 + " and just prompts for to download it",
                 TestUtilities.isOldIe(driver));
 

@@ -144,7 +144,7 @@ public class CypherSqlTest extends AbstractJavaDocTestbase
      * @@LeftJoin-cypher-result
      * 
      * Relationships in Neo4j are first class citizens -- it's like the SQL tables are pre-joined with each other. 
-     * So, naturally, Cypher is designed to be able to handle highly connected data easily.
+     * So, naturally, Cypher is designed to be able to handleOperation highly connected data easily.
      * 
      * One such domain is tree structures -- anyone that has tried storing tree structures in SQL knows 
      * that you have to work hard to get around the limitations of the relational model. 

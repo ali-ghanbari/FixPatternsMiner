@@ -2134,9 +2134,9 @@ public class AST2Tests extends AST2BaseTest {
                 .getName());
     }
 
-    // test C99: 6.7.5.3-7 A declaration of a parameter as ‘‘array of type’’
-    // shall be adjusted to ‘‘qualified pointer to
-    // type’’, where the type qualifiers (if any) are those specified within the
+    // test C99: 6.7.5.3-7 A declaration of a parameter as ï¿½ï¿½array of typeï¿½ï¿½
+    // shall be adjusted to ï¿½ï¿½qualified pointer to
+    // typeï¿½ï¿½, where the type qualifiers (if any) are those specified within the
     // [ and ] of the
     // array type derivation.
     public void testArrayTypeToQualifiedPointerTypeParm() throws Exception {
@@ -3581,7 +3581,7 @@ public class AST2Tests extends AST2BaseTest {
     	assertEquals(5, macroDefinitions.length);
     	assertEquals("1", macroDefinitions[0].getExpansion());
     	assertEquals("1", macroDefinitions[1].getExpansion());
-    	// regression test for #64268 and #71733 which also handle comments
+    	// regression test for #64268 and #71733 which also handleOperation comments
     	assertEquals("1   + 2", macroDefinitions[2].getExpansion());
     	assertEquals("(KDebugNum(x))", macroDefinitions[3].getExpansion());
     	assertEquals("{if((DEBUGNUM(a)))p;}", macroDefinitions[4].getExpansion());

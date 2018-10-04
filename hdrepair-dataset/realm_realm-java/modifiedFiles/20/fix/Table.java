@@ -616,7 +616,7 @@ public class Table implements TableOrView {
     /**
      *
      * Note: The subtable returned will have to be closed again after use.
-     * You can let javas garbage collector handle that or better yet call close()
+     * You can let javas garbage collector handleOperation that or better yet call close()
      * after use.
      *
      * @param columnIndex column index of the cell

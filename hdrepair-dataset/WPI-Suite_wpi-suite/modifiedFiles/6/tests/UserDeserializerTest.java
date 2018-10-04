@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Tests for the UserDeserializer class.
- * 	parsePassword() Tests: evaluating the flexibility of the function to handle JSON formatting.
+ * 	parsePassword() Tests: evaluating the flexibility of the function to handleOperation JSON formatting.
  * @author twack
  *
  */

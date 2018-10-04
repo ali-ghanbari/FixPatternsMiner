@@ -51,7 +51,7 @@ import com.google.common.collect.Maps;
  * <ol>
  * <li>By setting the language of each document in their
  * {@link org.carrot2.core.Document#LANGUAGE} field. The language does not necessarily
- * have to be the same for all documents on the input, Carrot2 can handle multiple
+ * have to be the same for all documents on the input, Carrot2 can handleOperation multiple
  * languages in one document set as well. Please see the
  * {@link org.carrot2.text.clustering.MultilingualClustering#languageAggregationStrategy}
  * attribute for more details.</li>

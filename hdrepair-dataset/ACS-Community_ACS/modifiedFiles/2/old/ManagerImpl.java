@@ -342,7 +342,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				}
 				catch (Throwable ex)
 				{
-					CoreException ce = new CoreException("Failed to release component with handle '"+handles[i]+"'.", ex);
+					CoreException ce = new CoreException("Failed to release component with handleOperation '"+handles[i]+"'.", ex);
 					reportException(ce);
 				}
 			}
@@ -569,7 +569,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
     private static final ObjectStreamField[] serialPersistentFields
                       = {
                       	new ObjectStreamField("domain", String.class),
-                      	new ObjectStreamField("handle", Integer.TYPE),
+                      	new ObjectStreamField("handleOperation", Integer.TYPE),
                       	new ObjectStreamField("clients", HandleDataStore.class),
                       	new ObjectStreamField("administrators", HandleDataStore.class),
                       	new ObjectStreamField("containers", HandleDataStore.class),
@@ -581,7 +581,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
     					new ObjectStreamField("activeAlarms", HashSet.class)};
 
 	/**
-	 * Interdomain manager handle mask.
+	 * Interdomain manager handleOperation mask.
 	 */
     // TODO MF tmp
 	private static final int INTERDOMAIN_MANAGER_HANDLE = 0x05555555;
@@ -593,7 +593,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	private String domain = DEFAULT_DOMAIN;
 
 	/**
-	 * Manager handle.
+	 * Manager handleOperation.
 	 * @serial
 	 */
 	private int handle = MANAGER_MASK;
@@ -624,7 +624,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 	public enum WhyUnloadedReason { REMOVED, TIMEOUT, DISAPPEARED, REPLACED };
 	/**
-	 * Monitor entry generated at every handle removal.
+	 * Monitor entry generated at every handleOperation removal.
 	 */
 	static class HandleMonitorEntry implements Serializable {
 		private static final long serialVersionUID = -5661590007096077942L;
@@ -826,7 +826,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	private static final String NAME_CDB_DISABLE = "ACS.disableCDB";
 
 	/**
-	 * Enable handle monitoring property name.
+	 * Enable handleOperation monitoring property name.
 	 */
 	private static final String NAME_HANDLE_MONITORING = "manager.debug.rememberOldHandles";
 
@@ -1117,8 +1117,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	}
 	
 	/**
-	 * Returns the handle of the Manager.
-	 * @return int	handle of the Manager.
+	 * Returns the handleOperation of the Manager.
+	 * @return int	handleOperation of the Manager.
 	 */
 	public int getHandle()
 	{
@@ -1126,9 +1126,9 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	}
 
 	/**
-	 * Set name of the domain, which this manager will handle.
+	 * Set name of the domain, which this manager will handleOperation.
 	 *
-	 * @param	domain	name of the domain, which this manager will handle, non-<code>null</code>
+	 * @param	domain	name of the domain, which this manager will handleOperation, non-<code>null</code>
 	 * @see #getDomain
 	 */
 	public void setDomain(String domain)
@@ -1199,7 +1199,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		// requesting info. about itself
 		if (handles.length == 1 && handles[0] == id)
 		{
-			// check handle, no special rights for own info
+			// check handleOperation, no special rights for own info
 			securityCheck(id, 0);
 
 			info = new ContainerInfo[1];
@@ -1208,7 +1208,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		// get info of requested handles
 		else if (handles.length > 0)
 		{
-			// check handle, INTROSPECT_MANAGER rights needed
+			// check handleOperation, INTROSPECT_MANAGER rights needed
 			securityCheck(id, AccessRights.INTROSPECT_MANAGER);
 
 			info = new ContainerInfo[handles.length];
@@ -1218,7 +1218,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		// get info requested using name wildcard
 		else
 		{
-			// check handle, INTROSPECT_MANAGER rights needed
+			// check handleOperation, INTROSPECT_MANAGER rights needed
 			securityCheck(id, AccessRights.INTROSPECT_MANAGER);
 
 			// list of client matching search pattern
@@ -1298,7 +1298,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		// requesting info. about itself
 		if (handles.length == 1 && handles[0] == id)
 		{
-			// check handle, no special rights for own info
+			// check handleOperation, no special rights for own info
 			securityCheck(id, 0);
 
 			info = new ClientInfo[1];
@@ -1307,7 +1307,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		// get info of requested handles
 		else if (handles.length > 0)
 		{
-			// check handle, INTROSPECT_MANAGER rights needed
+			// check handleOperation, INTROSPECT_MANAGER rights needed
 			securityCheck(id, AccessRights.INTROSPECT_MANAGER);
 
 			info = new ClientInfo[handles.length];
@@ -1317,7 +1317,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		// get info requested using name wildcard
 		else
 		{
-			// check handle, INTROSPECT_MANAGER rights needed
+			// check handleOperation, INTROSPECT_MANAGER rights needed
 			securityCheck(id, AccessRights.INTROSPECT_MANAGER);
 
 			// list of clients matching search pattern
@@ -1715,7 +1715,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		}
 		else
 		{
-			// check handle and NONE permissions
+			// check handleOperation and NONE permissions
 			securityCheck(id, AccessRights.NONE);
 			try {
 				component = internalRequestComponent(id, curl, status, activate);
@@ -1791,7 +1791,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 		/****************************************************************/
 	
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		// log info
@@ -1844,7 +1844,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw e;
 		}
 
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		/****************************************************************/
@@ -2045,7 +2045,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 		/****************************************************************/
 		
-		logger.log(Level.FINE,"Client with handle '" + HandleHelper.toString(info.getHandle()) + "' has logged in.");
+		logger.log(Level.FINE,"Client with handleOperation '" + HandleHelper.toString(info.getHandle()) + "' has logged in.");
 		
 		return info;
 	}
@@ -2060,18 +2060,18 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	
 	/**
 	 * Logout client.
-	 * @param id client handle.
+	 * @param id client handleOperation.
 	 * @param pingFailed flag indicating that ping has failed (i.e. reason for logout).
 	 * @see com.cosylab.acs.maci.Manager#logout(int)
 	 */
 	public void logout(int id, boolean pingFailed) throws AcsJNoPermissionEx
 	{
 		if (pingFailed)
-			logger.log(Level.FINE,"Client with handle '" + HandleHelper.toString(id) + "' is being forcefully logged out due to its unresponsiveness.");
+			logger.log(Level.FINE,"Client with handleOperation '" + HandleHelper.toString(id) + "' is being forcefully logged out due to its unresponsiveness.");
 		else
-			logger.log(Level.FINE,"Client with handle '" + HandleHelper.toString(id) + "' is logging out.");
+			logger.log(Level.FINE,"Client with handleOperation '" + HandleHelper.toString(id) + "' is logging out.");
 
-		// check handle, no special rights needed for logout
+		// check handleOperation, no special rights needed for logout
                 // AcsJNoPermissionEx flies directly up from securityCheck()
 		securityCheck(id, 0);
 
@@ -2132,7 +2132,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		    throw e;
 		}
 
-		// check handle and REGISTER_COMPONENT permissions
+		// check handleOperation and REGISTER_COMPONENT permissions
 		securityCheck(id, AccessRights.REGISTER_COMPONENT);
 
 		/****************************************************************/
@@ -2155,7 +2155,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				{
 					if (registeredComponentInfo.getType().equals(type))
 					{
-						// it is already activated, add manager as an owner and return handle
+						// it is already activated, add manager as an owner and return handleOperation
 						if (!registeredComponentInfo.getClients().contains(this.getHandle()))
 						{
 							// ACID - !!!
@@ -2179,18 +2179,18 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				h = components.next(h);
 		    }
 
-			// allocate new handle
+			// allocate new handleOperation
 			// !!! ACID 2
 			Integer objHandle = (Integer)executeCommand(new ComponentCommandAllocate());
 			int handle;
-			//int handle = components.allocate();
+			//int handleOperation = components.allocate();
 			if (objHandle == null || (handle = objHandle.intValue()) == 0)
 			{
-				NoResourcesException af = new NoResourcesException("Generation of new handle failed, too many components registred.");
+				NoResourcesException af = new NoResourcesException("Generation of new handleOperation failed, too many components registred.");
 				throw af;
 			}
 
-			// generate external handle
+			// generate external handleOperation
 			h = handle | COMPONENT_MASK;
 
 			// add generated key
@@ -2216,7 +2216,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			// !!! ACID - register AddComponentCommand
 			executeCommand(new ComponentCommandSet(handle, componentInfo));
 			// store info
-			//components.set(handle, componentInfo);
+			//components.set(handleOperation, componentInfo);
 		}
 
 
@@ -2237,14 +2237,14 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	public void unregisterComponent(int id, int h) throws AcsJNoPermissionEx, AcsJBadParameterEx
 	{
 
-		// check handle and REGISTER_COMPONENT permissions
+		// check handleOperation and REGISTER_COMPONENT permissions
 		securityCheck(id, AccessRights.REGISTER_COMPONENT);
 
 		/****************************************************************/
 
 		internalReleaseComponent(this.getHandle(), h, false);
 
-		logger.log(Level.INFO,"Component with handle '"+HandleHelper.toString(h)+"' unregistered.");
+		logger.log(Level.INFO,"Component with handleOperation '"+HandleHelper.toString(h)+"' unregistered.");
 
 		/****************************************************************/
 
@@ -2265,7 +2265,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw e;
 		}
 
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		/****************************************************************/
@@ -2297,7 +2297,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw e;
 		}
 
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		/****************************************************************/
@@ -2330,7 +2330,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw e;
 		}
 
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		/****************************************************************/
@@ -2383,7 +2383,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw e;
 		}
 
-		// check handle and INTROSPECT_MANAGER permissions
+		// check handleOperation and INTROSPECT_MANAGER permissions
 		// TODO not clean !!! admin permissions required
 		//securityCheck(id, AccessRights.INTROSPECT_MANAGER);
 
@@ -2424,7 +2424,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw af;
 		}
 
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		/****************************************************************/
@@ -2536,7 +2536,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	}
 
 	/**
-	 * Release components (using manager handle)
+	 * Release components (using manager handleOperation)
 	 * @param infos	components to release
 	 */
 	private void releaseComponents(ComponentInfo[] infos) throws AcsJNoPermissionEx {
@@ -2575,7 +2575,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	public void shutdown(int id, int containers) throws AcsJNoPermissionEx
 	{
 
-		// check handle and SHUTDOWN_SYSTEM permissions
+		// check handleOperation and SHUTDOWN_SYSTEM permissions
 		securityCheck(id, AccessRights.SHUTDOWN_SYSTEM);
 
 		if (id == MANAGER_MASK)
@@ -2797,19 +2797,19 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
                 	pingInterval = readLongCharacteristics(dao, name + "/PingInterval", -1, true)*1000;
                 }
 
-                // allocate new handle
+                // allocate new handleOperation
 				// !!! ACID 2
 				Integer objHandle = (Integer)executeCommand(new ContainerCommandAllocate());
 				int handle;
-				//int handle = containers.allocate();
+				//int handleOperation = containers.allocate();
 
 				if (objHandle == null || (handle = objHandle.intValue()) == 0)
 				{
-					NoResourcesException af = new NoResourcesException("Generation of new handle failed, too many containers logged in.");
+					NoResourcesException af = new NoResourcesException("Generation of new handleOperation failed, too many containers logged in.");
 					throw af;
 				}
 
-				// generate external handle
+				// generate external handleOperation
 				h = handle | CONTAINER_MASK;
 
 				// add generated key
@@ -2834,7 +2834,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				// !!! ACID - register AddContainerCommand
 				executeCommand(new ContainerCommandSet(handle, containerInfo));
 				// store info
-				//containers.set(handle, containerInfo);
+				//containers.set(handleOperation, containerInfo);
 			}
 		}
 
@@ -3244,9 +3244,9 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	 *
 	 * <h2>Container -> Manager</h2>
 	 *
-	 * If container component handle is also allocated in manager state and components information match,
+	 * If container component handleOperation is also allocated in manager state and components information match,
 	 * then we have a perfect fit and no action is required. If they do not match, container is rejected.
-	 * If container component handle is not allocated in the manager state and no component with
+	 * If container component handleOperation is not allocated in the manager state and no component with
 	 * same name is found in manager state, component information is transferred to the manager,
 	 * owtherwise container is rejected.
 	 * <p>
@@ -3333,7 +3333,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 					int handle = infos[i].getHandle() & HANDLE_MASK;
 					if (components.isAllocated(handle))
 					{
-						// handle is allocated
+						// handleOperation is allocated
 						// check if components information match
 						ComponentInfo componentInfo = (ComponentInfo)components.get(handle);
 						if (componentInfo == null ||
@@ -3354,7 +3354,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 					}
 					else
 					{
-						// handle is not allocated
+						// handleOperation is not allocated
 						// check if component with same name is already registered
 						int h = components.first();
 						while (h != 0)
@@ -3366,7 +3366,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 								// NO_PERMISSION
 							   	AcsJNoPermissionEx npe = new AcsJNoPermissionEx();
 							   	npe.setReason("Inconsistent container state - component with name '" +
-										componentInfo.getName() + "' already registered with different handle, rejecting container.");
+										componentInfo.getName() + "' already registered with different handleOperation, rejecting container.");
 								npe.setID(containerInfo.getName());
 								npe.setProtectedResource(componentInfo.getName());
 							   	throw npe;
@@ -3385,7 +3385,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 					if (components.isAllocated(handle))
 					{
-						// handle is allocated and info match
+						// handleOperation is allocated and info match
 						// just in case component is not persistent, update the reference
 						// is always non-null - checked already above
 				    	ComponentInfo componentInfo = (ComponentInfo)components.get(handle);
@@ -3405,7 +3405,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 					}
 					else
 					{
-						// handle is not allocated
+						// handleOperation is not allocated
 						// transfer component
 
 						// create new ComponentInfo (we do not trust containers)
@@ -3430,9 +3430,9 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 						// !!! ACID 3
 						// allocate and store
 						executeCommand(new ComponentCommandAllocateHandle(handle));
-						//components.allocate(handle);
+						//components.allocate(handleOperation);
 						executeCommand(new ComponentCommandSet(handle, info));
-						//components.set(handle, info);
+						//components.set(handleOperation, info);
 
 						requireTopologySort = true;
 					}
@@ -3463,7 +3463,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		{
 			int componentHandle = managerContainersComponents.get(i);
 
-			// remove component handle from container component list
+			// remove component handleOperation from container component list
 			// will be added when actually activated
 			// !!! ACID 3
 			executeCommand(new ContainerInfoCommandComponentRemove(containerInfo.getHandle() & HANDLE_MASK, componentHandle));
@@ -3502,7 +3502,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 						// !!! ACID 3
 						// ... and deallocate
 						executeCommand(new ComponentCommandDeallocate(handle, componentInfo.getHandle(), WhyUnloadedReason.REMOVED));
-						//components.deallocate(handle);
+						//components.deallocate(handleOperation);
 
 						requireTopologySort = true;
 					}
@@ -3829,18 +3829,18 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				h = administrators.next(h);
 		    }
 
-			// allocate new handle
+			// allocate new handleOperation
 			// !!! ACID 2
 			Integer objHandle = (Integer)executeCommand(new AdministratorCommandAllocate());
 			int handle;
-			//int handle = administrators.allocate();
+			//int handleOperation = administrators.allocate();
 			if (objHandle == null || (handle = objHandle.intValue()) == 0)
 			{
-				NoResourcesException af = new NoResourcesException("Generation of new handle failed, too many administrators logged in.");
+				NoResourcesException af = new NoResourcesException("Generation of new handleOperation failed, too many administrators logged in.");
 				throw af;
 			}
 
-			// generate external handle
+			// generate external handleOperation
 			h = handle | ADMINISTRATOR_MASK;
 
 			// add generated key
@@ -3861,7 +3861,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			// !!! ACID - register AddAdministratorCommand
 			executeCommand(new AdministratorCommandSet(handle, clientInfo));
 			// store info
-			//administrators.set(handle, clientInfo);
+			//administrators.set(handleOperation, clientInfo);
 		}
 
 		// notify administrators about the login
@@ -3901,18 +3901,18 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				h = clients.next(h);
 		    }
 
-			// allocate new handle
+			// allocate new handleOperation
 			// !!! ACID 2
 			Integer objHandle = (Integer)executeCommand(new ClientCommandAllocate());
 			int handle;
-			//int handle = clients.allocate();
+			//int handleOperation = clients.allocate();
 			if (objHandle == null || (handle = objHandle.intValue()) == 0)
 			{
-				NoResourcesException af = new NoResourcesException("Generation of new handle failed, too many clients logged in.");
+				NoResourcesException af = new NoResourcesException("Generation of new handleOperation failed, too many clients logged in.");
 				throw af;
 			}
 
-			// generate external handle
+			// generate external handleOperation
 			h = handle | CLIENT_MASK;
 
 			// add generated key
@@ -3931,7 +3931,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			// !!! ACID - register AddClientCommand
 			executeCommand(new ClientCommandSet(handle, clientInfo));
 			// store info
-			//clients.set(handle, clientInfo);
+			//clients.set(handleOperation, clientInfo);
 		}
 
 		// notify administrators about the login
@@ -3945,7 +3945,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 	/**
 	 * Container specific logout method
-	 * @param	id	handle of the container.
+	 * @param	id	handleOperation of the container.
 	 * @param	pingFailed	flag indicating that ping has failed (i.e. is the reason of this logout).
 	 */
 	private void containerLogout(int id, boolean pingFailed)
@@ -3966,7 +3966,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			executeCommand(new ContainerCommandDeallocate(handle, id,
 									pingFailed ? WhyUnloadedReason.DISAPPEARED : WhyUnloadedReason.REMOVED));
 			// remove
-			//containers.deallocate(handle);
+			//containers.deallocate(handleOperation);
 
 		}
 
@@ -4002,7 +4002,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 		}
 
-/// TODO !!!!!!!!!!!!!! no more handle -> componentInfo data
+/// TODO !!!!!!!!!!!!!! no more handleOperation -> componentInfo data
 		// notify administrators about the logout
 		notifyContainerLogout(containerInfo, System.currentTimeMillis());
 		
@@ -4051,7 +4051,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 	/**
 	 * Client specific logout method
-	 * @param	id	handle of the client.
+	 * @param	id	handleOperation of the client.
 	 * @param	pingFailed	flag indicating that ping has failed (i.e. is the reason of this logout).
 	 */
 	private void clientLogout(int id, boolean pingFailed)
@@ -4074,7 +4074,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			executeCommand(new ClientCommandDeallocate(handle, id,
 									pingFailed ? WhyUnloadedReason.DISAPPEARED : WhyUnloadedReason.REMOVED));
 			// remove
-			//clients.deallocate(handle);
+			//clients.deallocate(handleOperation);
 
 			componentsArray = clientInfo.getComponents().toArray();
 		}
@@ -4088,7 +4088,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		//internalReleaseComponents(components to be released, owners IntArray)
 		//internalReleaseComponents(clientInfo.getComponents(), clientInfo.getComponents())
 
-/// TODO !!!!!!!!!!!!!! no more handle -> componentInfo data
+/// TODO !!!!!!!!!!!!!! no more handleOperation -> componentInfo data
 		// notify administrators about the logout
 		notifyClientLogout(clientInfo, System.currentTimeMillis());
 		
@@ -4102,7 +4102,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 	/**
 	 * Administrator specific logout method
-	 * @param	id	handle of the administrators.
+	 * @param	id	handleOperation of the administrators.
 	 * @param	pingFailed	flag indicating that ping has failed (i.e. is the reason of this logout).
 	 */
 	private void administratorLogout(int id, boolean pingFailed)
@@ -4125,7 +4125,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			executeCommand(new AdministratorCommandDeallocate(handle, id,
 									pingFailed ? WhyUnloadedReason.DISAPPEARED : WhyUnloadedReason.REMOVED));
 			// remove
-			//administrators.deallocate(handle);
+			//administrators.deallocate(handleOperation);
 
 			componentsArray = clientInfo.getComponents().toArray();
 		}
@@ -4136,7 +4136,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		// spawn another task which will release all clientInfo.getComponents()
 		threadPool.execute(new ReleaseComponentTask(clientInfo.getHandle(), componentsArray));
 
-/// TODO !!!!!!!!!!!!!! no more handle -> componentInfo data
+/// TODO !!!!!!!!!!!!!! no more handleOperation -> componentInfo data
 		// notify administrators about the logout
 		notifyClientLogout(clientInfo, System.currentTimeMillis());
 
@@ -4150,7 +4150,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 	/**
 	 * Returns array of currently logged administrators.
-	 * @param	excludeHandle	handle of administrator not to be included in the array, can be 0.
+	 * @param	excludeHandle	handleOperation of administrator not to be included in the array, can be 0.
 	 * @return	ClientInfo[]	array of currently logged administrators
 	 */
 	private ClientInfo[] getAdministrators(int excludeHandle)
@@ -4289,7 +4289,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	 * Get client info. for specified handles of <code>Client</code> or <code>Administrator</code>. For <code>Component</code>
 	 * handles component's <code>Container</code> is returned.
 	 *
-	 * @param	excludeHandle	handle of client not to be included in the array, can be 0.
+	 * @param	excludeHandle	handleOperation of client not to be included in the array, can be 0.
 	 * @param	handles			handles of the clients whose info. should be returned, non-<code>null</code>.
 	 * @param	returns			requested infos, <code>null</code> if none
 	 */
@@ -4337,8 +4337,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	}
 
 	/**
-	 * Remove component handle from the owners list.
-	 * @param componentHandle	component handle to be removed from the owners list.
+	 * Remove component handleOperation from the owners list.
+	 * @param componentHandle	component handleOperation to be removed from the owners list.
 	 * @param owner				owner whom to remove the ownership.
 	 */
 	private void removeComponentOwner(int componentHandle, int owner)
@@ -4379,8 +4379,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 
 	/**
-	 * Add component handle to the owners list.
-	 * @param componentHandle	component handle to be addd to the owners list.
+	 * Add component handleOperation to the owners list.
+	 * @param componentHandle	component handleOperation to be addd to the owners list.
 	 * @param owner				owner whom to add the ownership.
 	 */
 	private void addComponentOwner(int componentHandle, int owner)
@@ -5033,7 +5033,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 	/**
 	 * Notifies administrators about Component deactivation.
-	 * @param	component	deactivated component handle, non-<code>0</code>
+	 * @param	component	deactivated component handleOperation, non-<code>0</code>
 	 */
 	private void notifyComponentDeactivated(final int handle, final long timeStamp)
 	{
@@ -5432,13 +5432,13 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	private transient static SimpleDateFormat timeFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
 	/**
-	 * Performs security check on given handle and if check if owner has <code>rights</code> permissions granted.
+	 * Performs security check on given handleOperation and if check if owner has <code>rights</code> permissions granted.
 	 *
-	 * Validating means checking key part (KEY_MASK) of the handle.
+	 * Validating means checking key part (KEY_MASK) of the handleOperation.
 	 *
-	 * @param	id	handle to be checked.
-	 * @param	rights	checks if owner of the handle has this permissions granted, can be 0.
-	 * @throws	AcsJNoPermissionEx	thrown if handle is not valid or handle owner has not enough permissions
+	 * @param	id	handleOperation to be checked.
+	 * @param	rights	checks if owner of the handleOperation has this permissions granted, can be 0.
+	 * @throws	AcsJNoPermissionEx	thrown if handleOperation is not valid or handleOperation owner has not enough permissions
 	 */
 	private void securityCheck(int id, int requiredRights) throws AcsJNoPermissionEx
 	{
@@ -5453,7 +5453,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw npe;
 		}
 
-		// parse handle part
+		// parse handleOperation part
 		int handle	= id & HANDLE_MASK;
 
 		int grantedRights = 0;
@@ -5533,18 +5533,18 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				switch (hme.reason)
 				{
 					case REMOVED:
-						npe.setReason("Invalid handle, handle was properly removed at " + timeISO + ".");
+						npe.setReason("Invalid handleOperation, handleOperation was properly removed at " + timeISO + ".");
 						break;
 					case TIMEOUT:
-						npe.setReason("Invalid handle, handle was removed due to timeout at " + timeISO + ".");
+						npe.setReason("Invalid handleOperation, handleOperation was removed due to timeout at " + timeISO + ".");
 						break;
 					case DISAPPEARED:
-						npe.setReason("Invalid handle, handle was removed due to client/container/component disappearing at " + timeISO + ".");
+						npe.setReason("Invalid handleOperation, handleOperation was removed due to client/container/component disappearing at " + timeISO + ".");
 						break;
 				}
 			}
 			else
-				npe.setReason("Invalid handle, handle was never known.");
+				npe.setReason("Invalid handleOperation, handleOperation was never known.");
 			
 			throw npe;
 		}
@@ -5563,13 +5563,13 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	/**
 	 * Get client info. for specified id of <code>Client</code> or <code>Administrator</code>.
 	 *
-	 * @param	id	handle of the client whose info. should be returned
-	 * @param	returns	requested info, <code>null</code> if client with requested handle does not exits
+	 * @param	id	handleOperation of the client whose info. should be returned
+	 * @param	returns	requested info, <code>null</code> if client with requested handleOperation does not exits
 	 */
 	public ClientInfo getClientInfo(int id)
 	{
 
-		// parse handle part
+		// parse handleOperation part
 		int handle	= id & HANDLE_MASK;
 
 		// info to be returned
@@ -5600,13 +5600,13 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	/**
 	 * Get container info. for specified id of <code>Container</code>.
 	 *
-	 * @param	id	handle of the container whose info. should be returned
-	 * @param	returns	requested info, <code>null</code> if container with requested handle does not exits
+	 * @param	id	handleOperation of the container whose info. should be returned
+	 * @param	returns	requested info, <code>null</code> if container with requested handleOperation does not exits
 	 */
 	private ContainerInfo getContainerInfo(int id)
 	{
 
-		// parse handle part
+		// parse handleOperation part
 		int handle	= id & HANDLE_MASK;
 
 		// info to be returned
@@ -5625,7 +5625,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	 * Get container info. for specified name of <code>Container</code>.
 	 *
 	 * @param	name	name of the container whose info. should be returned, non-<code>null</code>
-	 * @param	returns	requested info, <code>null</code> if container with requested handle does not exits
+	 * @param	returns	requested info, <code>null</code> if container with requested handleOperation does not exits
 	 */
 	private ContainerInfo getContainerInfo(String name)
 	{
@@ -5656,13 +5656,13 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	/**
 	 * Get component info. for specified id of <code>Component</code>.
 	 *
-	 * @param	id	handle of the component whose info. should be returned
-	 * @param	returns	requested info, <code>null</code> if component with requested handle does not exits
+	 * @param	id	handleOperation of the component whose info. should be returned
+	 * @param	returns	requested info, <code>null</code> if component with requested handleOperation does not exits
 	 */
 	public ComponentInfo getComponentInfo(int id)
 	{
 
-		// parse handle part
+		// parse handleOperation part
 		int handle	= id & HANDLE_MASK;
 
 		// info to be returned
@@ -5770,8 +5770,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 	/**
 	 * Check for cyclic dependency between components, if detected path is returned.
-	 * @param requestor	handle of requestor component
-	 * @param requested	handle of requested component
+	 * @param requestor	handleOperation of requestor component
+	 * @param requested	handleOperation of requested component
 	 * @return if cycle is detected then path is returned, otherwise <code>null</code>
 	 */
 	private ArrayList doCycleCheck(int requestor, int requested)
@@ -5990,7 +5990,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 		int h;
 
-		// if true, component with handle h will be reactivated
+		// if true, component with handleOperation h will be reactivated
 		boolean reactivate = false;
 		ComponentInfo componentInfo = null;
 
@@ -6287,10 +6287,10 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		}
 
 		//
-		// get handle
+		// get handleOperation
 		//
 
-		// obtain handle
+		// obtain handleOperation
 		synchronized (components)
 		{
 			// only preallocate (if necessary)
@@ -6302,11 +6302,11 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				//h = components.preallocate();
 			}
 			
-			// failed to obtain handle
+			// failed to obtain handleOperation
 			if (h == 0)
 			{
 				AcsJCannotGetComponentEx af = new AcsJCannotGetComponentEx();
-				logger.log(Level.WARNING, "Preallocation of new handle failed, too many registered components.", af);
+				logger.log(Level.WARNING, "Preallocation of new handleOperation failed, too many registered components.", af);
 				throw af;
 			}
 
@@ -6351,7 +6351,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			{
 			    URI curlName = CURLHelper.createURI(name);
 			    StatusHolder statusHolder = new StatusHolder();
-			    // @todo MF tmp (handle)
+			    // @todo MF tmp (handleOperation)
 			    remoteManager.getComponent(INTERDOMAIN_MANAGER_HANDLE, curlName, true, statusHolder);
 			    activationTime = System.currentTimeMillis();
 			    
@@ -6361,7 +6361,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				    String localName = curlName.getPath();
 					if (localName.charAt(0) == '/')
 					    localName = localName.substring(1);
-				    /// @TODO MF tmp (handle)
+				    /// @TODO MF tmp (handleOperation)
 				    ComponentInfo[] infos = remoteManager.getComponentInfo(INTERDOMAIN_MANAGER_HANDLE, new int[0], localName, "*", true);
 				    if (infos != null && infos.length == 1)
 				    {
@@ -6448,7 +6448,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			logger.log(Level.SEVERE,"Activated component '" + name + "' does not implement specified type '" + type + "'.");
 		}
 
-		// @todo MF do the component handle mapping here (remember map and fix componentInfo),
+		// @todo MF do the component handleOperation mapping here (remember map and fix componentInfo),
 		// component info (to get type and code, container - prefix name)
 		if (isOtherDomainComponent)
 		{
@@ -6468,18 +6468,18 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		{
 
 			//
-			// check if returned handle matches ours (given)
+			// check if returned handleOperation matches ours (given)
 			//
 			if (componentInfo.getHandle() != (h | COMPONENT_MASK))
 			{
-				// container returned different handle
+				// container returned different handleOperation
 				// (it seems it has already activated this Component)
 
 				// check if we can accept it
 				int componentHandle = componentInfo.getHandle() & HANDLE_MASK;
 				if (components.isAllocated(componentHandle))
 				{
-					// handle is already allocated, we have to reject returned handle
+					// handleOperation is already allocated, we have to reject returned handleOperation
 
 					// !!! ACID 3
 					// cancel preallocation
@@ -6488,14 +6488,14 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 						//components.deallocate(h, true);
 
 					bcex = new AcsJCannotGetComponentEx();
-					logger.log(Level.SEVERE, "Container returned another handle than given, failed to fix handle since returned handle is already allocated.", bcex);
+					logger.log(Level.SEVERE, "Container returned another handleOperation than given, failed to fix handleOperation since returned handleOperation is already allocated.", bcex);
 
 					status.setStatus(ComponentStatus.COMPONENT_ACTIVATED);		// component is activated, but cannot be managed by the Manager
 					throw bcex;
 				}
 				else
 				{
-					// handle is free, relocate handle
+					// handleOperation is free, relocate handleOperation
 
 					ComponentInfo existingData = null;
 
@@ -6520,7 +6520,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 					{
 						// failed to allocate new
 						bcex = new AcsJCannotGetComponentEx();
-						logger.log(Level.SEVERE,"Container returned another handle than given, failed to fix handle due to handle relocation failure.", bcex);
+						logger.log(Level.SEVERE,"Container returned another handleOperation than given, failed to fix handleOperation due to handleOperation relocation failure.", bcex);
 						status.setStatus(ComponentStatus.COMPONENT_ACTIVATED);		// Component is activated, but cannot be managed by the Manager
 						throw bcex;
 					}
@@ -6529,7 +6529,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 						executeCommand(new ComponentCommandSet(h, existingData));
 						//components.set(h, existingData);
 
-					logger.log(Level.SEVERE,"Container returned another handle than given, handle fixed.");
+					logger.log(Level.SEVERE,"Container returned another handleOperation than given, handleOperation fixed.");
 				}
 
 			}
@@ -6737,7 +6737,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	/**
 	 * Internal method for releasing components.
 	 *
-	 * @param	owner	owner of the component, if manager's own handle then deactivation will be forced
+	 * @param	owner	owner of the component, if manager's own handleOperation then deactivation will be forced
 	 * @param	curl	CURL of the component to be released.
 	 * @param	force	force deactivate, if still has owners then component will be made unavailable.
 	 * @return			Number of clients that are still using the component after the operation completed.
@@ -6746,7 +6746,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	   throws AcsJNoPermissionEx, AcsJBadParameterEx 
 	{
 
-		// resolve handle from curl
+		// resolve handleOperation from curl
 		int h = 0;
 
 		String name = extractName(curl);
@@ -6841,7 +6841,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	 * Internal method for releasing components.
 	 *
 	 * @param	owner	owner of the component.
-	 * @param	h		handle of the component to be released.
+	 * @param	h		handleOperation of the component to be released.
 	 * @param	force	force deactivate, if still has owners then component will be made unavailable.
 	 * @return			Number of clients that are still using the component after the operation completed.
 	 */
@@ -6860,7 +6860,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 			if (componentInfo == null)
 			{
-				// invalid Component handle
+				// invalid Component handleOperation
 				AcsJBadParameterEx ex = new AcsJBadParameterEx();
 				ex.setParameter("componentInfo");
 				ex.setParameterValue("null");
@@ -6868,7 +6868,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			}
 			if (componentInfo.getHandle() != h)
 			{
-				// invalid Component handle
+				// invalid Component handleOperation
 				AcsJBadParameterEx ex = new AcsJBadParameterEx();
 				ex.setParameter("h");
 				throw ex;			
@@ -6910,7 +6910,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	 * Internal method for releasing components.
 	 *
 	 * @param	owner	owner of the component.
-	 * @param	h		handle of the component to be released.
+	 * @param	h		handleOperation of the component to be released.
 	 * @param	force	force deactivate, if still has owners then component will be made unavailable.
 	 * @return			Number of clients that are still using the component after the operation completed.
 	 */
@@ -6929,8 +6929,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 			if (componentInfo == null || componentInfo.getHandle() != h)
 			{
-				// invalid component handle
-				BadParametersException af = new BadParametersException("Invalid component handle.");
+				// invalid component handleOperation
+				BadParametersException af = new BadParametersException("Invalid component handleOperation.");
 				throw af;
 			}
 
@@ -6969,8 +6969,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 				// this should not be done here (this will throw no permission exception to the component releasing its subcomponents)
 				// deallocate Component
-				//executeCommand(new ComponentCommandDeallocate(handle));
-				////components.deallocate(handle);
+				//executeCommand(new ComponentCommandDeallocate(handleOperation));
+				////components.deallocate(handleOperation);
 
 
 				// remove from unavailable list
@@ -7033,7 +7033,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			// negative means immortal, however this could not happen since immortal
 			// components have manager as an owner
 		}
-/// TODO !!!!!!!!!!!!!! no more handle -> componentInfo data
+/// TODO !!!!!!!!!!!!!! no more handleOperation -> componentInfo data
 		// notify administrators about the release request
 		notifyComponentReleased(new int[] { owner }, new int[] { h }, System.currentTimeMillis());
 
@@ -7101,7 +7101,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				try
 				{
 				    URI curlName = CURLHelper.createURI(name);
-				    // @todo MF tmp (handle)
+				    // @todo MF tmp (handleOperation)
 				    remoteManager.releaseComponent(INTERDOMAIN_MANAGER_HANDLE, curlName);
 				}
 				catch (Throwable th)
@@ -7211,7 +7211,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 				synchronized (components)
 				{
 					executeCommand(new ComponentCommandDeallocate(handle, componentInfo.getHandle(), WhyUnloadedReason.REMOVED));
-					//components.deallocate(handle);
+					//components.deallocate(handleOperation);
 				}
 			}
 		}
@@ -7421,7 +7421,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	throws AcsJNoPermissionEx 
 	{
 
-		// resolve handle from curl
+		// resolve handleOperation from curl
 		int h = 0;
 
 		String name = extractName(curl);
@@ -7452,7 +7452,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	 * Internal method for restarting components.
 	 *
 	 * @param	owner	owner of the component.
-	 * @param	h		handle of the component to be restarted.
+	 * @param	h		handleOperation of the component to be restarted.
 	 * @return			Newly restarted component, <code>null</code> if failed.
 	 */
 	private Component internalRestartComponent(int owner, int h)
@@ -7470,8 +7470,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 			if (componentInfo == null || componentInfo.getHandle() != h)
 			{
-				// invalid Component handle
-				BadParametersException af = new BadParametersException("Invalid component handle.");
+				// invalid Component handleOperation
+				BadParametersException af = new BadParametersException("Invalid component handleOperation.");
 				throw af;
 			}
 
@@ -7511,7 +7511,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	 * Internal method for restarting components.
 	 *
 	 * @param	owner	owner of the component.
-	 * @param	h		handle of the component to be restarting.
+	 * @param	h		handleOperation of the component to be restarting.
 	 * @return			Newly restarted component, <code>null</code> if failed.
 	 */
 	// @todo MF not supported
@@ -7529,8 +7529,8 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 			if (componentInfo == null || componentInfo.getHandle() != h)
 			{
-				// invalid component handle
-				BadParametersException af = new BadParametersException("Invalid component handle.");
+				// invalid component handleOperation
+				BadParametersException af = new BadParametersException("Invalid component handleOperation.");
 				throw af;
 			}
 
@@ -7633,7 +7633,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 
 		/****************************************************************/
 
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		logger.log(Level.INFO,"Getting default component for type '" + type + "'.");
@@ -7882,7 +7882,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw ex;
 		}
 		
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		// Throws AcsJNoPermissionEx that is let flying up
 		securityCheck(id, AccessRights.NONE);
 
@@ -7946,7 +7946,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 			throw af;
 		}
 
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		securityCheck(id, AccessRights.NONE);
 
 		/****************************************************************/
@@ -8056,7 +8056,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 		}
 		
 		
-		// check handle and NONE permissions
+		// check handleOperation and NONE permissions
 		// Throws AcsJNoPermissionEx that is let flying up
 		securityCheck(id, AccessRights.NONE);
 		
@@ -8828,14 +8828,14 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	/*****************************************************************************/
 
 	/**
-	 * Returns human-readable and meaningful name of handle.
+	 * Returns human-readable and meaningful name of handleOperation.
 	 *
-	 * @param	id	handle to stringifys
-	 * @return	human-readable and meaningful name of handle.
+	 * @param	id	handleOperation to stringifys
+	 * @return	human-readable and meaningful name of handleOperation.
 	 */
 	private String getRequestorName(int id)
 	{
-		// parse handle part
+		// parse handleOperation part
 		int handle	= id & HANDLE_MASK;
 
 		boolean invalidHandle = true;
@@ -9833,7 +9833,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	}
 
 	/**
-	 * Log handle release.
+	 * Log handleOperation release.
 	 * @param handle
 	 * @param reason
 	 */
@@ -9849,7 +9849,7 @@ public class ManagerImpl extends AbstractPrevalentSystem implements Manager, Han
 	}
 
 	/**
-	 * Get handle release log.
+	 * Get handleOperation release log.
 	 * @param handle
 	 * @return log or <code>null</code> if it does not exist.
 	 */

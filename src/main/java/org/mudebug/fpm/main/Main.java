@@ -8,15 +8,22 @@ import gumtree.spoon.diff.Diff;
 import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.commons.FileListParser;
 import org.mudebug.fpm.commons.FilePairVisitor;
-import org.mudebug.fpm.pattern.Handler;
+import org.mudebug.fpm.pattern.handler.OperationHandler;
+import org.mudebug.fpm.pattern.handler.delete.DeleteHandler;
+import org.mudebug.fpm.pattern.handler.insert.InsertHandler;
+import org.mudebug.fpm.pattern.handler.update.UpdateHandler;
 
 import static java.lang.System.out;
 
-public class Main implements FilePairVisitor {
-    private final Handler patternHandler;
+public final class Main implements FilePairVisitor {
+    private final OperationHandler[] handlers;
 
     private Main() {
-        this.patternHandler = Handler.createHandlerChain();
+        this.handlers = new OperationHandler[] {
+                DeleteHandler.createHandlerChain(),
+                InsertHandler.createHandlerChain(),
+                UpdateHandler.createHandlerChain()
+        };
     }
 
     public static void main(String[] args) {
@@ -42,7 +49,11 @@ public class Main implements FilePairVisitor {
             final List<Operation> ops = diff.getRootOperations();
             if (!ops.isEmpty()) {
                 for (final Operation op : ops) {
-                    patternHandler.match(op);
+                    for (final OperationHandler handler : this.handlers) {
+                        if (handler != null && handler.canHandleOperation(op)) {
+                            handler.handleOperation(op);
+                        }
+                    }
                 }
             } else {
                 out.println("warning: no diff found.");

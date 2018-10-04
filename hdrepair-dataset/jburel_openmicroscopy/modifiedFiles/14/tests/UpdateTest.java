@@ -208,7 +208,7 @@ public class UpdateTest extends AbstractUpdateTest {
         pix2.setImage(img);
         pix2 = iUpdate.saveAndReturnObject(pix2);
 
-        // Rest deleted. Trying only to handle _backRefs.
+        // Rest deleted. Trying only to handleOperation _backRefs.
     }
 
     @Test(enabled=false)

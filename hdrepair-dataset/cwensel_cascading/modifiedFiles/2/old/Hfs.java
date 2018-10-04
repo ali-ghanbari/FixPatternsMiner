@@ -308,7 +308,7 @@ public class Hfs extends Tap<JobConf, RecordReader, OutputCollector>
       }
     catch( IOException exception )
       {
-      throw new TapException( "unable to get handle to underlying filesystem", exception );
+      throw new TapException( "unable to get handleOperation to underlying filesystem", exception );
       }
     }
 
@@ -322,7 +322,7 @@ public class Hfs extends Tap<JobConf, RecordReader, OutputCollector>
       }
     catch( IOException exception )
       {
-      throw new TapException( "unable to get handle to get filesystem for: " + scheme.getScheme(), exception );
+      throw new TapException( "unable to get handleOperation to get filesystem for: " + scheme.getScheme(), exception );
       }
     }
 

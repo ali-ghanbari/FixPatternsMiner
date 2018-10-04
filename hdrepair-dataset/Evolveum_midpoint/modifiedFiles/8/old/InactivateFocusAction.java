@@ -43,7 +43,7 @@ import com.evolveum.midpoint.xml.ns._public.common.common_2a.UserType;
 public class InactivateFocusAction extends BaseAction {
 
 	/* (non-Javadoc)
-	 * @see com.evolveum.midpoint.model.sync.Action#handle(com.evolveum.midpoint.model.lens.LensContext, com.evolveum.midpoint.model.sync.SynchronizationSituation, java.util.Map, com.evolveum.midpoint.task.api.Task, com.evolveum.midpoint.schema.result.OperationResult)
+	 * @see com.evolveum.midpoint.model.sync.Action#handleOperation(com.evolveum.midpoint.model.lens.LensContext, com.evolveum.midpoint.model.sync.SynchronizationSituation, java.util.Map, com.evolveum.midpoint.task.api.Task, com.evolveum.midpoint.schema.result.OperationResult)
 	 */
 	@Override
 	public <F extends FocusType> void handle(LensContext<F> context, SynchronizationSituation<F> situation,

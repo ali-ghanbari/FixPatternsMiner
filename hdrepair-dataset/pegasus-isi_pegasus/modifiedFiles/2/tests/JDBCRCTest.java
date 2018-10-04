@@ -81,15 +81,15 @@ public class JDBCRCTest {
     @Test
     public void multipleSimpleInsert() {
         jdbcrc.insert("a", new ReplicaCatalogEntry("b"));
-        jdbcrc.insert("a", new ReplicaCatalogEntry("b", "handle"));
+        jdbcrc.insert("a", new ReplicaCatalogEntry("b", "handleOperation"));
         jdbcrc.insert("a", new ReplicaCatalogEntry("c"));
-        jdbcrc.insert("a", new ReplicaCatalogEntry("c", "handle"));
+        jdbcrc.insert("a", new ReplicaCatalogEntry("c", "handleOperation"));
 
         Collection<ReplicaCatalogEntry> c = jdbcrc.lookup("a");
         assertTrue(c.contains(new ReplicaCatalogEntry("b")));
-        assertTrue(c.contains(new ReplicaCatalogEntry("b", "handle")));
+        assertTrue(c.contains(new ReplicaCatalogEntry("b", "handleOperation")));
         assertTrue(c.contains(new ReplicaCatalogEntry("c")));
-        assertTrue(c.contains(new ReplicaCatalogEntry("c", "handle")));
+        assertTrue(c.contains(new ReplicaCatalogEntry("c", "handleOperation")));
     }
 
     @Test

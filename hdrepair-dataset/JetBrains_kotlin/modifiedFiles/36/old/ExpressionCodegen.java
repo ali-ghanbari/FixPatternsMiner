@@ -2365,7 +2365,7 @@ If finally block is present, its last expression is the value of try expression.
                 return StackValue.onStack(type);
             }
             else {
-                throw new UnsupportedOperationException("don't know how to handle non-class types in as/as?");
+                throw new UnsupportedOperationException("don't know how to handleOperation non-class types in as/as?");
             }
         }
     }

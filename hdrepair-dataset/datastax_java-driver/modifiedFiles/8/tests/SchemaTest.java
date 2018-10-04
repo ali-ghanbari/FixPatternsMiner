@@ -120,7 +120,7 @@ public class SchemaTest extends CCMBridge.PerClassSingleNodeCluster {
 
     // Note: this test is a bit fragile in the sense that it rely on the exact
     // string formatting of exportAsString, but it's a very simple/convenient
-    // way to check we correctly handle schemas so it's probably not so bad.
+    // way to check we correctly handleOperation schemas so it's probably not so bad.
     // In particular, exportAsString *does not* guarantee that you'll get
     // exactly the same string than the one used to create the table.
     @Test(groups = "short")

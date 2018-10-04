@@ -178,8 +178,8 @@ public class CommandLineRunnerTest extends TestCase {
     test(
         "/** @constructor */" +
         "function Foo() {}" +
-        "Foo.prototype.handle = function(x, y) { alert(y); };" +
-        "var x = goog.reflect.object(Foo, {handle: 1});" +
+        "Foo.prototype.handleOperation = function(x, y) { alert(y); };" +
+        "var x = goog.reflect.object(Foo, {handleOperation: 1});" +
         "for (var i in x) { x[i].call(x); }" +
         "window['Foo'] = Foo;",
         "function a() {}" +

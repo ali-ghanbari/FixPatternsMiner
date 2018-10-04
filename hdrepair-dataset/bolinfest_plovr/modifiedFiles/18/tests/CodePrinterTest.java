@@ -375,7 +375,7 @@ public class CodePrinterTest extends TestCase {
         "var a={};function b_(p){return p}" +
             "for(var i=1,j=b_(\"length\"in a);;);");
 
-    // Test we correctly handle an in operator in the test clause.
+    // Test we correctly handleOperation an in operator in the test clause.
     assertPrint("var a={}; for (;(\"length\" in a);) {}",
         "var a={};for(;\"length\"in a;);");
   }
@@ -470,7 +470,7 @@ public class CodePrinterTest extends TestCase {
     assertPrettyPrint("var a = (function() {});alert(a);",
         "var a = function() {\n};\nalert(a);\n");
 
-    // Check we correctly handle putting brackets around all if clauses so
+    // Check we correctly handleOperation putting brackets around all if clauses so
     // we can put breakpoints inside statements.
     assertPrettyPrint("if (1) {}",
         "if(1) {\n" +

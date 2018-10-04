@@ -701,7 +701,7 @@ public class RuleNetworkEvaluator {
                                             LeftTupleSets trgLeftTuples,
                                             LeftTupleSets stagedLeftTuples) {
         switch (childLeftTuple.getStagedType()) {
-            // handle clash with already staged entries
+            // handleOperation clash with already staged entries
             case LeftTuple.INSERT:
                 stagedLeftTuples.removeInsert(childLeftTuple);
                 break;
@@ -723,7 +723,7 @@ public class RuleNetworkEvaluator {
                                              LeftTupleSets trgLeftTuples,
                                              LeftTupleSets stagedLeftTuples) {
         switch (childLeftTuple.getStagedType()) {
-            // handle clash with already staged entries
+            // handleOperation clash with already staged entries
             case LeftTuple.INSERT:
                 stagedLeftTuples.removeInsert(childLeftTuple);
                 break;

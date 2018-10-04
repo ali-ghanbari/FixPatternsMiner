@@ -3259,10 +3259,10 @@ public abstract class AbstractTransformer implements Transformation {
                 mdb.isOverride(true);
                 mdb.modifiers(PROTECTED | FINAL);
                 mdb.resultType(null, make().Type(syms().objectType));
-                mdb.parameter(ParameterDefinitionBuilder.systemParameter(this, "handle")
+                mdb.parameter(ParameterDefinitionBuilder.systemParameter(this, "handleOperation")
                         .type(make().Type(syms().methodHandleType), null));
                 mdb.body(make().Return(make().Apply(List.<JCExpression>nil(), 
-                        naming.makeQualIdent(naming.makeUnquotedIdent("handle"), "invokeExact"), 
+                        naming.makeQualIdent(naming.makeUnquotedIdent("handleOperation"), "invokeExact"),
                         List.<JCExpression>of(naming.makeThis()))));
                 methods.add(mdb.build());
                 i = 0;

@@ -502,7 +502,7 @@ public final class TreeBuilder implements UpdatablePredictiveModelBuilder<Tree> 
                 if (value == null) value = 0;
                 return input != null && ((Number) value).doubleValue() > threshold;
             } catch (final ClassCastException e) { // Kludge, need to
-                // handle better
+                // handleOperation better
                 return false;
             }
         }
@@ -525,7 +525,7 @@ public final class TreeBuilder implements UpdatablePredictiveModelBuilder<Tree> 
                 if (value == null) value = 0;
                 return input != null && ((Number) value).doubleValue() <= threshold;
             } catch (final ClassCastException e) { // Kludge, need to
-                // handle better
+                // handleOperation better
                 return false;
             }
         }

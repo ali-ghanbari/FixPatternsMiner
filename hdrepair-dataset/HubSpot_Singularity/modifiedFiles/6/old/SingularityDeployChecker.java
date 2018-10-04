@@ -143,7 +143,7 @@ public class SingularityDeployChecker {
       return;
     }
 
-    // success case is handled, handle failure cases:
+    // success case is handled, handleOperation failure cases:
     saveNewDeployState(pendingDeployMarker, Optional.<SingularityDeployMarker> absent());
     finishDeploy(request, pendingDeploy, deployMatchingTasks, deployResult);
   }

@@ -103,7 +103,7 @@ public class GetFactHandlesCommandTest {
         String randomFact = "" + random.nextLong();
         ksession.insert(randomFact);
         
-        // Retrieve and verify fact handle collections
+        // Retrieve and verify fact handleOperation collections
         GetFactHandlesCommand command = new GetFactHandlesCommand(false);
         Object result = commandService.execute(command);
         verifyThatCollectionContains1FactHandleWithThisFact(randomFact, result);
@@ -119,7 +119,7 @@ public class GetFactHandlesCommandTest {
         verifyThatCollectionContains1FactHandleWithThisFact(randomFact, result);
         FactHandle disconnectedFactHandle = (FactHandle) ((Collection<FactHandle>) result).toArray()[0];
       
-        // Test fact handle collections
+        // Test fact handleOperation collections
         assertTrue( factHandle == connectedFactHandle );
         assertTrue( ! (factHandle == disconnectedFactHandle) );
     }
@@ -151,7 +151,7 @@ public class GetFactHandlesCommandTest {
         verifyThatCollectionContainsTheseFactHandle(factSet, result);
         Collection<FactHandle> disconnectedFactHandles = ((Collection<FactHandle>) result);
        
-        // Test fact handle collections
+        // Test fact handleOperation collections
         HashSet<FactHandle> factHandlesCopy = new HashSet<FactHandle>(factHandles);
         for( int i = 0; i < connectedFactHandles.size(); ++i ) { 
             for( Object connectedFact : connectedFactHandles ) { 

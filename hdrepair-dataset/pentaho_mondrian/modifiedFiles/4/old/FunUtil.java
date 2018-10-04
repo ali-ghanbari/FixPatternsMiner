@@ -1509,7 +1509,7 @@ public class FunUtil extends Util {
      * anything - as the above method does. The impact of this is that if, for
      * example, one was creating a list of x,y values then each list will have
      * the same number of values (though some might be null) - this allows
-     * higher level code to determine how to handle the lack of data rather than
+     * higher level code to determine how to handleOperation the lack of data rather than
      * having a non-equal number (if one is plotting x,y values it helps to
      * have the same number and know where a potential gap is the data is.
      */

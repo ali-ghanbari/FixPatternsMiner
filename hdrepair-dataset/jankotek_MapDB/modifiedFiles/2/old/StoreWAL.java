@@ -893,7 +893,7 @@ public class StoreWAL extends StoreDirect {
         assert(disableLocks || structuralLock.isHeldByCurrentThread());
 
         if(readOnly && log==null)
-            return; //TODO how to handle log replay if we are readonly?
+            return; //TODO how to handleOperation log replay if we are readonly?
 
         logSize = 0;
 

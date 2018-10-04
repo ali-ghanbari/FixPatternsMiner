@@ -502,7 +502,7 @@ public class JCommander {
   }
 
   /**
-   * Remove spaces at both ends and handle double quotes.
+   * Remove spaces at both ends and handleOperation double quotes.
    */
   private static String trim(String string) {
     String result = string.trim();

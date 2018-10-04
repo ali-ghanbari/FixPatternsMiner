@@ -112,7 +112,7 @@ public final class IpSubnetFilterRule implements IpFilterRule {
         private static int prefixToSubnetMask(int cidrPrefix) {
             /**
              * Perform the shift on a long and downcast it to int afterwards.
-             * This is necessary to handle a cidrPrefix of zero correctly.
+             * This is necessary to handleOperation a cidrPrefix of zero correctly.
              * The left shift operator on an int only uses the five least
              * significant bits of the right-hand operand. Thus -1 << 32 evaluates
              * to -1 instead of 0. The left shift operator applied on a long

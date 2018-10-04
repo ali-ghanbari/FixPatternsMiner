@@ -43,7 +43,7 @@ public class ChangeLogWriterTest {
 	private final String CHANGELOG_FILE_PATH = "/project-name/src/org/";
 	private final String CHANGELOG_FILE_NAME = "ChangeLog";
 	private String changelogFilePath;
-	// IFile handle to '/path/changelog/ChangeLog'
+	// IFile handleOperation to '/path/changelog/ChangeLog'
 	private IFile changelogFile;
 	// Current content of the ChangeLog file
 	private final String changeLogContent = "2009-10-14  Some Author  <some.author@example.com>\n\n" +

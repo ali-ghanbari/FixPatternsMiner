@@ -293,7 +293,7 @@ public class ResourceUtil {
      * terminates in a <code>/*</code>. Generally such resource result from
      * requests to something like <code>/some/path/*</code> or
      * <code>/some/path/*.html</code> which may be used web applications to
-     * uniformly handle resources to be created.
+     * uniformly handleOperation resources to be created.
      * <p>
      * This method checks whether the resource path ends with a <code>/*</code>
      * indicating such a star resource.

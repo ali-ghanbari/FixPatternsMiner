@@ -819,7 +819,7 @@ public class DefaultCamelContext extends ServiceSupport implements CamelContext,
     }
 
     public String resolvePropertyPlaceholders(String uri) throws Exception {
-        // do not parse uris that are designated for the properties component as it will handle that itself
+        // do not parse uris that are designated for the properties component as it will handleOperation that itself
         if (uri != null && !uri.startsWith("properties:") && uri.contains(PropertiesComponent.PREFIX_TOKEN)) {
             // the uri contains property placeholders so lookup mandatory properties component and let it parse it
             Component component = hasComponent("properties");
@@ -1229,7 +1229,7 @@ public class DefaultCamelContext extends ServiceSupport implements CamelContext,
         }
 
         if (isHandleFault()) {
-            // only add a new handle fault if not already configured
+            // only add a new handleOperation fault if not already configured
             if (HandleFault.getHandleFault(this) == null) {
                 LOG.info("HandleFault is enabled on CamelContext: " + getName());
                 addInterceptStrategy(new HandleFault());

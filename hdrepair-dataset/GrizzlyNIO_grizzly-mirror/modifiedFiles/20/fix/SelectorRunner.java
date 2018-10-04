@@ -294,7 +294,7 @@ public final class SelectorRunner implements Runnable {
     }
 
     /**
-     * This method handle the processing of all Selector's interest op
+     * This method handleOperation the processing of all Selector's interest op
      * (OP_ACCEPT,OP_READ,OP_WRITE,OP_CONNECT) by delegating to its Handler.
      * By default, all java.nio.channels.Selector operations are implemented
      * using SelectorHandler. All SelectionKey operations are implemented by

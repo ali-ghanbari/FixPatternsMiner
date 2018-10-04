@@ -290,9 +290,9 @@ public class CachedLDAPAuthorizationMap extends DefaultAuthorizationMap implemen
         
         switch (destinationType) {
             case TEMP:
-                // handle temp entry
+                // handleOperation temp entry
                 if (dn.size() != getPrefixLengthForDestinationType(destinationType) + 1) {
-                    // handle unknown entry
+                    // handleOperation unknown entry
                     throw new IllegalArgumentException("Malformed policy structure for a temporary destination "
                             + "policy entry.  The permission group entries should be immediately below the "
                             + "temporary policy base DN.");
@@ -307,7 +307,7 @@ public class CachedLDAPAuthorizationMap extends DefaultAuthorizationMap implemen
                 
             case QUEUE:
             case TOPIC:
-                // handle regular destinations
+                // handleOperation regular destinations
                 if (dn.size() != getPrefixLengthForDestinationType(destinationType) + 2) {
                     throw new IllegalArgumentException("Malformed policy structure for a queue or topic destination "
                             + "policy entry.  The destination pattern and permission group entries should be "
@@ -327,7 +327,7 @@ public class CachedLDAPAuthorizationMap extends DefaultAuthorizationMap implemen
                 
                 break;
             default:
-                // handle unknown entry
+                // handleOperation unknown entry
                 throw new IllegalArgumentException("Unknown destination type " + destinationType);
         }
         

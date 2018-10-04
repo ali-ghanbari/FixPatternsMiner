@@ -1294,7 +1294,7 @@ public class InlineFunctionsTest extends CompilerTestCase {
   }
 
   public void testComplexSampleNoInline() {
-    // This is the result we would expect if we could handle "foo = function"
+    // This is the result we would expect if we could handleOperation "foo = function"
     String result =
     "foo=function(stylesString,opt_element){" +
         "var styleSheet=null;" +

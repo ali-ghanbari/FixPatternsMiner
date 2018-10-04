@@ -409,7 +409,7 @@ public class IncrementalIndexStorageAdapter implements StorageAdapter
 
     final List<Interval> queryIntervals = query.getIntervals();
     if (queryIntervals.size() != 1) {
-      throw new IAE("Can only handle one interval, got query[%s]", query);
+      throw new IAE("Can only handleOperation one interval, got query[%s]", query);
     }
 
     final Interval queryInterval = queryIntervals.get(0);

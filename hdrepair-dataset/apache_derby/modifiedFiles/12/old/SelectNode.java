@@ -1060,7 +1060,7 @@ public class SelectNode extends ResultSetNode
 		    // DERBY-3257 
 		    // Mark  subqueries that are part of the having clause as 
 		    // such so we can avoid flattenning later. Having subqueries
-		    // cannot be flattened because we cannot currently handle
+		    // cannot be flattened because we cannot currently handleOperation
 		    // column references at the same source level.
 		    // DERBY-3257 required we normalize the having clause which
 		    // triggered flattening because SubqueryNode.underTopAndNode

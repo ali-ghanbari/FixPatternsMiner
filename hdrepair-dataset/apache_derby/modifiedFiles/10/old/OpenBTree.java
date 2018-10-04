@@ -523,9 +523,9 @@ public class OpenBTree
     }
 
     /**
-     * Return the container handle.
+     * Return the container handleOperation.
      * <p>
-	 * @return The open container handle of the btree.
+	 * @return The open container handleOperation of the btree.
      **/
     public ContainerHandle getContainerHandle()
     {

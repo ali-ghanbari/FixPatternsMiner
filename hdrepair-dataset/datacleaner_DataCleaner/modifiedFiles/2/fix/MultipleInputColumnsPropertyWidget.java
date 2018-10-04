@@ -236,7 +236,7 @@ public class MultipleInputColumnsPropertyWidget extends AbstractPropertyWidget<I
             if (checkBox == null) {
                 addAvailableInputColumn(col, isEnabled(col, value));
             } else {
-                // handle updated names from transformed columns.
+                // handleOperation updated names from transformed columns.
                 checkBox.setText(col.getName());
                 checkBox.setSelected(true);
             }

@@ -789,7 +789,7 @@ public abstract class AbstractProvisioningTest extends TestCase {
 	}
 
 	/*
-	 * Look up and return a file handle to the given entry in the bundle.
+	 * Look up and return a file handleOperation to the given entry in the bundle.
 	 */
 	protected File getTestData(String message, String entry) {
 		if (entry == null)

@@ -44,7 +44,7 @@ public class KeggPathwayConverter extends FileConverter
 
     /**
      * Constructor
-     * @param writer the ItemWriter used to handle the resultant items
+     * @param writer the ItemWriter used to handleOperation the resultant items
      * @param model the Model
      * @throws ObjectStoreException if an error occurs in storing
      * @throws MetaDataException if cannot generate model

@@ -54,7 +54,7 @@ public final class ReferencingUtilities {
 
     /**
      * Transform the given envelope to the given crs.
-     * Unlike CRS.transform this method handle growing number of dimensions by filling
+     * Unlike CRS.transform this method handleOperation growing number of dimensions by filling
      * other axes with default values.
      *
      * @param env source Envelope
@@ -89,7 +89,7 @@ public final class ReferencingUtilities {
                 //try conversion
                 try {
                     final MathTransform trs = CRS.findMathTransform(sourcePart, targetPart, true);
-                    //we could transform by using two coordinate, but envelope conversion allows to handle
+                    //we could transform by using two coordinate, but envelope conversion allows to handleOperation
                     //crs singularities more efficiently
                     final GeneralEnvelope partSource = new GeneralEnvelope(sourcePart);
                     for(int i=0;i<sourcePartDimension;i++){

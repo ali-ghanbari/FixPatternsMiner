@@ -1530,7 +1530,7 @@ public class KnowledgeBuilderImpl implements KnowledgeBuilder {
             final String identifier = global.getIdentifier();
             String className = global.getType();
 
-            // JBRULES-3039: can't handle type name with generic params
+            // JBRULES-3039: can't handleOperation type name with generic params
             while (className.indexOf('<') >= 0) {
                 className = className.replaceAll("<[^<>]+?>", "");
             }

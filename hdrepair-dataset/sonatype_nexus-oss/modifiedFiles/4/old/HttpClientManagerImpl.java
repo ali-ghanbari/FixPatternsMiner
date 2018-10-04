@@ -70,7 +70,7 @@ public class HttpClientManagerImpl
         Preconditions.checkNotNull( proxyRepository );
         Preconditions.checkNotNull( ctx );
         final DefaultHttpClient httpClient = (DefaultHttpClient) hc4Provider.createHttpClient( ctx );
-        // RRS/Proxy repositories handle retries manually, so kill the retry handler set by Hc4Provider
+        // RRS/Proxy repositories handleOperation retries manually, so kill the retry handler set by Hc4Provider
         // TODO: NEXUS-5368 This is disabled on purpose for now (same in HttpClientManagerTest!)
         // httpClient.setHttpRequestRetryHandler( new StandardHttpRequestRetryHandler( 0, false ) );
         configure( proxyRepository, ctx, httpClient );

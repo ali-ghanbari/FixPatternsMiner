@@ -267,7 +267,7 @@ public abstract class WebUtil
 
     /**
      * Takes a string and replaces special characters with the text value, e.g. it would change
-     * "a&b" to "a_AMPERSAND_b".  This is used in the query/template imports to handle special
+     * "a&b" to "a_AMPERSAND_b".  This is used in the query/template imports to handleOperation special
      * characters.
      * @param name Name of query/template
      * @return rebuiltName Name of query/template with the special characters removed

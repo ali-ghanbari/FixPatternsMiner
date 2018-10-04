@@ -2623,7 +2623,7 @@ public abstract class AbstractFixJavadocMojo
 
     /**
      * Verify if a method has <code>&#64;java.lang.Override()</code> annotation or if it is an inherited method
-     * from an interface or a super class. The goal is to handle <code>&#123;&#64;inheritDoc&#125;</code> tag.
+     * from an interface or a super class. The goal is to handleOperation <code>&#123;&#64;inheritDoc&#125;</code> tag.
      *
      * @param javaMethod not null
      * @return <code>true</code> if the method is inherited, <code>false</code> otherwise.

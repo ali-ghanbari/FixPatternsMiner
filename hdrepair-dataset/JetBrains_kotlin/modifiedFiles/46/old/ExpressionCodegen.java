@@ -772,7 +772,7 @@ public class ExpressionCodegen extends JetVisitor {
                 calleeContainingClass == contextType.getContainingDeclaration()) {
                 v.getfield(typeMapper.jvmName((ClassDescriptor) contextType, OwnerKind.IMPLEMENTATION),
                         "this$0", typeMapper.jvmType(calleeContainingClass, OwnerKind.INTERFACE).getDescriptor());
-                // TODO handle more levels of class nestng
+                // TODO handleOperation more levels of class nestng
             }
         }
     }
@@ -1501,7 +1501,7 @@ public class ExpressionCodegen extends JetVisitor {
             JetType jetType = bindingContext.resolveTypeReference(typeReference);
             DeclarationDescriptor descriptor = jetType.getConstructor().getDeclarationDescriptor();
             if (!(descriptor instanceof ClassDescriptor)) {
-                throw new UnsupportedOperationException("don't know how to handle non-class types in as/as?");
+                throw new UnsupportedOperationException("don't know how to handleOperation non-class types in as/as?");
             }
             Type type = typeMapper.mapType(jetType, OwnerKind.INTERFACE);
             gen(expression.getLeft(), OBJECT_TYPE);
@@ -1560,7 +1560,7 @@ public class ExpressionCodegen extends JetVisitor {
     private void generateInstanceOf(Runnable expressionGen, JetType jetType, boolean leaveExpressionOnStack) {
         DeclarationDescriptor descriptor = jetType.getConstructor().getDeclarationDescriptor();
         if (!(descriptor instanceof ClassDescriptor)) {
-            throw new UnsupportedOperationException("don't know how to handle non-class types");
+            throw new UnsupportedOperationException("don't know how to handleOperation non-class types");
         }
         if (jetType.getArguments().size() > 0) {
             generateTypeInfo(jetType);

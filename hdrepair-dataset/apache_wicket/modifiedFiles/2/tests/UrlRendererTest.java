@@ -165,7 +165,7 @@ public class UrlRendererTest extends Assert
 	/**
 	 * https://issues.apache.org/jira/browse/WICKET-4401
 	 * 
-	 * A Url should not ends with '..' because some web containers do not handle it properly. Using
+	 * A Url should not ends with '..' because some web containers do not handleOperation it properly. Using
 	 * '../' works better.
 	 */
 	@Test

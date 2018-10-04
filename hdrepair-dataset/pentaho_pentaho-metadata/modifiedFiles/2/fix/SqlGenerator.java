@@ -112,7 +112,7 @@ public class SqlGenerator {
     query.setLimit(limit);
     for (int i = 0; i < selections.size(); i++) {
       // in some database implementations, the "as" name has a finite length;
-      // for instance, oracle cannot handle a name longer than 30 characters. 
+      // for instance, oracle cannot handleOperation a name longer than 30 characters.
       // So, we map a short name here to the longer id, and replace the id
       // later in the resultset metadata. 
       String alias = null;

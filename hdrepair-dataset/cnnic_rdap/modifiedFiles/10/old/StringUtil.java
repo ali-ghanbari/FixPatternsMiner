@@ -58,7 +58,7 @@ import com.ibm.icu.lang.UCharacter;
  * <li><b>checkIsValidSearchPattern</b> - check if valid search pattern.</li>
  * <li><b>containsAtMostOnce</b> - check if str contains searchStr more than
  * once.</li>
- * <li><b>isValidEntityHandleOrName</b> - check is valid entity handle</li>
+ * <li><b>isValidEntityHandleOrName</b> - check is valid entity handleOperation</li>
  * <li><b>urlEncode</b> - encoded url with UTF-8 encoding</li>
  * <li><b>getNormalization</b> - get normalization format string</li>
  * <li><b>parseUnsignedLong</b> - Parses the string argument as an unsigned
@@ -111,7 +111,7 @@ public final class StringUtil {
     public static final String CHAR_SET_ISO8859 = "ISO8859-1";
 
     /**
-     * max entity handle length.
+     * max entity handleOperation length.
      */
     public static final int MAX_ENTITY_HANDLE_LENGTH = 253;
 
@@ -266,10 +266,10 @@ public final class StringUtil {
     }
 
     /**
-     * check is valid entity handle.
+     * check is valid entity handleOperation.
      * 
      * @param handle
-     *            handle.
+     *            handleOperation.
      * @return bool
      */
     public static boolean isValidEntityHandleOrName(String handle) {

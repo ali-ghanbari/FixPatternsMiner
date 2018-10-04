@@ -138,7 +138,7 @@ public final class BuildHealthTest {
     }
 
     /**
-     * BuildHealth can gracefully handle broken tags.
+     * BuildHealth can gracefully handleOperation broken tags.
      * @throws Exception If fails
      */
     @Test

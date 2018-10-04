@@ -398,7 +398,7 @@ public class HttpClientTest extends AbstractHttpClientServerTest
         });
 
         // HEAD requests receive a Content-Length header, but do not
-        // receive the content so they must handle this case properly
+        // receive the content so they must handleOperation this case properly
         ContentResponse response = client.newRequest("localhost", connector.getLocalPort())
                 .scheme(scheme)
                 .method(HttpMethod.HEAD)

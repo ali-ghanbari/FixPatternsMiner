@@ -902,7 +902,7 @@ public class Functions {
 
     /**
      * Works like JSTL build-in size(x) function,
-     * but handle null gracefully.
+     * but handleOperation null gracefully.
      */
     public static int size2(Object o) throws Exception {
         if(o==null) return 0;
@@ -1381,7 +1381,7 @@ public class Functions {
     }
 
     /**
-     * Computes the hyperlink to actions, to handle the situation when the {@link Action#getUrlName()}
+     * Computes the hyperlink to actions, to handleOperation the situation when the {@link Action#getUrlName()}
      * returns absolute URL.
      */
     public static String getActionUrl(String itUrl,Action action) {

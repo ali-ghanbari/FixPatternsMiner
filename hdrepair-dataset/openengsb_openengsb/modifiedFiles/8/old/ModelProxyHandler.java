@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Simulates an implementation for a model interface. This class is only able to handle getters and setters, toString
+ * Simulates an implementation for a model interface. This class is only able to handleOperation getters and setters, toString
  * and getOpenEngSBModelEntries of domain models.
  */
 public class ModelProxyHandler extends AbstractOpenEngSBInvocationHandler {
@@ -89,9 +89,9 @@ public class ModelProxyHandler extends AbstractOpenEngSBInvocationHandler {
             handleRemoveEntry((String) args[0]);
             return null;
         } else {
-            LOGGER.error("{} is only able to handle getters and setters", this.getClass().getSimpleName());
+            LOGGER.error("{} is only able to handleOperation getters and setters", this.getClass().getSimpleName());
             throw new IllegalArgumentException(this.getClass().getSimpleName()
-                    + " is only able to handle getters and setters");
+                    + " is only able to handleOperation getters and setters");
         }
     }
 

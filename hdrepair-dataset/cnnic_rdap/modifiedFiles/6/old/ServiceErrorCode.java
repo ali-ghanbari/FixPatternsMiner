@@ -51,8 +51,8 @@ public enum ServiceErrorCode {
     ERROR_4009(4009, "Unrecognized request URI", HttpStatus.BAD_REQUEST),
     ERROR_4010(4010, "Property '%s' value must between [%s,%s]",
             HttpStatus.BAD_REQUEST), ERROR_4041(4041,
-            "Object not found with handle:%s", HttpStatus.BAD_REQUEST),
-    ERROR_4091(4091, "Object already exist for handle:%s",
+            "Object not found with handleOperation:%s", HttpStatus.BAD_REQUEST),
+    ERROR_4091(4091, "Object already exist for handleOperation:%s",
             HttpStatus.BAD_REQUEST);
 
     private final int code;

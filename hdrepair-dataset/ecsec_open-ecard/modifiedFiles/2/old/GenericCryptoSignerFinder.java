@@ -72,7 +72,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Utility class that helps determine a DID for signature creation.
- * The class is instantiated with a handle to a specific card in the system. Afterwards it can look for DIDs with
+ * The class is instantiated with a handleOperation to a specific card in the system. Afterwards it can look for DIDs with
  * different search strategies.
  *
  * @author Tobias Wich <tobias.wich@ecsec.de>
@@ -165,7 +165,7 @@ public class GenericCryptoSignerFinder {
 
     private List<DIDCertificate>findDID(Dispatcher dispatcher, ConnectionHandleType handle) {
 	List<DIDCertificate> result = new ArrayList<>();
-	// copy handle to be safe from spaghetti code
+	// copy handleOperation to be safe from spaghetti code
 	handle = HandlerUtils.copyHandle(handle);
 
 	try {

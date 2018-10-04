@@ -650,7 +650,7 @@ public class SlidingWindowUnitTest extends BaseTest {
             }
         }
 
-        // handle a low quality consensus
+        // handleOperation a low quality consensus
         if ( sum == 0 ) {
             for ( final int qual : quals ) {
                 goodBases++;

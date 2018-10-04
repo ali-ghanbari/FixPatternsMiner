@@ -306,7 +306,7 @@ public class SolrQueryIndex implements FulltextQueryIndex, QueryIndex.AdvanceFul
                         }
                     }
 
-                    // handle spellcheck
+                    // handleOperation spellcheck
                     SpellCheckResponse spellCheckResponse = queryResponse.getSpellCheckResponse();
                     if (spellCheckResponse != null && spellCheckResponse.getSuggestions() != null &&
                             spellCheckResponse.getSuggestions().size() > 0) {
@@ -315,7 +315,7 @@ public class SolrQueryIndex implements FulltextQueryIndex, QueryIndex.AdvanceFul
                         noDocs = true;
                     }
 
-                    // handle suggest
+                    // handleOperation suggest
                     NamedList<Object> response = queryResponse.getResponse();
                     Map suggest = (Map) response.get("suggest");
                     if (suggest != null) {

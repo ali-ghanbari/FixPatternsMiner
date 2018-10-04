@@ -1661,7 +1661,7 @@ public class AST2CSpecTest extends AST2SpecBaseTest {
 	// general initialization code
 	continue;
 	}
-	// handle other operations
+	// handleOperation other operations
 	}
 	}
 	 --End Example]
@@ -1678,7 +1678,7 @@ public class AST2CSpecTest extends AST2SpecBaseTest {
 		buffer.append("// general initialization code\n"); //$NON-NLS-1$
 		buffer.append("continue;\n"); //$NON-NLS-1$
 		buffer.append("}\n"); //$NON-NLS-1$
-		buffer.append("// handle other operations\n"); //$NON-NLS-1$
+		buffer.append("// handleOperation other operations\n"); //$NON-NLS-1$
 		buffer.append("}\n"); //$NON-NLS-1$
 		buffer.append("}\n"); //$NON-NLS-1$
 		parseCandCPP(buffer.toString(), true, 0);

@@ -899,7 +899,7 @@ public class SLDParser {
             }
 
             if (childName.indexOf(':') != -1) {
-                // the DOM parser wasnt properly set to handle namespaces...
+                // the DOM parser wasnt properly set to handleOperation namespaces...
                 childName = childName.substring(childName.indexOf(':') + 1);
             }
 
@@ -1410,7 +1410,7 @@ public class SLDParser {
                  * try { if (child.getFirstChild() != null && child.getFirstChild().getNodeType() ==
                  * Node.TEXT_NODE) symbol.setContrastEnhancement((Expression) ExpressionBuilder
                  * .parse(child.getFirstChild().getNodeValue())); } catch (Exception e) { // TODO:
-                 * handle exception }
+                 * handleOperation exception }
                  */
             }
         }

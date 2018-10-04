@@ -324,7 +324,7 @@ public abstract class GradleTest extends TestCase {
 			
 			@Override
 			protected void internalHandle(int severity, Throwable e) {
-				//We shouldn't get here because all calls to handle should either be completely ignored, 
+				//We shouldn't get here because all calls to handleOperation should either be completely ignored,
 				//or delegated to the superHandler
 				throw new Error("Shouldn't get here");
 			}

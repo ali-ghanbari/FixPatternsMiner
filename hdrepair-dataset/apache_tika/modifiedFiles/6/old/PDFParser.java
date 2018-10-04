@@ -62,7 +62,7 @@ import org.xml.sax.SAXException;
  * the document using the empty password that's often used with PDFs. If
  * the PDF contains any embedded documents (for example as part of a PDF
  * package) then this parser will use the {@link EmbeddedDocumentExtractor}
- * to handle them.
+ * to handleOperation them.
  * <p>
  * As of Tika 1.6, it is possible to extract inline images with
  * the {@link EmbeddedDocumentExtractor} as if they were regular
@@ -378,7 +378,7 @@ public class PDFParser extends AbstractParser {
      * As of this writing, XMPSchema can contain bags or sequence lists
      * for some attributes...despite standards documentation.  
      * JempBox expects one or the other for specific attributes.
-     * Until more flexibility is added to JempBox, Tika will have to handle both.
+     * Until more flexibility is added to JempBox, Tika will have to handleOperation both.
      * 
      * @param schema
      * @param name

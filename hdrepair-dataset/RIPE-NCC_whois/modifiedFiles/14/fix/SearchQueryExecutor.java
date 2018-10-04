@@ -77,7 +77,7 @@ public class SearchQueryExecutor implements QueryExecutor {
 
                 for (final ResponseObject responseObject : rpslResponseDecorator.getResponse(query, searchResults)) {
 
-                    // TODO: [AH] make sure responseHandler implementation can handle executionHandler worker threads pushing data (think of suspend-on-write, buffer overflow, slow connections, etc...)
+                    // TODO: [AH] make sure responseHandler implementation can handleOperation executionHandler worker threads pushing data (think of suspend-on-write, buffer overflow, slow connections, etc...)
                     responseHandler.handle(responseObject);
 
                     if (!(responseObject instanceof MessageObject)) {

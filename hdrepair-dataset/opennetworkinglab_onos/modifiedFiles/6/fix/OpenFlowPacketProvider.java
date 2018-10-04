@@ -87,7 +87,7 @@ public class OpenFlowPacketProvider extends AbstractProvider implements PacketPr
 
         if (!scheme.equals(this.id().scheme())) {
             throw new IllegalArgumentException(
-                    "Don't know how to handle Device with scheme " + scheme);
+                    "Don't know how to handleOperation Device with scheme " + scheme);
         }
 
         Dpid dpid = Dpid.dpid(devId.uri());

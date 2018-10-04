@@ -1617,7 +1617,7 @@ public class CodeFormatterVisitor extends ASTVisitor implements ICPPASTVisitor, 
 		align.fContinuationIndentation= enumIndent == headerIndent ? 1 : 0;
 		formatList(Arrays.asList(enumerators), align, false, false);
 
-		// handle trailing comma
+		// handleOperation trailing comma
 		if (peekNextToken() == Token.tCOMMA) {
 			scribe.printNextToken(Token.tCOMMA, align.fSpaceBeforeComma);
 			if (align.fSpaceAfterComma) {
@@ -1670,7 +1670,7 @@ public class CodeFormatterVisitor extends ASTVisitor implements ICPPASTVisitor, 
 					int i;
 					for (i = 0; i < elementsLength; i++) {
 						if (i > 0) {
-							// handle missing parameter
+							// handleOperation missing parameter
 							int token= peekNextToken();
 							if (token == Token.tIDENTIFIER) {
 								if (!scribe.skipToToken(Token.tCOMMA)) {
@@ -1720,7 +1720,7 @@ public class CodeFormatterVisitor extends ASTVisitor implements ICPPASTVisitor, 
 			scribe.exitAlignment(listAlignment, true);
 		}
 		if (encloseInParen) {
-			// handle missing parameter
+			// handleOperation missing parameter
 			if (peekNextToken() == Token.tIDENTIFIER) {
 				scribe.skipToToken(Token.tRPAREN);
 			}
@@ -2047,7 +2047,7 @@ public class CodeFormatterVisitor extends ASTVisitor implements ICPPASTVisitor, 
 			align.fContinuationIndentation= preferences.continuation_indentation_for_initializer_list;
 			formatList(initializers, align, false, false);
 
-			// handle trailing comma
+			// handleOperation trailing comma
 			if (peekNextToken() == Token.tCOMMA) {
 				scribe.printNextToken(Token.tCOMMA, align.fSpaceBeforeComma);
 				if (align.fSpaceAfterComma) {
@@ -2202,7 +2202,7 @@ public class CodeFormatterVisitor extends ASTVisitor implements ICPPASTVisitor, 
 
 	private int visit(IASTLiteralExpression node) {
 		if (node.getKind() == IASTLiteralExpression.lk_string_literal) {
-			// handle concatenation of string literals
+			// handleOperation concatenation of string literals
 			int token;
 			boolean needSpace= false;
 			final int line= scribe.line;
@@ -3398,7 +3398,7 @@ public class CodeFormatterVisitor extends ASTVisitor implements ICPPASTVisitor, 
 			}
 		}
 		if (inInactiveCode) {
-			// handle dangling #if?
+			// handleOperation dangling #if?
 		}
 		return positions;
 	}

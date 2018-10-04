@@ -1177,7 +1177,7 @@ public class HaplotypeCaller extends ActiveRegionWalker<List<VariantContext>, In
      */
     protected AssemblyResultSet assembleReads(final ActiveRegion activeRegion, final List<VariantContext> giveAlleles) {
         // Create the reference haplotype which is the bases from the reference that make up the active region
-        finalizeActiveRegion(activeRegion); // handle overlapping fragments, clip adapter and low qual tails
+        finalizeActiveRegion(activeRegion); // handleOperation overlapping fragments, clip adapter and low qual tails
         if( SCAC.DEBUG ) { logger.info("Assembling " + activeRegion.getLocation() + " with " + activeRegion.size() + " reads:    (with overlap region = " + activeRegion.getExtendedLoc() + ")"); }
 
         final byte[] fullReferenceWithPadding = activeRegion.getActiveRegionReference(referenceReader, REFERENCE_PADDING);
@@ -1332,7 +1332,7 @@ public class HaplotypeCaller extends ActiveRegionWalker<List<VariantContext>, In
 
         final List<GATKSAMRecord> downsampledReads = DownsamplingUtils.levelCoverageByPosition(ReadUtils.sortReadsByCoordinate(readsToUse), maxReadsInRegionPerSample, minReadsPerAlignmentStart);
 
-        // handle overlapping read pairs from the same fragment
+        // handleOperation overlapping read pairs from the same fragment
         cleanOverlappingReadPairs(downsampledReads);
 
         activeRegion.clearReads();

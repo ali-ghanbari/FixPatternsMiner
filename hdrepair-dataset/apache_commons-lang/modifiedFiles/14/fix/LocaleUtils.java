@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * <p>Operations to assist when working with a {@link Locale}.</p>
  *
- * <p>This class tries to handle <code>null</code> input gracefully.
+ * <p>This class tries to handleOperation <code>null</code> input gracefully.
  * An exception will not be thrown for a <code>null</code> input.
  * Each method documents its behaviour in more detail.</p>
  *

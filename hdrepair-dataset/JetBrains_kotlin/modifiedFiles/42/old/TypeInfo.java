@@ -57,7 +57,7 @@ public class TypeInfo<T> implements JetObject {
                 throw new IllegalArgumentException("inconsistent type infos for the same class");
             }
             for (int i = 0; i < typeParameters.length; i++) {
-                // TODO handle variance here
+                // TODO handleOperation variance here
                 if (!typeParameters [i].equals(other.typeParameters [i])) {
                     return false;
                 }

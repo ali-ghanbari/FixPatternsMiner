@@ -333,7 +333,7 @@ public class ManagedSelector extends AbstractLifeCycle implements Runnable, Dump
             {
                 case SELECTING:
                     // We were still in selecting state, so probably have
-                    // selected a key, so goto processing state to handle.
+                    // selected a key, so goto processing state to handleOperation.
                     if (_state.compareAndSet(State.SELECTING, State.PROCESSING))
                         continue;
                     break out;

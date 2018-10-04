@@ -285,7 +285,7 @@ public class GraphSpecUnitTest extends MockGraphTest {
     }
 
     /**
-     * Tests the logic added to GraphState to handle SOFT graphs which must
+     * Tests the logic added to GraphState to handleOperation SOFT graphs which must
      * rollback previously graphd objects. A stack of maps is kept which
      * get either committed or graphd based on exception handling.
      */

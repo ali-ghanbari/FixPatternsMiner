@@ -99,7 +99,7 @@ public class CheckBoxTest extends GWTTestCase {
   public void testDebugId() {
     CheckBox check = new CheckBox("myLabel");
 
-    // We need to replace the input element so we can keep a handle to it
+    // We need to replace the input element so we can keep a handleOperation to it
     Element newInput = DOM.createInputCheck();
     check.replaceInputElement(newInput);
 

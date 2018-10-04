@@ -586,7 +586,7 @@ public class SQLSerializer extends SerializerBase<SQLSerializer> {
                 }
                 super.visitOperation(type, operator, args);
             } else {
-                // handle only target
+                // handleOperation only target
                 handle(args.get(1));
             }
             

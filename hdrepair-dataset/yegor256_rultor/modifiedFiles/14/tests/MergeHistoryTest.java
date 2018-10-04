@@ -150,7 +150,7 @@ public final class MergeHistoryTest {
     }
 
     /**
-     * MergeHistory can gracefully handle broken tags.
+     * MergeHistory can gracefully handleOperation broken tags.
      * @throws Exception If fails
      */
     @Test

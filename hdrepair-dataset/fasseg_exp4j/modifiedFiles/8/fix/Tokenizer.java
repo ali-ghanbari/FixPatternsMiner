@@ -167,7 +167,7 @@ class Tokenizer {
 				continue;
 			if (isDigit(c)) {
 				final StringBuilder valueBuilder = new StringBuilder(1);
-				// handle the numbers of the expression
+				// handleOperation the numbers of the expression
 				valueBuilder.append(c);
 				int numberLen = 1;
 				while (chars.length > i + numberLen && isDigit(chars[i + numberLen])) {

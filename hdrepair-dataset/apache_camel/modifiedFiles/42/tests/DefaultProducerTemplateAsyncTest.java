@@ -107,7 +107,7 @@ public class DefaultProducerTemplateAsyncTest extends ContextTestSupport {
         String echo = template.requestBody("direct:echo", "Hi", String.class);
         assertEquals("HiHi", echo);
 
-        // or we can use parameter type in the requestBody method so the future handle know its type
+        // or we can use parameter type in the requestBody method so the future handleOperation know its type
         String result = future.get();
 
         long delta = System.currentTimeMillis() - start;
@@ -149,7 +149,7 @@ public class DefaultProducerTemplateAsyncTest extends ContextTestSupport {
         String echo = template.requestBody("direct:echo", "Hi", String.class);
         assertEquals("HiHi", echo);
 
-        // or we can use parameter type in the requestBody method so the future handle know its type
+        // or we can use parameter type in the requestBody method so the future handleOperation know its type
         String result = future.get();
 
         assertMockEndpointsSatisfied();
@@ -201,7 +201,7 @@ public class DefaultProducerTemplateAsyncTest extends ContextTestSupport {
         String echo = template.requestBody("direct:echo", "Hi", String.class);
         assertEquals("HiHi", echo);
 
-        // or we can use parameter type in the requestBody method so the future handle know its type
+        // or we can use parameter type in the requestBody method so the future handleOperation know its type
         String result = future.get();
 
         assertMockEndpointsSatisfied();

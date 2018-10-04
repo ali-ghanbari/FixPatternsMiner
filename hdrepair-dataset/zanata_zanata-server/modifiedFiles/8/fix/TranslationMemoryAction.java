@@ -75,7 +75,7 @@ public class TranslationMemoryAction extends EntityHome<TransMemory> {
     private List<TransMemory> transMemoryList;
 
     /**
-     * Stores the last process handle, in page scope (ie for this user).
+     * Stores the last process handleOperation, in page scope (ie for this user).
      */
     @In(scope = ScopeType.PAGE, required = false)
     @Out(scope = ScopeType.PAGE, required = false)

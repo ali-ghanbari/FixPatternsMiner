@@ -429,7 +429,7 @@ public class AggregateProcessor extends ServiceSupport implements Processor, Nav
 
                 // log exception if there was a problem
                 if (exchange.getException() != null) {
-                    // if there was an exception then let the exception handler handle it
+                    // if there was an exception then let the exception handler handleOperation it
                     getExceptionHandler().handleException("Error processing aggregated exchange", exchange, exchange.getException());
                 } else {
                     LOG.trace("Processing aggregated exchange: {} complete.", exchange);
@@ -792,7 +792,7 @@ public class AggregateProcessor extends ServiceSupport implements Processor, Nav
                                 exchange.setException(e);
                             }
 
-                            // handle if failed
+                            // handleOperation if failed
                             if (exchange.getException() != null) {
                                 getExceptionHandler().handleException("Failed to move recovered Exchange to dead letter channel: " + recoverable.getDeadLetterUri(), exchange.getException());
                             } else {

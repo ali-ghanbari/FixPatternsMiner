@@ -1370,7 +1370,7 @@ public class Parser {
   }
 
   /**
-   * Constructs a template literal expression tree. "operand" is used to handle
+   * Constructs a template literal expression tree. "operand" is used to handleOperation
    * the case like "foo`bar`", which is a CallExpression or MemberExpression that
    * calls the function foo() with the template literal as the argument (with extra
    * handling). In this case, operand would be "foo", which is the callsite.

@@ -562,12 +562,12 @@ public class HTMLStripCharFilter extends BaseCharFilter {
   [10]    AttValue     ::=    '"' ([^<&"] | Reference)* '"'
         |  "'" ([^<&'] | Reference)* "'"
 
-  need to also handle unquoted attributes, and attributes w/o values:
+  need to also handleOperation unquoted attributes, and attributes w/o values:
   <td id=msviGlobalToolbar height="22" nowrap align=left>
 
   ***/
 
-    // This reads attributes and attempts to handle any
+    // This reads attributes and attempts to handleOperation any
     // embedded server side includes that would otherwise
     // mess up the quote handling.
     //  <a href="a/<!--#echo "path"-->">

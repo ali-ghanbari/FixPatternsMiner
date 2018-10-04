@@ -190,7 +190,7 @@ public class BundlesAction extends AbstractPublisherAction {
 		ManifestElement[] rawImportPackageHeader = parseManifestHeader(Constants.IMPORT_PACKAGE, manifest, bd.getLocation());
 		ImportPackageSpecification osgiImports[] = bd.getImportPackages();
 		for (int i = 0; i < osgiImports.length; i++) {
-			// TODO we need to sort out how we want to handle wild-carded dynamic imports - for now we ignore them
+			// TODO we need to sort out how we want to handleOperation wild-carded dynamic imports - for now we ignore them
 			ImportPackageSpecification importSpec = osgiImports[i];
 			if (isDynamicImport(importSpec))
 				continue;

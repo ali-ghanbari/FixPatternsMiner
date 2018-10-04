@@ -45,13 +45,13 @@ import org.apache.log4j.Logger;
 import java.io.PrintWriter;
 
 /**
- * Since we rely on our build.xml to handle updating our source code, there has
+ * Since we rely on our build.xml to handleOperation updating our source code, there has
  * always been a problem with what happens when the build.xml file itself
  * changes.  Previous workarounds have included writing a wrapper build.xml that
  * will check out the "real" build.xml.  This class is a substitute for that
  * practice.
  *
- * The ClearCaseBootstrapper will handle updating a single file from
+ * The ClearCaseBootstrapper will handleOperation updating a single file from
  * ClearCase before the build begins.
  *
  * Usage:

@@ -42,7 +42,7 @@ import org.eclipse.jetty.util.log.Logger;
  * <p />
  * {@link HttpReceiver} maintains a state machine that is updated when the steps of receiving a response are executed.
  * <p />
- * Subclasses must handle the transport-specific details, for example how to read from the raw socket and how to parse
+ * Subclasses must handleOperation the transport-specific details, for example how to read from the raw socket and how to parse
  * the bytes read from the socket. Then they have to call the methods defined in this class in the following order:
  * <ol>
  * <li>{@link #responseBegin(HttpExchange)}, when the HTTP response data containing the HTTP status code

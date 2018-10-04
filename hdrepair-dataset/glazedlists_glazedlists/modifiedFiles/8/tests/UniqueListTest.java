@@ -1252,7 +1252,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge of two pairs of duplicates.
+     * Tests that the UniqueList can handleOperation sets on the edge of two pairs of duplicates.
      * This was inspired by a similar test case in PopularityListTest.
      */
     public void testRightEdgeSet() {
@@ -1268,7 +1268,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testLeftEdgeSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1283,7 +1283,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testUpdateSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1299,7 +1299,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testUpdateLeftSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1315,7 +1315,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testUpdateRightSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1331,7 +1331,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testLeftUpdateSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1347,7 +1347,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testLeftInsertSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1363,7 +1363,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testLeftMoveSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1379,7 +1379,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testRightUpdateSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1395,7 +1395,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testRightInsertSet() {
         EventList<Object> source = new BasicEventList<Object>();
@@ -1411,7 +1411,7 @@ public class UniqueListTest extends TestCase {
     }
 
     /**
-     * Tests that the UniqueList can handle sets on the edge.
+     * Tests that the UniqueList can handleOperation sets on the edge.
      */
     public void testRightMoveSet() {
         EventList<Object> source = new BasicEventList<Object>();

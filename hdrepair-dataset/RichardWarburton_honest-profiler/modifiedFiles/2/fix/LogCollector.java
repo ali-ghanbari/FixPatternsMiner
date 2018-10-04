@@ -93,7 +93,7 @@ public class LogCollector implements EventListener {
 
         if (currentTreeNode == null) {
             // might be null if the method hasn't been seen before
-            // if this is the case then the handle(Method) will patch it
+            // if this is the case then the handleOperation(Method) will patch it
             currentTreeNode = treesByThread.compute(currentThread, (id, previous) -> {
                 if (previous != null)
                     return previous.callAgain();

@@ -1145,7 +1145,7 @@ public final class Posix implements Os {
     int rc = TEMP_FAILURE_RETRY(setsockopt([fd getInt$], level, option, &req, sizeof(req)));
     if (rc == -1 && errno == EINVAL) {
         // Maybe we're a 32-bit binary talking to a 64-bit kernel?
-        // glibc doesn't automatically handle this.
+        // glibc doesn't automatically handleOperation this.
         struct group_req64 {
             uint32_t gr_interface;
             uint32_t my_padding;
@@ -1181,7 +1181,7 @@ public final class Posix implements Os {
     int rc = TEMP_FAILURE_RETRY(setsockopt([fd getInt$], level, option, &req, sizeof(req)));
     if (rc == -1 && errno == EINVAL) {
         // Maybe we're a 32-bit binary talking to a 64-bit kernel?
-        // glibc doesn't automatically handle this.
+        // glibc doesn't automatically handleOperation this.
         // http://sourceware.org/bugzilla/show_bug.cgi?id=12080
         struct group_source_req64 {
             uint32_t gsr_interface;

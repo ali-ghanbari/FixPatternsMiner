@@ -129,7 +129,7 @@ public class PoreEventTest {
                 Method method = eventImpl.getMethod("getHandle");
                 checkSpongeEvent(eventImpl, method.getReturnType());
             } catch (NoSuchMethodException ignored) {
-                fail(eventImpl.getSimpleName() + ": missing getHandle() method (handle getter)");
+                fail(eventImpl.getSimpleName() + ": missing getHandle() method (handleOperation getter)");
             }
         }
     }
@@ -138,10 +138,10 @@ public class PoreEventTest {
     public void checkHandleField() {
         for (Class<?> eventImpl : poreEvents) {
             try {
-                Field field = eventImpl.getDeclaredField("handle");
+                Field field = eventImpl.getDeclaredField("handleOperation");
                 checkSpongeEvent(eventImpl, field.getType());
             } catch (NoSuchFieldException e) {
-                fail(eventImpl.getSimpleName() + ": missing handle field");
+                fail(eventImpl.getSimpleName() + ": missing handleOperation field");
             }
         }
     }
@@ -162,7 +162,7 @@ public class PoreEventTest {
                             Throwable cause = e.getCause();
                             if (cause != null) {
                                 if (cause instanceof NullPointerException
-                                        && Objects.equal(cause.getMessage(), "handle")) {
+                                        && Objects.equal(cause.getMessage(), "handleOperation")) {
                                     continue events;
                                 }
 
@@ -172,12 +172,12 @@ public class PoreEventTest {
                             throw e;
                         }
 
-                        fail(eventImpl.getSimpleName() + ": missing null-check for handle");
+                        fail(eventImpl.getSimpleName() + ": missing null-check for handleOperation");
                     }
                 }
             }
 
-            fail(eventImpl.getSimpleName() + ": missing handle constructor");
+            fail(eventImpl.getSimpleName() + ": missing handleOperation constructor");
         }
     }
 

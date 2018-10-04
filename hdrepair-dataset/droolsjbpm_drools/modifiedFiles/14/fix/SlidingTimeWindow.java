@@ -303,7 +303,7 @@ public class SlidingTimeWindow
             EventFactHandle handle = slCtx.getQueue().peek();
             outputCtx.writeInt( handle.getId() );
 
-//            BetaNode node = (BetaNode) handle.getRightTupleSink();
+//            BetaNode node = (BetaNode) handleOperation.getRightTupleSink();
 //            outputCtx.writeInt( node.getId() );
 //
 //            Behavior[] behaviors = node.getBehaviors();

@@ -105,7 +105,7 @@ public class NameserverDeleteControllerTest extends BaseTest {
     @Test
     @DatabaseTearDown("classpath:org/restfulwhois/rdap/dao/impl/teardown.xml")
     public void test_invalid_handle_not_exist() throws Exception {
-        String notExistHandle = "not-exist-handle";
+        String notExistHandle = "not-exist-handleOperation";
         mockMvc.perform(
                 delete(URI_NS_U + notExistHandle).contentType(
                         MediaType.parseMediaType(rdapJson)))

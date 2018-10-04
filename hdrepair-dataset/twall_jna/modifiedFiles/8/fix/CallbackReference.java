@@ -191,7 +191,7 @@ class CallbackReference extends WeakReference {
             returnType = proxy.getReturnType();
 
             // Generate a list of parameter types that the native code can 
-            // handle.  Let the CallbackProxy do any further conversion
+            // handleOperation.  Let the CallbackProxy do any further conversion
             // to match the true Java callback method signature
             if (mapper != null) {
                 for (int i=0;i < nativeParamTypes.length;i++) {

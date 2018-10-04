@@ -358,13 +358,13 @@ public class AggregateProcessor extends ServiceSupport implements Processor, Nav
                 } catch (Exception e) {
                     exchange.setException(e);
                 } catch (Throwable t) {
-                    // must catch throwable so we will handle all exceptions as the executor service will by default ignore them
+                    // must catch throwable so we will handleOperation all exceptions as the executor service will by default ignore them
                     exchange.setException(new CamelExchangeException("Error processing aggregated exchange", exchange, t));
                 }
 
                 // log exception if there was a problem
                 if (exchange.getException() != null) {
-                    // if there was an exception then let the exception handler handle it
+                    // if there was an exception then let the exception handler handleOperation it
                     getExceptionHandler().handleException("Error processing aggregated exchange", exchange, exchange.getException());
                 } else {
                     if (LOG.isTraceEnabled()) {
@@ -607,7 +607,7 @@ public class AggregateProcessor extends ServiceSupport implements Processor, Nav
                                 exchange.setException(e);
                             }
 
-                            // handle if failed
+                            // handleOperation if failed
                             if (exchange.getException() != null) {
                                 getExceptionHandler().handleException("Failed to move recovered Exchange to dead letter channel: " + recoverable.getDeadLetterUri(), exchange.getException());
                             } else {

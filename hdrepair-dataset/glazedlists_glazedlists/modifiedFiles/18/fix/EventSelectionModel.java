@@ -249,7 +249,7 @@ public final class EventSelectionModel implements ListSelectionModel {
                 // prepare a sequence of changes
                 updates.beginEvent();
 
-                // handle reordering events
+                // handleOperation reordering events
                 if(listChanges.isReordering()) {
                     int[] sourceReorderMap = listChanges.getReorderMap();
                     int[] selectReorderMap = new int[flagList.blackSize()];
@@ -275,7 +275,7 @@ public final class EventSelectionModel implements ListSelectionModel {
                     // fire the reorder
                     updates.reorder(selectReorderMap);
 
-                // handle non-reordering events
+                // handleOperation non-reordering events
                 } else {
 
                     // for all changes simply update the flag list
@@ -527,7 +527,7 @@ public final class EventSelectionModel implements ListSelectionModel {
         try {
             if(!enabled) return;
 
-            // handle a clear
+            // handleOperation a clear
             if(index0 < 0 || index1 < 0) {
                 clearSelection();
                 return;
@@ -556,7 +556,7 @@ public final class EventSelectionModel implements ListSelectionModel {
         try {
             if(!enabled) return;
 
-            // handle a no-op
+            // handleOperation a no-op
             if(index0 < 0 || index1 < 0) {
                 return;
             }
@@ -603,7 +603,7 @@ public final class EventSelectionModel implements ListSelectionModel {
         try {
             if(!enabled) return;
 
-            // handle a no-op
+            // handleOperation a no-op
             if(index0 < 0 || index1 < 0 || flagList.isEmpty()) {
                 return;
             }
@@ -696,7 +696,7 @@ public final class EventSelectionModel implements ListSelectionModel {
             // update anchor
             this.anchorSelectionIndex = anchorSelectionIndex;
 
-            // handle a clear
+            // handleOperation a clear
             if(leadSelectionIndex == -1 || anchorSelectionIndex == -1) {
                 clearSelection();
                 return;
@@ -739,7 +739,7 @@ public final class EventSelectionModel implements ListSelectionModel {
             int originalLeadIndex = this.leadSelectionIndex;
             this.leadSelectionIndex = leadSelectionIndex;
 
-            // handle a clear
+            // handleOperation a clear
             if(leadSelectionIndex == -1 || anchorSelectionIndex == -1) {
                 clearSelection();
                 return;

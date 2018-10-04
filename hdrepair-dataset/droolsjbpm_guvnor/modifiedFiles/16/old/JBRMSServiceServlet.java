@@ -305,7 +305,7 @@ public class JBRMSServiceServlet extends RemoteServiceServlet
         if (content instanceof RuleContentText) {
             repoAsset.updateContent( ((RuleContentText)content).content );        
         } else {
-            throw new SerializableException("Not able to handle that type of content just yet...");
+            throw new SerializableException("Not able to handleOperation that type of content just yet...");
         }
     }
 

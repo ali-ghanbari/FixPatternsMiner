@@ -3520,7 +3520,7 @@ public class Parser {
     if (matchesIdentifier()) {
       return parseLibraryIdentifier();
     } else if (matches(TokenType.STRING)) {
-      // TODO(brianwilkerson) Recovery: This should be extended to handle arbitrary tokens until we
+      // TODO(brianwilkerson) Recovery: This should be extended to handleOperation arbitrary tokens until we
       // can find a token that can start a compilation unit member.
       StringLiteral string = parseStringLiteral();
       reportError(ParserErrorCode.NON_IDENTIFIER_LIBRARY_NAME, string);
@@ -5632,7 +5632,7 @@ public class Parser {
         type = token.getType();
         //
         // Rather than verify that the following tokens represent a valid expression, we simply skip
-        // tokens until we reach the end of the interpolation, being careful to handle nested string
+        // tokens until we reach the end of the interpolation, being careful to handleOperation nested string
         // literals.
         //
         int bracketNestingLevel = 1;

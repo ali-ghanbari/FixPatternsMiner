@@ -27,7 +27,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Tests limits of neo4j / cypher / lucene
  * <p/>
- * Current understanding - cypher does not handle streaming results very well.
+ * Current understanding - cypher does not handleOperation streaming results very well.
  * It seems to load an entire result set into memory prior to returning it.
  */
 public class OutOfMemoryTest {

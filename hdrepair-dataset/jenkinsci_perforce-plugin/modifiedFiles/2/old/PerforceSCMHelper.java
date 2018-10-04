@@ -121,7 +121,7 @@ public final class PerforceSCMHelper {
                     value = Integer.toString(readInt(stream));
                     b = stream.read();
                 } else {
-                    // Don't know how to handle anything but ints and strings, so bail out
+                    // Don't know how to handleOperation anything but ints and strings, so bail out
                     throw new IOException ("Expected 's' or 'i', but got '" + Integer.toString(b) + "'.");
                 }
                 map.put(key, value);

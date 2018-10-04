@@ -365,7 +365,7 @@ public class OneWordS32BitSet implements IStateBitSet {
      * @since 1.4
      */
     public int nextClearBit(int fromIndex) {
-        // Neither spec nor implementation handle bitsets of maximal length.
+        // Neither spec nor implementation handleOperation bitsets of maximal length.
         // See 4816253.
         if (fromIndex < 0) {
             fromIndex = 0;

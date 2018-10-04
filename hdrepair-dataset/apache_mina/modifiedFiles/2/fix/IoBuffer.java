@@ -33,7 +33,7 @@ import java.nio.ReadOnlyBufferException;
  *
  * <p>IoBuffer instances are *not* thread safe.
  *
- * <p>The IoBuffer uses a singly linked list to handle the multiple Buffers. Thus sequential access is
+ * <p>The IoBuffer uses a singly linked list to handleOperation the multiple Buffers. Thus sequential access is
  * very efficient and random access is not. It fits well with the common usage patterns of IoBuffer.
  *
  * @author <a href="http://mina.apache.org">Apache MINA Project</a>

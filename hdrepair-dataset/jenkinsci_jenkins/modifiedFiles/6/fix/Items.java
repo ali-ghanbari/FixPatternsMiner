@@ -151,7 +151,7 @@ public class Items {
      * plugins to support {@link hudson.model.listeners.ItemListener#onRenamed(hudson.model.Item, String, String)}.
      * <p>
      * In a hierarchical context, when a plugin has a reference to a job as <code>../foo/bar</code> this method will
-     * handle the relative path as "foo" is renamed to "zot" to compute <code>../zot/bar</code>
+     * handleOperation the relative path as "foo" is renamed to "zot" to compute <code>../zot/bar</code>
      *
      * @param oldFullName the old full name of the item
      * @param newFullName the new full name of the item

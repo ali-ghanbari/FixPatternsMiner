@@ -548,7 +548,7 @@ public class CompactionManager implements CompactionManagerMBean
 
         SSTableWriter writer;
         CompactionController controller = new CompactionController(cfs, sstables, major, gcBefore, false);
-        CompactionIterator ci = new CompactionIterator(type, sstables, controller); // retain a handle so we can call close()
+        CompactionIterator ci = new CompactionIterator(type, sstables, controller); // retain a handleOperation so we can call close()
         Iterator<AbstractCompactedRow> nni = new FilterIterator(ci, PredicateUtils.notNullPredicate());
         Map<DecoratedKey, Long> cachedKeys = new HashMap<DecoratedKey, Long>();
 

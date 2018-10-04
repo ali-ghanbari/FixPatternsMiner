@@ -1026,7 +1026,7 @@ public class Cluster implements Closeable {
 
             logger.debug("Shutting down");
 
-            // We start by shutting down the executors. This does mean we won't handle notifications anymore, nor
+            // We start by shutting down the executors. This does mean we won't handleOperation notifications anymore, nor
             // reconnect to nodes, etc..., but since we're shutting down, that's all right.
             reconnectionExecutor.shutdown();
             scheduledTasksExecutor.shutdown();
@@ -1430,7 +1430,7 @@ public class Cluster implements Closeable {
 
             logger.debug("Received event {}, scheduling delivery", response);
 
-            // When handle is called, the current thread is a network I/O  thread, and we don't want to block
+            // When handleOperation is called, the current thread is a network I/O  thread, and we don't want to block
             // it (typically adding a new host will create the connection pool to the new node, which can take time)
             // Besides, up events are usually sent a bit too early (since they're triggered once gossip is up,
             // but that before the client-side server is up) so adds a 1 second delay in that case.

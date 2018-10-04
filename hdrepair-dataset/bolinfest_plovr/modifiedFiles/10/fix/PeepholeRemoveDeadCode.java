@@ -567,7 +567,7 @@ class PeepholeRemoveDeadCode extends AbstractPeepholeOptimization {
     //   a && foo(a)
     //
     // TODO(johnlenz): This would be better handled by control-flow sensitive
-    // constant propagation. As the other case that I want to handle is:
+    // constant propagation. As the other case that I want to handleOperation is:
     //   i=0; for(;i<0;i++){}
     // as right now nothing facilitates removing a loop like that.
     // This is here simply to remove the cruft left behind goog.userAgent and

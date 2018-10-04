@@ -3293,12 +3293,12 @@ public class Scribe implements IJavaDocTagConstants {
 
 			FormatJavadoc javadoc = (FormatJavadoc) this.formatterCommentParser.docComment;
 
-			// handle indentation
+			// handleOperation indentation
 			if (this.indentationLevel != 0) {
 				printIndentationIfNecessary();
 			}
 
-			// handle pending space if any
+			// handleOperation pending space if any
 			if (this.pendingSpace) {
 				addInsertEdit(start, " "); //$NON-NLS-1$
 			}

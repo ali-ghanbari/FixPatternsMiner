@@ -426,7 +426,7 @@ public class Util {
      * Tokenizes the text separated by delimiters.
      *
      * <p>
-     * In 1.210, this method was changed to handle quotes like Unix shell does.
+     * In 1.210, this method was changed to handleOperation quotes like Unix shell does.
      * Before that, this method just used {@link StringTokenizer}.
      *
      * @since 1.145

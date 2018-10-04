@@ -461,7 +461,7 @@ public class TiffParser {
           ndx = j;
         }
         else if (j == count - 1) {
-          // handle non-null-terminated strings
+          // handleOperation non-null-terminated strings
           s = new String(ascii, ndx + 1, j - ndx);
         }
         else s = null;

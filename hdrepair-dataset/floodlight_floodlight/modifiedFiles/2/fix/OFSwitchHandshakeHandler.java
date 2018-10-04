@@ -121,7 +121,7 @@ public class OFSwitchHandshakeHandler implements IOFConnectionListener {
 		NO_REPLY;
 	}
 	/**
-	 * A utility class to handle role requests and replies for this channel.
+	 * A utility class to handleOperation role requests and replies for this channel.
 	 * After a role request is submitted the role changer keeps track of the
 	 * pending request, collects the reply (if any) and times out the request
 	 * if necessary.
@@ -306,12 +306,12 @@ public class OFSwitchHandshakeHandler implements IOFConnectionListener {
 
 		/**
 		 * Called if we receive an  error message. If the xid matches the
-		 * pending request we handle it otherwise we ignore it. We also
+		 * pending request we handleOperation it otherwise we ignore it. We also
 		 * set SWITCH_SUPPORTS_NX_ROLE to false.
 		 *
 		 * Note: since we only keep the last pending request we might get
 		 * error messages for earlier role requests that we won't be able
-		 * to handle
+		 * to handleOperation
 		 * @param xid
 		 * @return true if the error was handled by us, false otherwise
 		 * @throws SwitchStateException if the error was for the pending
@@ -707,7 +707,7 @@ public class OFSwitchHandshakeHandler implements IOFConnectionListener {
 	}
 
 	/**
-	 * Initial state before channel is connected. Should not handle any messages.
+	 * Initial state before channel is connected. Should not handleOperation any messages.
 	 */
 	public class InitState extends OFSwitchHandshakeState {
 
@@ -884,7 +884,7 @@ public class OFSwitchHandshakeHandler implements IOFConnectionListener {
 
 		@Override
 		void processOFMessage(OFMessage m) {
-			// FIXME: other message to handle here?
+			// FIXME: other message to handleOperation here?
 			sw.processDriverHandshakeMessage(m);
 			if (sw.isDriverHandshakeComplete()) {
 				setState(new WaitAppHandshakeState());

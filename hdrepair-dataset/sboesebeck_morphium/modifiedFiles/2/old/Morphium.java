@@ -411,7 +411,7 @@ public class Morphium {
                 } else if (o instanceof Map) {
                     ret.putAll(((Map) o));
                 } else {
-                    //something we cannot handle
+                    //something we cannot handleOperation
                     return q;
                 }
             }

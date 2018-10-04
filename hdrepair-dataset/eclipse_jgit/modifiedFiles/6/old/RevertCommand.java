@@ -141,7 +141,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 			// loop through all refs to be reverted
 			for (Ref src : commits) {
 				// get the commit to be reverted
-				// handle annotated tags
+				// handleOperation annotated tags
 				ObjectId srcObjectId = src.getPeeledObjectId();
 				if (srcObjectId == null)
 					srcObjectId = src.getObjectId();

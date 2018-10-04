@@ -96,7 +96,7 @@ public class PojosServiceTest
     /**
      * Makes sure that the pixels set is loaded.
      * 
-     * @param pixels The pixels to handle.
+     * @param pixels The pixels to handleOperation.
      * @throws Exception Thrown if an error occurred.
      */
     private void checkPixels(PixelsData pixels)

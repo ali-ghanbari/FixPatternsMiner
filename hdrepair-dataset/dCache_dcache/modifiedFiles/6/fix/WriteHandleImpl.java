@@ -53,13 +53,13 @@ class WriteHandleImpl implements WriteHandle
     /** The entry state used during transfer. */
     private final EntryState _initialState;
 
-    /** The entry state used when the handle is committed. */
+    /** The entry state used when the handleOperation is committed. */
     private EntryState _targetState;
 
-    /** The state of the write handle. */
+    /** The state of the write handleOperation. */
     private HandleState _state;
 
-    /** Amount of space allocated for this handle. */
+    /** Amount of space allocated for this handleOperation. */
     private long _allocated;
 
     WriteHandleImpl(CacheRepositoryV5 repository,

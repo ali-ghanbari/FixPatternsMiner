@@ -436,7 +436,7 @@ public class ServletHandler extends ScopedHandler
     
     /* ------------------------------------------------------------ */
     /* 
-     * @see org.eclipse.jetty.server.Handler#handle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, int)
+     * @see org.eclipse.jetty.server.Handler#handleOperation(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, int)
      */
     @Override
     public void doHandle(String target, Request baseRequest,HttpServletRequest request, HttpServletResponse response)
@@ -534,7 +534,7 @@ public class ServletHandler extends ScopedHandler
                     th=cause;
             }
 
-            // handle or log exception
+            // handleOperation or log exception
             if (th instanceof HttpException)
                 throw (HttpException)th;
             else if (th instanceof RuntimeIOException)

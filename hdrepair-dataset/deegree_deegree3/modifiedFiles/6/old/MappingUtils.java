@@ -165,7 +165,7 @@ public class MappingUtils {
                 return reorganizeConcatenate( (ConcatenatedTransform) originalChain, tbu );
             }
             // rb: what kind of transformation could this probably be???
-            LOG.warn( "Could not handle transformation replacement of type:" + originalChain.getImplementationName()
+            LOG.warn( "Could not handleOperation transformation replacement of type:" + originalChain.getImplementationName()
                       + " ignoring requested transformation: " + tbu.getCodeAndName() );
 
         } else {

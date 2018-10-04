@@ -1681,7 +1681,7 @@ public class ResourcePool {
     
     /**
      * Base class for all the resource caches, ensures type safety and provides
-     * an easier way to handle with resource disposal 
+     * an easier way to handleOperation with resource disposal
      * @author Andrea Aime
      *
      * @param <K>

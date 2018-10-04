@@ -152,7 +152,7 @@ public final class SortedList<E> extends TransformedList<E,E> {
     /** {@inheritDoc} */
     @Override
     public void listChanged(ListEvent<E> listChanges) {
-        // handle reordering events
+        // handleOperation reordering events
         if(listChanges.isReordering()) {
             int[] sourceReorder = listChanges.getReorderMap();
 

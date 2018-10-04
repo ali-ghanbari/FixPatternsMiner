@@ -402,7 +402,7 @@ public class TopNQueryQueryToolChest extends QueryToolChest<Result<TopNResultVal
     public Sequence<Result<TopNResultValue>> run(Query<Result<TopNResultValue>> input)
     {
       if (!(input instanceof TopNQuery)) {
-        throw new ISE("Can only handle [%s], got [%s]", TopNQuery.class, input.getClass());
+        throw new ISE("Can only handleOperation [%s], got [%s]", TopNQuery.class, input.getClass());
       }
 
       final TopNQuery query = (TopNQuery) input;

@@ -71,7 +71,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Service class to handle all API search requests. Retrieves results using data
+ * Service class to handleOperation all API search requests. Retrieves results using data
  * access classes. Queries and filters results based on the user's security
  * context (role, ed-org, school, section assocs, etc.)
  */

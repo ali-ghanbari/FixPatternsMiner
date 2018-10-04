@@ -109,7 +109,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
         super.assertTablesForUpdate("domain-create.xml",
                 DomainUpdateDaoTest.TABLE_RDAP_DOMAIN);
     }
@@ -128,7 +128,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_DOMAIN",
                         "select CUSTOM_PROPERTIES from RDAP_DOMAIN where HANDLE='h1'");
@@ -167,7 +167,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_DOMAIN",
                         "select CUSTOM_PROPERTIES from RDAP_DOMAIN where HANDLE='h1'");
@@ -189,7 +189,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
         List<Map<?, ?>> resultList =
                 getTableDataForSql("RDAP_DOMAIN",
                         "select CUSTOM_PROPERTIES from RDAP_DOMAIN where HANDLE='h1'");
@@ -202,21 +202,21 @@ public class DomainCreateControllerTest extends BaseTest {
     @DatabaseTearDown("classpath:org/restfulwhois/rdap/dao/impl/teardown.xml")
     public void test_ok_ignore_unrecognized_properties() throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"\":1,\"unknownP\":\"x\"}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     }
 
     @Test
     public void test_invalid_propertyType_should_be_object_but_is_array()
             throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":[{\"maxSigLife\":1}]}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
@@ -236,7 +236,7 @@ public class DomainCreateControllerTest extends BaseTest {
     public void test_invalid_propertyType_should_be_int_but_is_string()
             throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"maxSigLife\":\"i-am-not-int-value\"}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
@@ -258,14 +258,14 @@ public class DomainCreateControllerTest extends BaseTest {
             test_ok_propertyType_should_be_int_but_is_int_with_dot_will_truncated_to_int()
                     throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"maxSigLife\":1.8}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     }
 
     @Test
@@ -273,7 +273,7 @@ public class DomainCreateControllerTest extends BaseTest {
             test_invalid_propertyType_int_but_exceed_max_value_as_minus_int()
                     throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"maxSigLife\":"
                         + (UpdateValidateUtil.MAX_VAL_FOR_INT_COLUMN + 1)
                         + "}}";
@@ -289,7 +289,7 @@ public class DomainCreateControllerTest extends BaseTest {
     public void test_invalid_propertyType_int_but_exceed_max_value()
             throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"maxSigLife\":4294967296}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
@@ -303,7 +303,7 @@ public class DomainCreateControllerTest extends BaseTest {
     public void test_invalid_propertyType_should_be_tinyint_but_is_string()
             throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"zoneSigned\":\"i-am-not-tinyint-value\"}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
@@ -325,14 +325,14 @@ public class DomainCreateControllerTest extends BaseTest {
             test_ok_propertyType_should_be_boolean_but_is_int_128_result_is_true()
                     throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"zoneSigned\":128}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     }
 
     @Test
@@ -341,14 +341,14 @@ public class DomainCreateControllerTest extends BaseTest {
             test_ok_propertyType_should_be_boolean_but_is_int_0_result_is_false()
                     throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"zoneSigned\":0}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     }
 
     @Test
@@ -357,14 +357,14 @@ public class DomainCreateControllerTest extends BaseTest {
             test_ok_propertyType_should_be_boolean_but_is_int_minus_number_result_is_true()
                     throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"zoneSigned\":-1}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value("1"));
+                .andExpect(jsonPath("$.handleOperation").value("1"));
     }
 
     @Test
@@ -372,7 +372,7 @@ public class DomainCreateControllerTest extends BaseTest {
             test_invalid_propertyType_should_be_boolean_but_is_int_with_dot()
                     throws Exception {
         String content =
-                "{\"handle\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
+                "{\"handleOperation\":\"1\",\"ldhName\":\"cnnic.cn\",\"type\":\"dnr\""
                         + ",\"secureDNS\":{\"zoneSigned\":1.1}}";
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
@@ -410,7 +410,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
         // RemarkUpdateDaoTest.assertCreate();/link duplicated.
         // LinkUpdateDaoTest.assertCreate();
         PublicIdUpdateDaoTest.assertCreate();
@@ -443,7 +443,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
     }
 
     @Test
@@ -487,7 +487,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
     }
 
     @Test
@@ -508,7 +508,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4002
-                                                .getMessage(), "handle"))));
+                                                .getMessage(), "handleOperation"))));
     }
 
     @Test
@@ -532,7 +532,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4003
-                                                .getMessage(), "handle",
+                                                .getMessage(), "handleOperation",
                                         UpdateValidateUtil.MAX_LENGTH_HANDLE
                                                 + ""))));
     }
@@ -614,7 +614,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
     }
 
     @Test
@@ -657,7 +657,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
     }
 
     @Test
@@ -697,7 +697,7 @@ public class DomainCreateControllerTest extends BaseTest {
                         MediaType.parseMediaType(rdapJson)).content(content))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(domain.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(domain.getHandle()));
         mockMvc.perform(
                 post(URI_DOMAIN_U).contentType(
                         MediaType.parseMediaType(rdapJson)).content(content))

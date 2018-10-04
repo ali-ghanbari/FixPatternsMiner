@@ -548,5 +548,5 @@ public final class HTTPDigestAuthFilter extends ClientFilter {
         // Not 401 status : no authentication issue
         return response;
 
-    } // End of #handle()
+    } // End of #handleOperation()
 }

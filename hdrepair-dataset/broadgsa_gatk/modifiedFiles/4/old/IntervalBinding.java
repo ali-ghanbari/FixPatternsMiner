@@ -81,7 +81,7 @@ public final class IntervalBinding<T extends Feature> {
         if ( featureIntervals != null ) {
             intervals = new ArrayList<GenomeLoc>();
 
-            // TODO -- after ROD system cleanup, go through the ROD system so that we can handle things like gzipped files
+            // TODO -- after ROD system cleanup, go through the ROD system so that we can handleOperation things like gzipped files
 
             final FeatureCodec codec = new FeatureManager().getByName(featureIntervals.getTribbleType()).getCodec();
             if ( codec instanceof ReferenceDependentFeatureCodec )

@@ -72,7 +72,7 @@ public class StaticHttpHandler extends HttpHandler {
     private volatile int fileCacheFilterIdx = -1;
     
     /**
-     * Create <tt>HttpHandler</tt>, which, by default, will handle requests
+     * Create <tt>HttpHandler</tt>, which, by default, will handleOperation requests
      * to the static resources located in the current directory.
      */
     public StaticHttpHandler() {

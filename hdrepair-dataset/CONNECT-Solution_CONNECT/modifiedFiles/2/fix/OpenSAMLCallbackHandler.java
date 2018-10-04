@@ -79,7 +79,7 @@ public class OpenSAMLCallbackHandler implements CallbackHandler {
     }
 
     /**
-     * This is the invoked implementation to handle the SAML Token creation upon notification of an outgoing message
+     * This is the invoked implementation to handleOperation the SAML Token creation upon notification of an outgoing message
      * needing SAML. Based on the type of confirmation method detected on the Callbace it creates either a
      * "Sender Vouches: or a "Holder-ok_Key" variant of the SAML Assertion.
      * 

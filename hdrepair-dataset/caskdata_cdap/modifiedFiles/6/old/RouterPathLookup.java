@@ -39,7 +39,7 @@ public final class RouterPathLookup extends AuthenticatedHttpHandler {
   }
 
   /**
-   * Returns the CDAP service which will handle the HttpRequest
+   * Returns the CDAP service which will handleOperation the HttpRequest
    *
    * @param fallbackService service to which we fall back to if we can't determine the destination from the URI path
    * @param requestPath Normalized (and query string removed) URI path
@@ -71,10 +71,10 @@ public final class RouterPathLookup extends AuthenticatedHttpHandler {
 
   private String getV3RoutingService(String [] uriParts, AllowedMethod requestMethod) {
     if ((uriParts.length >= 2) && uriParts[1].equals("feeds")) {
-      // TODO find a better way to handle that - this looks hackish
+      // TODO find a better way to handleOperation that - this looks hackish
       return null;
     } else if ((uriParts.length >= 9) && "services".equals(uriParts[5]) && "methods".equals(uriParts[7])) {
-      //User defined services handle methods on them:
+      //User defined services handleOperation methods on them:
       //Path: "/v3/namespaces/{namespace-id}/apps/{app-id}/services/{service-id}/methods/<user-defined-method-path>"
       //Discoverable Service Name -> "service.%s.%s.%s", namespaceId, appId, serviceId
       return String.format("service.%s.%s.%s", uriParts[2], uriParts[4], uriParts[6]);

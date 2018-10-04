@@ -105,7 +105,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                 post(URI_IP_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ipDto.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ipDto.getHandle()));
         Network network = new Network();
         BeanUtil.copyProperties(ipDto, network, "entities", "events",
                 "remarks", "links");
@@ -132,7 +132,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                 post(URI_IP_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ipDto.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ipDto.getHandle()));
     }
 
     @Test
@@ -154,7 +154,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                 post(URI_IP_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ipDto.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ipDto.getHandle()));
         // RemarkUpdateDaoTest.assertCreate();/link duplicated.
         // LinkUpdateDaoTest.assertCreate();
         List<Map<?, ?>> actualAutnumIds =
@@ -195,7 +195,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                 post(URI_IP_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ipDto.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ipDto.getHandle()));
     }
 
     @Test
@@ -212,7 +212,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                 post(URI_IP_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ipDto.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ipDto.getHandle()));
     }
 
     @Test
@@ -292,7 +292,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4002
-                                                .getMessage(), "handle"))));
+                                                .getMessage(), "handleOperation"))));
     }
 
     @Test
@@ -316,7 +316,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                         jsonPath("$.description").value(
                                 CoreMatchers.hasItems(String.format(
                                         ServiceErrorCode.ERROR_4003
-                                                .getMessage(), "handle",
+                                                .getMessage(), "handleOperation",
                                         UpdateValidateUtil.MAX_LENGTH_HANDLE
                                                 + ""))));
     }
@@ -350,7 +350,7 @@ public class NetworkCreateControllerTest extends BaseTest {
                 post(URI_IP_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content)).andExpect(status().isOk())
                 .andExpect(content().contentType(rdapJson))
-                .andExpect(jsonPath("$.handle").value(ipDto.getHandle()));
+                .andExpect(jsonPath("$.handleOperation").value(ipDto.getHandle()));
         mockMvc.perform(
                 post(URI_IP_U).contentType(MediaType.parseMediaType(rdapJson))
                         .content(content))

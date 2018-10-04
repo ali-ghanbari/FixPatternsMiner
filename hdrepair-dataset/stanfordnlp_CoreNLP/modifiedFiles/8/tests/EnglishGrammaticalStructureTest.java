@@ -542,7 +542,7 @@ public class EnglishGrammaticalStructureTest extends TestCase {
   public void testMoreBasicRelations() {
     // the trees to test
     String[] testTrees = {
-        // This is the say-complement case that we don't yet handle, but might someday.
+        // This is the say-complement case that we don't yet handleOperation, but might someday.
         // "( (SBAR (WHNP-9 (WDT Which)) (S (NP-SBJ (PRP I)) (ADVP-TMP (RB then)) (VP (VBD realized) (SBAR (-NONE- *0*) (S (NP-SBJ (PRP I)) (VP (VBD missed) (NP-9 (-NONE- *T*))))))) (. .)))",
         "(ROOT (S (NP (PRP I)) (VP (VBD saw) (NP (NP (DT the) (NN woman)) (SBAR (WHNP (WP whom)) (S (NP (PRP you)) (VP (VBD gave) (NP (DT the) (NN package)) (PP (TO to))))))) (. .)))",
         "( (S (NP-SBJ (PRP i)) (VP (VBP m) (ADJP-PRD (JJ fat)))))",

@@ -847,7 +847,7 @@ public class HttpFields implements Iterable<HttpField>
 
         if (maxAge >= 0)
         {
-            // Always add the expires param as some browsers still don't handle max-age
+            // Always add the expires param as some browsers still don't handleOperation max-age
             buf.append(";Expires=");
             if (maxAge == 0)
                 buf.append(__01Jan1970_COOKIE);

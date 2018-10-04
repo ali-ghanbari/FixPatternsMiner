@@ -1010,7 +1010,7 @@ public class AbstractWorkingMemory
 
     /**
      * Returns the fact Object for the given <code>FactHandle</code>. It
-     * actually attempts to return the value from the handle, before retrieving
+     * actually attempts to return the value from the handleOperation, before retrieving
      * it from objects map.
      * 
      * @see org.drools.core.WorkingMemory
@@ -1020,7 +1020,7 @@ public class AbstractWorkingMemory
      *            <code>Object</code> lookup
      */
     public Object getObject(org.kie.api.runtime.rule.FactHandle handle) {
-        // the handle might have been disconnected, so reconnect if it has
+        // the handleOperation might have been disconnected, so reconnect if it has
         if ( ((InternalFactHandle)handle).isDisconnected() ) {
             handle = this.defaultEntryPoint.getObjectStore().reconnect( handle );
         }        
@@ -1301,7 +1301,7 @@ public class AbstractWorkingMemory
     }
 
     /**
-     * Sets the AsyncExceptionHandler to handle exceptions thrown by the Agenda
+     * Sets the AsyncExceptionHandler to handleOperation exceptions thrown by the Agenda
      * Scheduler used for duration rules.
      * 
      * @param handler

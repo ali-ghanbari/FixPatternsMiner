@@ -1456,7 +1456,7 @@ public final class SolrCore implements SolrInfoMBean {
       
       throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, msg, true);
     }
-    // setup response header and handle request
+    // setup response header and handleOperation request
     final NamedList<Object> responseHeader = new SimpleOrderedMap<Object>();
     rsp.add("responseHeader", responseHeader);
 

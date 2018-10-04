@@ -1464,7 +1464,7 @@ public class Jenkins extends AbstractCIBase implements ModifiableItemGroup<TopLe
      * {@link #version} will be overwritten and Hudson forgets the upgrade history.
      *
      * <p>
-     * To handle SNAPSHOTS correctly, pass in "1.N.*" to test if it's upgrading from the version
+     * To handleOperation SNAPSHOTS correctly, pass in "1.N.*" to test if it's upgrading from the version
      * equal or younger than N. So say if you implement a feature in 1.301 and you want to check
      * if the installation upgraded from pre-1.301, pass in "1.300.*"
      *

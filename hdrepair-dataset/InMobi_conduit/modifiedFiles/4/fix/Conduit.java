@@ -422,7 +422,7 @@ public class Conduit implements Service, ConduitConstants {
       LOG.warn("Stopping conduit because of error in initializing conduit ", e);
     }
 
-    // if there is any outstanding stop request meanwhile, handle it here
+    // if there is any outstanding stop request meanwhile, handleOperation it here
     if (stopRequested || initFailed) {
       stop();
     }

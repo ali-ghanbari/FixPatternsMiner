@@ -95,7 +95,7 @@ public class WebAddress {
             }
             t = m.group(MATCH_GROUP_PATH);
             if (t != null && t.length() > 0) {
-                /* handle busted myspace frontpage redirect with
+                /* handleOperation busted myspace frontpage redirect with
                    missing initial "/" */
                 if (t.charAt(0) == '/') {
                     mPath = t;

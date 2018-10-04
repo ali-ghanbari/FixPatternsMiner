@@ -53,8 +53,8 @@ public enum ServiceErrorCode {
             HttpStatus.BAD_REQUEST),
             ERROR_4031(4031,
                     "Forbidden", HttpStatus.FORBIDDEN),ERROR_4041(4041,
-            "Object not found with handle:%s", HttpStatus.NOT_FOUND),
-    ERROR_4091(4091, "Object already exist for handle:%s",
+            "Object not found with handleOperation:%s", HttpStatus.NOT_FOUND),
+    ERROR_4091(4091, "Object already exist for handleOperation:%s",
             HttpStatus.CONFLICT);
 
     private final int code;

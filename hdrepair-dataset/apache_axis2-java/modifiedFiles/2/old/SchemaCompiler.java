@@ -904,7 +904,7 @@ public class SchemaCompiler {
     }
 
     /**
-     * handle the complex types which are named
+     * handleOperation the complex types which are named
      *
      * @param complexType
      */
@@ -1104,7 +1104,7 @@ public class SchemaCompiler {
 
         if (content instanceof XmlSchemaComplexContentExtension) {
 
-            // to handle extension we need to attach the extended items to the base type
+            // to handleOperation extension we need to attach the extended items to the base type
             // and create a new type
             XmlSchemaComplexContentExtension extension = (XmlSchemaComplexContentExtension)
                     content;
@@ -1708,7 +1708,7 @@ public class SchemaCompiler {
                         metainf.addtStatus(att.getQName(), SchemaConstants.OPTIONAL_TYPE);
                     }
                 } else {
-                    // TODO: handle the case when no attribute type specifed
+                    // TODO: handleOperation the case when no attribute type specifed
                     log.warn("No attribute type has defined to the Attribute " + attributeQName);
                 }
 
@@ -1885,7 +1885,7 @@ public class SchemaCompiler {
                     elementOrderMap.put(xsElt, new Integer(sequenceCounter));
                 }
 
-                //handle xsd:any ! We place an OMElement (or an array of OMElements) in the generated class
+                //handleOperation xsd:any ! We place an OMElement (or an array of OMElements) in the generated class
             } else if (item instanceof XmlSchemaAny) {
                 XmlSchemaAny any = (XmlSchemaAny) item;
                 processedElementTypeMap.put(new QName(ANY_ELEMENT_FIELD_NAME), any);
@@ -2474,7 +2474,7 @@ public class SchemaCompiler {
     private BeanWriterMetaInfoHolder processSimpleType(XmlSchemaSimpleType simpleType, XmlSchema parentSchema) throws SchemaCompilationException {
         BeanWriterMetaInfoHolder metaInfHolder = new BeanWriterMetaInfoHolder();
 
-        // handle the restriction
+        // handleOperation the restriction
         XmlSchemaSimpleTypeContent content = simpleType.getContent();
         QName parentSimpleTypeQname = simpleType.getQName();
         if (parentSimpleTypeQname == null) {

@@ -625,7 +625,7 @@ public final class FCPClientReferenceImplementation {
 			if(!WOT_FCP_NAME.equals(pluginname))
 				throw new RuntimeException("Plugin is not supposed to talk to us: " + pluginname);
 
-			// Check whether we are actually connected. If we are not connected, we must not handle FCP messages.
+			// Check whether we are actually connected. If we are not connected, we must not handleOperation FCP messages.
 			// We must also check whether the identifier of the connection matches. If it does not, the message belongs to an old connection.
 			// We do NOT have to check mClientState: mConnection must only be non-null in states where it is acceptable.
 			if(mConnection == null || !mConnectionIdentifier.equals(indentifier)) {
@@ -803,7 +803,7 @@ public final class FCPClientReferenceImplementation {
 	
 	
 	/**
-	 * Since we let the implementing child class of the abstract FCPClientReferenceImplementation handle the events, the handler might throw.
+	 * Since we let the implementing child class of the abstract FCPClientReferenceImplementation handleOperation the events, the handler might throw.
 	 * In that case we need to gracefully tell WOT about that: In case of {@link Subscription}'s event {@link Notification}s, it will re-send them then. 
 	 */
 	private abstract class MaybeFailingFCPMessageHandler implements FCPMessageHandler {

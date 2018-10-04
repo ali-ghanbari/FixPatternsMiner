@@ -538,7 +538,7 @@ public class XmlSchemaParser implements ModelParser
                 break;
             case Structure.GROUP:
                 processContentModel((Group) struc, isCollection);
-                //handle nested groups
+                //handleOperation nested groups
                 if (!((cmGroup instanceof ComplexType)
                        || (cmGroup instanceof ModelGroup))) {
                         processGroup((Group) struc);

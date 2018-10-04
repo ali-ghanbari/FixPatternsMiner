@@ -116,7 +116,7 @@ public class Tokenizer<T> {
 							ComplexNumber.parseComplex(numberString.toString()));
 					tokens.add(n);
 				} else {
-					throw new RuntimeException("Unable to handle the type " + type);
+					throw new RuntimeException("Unable to handleOperation the type " + type);
 				}
 
 			} else if (isOperator(c)) {

@@ -1,4 +1,4 @@
-package org.mudebug.fpm.pattern;
+package org.mudebug.fpm.pattern.rules;
 
 import org.mudebug.fpm.pattern.rules.Rule;
 

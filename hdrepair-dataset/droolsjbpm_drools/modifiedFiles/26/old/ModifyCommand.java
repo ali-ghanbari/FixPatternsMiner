@@ -88,7 +88,7 @@ public class ModifyCommand
         return this.handle;
     }
     
-    @XmlAttribute(name="fact-handle", required=true)
+    @XmlAttribute(name="fact-handleOperation", required=true)
     public void setFactHandleFromString(String factHandleId) {
         handle = new DefaultFactHandle(factHandleId);
     }

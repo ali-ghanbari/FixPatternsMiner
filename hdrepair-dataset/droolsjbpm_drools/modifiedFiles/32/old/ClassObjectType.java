@@ -100,7 +100,7 @@ public class ClassObjectType
                                             ClassNotFoundException {
         this.clsName = in.readUTF();
         if ( clsName.equals( "org.drools.InitialFact" ) || clsName.equals( "org.drools.base.DroolsQuery" ) ) {
-            // we handle this one especially as it never gets written to the packagestore for rewiring
+            // we handleOperation this one especially as it never gets written to the packagestore for rewiring
             try {
                 setClassType( getClass().getClassLoader().loadClass( clsName ) );
             } catch ( ClassNotFoundException e ) {

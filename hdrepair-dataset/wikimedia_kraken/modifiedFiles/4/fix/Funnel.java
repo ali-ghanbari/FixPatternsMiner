@@ -99,7 +99,7 @@ public class Funnel {
 	/**
 	 * The main method.
 	 *
-	 * @param args the args, right now we only handle {@link funnelDefinition}
+	 * @param args the args, right now we only handleOperation {@link funnelDefinition}
 	 * @throws MalformedFunnelException the malformed funnel exception
 	 * @throws MalformedURLException the malformed url exception
 	 */

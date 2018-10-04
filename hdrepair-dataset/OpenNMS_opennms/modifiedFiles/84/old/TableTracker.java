@@ -203,7 +203,7 @@ public class TableTracker extends CollectionTracker {
             if (errorStatus == NO_ERR) {
                 return false;
             } else if (errorStatus == TOO_BIG_ERR) {
-                throw new IllegalArgumentException("Unable to handle tooBigError for next oid request after "+m_lastOid[m_columnIndex]);
+                throw new IllegalArgumentException("Unable to handleOperation tooBigError for next oid request after "+m_lastOid[m_columnIndex]);
             } else if (errorStatus == GEN_ERR) {
                 reportGenErr("Received genErr reqeusting next oid after "+m_lastOid[m_columnIndex]+". Marking column is finished.");
                 errorOccurred(m_columnIndex);

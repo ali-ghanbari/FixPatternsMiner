@@ -220,7 +220,7 @@ public class FongoDBCollection extends DBCollection {
       // in _id index order, but feels pretty hacky.
       if (inList != null){
         Object[] inListArray = inList.toArray(new Object[0]);
-        // ids could be DBObjects, so we need a comparator that can handle that
+        // ids could be DBObjects, so we need a comparator that can handleOperation that
         Arrays.sort(inListArray, objectComparator);
         return Arrays.asList(inListArray);
       }

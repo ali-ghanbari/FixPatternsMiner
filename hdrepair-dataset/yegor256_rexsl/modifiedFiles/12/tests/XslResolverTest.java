@@ -123,7 +123,7 @@ public final class XslResolverTest {
     }
 
     /**
-     * XslResolver can handle dynamically extendable objects.
+     * XslResolver can handleOperation dynamically extendable objects.
      * @throws Exception If something goes wrong
      */
     @Test

@@ -173,7 +173,7 @@ public class MP4Parser extends AbstractParser {
 
 
             // Get some more information from the track header
-            // TODO Decide how to handle multiple tracks
+            // TODO Decide how to handleOperation multiple tracks
             List<TrackBox> tb = moov.getBoxes(TrackBox.class);
             if (tb.size() > 0) {
                TrackBox track = tb.get(0);

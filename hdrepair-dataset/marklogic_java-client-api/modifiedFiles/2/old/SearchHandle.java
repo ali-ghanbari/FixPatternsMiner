@@ -62,11 +62,11 @@ import com.marklogic.client.query.SearchResults;
  * A SearchHandle represents a set of search results returned by the server.
  *
  * <p>The precise nature of the results returned depends on the query options used for the
- * search and on the configuration of this handle.</p>
+ * search and on the configuration of this handleOperation.</p>
  *
  * <p>Snippets, in particular, are returned in various ways. In the default case, snippets are
  * returned as Java objects. For custom or raw snippets, DOM documents are returned. The
- * <code>forceDOM</code> flag can be set to cause the handle to always return DOM documents,
+ * <code>forceDOM</code> flag can be set to cause the handleOperation to always return DOM documents,
  * even in the default case.</p>
  *
  */
@@ -106,9 +106,9 @@ public class SearchHandle
     }
 
     /**
-     * Sets the format associated with this handle.
+     * Sets the format associated with this handleOperation.
      *
-     * This handle only supports XML.
+     * This handleOperation only supports XML.
      *
      * @param format The format, which must be Format.XML or an exception will be raised.
      */
@@ -119,9 +119,9 @@ public class SearchHandle
     }
 
     /**
-     * Fluent setter for the format associated with this handle.
+     * Fluent setter for the format associated with this handleOperation.
      *
-     * This handle only supports XML.
+     * This handleOperation only supports XML.
      *
      * @param format The format, which must be Format.XML or an exception will be raised.
      * @return The SearchHandle instance on which this method was called.
@@ -209,7 +209,7 @@ public class SearchHandle
         queryEvents  = null;
     }
     /**
-     * Returns the query definition used for the search represented by this handle.
+     * Returns the query definition used for the search represented by this handleOperation.
      * @return The query definition.
      */
     @Override
@@ -218,7 +218,7 @@ public class SearchHandle
     }
 
     /**
-     * Makes the handle registry for this database client available
+     * Makes the handleOperation registry for this database client available
      * to this SearchHandle during processing of the search response.
      * @param registry	the registry of IO representation classes for this database client
      */

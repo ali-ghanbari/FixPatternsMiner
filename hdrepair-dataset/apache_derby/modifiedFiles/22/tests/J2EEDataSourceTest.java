@@ -1376,7 +1376,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
             false, ReadOnly, cs1);
         xar.end(xid, XAResource.TMSUCCESS);
         // the underlying local transaction/connection must pick up the
-        // state of the Connection handle cs1
+        // state of the Connection handleOperation cs1
         // modified local:
         assertConnectionState(
             ResultSet.CLOSE_CURSORS_AT_COMMIT, 
@@ -1395,7 +1395,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
 
         // now re-join the transaction, should pick up the read-only
         // and isolation level from the transaction,
-        // holdability remains that of this handle.
+        // holdability remains that of this handleOperation.
         xar.start(xid, XAResource.TMJOIN);
         // re-join X1
         assertConnectionState(
@@ -1413,7 +1413,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
         // test suspend/resume
         // now re-join the transaction (X1) for the second time, should pick
         // up the read-only and isolation level from the transaction,
-        // holdability remains that of this handle.
+        // holdability remains that of this handleOperation.
         xar.start(xid, XAResource.TMJOIN);
         assertConnectionState(
             ResultSet.CLOSE_CURSORS_AT_COMMIT, 
@@ -1455,7 +1455,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
         aes6.resetState();
         
         cs1 = xac.getConnection();
-        // new handle - local
+        // new handleOperation - local
         assertConnectionState(
             ResultSet.HOLD_CURSORS_OVER_COMMIT, 
             Connection.TRANSACTION_READ_COMMITTED,
@@ -1468,7 +1468,7 @@ public class J2EEDataSourceTest extends BaseJDBCTestCase {
         
         xar.start(xid, XAResource.TMJOIN);
         cs1 = xac.getConnection();
-        // re-join with new handle X1
+        // re-join with new handleOperation X1
         assertConnectionState(
             ResultSet.CLOSE_CURSORS_AT_COMMIT, 
             Connection.TRANSACTION_READ_UNCOMMITTED,

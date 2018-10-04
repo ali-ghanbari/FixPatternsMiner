@@ -2528,7 +2528,7 @@ public class Spawn implements Codec.Codable {
                     }
                     handleStatusTaskEnd(job, task, end);
                 } catch (Exception ex) {
-                    log.warn("Failed to handle end message: " + ex, ex);
+                    log.warn("Failed to handleOperation end message: " + ex, ex);
                 }
                 break;
         }

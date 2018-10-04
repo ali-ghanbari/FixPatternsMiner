@@ -781,7 +781,7 @@ public class SlidingWindow {
 
             final int nAlleles = windowHeader.get(i).getNumberOfBaseAlleles(MIN_ALT_PVALUE_TO_TRIGGER_VARIANT, MIN_ALT_PROPORTION_TO_TRIGGER_VARIANT);
 
-            // we will only work on diploid non-indel cases because we just don't want to handle/test other scenarios
+            // we will only work on diploid non-indel cases because we just don't want to handleOperation/test other scenarios
             if ( nAlleles > 2 || nAlleles == -1 )
                 return -1;
 

@@ -823,7 +823,7 @@ public class PhoneNumberUtils
             // This is an "international number" and should have
             // a plus prepended to the dialing number. But there
             // can also be GSM MMI codes as defined in TS 22.030 6.5.2
-            // so we need to handle those also.
+            // so we need to handleOperation those also.
             //
             // http://web.telia.com/~u47904776/gsmkode.htm
             // has a nice list of some of these GSM codes.

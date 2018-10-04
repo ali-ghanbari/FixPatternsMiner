@@ -622,7 +622,7 @@ public class FileUtil {
         builder.append("[^/]*?");
       }
       else if (builder.length() > 0 && builder.charAt(builder.length() - 1) == '/') {
-        // handle ant shorthand: mypackage/test/ is interpreted as if it were mypackage/test/**
+        // handleOperation ant shorthand: mypackage/test/ is interpreted as if it were mypackage/test/**
         builder.append(".*");
       }
       return builder.toString();

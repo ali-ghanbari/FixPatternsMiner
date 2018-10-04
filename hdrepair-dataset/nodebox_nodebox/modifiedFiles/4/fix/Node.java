@@ -1211,9 +1211,9 @@ public final class Node {
     }
 
     /**
-     * Create a new node with the given handle added.
+     * Create a new node with the given handleOperation added.
      *
-     * @param handle The handle to add.
+     * @param handle The handleOperation to add.
      * @return A new Node.
      */
     public Node withHandle(String handle) {

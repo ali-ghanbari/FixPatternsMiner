@@ -353,7 +353,7 @@ public class PaymentChannelServerState {
      * If we fail to broadcast for some reason, the state is set to {@link State#ERROR}.</p>
      *
      * <p>If the current state is before {@link State#READY} (ie we have not finished initializing the channel), we
-     * simply set the state to {@link State#CLOSED} and let the client handle getting its refund transaction confirmed.
+     * simply set the state to {@link State#CLOSED} and let the client handleOperation getting its refund transaction confirmed.
      * </p>
      *
      * @return a future which completes when the provided multisig contract successfully broadcasts, or throws if the broadcast fails for some reason
@@ -393,7 +393,7 @@ public class PaymentChannelServerState {
             tx = req.tx;
             // Provide a BS signature so that completeTx wont freak out about unsigned inputs.
             signMultisigInput(tx, Transaction.SigHash.NONE, true);
-            if (!wallet.completeTx(req)) // Let wallet handle adding additional inputs/fee as necessary.
+            if (!wallet.completeTx(req)) // Let wallet handleOperation adding additional inputs/fee as necessary.
                 throw new ValueOutOfRangeException("Unable to complete transaction - unable to pay required fee");
             feePaidForPayment = req.fee;
             if (feePaidForPayment.compareTo(bestValueToMe) >= 0)

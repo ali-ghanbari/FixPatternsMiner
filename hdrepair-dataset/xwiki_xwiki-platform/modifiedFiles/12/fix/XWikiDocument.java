@@ -1622,7 +1622,7 @@ public class XWikiDocument implements DocumentModelBridge
     }
 
     /**
-     * Note: We've introduced this signature taking an extra syntaxId parameter to handle the case where Panels are
+     * Note: We've introduced this signature taking an extra syntaxId parameter to handleOperation the case where Panels are
      * written in a syntax other than the main document. The problem is that currently the displayPanel() velocity macro
      * in macros.vm calls display() on the main document and not on the panel document. Thus if we don't tell what
      * syntax to use the main document syntax will be used to display panels even if they're written in another syntax.
@@ -1714,7 +1714,7 @@ public class XWikiDocument implements DocumentModelBridge
             // We test if we're inside the rendering engine since it's also possible that this display() method is
             // called
             // directly from a template and in this case we only want HTML as a result and not wiki syntax.
-            // TODO: find a more generic way to handle html macro because this works only for XWiki 1.0 and XWiki 2.0
+            // TODO: find a more generic way to handleOperation html macro because this works only for XWiki 1.0 and XWiki 2.0
             // Add the {{html}}{{/html}} only when result really contains html since it's not needed for pure text
             if (isInRenderingEngine && !is10Syntax(syntaxId) && (result.indexOf("<") != -1 || result.indexOf(">") != -1)) {
                 result.insert(0, "{{html clean=\"false\" wiki=\"false\"}}");
