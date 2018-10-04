@@ -20,7 +20,7 @@ import java.util.List;
  *  a++ -> ++a.
  */
 public class UpdateUnaryOpHandler extends UpdateHandler {
-    protected UpdateUnaryOpHandler(UpdateHandler next) {
+    public UpdateUnaryOpHandler(UpdateHandler next) {
         super(next);
     }
 
@@ -53,14 +53,8 @@ public class UpdateUnaryOpHandler extends UpdateHandler {
             final CtUnaryOperator uo2 = (CtUnaryOperator) e2;
             if (uo1.getType().equals(uo2.getType()) && uo1.getOperand().equals(uo2.getOperand())) {
                 if (interFix(uo1.getKind(), uo2.getKind())) {
-                    System.out.println("111111111111111");
-                    System.out.println(uo1.toString() + " --> " + uo2.toString());
-                    System.out.println("111111111111111");
                     return new InterFixUnaryOpRepRule(uo1.getKind(), uo2.getKind());
                 } else { // since operands are same, the operators are guaranteed to be different
-                    System.out.println("222222222222222");
-                    System.out.println(uo1.toString() + " --> " + uo2.toString());
-                    System.out.println("222222222222222");
                     return new UnaryOpReplacementRule(uo1.getKind(), uo2.getKind());
                 }
             }
@@ -71,14 +65,8 @@ public class UpdateUnaryOpHandler extends UpdateHandler {
                 final List<CtExpression> args = in.getArguments();
                 if (args.size() == 1 && args.get(0).equals(uo.getOperand())) {
                     if (uo == e1) {
-                        System.out.println("333333333333333");
-                        System.out.println(uo.toString() + " --> " + in.toString());
-                        System.out.println("333333333333333");
                         return new UnaryOpReplacementRule(uo.getKind(), in.getExecutable().getSignature());
                     }
-                    System.out.println("444444444444444");
-                    System.out.println(in.toString() + " --> " + uo.toString());
-                    System.out.println("444444444444444");
                     return new UnaryOpReplacementRule(in.getExecutable().getSignature(), uo.getKind());
                 }
             }

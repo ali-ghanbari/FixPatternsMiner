@@ -5,8 +5,7 @@ package org.mudebug.fpm.pattern.rules;
  * r2.meth2(args1)
  *
  * where meth1 != meth2 but args1 == args2.
- * r1 and r2 might be syntactically different,
- * but they are of the same type.
+ * r1 and r2 also should be the same.
  */
 public class MethodNameRule implements Rule {
     private final String srcName;
