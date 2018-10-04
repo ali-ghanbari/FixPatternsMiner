@@ -4,6 +4,7 @@ import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
 
+
 public abstract class InsertHandler extends OperationHandler {
     protected InsertHandler(InsertHandler next) {
         super(next);

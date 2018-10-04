@@ -39,11 +39,11 @@ public final class FileListParser {
 
     public void parse(final FilePairVisitor visitor) {
         try (CSVParser parser = new CSVParser(this.reader, CSVFormat.DEFAULT)) {
-            for (CSVRecord record : parser) {
+            parser.getRecords().parallelStream().forEach(record -> {
                 final File buggy = new File(getBuggyFileName(record));
                 final File fixed = new File(getFixedFileName(record));
                 visitor.visit(buggy, fixed);
-            }
+            });
         } catch (Exception e) {
             panic(e);
         }
