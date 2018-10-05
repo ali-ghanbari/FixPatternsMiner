@@ -1,13 +1,14 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.rules.ConstantifyExpressionRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtLiteral;
 import spoon.reflect.declaration.CtElement;
 
-public class UpdateNullifyHandler extends UpdateHandler {
-    public UpdateNullifyHandler(UpdateHandler next) {
+public class UpdateConstantifyHandler extends UpdateHandler {
+    public UpdateConstantifyHandler(UpdateHandler next) {
         super(next);
     }
 
@@ -30,9 +31,7 @@ public class UpdateNullifyHandler extends UpdateHandler {
         final CtLiteral lit = getLiteral(e1, e2);
         final CtExpression ex = (CtExpression) (lit == e1 ? e2 : e1);
         if (lit.getType().equals(ex.getType())) {
-            System.out.println("**************************");
-            System.out.println(lit.toString());
-            System.out.println("**************************");
+            return new ConstantifyExpressionRule(ex.getType().getSimpleName(), lit.getValue());
         }
         return UnknownRule.UNKNOWN_RULE;
     }
