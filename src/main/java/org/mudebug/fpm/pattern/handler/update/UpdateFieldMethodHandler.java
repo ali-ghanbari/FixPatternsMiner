@@ -1,6 +1,7 @@
 package org.mudebug.fpm.pattern.handler.update;
 
 import org.mudebug.fpm.pattern.rules.FieldAccessGetterRule;
+import org.mudebug.fpm.pattern.rules.FieldAccessSetterRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.*;
@@ -11,7 +12,7 @@ import spoon.reflect.reference.CtFieldReference;
 import java.util.List;
 
 public class UpdateFieldMethodHandler extends UpdateHandler {
-    protected UpdateFieldMethodHandler(UpdateHandler next) {
+    public UpdateFieldMethodHandler(UpdateHandler next) {
         super(next);
     }
 
@@ -50,9 +51,9 @@ public class UpdateFieldMethodHandler extends UpdateHandler {
                     && field.getType().equals(args.get(0).getType())
                     && in.getTarget().equals(fa.getTarget())) {
                 if (fa == e1) {
-                    return new FieldAccessGetterRule(field.getQualifiedName(), method.getSignature());
+                    return new FieldAccessSetterRule(field.getQualifiedName(), method.getSignature());
                 }
-                return new FieldAccessGetterRule(method.getSignature(), field.getQualifiedName());
+                return new FieldAccessSetterRule(method.getSignature(), field.getQualifiedName());
             }
         }
         return UnknownRule.UNKNOWN_RULE;
