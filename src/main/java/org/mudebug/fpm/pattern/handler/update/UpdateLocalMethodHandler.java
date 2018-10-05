@@ -1,9 +1,9 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.LocalGetterReplacementRule;
 import org.mudebug.fpm.pattern.rules.LocalSetterReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtExecutableReference;
@@ -12,7 +12,7 @@ import spoon.reflect.reference.CtVariableReference;
 import java.util.List;
 
 public class UpdateLocalMethodHandler extends UpdateHandler {
-    public UpdateLocalMethodHandler(UpdateHandler next) {
+    public UpdateLocalMethodHandler(OperationHandler next) {
         super(next);
     }
 
@@ -52,6 +52,6 @@ public class UpdateLocalMethodHandler extends UpdateHandler {
                 return new LocalSetterReplacementRule(method.getSignature(), variable.getSimpleName());
             }
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

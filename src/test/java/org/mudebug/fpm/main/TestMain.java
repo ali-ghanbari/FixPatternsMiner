@@ -13,13 +13,19 @@ public class TestMain {
     @BeforeEach
     public void initFilesList() throws Exception {
         filesList = File.createTempFile("filesList", "csv");
+        final String[] fileNames = new String[] {
+                "AOD.java",
+                "CaseRemoval.java"
+        };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();
-            final String buggyFileName = (new File("buggy", "a.java")).getPath();
-            final File buggyVersion = Paths.get(cl.getResource("buggy/a.java").toURI()).toFile();
-            final String fixedFileName = (new File("fixed", "a.java")).getPath();
-            final File fixedVersion = Paths.get(cl.getResource(fixedFileName).toURI()).toFile();
-            pw.printf("%s,%s%n", buggyVersion.getAbsolutePath(), fixedVersion.getAbsolutePath());
+            for (final String fileName : fileNames) {
+                final String buggyFileName = (new File("buggy", fileName)).getPath();
+                final File buggyVersion = Paths.get(cl.getResource(buggyFileName).toURI()).toFile();
+                final String fixedFileName = (new File("fixed", fileName)).getPath();
+                final File fixedVersion = Paths.get(cl.getResource(fixedFileName).toURI()).toFile();
+                pw.printf("%s,%s%n", buggyVersion.getAbsolutePath(), fixedVersion.getAbsolutePath());
+            }
         }
     }
 

@@ -16,7 +16,10 @@ public abstract class OperationHandler {
     protected abstract boolean canHandlePattern(CtElement e1, CtElement e2);
 
     /*e2 is unused for delete and insert operations*/
-    protected abstract Rule handlePattern(CtElement e1, CtElement e2);
+    protected Rule handlePattern(CtElement e1, CtElement e2) {
+        final Rule rule = this.next != null ? this.next.handleOperation(e1, e2) : null;
+        return rule;
+    }
 
     public abstract boolean canHandleOperation(Operation operation);
 

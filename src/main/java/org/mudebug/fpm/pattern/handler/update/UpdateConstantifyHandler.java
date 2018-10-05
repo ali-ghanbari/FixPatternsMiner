@@ -1,14 +1,14 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.ConstantifyExpressionRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtLiteral;
 import spoon.reflect.declaration.CtElement;
 
 public class UpdateConstantifyHandler extends UpdateHandler {
-    public UpdateConstantifyHandler(UpdateHandler next) {
+    public UpdateConstantifyHandler(OperationHandler next) {
         super(next);
     }
 
@@ -33,6 +33,6 @@ public class UpdateConstantifyHandler extends UpdateHandler {
         if (lit.getType().equals(ex.getType())) {
             return new ConstantifyExpressionRule(ex.getType().getSimpleName(), lit.getValue());
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

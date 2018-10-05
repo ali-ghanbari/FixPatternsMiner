@@ -1,5 +1,6 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.InterFixUnaryOpRepRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.UnaryOpReplacementRule;
@@ -20,7 +21,7 @@ import java.util.List;
  *  a++ -> ++a.
  */
 public class UpdateUnaryOpHandler extends UpdateHandler {
-    public UpdateUnaryOpHandler(UpdateHandler next) {
+    public UpdateUnaryOpHandler(OperationHandler next) {
         super(next);
     }
 
@@ -71,6 +72,6 @@ public class UpdateUnaryOpHandler extends UpdateHandler {
                 }
             }
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

@@ -1,14 +1,14 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.FieldLocalReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.code.CtVariableAccess;
 import spoon.reflect.declaration.CtElement;
 
 public class UpdateFieldLocalHandler extends UpdateHandler {
-    public UpdateFieldLocalHandler(UpdateHandler next) {
+    public UpdateFieldLocalHandler(OperationHandler next) {
         super(next);
     }
 
@@ -36,6 +36,6 @@ public class UpdateFieldLocalHandler extends UpdateHandler {
             }
             return new FieldLocalReplacementRule(va.getVariable().getSimpleName(), fa.getVariable().getQualifiedName());
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

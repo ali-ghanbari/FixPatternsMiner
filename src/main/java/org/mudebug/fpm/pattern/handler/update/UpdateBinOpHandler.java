@@ -1,8 +1,8 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.BinOpReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtInvocation;
@@ -17,7 +17,7 @@ import java.util.List;
  *  and vice versa.
  */
 public class UpdateBinOpHandler extends UpdateHandler {
-    public UpdateBinOpHandler(UpdateHandler next) {
+    public UpdateBinOpHandler(OperationHandler next) {
         super(next);
     }
 
@@ -63,6 +63,6 @@ public class UpdateBinOpHandler extends UpdateHandler {
                 }
             }
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

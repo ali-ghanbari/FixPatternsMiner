@@ -1,16 +1,15 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.*;
-import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
-import spoon.reflect.reference.CtTypeReference;
 
 /**
  * Responsible for method and ctor invocations
  */
 public class UpdateMethodNameHandler extends UpdateHandler {
-    public UpdateMethodNameHandler(UpdateHandler next) {
+    public UpdateMethodNameHandler(OperationHandler next) {
         super(next);
     }
 
@@ -21,9 +20,9 @@ public class UpdateMethodNameHandler extends UpdateHandler {
     }
 
     @Override
-    protected Rule handlePattern(CtElement src, CtElement dst) {
-        final CtInvocation sin = (CtInvocation) src;
-        final CtInvocation din = (CtInvocation) dst;
+    protected Rule handlePattern(CtElement e1, CtElement e2) {
+        final CtInvocation sin = (CtInvocation) e1;
+        final CtInvocation din = (CtInvocation) e2;
         final String methodNameSrc = getMethodName(sin);
         final String methodNameDst = getMethodName(din);
         if (sin.getTarget().equals(din.getTarget())) {
@@ -37,7 +36,7 @@ public class UpdateMethodNameHandler extends UpdateHandler {
                 }
             }
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 
     private String getMethodName(final CtInvocation in) {

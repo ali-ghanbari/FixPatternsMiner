@@ -1,13 +1,13 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.ConstantReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtLiteral;
 import spoon.reflect.declaration.CtElement;
 
 public class UpdateConstantHandler extends UpdateHandler {
-    public UpdateConstantHandler(UpdateHandler next) {
+    public UpdateConstantHandler(OperationHandler next) {
         super(next);
     }
 
@@ -23,6 +23,6 @@ public class UpdateConstantHandler extends UpdateHandler {
         if (l1.getType().equals(l2.getType())) {
             return new ConstantReplacementRule(l1.getValue(), l2.getValue());
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

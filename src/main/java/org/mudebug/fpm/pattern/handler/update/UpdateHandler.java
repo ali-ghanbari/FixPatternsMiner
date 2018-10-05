@@ -2,10 +2,11 @@ package org.mudebug.fpm.pattern.handler.update;
 
 import gumtree.spoon.diff.operations.Operation;
 import gumtree.spoon.diff.operations.UpdateOperation;
+import org.mudebug.fpm.pattern.handler.DummyOperationHandler;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
 
 public abstract class UpdateHandler extends OperationHandler {
-    protected UpdateHandler(final UpdateHandler next) {
+    protected UpdateHandler(final OperationHandler next) {
         super(next);
     }
 
@@ -14,9 +15,10 @@ public abstract class UpdateHandler extends OperationHandler {
         return operation instanceof UpdateOperation;
     }
 
-    public static UpdateHandler createHandlerChain() {
-        UpdateHandler chain;
-        chain = new UpdateConstantifyHandler(null);
+    public static OperationHandler createHandlerChain() {
+        OperationHandler chain;
+        chain = DummyOperationHandler.v();
+        chain = new UpdateConstantifyHandler(chain);
         chain = new UpdateNakedMethCallHandler(chain);
         chain = new UpdateConstantHandler(chain);
         chain = new UpdateLocalMethodHandler(chain);

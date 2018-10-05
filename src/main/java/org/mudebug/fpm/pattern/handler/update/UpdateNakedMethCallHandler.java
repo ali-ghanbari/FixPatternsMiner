@@ -1,8 +1,8 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.NakedInvocationRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateNakedMethCallHandler extends UpdateHandler {
-    public UpdateNakedMethCallHandler(UpdateHandler next) {
+    public UpdateNakedMethCallHandler(OperationHandler next) {
         super(next);
     }
 
@@ -46,6 +46,6 @@ public class UpdateNakedMethCallHandler extends UpdateHandler {
             final CtExecutableReference method = in.getExecutable();
             return new NakedInvocationRule(method.getSignature(), index);
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

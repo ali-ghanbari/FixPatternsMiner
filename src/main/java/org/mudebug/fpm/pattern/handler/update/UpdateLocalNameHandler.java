@@ -1,13 +1,13 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.LocalNameReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtVariableAccess;
 import spoon.reflect.declaration.CtElement;
 
 public class UpdateLocalNameHandler extends UpdateHandler {
-    protected UpdateLocalNameHandler(UpdateHandler next) {
+    protected UpdateLocalNameHandler(OperationHandler next) {
         super(next);
     }
 
@@ -25,6 +25,6 @@ public class UpdateLocalNameHandler extends UpdateHandler {
             final String dstName = va2.getVariable().getSimpleName();
             return new LocalNameReplacementRule(srcName, dstName);
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }

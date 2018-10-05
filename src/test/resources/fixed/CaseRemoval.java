@@ -1,4 +1,4 @@
-public class a {
+public class CaseRemoval {
     public static void main(String[] args) {
         switch (args.length) {
             case 0:

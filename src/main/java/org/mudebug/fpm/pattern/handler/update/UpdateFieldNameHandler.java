@@ -1,8 +1,8 @@
 package org.mudebug.fpm.pattern.handler.update;
 
+import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.FieldNameReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.declaration.CtElement;
 
@@ -16,7 +16,7 @@ import spoon.reflect.declaration.CtElement;
  * We also assume that the receiver expressions are the same.
  */
 public class UpdateFieldNameHandler extends UpdateHandler {
-    public UpdateFieldNameHandler(UpdateHandler next) {
+    public UpdateFieldNameHandler(OperationHandler next) {
         super(next);
     }
 
@@ -37,6 +37,6 @@ public class UpdateFieldNameHandler extends UpdateHandler {
                 return new FieldNameReplacementRule(srcFieldName, dstFieldName);
             }
         }
-        return UnknownRule.UNKNOWN_RULE;
+        return super.handlePattern(e1, e2);
     }
 }
