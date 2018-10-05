@@ -6,8 +6,8 @@ import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtVariableAccess;
 import spoon.reflect.declaration.CtElement;
 
-public class UpdateLocalNameHandler extends UpdateHandler {
-    protected UpdateLocalNameHandler(OperationHandler next) {
+public class LocalNameReplacement extends UpdateHandler {
+    protected LocalNameReplacement(OperationHandler next) {
         super(next);
     }
 

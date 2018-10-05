@@ -12,21 +12,22 @@ public abstract class UpdateHandler extends OperationHandler {
 
     @Override
     public boolean canHandleOperation(final Operation operation) {
+//        System.out.print(operation.getClass().getName() + " ");
+//        System.out.println(operation.getSrcNode());
         return operation instanceof UpdateOperation;
     }
 
     public static OperationHandler createHandlerChain() {
         OperationHandler chain;
         chain = DummyOperationHandler.v();
-        chain = new UpdateConstantifyHandler(chain);
-        chain = new UpdateNakedMethCallHandler(chain);
-        chain = new UpdateConstantHandler(chain);
-        chain = new UpdateLocalMethodHandler(chain);
-        chain = new UpdateFieldMethodHandler(chain);
-        chain = new UpdateFieldNameHandler(chain);
-        chain = new UpdateUnaryOpHandler(chain);
-        chain = new UpdateBinOpHandler(chain);
-        chain = new UpdateMethodNameHandler(chain);
+
+        chain = new CtorReplacement(chain);
+        chain = new LocalNameReplacement(chain);
+        chain = new ConstantReplacement(chain);
+        chain = new FieldNameReplacement(chain);
+        chain = new UnaryOperatorReplacement(chain);
+        chain = new BinaryOperatorReplacement(chain);
+        chain = new MethodNameReplacement(chain);
         return chain;
     }
 }

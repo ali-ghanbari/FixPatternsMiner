@@ -6,8 +6,8 @@ import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtLiteral;
 import spoon.reflect.declaration.CtElement;
 
-public class UpdateConstantHandler extends UpdateHandler {
-    public UpdateConstantHandler(OperationHandler next) {
+public class ConstantReplacement extends UpdateHandler {
+    public ConstantReplacement(OperationHandler next) {
         super(next);
     }
 

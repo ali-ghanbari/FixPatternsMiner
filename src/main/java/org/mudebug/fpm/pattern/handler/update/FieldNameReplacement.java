@@ -5,6 +5,7 @@ import org.mudebug.fpm.pattern.rules.FieldNameReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.declaration.CtElement;
+import spoon.reflect.reference.CtFieldReference;
 
 /**
  * Handles cases like
@@ -15,8 +16,8 @@ import spoon.reflect.declaration.CtElement;
  * of the types.
  * We also assume that the receiver expressions are the same.
  */
-public class UpdateFieldNameHandler extends UpdateHandler {
-    public UpdateFieldNameHandler(OperationHandler next) {
+public class FieldNameReplacement extends UpdateHandler {
+    public FieldNameReplacement(OperationHandler next) {
         super(next);
     }
 
@@ -29,12 +30,15 @@ public class UpdateFieldNameHandler extends UpdateHandler {
     protected Rule handlePattern(CtElement e1, CtElement e2) {
         final CtFieldAccess fa1 = (CtFieldAccess) e1;
         final CtFieldAccess fa2 = (CtFieldAccess) e2;
-        if (fa1.getType().equals(fa2.getType())
-                && fa1.getTarget().equals(fa2.getTarget())) {
-            final String srcFieldName = fa1.getVariable().getQualifiedName();
-            final String dstFieldName = fa2.getVariable().getQualifiedName();
-            if (!srcFieldName.equals(dstFieldName)) {
-                return new FieldNameReplacementRule(srcFieldName, dstFieldName);
+        final CtFieldReference f1 = fa1.getVariable();
+        final CtFieldReference f2 = fa2.getVariable();
+        if (f1.getType().equals(f2.getType())) {
+            if (fa1.getTarget().equals(fa2.getTarget())) {
+                final String srcFieldName = f1.getQualifiedName();
+                final String dstFieldName = f2.getQualifiedName();
+                if (!srcFieldName.equals(dstFieldName)) {
+                    return new FieldNameReplacementRule(srcFieldName, dstFieldName);
+                }
             }
         }
         return super.handlePattern(e1, e2);

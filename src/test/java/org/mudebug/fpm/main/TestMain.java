@@ -14,8 +14,23 @@ public class TestMain {
     public void initFilesList() throws Exception {
         filesList = File.createTempFile("filesList", "csv");
         final String[] fileNames = new String[] {
-                "AOD.java",
-                "CaseRemoval.java"
+                "BOD.java",
+                "CaseRemoval.java",
+                "NakedMethodCall.java",
+                "BOR.java",
+                "BinOpMeth.java",
+                "ConstantReplacement.java",
+                "Constantify.java",
+                "FieldLocal.java",
+                "FieldMethod.java",
+                "FieldName.java",
+                "MethodLocal.java",
+                "LocalName.java",
+                "ArgList.java",
+                "CtorName.java",
+                "MethodName.java",
+                "UnaryOpMeth.java",
+                "UnaryOp.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();

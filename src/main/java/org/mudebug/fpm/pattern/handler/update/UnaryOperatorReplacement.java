@@ -20,16 +20,14 @@ import java.util.List;
  * semantics, we also capture changes line
  *  a++ -> ++a.
  */
-public class UpdateUnaryOpHandler extends UpdateHandler {
-    public UpdateUnaryOpHandler(OperationHandler next) {
+public class UnaryOperatorReplacement extends UpdateHandler {
+    public UnaryOperatorReplacement(OperationHandler next) {
         super(next);
     }
 
     @Override
     protected boolean canHandlePattern(CtElement e1, CtElement e2) {
-        return (e1 instanceof CtUnaryOperator && e2 instanceof CtUnaryOperator)
-                || (e1 instanceof CtUnaryOperator && e2 instanceof CtInvocation)
-                || (e1 instanceof CtInvocation && e2 instanceof CtUnaryOperator);
+        return e1 instanceof CtUnaryOperator && e2 instanceof CtUnaryOperator;
     }
 
     private boolean interFix(UnaryOperatorKind k1, UnaryOperatorKind k2) {
@@ -57,18 +55,6 @@ public class UpdateUnaryOpHandler extends UpdateHandler {
                     return new InterFixUnaryOpRepRule(uo1.getKind(), uo2.getKind());
                 } else { // since operands are same, the operators are guaranteed to be different
                     return new UnaryOpReplacementRule(uo1.getKind(), uo2.getKind());
-                }
-            }
-        } else {
-            final CtUnaryOperator uo = getUnOp(e1, e2);
-            final CtInvocation in = getInvocation(e1, e2);
-            if (uo.getType().equals(in.getType())) {
-                final List<CtExpression> args = in.getArguments();
-                if (args.size() == 1 && args.get(0).equals(uo.getOperand())) {
-                    if (uo == e1) {
-                        return new UnaryOpReplacementRule(uo.getKind(), in.getExecutable().getSignature());
-                    }
-                    return new UnaryOpReplacementRule(in.getExecutable().getSignature(), uo.getKind());
                 }
             }
         }

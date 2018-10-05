@@ -37,7 +37,7 @@ public final class Main implements FilePairVisitor {
             parser = new FileListParser(new File(args[0]));
         }
         final Main visitor = new Main();
-        parser.parse(visitor, true);
+        parser.parse(visitor, false);
     }
 
     @Override
