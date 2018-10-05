@@ -16,7 +16,9 @@ public abstract class UpdateHandler extends OperationHandler {
 
     public static UpdateHandler createHandlerChain() {
         UpdateHandler chain;
-        chain = new UpdateConstantHandler(null);
+        chain = new UpdateNullifyHandler(null);
+        chain = new UpdateNakedMethCallHandler(chain);
+        chain = new UpdateConstantHandler(chain);
         chain = new UpdateLocalMethodHandler(chain);
         chain = new UpdateFieldMethodHandler(chain);
         chain = new UpdateFieldNameHandler(chain);

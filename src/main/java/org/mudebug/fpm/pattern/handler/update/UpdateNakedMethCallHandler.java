@@ -18,8 +18,16 @@ public class UpdateNakedMethCallHandler extends UpdateHandler {
 
     @Override
     protected boolean canHandlePattern(CtElement e1, CtElement e2) {
-        return (e1 instanceof CtInvocation && e2 instanceof CtExpression)
-                || (e2 instanceof CtInvocation && e1 instanceof CtExpression);
+        if ((e1 instanceof CtInvocation && e2 instanceof CtExpression)
+                || (e2 instanceof CtInvocation && e1 instanceof CtExpression)) {
+            final CtInvocation in = getInvocation(e1, e2);
+            final CtExpression ex = in == e1 ? (CtExpression) e2 : (CtExpression) e1;
+            final List<CtExpression> args = new ArrayList<>();
+            args.add(in.getTarget());
+            args.addAll(in.getArguments());
+            return args.indexOf(ex) >= 0;
+        }
+        return false;
     }
 
     private CtInvocation getInvocation(CtElement e1, CtElement e2) {

@@ -37,7 +37,7 @@ public final class Main implements FilePairVisitor {
             parser = new FileListParser(new File(args[0]));
         }
         final Main visitor = new Main();
-        parser.parse(visitor);
+        parser.parse(visitor, true);
     }
 
     @Override
@@ -56,7 +56,7 @@ public final class Main implements FilePairVisitor {
                     }
                 }
             } else {
-                out.println("warning: no diff found.");
+                out.println("warning: no diff was found.");
             }
         } catch (Exception  e) {
             out.printf("warning: \'%s\' swallowed.%n", e.getMessage());
