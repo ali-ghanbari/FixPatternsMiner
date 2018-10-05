@@ -7,7 +7,7 @@ import spoon.reflect.code.CtLiteral;
 import spoon.reflect.declaration.CtElement;
 
 public class UpdateConstantHandler extends UpdateHandler {
-    protected UpdateConstantHandler(UpdateHandler next) {
+    public UpdateConstantHandler(UpdateHandler next) {
         super(next);
     }
 
