@@ -12,8 +12,8 @@ public abstract class UpdateHandler extends OperationHandler {
 
     @Override
     public boolean canHandleOperation(final Operation operation) {
-//        System.out.print(operation.getClass().getName() + " ");
-//        System.out.println(operation.getSrcNode());
+        System.out.print(operation.getClass().getName() + " ");
+        System.out.println(operation.getSrcNode());
         return operation instanceof UpdateOperation;
     }
 
@@ -21,6 +21,7 @@ public abstract class UpdateHandler extends OperationHandler {
         OperationHandler chain;
         chain = DummyOperationHandler.v();
 
+        chain = new ArgumentListUpdate(chain);
         chain = new CtorReplacement(chain);
         chain = new LocalNameReplacement(chain);
         chain = new ConstantReplacement(chain);
