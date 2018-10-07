@@ -1,4 +1,4 @@
-package org.mudebug.fpm.pattern.handler.update;
+package org.mudebug.fpm.pattern.handler.point.update;
 
 import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.LocalNameReplacementRule;

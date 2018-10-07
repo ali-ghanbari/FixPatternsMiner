@@ -1,17 +1,13 @@
-package org.mudebug.fpm.pattern.handler.update;
+package org.mudebug.fpm.pattern.handler.point.update;
 
 import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.InterFixUnaryOpRepRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.UnaryOpReplacementRule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
-import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.declaration.CtElement;
-
-import java.util.List;
 
 /**
  * Takes care of patterns like

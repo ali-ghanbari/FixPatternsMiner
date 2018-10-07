@@ -1,4 +1,4 @@
-package org.mudebug.fpm.pattern.handler.delete;
+package org.mudebug.fpm.pattern.handler.point.delete;
 
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.Operation;

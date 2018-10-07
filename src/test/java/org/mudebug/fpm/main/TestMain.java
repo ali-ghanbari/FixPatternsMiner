@@ -30,7 +30,9 @@ public class TestMain {
                 "CtorName.java",
                 "MethodName.java",
                 "UnaryOpMeth.java",
-                "UnaryOp.java"
+                "UnaryOp.java",
+                "IfThenBranch.java",
+                "IfElseBranch.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();

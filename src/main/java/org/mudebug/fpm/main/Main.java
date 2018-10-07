@@ -1,7 +1,10 @@
 package org.mudebug.fpm.main;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 import gumtree.spoon.AstComparator;
 import gumtree.spoon.diff.Diff;
@@ -9,20 +12,27 @@ import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.commons.FileListParser;
 import org.mudebug.fpm.commons.FilePairVisitor;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
-import org.mudebug.fpm.pattern.handler.delete.DeleteHandler;
-import org.mudebug.fpm.pattern.handler.insert.InsertHandler;
-import org.mudebug.fpm.pattern.handler.update.UpdateHandler;
+import org.mudebug.fpm.pattern.handler.point.delete.DeleteHandler;
+import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
+import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
+import org.mudebug.fpm.pattern.handler.regexp.RegExpHandler;
+import org.mudebug.fpm.pattern.handler.regexp.Status;
+import org.mudebug.fpm.pattern.handler.regexp.cr.IfShortCircuitHandler;
 
 import static java.lang.System.out;
 
 public final class Main implements FilePairVisitor {
-    private final OperationHandler[] handlers;
+    private final RegExpHandler[] regExpHandlers;
+    private final OperationHandler[] pointHandlers;
 
     private Main() {
-        this.handlers = new OperationHandler[] {
+        this.pointHandlers = new OperationHandler[] {
                 DeleteHandler.createHandlerChain(),
                 InsertHandler.createHandlerChain(),
                 UpdateHandler.createHandlerChain()
+        };
+        this.regExpHandlers = new RegExpHandler[] {
+                new IfShortCircuitHandler()
         };
     }
 
@@ -46,20 +56,57 @@ public final class Main implements FilePairVisitor {
         final AstComparator ac = new AstComparator();
         try {
             final Diff diff = ac.compare(buggy, fixed);
-            final List<Operation> ops = diff.getRootOperations();
+            final List<Operation> ops = new ArrayList<>(diff.getRootOperations());
+            ops.sort((op1, op2) -> Integer.compare(op1.getSrcNode().getPosition().getSourceStart(), op1.getSrcNode().getPosition().getSourceStart()));
+            System.out.printf("[%s]%n", ops.stream()
+                    .map(Object::getClass)
+                    .map(Class::getName)
+                    .map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
+                    .collect(Collectors.joining(", ")));
             if (!ops.isEmpty()) {
-                for (final Operation op : ops) {
-                    for (final OperationHandler handler : this.handlers) {
-                        if (handler != null && handler.canHandleOperation(op)) {
-                            handler.handleOperation(op);
+                /* try regular expressions handlers */
+                for (final RegExpHandler regExpHandler : this.regExpHandlers) {
+                    regExpHandler.reset();
+                    ListIterator<Operation> opLIt = ops.listIterator();
+                    Status preStatus = null;
+                    while (opLIt.hasNext()) {
+                        final Operation operation = opLIt.next();
+                        final Status curStatus = regExpHandler.handle(operation);
+                        System.out.println(curStatus);
+                        int count = regExpHandler.getConsumed();
+                        if (preStatus == Status.CANDIDATE && curStatus == Status.REJECTED) {
+                            while (count-- > 0) { // go back for count steps. one step will be
+                                opLIt.previous(); // compensated by the call to method next()
+                            }                     // in the next iteration.
+                            regExpHandler.reset();
+                        } else if (curStatus == Status.ACCEPTED) {
+                            while (count-- > 0) { // delete last count operations
+                                opLIt.remove();
+                                if (opLIt.hasPrevious()) {
+                                    opLIt.previous();
+                                }
+                            }
+                            System.out.println(">>> " + regExpHandler.getRule().getClass().getName());
+                            regExpHandler.reset();
                         }
+                        preStatus = curStatus;
                     }
+                }
+                final IfShortCircuitHandler ifShortCircuitHandler = new IfShortCircuitHandler();
+                for (final Operation op : ops) {
+                    ifShortCircuitHandler.handle(op);
+//                    for (final OperationHandler handler : this.pointHandlers) {
+//                        if (handler != null && handler.canHandleOperation(op)) {
+//                            handler.handleOperation(op);
+//                        }
+//                    }
                 }
             } else {
                 out.println("warning: no diff was found.");
             }
         } catch (Exception  e) {
             out.printf("warning: \'%s\' swallowed.%n", e.getMessage());
+            e.printStackTrace();
         }
     }
 }

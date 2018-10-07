@@ -1,4 +1,4 @@
-package org.mudebug.fpm.pattern.handler.insert;
+package org.mudebug.fpm.pattern.handler.point.insert;
 
 import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.Operation;

@@ -1,19 +1,21 @@
-package org.mudebug.fpm.pattern.handler.update;
+package org.mudebug.fpm.pattern.handler.point.update;
 
 import org.mudebug.fpm.pattern.handler.OperationHandler;
-import org.mudebug.fpm.pattern.rules.ArgumentListUpdateRule;
-import org.mudebug.fpm.pattern.rules.Rule;
+import org.mudebug.fpm.pattern.rules.*;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
 
-public class ArgumentListUpdate extends UpdateHandler {
-    public ArgumentListUpdate(OperationHandler next) {
+/**
+ * Responsible for method invocations only
+ */
+public class MethodNameReplacement extends UpdateHandler {
+    public MethodNameReplacement(OperationHandler next) {
         super(next);
     }
 
     @Override
-    protected boolean canHandlePattern(CtElement e1, CtElement e2) {
-        return e1 instanceof CtInvocation && e2 instanceof CtInvocation;
+    protected boolean canHandlePattern(CtElement src, CtElement dst) {
+        return src instanceof CtInvocation && dst instanceof CtInvocation;
     }
 
     @Override
@@ -22,10 +24,10 @@ public class ArgumentListUpdate extends UpdateHandler {
         final CtInvocation din = (CtInvocation) e2;
         final String methodNameSrc = getMethodName(sin);
         final String methodNameDst = getMethodName(din);
-        if (methodNameDst.equals(methodNameSrc)) {
+        if (!methodNameDst.equals(methodNameSrc)) {
             if (sin.getTarget().equals(din.getTarget())
-                    && !sin.getArguments().equals(din.getArguments())) {
-                return new ArgumentListUpdateRule(methodNameSrc);
+                    && sin.getArguments().equals(din.getArguments())) {
+                return new MethodNameRule(methodNameSrc, methodNameDst);
             }
         }
         return super.handlePattern(e1, e2);

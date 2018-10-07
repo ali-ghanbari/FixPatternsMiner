@@ -438,7 +438,7 @@ public class PathExpr extends AbstractExpression implements CompiledXQuery,
     /*
      * (non-Javadoc)
      * 
-     * @see org.exist.xquery.AbstractExpression#resetState()
+     * @see org.exist.xquery.AbstractExpression#reset()
      */
     public void resetState(boolean postOptimization) {
     	super.resetState(postOptimization);
