@@ -112,10 +112,6 @@ public class IfShortCircuitHandler implements RegExpHandler {
         }
     }
 
-    private interface AcceptanceState extends State {
-        Rule getRule();
-    }
-
     private class ThenRemovedState implements AcceptanceState {
         @Override
         public State handle(Operation operation) {

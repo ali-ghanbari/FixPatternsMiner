@@ -2,6 +2,7 @@ package org.mudebug.fpm.main;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
@@ -57,7 +58,7 @@ public final class Main implements FilePairVisitor {
         try {
             final Diff diff = ac.compare(buggy, fixed);
             final List<Operation> ops = new ArrayList<>(diff.getRootOperations());
-            ops.sort((op1, op2) -> Integer.compare(op1.getSrcNode().getPosition().getSourceStart(), op1.getSrcNode().getPosition().getSourceStart()));
+            ops.sort(Comparator.comparingInt(o -> o.getSrcNode().getPosition().getSourceStart()));
             System.out.printf("[%s]%n", ops.stream()
                     .map(Object::getClass)
                     .map(Class::getName)
