@@ -1,4 +1,4 @@
-package org.mudebug.fpm.pattern.handler.regexp.cr;
+package org.mudebug.fpm.pattern.handler.regexp;
 
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.MoveOperation;
@@ -14,6 +14,7 @@ import spoon.reflect.code.CtIf;
 import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtElement;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,10 +34,6 @@ public class IfShortCircuitHandler implements RegExpHandler {
         this.elseRemovedState = new ElseRemovedState();
         this.state = this.initState;
         this.consumed = 0;
-    }
-
-    private interface State {
-        State handle(final Operation operation);
     }
 
     private class InitState implements State {
@@ -62,10 +59,10 @@ public class IfShortCircuitHandler implements RegExpHandler {
 
         public DelState(final List<CtStatement> thenBlock, final List<CtStatement> elseBlock) {
             this.thenIt = thenBlock.stream()
-                    .sorted((s1, s2) -> Integer.compare(s1.getPosition().getSourceStart(), s2.getPosition().getSourceStart()))
+                    .sorted(Comparator.comparingInt(s -> s.getPosition().getSourceStart()))
                     .iterator();
             this.elseIt = elseBlock.stream()
-                    .sorted((s1, s2) -> Integer.compare(s1.getPosition().getSourceStart(), s2.getPosition().getSourceStart()))
+                    .sorted(Comparator.comparingInt(s -> s.getPosition().getSourceStart()))
                     .iterator();
         }
 
