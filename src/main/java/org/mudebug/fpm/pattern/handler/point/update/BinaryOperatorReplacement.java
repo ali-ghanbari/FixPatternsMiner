@@ -1,7 +1,7 @@
 package org.mudebug.fpm.pattern.handler.point.update;
 
 import org.mudebug.fpm.pattern.handler.OperationHandler;
-import org.mudebug.fpm.pattern.rules.BinOpReplacementRule;
+import org.mudebug.fpm.pattern.rules.BinaryOperatorReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.declaration.CtElement;
@@ -31,7 +31,7 @@ public class BinaryOperatorReplacement extends UpdateHandler {
                 && bo1.getType().equals(bo2.getType())
                 && bo1.getLeftHandOperand().equals(bo2.getLeftHandOperand())
                 && bo1.getRightHandOperand().equals(bo2.getRightHandOperand())) {
-            return new BinOpReplacementRule(bo1.getKind(), bo2.getKind());
+            return new BinaryOperatorReplacementRule(bo1.getKind(), bo2.getKind());
         }
         return super.handlePattern(e1, e2);
     }

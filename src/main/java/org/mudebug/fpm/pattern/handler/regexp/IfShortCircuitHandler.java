@@ -3,35 +3,24 @@ package org.mudebug.fpm.pattern.handler.regexp;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.MoveOperation;
 import gumtree.spoon.diff.operations.Operation;
-import org.mudebug.fpm.pattern.handler.regexp.RegExpHandler;
-import org.mudebug.fpm.pattern.handler.regexp.Status;
-import org.mudebug.fpm.pattern.rules.ElseBranchRemoved;
-import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.ThenBranchRemoved;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
+import org.mudebug.fpm.pattern.rules.*;
 import spoon.reflect.code.CtBlock;
 import spoon.reflect.code.CtIf;
 import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtElement;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-/**
- * warning: the case where one branch is a prefix of the other is not handled
- */
-public class IfShortCircuitHandler implements RegExpHandler {
-    private final State initState;
+public class IfShortCircuitHandler extends RegExpHandler {
     private final AcceptanceState thenRemovedState;
     private final AcceptanceState elseRemovedState;
-    private State state;
-    private int consumed;
+    private final AcceptanceState ifRemovedState;
 
     public IfShortCircuitHandler() {
         this.initState = new InitState();
         this.thenRemovedState = new ThenRemovedState();
         this.elseRemovedState = new ElseRemovedState();
+        this.ifRemovedState = new IfRemovedState();
         this.state = this.initState;
         this.consumed = 0;
     }
@@ -46,34 +35,34 @@ public class IfShortCircuitHandler implements RegExpHandler {
                     final CtIf ifSt = (CtIf) deletedElement;
                     final CtBlock thenBlock = ifSt.getThenStatement();
                     final CtBlock elseBlock = ifSt.getElseStatement();
-                    return new DelState(thenBlock.getStatements(), elseBlock.getStatements());
+                    if (thenBlock == null && elseBlock == null) { // if(*);
+                        return new IfRemovedState();
+                    }
+                    final List<CtStatement> thenBlockList =
+                            thenBlock == null ? null : thenBlock.getStatements();
+                    final List<CtStatement> elseBlockList =
+                            elseBlock == null ? null : elseBlock.getStatements();
+                    if (thenBlockList == null || elseBlock == null) {
+                        return new DelIfState(
+                                thenBlockList == null ? elseBlockList : thenBlockList
+                        );
+                    }
+                    return new DelBranchState(thenBlockList, elseBlockList);
                 }
             }
             return this;
         }
     }
 
-    private class DelState implements State {
-        private Iterator<CtStatement> thenIt;
-        private Iterator<CtStatement> elseIt;
-
-        public DelState(final List<CtStatement> thenBlock, final List<CtStatement> elseBlock) {
-            this.thenIt = thenBlock.stream()
-                    .sorted(Comparator.comparingInt(s -> s.getPosition().getSourceStart()))
-                    .iterator();
-            this.elseIt = elseBlock.stream()
-                    .sorted(Comparator.comparingInt(s -> s.getPosition().getSourceStart()))
-                    .iterator();
-        }
-
-        private State forBlock(final Iterator<CtStatement> blockIt,
+    private abstract class DelState implements State {
+        protected State forBlock(final Iterator<CtStatement> blockIt,
                                final CtElement movedElement) {
             if (blockIt == null) {
                 return null;
             }
             if (blockIt.hasNext()) {
                 final CtStatement statement = blockIt.next();
-                movedElement.toString();
+                //movedElement.toString(); this is due to a bug in GumTree version 1.5
                 if (statement.equals(movedElement)) {
                     return this;
                 } else { // the moved element is not contained in the block
@@ -83,6 +72,46 @@ public class IfShortCircuitHandler implements RegExpHandler {
                 return null;
             }
         }
+    }
+
+    private class DelIfState extends DelState {
+        private Iterator<CtStatement> blockIt;
+
+        public DelIfState(final List<CtStatement> block) {
+            this.blockIt = block.stream()
+                    .sorted(Comparator.comparingInt(s -> s.getPosition().getSourceStart()))
+                    .iterator();
+        }
+
+        @Override
+        public State handle(Operation operation) {
+            if (operation instanceof MoveOperation) {
+                final MoveOperation movOp = (MoveOperation) operation;
+                final CtElement movedElement = movOp.getSrcNode();
+                final State formBlock = forBlock(this.blockIt, movedElement);
+                if (formBlock != null) {
+                    if (!this.blockIt.hasNext()) {
+                        return ifRemovedState;
+                    }
+                    return this;
+                }
+            }
+            return initState;
+        }
+    }
+
+    private class DelBranchState extends DelState {
+        private Iterator<CtStatement> thenIt;
+        private Iterator<CtStatement> elseIt;
+
+        public DelBranchState(final List<CtStatement> thenBlock, final List<CtStatement> elseBlock) {
+            this.thenIt = thenBlock.stream()
+                    .sorted(Comparator.comparingInt(s -> s.getPosition().getSourceStart()))
+                    .iterator();
+            this.elseIt = elseBlock.stream()
+                    .sorted(Comparator.comparingInt(s -> s.getPosition().getSourceStart()))
+                    .iterator();
+        }
 
         @Override
         public State handle(Operation operation) {
@@ -91,20 +120,37 @@ public class IfShortCircuitHandler implements RegExpHandler {
                 final CtElement movedElement = movOp.getSrcNode();
                 final State fromThen = forBlock(this.thenIt, movedElement);
                 final State fromElse = forBlock(this.elseIt, movedElement);
-                if (fromThen != null) {
-                    if (!this.thenIt.hasNext()) {
+                if (fromThen != null && fromElse != null) {
+                    // this is when one list is a prefix of the other.
+                    // in such a case, one of the iterators reaches
+                    // temporarily reaches to its end while the other
+                    // is not done yet. so we stay in whatever state
+                    // we are. in the next iteration, either of the
+                    // iterators (or both of them) will be nullified.
+                    // there is one caveat that the if condition has
+                    // exactly the same sequence of instruction in
+                    // each of its branches. in such a case, we can
+                    // easily say the "else" branch is removed.
+                    if (!this.thenIt.hasNext() && !this.elseIt.hasNext()) {
                         return elseRemovedState;
                     }
                     return this;
                 } else {
-                    this.thenIt = null;
-                    if (fromElse != null) {
-                        if (!this.elseIt.hasNext()) {
-                            return thenRemovedState;
+                    if (fromThen != null) {
+                        if (!this.thenIt.hasNext()) {
+                            return elseRemovedState;
                         }
                         return this;
                     } else {
-                        this.elseIt = null;
+                        this.thenIt = null;
+                        if (fromElse != null) {
+                            if (!this.elseIt.hasNext()) {
+                                return thenRemovedState;
+                            }
+                            return this;
+                        } else {
+                            this.elseIt = null;
+                        }
                     }
                 }
             }
@@ -120,7 +166,7 @@ public class IfShortCircuitHandler implements RegExpHandler {
 
         @Override
         public Rule getRule() {
-            return new ThenBranchRemoved();
+            return new ThenBranchRemovedRule();
         }
     }
 
@@ -132,43 +178,20 @@ public class IfShortCircuitHandler implements RegExpHandler {
 
         @Override
         public Rule getRule() {
-            return new ElseBranchRemoved();
+            return new ElseBranchRemovedRule();
         }
     }
 
-    private void incConsumed() {
-        this.consumed++;
-    }
+    private class IfRemovedState implements AcceptanceState {
 
-    @Override
-    public int getConsumed() {
-        return this.consumed;
-    }
-
-    @Override
-    public void reset() {
-        this.consumed = 0;
-        this.state = initState;
-    }
-
-    @Override
-    public Rule getRule() {
-        if (this.state instanceof AcceptanceState) {
-            return ((AcceptanceState) this.state).getRule();
+        @Override
+        public Rule getRule() {
+            return IfStatementRemovedRule.IF_STATEMENT_REMOVED_RULE;
         }
-        return UnknownRule.UNKNOWN_RULE;
-    }
 
-    @Override
-    public Status handle(final Operation operation) {
-        this.state = this.state.handle(operation);
-        if (this.state == initState) { // no progress or rejection
-            return Status.REJECTED;
+        @Override
+        public State handle(Operation operation) {
+            return initState;
         }
-        incConsumed();
-        if (this.state instanceof AcceptanceState) {
-            return Status.ACCEPTED;
-        }
-        return Status.CANDIDATE;
     }
 }

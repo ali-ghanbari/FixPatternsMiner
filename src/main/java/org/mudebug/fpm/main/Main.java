@@ -16,6 +16,7 @@ import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.handler.point.delete.DeleteHandler;
 import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
 import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
+import org.mudebug.fpm.pattern.handler.regexp.DecomposedMethodCallHandler;
 import org.mudebug.fpm.pattern.handler.regexp.RegExpHandler;
 import org.mudebug.fpm.pattern.handler.regexp.Status;
 import org.mudebug.fpm.pattern.handler.regexp.IfShortCircuitHandler;
@@ -33,7 +34,8 @@ public final class Main implements FilePairVisitor {
                 UpdateHandler.createHandlerChain()
         };
         this.regExpHandlers = new RegExpHandler[] {
-                new IfShortCircuitHandler()
+                new IfShortCircuitHandler(),
+                new DecomposedMethodCallHandler()
         };
     }
 
@@ -65,11 +67,6 @@ public final class Main implements FilePairVisitor {
                     .map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
                     .collect(Collectors.joining(", ")));
             if (!ops.isEmpty()) {
-                System.out.println("***********");
-                for (final Operation op : ops) {
-                    System.out.println(op.getClass().getName());
-                }
-                System.out.println("***********");
                 /* try regular expressions handlers */
                 for (final RegExpHandler regExpHandler : this.regExpHandlers) {
                     regExpHandler.reset();

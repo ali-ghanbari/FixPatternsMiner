@@ -27,7 +27,7 @@ public class MethodNameReplacement extends UpdateHandler {
         if (!methodNameDst.equals(methodNameSrc)) {
             if (sin.getTarget().equals(din.getTarget())
                     && sin.getArguments().equals(din.getArguments())) {
-                return new MethodNameRule(methodNameSrc, methodNameDst);
+                return new MethodNameReplacementRule(methodNameSrc, methodNameDst);
             }
         }
         return super.handlePattern(e1, e2);

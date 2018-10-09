@@ -7,11 +7,11 @@ package org.mudebug.fpm.pattern.rules;
  * where meth1 != meth2 but args1 == args2.
  * r1 and r2 also should be the same.
  */
-public class MethodNameRule implements Rule {
+public class MethodNameReplacementRule implements Rule {
     private final String srcName;
     private final String dstName;
 
-    public MethodNameRule(String srcName, String dstName) {
+    public MethodNameReplacementRule(String srcName, String dstName) {
         this.srcName = srcName;
         this.dstName = dstName;
     }

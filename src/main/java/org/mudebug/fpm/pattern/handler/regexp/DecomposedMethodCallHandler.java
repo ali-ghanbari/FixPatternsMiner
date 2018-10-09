@@ -5,7 +5,6 @@ import gumtree.spoon.diff.operations.MoveOperation;
 import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.pattern.rules.ArgumentPropagatedRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
 import spoon.reflect.code.CtAbstractInvocation;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtInvocation;
@@ -13,11 +12,7 @@ import spoon.reflect.declaration.CtElement;
 
 import java.util.List;
 
-public class DecomposedMethodCallHandler implements RegExpHandler {
-    private final InitState initState;
-    private State state;
-    private int consumed;
-
+public class DecomposedMethodCallHandler extends RegExpHandler {
     public DecomposedMethodCallHandler() {
         initState = new InitState();
         this.state = initState;
@@ -67,7 +62,7 @@ public class DecomposedMethodCallHandler implements RegExpHandler {
                 } else {
                     final int which = this.args.indexOf(movedElement);
                     if (which >= 0) {
-                        return new PropagatedState(which);
+                        return new PropagatedState(1 + which);
                     }
                 }
             }
@@ -91,32 +86,5 @@ public class DecomposedMethodCallHandler implements RegExpHandler {
         public State handle(Operation operation) {
             return initState;
         }
-    }
-
-    @Override
-    public Status handle(Operation operation) {
-        this.state = this.state.handle(operation);
-    }
-
-    @Override
-    public Rule getRule() {
-        if (this.state instanceof AcceptanceState) {
-            return ((AcceptanceState) this.state).getRule();
-        }
-        return UnknownRule.UNKNOWN_RULE;
-    }
-
-    @Override
-    public void reset() {
-        this.state = initState;
-    }
-
-    private void incConsumed() {
-        this.consumed++;
-    }
-
-    @Override
-    public int getConsumed() {
-        return this.consumed;
     }
 }

@@ -1,9 +1,9 @@
 package org.mudebug.fpm.pattern.handler.point.update;
 
 import org.mudebug.fpm.pattern.handler.OperationHandler;
-import org.mudebug.fpm.pattern.rules.InterFixUnaryOpRepRule;
+import org.mudebug.fpm.pattern.rules.InterFixUnaryOperatorReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnaryOpReplacementRule;
+import org.mudebug.fpm.pattern.rules.UnaryOperatorReplacementRule;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.UnaryOperatorKind;
@@ -48,9 +48,9 @@ public class UnaryOperatorReplacement extends UpdateHandler {
             final CtUnaryOperator uo2 = (CtUnaryOperator) e2;
             if (uo1.getType().equals(uo2.getType()) && uo1.getOperand().equals(uo2.getOperand())) {
                 if (interFix(uo1.getKind(), uo2.getKind())) {
-                    return new InterFixUnaryOpRepRule(uo1.getKind(), uo2.getKind());
+                    return new InterFixUnaryOperatorReplacementRule(uo1.getKind(), uo2.getKind());
                 } else { // since operands are same, the operators are guaranteed to be different
-                    return new UnaryOpReplacementRule(uo1.getKind(), uo2.getKind());
+                    return new UnaryOperatorReplacementRule(uo1.getKind(), uo2.getKind());
                 }
             }
         }

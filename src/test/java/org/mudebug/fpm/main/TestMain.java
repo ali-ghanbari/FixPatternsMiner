@@ -32,7 +32,9 @@ public class TestMain {
                 "UnaryOpMeth.java",
                 "UnaryOp.java",
                 "IfThenBranch.java",
-                "IfElseBranch.java"
+                "IfElseBranch.java",
+                "SimpleIfThen.java",
+                "ArgPropagation.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();
