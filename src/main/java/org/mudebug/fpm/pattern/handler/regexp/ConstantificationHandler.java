@@ -46,9 +46,7 @@ public class ConstantificationHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtLiteral) {
                     final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
-                    if (insertedLiteral.getType().equals(this.expression.getType())) {
-                        return new Replaced(this.expression, insertedLiteral);
-                    }
+                    return new Replaced(this.expression, insertedLiteral);
                 }
             }
             return initState;

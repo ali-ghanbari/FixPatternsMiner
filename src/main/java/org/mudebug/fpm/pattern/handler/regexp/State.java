@@ -3,5 +3,5 @@ package org.mudebug.fpm.pattern.handler.regexp;
 import gumtree.spoon.diff.operations.Operation;
 
 public interface State {
-    State handle(final Operation operation);
+    State handle(Operation operation);
 }
