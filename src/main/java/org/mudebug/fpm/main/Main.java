@@ -33,7 +33,8 @@ public final class Main implements FilePairVisitor {
         this.regExpHandlers = new RegExpHandler[] {
                 new IfShortCircuitHandler(),
                 new DecomposedMethodCallHandler(),
-                new DecomposeBinaryOperatorHandler()
+                new DecomposeBinaryOperatorHandler(),
+                new ConstantificationHandler()
         };
     }
 
@@ -60,10 +61,10 @@ public final class Main implements FilePairVisitor {
             final List<Operation> ops = new ArrayList<>(diff.getRootOperations());
             ops.sort(Comparator.comparingInt(o -> o.getSrcNode().getPosition().getSourceStart()));
             System.out.printf("[%s]%n", ops.stream()
-                    .map(Object::getClass)
-                    .map(Class::getName)
-                    //.map(op -> op.getClass().getName() + " " + op.getSrcNode().toString())
-                    .map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
+                    //.map(Object::getClass)
+                    //.map(Class::getName)
+                    .map(op -> op.getClass().getName() + " " + op.getSrcNode().toString())
+                    //.map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
                     .collect(Collectors.joining(", ")));
             if (!ops.isEmpty()) {
                 /* try regular expressions handlers */
