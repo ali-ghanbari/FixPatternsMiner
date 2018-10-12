@@ -35,7 +35,8 @@ public final class Main implements FilePairVisitor {
                 new DecomposedMethodCallHandler(),
                 new DecomposeBinaryOperatorHandler(),
                 new ConstantificationHandler(),
-                new FunctionOperatorReplacementHandler()
+                new FunctionOperatorReplacementHandler(),
+                new FieldLocalReplacementHandler()
         };
     }
 

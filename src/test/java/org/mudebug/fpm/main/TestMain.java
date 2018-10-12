@@ -34,7 +34,10 @@ public class TestMain {
                 "IfThenBranch.java",
                 "IfElseBranch.java",
                 "SimpleIfThen.java",
-                "ArgPropagation.java"
+                "ArgPropagation.java",
+                "FieldLocalWrite.java",
+                "LocalFieldRead.java",
+                "LocalFieldWrite.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();
