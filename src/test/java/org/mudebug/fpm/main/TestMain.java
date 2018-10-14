@@ -24,7 +24,6 @@ public class TestMain {
                 "FieldLocal.java",
                 "FieldMethod.java",
                 "FieldName.java",
-                "MethodLocal.java",
                 "LocalName.java",
                 "ArgList.java",
                 "CtorName.java",
@@ -37,7 +36,9 @@ public class TestMain {
                 "ArgPropagation.java",
                 "FieldLocalWrite.java",
                 "LocalFieldRead.java",
-                "LocalFieldWrite.java"
+                "LocalFieldWrite.java",
+                "MethodLocal.java",
+                "LocalMethod.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();

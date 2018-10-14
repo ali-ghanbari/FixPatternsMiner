@@ -1,6 +1,6 @@
-public class MethodLocal {
+public class LocalMethod {
     private int g(int a, int b) {
-        return a + g(1, 1);
+        return a + (b + a);
     }
 
     public static void main(String[] args) {
