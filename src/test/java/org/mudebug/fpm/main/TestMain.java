@@ -40,7 +40,9 @@ public class TestMain {
                 "MethodLocal.java",
                 "LocalMethod.java",
                 "CaseBreakerBrk.java",
-                "CaseBreakerRet.java"
+                "CaseBreakerRet.java",
+                "InvertNegsAddNeg.java",
+                "InvertNegsDelNeg.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();

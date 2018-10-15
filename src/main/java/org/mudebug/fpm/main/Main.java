@@ -40,7 +40,8 @@ public final class Main implements FilePairVisitor {
                 new FunctionOperatorReplacementHandler(),
                 new FieldLocalReplacementHandler(),
                 new LocalToMethodReplacementHandler(),
-                new MethodToLocalReplacementHandler()
+                new MethodToLocalReplacementHandler(),
+                new NegateIntExpHandler()
         };
     }
 
