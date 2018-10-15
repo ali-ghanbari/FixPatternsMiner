@@ -21,7 +21,7 @@ public abstract class RegExpHandler {
         return Status.CANDIDATE;
     }
 
-    private void incConsumed() {
+    protected void incConsumed() {
         this.consumed++;
     }
 
