@@ -33,14 +33,6 @@ public class UnaryOperatorReplacement extends UpdateHandler {
                 || (k2 == UnaryOperatorKind.POSTINC && k1 == UnaryOperatorKind.PREINC);
     }
 
-    private CtUnaryOperator getUnOp(CtElement e1, CtElement e2) {
-        return (e1 instanceof CtUnaryOperator) ? (CtUnaryOperator) e1 : (CtUnaryOperator) e2;
-    }
-
-    private CtInvocation getInvocation(CtElement e1, CtElement e2) {
-        return (e1 instanceof CtInvocation) ? (CtInvocation) e1 : (CtInvocation) e2;
-    }
-
     @Override
     protected Rule handlePattern(CtElement e1, CtElement e2) {
         if (e1 instanceof CtUnaryOperator && e2 instanceof CtUnaryOperator) {

@@ -2,10 +2,13 @@ package org.mudebug.fpm.pattern.handler.point.delete;
 
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.Operation;
+import org.mudebug.fpm.pattern.handler.DummyOperationHandler;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
+import org.mudebug.fpm.pattern.rules.Rule;
+import spoon.reflect.declaration.CtElement;
 
 public abstract class DeleteHandler extends OperationHandler {
-    protected DeleteHandler(DeleteHandler next) {
+    protected DeleteHandler(OperationHandler next) {
         super(next);
     }
 
@@ -14,7 +17,11 @@ public abstract class DeleteHandler extends OperationHandler {
         return operation instanceof DeleteOperation;
     }
 
-    public static DeleteHandler createHandlerChain() {
-        return null;
+    public static OperationHandler createHandlerChain() {
+        OperationHandler chain;
+        chain = DummyOperationHandler.v();
+
+        chain = new CaseRemovalHandler(chain);
+        return chain;
     }
 }

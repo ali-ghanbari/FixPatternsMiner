@@ -38,7 +38,9 @@ public class TestMain {
                 "LocalFieldRead.java",
                 "LocalFieldWrite.java",
                 "MethodLocal.java",
-                "LocalMethod.java"
+                "LocalMethod.java",
+                "CaseBreakerBrk.java",
+                "CaseBreakerRet.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();

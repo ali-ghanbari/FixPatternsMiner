@@ -17,6 +17,8 @@ import org.mudebug.fpm.pattern.handler.point.delete.DeleteHandler;
 import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
 import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
 import org.mudebug.fpm.pattern.handler.regexp.*;
+import org.mudebug.fpm.pattern.rules.Rule;
+import org.mudebug.fpm.pattern.rules.UnknownRule;
 
 import static java.lang.System.out;
 
@@ -99,14 +101,15 @@ public final class Main implements FilePairVisitor {
                         preStatus = curStatus;
                     }
                 }
-                final IfShortCircuitHandler ifShortCircuitHandler = new IfShortCircuitHandler();
                 for (final Operation op : ops) {
-                    ifShortCircuitHandler.handle(op);
-//                    for (final OperationHandler handler : this.pointHandlers) {
-//                        if (handler != null && handler.canHandleOperation(op)) {
-//                            handler.handleOperation(op);
-//                        }
-//                    }
+                    for (final OperationHandler handler : this.pointHandlers) {
+                        if (handler != null && handler.canHandleOperation(op)) {
+                            final Rule rule = handler.handleOperation(op);
+                            if (!(rule instanceof UnknownRule)) {
+                                System.out.println("*** " + rule.getClass().getName());
+                            }
+                        }
+                    }
                 }
             } else {
                 out.println("warning: no diff was found.");
