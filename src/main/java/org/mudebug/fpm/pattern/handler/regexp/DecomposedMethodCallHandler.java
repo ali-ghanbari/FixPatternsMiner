@@ -26,13 +26,9 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
                 final DeleteOperation delOp = (DeleteOperation) operation;
                 final CtElement deletedElement = delOp.getSrcNode();
                 if (deletedElement instanceof CtAbstractInvocation) {
-                    final CtAbstractInvocation invocation = (CtAbstractInvocation) deletedElement;
-                    final List<CtExpression> args = invocation.getArguments();
-                    if (invocation instanceof CtInvocation) {
-                        final CtInvocation methodInvocation = (CtInvocation) invocation;
-                        return new DelState(methodInvocation.getTarget(), args);
-                    }
-                    return new DelState(args);
+                    final CtAbstractInvocation invocation =
+                            (CtAbstractInvocation) deletedElement;
+                    return new DelState(invocation);
                 }
             }
             return this;
@@ -40,16 +36,19 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
     }
 
     private class DelState implements State {
+        private final CtAbstractInvocation deletedInv;
         private final CtExpression rec;
         private final List<CtExpression> args;
 
-        DelState(final List<CtExpression> args) {
-            this(null, args);
-        }
-
-        DelState(final CtExpression rec, final List<CtExpression> args) {
-            this.rec = rec;
-            this.args = args;
+        DelState(final CtAbstractInvocation deletedInv) {
+            this.deletedInv = deletedInv;
+            this.args = deletedInv.getArguments();
+            if (deletedInv instanceof CtInvocation) {
+                final CtInvocation methodInvocation = (CtInvocation) deletedInv;
+                this.rec = methodInvocation.getTarget();
+            } else {
+                this.rec = null;
+            }
         }
 
         @Override

@@ -4,8 +4,6 @@ import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.pattern.handler.DummyOperationHandler;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
-import org.mudebug.fpm.pattern.rules.Rule;
-import spoon.reflect.declaration.CtElement;
 
 public abstract class DeleteHandler extends OperationHandler {
     protected DeleteHandler(OperationHandler next) {
@@ -22,6 +20,7 @@ public abstract class DeleteHandler extends OperationHandler {
         chain = DummyOperationHandler.v();
 
         chain = new CaseRemovalHandler(chain);
+        chain = new FieldInitRemovalHandler(chain);
         return chain;
     }
 }

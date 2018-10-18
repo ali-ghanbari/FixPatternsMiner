@@ -33,8 +33,7 @@ public class NegateIntExpHandler extends RegExpHandler {
                                 ((CtUnaryOperator) deletedExpression);
                         final UnaryOperatorKind kind = unaryOp.getKind();
                         if (kind == UnaryOperatorKind.NEG) {
-                            final CtExpression operand = unaryOp.getOperand();
-                            return new DelNegatedExprState(operand);
+                            return new DelNegatedExprState(unaryOp);
                         }
                     }
                     return new DelExpState(deletedExpression);
@@ -55,10 +54,12 @@ public class NegateIntExpHandler extends RegExpHandler {
     }
 
     private class DelNegatedExprState implements State {
+        private final CtUnaryOperator deletedUnaryOp;
         private final CtExpression deletedOperand;
 
-        public DelNegatedExprState(CtExpression deletedOperand) {
-            this.deletedOperand = deletedOperand;
+        public DelNegatedExprState(CtUnaryOperator deletedUnaryOp) {
+            this.deletedOperand = deletedUnaryOp.getOperand();
+            this.deletedUnaryOp = deletedUnaryOp;
         }
 
         @Override
@@ -77,9 +78,12 @@ public class NegateIntExpHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtExpression) {
                     final CtExpression insertedExpr = (CtExpression) insertedElement;
+                    // we require that the deleted element and the inserted literal be
+                    // siblings.
                     if (insertedExpr.equals(this.deletedOperand)) {
                         if (insertedExpr instanceof CtLiteral) {
-                            final CtLiteral insertedLiteral = ((CtLiteral) insertedExpr);
+                            final CtLiteral insertedLiteral =
+                                    ((CtLiteral) insertedExpr);
                             return new ConstantReplacement(insertedLiteral.getValue());
                         }
                         return new DIState();

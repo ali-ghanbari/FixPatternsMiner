@@ -35,14 +35,16 @@ public class TestMain {
                 "SimpleIfThen.java",
                 "ArgPropagation.java",
                 "FieldLocalWrite.java",
-                "LocalFieldRead.java",
-                "LocalFieldWrite.java",
                 "MethodLocal.java",
                 "LocalMethod.java",
                 "CaseBreakerBrk.java",
                 "CaseBreakerRet.java",
                 "InvertNegsAddNeg.java",
-                "InvertNegsDelNeg.java"
+                "InvertNegsDelNeg.java",
+                "FieldInitRemoval.java",
+                "COTF.java",
+                "LocalFieldRead.java",
+                "LocalFieldWrite.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();

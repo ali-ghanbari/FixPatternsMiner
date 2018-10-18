@@ -25,19 +25,18 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
                 final CtElement deletedElement = delOp.getSrcNode();
                 if (deletedElement instanceof CtInvocation) {
                     final CtInvocation invocation = (CtInvocation) deletedElement;
-                    final String methodName = invocation.getExecutable().getSimpleName();
                     final int arity = invocation.getArguments().size();
                     if (arity == 1) {
-                        return new DelUnaryInvState(methodName);
+                        return new DelUnaryInvState(invocation);
                     } else if (arity == 2) {
-                        return new DelBinaryInvState(methodName);
+                        return new DelBinaryInvState(invocation);
                     }
                 } else if ((deletedElement instanceof CtBinaryOperator)) {
                     final CtBinaryOperator binOp = (CtBinaryOperator) deletedElement;
-                    return new DelBinaryOpState(binOp.getKind());
+                    return new DelBinaryOpState(binOp);
                 } else if (deletedElement instanceof CtUnaryOperator) {
                     final CtUnaryOperator unaryOp = (CtUnaryOperator) deletedElement;
-                    return new DelUnaryOpState(unaryOp.getKind());
+                    return new DelUnaryOpState(unaryOp);
                 }
             }
             return initState;
@@ -45,10 +44,12 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
     }
 
     private class DelUnaryInvState implements State {
+        private final CtInvocation deletedMethodInv;
         private final String deletedMethodName;
 
-        public DelUnaryInvState(String deletedMethodName) {
-            this.deletedMethodName = deletedMethodName;
+        public DelUnaryInvState(final CtInvocation deletedMethodInv) {
+            this.deletedMethodName = deletedMethodInv.getExecutable().getSimpleName();
+            this.deletedMethodInv = deletedMethodInv;
         }
 
         @Override
@@ -56,8 +57,11 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
+                // we require that the deleted element and the inserted one
+                // be siblings.
                 if (insertedElement instanceof CtUnaryOperator) {
-                    final CtUnaryOperator unaryOperator = (CtUnaryOperator) insertedElement;
+                    final CtUnaryOperator unaryOperator =
+                            (CtUnaryOperator) insertedElement;
                     final UnaryOperatorKind kind = unaryOperator.getKind();
                     return new InsUnaryOpState(this.deletedMethodName, kind);
                 }
@@ -67,10 +71,12 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
     }
 
     private class DelBinaryInvState implements State {
+        private final CtInvocation deletedMethodInv;
         private final String deletedMethodName;
 
-        public DelBinaryInvState(String deletedMethodName) {
-            this.deletedMethodName = deletedMethodName;
+        public DelBinaryInvState(final CtInvocation deletedMethodInv) {
+            this.deletedMethodName = deletedMethodInv.getExecutable().getSimpleName();
+            this.deletedMethodInv = deletedMethodInv;
         }
 
         @Override
@@ -78,8 +84,11 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
+                // we require that the deleted element and the inserted one
+                // be siblings.
                 if (insertedElement instanceof CtBinaryOperator) {
-                    final CtBinaryOperator binaryOperator = (CtBinaryOperator) insertedElement;
+                    final CtBinaryOperator binaryOperator =
+                            (CtBinaryOperator) insertedElement;
                     final BinaryOperatorKind kind = binaryOperator.getKind();
                     return new InsBinOpState(this.deletedMethodName, kind);
                 }
@@ -130,10 +139,12 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
     }
 
     private class DelUnaryOpState implements State {
+        private final CtUnaryOperator deletedUnaryOp;
         private final UnaryOperatorKind deletedOpKind;
 
-        public DelUnaryOpState(UnaryOperatorKind deletedOpKind) {
-            this.deletedOpKind = deletedOpKind;
+        public DelUnaryOpState(final CtUnaryOperator deletedUnaryOp) {
+            this.deletedOpKind = deletedUnaryOp.getKind();
+            this.deletedUnaryOp = deletedUnaryOp;
         }
 
         @Override
@@ -141,9 +152,12 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
+                // we require that the deleted element and the inserted one
+                // be siblings.
                 if (insertedElement instanceof CtInvocation) {
                     final CtInvocation invocation = (CtInvocation) insertedElement;
-                    final String methodName = invocation.getExecutable().getSimpleName();
+                    final String methodName = invocation.getExecutable()
+                            .getSimpleName();
                     final int arity = invocation.getArguments().size();
                     if (arity == 1) {
                         return new InsUnaryFunctionState(this.deletedOpKind, methodName);
@@ -155,10 +169,12 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
     }
 
     private class DelBinaryOpState implements State {
+        private final CtBinaryOperator deletedBinOp;
         private final BinaryOperatorKind deletedOpKind;
 
-        public DelBinaryOpState(BinaryOperatorKind deletedOpKind) {
-            this.deletedOpKind = deletedOpKind;
+        public DelBinaryOpState(final CtBinaryOperator deletedBinOp) {
+            this.deletedOpKind = deletedBinOp.getKind();
+            this.deletedBinOp = deletedBinOp;
         }
 
         @Override
@@ -166,9 +182,12 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
+                // we require that the deleted element and the inserted one
+                // be siblings.
                 if (insertedElement instanceof CtInvocation) {
                     final CtInvocation invocation = (CtInvocation) insertedElement;
-                    final String methodName = invocation.getExecutable().getSimpleName();
+                    final String methodName = invocation.getExecutable()
+                            .getSimpleName();
                     final int arity = invocation.getArguments().size();
                     if (arity == 2) {
                         return new InsBiFunctionState(this.deletedOpKind, methodName);

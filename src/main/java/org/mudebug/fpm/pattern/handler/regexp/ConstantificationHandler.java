@@ -18,7 +18,29 @@ public class ConstantificationHandler extends RegExpHandler {
         this.consumed = 0;
     }
 
+    // we are going to match DI.
+    // while doing so we want the
+    // non-trivial deletedExp deleted
+    // and a trivial deletedExp be
+    // replaced. we want to make sure
+    // that the deleted element and
+    // the inserted literal belong
+    // to the same parent.
     private class InitState implements State {
+        @Override
+        public State handle(Operation operation) {
+            if (operation instanceof DeleteOperation) {
+                final DeleteOperation delOp = (DeleteOperation) operation;
+                final CtElement deletedElement = delOp.getSrcNode();
+                if (deletedElement instanceof CtExpression
+                        && !isTrivialExp((CtExpression) deletedElement)) {
+                    final CtExpression deletedExp = (CtExpression) deletedElement;
+                    return new DelState(null, deletedExp);
+                }
+            }
+            return initState;
+        }
+
         private boolean isTrivialExp(final CtExpression exp) {
             if (exp instanceof CtUnaryOperator) {
                 final CtUnaryOperator unaryOp = (CtUnaryOperator) exp;
@@ -31,27 +53,15 @@ public class ConstantificationHandler extends RegExpHandler {
             }
             return exp instanceof CtLiteral;
         }
-
-        @Override
-        public State handle(Operation operation) {
-            if (operation instanceof DeleteOperation) {
-                final DeleteOperation delOp = (DeleteOperation) operation;
-                final CtElement deletedElement = delOp.getSrcNode();
-                if (deletedElement instanceof CtExpression
-                        && !isTrivialExp((CtExpression) deletedElement)) {
-                    final CtExpression expression = (CtExpression) deletedElement;
-                    return new DelState(expression);
-                }
-            }
-            return initState;
-        }
     }
 
     private class DelState implements State {
-        private final CtExpression expression;
+        private final CtElement parentElement;
+        private final CtExpression deletedExp;
 
-        DelState(final CtExpression expression) {
-            this.expression = expression;
+        public DelState(CtElement parentElement, CtExpression deletedExp) {
+            this.parentElement = null;
+            this.deletedExp = deletedExp;
         }
 
         @Override
@@ -59,17 +69,23 @@ public class ConstantificationHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
+                // inserted element and the deleted expression must be siblings
                 if (insertedElement instanceof CtLiteral) {
-                    final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
-                    return new Replaced(this.expression, false, insertedLiteral);
+                    final CtLiteral insertedLiteral =
+                            (CtLiteral) insertedElement;
+                    return new Replaced(this.deletedExp,
+                            false,
+                            insertedLiteral);
                 } else if (insertedElement instanceof CtUnaryOperator) {
-                    final CtUnaryOperator unaryOperator = (CtUnaryOperator) insertedElement;
+                    final CtUnaryOperator unaryOperator =
+                            (CtUnaryOperator) insertedElement;
                     final UnaryOperatorKind kind = unaryOperator.getKind();
-                    if (kind == UnaryOperatorKind.NEG || kind == UnaryOperatorKind.POS) {
+                    if (kind == UnaryOperatorKind.NEG
+                            || kind == UnaryOperatorKind.POS) {
                         final CtExpression operand = unaryOperator.getOperand();
                         if (operand instanceof CtLiteral) {
                             final CtLiteral insertedLiteral = (CtLiteral) operand;
-                            return new Replaced(this.expression,
+                            return new Replaced(this.deletedExp,
                                     (kind == UnaryOperatorKind.NEG),
                                     insertedLiteral);
                         }
@@ -81,20 +97,22 @@ public class ConstantificationHandler extends RegExpHandler {
     }
 
     private class Replaced implements AcceptanceState {
-        private final CtExpression exp;
-        private final CtLiteral lit;
+        private final CtExpression deletedExp;
+        private final CtLiteral insertedLiteral;
         private final boolean negate;
 
-        Replaced(final CtExpression exp, boolean negate, final CtLiteral lit) {
-            this.exp = exp;
-            this.lit = lit;
+        Replaced(final CtExpression deletedExp,
+                 final boolean negate,
+                 final CtLiteral insertedLiteral) {
+            this.deletedExp = deletedExp;
+            this.insertedLiteral = insertedLiteral;
             this.negate = negate;
         }
 
         @Override
         public Rule getRule() {
-            return new ConstantificationRule(exp.getClass().getName(),
-                    (this.negate ? "-" : "") + String.valueOf(lit.getValue()));
+            return new ConstantificationRule(deletedExp.getClass().getName(),
+                    (this.negate ? "-" : "") + String.valueOf(insertedLiteral.getValue()));
         }
 
         @Override

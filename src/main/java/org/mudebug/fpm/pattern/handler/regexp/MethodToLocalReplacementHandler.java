@@ -36,8 +36,7 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
                 final CtElement deletedElement = delOp.getSrcNode();
                 if (deletedElement instanceof CtInvocation) {
                     final CtInvocation deletedInvocation = (CtInvocation) deletedElement;
-                    final String deletedMethodName = deletedInvocation.getExecutable().getSimpleName();
-                    return new DelInvState(deletedMethodName);
+                    return new DelInvState(deletedInvocation);
                 }
             }
             return initState;
@@ -103,10 +102,12 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
     }
 
     private class DelInvState implements State {
+        private final CtInvocation deletedInv;
         private final String deletedMethodName;
 
-        public DelInvState(String deletedMethodName) {
-            this.deletedMethodName = deletedMethodName;
+        public DelInvState(final CtInvocation deletedInv) {
+            this.deletedMethodName = deletedInv.getExecutable().getSimpleName();
+            this.deletedInv = deletedInv;
         }
 
         @Override
@@ -114,8 +115,11 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
+                // we require that the inserted element and the deleted one
+                // be siblings.
                 if (insertedElement instanceof CtVariableRead) {
-                    final CtVariableReference movedLocal = ((CtVariableRead) insertedElement).getVariable();
+                    final CtVariableReference movedLocal =
+                            ((CtVariableRead) insertedElement).getVariable();
                     final String localName = movedLocal.getSimpleName();
                     return new DIState(this.deletedMethodName, localName);
                 }

@@ -44,9 +44,8 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                 final DeleteOperation delOp = (DeleteOperation) operation;
                 final CtElement deletedElement = delOp.getSrcNode();
                 if (deletedElement instanceof CtVariableRead) {
-                    final CtVariableReference deletedLocal = ((CtVariableRead) deletedElement).getVariable();
-                    final String deletedLocalName = deletedLocal.getSimpleName();
-                    return new DelLocalState(deletedLocalName);
+                    final CtVariableRead deletedVarRead = (CtVariableRead) deletedElement;
+                    return new DelLocalState(deletedVarRead);
                 }
             }
             return initState;
@@ -112,10 +111,12 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
     }
 
     private class DelLocalState implements State {
+        private final CtVariableRead deletedVarRead;
         private final String deletedLocalName;
 
-        public DelLocalState(String deletedLocalName) {
-            this.deletedLocalName = deletedLocalName;
+        public DelLocalState(final CtVariableRead deletedVarRead) {
+            this.deletedLocalName = deletedVarRead.getVariable().getSimpleName();
+            this.deletedVarRead = deletedVarRead;
         }
 
         @Override
@@ -123,9 +124,13 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
+                // we require that the deleted element and the inserted one
+                // be siblings.
                 if (insertedElement instanceof CtInvocation) {
-                    final CtInvocation insertedInvocation = (CtInvocation) insertedElement;
-                    final String calleeName = insertedInvocation.getExecutable().getSimpleName();
+                    final CtInvocation insertedInvocation =
+                            (CtInvocation) insertedElement;
+                    final String calleeName = insertedInvocation.getExecutable()
+                            .getSimpleName();
                     return new DIState(this.deletedLocalName, calleeName);
                 }
             }

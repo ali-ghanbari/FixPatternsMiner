@@ -41,7 +41,8 @@ public final class Main implements FilePairVisitor {
                 new FieldLocalReplacementHandler(),
                 new LocalToMethodReplacementHandler(),
                 new MethodToLocalReplacementHandler(),
-                new NegateIntExpHandler()
+                new NegateIntExpHandler(),
+                new NegateConditionalHandler()
         };
     }
 

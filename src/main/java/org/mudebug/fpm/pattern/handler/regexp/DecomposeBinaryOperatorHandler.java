@@ -24,9 +24,7 @@ public class DecomposeBinaryOperatorHandler extends RegExpHandler {
                 final CtElement deletedElement = delOp.getSrcNode();
                 if (deletedElement instanceof CtBinaryOperator) {
                     final CtBinaryOperator binOp = (CtBinaryOperator) deletedElement;
-                    final CtExpression left = binOp.getLeftHandOperand();
-                    final CtExpression right = binOp.getRightHandOperand();
-                    return new DelState(left, right);
+                    return new DelState(binOp);
                 }
             }
             return this;
@@ -34,12 +32,14 @@ public class DecomposeBinaryOperatorHandler extends RegExpHandler {
     }
 
     private class DelState implements State {
+        private final CtBinaryOperator deletedBinOp;
         private final CtExpression left;
         private final CtExpression right;
 
-        DelState(final CtExpression left, final CtExpression right) {
-            this.left = left;
-            this.right = right;
+        DelState(final CtBinaryOperator deletedBinOp) {
+            this.deletedBinOp = deletedBinOp;
+            this.left = deletedBinOp.getLeftHandOperand();
+            this.right = deletedBinOp.getRightHandOperand();
         }
 
         @Override
