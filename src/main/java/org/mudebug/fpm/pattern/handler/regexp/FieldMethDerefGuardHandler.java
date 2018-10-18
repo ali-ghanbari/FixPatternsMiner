@@ -4,7 +4,11 @@ import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.MoveOperation;
 import gumtree.spoon.diff.operations.Operation;
 import org.apache.commons.collections4.iterators.IteratorChain;
+import org.mudebug.fpm.pattern.handler.util.EitherFieldOrMethod;
+import org.mudebug.fpm.pattern.handler.util.FieldAccess;
+import org.mudebug.fpm.pattern.handler.util.MethodInvocation;
 import org.mudebug.fpm.pattern.rules.DerefGuardRule;
+import org.mudebug.fpm.pattern.rules.MethodGuardRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
@@ -12,8 +16,8 @@ import spoon.reflect.declaration.CtElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FieldDereferenceGuardHandler extends RegExpHandler {
-    public FieldDereferenceGuardHandler() {
+public class FieldMethDerefGuardHandler extends RegExpHandler {
+    public FieldMethDerefGuardHandler() {
         initState = new InitState();
         this.state = initState;
         this.consumed = 0;
@@ -29,20 +33,20 @@ public class FieldDereferenceGuardHandler extends RegExpHandler {
                     final CtExpression guardExp = insertedCond.getCondition();
                     final CtExpression thenExp = insertedCond.getThenExpression();
                     final CtExpression elseExp = insertedCond.getElseExpression();
-                    final List<CtFieldAccess> guardedFieldAccesses =
-                            getGuardedFieldAccesses(guardExp, thenExp, elseExp);
-                    if (!guardedFieldAccesses.isEmpty()) {
-                        return new InsCondState(guardedFieldAccesses);
+                    final List<EitherFieldOrMethod> guardedDerefs =
+                            getGuardedDerefs(guardExp, thenExp, elseExp);
+                    if (!guardedDerefs.isEmpty()) {
+                        return new InsCondState(guardedDerefs);
                     }
                 }
             }
             return this;
         }
 
-        private List<CtFieldAccess> getGuardedFieldAccesses(final CtExpression guardExp,
+        private List<EitherFieldOrMethod> getGuardedDerefs(final CtExpression guardExp,
                                                            final CtExpression thenExp,
                                                            final CtExpression elseExp) {
-            final List<CtFieldAccess> res = new ArrayList<>();
+            final List<EitherFieldOrMethod> res = new ArrayList<>();
             if (guardExp instanceof CtBinaryOperator) {
                 final CtBinaryOperator binOp = (CtBinaryOperator) guardExp;
                 final BinaryOperatorKind binOpKind = binOp.getKind();
@@ -65,7 +69,13 @@ public class FieldDereferenceGuardHandler extends RegExpHandler {
                                     final CtFieldAccess fieldAccess =
                                             (CtFieldAccess) childElement;
                                     if (fieldAccess.getTarget().equals(checkedExp)) {
-                                        res.add(fieldAccess);
+                                        res.add(new FieldAccess(fieldAccess));
+                                    }
+                                } else if (childElement instanceof CtInvocation) {
+                                    final CtInvocation invocation =
+                                            (CtInvocation) childElement;
+                                    if (invocation.getTarget().equals(checkedExp)) {
+                                        res.add(new MethodInvocation(invocation));
                                     }
                                 }
                             }
@@ -78,20 +88,46 @@ public class FieldDereferenceGuardHandler extends RegExpHandler {
     }
 
     private class InsCondState implements State {
-        private final List<CtFieldAccess> guardedFieldAccesses;
+        private final List<EitherFieldOrMethod> guardedAccesses;
 
-        public InsCondState(List<CtFieldAccess> guardedFieldAccesses) {
-            this.guardedFieldAccesses = guardedFieldAccesses;
+        public InsCondState(List<EitherFieldOrMethod> guardedAccesses) {
+            this.guardedAccesses = guardedAccesses;
+        }
+
+        private FieldAccess get(final CtFieldAccess fieldAccess) {
+            for (final EitherFieldOrMethod elem : this.guardedAccesses) {
+                if (elem instanceof FieldAccess) {
+                    if (elem.getFieldAccess().equals(fieldAccess)) {
+                        return (FieldAccess) elem;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private MethodInvocation get(final CtInvocation invocation) {
+            for (final EitherFieldOrMethod elem : this.guardedAccesses) {
+                if (elem instanceof MethodInvocation) {
+                    if (elem.getMethodInvocation().equals(invocation)) {
+                        return (MethodInvocation) elem;
+                    }
+                }
+            }
+            return null;
         }
 
         @Override
         public State handle(Operation operation) {
             if (operation instanceof MoveOperation) {
                 final CtElement movedElement = operation.getSrcNode();
+                EitherFieldOrMethod eitherFieldOrMethod = null;
                 if (movedElement instanceof CtFieldAccess) {
-                    if (this.guardedFieldAccesses.contains(movedElement)) {
-                        return new IMState();
-                    }
+                    eitherFieldOrMethod = get((CtFieldAccess) movedElement);
+                } else if (movedElement instanceof CtInvocation) {
+                    eitherFieldOrMethod = get((CtInvocation) movedElement);
+                }
+                if (eitherFieldOrMethod != null) {
+                    return new IMState(eitherFieldOrMethod);
                 }
             }
             return initState;
@@ -99,9 +135,22 @@ public class FieldDereferenceGuardHandler extends RegExpHandler {
     }
 
     private class IMState implements AcceptanceState {
+        private final EitherFieldOrMethod eitherFieldOrMethod;
+
+        public IMState(EitherFieldOrMethod eitherFieldOrMethod) {
+            this.eitherFieldOrMethod = eitherFieldOrMethod;
+        }
+
         @Override
         public Rule getRule() {
-            return new DerefGuardRule();
+            if (this.eitherFieldOrMethod instanceof FieldAccess) {
+                final CtFieldAccess fieldAccess =
+                        this.eitherFieldOrMethod.getFieldAccess();
+                return new DerefGuardRule(fieldAccess.getVariable().getQualifiedName());
+            }
+            final CtInvocation invocation =
+                    this.eitherFieldOrMethod.getMethodInvocation();
+            return new MethodGuardRule(invocation.getExecutable().getSignature());
         }
 
         @Override

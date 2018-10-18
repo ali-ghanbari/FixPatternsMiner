@@ -45,7 +45,12 @@ public class TestMain {
                 "COTF.java",
                 "LocalFieldRead.java",
                 "LocalFieldWrite.java",
-                "DerefGuard.java"
+                "DerefGuard.java",
+                "RetDerefGuard.java",
+                "RetMethodGuard.java",
+                "MethGuard.java"
+                //,
+                //"SwitchCase.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();

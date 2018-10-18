@@ -20,6 +20,7 @@ public abstract class InsertHandler extends OperationHandler {
         chain = DummyOperationHandler.v();
 
         chain = new CaseBreakerHandler(chain);
+        chain = new RetFieldMethDerefGuardHandler(chain);
         return chain;
     }
 }
