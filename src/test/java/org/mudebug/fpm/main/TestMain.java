@@ -44,7 +44,8 @@ public class TestMain {
                 "FieldInitRemoval.java",
                 "COTF.java",
                 "LocalFieldRead.java",
-                "LocalFieldWrite.java"
+                "LocalFieldWrite.java",
+                "DerefGuard.java"
         };
         try (PrintWriter pw = new PrintWriter(filesList)) {
             final ClassLoader cl = getClass().getClassLoader();
