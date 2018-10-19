@@ -3,6 +3,7 @@ package org.mudebug.fpm.pattern.handler.regexp;
 import gumtree.spoon.diff.operations.*;
 import org.mudebug.fpm.pattern.rules.LocalToMethodReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
+import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtVariableRead;
 import spoon.reflect.declaration.CtElement;
@@ -43,8 +44,10 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
             } else if (operation instanceof DeleteOperation) {
                 final DeleteOperation delOp = (DeleteOperation) operation;
                 final CtElement deletedElement = delOp.getSrcNode();
-                if (deletedElement instanceof CtVariableRead) {
+                if (deletedElement instanceof CtVariableRead
+                        && !(deletedElement instanceof CtFieldAccess)) {
                     final CtVariableRead deletedVarRead = (CtVariableRead) deletedElement;
+                    System.out.println(deletedVarRead);
                     return new DelLocalState(deletedVarRead);
                 }
             }
@@ -124,8 +127,6 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
-                // we require that the deleted element and the inserted one
-                // be siblings.
                 if (insertedElement instanceof CtInvocation) {
                     final CtInvocation insertedInvocation =
                             (CtInvocation) insertedElement;

@@ -9,6 +9,7 @@ import org.mudebug.fpm.pattern.rules.NegatedConditionalRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
+import spoon.reflect.reference.CtTypeReference;
 
 public class NegateConditionalHandler extends RegExpHandler {
     public NegateConditionalHandler() {
@@ -40,10 +41,12 @@ public class NegateConditionalHandler extends RegExpHandler {
                             return new DelInsBoolExpState(parentElement, negatedExp);
                         }
                     } else {
-                        final String expTypeName =
-                                deletedExp.getType().getSimpleName();
-                        if (isBoolean(expTypeName)) {
-                            return new DelInsBoolExpState(parentElement, deletedExp);
+                        final CtTypeReference typeRef = deletedExp.getType();
+                        if (typeRef != null) {
+                            final String expTypeName = typeRef.getSimpleName();
+                            if (isBoolean(expTypeName)) {
+                                return new DelInsBoolExpState(parentElement, deletedExp);
+                            }
                         }
                     }
                 }

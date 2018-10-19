@@ -21,6 +21,7 @@ public abstract class InsertHandler extends OperationHandler {
 
         chain = new CaseBreakerHandler(chain);
         chain = new RetFieldMethDerefGuardHandler(chain);
+        chain = new PreconditionAdditionHandler(chain);
         return chain;
     }
 }

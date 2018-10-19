@@ -1,5 +1,6 @@
 package org.mudebug.fpm.pattern.handler.point.insert;
 
+import org.mudebug.fpm.commons.Util;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.handler.util.EitherFieldOrMethod;
 import org.mudebug.fpm.pattern.handler.util.FieldAccess;
@@ -20,30 +21,6 @@ public class RetFieldMethDerefGuardHandler extends InsertHandler {
     @Override
     protected boolean canHandlePattern(CtElement e1, CtElement e2) {
         return e1 instanceof CtIf;
-    }
-
-    private boolean containsReturn (final CtStatement stmtBlock) {
-        final Iterator<CtElement> it = stmtBlock.descendantIterator();
-        while (it.hasNext()) {
-            final CtElement element = it.next();
-            if (element instanceof CtReturn) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isDereference(final CtElement element) {
-        if (element instanceof CtFieldAccess) {
-            return true;
-        }
-        if (element instanceof CtInvocation) {
-            final CtInvocation inv = (CtInvocation) element;
-            if (!inv.getExecutable().isStatic()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private CtExpression getCheckedExp (final CtIf ifStmt) {
@@ -98,12 +75,12 @@ public class RetFieldMethDerefGuardHandler extends InsertHandler {
         final CtExpression checkedExp = getCheckedExp(ifStmt);
         EitherFieldOrMethod fieldOrMethod = null;
         if (checkedExp != null) {
-            if (containsReturn(ifStmt.getThenStatement())) {
+            if (Util.containsReturn(ifStmt.getThenStatement())) {
                 fieldOrMethod = getDeferenceStmt(ifStmt.getParent(), checkedExp);
                 if (fieldOrMethod == null) {
                     fieldOrMethod = getDeferenceStmt(ifStmt.getElseStatement(), checkedExp);
                 }
-            } else if (containsReturn(ifStmt.getElseStatement())) {
+            } else if (Util.containsReturn(ifStmt.getElseStatement())) {
                 fieldOrMethod = getDeferenceStmt(ifStmt.getParent(), checkedExp);
                 if (fieldOrMethod == null) {
                     fieldOrMethod = getDeferenceStmt(ifStmt.getThenStatement(), checkedExp);

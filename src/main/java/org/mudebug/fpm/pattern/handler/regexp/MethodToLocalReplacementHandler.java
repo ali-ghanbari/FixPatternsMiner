@@ -3,6 +3,7 @@ package org.mudebug.fpm.pattern.handler.regexp;
 import gumtree.spoon.diff.operations.*;
 import org.mudebug.fpm.pattern.rules.MethodToLocalReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
+import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtVariableRead;
 import spoon.reflect.declaration.CtElement;
@@ -71,7 +72,8 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof MoveOperation) {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getSrcNode();
-                if (movedElement instanceof CtVariableRead) {
+                if (movedElement instanceof CtVariableRead
+                        && !(movedElement instanceof CtFieldAccess)) {
                     final CtVariableReference movedLocal = ((CtVariableRead) movedElement).getVariable();
                     final String localName = movedLocal.getSimpleName();
                     return new UDMState(this.deletedMethodName, localName);
@@ -102,12 +104,10 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
     }
 
     private class DelInvState implements State {
-        private final CtInvocation deletedInv;
         private final String deletedMethodName;
 
         public DelInvState(final CtInvocation deletedInv) {
             this.deletedMethodName = deletedInv.getExecutable().getSimpleName();
-            this.deletedInv = deletedInv;
         }
 
         @Override
@@ -115,9 +115,8 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
-                // we require that the inserted element and the deleted one
-                // be siblings.
-                if (insertedElement instanceof CtVariableRead) {
+                if (insertedElement instanceof CtVariableRead
+                        && !(insertedElement instanceof CtFieldAccess)) {
                     final CtVariableReference movedLocal =
                             ((CtVariableRead) insertedElement).getVariable();
                     final String localName = movedLocal.getSimpleName();

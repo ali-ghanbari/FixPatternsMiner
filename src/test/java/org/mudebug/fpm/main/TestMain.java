@@ -35,7 +35,6 @@ public class TestMain {
                 "SimpleIfThen.java",
                 "ArgPropagation.java",
                 "FieldLocalWrite.java",
-                "MethodLocal.java",
                 "LocalMethod.java",
                 "CaseBreakerBrk.java",
                 "CaseBreakerRet.java",
@@ -48,7 +47,12 @@ public class TestMain {
                 "DerefGuard.java",
                 "RetDerefGuard.java",
                 "RetMethodGuard.java",
-                "MethGuard.java"
+                "MethGuard.java",
+                "Preconditions.java",
+                "Postconditions.java",
+                "MethodLocal.java",
+                "FieldToMethod.java",
+                "MethodToField.java"
                 //,
                 //"SwitchCase.java"
         };
