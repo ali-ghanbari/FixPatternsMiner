@@ -26,6 +26,9 @@ public final class Util {
     }
 
     public static boolean containsReturn (final CtStatement stmtBlock) {
+        if (stmtBlock == null) {
+            return false;
+        }
         final Iterator<CtElement> it = stmtBlock.descendantIterator();
         while (it.hasNext()) {
             final CtElement element = it.next();

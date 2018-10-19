@@ -19,6 +19,8 @@ import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
 import org.mudebug.fpm.pattern.handler.regexp.*;
 import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.UnknownRule;
+import spoon.reflect.cu.SourcePosition;
+import spoon.reflect.cu.position.NoSourcePosition;
 
 import static java.lang.System.out;
 
@@ -59,7 +61,7 @@ public final class Main implements FilePairVisitor {
             parser = new FileListParser(new File(args[0]));
         }
         final Main visitor = new Main();
-        parser.parse(visitor, false);
+        parser.parse(visitor, true);
     }
 
     @Override
@@ -69,13 +71,19 @@ public final class Main implements FilePairVisitor {
         try {
             final Diff diff = ac.compare(buggy, fixed);
             final List<Operation> ops = new ArrayList<>(diff.getRootOperations());
-            ops.sort(Comparator.comparingInt(o -> o.getSrcNode().getPosition().getSourceStart()));
-            System.out.printf("[%s]%n", ops.stream()
-                    //.map(Object::getClass)
-                    //.map(Class::getName)
-                    .map(op -> op.getClass().getName() + " " + op.getSrcNode().toString())
-                    //.map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
-                    .collect(Collectors.joining(", ")));
+            ops.sort(Comparator.comparingInt(o -> {
+                final SourcePosition sp = o.getSrcNode().getPosition();
+                if (sp instanceof NoSourcePosition) {
+                    return Integer.MAX_VALUE;
+                }
+                return sp.getSourceStart();
+            }));
+//            System.out.printf("[%s]%n", ops.stream()
+//                    //.map(Object::getClass)
+//                    //.map(Class::getName)
+//                    .map(op -> op.getClass().getName() + " " + op.getSrcNode().toString())
+//                    //.map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
+//                    .collect(Collectors.joining(", ")));
             if (!ops.isEmpty()) {
                 /* try regular expressions handlers */
                 for (final RegExpHandler regExpHandler : this.regExpHandlers) {
@@ -85,7 +93,7 @@ public final class Main implements FilePairVisitor {
                     while (opLIt.hasNext()) {
                         final Operation operation = opLIt.next();
                         final Status curStatus = regExpHandler.handle(operation);
-                        System.out.println(curStatus);
+//                        System.out.println(curStatus);
                         int count = regExpHandler.getConsumed();
                         if (preStatus == Status.CANDIDATE && curStatus == Status.REJECTED) {
                             while (count-- > 0) { // go back for count steps. one step will be

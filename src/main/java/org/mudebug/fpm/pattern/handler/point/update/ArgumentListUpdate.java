@@ -6,6 +6,8 @@ import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
 
+import java.util.Objects;
+
 public class ArgumentListUpdate extends UpdateHandler {
     public ArgumentListUpdate(OperationHandler next) {
         super(next);
@@ -23,8 +25,8 @@ public class ArgumentListUpdate extends UpdateHandler {
         final String methodNameSrc = getMethodName(sin);
         final String methodNameDst = getMethodName(din);
         if (methodNameDst.equals(methodNameSrc)) {
-            if (sin.getTarget().equals(din.getTarget())
-                    && !sin.getArguments().equals(din.getArguments())) {
+            if (Objects.equals(sin.getTarget(), din.getTarget())
+                    && !Objects.equals(sin.getArguments(), din.getArguments())) {
                 return new ArgumentListUpdateRule(methodNameSrc);
             }
         }

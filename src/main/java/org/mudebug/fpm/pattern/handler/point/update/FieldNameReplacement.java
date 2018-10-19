@@ -7,6 +7,8 @@ import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtFieldReference;
 
+import java.util.Objects;
+
 /**
  * Handles cases like
  *  field1 -> field2
@@ -32,8 +34,8 @@ public class FieldNameReplacement extends UpdateHandler {
         final CtFieldAccess fa2 = (CtFieldAccess) e2;
         final CtFieldReference f1 = fa1.getVariable();
         final CtFieldReference f2 = fa2.getVariable();
-        if (f1.getType().equals(f2.getType())) {
-            if (fa1.getTarget().equals(fa2.getTarget())) {
+        if (Objects.equals(f1.getType(), f2.getType())) {
+            if (Objects.equals(fa1.getTarget(), fa2.getTarget())) {
                 final String srcFieldName = f1.getQualifiedName();
                 final String dstFieldName = f2.getQualifiedName();
                 if (!srcFieldName.equals(dstFieldName)) {

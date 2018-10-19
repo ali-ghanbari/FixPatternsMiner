@@ -6,6 +6,8 @@ import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.declaration.CtElement;
 
+import java.util.Objects;
+
 /**
  * Responsible for things like this:
  *  a + b -> a * b
@@ -28,7 +30,7 @@ public class BinaryOperatorReplacement extends UpdateHandler {
         final CtBinaryOperator bo1 = (CtBinaryOperator) e1;
         final CtBinaryOperator bo2 = (CtBinaryOperator) e2;
         if (bo1.getKind() != bo2.getKind()
-                && bo1.getType().equals(bo2.getType())
+                && Objects.equals(bo1.getType(), bo2.getType())
                 && bo1.getLeftHandOperand().equals(bo2.getLeftHandOperand())
                 && bo1.getRightHandOperand().equals(bo2.getRightHandOperand())) {
             return new BinaryOperatorReplacementRule(bo1.getKind(), bo2.getKind());
