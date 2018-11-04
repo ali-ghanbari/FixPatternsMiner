@@ -1,5 +1,6 @@
 package org.mudebug.fpm.pattern.handler.point.update;
 
+import org.mudebug.fpm.commons.Util;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.ArgumentListUpdateRule;
 import org.mudebug.fpm.pattern.rules.Rule;
@@ -7,6 +8,8 @@ import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
+
+import static org.mudebug.fpm.commons.Util.sibling;
 
 public class ArgumentListUpdate extends UpdateHandler {
     public ArgumentListUpdate(OperationHandler next) {
@@ -27,7 +30,9 @@ public class ArgumentListUpdate extends UpdateHandler {
         if (methodNameDst.equals(methodNameSrc)) {
             if (Objects.equals(sin.getTarget(), din.getTarget())
                     && !Objects.equals(sin.getArguments(), din.getArguments())) {
-                return new ArgumentListUpdateRule(methodNameSrc);
+                if (sibling(sin, din)) {
+                    return new ArgumentListUpdateRule(methodNameSrc);
+                }
             }
         }
         return super.handlePattern(e1, e2);

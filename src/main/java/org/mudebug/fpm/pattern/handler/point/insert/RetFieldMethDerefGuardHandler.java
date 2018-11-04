@@ -23,7 +23,7 @@ public class RetFieldMethDerefGuardHandler extends InsertHandler {
         return e1 instanceof CtIf;
     }
 
-    private CtExpression getCheckedExp (final CtIf ifStmt) {
+    private CtExpression getCheckedExp(final CtIf ifStmt) {
         final CtExpression cond = ifStmt.getCondition();
         if (cond instanceof CtBinaryOperator) {
             final CtBinaryOperator binOp = (CtBinaryOperator) cond;

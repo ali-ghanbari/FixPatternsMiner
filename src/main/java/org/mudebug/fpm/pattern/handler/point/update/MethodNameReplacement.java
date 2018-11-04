@@ -5,6 +5,10 @@ import org.mudebug.fpm.pattern.rules.*;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
 
+import java.util.Objects;
+
+import static org.mudebug.fpm.commons.Util.sibling;
+
 /**
  * Responsible for method invocations only
  */
@@ -25,9 +29,11 @@ public class MethodNameReplacement extends UpdateHandler {
         final String methodNameSrc = getMethodName(sin);
         final String methodNameDst = getMethodName(din);
         if (!methodNameDst.equals(methodNameSrc)) {
-            if (sin.getTarget().equals(din.getTarget())
-                    && sin.getArguments().equals(din.getArguments())) {
-                return new MethodNameReplacementRule(methodNameSrc, methodNameDst);
+            if (Objects.equals(sin.getTarget(), din.getTarget())
+                    && Objects.equals(sin.getArguments(), din.getArguments())) {
+                if (sibling(sin, din)) {
+                    return new MethodNameReplacementRule(methodNameSrc, methodNameDst);
+                }
             }
         }
         return super.handlePattern(e1, e2);

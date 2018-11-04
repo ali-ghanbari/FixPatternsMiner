@@ -8,6 +8,8 @@ import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
 
+import static org.mudebug.fpm.commons.Util.sibling;
+
 /**
  * Responsible for things like this:
  *  a + b -> a * b
@@ -31,9 +33,11 @@ public class BinaryOperatorReplacement extends UpdateHandler {
         final CtBinaryOperator bo2 = (CtBinaryOperator) e2;
         if (bo1.getKind() != bo2.getKind()
                 && Objects.equals(bo1.getType(), bo2.getType())
-                && bo1.getLeftHandOperand().equals(bo2.getLeftHandOperand())
-                && bo1.getRightHandOperand().equals(bo2.getRightHandOperand())) {
-            return new BinaryOperatorReplacementRule(bo1.getKind(), bo2.getKind());
+                && Objects.equals(bo1.getLeftHandOperand(), bo2.getLeftHandOperand())
+                && Objects.equals(bo1.getRightHandOperand(), bo2.getRightHandOperand())) {
+            if (sibling(bo1, bo2)) {
+                return new BinaryOperatorReplacementRule(bo1.getKind(), bo2.getKind());
+            }
         }
         return super.handlePattern(e1, e2);
     }

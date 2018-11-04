@@ -1,15 +1,14 @@
 package org.mudebug.fpm.main;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import gumtree.spoon.AstComparator;
 import gumtree.spoon.diff.Diff;
 import gumtree.spoon.diff.operations.Operation;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.mudebug.fpm.commons.FileListParser;
 import org.mudebug.fpm.commons.FilePairVisitor;
 import org.mudebug.fpm.pattern.handler.OperationHandler;
@@ -27,6 +26,7 @@ import static java.lang.System.out;
 public final class Main implements FilePairVisitor {
     private final RegExpHandler[] regExpHandlers;
     private final OperationHandler[] pointHandlers;
+    private final List<Pair<Rule, String>> table;
 
     private Main() {
         this.pointHandlers = new OperationHandler[] {
@@ -48,25 +48,70 @@ public final class Main implements FilePairVisitor {
                 new FieldMethDerefGuardHandler(),
                 new AccessorHandler()
         };
+        this.table = new ArrayList<>();
+    }
+
+    private static boolean isSwitch(final String str) {
+        return str.trim().equalsIgnoreCase("-p")
+                || str.trim().equalsIgnoreCase("--parallel");
     }
 
     public static void main(String[] args) {
         final FileListParser parser;
-        if (args.length > 1) {
+        boolean parallelInvocation = false;
+        final String fileName;
+        if (args.length > 2) {
             out.println("fatal: too many arguments");
             return;
-        } else if (args.length < 1) {
+        } else if (args.length < 1) { // no file is specified, no parallelism
             parser = new FileListParser();
+        } else if (args.length == 2) {
+            if (isSwitch(args[0]) ^ isSwitch(args[1])) {
+                fileName = isSwitch(args[0]) ? args[1] : args[0];
+                parser = new FileListParser(new File(fileName));
+                parallelInvocation = true;
+            } else {
+                out.println("fatal: illegal arguments");
+                return;
+            }
+        } else if (isSwitch(args[0])) {
+            parser = new FileListParser();
+            parallelInvocation = true;
         } else {
-            parser = new FileListParser(new File(args[0]));
+            fileName = args[0];
+            parser = new FileListParser(new File(fileName));
         }
         final Main visitor = new Main();
-        parser.parse(visitor, true);
+        parser.parse(visitor, parallelInvocation);
+        out.println("presenting the results...");
+        try (final PrintWriter pwGeneralPatterns = new PrintWriter("out-general.csv");
+             final PrintWriter pwProjectsCount = new PrintWriter("out-projects.csv")) {
+            visitor.table.stream()
+                    .collect(Collectors.groupingBy(p -> p.getLeft().getClass().getName()))
+                    .entrySet().stream()
+                    .sorted((ent1, ent2) -> Integer.compare(ent2.getValue().size(), ent1.getValue().size()))
+                    .forEach(ent -> {
+                        final int projectsCount = (int) ent.getValue().stream()
+                                .map(p -> p.getRight())
+                                .distinct()
+                                .count();
+                        final int occurrenceCount = ent.getValue().size();
+                        final String ruleClassName = ent.getKey();
+                        final String ruleID = ruleClassName.substring(1 + ruleClassName.lastIndexOf('.'));
+                        pwGeneralPatterns.printf("%s,%d%n", ruleID, occurrenceCount);
+                        pwProjectsCount.printf("%s,%d%n", ruleID, projectsCount);
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void visit(final File buggy, final File fixed) {
-        out.printf("Diffing (%s):%n\t%s%n\t%s%n", buggy.getParent(), buggy.getName(), fixed.getName());
+        out.printf("Diffing (%s):%n\t%s%n\t%s%n",
+                buggy.getParent(),
+                buggy.getName(),
+                fixed.getName());
         final AstComparator ac = new AstComparator();
         try {
             final Diff diff = ac.compare(buggy, fixed);
@@ -78,12 +123,6 @@ public final class Main implements FilePairVisitor {
                 }
                 return sp.getSourceStart();
             }));
-//            System.out.printf("[%s]%n", ops.stream()
-//                    //.map(Object::getClass)
-//                    //.map(Class::getName)
-//                    .map(op -> op.getClass().getName() + " " + op.getSrcNode().toString())
-//                    //.map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
-//                    .collect(Collectors.joining(", ")));
             if (!ops.isEmpty()) {
                 /* try regular expressions handlers */
                 for (final RegExpHandler regExpHandler : this.regExpHandlers) {
@@ -93,7 +132,6 @@ public final class Main implements FilePairVisitor {
                     while (opLIt.hasNext()) {
                         final Operation operation = opLIt.next();
                         final Status curStatus = regExpHandler.handle(operation);
-//                        System.out.println(curStatus);
                         int count = regExpHandler.getConsumed();
                         if (preStatus == Status.CANDIDATE && curStatus == Status.REJECTED) {
                             while (count-- > 0) { // go back for count steps. one step will be
@@ -107,7 +145,9 @@ public final class Main implements FilePairVisitor {
                                     opLIt.previous();
                                 }
                             }
-                            System.out.println(">>> " + regExpHandler.getRule().getClass().getName());
+                            final Rule theRule = regExpHandler.getRule();
+                            final String projectName = buggy.getAbsolutePath();
+                            this.table.add(new ImmutablePair<>(theRule, projectName));
                             regExpHandler.reset();
                         }
                         preStatus = curStatus;
@@ -118,7 +158,8 @@ public final class Main implements FilePairVisitor {
                         if (handler != null && handler.canHandleOperation(op)) {
                             final Rule rule = handler.handleOperation(op);
                             if (!(rule instanceof UnknownRule)) {
-                                System.out.println("*** " + rule.getClass().getName());
+                                final String projectName = buggy.getAbsolutePath();
+                                this.table.add(new ImmutablePair<>(rule, projectName));
                             }
                         }
                     }

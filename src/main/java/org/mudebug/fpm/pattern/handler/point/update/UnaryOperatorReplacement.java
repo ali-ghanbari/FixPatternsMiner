@@ -4,10 +4,13 @@ import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.InterFixUnaryOperatorReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.UnaryOperatorReplacementRule;
-import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.declaration.CtElement;
+
+import java.util.Objects;
+
+import static org.mudebug.fpm.commons.Util.sibling;
 
 /**
  * Takes care of patterns like
@@ -35,10 +38,11 @@ public class UnaryOperatorReplacement extends UpdateHandler {
 
     @Override
     protected Rule handlePattern(CtElement e1, CtElement e2) {
-        if (e1 instanceof CtUnaryOperator && e2 instanceof CtUnaryOperator) {
-            final CtUnaryOperator uo1 = (CtUnaryOperator) e1;
-            final CtUnaryOperator uo2 = (CtUnaryOperator) e2;
-            if (uo1.getType().equals(uo2.getType()) && uo1.getOperand().equals(uo2.getOperand())) {
+        final CtUnaryOperator uo1 = (CtUnaryOperator) e1;
+        final CtUnaryOperator uo2 = (CtUnaryOperator) e2;
+        if (Objects.equals(uo1.getType(), uo2.getType())
+                && Objects.equals(uo1.getOperand(), uo2.getOperand())) {
+            if (sibling(uo1, uo2)) {
                 if (interFix(uo1.getKind(), uo2.getKind())) {
                     return new InterFixUnaryOperatorReplacementRule(uo1.getKind(), uo2.getKind());
                 } else { // since operands are same, the operators are guaranteed to be different

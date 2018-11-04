@@ -9,6 +9,8 @@ import spoon.reflect.reference.CtFieldReference;
 
 import java.util.Objects;
 
+import static org.mudebug.fpm.commons.Util.sibling;
+
 /**
  * Handles cases like
  *  field1 -> field2
@@ -38,7 +40,7 @@ public class FieldNameReplacement extends UpdateHandler {
             if (Objects.equals(fa1.getTarget(), fa2.getTarget())) {
                 final String srcFieldName = f1.getQualifiedName();
                 final String dstFieldName = f2.getQualifiedName();
-                if (!srcFieldName.equals(dstFieldName)) {
+                if (!srcFieldName.equals(dstFieldName) && sibling(fa1, fa2)) {
                     return new FieldNameReplacementRule(srcFieldName, dstFieldName);
                 }
             }

@@ -11,6 +11,8 @@ import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.declaration.CtElement;
 
+import static org.mudebug.fpm.commons.Util.sibling;
+
 public class ConstantificationHandler extends RegExpHandler {
     public ConstantificationHandler() {
         initState = new InitState();
@@ -35,7 +37,7 @@ public class ConstantificationHandler extends RegExpHandler {
                 if (deletedElement instanceof CtExpression
                         && !isTrivialExp((CtExpression) deletedElement)) {
                     final CtExpression deletedExp = (CtExpression) deletedElement;
-                    return new DelState(null, deletedExp);
+                    return new DelState(deletedExp);
                 }
             }
             return initState;
@@ -56,11 +58,9 @@ public class ConstantificationHandler extends RegExpHandler {
     }
 
     private class DelState implements State {
-        private final CtElement parentElement;
         private final CtExpression deletedExp;
 
-        public DelState(CtElement parentElement, CtExpression deletedExp) {
-            this.parentElement = null;
+        public DelState(CtExpression deletedExp) {
             this.deletedExp = deletedExp;
         }
 
@@ -71,23 +71,26 @@ public class ConstantificationHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 // inserted element and the deleted expression must be siblings
                 if (insertedElement instanceof CtLiteral) {
-                    final CtLiteral insertedLiteral =
-                            (CtLiteral) insertedElement;
-                    return new Replaced(this.deletedExp,
-                            false,
-                            insertedLiteral);
+                    if (sibling(this.deletedExp, insertedElement)) {
+                        final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
+                        return new Replaced(this.deletedExp,
+                                false,
+                                insertedLiteral);
+                    }
                 } else if (insertedElement instanceof CtUnaryOperator) {
-                    final CtUnaryOperator unaryOperator =
-                            (CtUnaryOperator) insertedElement;
-                    final UnaryOperatorKind kind = unaryOperator.getKind();
-                    if (kind == UnaryOperatorKind.NEG
-                            || kind == UnaryOperatorKind.POS) {
-                        final CtExpression operand = unaryOperator.getOperand();
-                        if (operand instanceof CtLiteral) {
-                            final CtLiteral insertedLiteral = (CtLiteral) operand;
-                            return new Replaced(this.deletedExp,
-                                    (kind == UnaryOperatorKind.NEG),
-                                    insertedLiteral);
+                    if (sibling(this.deletedExp, insertedElement)) {
+                        final CtUnaryOperator unaryOperator =
+                                (CtUnaryOperator) insertedElement;
+                        final UnaryOperatorKind kind = unaryOperator.getKind();
+                        if (kind == UnaryOperatorKind.NEG
+                                || kind == UnaryOperatorKind.POS) {
+                            final CtExpression operand = unaryOperator.getOperand();
+                            if (operand instanceof CtLiteral) {
+                                final CtLiteral insertedLiteral = (CtLiteral) operand;
+                                return new Replaced(this.deletedExp,
+                                        (kind == UnaryOperatorKind.NEG),
+                                        insertedLiteral);
+                            }
                         }
                     }
                 }

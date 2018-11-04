@@ -24,10 +24,36 @@ public class PreconditionAdditionHandler extends InsertHandler {
         return e1 instanceof CtIf;
     }
 
+    private boolean containsDefReturn(final CtStatement stmtBlock) {
+        if (stmtBlock == null) {
+            return false;
+        }
+        final Iterator<CtElement> it = stmtBlock.descendantIterator();
+        while (it.hasNext()) {
+            final CtElement element = it.next();
+            if (element instanceof CtReturn) {
+                if (((CtReturn) element).getReturnedExpression() instanceof CtLiteral) {
+                    // we should not accept return statements deep inside
+                    // some inner block
+                    if (element.getParent().equals(stmtBlock)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     protected Rule handlePattern(CtElement e1, CtElement e2) {
         final CtIf ifStmt = (CtIf) e1;
-        if (Util.containsReturn(ifStmt)) {
+        BinaryOperatorKind expectedBinOp = null;
+        if (containsDefReturn(ifStmt.getThenStatement())) {
+            expectedBinOp = BinaryOperatorKind.EQ;
+        } else if (containsDefReturn(ifStmt.getElseStatement())) {
+            expectedBinOp = BinaryOperatorKind.NE;
+        }
+        if (expectedBinOp != null) {
             final Set<String> paramNames = new HashSet<>();
             Iterator paramsIt = null;
             final CtElement container = Util.getExecutableContainer(ifStmt);
@@ -55,7 +81,7 @@ public class PreconditionAdditionHandler extends InsertHandler {
                     if (element instanceof CtBinaryOperator) {
                         final CtBinaryOperator binOp = (CtBinaryOperator) element;
                         final BinaryOperatorKind binOpKind = binOp.getKind();
-                        if (binOpKind == BinaryOperatorKind.EQ) {
+                        if (binOpKind == expectedBinOp) {
                             final CtExpression lho = binOp.getLeftHandOperand();
                             final CtExpression rho = binOp.getRightHandOperand();
                             if (lho instanceof CtLiteral ^ rho instanceof CtLiteral) {

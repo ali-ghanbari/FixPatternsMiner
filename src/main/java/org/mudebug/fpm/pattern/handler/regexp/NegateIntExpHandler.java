@@ -54,12 +54,10 @@ public class NegateIntExpHandler extends RegExpHandler {
     }
 
     private class DelNegatedExprState implements State {
-        private final CtUnaryOperator deletedUnaryOp;
         private final CtExpression deletedOperand;
 
         public DelNegatedExprState(CtUnaryOperator deletedUnaryOp) {
             this.deletedOperand = deletedUnaryOp.getOperand();
-            this.deletedUnaryOp = deletedUnaryOp;
         }
 
         @Override
@@ -78,8 +76,6 @@ public class NegateIntExpHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtExpression) {
                     final CtExpression insertedExpr = (CtExpression) insertedElement;
-                    // we require that the deleted element and the inserted literal be
-                    // siblings.
                     if (insertedExpr.equals(this.deletedOperand)) {
                         if (insertedExpr instanceof CtLiteral) {
                             final CtLiteral insertedLiteral =

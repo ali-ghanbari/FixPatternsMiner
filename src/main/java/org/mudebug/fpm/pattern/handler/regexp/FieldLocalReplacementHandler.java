@@ -7,6 +7,8 @@ import org.mudebug.fpm.pattern.rules.*;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
 
+import static org.mudebug.fpm.commons.Util.sibling;
+
 public class FieldLocalReplacementHandler extends RegExpHandler {
     public FieldLocalReplacementHandler() {
         initState = new InitState();
@@ -40,10 +42,8 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
     private class DelVarWrite implements State {
         private final CtVariableWrite deletedVarWrite;
-        private final String deletedVarName;
 
         public DelVarWrite(final CtVariableWrite deletedVarWrite) {
-            this.deletedVarName = deletedVarWrite.getVariable().getSimpleName();
             this.deletedVarWrite = deletedVarWrite;
         }
 
@@ -52,12 +52,16 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
-                // we require that the deleted element and the inserted one
-                // be siblings.
-                if (insertedElement instanceof  CtFieldWrite) {
-                    final CtFieldWrite fieldWrite = (CtFieldWrite) insertedElement;
-                    final String fieldName = fieldWrite.getVariable().getSimpleName();
-                    return new InsFieldWrite(this.deletedVarName, fieldName);
+                if (sibling(this.deletedVarWrite, insertedElement)) {
+                    if (insertedElement instanceof  CtFieldWrite) {
+                        final CtFieldWrite fieldWrite = (CtFieldWrite) insertedElement;
+                        final String fieldName = fieldWrite.getVariable()
+                                .getSimpleName();
+                        final String deletedVarName = this.deletedVarWrite
+                                .getVariable()
+                                .getSimpleName();
+                        return new InsFieldWrite(deletedVarName, fieldName);
+                    }
                 }
             }
             return initState;
@@ -86,10 +90,8 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
     private class DelVarRead implements State {
         private final CtVariableRead deletedVarRead;
-        private final String deletedVarName;
 
         public DelVarRead(final CtVariableRead deletedVarRead) {
-            this.deletedVarName = deletedVarRead.getVariable().getSimpleName();
             this.deletedVarRead = deletedVarRead;
         }
 
@@ -98,10 +100,16 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
-                if (insertedElement instanceof  CtFieldRead) {
-                    final CtFieldRead fieldRead = (CtFieldRead) insertedElement;
-                    final String fieldName = fieldRead.getVariable().getSimpleName();
-                    return new InsFieldRead(this.deletedVarName, fieldName);
+                if (insertedElement instanceof CtFieldRead) {
+                    if (sibling(this.deletedVarRead, insertedElement)) {
+                        final CtFieldRead fieldRead = (CtFieldRead) insertedElement;
+                        final String fieldName = fieldRead.getVariable()
+                                .getSimpleName();
+                        final String deletedVarName = this.deletedVarRead
+                                .getVariable()
+                                .getSimpleName();
+                        return new InsFieldRead(deletedVarName, fieldName);
+                    }
                 }
             }
             return initState;
@@ -130,10 +138,8 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
     private class DelFieldRead implements State {
         private final CtFieldRead deletedFieldRead;
-        private final String deletedFieldName;
 
         public DelFieldRead(final CtFieldRead deletedFieldRead) {
-            this.deletedFieldName = deletedFieldRead.getVariable().getSimpleName();
             this.deletedFieldRead = deletedFieldRead;
         }
 
@@ -142,12 +148,16 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
-                // we require that deleted element and the inserted one be
-                // siblings.
                 if (insertedElement instanceof CtVariableRead) {
-                    final CtVariableRead variableRead = (CtVariableRead) insertedElement;
-                    final String varName = variableRead.getVariable().getSimpleName();
-                    return new InsLocalRead(this.deletedFieldName, varName);
+                    if (sibling(insertedElement, this.deletedFieldRead)) {
+                        final CtVariableRead variableRead = (CtVariableRead) insertedElement;
+                        final String varName = variableRead.getVariable()
+                                .getSimpleName();
+                        final String deletedFieldName = this.deletedFieldRead
+                                .getVariable()
+                                .getSimpleName();
+                        return new InsLocalRead(deletedFieldName, varName);
+                    }
                 }
             }
             return initState;
@@ -177,10 +187,8 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
     private class DelFieldWrite implements State {
         private final CtFieldWrite deletedFieldWrite;
-        private final String deletedFieldName;
 
         public DelFieldWrite(final CtFieldWrite deletedFieldWrite) {
-            this.deletedFieldName = deletedFieldWrite.getVariable().getSimpleName();
             this.deletedFieldWrite = deletedFieldWrite;
         }
 
@@ -189,13 +197,17 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
-                // we require that the deleted element and the inserted one
-                // be siblings.
                 if (insertedElement instanceof CtVariableWrite) {
-                    final CtVariableWrite variableWrite =
-                            (CtVariableWrite) insertedElement;
-                    final String varName = variableWrite.getVariable().getSimpleName();
-                    return new InsLocalWrite(this.deletedFieldName, varName);
+                    if (sibling(this.deletedFieldWrite, insertedElement)) {
+                        final CtVariableWrite variableWrite =
+                                (CtVariableWrite) insertedElement;
+                        final String varName = variableWrite.getVariable()
+                                .getSimpleName();
+                        final String deletedFieldName = this.deletedFieldWrite
+                                .getVariable()
+                                .getSimpleName();
+                        return new InsLocalWrite(deletedFieldName, varName);
+                    }
                 }
             }
             return initState;

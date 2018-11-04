@@ -7,6 +7,10 @@ import spoon.reflect.code.CtConstructorCall;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtTypeReference;
 
+import java.util.Objects;
+
+import static org.mudebug.fpm.commons.Util.sibling;
+
 public class CtorReplacement extends UpdateHandler {
     public CtorReplacement(OperationHandler next) {
         super(next);
@@ -23,10 +27,12 @@ public class CtorReplacement extends UpdateHandler {
         final CtConstructorCall cc2 = (CtConstructorCall) e2;
         final CtTypeReference t1 = cc1.getType();
         final CtTypeReference t2 = cc2.getType();
-        if (!t1.equals(t2) && cc1.getArguments().equals(cc2.getArguments())) {
-            final String srcQualifiedName = t1.getQualifiedName();
-            final String dstQualifiedName = t2.getQualifiedName();
-            return new CtorReplacementRule(srcQualifiedName, dstQualifiedName);
+        if (!Objects.equals(t1, t2) && cc1.getArguments().equals(cc2.getArguments())) {
+            if (sibling(cc1, cc2)) {
+                final String srcQualifiedName = t1.getQualifiedName();
+                final String dstQualifiedName = t2.getQualifiedName();
+                return new CtorReplacementRule(srcQualifiedName, dstQualifiedName);
+            }
         }
         return super.handlePattern(e1, e2);
     }

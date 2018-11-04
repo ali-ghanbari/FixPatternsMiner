@@ -10,6 +10,8 @@ import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
 
+import static org.mudebug.fpm.commons.Util.sibling;
+
 public class AccessorHandler extends RegExpHandler {
     public AccessorHandler() {
         initState = new InitState();
@@ -24,10 +26,10 @@ public class AccessorHandler extends RegExpHandler {
                 final CtElement deletedElement = operation.getSrcNode();
                 if (deletedElement instanceof CtInvocation) {
                     final CtInvocation invocation = (CtInvocation) deletedElement;
-                    return new DelInvState(invocation.getExecutable().getSignature());
+                    return new DelInvState(invocation);
                 } else if (deletedElement instanceof CtFieldAccess) {
                     final CtFieldAccess fieldAccess = (CtFieldAccess) deletedElement;
-                    return new DelFieldState(fieldAccess.getVariable().getQualifiedName());
+                    return new DelFieldState(fieldAccess);
                 }
             }
             return this;
@@ -35,10 +37,10 @@ public class AccessorHandler extends RegExpHandler {
     }
 
     private class DelFieldState implements State {
-        private final String deletedFieldName;
+        private final CtFieldAccess deletedFieldAccess;
 
-        public DelFieldState(String deletedFieldName) {
-            this.deletedFieldName = deletedFieldName;
+        public DelFieldState(CtFieldAccess deletedFieldAccess) {
+            this.deletedFieldAccess = deletedFieldAccess;
         }
 
         @Override
@@ -46,9 +48,15 @@ public class AccessorHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtInvocation) {
-                    final CtInvocation invocation = (CtInvocation) insertedElement;
-                    final String methodName = invocation.getExecutable().getSignature();
-                    return new DIFieldToMethState(this.deletedFieldName, methodName);
+                    if (sibling(this.deletedFieldAccess, insertedElement)) {
+                        final CtInvocation invocation = (CtInvocation) insertedElement;
+                        final String methodName = invocation.getExecutable()
+                                .getSignature();
+                        final String deletedFieldName = this.deletedFieldAccess
+                                .getVariable()
+                                .getQualifiedName();
+                        return new DIFieldToMethState(deletedFieldName, methodName);
+                    }
                 }
             }
             return initState;
@@ -66,7 +74,8 @@ public class AccessorHandler extends RegExpHandler {
 
         @Override
         public Rule getRule() {
-            return new FieldToMethodReplacementRule(this.deletedFieldName, this.insertedMethodName);
+            return new FieldToMethodReplacementRule(this.deletedFieldName,
+                    this.insertedMethodName);
         }
 
         @Override
@@ -76,10 +85,10 @@ public class AccessorHandler extends RegExpHandler {
     }
 
     private class DelInvState implements State {
-        private final String deletedMethodName;
+        private final CtInvocation deletedMethodInv;
 
-        public DelInvState(String deletedMethodName) {
-            this.deletedMethodName = deletedMethodName;
+        public DelInvState(CtInvocation deletedMethodInv) {
+            this.deletedMethodInv = deletedMethodInv;
         }
 
         @Override
@@ -87,9 +96,15 @@ public class AccessorHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtFieldAccess) {
-                    final CtFieldAccess fieldAccess = (CtFieldAccess) insertedElement;
-                    final String fieldName = fieldAccess.getVariable().getQualifiedName();
-                    return new DIMethToFieldState(this.deletedMethodName, fieldName);
+                    if (sibling(this.deletedMethodInv, insertedElement)) {
+                        final CtFieldAccess fieldAccess = (CtFieldAccess) insertedElement;
+                        final String fieldName = fieldAccess.getVariable()
+                                .getQualifiedName();
+                        final String deletedMethodName = this.deletedMethodInv
+                                .getExecutable()
+                                .getSignature();
+                        return new DIMethToFieldState(deletedMethodName, fieldName);
+                    }
                 }
             }
             return initState;
