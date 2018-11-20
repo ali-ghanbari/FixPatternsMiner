@@ -9,6 +9,10 @@ import spoon.reflect.code.CtVariableRead;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtVariableReference;
 
+import java.util.Objects;
+
+import static org.mudebug.fpm.commons.Util.sibling;
+
 public class LocalToMethodReplacementHandler extends RegExpHandler {
     public LocalToMethodReplacementHandler() {
         initState = new InitState();
@@ -16,7 +20,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
         this.consumed = 0;
     }
 
-    // we are going to match either IM, UIM, or DI
+    // we are going to only DI
     // therefore, this state has 3 outgoing edges:
     //  - Insertion of an invocation
     //  - Update of the local to another local (the
@@ -31,15 +35,15 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtInvocation) {
                     final CtInvocation insertedInvocation = (CtInvocation) insertedElement;
-                    final String calleeName = insertedInvocation.getExecutable().getSimpleName();
-                    return new InsInvState(calleeName);
+                    return new InsInvState(insertedInvocation);
                 }
             } else if (operation instanceof UpdateOperation) {
                 final UpdateOperation updOp = (UpdateOperation) operation;
                 final CtElement srcElement = updOp.getSrcNode();
                 final CtElement dstElement = updOp.getDstNode();
                 if (srcElement instanceof CtVariableRead && dstElement instanceof CtVariableRead) {
-                    return new UpdLocalState();
+                    final CtVariableRead srcLocal = (CtVariableRead) srcElement;
+                    return new UpdLocalState(srcLocal);
                 }
             } else if (operation instanceof DeleteOperation) {
                 final DeleteOperation delOp = (DeleteOperation) operation;
@@ -47,7 +51,6 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                 if (deletedElement instanceof CtVariableRead
                         && !(deletedElement instanceof CtFieldAccess)) {
                     final CtVariableRead deletedVarRead = (CtVariableRead) deletedElement;
-                    System.out.println(deletedVarRead);
                     return new DelLocalState(deletedVarRead);
                 }
             }
@@ -56,10 +59,10 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
     }
 
     private class InsInvState implements State {
-        private final String calleeName;
+        private final CtInvocation insertedInvocation;
 
-        public InsInvState(String calleeName) {
-            this.calleeName = calleeName;
+        public InsInvState(CtInvocation insertedInvocation) {
+            this.insertedInvocation = insertedInvocation;
         }
 
         @Override
@@ -68,9 +71,16 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getSrcNode();
                 if (movedElement instanceof CtVariableRead) {
-                    final CtVariableReference movedVariable = ((CtVariableRead) movedElement).getVariable();
-                    final String movedLocalName = movedVariable.getSimpleName();
-                    return new U_IMState(movedLocalName, this.calleeName);
+                    final CtVariableReference movedVariable =
+                            ((CtVariableRead) movedElement).getVariable();
+                    if (Objects.equals(this.insertedInvocation.getType(),
+                            movedVariable.getType())) {
+                        final String movedLocalName = movedVariable.getSimpleName();
+                        final String calleeName = this.insertedInvocation
+                                .getExecutable()
+                                .getSimpleName();
+                        return new U_IMState(movedLocalName, calleeName);
+                    }
                 }
             }
             return initState;
@@ -98,6 +108,12 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
     }
 
     private class UpdLocalState implements State {
+        private final CtVariableRead srcLocal;
+
+        public UpdLocalState(CtVariableRead srcLocal) {
+            this.srcLocal = srcLocal;
+        }
+
         @Override
         public State handle(Operation operation) {
             if (operation instanceof InsertOperation) {
@@ -105,8 +121,12 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtInvocation) {
                     final CtInvocation insertedInvocation = (CtInvocation) insertedElement;
-                    final String calleeName = insertedInvocation.getExecutable().getSimpleName();
-                    return new InsInvState(calleeName);
+                    if (Objects.equals(this.srcLocal.getType(),
+                            insertedInvocation.getType())) {
+                        if (sibling(this.srcLocal, insertedInvocation)) {
+                            return new InsInvState(insertedInvocation);
+                        }
+                    }
                 }
             }
             return initState;
@@ -115,10 +135,8 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
 
     private class DelLocalState implements State {
         private final CtVariableRead deletedVarRead;
-        private final String deletedLocalName;
 
         public DelLocalState(final CtVariableRead deletedVarRead) {
-            this.deletedLocalName = deletedVarRead.getVariable().getSimpleName();
             this.deletedVarRead = deletedVarRead;
         }
 
@@ -130,9 +148,16 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                 if (insertedElement instanceof CtInvocation) {
                     final CtInvocation insertedInvocation =
                             (CtInvocation) insertedElement;
-                    final String calleeName = insertedInvocation.getExecutable()
-                            .getSimpleName();
-                    return new DIState(this.deletedLocalName, calleeName);
+                    if (Objects.equals(insertedInvocation.getType(),
+                            this.deletedVarRead.getType())) {
+                        if (sibling(this.deletedVarRead, insertedInvocation)) {
+                            final String calleeName = insertedInvocation.getExecutable()
+                                    .getSimpleName();
+                            final String deletedLocalName = deletedVarRead.getVariable()
+                                    .getSimpleName();
+                            return new DIState(deletedLocalName, calleeName);
+                        }
+                    }
                 }
             }
             return initState;
