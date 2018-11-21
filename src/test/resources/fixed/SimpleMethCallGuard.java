@@ -1,10 +1,10 @@
-public class VoidMethCallGuard {
+public class SimpleMethCallGuard {
     public void nothing() {
 
     }
 
     public static void main(String[] args) {
-        final VoidMethCallGuard l = args.length == 0 ? new VoidMethCallGuard() : null;
+        final SimpleMethCallGuard l = args.length == 0 ? new SimpleMethCallGuard() : null;
 
         if (l != null) {
             l.nothing();
