@@ -13,6 +13,10 @@ import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.declaration.CtElement;
 
+import java.util.Objects;
+
+import static org.mudebug.fpm.commons.Util.textEquals;
+
 public class NegateIntExpHandler extends RegExpHandler {
     public NegateIntExpHandler() {
         initState = new InitState();
@@ -67,7 +71,7 @@ public class NegateIntExpHandler extends RegExpHandler {
                 final CtElement movedElement = movOp.getSrcNode();
                 if (movedElement instanceof CtExpression) {
                     final CtExpression movedExpression = (CtExpression) movedElement;
-                    if (movedExpression.equals(this.deletedOperand)) {
+                    if (Objects.equals(movedExpression, this.deletedOperand)) {
                         return new DMState();
                     }
                 }
@@ -76,7 +80,7 @@ public class NegateIntExpHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtExpression) {
                     final CtExpression insertedExpr = (CtExpression) insertedElement;
-                    if (insertedExpr.equals(this.deletedOperand)) {
+                    if (textEquals(insertedExpr, this.deletedOperand)) {
                         if (insertedExpr instanceof CtLiteral) {
                             final CtLiteral insertedLiteral =
                                     ((CtLiteral) insertedExpr);
@@ -114,7 +118,7 @@ public class NegateIntExpHandler extends RegExpHandler {
             if (operation instanceof MoveOperation) {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getSrcNode();
-                if (movedElement.equals(this.insertedExpr)) {
+                if (Objects.equals(movedElement, this.insertedExpr)) {
                     return new IMState();
                 }
             }
@@ -151,7 +155,7 @@ public class NegateIntExpHandler extends RegExpHandler {
                             (CtUnaryOperator) insertedElement;
                     if (insertedUnaryOp.getKind() == UnaryOperatorKind.NEG) {
                         final CtExpression operand = insertedUnaryOp.getOperand();
-                        if (operand.equals(this.deletedExpr)) {
+                        if (textEquals(operand, this.deletedExpr)) {
                             if (this.deletedExpr instanceof CtLiteral) {
                                 final Object value =
                                         ((CtLiteral) this.deletedExpr).getValue();

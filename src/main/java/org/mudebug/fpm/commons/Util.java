@@ -8,6 +8,7 @@ import spoon.reflect.declaration.CtExecutable;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 public final class Util {
@@ -75,5 +76,23 @@ public final class Util {
             }
         }
         return set;
+    }
+
+    public static boolean textEquals(final CtExpression e1, final CtExpression e2) {
+        if (Objects.equals(e1, e2)) {
+            return true;
+        }
+        final String s1 = e1.toString();
+        final String s2 = e2.toString();
+        if (s1.equals(s2)) {
+            return true;
+        }
+        if (String.format("(%s)", s1).equals(s2)) {
+            return true;
+        }
+        if (String.format("(%s)", s2).equals(s1)) {
+            return true;
+        }
+        return false;
     }
 }

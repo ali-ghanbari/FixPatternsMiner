@@ -11,6 +11,8 @@ import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtTypeReference;
 
+import static org.mudebug.fpm.commons.Util.textEquals;
+
 public class NegateConditionalHandler extends RegExpHandler {
     public NegateConditionalHandler() {
         initState = new InitState();
@@ -89,19 +91,23 @@ public class NegateConditionalHandler extends RegExpHandler {
                             (CtUnaryOperator) insertedElement;
                     final UnaryOperatorKind opKind = insertedUnaryOp.getKind();
                     if (opKind == UnaryOperatorKind.NOT) {
-                        if (insertedUnaryOp.getOperand().equals(this.boolExp)) {
+                        if (textEquals(insertedUnaryOp.getOperand(), this.boolExp)) {
                             return new DIState(this.parentElement);
                         }
                     }
                 } else if (insertedElement instanceof CtExpression) {
-                    if (insertedElement.equals(this.boolExp)) {
+                    final CtExpression insertedExp = (CtExpression) insertedElement;
+                    if (textEquals(insertedExp, this.boolExp)) {
                         return new DM_IM_State(this.parentElement);
                     }
                 }
             } else if (operation instanceof MoveOperation) {
                 final CtElement movedElement = operation.getSrcNode();
-                if (this.boolExp.equals(movedElement)) {
-                    return new DM_IM_State(this.parentElement);
+                if (movedElement instanceof CtExpression) {
+                    final CtExpression movedExp = (CtExpression) movedElement;
+                    if (textEquals(this.boolExp, movedExp)) {
+                        return new DM_IM_State(this.parentElement);
+                    }
                 }
             }
             return initState;

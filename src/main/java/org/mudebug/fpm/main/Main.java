@@ -48,7 +48,8 @@ public final class Main implements FilePairVisitor {
                 new NegateConditionalHandler(),
                 new FieldMethDerefGuardHandler(),
                 new AccessorHandler(),
-                new SimpleMethCallGuardHandler()
+                new SimpleMethCallGuardHandler(),
+                new IncDecRemovalHandler()
         };
         this.table = new ArrayList<>();
     }
@@ -184,11 +185,15 @@ public final class Main implements FilePairVisitor {
                 return sp.getSourceStart();
             }));
             if (!ops.isEmpty()) {
-//                final String temp = ops.stream()
-//                        .map(operation -> operation.getClass().getName())
-//                        .map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
-//                        .collect(Collectors.joining(","));
-//                System.out.printf("[%s]%n", temp);
+                final String temp = ops.stream()
+                        .map(operation -> {
+                            String cn = operation.getClass().getName();
+                            cn = cn.substring(1 + cn.lastIndexOf('.'));
+                            cn += " " + operation.getSrcNode().toString();
+                            return cn;
+                        })
+                        .collect(Collectors.joining(","));
+                System.out.printf("[%s]%n", temp);
                 /* try regular expressions handlers */
                 for (final RegExpHandler regExpHandler : this.regExpHandlers) {
                     regExpHandler.reset();
@@ -212,7 +217,7 @@ public final class Main implements FilePairVisitor {
                             }
                             final Rule theRule = regExpHandler.getRule();
                             final String projectName = buggy.getAbsolutePath();
-//                            System.out.println("**match** " + theRule.getClass().getName());
+                            System.out.println("**match** " + theRule.getClass().getName());
                             this.table.add(new ImmutablePair<>(theRule, projectName));
                             regExpHandler.reset();
                         }
@@ -225,7 +230,7 @@ public final class Main implements FilePairVisitor {
                             final Rule rule = handler.handleOperation(op);
                             if (!(rule instanceof UnknownRule)) {
                                 final String projectName = buggy.getAbsolutePath();
-//                                System.out.println("**match** " + rule.getClass().getName());
+                                System.out.println("**match** " + rule.getClass().getName());
                                 this.table.add(new ImmutablePair<>(rule, projectName));
                             }
                         }
