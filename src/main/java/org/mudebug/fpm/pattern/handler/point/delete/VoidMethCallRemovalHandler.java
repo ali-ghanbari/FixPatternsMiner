@@ -5,9 +5,12 @@ import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.SimpleMethCallRemovalRule;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
+import spoon.reflect.reference.CtTypeReference;
 
-public class SimpleMethCallRemovalHandler extends DeleteHandler {
-    protected SimpleMethCallRemovalHandler(OperationHandler next) {
+import java.util.Objects;
+
+public class VoidMethCallRemovalHandler extends DeleteHandler {
+    protected VoidMethCallRemovalHandler(OperationHandler next) {
         super(next);
     }
 
@@ -18,6 +21,11 @@ public class SimpleMethCallRemovalHandler extends DeleteHandler {
 
     @Override
     protected Rule handlePattern(CtElement e1, CtElement e2) {
-        return new SimpleMethCallRemovalRule();
+        final CtInvocation invocation = (CtInvocation) e1;
+        final CtTypeReference returnType = invocation.getType();
+        if (returnType != null && returnType.toString().equals("void")) {
+            return new SimpleMethCallRemovalRule();
+        }
+        return super.handlePattern(e1, e2);
     }
 }

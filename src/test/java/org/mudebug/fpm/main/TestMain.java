@@ -55,8 +55,8 @@ public class TestMain {
                 "Constantify.java",
                 "FieldLocal.java",
                 "SimpleMethCallGuard.java",
-                "SimpleMethCallRemoval.java",
-                "IncrementsRemoval.java"
+                "IncrementsRemoval.java",
+                "VoidMethCallRemoval.java"
                 //,
                 //"SwitchCase.java"
         };
