@@ -145,6 +145,14 @@ public final class Main implements FilePairVisitor {
                 }
             }
             return new ImmutablePair<>(specialized, raw.getRight());
+        } else if ((rawRule instanceof FieldReadToLocalReadRule)
+                || (rawRule instanceof FieldWriteToLocalWrite)) {
+            final Rule specialized = new FieldAccessToLocalAccessMutatorRule();
+            return new ImmutablePair<>(specialized, raw.getRight());
+        } else if ((rawRule instanceof LocalReadToFieldReadRule)
+                || (rawRule instanceof LocalWriteToFieldWriteRule)) {
+            final Rule specialized = new LocalToFieldAccessMutatorRule();
+            return new ImmutablePair<>(specialized, raw.getRight());
         }
         return raw;
     }

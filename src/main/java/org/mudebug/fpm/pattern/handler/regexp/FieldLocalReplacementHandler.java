@@ -79,7 +79,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
         @Override
         public Rule getRule() {
-            return new LocalWriteToFieldWrite(this.deletedVarName, this.insertedFieldName);
+            return new LocalWriteToFieldWriteRule(this.deletedVarName, this.insertedFieldName);
         }
 
         @Override
