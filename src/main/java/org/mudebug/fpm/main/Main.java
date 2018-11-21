@@ -16,8 +16,11 @@ import org.mudebug.fpm.pattern.handler.point.delete.DeleteHandler;
 import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
 import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
 import org.mudebug.fpm.pattern.handler.regexp.*;
+import org.mudebug.fpm.pattern.rules.ConstantReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import org.mudebug.fpm.pattern.rules.UnknownRule;
+import org.mudebug.fpm.pattern.rules.pit_specializations.InlineConstantMutatorRule;
+import org.mudebug.fpm.pattern.rules.pit_specializations.InvertNegsMutatorRule;
 import spoon.reflect.cu.SourcePosition;
 import spoon.reflect.cu.position.NoSourcePosition;
 
@@ -26,6 +29,7 @@ import static java.lang.System.out;
 public final class Main implements FilePairVisitor {
     private final RegExpHandler[] regExpHandlers;
     private final OperationHandler[] pointHandlers;
+    /*1: the rule, 2: project name*/
     private final List<Pair<Rule, String>> table;
 
     private Main() {
@@ -87,6 +91,8 @@ public final class Main implements FilePairVisitor {
         try (final PrintWriter pwGeneralPatterns = new PrintWriter("out-general.csv");
              final PrintWriter pwProjectsCount = new PrintWriter("out-projects.csv")) {
             visitor.table.stream()
+                    .map(Main::pitSpecialize)
+                    .filter(Objects::nonNull)
                     .collect(Collectors.groupingBy(p -> p.getLeft().getClass().getName()))
                     .entrySet().stream()
                     .sorted((ent1, ent2) -> Integer.compare(ent2.getValue().size(), ent1.getValue().size()))
@@ -104,6 +110,22 @@ public final class Main implements FilePairVisitor {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static Pair<Rule, String> pitSpecialize(final Pair<Rule, String> raw) {
+        final Rule rawRule = raw.getLeft();
+        if (rawRule instanceof ConstantReplacementRule) {
+            final ConstantReplacementRule crr = (ConstantReplacementRule) rawRule;
+            Rule specialized = InlineConstantMutatorRule.build(crr);
+            if (specialized == null) {
+                specialized = InvertNegsMutatorRule.build(crr);
+            }
+            if (specialized == null) {
+                return null;
+            }
+            return new ImmutablePair<>(specialized, raw.getRight());
+        }
+        return raw;
     }
 
     @Override

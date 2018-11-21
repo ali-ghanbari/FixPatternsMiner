@@ -12,4 +12,12 @@ public class ConstantReplacementRule implements Rule {
         this.src = src;
         this.dst = dst;
     }
+
+    public Object getSrc() {
+        return src;
+    }
+
+    public Object getDst() {
+        return dst;
+    }
 }
