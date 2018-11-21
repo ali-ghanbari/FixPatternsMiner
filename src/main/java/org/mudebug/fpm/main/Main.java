@@ -140,7 +140,10 @@ public final class Main implements FilePairVisitor {
                     if (specialized == null) {
                         specialized = RORRule.build(borr);
                         if (specialized == null) {
-                            return null;
+                            specialized = NegatedConditionalMutatorRule.build(borr);
+                            if (specialized == null) {
+                                return null;
+                            }
                         }
                     }
                 }
@@ -153,6 +156,11 @@ public final class Main implements FilePairVisitor {
         } else if ((rawRule instanceof LocalReadToFieldReadRule)
                 || (rawRule instanceof LocalWriteToFieldWriteRule)) {
             final Rule specialized = new LocalToFieldAccessMutatorRule();
+            return new ImmutablePair<>(specialized, raw.getRight());
+        } else if (rawRule instanceof NegatedConditionalExprRule) {
+            final NegatedConditionalExprRule ncer =
+                    (NegatedConditionalExprRule) rawRule;
+            final Rule specialized = NegatedConditionalMutatorRule.build(ncer);
             return new ImmutablePair<>(specialized, raw.getRight());
         }
         return raw;

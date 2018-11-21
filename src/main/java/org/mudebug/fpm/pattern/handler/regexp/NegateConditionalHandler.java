@@ -5,7 +5,7 @@ import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.MoveOperation;
 import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.pattern.rules.NegatedBooleanExprRule;
-import org.mudebug.fpm.pattern.rules.NegatedConditionalRule;
+import org.mudebug.fpm.pattern.rules.NegatedConditionalExprRule;
 import org.mudebug.fpm.pattern.rules.Rule;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
@@ -133,7 +133,7 @@ public class NegateConditionalHandler extends RegExpHandler {
                     || parentElement instanceof CtWhile
                     || parentElement instanceof CtConditional
                     || parentElement instanceof CtDo) {
-                return new NegatedConditionalRule();
+                return new NegatedConditionalExprRule();
             }
             return new NegatedBooleanExprRule();
         }
