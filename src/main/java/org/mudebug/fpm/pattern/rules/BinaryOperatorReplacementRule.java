@@ -10,4 +10,12 @@ public class BinaryOperatorReplacementRule implements Rule {
         this.src = srcKind;
         this.dst = dstKind;
     }
+
+    public BinaryOperatorKind getSrc() {
+        return src;
+    }
+
+    public BinaryOperatorKind getDst() {
+        return dst;
+    }
 }

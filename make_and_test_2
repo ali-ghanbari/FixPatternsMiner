@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mvn clean package shade:shade -DskipTests
+(find /media/disk6TV1/ali/larger-dataset/ -wholename */buggy-version/*.java | ./list_file_pairs) | java -cp target/fix-pattern-miner-1.0.0-SNAPSHOT.jar org.mudebug.fpm.main.Main --parallel

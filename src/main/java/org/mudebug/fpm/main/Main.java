@@ -16,11 +16,8 @@ import org.mudebug.fpm.pattern.handler.point.delete.DeleteHandler;
 import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
 import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
 import org.mudebug.fpm.pattern.handler.regexp.*;
-import org.mudebug.fpm.pattern.rules.ConstantReplacementRule;
-import org.mudebug.fpm.pattern.rules.Rule;
-import org.mudebug.fpm.pattern.rules.UnknownRule;
-import org.mudebug.fpm.pattern.rules.pit_specializations.InlineConstantMutatorRule;
-import org.mudebug.fpm.pattern.rules.pit_specializations.InvertNegsMutatorRule;
+import org.mudebug.fpm.pattern.rules.*;
+import org.mudebug.fpm.pattern.rules.prapr_specializations.*;
 import spoon.reflect.cu.SourcePosition;
 import spoon.reflect.cu.position.NoSourcePosition;
 
@@ -91,7 +88,7 @@ public final class Main implements FilePairVisitor {
         try (final PrintWriter pwGeneralPatterns = new PrintWriter("out-general.csv");
              final PrintWriter pwProjectsCount = new PrintWriter("out-projects.csv")) {
             visitor.table.stream()
-                    .map(Main::pitSpecialize)
+                    .map(Main::praprSpecialize)
                     .filter(Objects::nonNull)
                     .collect(Collectors.groupingBy(p -> p.getLeft().getClass().getName()))
                     .entrySet().stream()
@@ -112,7 +109,7 @@ public final class Main implements FilePairVisitor {
         }
     }
 
-    private static Pair<Rule, String> pitSpecialize(final Pair<Rule, String> raw) {
+    private static Pair<Rule, String> praprSpecialize(final Pair<Rule, String> raw) {
         final Rule rawRule = raw.getLeft();
         if (rawRule instanceof ConstantReplacementRule) {
             final ConstantReplacementRule crr = (ConstantReplacementRule) rawRule;
@@ -122,6 +119,30 @@ public final class Main implements FilePairVisitor {
             }
             if (specialized == null) {
                 return null;
+            }
+            return new ImmutablePair<>(specialized, raw.getRight());
+        } else if (rawRule instanceof BinaryOperatorDeletedRule) {
+            final BinaryOperatorDeletedRule dobr = (BinaryOperatorDeletedRule) rawRule;
+            final Rule specialized = AODRule.build(dobr);
+            if (specialized == null) {
+                return null;
+            }
+            return new ImmutablePair<>(specialized, raw.getRight());
+        } else if (rawRule instanceof BinaryOperatorReplacementRule) {
+            final BinaryOperatorReplacementRule borr =
+                    (BinaryOperatorReplacementRule) rawRule;
+            Rule specialized = MathMutatorRule.build(borr);
+            if (specialized == null) {
+                specialized = AORRule.build(borr);
+                if (specialized == null) {
+                    specialized = ConditionalBoundaryMutatorRule.build(borr);
+                    if (specialized == null) {
+                        specialized = RORRule.build(borr);
+                        if (specialized == null) {
+                            return null;
+                        }
+                    }
+                }
             }
             return new ImmutablePair<>(specialized, raw.getRight());
         }

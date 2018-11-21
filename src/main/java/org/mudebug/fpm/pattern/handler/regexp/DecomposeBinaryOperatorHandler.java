@@ -4,7 +4,9 @@ import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.MoveOperation;
 import gumtree.spoon.diff.operations.Operation;
 import org.mudebug.fpm.pattern.rules.BinaryOperatorDeletedRule;
+import org.mudebug.fpm.pattern.rules.Operand;
 import org.mudebug.fpm.pattern.rules.Rule;
+import spoon.reflect.code.BinaryOperatorKind;
 import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.code.CtExpression;
 import spoon.reflect.declaration.CtElement;
@@ -35,12 +37,12 @@ public class DecomposeBinaryOperatorHandler extends RegExpHandler {
     }
 
     private class DelState implements State {
-        private final CtTypeReference deletedBinOpType;
+        private final CtBinaryOperator deletedBinOp;
         private final CtExpression left;
         private final CtExpression right;
 
         DelState(final CtBinaryOperator deletedBinOp) {
-            this.deletedBinOpType = deletedBinOp.getType();
+            this.deletedBinOp = deletedBinOp;
             this.left = deletedBinOp.getLeftHandOperand();
             this.right = deletedBinOp.getRightHandOperand();
         }
@@ -53,11 +55,13 @@ public class DecomposeBinaryOperatorHandler extends RegExpHandler {
                 if (movedElement instanceof CtExpression) {
                     final CtExpression movedExpr = (CtExpression) movedElement;
                     final CtTypeReference movedExprType = movedExpr.getType();
-                    if (Objects.equals(movedExprType, this.deletedBinOpType)) {
+                    final CtTypeReference deletedBinOpType = this.deletedBinOp.getType();
+                    if (Objects.equals(movedExprType, deletedBinOpType)) {
+                        final BinaryOperatorKind kind = this.deletedBinOp.getKind();
                         if (Objects.equals(movedExpr, this.left)) {
-                            return new PropagatedState(0);
+                            return new PropagatedState(kind, Operand.LEFT);
                         } else if (Objects.equals(movedExpr, this.right)) {
-                            return new PropagatedState(1);
+                            return new PropagatedState(kind, Operand.RIGHT);
                         }
                     }
                 }
@@ -67,15 +71,17 @@ public class DecomposeBinaryOperatorHandler extends RegExpHandler {
     }
 
     private class PropagatedState implements AcceptanceState {
-        private final int which;
+        private final BinaryOperatorKind kind;
+        private final Operand which;
 
-        PropagatedState(int which) {
+        PropagatedState(BinaryOperatorKind kind, Operand which) {
+            this.kind = kind;
             this.which = which;
         }
 
         @Override
         public Rule getRule() {
-            return new BinaryOperatorDeletedRule(this.which);
+            return new BinaryOperatorDeletedRule(this.kind, this.which);
         }
 
         @Override

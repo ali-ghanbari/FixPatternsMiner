@@ -1,4 +1,4 @@
-package org.mudebug.fpm.pattern.rules.pit_specializations;
+package org.mudebug.fpm.pattern.rules.prapr_specializations;
 
 import org.mudebug.fpm.pattern.rules.ConstantReplacementRule;
 import org.mudebug.fpm.pattern.rules.Rule;
