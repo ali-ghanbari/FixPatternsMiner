@@ -47,7 +47,8 @@ public final class Main implements FilePairVisitor {
                 new NegateIntExpHandler(),
                 new NegateConditionalHandler(),
                 new FieldMethDerefGuardHandler(),
-                new AccessorHandler()
+                new AccessorHandler(),
+                new SimpleMethCallGuardHandler()
         };
         this.table = new ArrayList<>();
     }
@@ -175,6 +176,11 @@ public final class Main implements FilePairVisitor {
                 return sp.getSourceStart();
             }));
             if (!ops.isEmpty()) {
+//                final String temp = ops.stream()
+//                        .map(operation -> operation.getClass().getName())
+//                        .map(cn -> cn.substring(1 + cn.lastIndexOf('.')))
+//                        .collect(Collectors.joining(","));
+//                System.out.printf("[%s]%n", temp);
                 /* try regular expressions handlers */
                 for (final RegExpHandler regExpHandler : this.regExpHandlers) {
                     regExpHandler.reset();
@@ -198,6 +204,7 @@ public final class Main implements FilePairVisitor {
                             }
                             final Rule theRule = regExpHandler.getRule();
                             final String projectName = buggy.getAbsolutePath();
+//                            System.out.println("**match** " + theRule.getClass().getName());
                             this.table.add(new ImmutablePair<>(theRule, projectName));
                             regExpHandler.reset();
                         }
@@ -210,6 +217,7 @@ public final class Main implements FilePairVisitor {
                             final Rule rule = handler.handleOperation(op);
                             if (!(rule instanceof UnknownRule)) {
                                 final String projectName = buggy.getAbsolutePath();
+//                                System.out.println("**match** " + rule.getClass().getName());
                                 this.table.add(new ImmutablePair<>(rule, projectName));
                             }
                         }

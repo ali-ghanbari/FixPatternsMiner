@@ -53,7 +53,8 @@ public class TestMain {
                 "UnaryOp.java",
                 "FieldToMethod.java",
                 "Constantify.java",
-                "FieldLocal.java"
+                "FieldLocal.java",
+                "VoidMethCallGuard.java"
                 //,
                 //"SwitchCase.java"
         };
