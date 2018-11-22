@@ -166,7 +166,7 @@ public class IfShortCircuitHandler extends RegExpHandler {
 
         @Override
         public Rule getRule() {
-            return new ThenBranchRemovedRule();
+            return ElseBranchExtractedRule.ELSE_BRANCH_EXTRACTED_RULE;
         }
     }
 
@@ -178,7 +178,7 @@ public class IfShortCircuitHandler extends RegExpHandler {
 
         @Override
         public Rule getRule() {
-            return new ElseBranchRemovedRule();
+            return ThenBranchExtractedRule.THEN_BRANCH_EXTRACTED_RULE;
         }
     }
 

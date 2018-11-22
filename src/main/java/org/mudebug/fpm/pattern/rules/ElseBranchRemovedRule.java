@@ -1,4 +1,5 @@
 package org.mudebug.fpm.pattern.rules;
 
-public class ElseBranchRemovedRule implements Rule {
+public enum ElseBranchRemovedRule implements Rule {
+    ELSE_BRANCH_REMOVED_RULE
 }

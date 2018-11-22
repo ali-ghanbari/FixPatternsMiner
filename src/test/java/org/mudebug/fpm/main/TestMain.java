@@ -56,7 +56,8 @@ public class TestMain {
                 "FieldLocal.java",
                 "SimpleMethCallGuard.java",
                 "IncrementsRemoval.java",
-                "VoidMethCallRemoval.java"
+                "VoidMethCallRemoval.java",
+                "IfRemoval.java"
                 //,
                 //"SwitchCase.java"
         };

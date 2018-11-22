@@ -22,6 +22,7 @@ public abstract class DeleteHandler extends OperationHandler {
         chain = new CaseRemovalHandler(chain);
         chain = new FieldInitRemovalHandler(chain);
         chain = new VoidMethCallRemovalHandler(chain);
+        chain = new IfRemovalHandler(chain);
         return chain;
     }
 }
