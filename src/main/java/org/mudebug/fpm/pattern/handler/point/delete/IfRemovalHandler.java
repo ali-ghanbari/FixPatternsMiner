@@ -2,8 +2,8 @@ package org.mudebug.fpm.pattern.handler.point.delete;
 
 import org.mudebug.fpm.pattern.handler.OperationHandler;
 import org.mudebug.fpm.pattern.rules.*;
-import spoon.reflect.code.CtBlock;
 import spoon.reflect.code.CtIf;
+import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtElement;
 
 // warning: this handler can lead to orphan M or I if the deleted if statement
@@ -16,12 +16,12 @@ public class IfRemovalHandler extends DeleteHandler {
 
     @Override
     protected boolean canHandlePattern(CtElement e1, CtElement e2) {
-        return e1 instanceof CtIf || e1 instanceof CtBlock;
+        return e1 instanceof CtIf || e1 instanceof CtStatement;
     }
 
     @Override
     protected Rule handlePattern(CtElement e1, CtElement e2) {
-        if (e1 instanceof CtBlock) { // probably else block
+        if (e1 instanceof CtStatement) { // probably else block
             final CtElement parent = e1.getParent();
             if (parent instanceof CtIf) {
                 return ElseBranchRemovedRule.ELSE_BRANCH_REMOVED_RULE;
