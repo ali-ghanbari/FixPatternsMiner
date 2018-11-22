@@ -6,4 +6,8 @@ public class ArgumentPropagatedRule implements Rule {
     public ArgumentPropagatedRule(final int which) {
         this.which = which;
     }
+
+    public int getArgNo() {
+        return which;
+    }
 }

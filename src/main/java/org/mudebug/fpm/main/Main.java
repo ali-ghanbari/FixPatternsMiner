@@ -163,6 +163,12 @@ public final class Main implements FilePairVisitor {
                     (NegatedConditionalExprRule) rawRule;
             final Rule specialized = NegatedConditionalMutatorRule.build(ncer);
             return new ImmutablePair<>(specialized, raw.getRight());
+        } else if (rawRule instanceof ArgumentPropagatedRule) {
+            final ArgumentPropagatedRule apr = (ArgumentPropagatedRule) rawRule;
+            final Rule specialized = NakedReceiverMutatorRule.build(apr);
+            if (specialized != null) {
+                return new ImmutablePair<>(specialized, raw.getRight());
+            }
         }
         return raw;
     }
