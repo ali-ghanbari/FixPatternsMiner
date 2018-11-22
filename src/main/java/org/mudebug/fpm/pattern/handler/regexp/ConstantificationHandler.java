@@ -3,15 +3,14 @@ package org.mudebug.fpm.pattern.handler.regexp;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.Operation;
-import org.mudebug.fpm.pattern.rules.ConstantificationRule;
-import org.mudebug.fpm.pattern.rules.Rule;
-import spoon.reflect.code.CtExpression;
-import spoon.reflect.code.CtLiteral;
-import spoon.reflect.code.CtUnaryOperator;
-import spoon.reflect.code.UnaryOperatorKind;
+import org.mudebug.fpm.pattern.rules.*;
+import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
+import spoon.reflect.reference.CtTypeReference;
 
-import static org.mudebug.fpm.commons.Util.sibling;
+import java.util.Objects;
+
+import static org.mudebug.fpm.commons.Util.*;
 
 public class ConstantificationHandler extends RegExpHandler {
     public ConstantificationHandler() {
@@ -22,8 +21,8 @@ public class ConstantificationHandler extends RegExpHandler {
 
     // we are going to match DI.
     // while doing so we want the
-    // non-trivial deletedExp deleted
-    // and a trivial deletedExp be
+    // non-trivial deletedExpr deleted
+    // and a trivial insertedExp be
     // replaced. we want to make sure
     // that the deleted element and
     // the inserted literal belong
@@ -32,12 +31,20 @@ public class ConstantificationHandler extends RegExpHandler {
         @Override
         public State handle(Operation operation) {
             if (operation instanceof DeleteOperation) {
-                final DeleteOperation delOp = (DeleteOperation) operation;
-                final CtElement deletedElement = delOp.getSrcNode();
-                if (deletedElement instanceof CtExpression
-                        && !isTrivialExp((CtExpression) deletedElement)) {
-                    final CtExpression deletedExp = (CtExpression) deletedElement;
-                    return new DelState(deletedExp);
+                final CtElement deletedElement = operation.getSrcNode();
+                if (deletedElement instanceof CtExpression) {
+                    final CtExpression deletedExpr = (CtExpression) deletedElement;
+                    if (deletedExpr instanceof CtInvocation) {
+                        /* non-void method call                              */
+                        /* an invocation that is expression must be non-void */
+                        final CtInvocation deletedInv = (CtInvocation) deletedExpr;
+                        return new InvDelState(deletedInv);
+                    } else if (deletedExpr instanceof CtConstructorCall
+                            || deletedExpr instanceof CtNewClass) {
+                        return new CtorCallDelState(deletedExpr);
+                    } else if (!isTrivialExp(deletedExpr)) {
+                        return new DelExprState(deletedExpr);
+                    }
                 }
             }
             return initState;
@@ -47,9 +54,12 @@ public class ConstantificationHandler extends RegExpHandler {
             if (exp instanceof CtUnaryOperator) {
                 final CtUnaryOperator unaryOp = (CtUnaryOperator) exp;
                 final UnaryOperatorKind kind = unaryOp.getKind();
-                if (kind == UnaryOperatorKind.NEG || kind == UnaryOperatorKind.POS) {
-                    final CtExpression operand = unaryOp.getOperand();
-                    return operand instanceof CtLiteral;
+                switch (kind) {
+                    case NEG:
+                    case POS:
+                    case NOT:
+                        final CtExpression operand = unaryOp.getOperand();
+                        return operand instanceof CtLiteral;
                 }
                 return false;
             }
@@ -57,40 +67,23 @@ public class ConstantificationHandler extends RegExpHandler {
         }
     }
 
-    private class DelState implements State {
-        private final CtExpression deletedExp;
+    private class InvDelState implements State {
+        private final CtInvocation deletedInvocation;
 
-        public DelState(CtExpression deletedExp) {
-            this.deletedExp = deletedExp;
+        public InvDelState(CtInvocation deletedInvocation) {
+            this.deletedInvocation = deletedInvocation;
         }
 
         @Override
         public State handle(Operation operation) {
             if (operation instanceof InsertOperation) {
-                final InsertOperation insOp = (InsertOperation) operation;
-                final CtElement insertedElement = insOp.getSrcNode();
-                // inserted element and the deleted expression must be siblings
+                final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtLiteral) {
-                    if (sibling(this.deletedExp, insertedElement)) {
-                        final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
-                        return new Replaced(this.deletedExp,
-                                false,
-                                insertedLiteral);
-                    }
-                } else if (insertedElement instanceof CtUnaryOperator) {
-                    if (sibling(this.deletedExp, insertedElement)) {
-                        final CtUnaryOperator unaryOperator =
-                                (CtUnaryOperator) insertedElement;
-                        final UnaryOperatorKind kind = unaryOperator.getKind();
-                        if (kind == UnaryOperatorKind.NEG
-                                || kind == UnaryOperatorKind.POS) {
-                            final CtExpression operand = unaryOperator.getOperand();
-                            if (operand instanceof CtLiteral) {
-                                final CtLiteral insertedLiteral = (CtLiteral) operand;
-                                return new Replaced(this.deletedExp,
-                                        (kind == UnaryOperatorKind.NEG),
-                                        insertedLiteral);
-                            }
+                    final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
+                    final CtTypeReference returnType = this.deletedInvocation.getType();
+                    if (equalsType(returnType, insertedLiteral.getType())) {
+                        if (sibling(this.deletedInvocation, insertedLiteral)) {
+                            return new InvReplacedState(insertedLiteral);
                         }
                     }
                 }
@@ -99,23 +92,125 @@ public class ConstantificationHandler extends RegExpHandler {
         }
     }
 
-    private class Replaced implements AcceptanceState {
-        private final CtExpression deletedExp;
-        private final CtLiteral insertedLiteral;
-        private final boolean negate;
+    private class InvReplacedState implements AcceptanceState {
+        private final CtLiteral literal;
 
-        Replaced(final CtExpression deletedExp,
-                 final boolean negate,
-                 final CtLiteral insertedLiteral) {
-            this.deletedExp = deletedExp;
-            this.insertedLiteral = insertedLiteral;
-            this.negate = negate;
+        public InvReplacedState(CtLiteral literal) {
+            this.literal = literal;
         }
 
         @Override
         public Rule getRule() {
-            return new ConstantificationRule(deletedExp.getClass().getName(),
-                    (this.negate ? "-" : "") + String.valueOf(insertedLiteral.getValue()));
+            return new NonVoidMethCallRemovedRule(this.literal);
+        }
+
+        @Override
+        public State handle(Operation operation) {
+            return initState;
+        }
+    }
+
+    private class CtorCallDelState implements State {
+        private final CtExpression deletedCtorCall;
+
+        public CtorCallDelState(CtExpression deletedCtorCall) {
+            /* this could be CtConstructorCall or CtNewClass */
+            this.deletedCtorCall = deletedCtorCall;
+        }
+
+        @Override
+        public State handle(Operation operation) {
+            if (operation instanceof InsertOperation) {
+                final CtElement insertedElement = operation.getSrcNode();
+                if (insertedElement instanceof CtLiteral) {
+                    final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
+                    final CtTypeReference objType = this.deletedCtorCall.getType();
+                    if (equalsType(objType, insertedLiteral.getType())) {
+                        if (sibling(this.deletedCtorCall, insertedLiteral)) {
+                            return new CtorCallReplacedState(insertedLiteral);
+                        }
+                    }
+                }
+            }
+            return initState;
+        }
+    }
+
+    private class CtorCallReplacedState implements AcceptanceState {
+        private final CtLiteral literal;
+
+        public CtorCallReplacedState(CtLiteral literal) {
+            this.literal = literal;
+        }
+
+        @Override
+        public Rule getRule() {
+            return new CtorCallRemovalRule(this.literal);
+        }
+
+        @Override
+        public State handle(Operation operation) {
+            return initState;
+        }
+    }
+
+    private class DelExprState implements State {
+        private final CtExpression deletedExpr;
+
+        public DelExprState(CtExpression deletedExpr) {
+            this.deletedExpr = deletedExpr;
+        }
+
+        @Override
+        public State handle(Operation operation) {
+            if (operation instanceof InsertOperation) {
+                final CtElement insertedElement = operation.getSrcNode();
+                if (insertedElement instanceof CtLiteral) {
+                    final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
+                    final CtTypeReference exprType = this.deletedExpr.getType();
+                    if (equalsType(exprType, insertedLiteral.getType())) {
+                        if (sibling(this.deletedExpr, insertedLiteral)) {
+                            final CtElement parent = insertedLiteral.getParent();
+                            if (parent instanceof CtReturn) {
+                                return new ReturnedExprReplacedState(insertedLiteral);
+                            }
+                            return new ExprReplacedState(insertedLiteral);
+                        }
+                    }
+                }
+            }
+            return initState;
+        }
+    }
+
+    private class ExprReplacedState implements AcceptanceState {
+        private final CtLiteral literal;
+
+        ExprReplacedState(final CtLiteral literal) {
+            this.literal = literal;
+        }
+
+        @Override
+        public Rule getRule() {
+            return new ConstantificationRule(this.literal);
+        }
+
+        @Override
+        public State handle(Operation operation) {
+            return initState;
+        }
+    }
+
+    private class ReturnedExprReplacedState implements AcceptanceState {
+        private final CtLiteral literal;
+
+        ReturnedExprReplacedState(final CtLiteral literal) {
+            this.literal = literal;
+        }
+
+        @Override
+        public Rule getRule() {
+            return new ReturnStmtConstantifiedRule(this.literal);
         }
 
         @Override

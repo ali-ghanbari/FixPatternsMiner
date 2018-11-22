@@ -52,12 +52,12 @@ public class TestMain {
                 "MethodName.java",
                 "UnaryOp.java",
                 "FieldToMethod.java",
-                "Constantify.java",
                 "FieldLocal.java",
                 "SimpleMethCallGuard.java",
                 "IncrementsRemoval.java",
                 "VoidMethCallRemoval.java",
-                "IfRemoval.java"
+                "IfRemoval.java",
+                "Constantify.java"
                 //,
                 //"SwitchCase.java"
         };

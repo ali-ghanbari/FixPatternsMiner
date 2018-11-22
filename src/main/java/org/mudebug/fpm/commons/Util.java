@@ -5,6 +5,7 @@ import spoon.reflect.code.CtReturn;
 import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtExecutable;
+import spoon.reflect.reference.CtTypeReference;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -82,6 +83,9 @@ public final class Util {
         if (Objects.equals(e1, e2)) {
             return true;
         }
+        if (e2 == null) {
+            return false;
+        }
         final String s1 = e1.toString();
         final String s2 = e2.toString();
         if (s1.equals(s2)) {
@@ -94,5 +98,26 @@ public final class Util {
             return true;
         }
         return false;
+    }
+
+    public static boolean equalsType(final CtTypeReference t1,
+                                     final CtTypeReference t2) {
+        if (Objects.equals(t1, t2)) {
+            return true;
+        }
+        if (t2 == null) {
+            return false;
+        }
+        if (t1.isPrimitive() || t2.isPrimitive()) {
+            if (!t2.isPrimitive() && Objects.equals(t1, t2.unbox())) {
+                return true;
+            }
+            if (!t1.isPrimitive() && Objects.equals(t1.unbox(), t2)) {
+                return true;
+            }
+            return false;
+        }
+        return t1.getSimpleName().equals(CtTypeReference.NULL_TYPE_NAME)
+                || t2.getSimpleName().equals(CtTypeReference.NULL_TYPE_NAME);
     }
 }

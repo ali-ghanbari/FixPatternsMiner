@@ -1,11 +1,11 @@
 package org.mudebug.fpm.pattern.rules;
 
-public class ConstantificationRule implements Rule {
-    private final String srcClassName;
-    private final String dstLiteral;
+import spoon.reflect.code.CtLiteral;
 
-    public ConstantificationRule(String srcClassName, String dstLiteral) {
-        this.srcClassName = srcClassName;
-        this.dstLiteral = dstLiteral;
+public class ConstantificationRule implements Rule {
+    private final CtLiteral literal;
+
+    public ConstantificationRule(final CtLiteral literal) {
+        this.literal = literal;
     }
 }
