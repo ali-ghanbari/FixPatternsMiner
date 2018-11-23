@@ -83,7 +83,7 @@ public final class Util {
         if (Objects.equals(e1, e2)) {
             return true;
         }
-        if (e2 == null) {
+        if (e1 == null || e2 == null) {
             return false;
         }
         final String s1 = e1.toString();
@@ -105,7 +105,7 @@ public final class Util {
         if (Objects.equals(t1, t2)) {
             return true;
         }
-        if (t2 == null) {
+        if (t1 == null || t2 == null) {
             return false;
         }
         if (t1.isPrimitive() || t2.isPrimitive()) {
