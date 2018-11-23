@@ -8,14 +8,14 @@ PermanentLockingException.  This should now be fixed.
 This was due to an interaction between
 ConsistentKeyLockTransaction#writeBlindLockClaim(...) and
 LockClaim#getLockCol(long ts, byte[] rid).  The former calls the
-latter.  The latter calculated a return value only on its first
+latter.  The latter calculated a return literal only on its first
 invocation, cached it, and then returned it on that and all subsequent
 invocations.  It did this even if the ts argument, on which the return
-value depended, varied between invocations.  In cases where a lock
+literal depended, varied between invocations.  In cases where a lock
 claim write took longer than LOCK_WAIT_MS to succeed, this caching
 behavior made retries write a stale timestamp and later caused a
 "timestamp mismatch" exception.  This commit makes getLockCol(...)
-calculate its return value on every invocation.
+calculate its return literal on every invocation.
 
 This should alleviate one potential cause of timeout mismatch
 exceptions as discussed in #302.

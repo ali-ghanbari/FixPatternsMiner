@@ -2,7 +2,7 @@ mdb: fix page swapping bug when reading column text values
 
 The page buffers are swapped at the beginning of the read, and are
 expected to be swapped back at the end of the read.  This was happening
-if the read was successful and the value was valid, but not if the value
+if the read was successful and the literal was valid, but not if the literal
 was invalid.
 
 Fixes #10942.

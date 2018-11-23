@@ -10,4 +10,12 @@ public class BiFunctionToBinaryOperatorRule implements Rule {
         this.name = name;
         this.opKind = kind;
     }
+
+    public String getBiFunctionName() {
+        return name;
+    }
+
+    public BinaryOperatorKind getBinaryOperatorKind() {
+        return opKind;
+    }
 }

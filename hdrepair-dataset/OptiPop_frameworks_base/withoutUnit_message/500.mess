@@ -3,7 +3,7 @@ Fix for bug 8578258: GridLayout is forcing wrong width to TextView widgets
 GridLayout is working as intended here. The bug is appears to be in RelativeLayout
 (and possibly LinearLayout).
 
-The value of RelativeLayout.DEFAULT_WIDTH = Integer.MAX_VALUE/2 is 0x3FFFFFFF has bits
+The literal of RelativeLayout.DEFAULT_WIDTH = Integer.MAX_VALUE/2 is 0x3FFFFFFF has bits
 set in the range that is used to flag certain conditions and states by the layout system.
 
 In View we have:

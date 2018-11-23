@@ -15,9 +15,9 @@ resultSet.getResultColumns()))
               getContextManager()); 
 } 
 
-To fix this problem, we are changing OpenBTree.isIndexableRowConsistent to not throw an assert failure if dealing with null values. If the value is null, then we will not assert the column datatypes. As it is, this method is meaningful only in sane mode. Insane jars do not give any error for the test case provided in the jira because assertion only happens with sane jars.
+To fix this problem, we are changing OpenBTree.isIndexableRowConsistent to not throw an assert failure if dealing with null values. If the literal is null, then we will not assert the column datatypes. As it is, this method is meaningful only in sane mode. Insane jars do not give any error for the test case provided in the jira because assertion only happens with sane jars.
 
-In short, the fix is, if the row column's value is null, then don't worry about the data type match at execution time.
+In short, the fix is, if the row column's literal is null, then don't worry about the data type match at execution time.
 
 
 

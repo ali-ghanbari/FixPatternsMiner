@@ -8,8 +8,8 @@ import static spoon.reflect.code.BinaryOperatorKind.*;
 
 public class ConditionalBoundaryMutatorRule implements Rule {
     public static ConditionalBoundaryMutatorRule build(final BinaryOperatorReplacementRule borr) {
-        final BinaryOperatorKind src = borr.getSrc();
-        final BinaryOperatorKind dst = borr.getDst();
+        final BinaryOperatorKind src = borr.getSourceBinaryOperatorKind();
+        final BinaryOperatorKind dst = borr.getDestinationBinaryOperatorKind();
         if ((src == LE && dst == LT)
                 || (src == LT && dst == LE)
                 || (src == GE && dst == GT)

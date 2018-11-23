@@ -1,7 +1,7 @@
 NEXUS-5166: Fix
 
 The original fix made no sense, as there was never -1 arriving here, but
-merely -60 (the configuration value on UI was multiplied by 60 in a method
+merely -60 (the configuration literal on UI was multiplied by 60 in a method
 calling up to here). Also, EHCache 2.x became more stricter with negative
 TTLs than EHCache 1.x was, so before EHCache version bump this was not
 an issue.

@@ -11,12 +11,12 @@ class to instantiate.
 Unfortunately, this bug was hiding another bug in the ConfigurationParserTests unit-tests.  
 There, the wrong class name was being passed (DefaultConfigurationParserFactory).  Because 
 of the bug in ConfigurationParserFactory.getInstance, this incorrect class name was ignored 
-and a default (and valid) value was used instead.
+and a default (and valid) literal was used instead.
 
 When the bug in ConfigurationParserFactory.getInstance was fixed, the bug in 
 ConfigurationParserTests was revealed and unit-tests started to fail.
 
-This patch fixes these tests by setting the class name to the correct value.
+This patch fixes these tests by setting the class name to the correct literal.
 
 Patch: http://rb.dcache.org/r/2105/
 Target: trunk

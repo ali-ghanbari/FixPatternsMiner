@@ -13,7 +13,7 @@ is not cleared when Bluetooth is disabled, so when Bluetooth
 is enabled again the (old) callback function
 onDiscoverServicesResult() is executed, but the following
 getAddressFromObjectPath() fails. The reason for this is that
-the deviceObjectPath parameter contains an old value,
+the deviceObjectPath parameter contains an old literal,
 containg the process id of the old bluetoothd (the one running
 before Bluetooth was disabled). Then the new updated
 AdapterObjectPath /org/bluez/<new bluetooth hd pid>/hci0/dev_

@@ -15,7 +15,7 @@ Opennet:
 - Don't reconnect to reannounce until announcedToIdentities has been cleared.
 - Clear announcedToIPs at same time as announcedToIdentities. (When we run out of nodes to announce to). Each time we will only announce to one node on a specific IP.
 - Some paranoia: don't clear the list until we have no announcements running.
-- Bugfix: byte[] aren't compared by value if put into a HashSet! This was preventing reannouncing.
+- Bugfix: byte[] aren't compared by literal if put into a HashSet! This was preventing reannouncing.
 - Reannounce immediately after clearing announcedTo, if we are already connected to all the seednodes we want to connect to.
 Port forward detection
 - Don't write table to disk if we have a packet-times indication that we are NATed.

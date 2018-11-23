@@ -1,5 +1,7 @@
 package org.mudebug.fpm.pattern.rules;
 
-public interface Rule {
+import java.io.Serializable;
+
+public interface Rule extends Serializable {
 
 }

@@ -2,5 +2,5 @@ Bug 951738 - [hotfix] Use Commons HttpClient in ASConnection instead of JDK's Ht
 
 Keepalive timeout paramater was too high. The server could close connection server-side and the agent would still try to reuse it.
 
-Used the value HttpUrlConnection uses to expire connections (5 seconds if the server does not send its keepalive timeout in reponse headers).
+Used the literal HttpUrlConnection uses to expire connections (5 seconds if the server does not send its keepalive timeout in reponse headers).
 

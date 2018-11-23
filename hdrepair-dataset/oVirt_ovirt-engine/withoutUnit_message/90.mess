@@ -8,7 +8,7 @@ the logic in charge to ensure that diskInfoList is never null was
 removed.
 
 When a new VM is added from rest-api addVmFromScratch(...) sets
-diskInfoList to a null value:
+diskInfoList to a null literal:
 
   AddVmParameters params = new AddVmParameters(staticVm);
   params.setDiskInfoList(mapDisks(vm.getDisks()));

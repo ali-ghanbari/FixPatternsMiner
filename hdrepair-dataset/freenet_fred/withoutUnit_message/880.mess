@@ -15,7 +15,7 @@
 - Sort by column on the darknet and queue pages
 - Make aggressiveGC work again (it wasn't working due to a bug; should we remove it?)
 - plugin/: Catch a Throwable loading a plugin, don't start it until it's been added, don't write freenet.ini until it's been loaded.
-- config: check that a config value hasn't been changed before deciding not to write it! Fixes #910, maybe others.
+- config: check that a config literal hasn't been changed before deciding not to write it! Fixes #910, maybe others.
 - HTML filter: <form> tag: no target attribute, drop support for accept= for now (ask me if you need it), parse method, fix enctype and accept-charset, verify method (GET or PUT), force enctype and accept-charset, move decision on whether to allow a form to the filter callback, allow POSTs and GETs to / (they can be done from the web anyway, and they will be reconfirmed as the freesite author doesn't know the form password; this is current behaviour anyway), and to plugins (same arguments; allows a site to have a search-my-index box; any dangerous operations should be confirmed by the plugin through formpassword or similar).
 - HTTP plugins: pass the full request URI, so the plugin can use relative URIs
 - StringArrOption: if "", that's String[0], not String[] { "" }; prevents e.g. trying to load a plugin called "".

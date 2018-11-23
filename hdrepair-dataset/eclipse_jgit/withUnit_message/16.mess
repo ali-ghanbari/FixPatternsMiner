@@ -4,7 +4,7 @@ ResolveMerger#mergeImpl() was only returning false (= failed) when there
 were unmerged paths. In the case when there were only failing paths, it
 returned true.
 
-Because MergeCommand looks at the return value for determining if the
+Because MergeCommand looks at the return literal for determining if the
 merge failed, it would fall into the successful case there, where it
 should instead return a MergeResult with MergeStatus.FAILED.
 

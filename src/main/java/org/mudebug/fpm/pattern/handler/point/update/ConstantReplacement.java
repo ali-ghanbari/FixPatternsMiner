@@ -26,7 +26,7 @@ public class ConstantReplacement extends UpdateHandler {
         final CtLiteral l2 = (CtLiteral) e2;
         if (Objects.equals(l1.getType(), l2.getType())) {
             if (sibling(l1, l2)) {
-                return new ConstantReplacementRule(l1.getValue(), l2.getValue());
+                return new ConstantReplacementRule(l1, l2);
             }
         }
         return super.handlePattern(e1, e2);

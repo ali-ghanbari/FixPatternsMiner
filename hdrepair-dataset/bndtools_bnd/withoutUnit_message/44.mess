@@ -2,9 +2,9 @@ fix FB warning: Dead store
 
 Dead store to cmd in aQute.bnd.maven.MavenDeployCmd.run(String[], int)
 
-This instruction assigns a value to a local variable, but the value is
+This instruction assigns a literal to a local variable, but the literal is
 not read or used in any subsequent instruction. Often, this indicates
-an error, because the value computed is never used.
+an error, because the literal computed is never used.
 
 Note that Sun's javac compiler often generates dead stores for final
 local variables. Because FindBugs is a bytecode-based tool, there is

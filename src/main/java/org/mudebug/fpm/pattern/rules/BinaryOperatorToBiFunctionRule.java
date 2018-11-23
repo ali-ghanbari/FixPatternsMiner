@@ -11,4 +11,12 @@ public class BinaryOperatorToBiFunctionRule implements Rule {
         this.deletedBinOpKind = deletedBinOpKind;
         this.functionName = functionName;
     }
+
+    public BinaryOperatorKind getDeletedBinaryOperatorKind() {
+        return deletedBinOpKind;
+    }
+
+    public String getBiFunctionName() {
+        return functionName;
+    }
 }

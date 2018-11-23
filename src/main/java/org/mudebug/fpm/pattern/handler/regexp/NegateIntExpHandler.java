@@ -84,7 +84,7 @@ public class NegateIntExpHandler extends RegExpHandler {
                         if (insertedExpr instanceof CtLiteral) {
                             final CtLiteral insertedLiteral =
                                     ((CtLiteral) insertedExpr);
-                            return new ConstantReplacement(insertedLiteral.getValue());
+                            return new ConstantReplacement(insertedLiteral);
                         }
                         return new DIState();
                     }
@@ -157,9 +157,8 @@ public class NegateIntExpHandler extends RegExpHandler {
                         final CtExpression operand = insertedUnaryOp.getOperand();
                         if (textEquals(operand, this.deletedExpr)) {
                             if (this.deletedExpr instanceof CtLiteral) {
-                                final Object value =
-                                        ((CtLiteral) this.deletedExpr).getValue();
-                                return new ConstantReplacement(value);
+                                final CtLiteral deletedLiteral = (CtLiteral) this.deletedExpr;
+                                return new ConstantReplacement(deletedLiteral);
                             }
                             return new DIState();
                         }
@@ -183,15 +182,15 @@ public class NegateIntExpHandler extends RegExpHandler {
     }
 
     private class ConstantReplacement extends DIState {
-        private final Object value;
+        private final CtLiteral literal;
 
-        public ConstantReplacement(Object value) {
-            this.value = value;
+        public ConstantReplacement(CtLiteral literal) {
+            this.literal = literal;
         }
 
         @Override
         public Rule getRule() {
-            return new ConstantReplacementRule(this.value);
+            return new ConstantReplacementRule(this.literal);
         }
 
         @Override

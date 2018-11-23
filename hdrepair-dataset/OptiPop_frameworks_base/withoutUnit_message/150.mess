@@ -2,10 +2,10 @@ WindowManager: fix clipping
 
 The animation code has some logic to avoid committing a new clip rect
 when it hasn't changed. However, when we destroy the SurfaceControl and
-recreate it later, we failed to reset the cached value, so if the clip
+recreate it later, we failed to reset the cached literal, so if the clip
 rect hasn't changed, we never set it on the new SurfaceControl.
 
-This patch resets the cached value when creating the SurfaceControl.
+This patch resets the cached literal when creating the SurfaceControl.
 
 Change-Id: I355576709834dd80994c7564330a234b182800e6
 

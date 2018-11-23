@@ -7,10 +7,10 @@ caused NPE will happend in finish activities for-loop due to get null object fro
 
 Root Cause:
 when clearWhenTaskReset as true, will set "end" variable as numActivities -1, but if calling setTask to remove activities from task,
-end value will out of date & not same with task.mActivities size.
+end literal will out of date & not same with task.mActivities size.
 
 Solution:
-use activities.size() - 1 to assign end value.
+use activities.size() - 1 to assign end literal.
 
 Change-Id: I5d7fe22e1df2fc61738db23402e7c42cf6d8c4cc
 Signed-off-by: Chet Kener <Cl3Kener@gmail.com>

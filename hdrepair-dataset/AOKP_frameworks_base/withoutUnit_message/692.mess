@@ -1,4 +1,4 @@
-DreamManagerService: Handle missing db value
+DreamManagerService: Handle missing db literal
 
 Should not happen (except for early dogfooders with a specific build),
 but handle gracefully as we do elsewhere in dream manager.
@@ -11,7 +11,7 @@ To test:
 Pre-fix workaround:
   adb shell sqlite3 \
   /data/data/com.android.providers.settings/databases/settings.db \
-  "insert into secure(name, value) values ('screensaver_components', \
+  "insert into secure(name, literal) values ('screensaver_components', \
   'com.google.android.deskclock/com.android.deskclock.Screensaver')"
 
 Change-Id: I2cf39608c8dd5011f6a00deece95eb6554da5173

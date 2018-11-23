@@ -3,12 +3,12 @@ Fix bug in TIMESTAMP_PROVIDER definition
 ConfigOptions store a type token representing the class or interface
 of their values.  ConfigOption has a constructor that tries to guess
 the type token by calling defaultValue.getClass().  Calling getClass()
-on an enum value returns the class of that particular enum value,
+on an enum literal returns the class of that particular enum literal,
 which is likely to be an inner class identifier like EnumName$1.  This
 is almost always not what the writer intended.
 
 We might be able to change ConfigOption's constructor to check whether
-the default value belongs to an enum, and then try to get the enum
+the default literal belongs to an enum, and then try to get the enum
 class, but I'm not sure it's worth the complexity.  The user can
 always specify the intended type token by invoking another constructor
 overload.  I've done the latter with TIMESTAMP_PROVIDER.

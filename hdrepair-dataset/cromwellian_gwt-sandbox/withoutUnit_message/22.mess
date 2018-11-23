@@ -3,8 +3,8 @@ Contributed by tbroyer.
 
 "When checking whether entities were persisted by processed invocations in
 createReturnOperations, SimpleRequestProcessor erroneously also ran the
-check with value proxies. Unfortunately, whereas entity proxies are resolved
-from the request 'cache', with value proxies a new proxy is created each
+check with literal proxies. Unfortunately, whereas entity proxies are resolved
+from the request 'cache', with literal proxies a new proxy is created each
 time, with its properties resolved (which includes referenced proxies!).
 This results in a significant slow down."
 

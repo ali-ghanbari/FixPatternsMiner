@@ -154,7 +154,7 @@ TEMPFILES:
 - Various optimisations and bugfixes to make large site inserts work:
 -- Run gotAllMetadata() on its own transaction; make sure it gets run on restart if not before.
 -- Don't copy data, just use the one bucket, when compress to a SegmentedBCB and find it fits in a single block. (Compression produces a SegmentedBCB which isn't in itself persistent, so we may need to copy).
--- resolve(): mustWait (return value) is ignored, don't make it. If metadata is already resolved, log an error and don't resolve it.
+-- resolve(): mustWait (return literal) is ignored, don't make it. If metadata is already resolved, log an error and don't resolve it.
 -- Don't start inserting if we have to resolve a MetadataUnresolvedException! Clearly we do not have enough information to proceed.
 -- Resolve immediately on got metadata for any PutHandler to speed up the insert and reduce the size of the commit on gotAllMetadata().
 -- Persistent hash code for Metadata.

@@ -13,8 +13,8 @@ public class NegatedConditionalMutatorRule implements Rule {
     }
 
     public static NegatedConditionalMutatorRule build(final BinaryOperatorReplacementRule borr) {
-        final BinaryOperatorKind src = borr.getSrc();
-        final BinaryOperatorKind dst = borr.getDst();
+        final BinaryOperatorKind src = borr.getSourceBinaryOperatorKind();
+        final BinaryOperatorKind dst = borr.getDestinationBinaryOperatorKind();
         if (isComparison(src) && isComparison(dst)) {
             if (isNegated(src, dst)) {
                 return new NegatedConditionalMutatorRule();

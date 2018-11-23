@@ -109,7 +109,7 @@ public class DownloadManagerBaseTest extends InstrumentationTestCase {
         /**
          * Constructor
          *
-         * Creates RNG with self-generated seed value.
+         * Creates RNG with self-generated seed literal.
          */
         public LoggingRng() {
             this(SystemClock.uptimeMillis());
@@ -118,13 +118,13 @@ public class DownloadManagerBaseTest extends InstrumentationTestCase {
         /**
          * Constructor
          *
-         * Creats RNG with given initial seed value
+         * Creats RNG with given initial seed literal
 
-         * @param seed The initial seed value
+         * @param seed The initial seed literal
          */
         public LoggingRng(long seed) {
             super(seed);
-            Log.i(LOG_TAG, "Seeding RNG with value: " + seed);
+            Log.i(LOG_TAG, "Seeding RNG with literal: " + seed);
         }
     }
 
@@ -645,22 +645,22 @@ public class DownloadManagerBaseTest extends InstrumentationTestCase {
         Cursor cursor = getCursor(dlRequest);
         try {
             int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-            int value = cursor.getInt(columnIndex);
+            int literal = cursor.getInt(columnIndex);
             int currentWaitTime = 0;
 
-            while (value != DownloadManager.STATUS_RUNNING &&
-                    (value != DownloadManager.STATUS_FAILED) &&
-                    (value != DownloadManager.STATUS_SUCCESSFUL)) {
+            while (literal != DownloadManager.STATUS_RUNNING &&
+                    (literal != DownloadManager.STATUS_FAILED) &&
+                    (literal != DownloadManager.STATUS_SUCCESSFUL)) {
                 Log.i(LOG_TAG, "Waiting for download to start...");
                 currentWaitTime = timeoutWait(currentWaitTime, WAIT_FOR_DOWNLOAD_POLL_TIME,
                         MAX_WAIT_FOR_DOWNLOAD_TIME, "Timed out waiting for download to start!");
                 cursor.requery();
                 assertTrue(cursor.moveToFirst());
                 columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                value = cursor.getInt(columnIndex);
+                literal = cursor.getInt(columnIndex);
             }
             assertFalse("Download failed immediately after start",
-                    value == DownloadManager.STATUS_FAILED);
+                    literal == DownloadManager.STATUS_FAILED);
         } finally {
             cursor.close();
         }
@@ -771,11 +771,11 @@ public class DownloadManagerBaseTest extends InstrumentationTestCase {
     }
 
     /**
-     * Helper to verify an int value in a Cursor
+     * Helper to verify an int literal in a Cursor
      *
      * @param cursor The cursor containing the query results
      * @param columnName The name of the column to query
-     * @param expected The expected int value
+     * @param expected The expected int literal
      */
     private void verifyInt(Cursor cursor, String columnName, int expected) {
         int index = cursor.getColumnIndex(columnName);

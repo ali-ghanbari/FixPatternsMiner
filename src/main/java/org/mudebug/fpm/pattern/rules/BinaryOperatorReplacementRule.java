@@ -11,11 +11,11 @@ public class BinaryOperatorReplacementRule implements Rule {
         this.dst = dstKind;
     }
 
-    public BinaryOperatorKind getSrc() {
+    public BinaryOperatorKind getSourceBinaryOperatorKind() {
         return src;
     }
 
-    public BinaryOperatorKind getDst() {
+    public BinaryOperatorKind getDestinationBinaryOperatorKind() {
         return dst;
     }
 }

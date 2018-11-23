@@ -8,8 +8,8 @@ import static spoon.reflect.code.BinaryOperatorKind.*;
 
 public class MathMutatorRule implements Rule {
     public static MathMutatorRule build(final BinaryOperatorReplacementRule borr) {
-        final BinaryOperatorKind src = borr.getSrc();
-        final BinaryOperatorKind dst = borr.getDst();
+        final BinaryOperatorKind src = borr.getSourceBinaryOperatorKind();
+        final BinaryOperatorKind dst = borr.getDestinationBinaryOperatorKind();
         if ((src == PLUS && dst == MINUS)
                 || (src == MINUS && dst == PLUS)
                 || (src == MUL && dst == DIV)

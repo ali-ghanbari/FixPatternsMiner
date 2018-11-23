@@ -31,7 +31,7 @@ public class ArgumentListUpdate extends UpdateHandler {
             if (Objects.equals(sin.getTarget(), din.getTarget())
                     && !Objects.equals(sin.getArguments(), din.getArguments())) {
                 if (sibling(sin, din)) {
-                    return new ArgumentListUpdateRule(methodNameSrc);
+                    return new ArgumentListUpdateRule();
                 }
             }
         }

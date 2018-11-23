@@ -7,7 +7,8 @@ import static org.mudebug.fpm.pattern.rules.prapr_specializations.Util.isArithme
 
 public class AORRule implements Rule {
     public static AORRule build(final BinaryOperatorReplacementRule borr) {
-        if (isArithmetic(borr.getSrc()) && isArithmetic(borr.getDst())) {
+        if (isArithmetic(borr.getSourceBinaryOperatorKind())
+                && isArithmetic(borr.getDestinationBinaryOperatorKind())) {
             return new AORRule();
         }
         return null;

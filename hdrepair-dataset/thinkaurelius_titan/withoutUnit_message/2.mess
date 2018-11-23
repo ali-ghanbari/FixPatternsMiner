@@ -4,7 +4,7 @@ Hadoop2Compiler (but not Hadoop1Compiler) uses ChainMapper and
 ChainReducer to string work together inside a single job.
 
 Hadoop2Compiler has an addMap method that creates a reducerless job.
-This method failed to set the job's output key and value classes, nor
+This method failed to set the job's output key and literal classes, nor
 did ChainMapper.addMapper, so these jobs used the defaults that ship
 with Hadoop.  These are almost always wrong for Titan-Hadoop jobs.
 

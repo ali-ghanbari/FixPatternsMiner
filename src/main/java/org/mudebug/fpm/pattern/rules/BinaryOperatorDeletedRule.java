@@ -11,11 +11,11 @@ public class BinaryOperatorDeletedRule implements Rule {
         this.which = which;
     }
 
-    public BinaryOperatorKind getKind() {
+    public BinaryOperatorKind getDeletedBinaryOperatorKind() {
         return kind;
     }
 
-    public Operand getWhich() {
+    public Operand getDeletedOperand() {
         return which;
     }
 }

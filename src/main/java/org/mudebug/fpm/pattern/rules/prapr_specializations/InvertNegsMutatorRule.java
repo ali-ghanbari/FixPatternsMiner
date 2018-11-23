@@ -5,8 +5,8 @@ import org.mudebug.fpm.pattern.rules.Rule;
 
 public class InvertNegsMutatorRule implements Rule {
     public static InvertNegsMutatorRule build(final ConstantReplacementRule crr) {
-        final Object src = crr.getSrc();
-        final Object dst = crr.getDst();
+        final Object src = crr.getSourceLiteral().getValue();
+        final Object dst = crr.getDestinationLiteral().getValue();
         if (dst == null) {
             if (src instanceof Byte
                     || src instanceof Short
