@@ -4,8 +4,6 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.stream.Collectors;
-import java.util.zip.GZIPInputStream;
 
 import gumtree.spoon.AstComparator;
 import gumtree.spoon.diff.Diff;
@@ -21,9 +19,10 @@ import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
 import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
 import org.mudebug.fpm.pattern.handler.regexp.*;
 import org.mudebug.fpm.pattern.rules.*;
-import org.mudebug.fpm.pattern.rules.prapr_specializations.*;
 import spoon.reflect.cu.SourcePosition;
 import spoon.reflect.cu.position.NoSourcePosition;
+
+import static org.mudebug.fpm.commons.Util.panic;
 
 import static java.lang.System.out;
 
@@ -32,8 +31,9 @@ public final class Main implements FilePairVisitor {
     private final OperationHandler[] pointHandlers;
     /*1: the rule, 2: project name*/
     private final BlockingQueue<Pair<Rule, String>> queue;
+    private PrintWriter noDiffPW;
 
-    private Main(BlockingQueue<Pair<Rule, String>> queue) {
+    private Main(BlockingQueue<Pair<Rule, String>> queue, boolean noDiff) {
         this.pointHandlers = new OperationHandler[] {
                 DeleteHandler.createHandlerChain(),
                 InsertHandler.createHandlerChain(),
@@ -56,11 +56,24 @@ public final class Main implements FilePairVisitor {
                 new IncDecRemovalHandler()
         };
         this.queue = queue;
+        if (noDiff) {
+            try {
+                this.noDiffPW = new PrintWriter("no-diffs.csv");
+            } catch (Exception e) {
+                panic(e);
+            }
+        }
     }
 
     private static void printHelp(final Options options) {
         final HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("fix-pattern-miner", options);
+    }
+
+    private void cleanup() {
+        if (this.noDiffPW != null) {
+            this.noDiffPW.close();
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -70,6 +83,8 @@ public final class Main implements FilePairVisitor {
         options.addOption("s", "serialize", true, "write rules on disk");
         options.addOption("c", "compress", false, "compressed output file");
         options.addOption("f", "file", true, "input CSV file");
+        options.addOption("k", "fake", false,
+                "prints all the file pairs for which GumTree failed to file diff");
         options.addOption("h", "help", false, "prints this help message");
 
         final CommandLineParser commandLineParser = new DefaultParser();
@@ -86,8 +101,8 @@ public final class Main implements FilePairVisitor {
             printHelp(options);
             return;
         }
-
-        BlockingQueue<Pair<Rule, String>> queue = new LinkedBlockingDeque<>();
+        /* blocking queues are thread-safe */
+        final BlockingQueue<Pair<Rule, String>> queue = new LinkedBlockingDeque<>();
         final Consumer queueConsumer;
 
         if (cmd.hasOption("s")) {
@@ -108,12 +123,25 @@ public final class Main implements FilePairVisitor {
             parser = new FileListParser();
         }
 
-        final Main visitor = new Main(queue);
+        final boolean noDiff = cmd.hasOption("k");
+        final Main visitor = new Main(queue, noDiff);
         final boolean parallelInvocation = cmd.hasOption("p");
 
         parser.parse(visitor, parallelInvocation);
 
+        visitor.cleanup();
         queueConsumer.kill();
+    }
+
+    private void reportNoDiff(final File buggy, final File fixed) {
+        out.println("warning: no diff was found.");
+        if (this.noDiffPW != null) {
+            synchronized (this.noDiffPW) {
+                this.noDiffPW.printf("%s,%s%n",
+                        buggy.getAbsolutePath(),
+                        fixed.getAbsolutePath());
+            }
+        }
     }
 
     @Override
@@ -175,7 +203,7 @@ public final class Main implements FilePairVisitor {
                     }
                 }
             } else {
-                out.println("warning: no diff was found.");
+                reportNoDiff(buggy, fixed);
             }
         } catch (Exception  e) {
             out.printf("warning: \'%s\' swallowed.%n", e.getMessage());
