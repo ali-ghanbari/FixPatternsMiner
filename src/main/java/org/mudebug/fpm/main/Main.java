@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.stream.Collectors;
+import java.util.zip.GZIPInputStream;
 
 import gumtree.spoon.AstComparator;
 import gumtree.spoon.diff.Diff;
@@ -19,6 +21,7 @@ import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
 import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
 import org.mudebug.fpm.pattern.handler.regexp.*;
 import org.mudebug.fpm.pattern.rules.*;
+import org.mudebug.fpm.pattern.rules.prapr_specializations.*;
 import spoon.reflect.cu.SourcePosition;
 import spoon.reflect.cu.position.NoSourcePosition;
 
@@ -28,9 +31,9 @@ public final class Main implements FilePairVisitor {
     private final RegExpHandler[] regExpHandlers;
     private final OperationHandler[] pointHandlers;
     /*1: the rule, 2: project name*/
-    private final Queue<Pair<Rule, String>> queue;
+    private final BlockingQueue<Pair<Rule, String>> queue;
 
-    private Main(Queue<Pair<Rule, String>> queue) {
+    private Main(BlockingQueue<Pair<Rule, String>> queue) {
         this.pointHandlers = new OperationHandler[] {
                 DeleteHandler.createHandlerChain(),
                 InsertHandler.createHandlerChain(),
@@ -84,17 +87,16 @@ public final class Main implements FilePairVisitor {
             return;
         }
 
-        Queue<Pair<Rule, String>> queue = new LinkedList<>();
-        Serializer serializer = null;
+        BlockingQueue<Pair<Rule, String>> queue = new LinkedBlockingDeque<>();
+        final Consumer queueConsumer;
 
         if (cmd.hasOption("s")) {
             final boolean compress = cmd.hasOption("c");
-            final BlockingQueue<Pair<Rule, String>> bdq =
-                    new LinkedBlockingDeque<>();
-            serializer = Serializer.build(bdq,
+            queueConsumer = Serializer.build(queue,
                     new File(cmd.getOptionValue("s")),
                     compress);
-            queue = bdq;
+        } else {
+            queueConsumer = StatisticsRenderer.build(queue);
         }
 
         final FileListParser parser;
@@ -111,9 +113,7 @@ public final class Main implements FilePairVisitor {
 
         parser.parse(visitor, parallelInvocation);
 
-        if (serializer != null) {
-            serializer.kill();
-        }
+        queueConsumer.kill();
     }
 
     @Override

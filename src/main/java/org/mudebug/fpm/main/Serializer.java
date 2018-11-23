@@ -1,6 +1,5 @@
 package org.mudebug.fpm.main;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.mudebug.fpm.pattern.rules.Rule;
 
@@ -11,22 +10,15 @@ import java.util.zip.GZIPOutputStream;
 import static org.mudebug.fpm.commons.Util.panic;
 
 /* this will gracefully die if it see a null value in the queue */
-public class Serializer extends Thread {
-    private static final Pair<Rule, String> END =
-            new ImmutablePair<>(null, null);
-    private final BlockingQueue<Pair<Rule, String>> queue;
-    private OutputStream os;
+public abstract class Serializer extends Consumer {
     private ObjectOutputStream oos;
+    private OutputStream os;
 
     private Serializer(BlockingQueue<Pair<Rule, String>> queue,
-                       OutputStream os) {
-        this.queue = queue;
-        try {
-            this.os = os;
-            this.oos = new ObjectOutputStream(os);
-        } catch (Exception e) {
-            panic(e);
-        }
+                       OutputStream os) throws Exception {
+        super(queue);
+        this.oos = new ObjectOutputStream(os);
+        this.os = os;
     }
 
     public static Serializer build(BlockingQueue<Pair<Rule, String>> queue,
@@ -38,7 +30,13 @@ public class Serializer extends Thread {
                 core = new GZIPOutputStream(core);
             }
             OutputStream os = new BufferedOutputStream(core);
-            final Serializer serializer = new Serializer(queue, os);
+            final Serializer serializer = new Serializer(queue, os) {
+                final Thread me = new Thread(this);
+                @Override
+                protected Thread getMe() {
+                    return this.me;
+                }
+            };
             serializer.start();
             return serializer;
         } catch (Exception e) {
@@ -48,30 +46,18 @@ public class Serializer extends Thread {
     }
 
     @Override
-    public void run() {
-        try {
-            while (true) {
-                final Pair<Rule, String> pair = queue.take();
-                if (pair == END) {
-                    break; // end the thread
-                }
-                this.oos.writeObject(pair);
-            }
-        } catch (Exception e) {
-            panic(e);
-        } finally {
-            try {
-                this.oos.flush();
-                this.oos.close();
-                this.os.close();
-            } catch (Exception e) {
-                /* who cares?! */
-            }
-        }
+    protected void consume(Pair<Rule, String> pair) throws Exception {
+        this.oos.writeObject(pair);
     }
 
-    public void kill() throws InterruptedException {
-        this.queue.add(END);
-        join();
+    @Override
+    protected void cleanup() {
+        try {
+            this.oos.flush();
+            this.oos.close();
+            this.os.close();
+        } catch (Exception e) {
+            /* who cares?! */
+        }
     }
 }
