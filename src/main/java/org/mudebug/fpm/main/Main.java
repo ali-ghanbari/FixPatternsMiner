@@ -19,7 +19,6 @@ import org.mudebug.fpm.pattern.handler.point.insert.InsertHandler;
 import org.mudebug.fpm.pattern.handler.point.update.UpdateHandler;
 import org.mudebug.fpm.pattern.handler.regexp.*;
 import org.mudebug.fpm.pattern.rules.*;
-import org.mudebug.fpm.pattern.rules.prapr_specializations.*;
 import spoon.reflect.cu.SourcePosition;
 import spoon.reflect.cu.position.NoSourcePosition;
 
@@ -115,68 +114,6 @@ public final class Main implements FilePairVisitor {
         if (serializer != null) {
             serializer.kill();
         }
-    }
-
-    private static Pair<Rule, String> praprSpecialize(final Pair<Rule, String> raw) {
-        final Rule rawRule = raw.getLeft();
-        if (rawRule instanceof ConstantReplacementRule) {
-            final ConstantReplacementRule crr = (ConstantReplacementRule) rawRule;
-            Rule specialized = InlineConstantMutatorRule.build(crr);
-            if (specialized == null) {
-                specialized = InvertNegsMutatorRule.build(crr);
-            }
-            if (specialized == null) {
-                return null;
-            }
-            return new ImmutablePair<>(specialized, raw.getRight());
-        } else if (rawRule instanceof BinaryOperatorDeletedRule) {
-            final BinaryOperatorDeletedRule dobr = (BinaryOperatorDeletedRule) rawRule;
-            final Rule specialized = AODRule.build(dobr);
-            if (specialized == null) {
-                return null;
-            }
-            return new ImmutablePair<>(specialized, raw.getRight());
-        } else if (rawRule instanceof BinaryOperatorReplacementRule) {
-            final BinaryOperatorReplacementRule borr =
-                    (BinaryOperatorReplacementRule) rawRule;
-            Rule specialized = MathMutatorRule.build(borr);
-            if (specialized == null) {
-                specialized = AORRule.build(borr);
-                if (specialized == null) {
-                    specialized = ConditionalBoundaryMutatorRule.build(borr);
-                    if (specialized == null) {
-                        specialized = RORRule.build(borr);
-                        if (specialized == null) {
-                            specialized = NegatedConditionalMutatorRule.build(borr);
-                            if (specialized == null) {
-                                return null;
-                            }
-                        }
-                    }
-                }
-            }
-            return new ImmutablePair<>(specialized, raw.getRight());
-        } else if ((rawRule instanceof FieldReadToLocalReadRule)
-                || (rawRule instanceof FieldWriteToLocalWrite)) {
-            final Rule specialized = new FieldAccessToLocalAccessMutatorRule();
-            return new ImmutablePair<>(specialized, raw.getRight());
-        } else if ((rawRule instanceof LocalReadToFieldReadRule)
-                || (rawRule instanceof LocalWriteToFieldWriteRule)) {
-            final Rule specialized = new LocalToFieldAccessMutatorRule();
-            return new ImmutablePair<>(specialized, raw.getRight());
-        } else if (rawRule instanceof NegatedConditionalExprRule) {
-            final NegatedConditionalExprRule ncer =
-                    (NegatedConditionalExprRule) rawRule;
-            final Rule specialized = NegatedConditionalMutatorRule.build(ncer);
-            return new ImmutablePair<>(specialized, raw.getRight());
-        } else if (rawRule instanceof ArgumentPropagatedRule) {
-            final ArgumentPropagatedRule apr = (ArgumentPropagatedRule) rawRule;
-            final Rule specialized = NakedReceiverMutatorRule.build(apr);
-            if (specialized != null) {
-                return new ImmutablePair<>(specialized, raw.getRight());
-            }
-        }
-        return raw;
     }
 
     @Override
