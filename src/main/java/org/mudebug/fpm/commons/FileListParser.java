@@ -6,7 +6,9 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Spliterators;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static org.mudebug.fpm.commons.Util.panic;
 
@@ -40,15 +42,12 @@ public final class FileListParser {
 
     public void parse(final FilePairVisitor visitor, final boolean parallelInvocation) {
         try (CSVParser parser = new CSVParser(this.reader, CSVFormat.DEFAULT)) {
-            Stream<CSVRecord> stream = parser.getRecords().stream();
-            if (parallelInvocation) {
-                stream = stream.parallel();
-            }
-            stream.forEach(record -> {
-                final File buggy = new File(getBuggyFileName(record));
-                final File fixed = new File(getFixedFileName(record));
-                visitor.visit(buggy, fixed);
-            });
+            StreamSupport.stream(parser.spliterator(), parallelInvocation)
+                    .forEach(record -> {
+                        final File buggy = new File(getBuggyFileName(record));
+                        final File fixed = new File(getFixedFileName(record));
+                        visitor.visit(buggy, fixed);
+                    });
         } catch (Exception e) {
             panic(e);
         }

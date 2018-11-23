@@ -1,12 +1,10 @@
 package org.mudebug.fpm.main;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.mudebug.fpm.pattern.rules.Rule;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.zip.GZIPOutputStream;
 
@@ -14,6 +12,8 @@ import static org.mudebug.fpm.commons.Util.panic;
 
 /* this will gracefully die if it see a null value in the queue */
 public class Serializer extends Thread {
+    private static final Pair<Rule, String> END =
+            new ImmutablePair<>(null, null);
     private final BlockingQueue<Pair<Rule, String>> queue;
     private OutputStream os;
     private ObjectOutputStream oos;
@@ -33,12 +33,12 @@ public class Serializer extends Thread {
                             File file,
                             boolean compressed) {
         try {
-            OutputStream os = new FileOutputStream(file);
+            OutputStream core = new FileOutputStream(file);
             if (compressed) {
-                os = new GZIPOutputStream(os);
+                core = new GZIPOutputStream(core);
             }
+            OutputStream os = new BufferedOutputStream(core);
             final Serializer serializer = new Serializer(queue, os);
-            serializer.setDaemon(false); // create user thread
             serializer.start();
             return serializer;
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class Serializer extends Thread {
         try {
             while (true) {
                 final Pair<Rule, String> pair = queue.take();
-                if (pair == null) {
+                if (pair == END) {
                     break; // end the thread
                 }
                 this.oos.writeObject(pair);
@@ -68,5 +68,10 @@ public class Serializer extends Thread {
                 /* who cares?! */
             }
         }
+    }
+
+    public void kill() throws InterruptedException {
+        this.queue.add(END);
+        join();
     }
 }

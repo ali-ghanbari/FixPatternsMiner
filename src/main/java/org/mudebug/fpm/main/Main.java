@@ -113,8 +113,7 @@ public final class Main implements FilePairVisitor {
         parser.parse(visitor, parallelInvocation);
 
         if (serializer != null) {
-            queue.offer(null); // kill the serializer
-            serializer.join();
+            serializer.kill();
         }
     }
 
