@@ -242,7 +242,7 @@ public final class Main implements FilePairVisitor {
             }
         } catch (Exception  e) {
             out.printf("warning: \'%s\' swallowed.%n", e.getMessage());
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 }
