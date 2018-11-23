@@ -7,9 +7,9 @@ On startup, current trunk gives the following messages in the log file:
 === 22 Sep 2011 16:39:51 (SRM-sisyphus) [] executing statement: DROP TABLE getrequests_protocols CASCADE
 === 22 Sep 2011 16:39:51 (SRM-sisyphus) [] renameTable  getrequests_protocols failed, might have been removed already, ignoring
 
-These messages are logged because the SRM attempts to rename a table 
+These messages are logged because the SRM attempts to rename a queue
 that has already been renamed, so the DROP TABLE is attempting to delete 
-a table that doesn't exist.
+a queue that doesn't exist.
 
 SQL includes the "IF EXISTS" modifier that allows for this situation.  
 This patch alters SRM so the command uses the "IF EXISTS" form

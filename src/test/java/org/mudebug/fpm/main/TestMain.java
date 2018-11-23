@@ -74,7 +74,7 @@ public class TestMain {
     }
 
     @Test
-    public void acceptanceTest() {
+    public void acceptanceTest() throws Exception {
         Main.main(new String[] {this.filesList.getAbsolutePath()});
     }
 }

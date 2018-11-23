@@ -2,11 +2,13 @@ package org.mudebug.fpm.main;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import gumtree.spoon.AstComparator;
 import gumtree.spoon.diff.Diff;
 import gumtree.spoon.diff.operations.Operation;
+import org.apache.commons.cli.*;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.mudebug.fpm.commons.FileListParser;
@@ -27,9 +29,9 @@ public final class Main implements FilePairVisitor {
     private final RegExpHandler[] regExpHandlers;
     private final OperationHandler[] pointHandlers;
     /*1: the rule, 2: project name*/
-    private final List<Pair<Rule, String>> table;
+    private final Queue<Pair<Rule, String>> queue;
 
-    private Main() {
+    private Main(Queue<Pair<Rule, String>> queue) {
         this.pointHandlers = new OperationHandler[] {
                 DeleteHandler.createHandlerChain(),
                 InsertHandler.createHandlerChain(),
@@ -51,63 +53,68 @@ public final class Main implements FilePairVisitor {
                 new SimpleMethCallGuardHandler(),
                 new IncDecRemovalHandler()
         };
-        this.table = new ArrayList<>();
+        this.queue = queue;
     }
 
-    private static boolean isSwitch(final String str) {
-        return str.trim().equalsIgnoreCase("-p")
-                || str.trim().equalsIgnoreCase("--parallel");
+    private static void printHelp(final Options options) {
+        final HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("fix-pattern-miner", options);
     }
 
-    public static void main(String[] args) {
-        final FileListParser parser;
-        boolean parallelInvocation = false;
-        final String fileName;
-        if (args.length > 2) {
+    public static void main(String[] args) throws Exception {
+        final Options options = new Options();
+
+        options.addOption("p", "parallel", false, "parallel diff and mining");
+        options.addOption("s", "serialize", true, "write rules on disk");
+        options.addOption("c", "compress", false, "compressed output file");
+        options.addOption("f", "file", true, "input CSV file");
+        options.addOption("h", "help", false, "prints this help message");
+
+        final CommandLineParser commandLineParser = new DefaultParser();
+        final CommandLine cmd = commandLineParser.parse(options, args);
+
+        if (cmd.getArgs().length > 0) {
             out.println("fatal: too many arguments");
+            out.println();
+            printHelp(options);
             return;
-        } else if (args.length < 1) { // no file is specified, no parallelism
-            parser = new FileListParser();
-        } else if (args.length == 2) {
-            if (isSwitch(args[0]) ^ isSwitch(args[1])) {
-                fileName = isSwitch(args[0]) ? args[1] : args[0];
-                parser = new FileListParser(new File(fileName));
-                parallelInvocation = true;
-            } else {
-                out.println("fatal: illegal arguments");
-                return;
-            }
-        } else if (isSwitch(args[0])) {
-            parser = new FileListParser();
-            parallelInvocation = true;
-        } else {
-            fileName = args[0];
-            parser = new FileListParser(new File(fileName));
         }
-        final Main visitor = new Main();
+
+        if (cmd.hasOption("h")) {
+            printHelp(options);
+            return;
+        }
+
+        Queue<Pair<Rule, String>> queue = new LinkedList<>();
+        Serializer serializer = null;
+
+        if (cmd.hasOption("s")) {
+            final boolean compress = cmd.hasOption("c");
+            final BlockingQueue<Pair<Rule, String>> bdq =
+                    new LinkedBlockingDeque<>();
+            serializer = Serializer.build(bdq,
+                    new File(cmd.getOptionValue("s")),
+                    compress);
+            queue = bdq;
+        }
+
+        final FileListParser parser;
+
+        if (cmd.hasOption("f")) {
+            final String fileName = cmd.getOptionValue("f");
+            parser = new FileListParser(new File(fileName));
+        } else {
+            parser = new FileListParser();
+        }
+
+        final Main visitor = new Main(queue);
+        final boolean parallelInvocation = cmd.hasOption("p");
+
         parser.parse(visitor, parallelInvocation);
-        out.println("presenting the results...");
-        try (final PrintWriter pwGeneralPatterns = new PrintWriter("out-general.csv");
-             final PrintWriter pwProjectsCount = new PrintWriter("out-projects.csv")) {
-            visitor.table.stream()
-                    .map(Main::praprSpecialize)
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.groupingBy(p -> p.getLeft().getClass().getName()))
-                    .entrySet().stream()
-                    .sorted((ent1, ent2) -> Integer.compare(ent2.getValue().size(), ent1.getValue().size()))
-                    .forEach(ent -> {
-                        final int projectsCount = (int) ent.getValue().stream()
-                                .map(p -> p.getRight())
-                                .distinct()
-                                .count();
-                        final int occurrenceCount = ent.getValue().size();
-                        final String ruleClassName = ent.getKey();
-                        final String ruleID = ruleClassName.substring(1 + ruleClassName.lastIndexOf('.'));
-                        pwGeneralPatterns.printf("%s,%d%n", ruleID, occurrenceCount);
-                        pwProjectsCount.printf("%s,%d%n", ruleID, projectsCount);
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        if (serializer != null) {
+            queue.offer(null); // kill the serializer
+            serializer.join();
         }
     }
 
@@ -214,7 +221,7 @@ public final class Main implements FilePairVisitor {
                             }
                             final Rule theRule = regExpHandler.getRule();
                             final String projectName = buggy.getAbsolutePath();
-                            this.table.add(new ImmutablePair<>(theRule, projectName));
+                            this.queue.add(new ImmutablePair<>(theRule, projectName));
                             regExpHandler.reset();
                         }
                         preStatus = curStatus;
@@ -226,7 +233,7 @@ public final class Main implements FilePairVisitor {
                             final Rule rule = handler.handleOperation(op);
                             if (!(rule instanceof UnknownRule)) {
                                 final String projectName = buggy.getAbsolutePath();
-                                this.table.add(new ImmutablePair<>(rule, projectName));
+                                this.queue.add(new ImmutablePair<>(rule, projectName));
                             }
                         }
                     }

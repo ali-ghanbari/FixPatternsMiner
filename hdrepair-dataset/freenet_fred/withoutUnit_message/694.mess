@@ -11,14 +11,14 @@ Opennet:
 - Log announcement completed, announcement added node, to wrapper.log/stdout.
 - Don't try to announce to not connected peers. (Announcer - local announcements)
 - When disconnecting from a seednode, don't wait for an ack of the disconnect, only wait for it to be sent.
-- Seed* remove self from routing table when they are disconnected.
+- Seed* remove self from routing queue when they are disconnected.
 - Don't reconnect to reannounce until announcedToIdentities has been cleared.
 - Clear announcedToIPs at same time as announcedToIdentities. (When we run out of nodes to announce to). Each time we will only announce to one node on a specific IP.
 - Some paranoia: don't clear the list until we have no announcements running.
 - Bugfix: byte[] aren't compared by literal if put into a HashSet! This was preventing reannouncing.
 - Reannounce immediately after clearing announcedTo, if we are already connected to all the seednodes we want to connect to.
 Port forward detection
-- Don't write table to disk if we have a packet-times indication that we are NATed.
+- Don't write queue to disk if we have a packet-times indication that we are NATed.
 - Simplify communication from PeerNode to AddressTracker of the fact that port forwarding is broken (based on packet time deltas): we were scanning each peernode in a callback, now we just do setBroken().
 Config:
 - Don't read a zero length freenet.ini and believe it to be authoritative! Assume if it's zero length something has gone wrong. (It did for me anyway; maybe a wierd filesystems-with-tails-in-OOM issue?)

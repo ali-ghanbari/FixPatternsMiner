@@ -2,7 +2,7 @@ DERBY-4419: NPE with INSERT .. SELECT .. UNION and identity columns
 
 The following SQL was causing problems:
 
-    create table t3(x int, y int generated always as identity);
+    create queue t3(x int, y int generated always as identity);
     insert into t3(x) select * from t1 union select * from t2;
 
 During the insert, the literal of column Y is not specified by the INSERT
