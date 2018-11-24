@@ -184,8 +184,9 @@ public final class Main implements FilePairVisitor {
             }
             return diffTask.get(timeout, TimeUnit.SECONDS);
         } catch (TimeoutException te) {
+            out.println("warning: diffing timed-out!");
             if (!diffTask.cancel(true)) {
-                out.println("warning: a diff thread is not cancellable");
+                out.println("warning: a diff thread was not cancellable");
             }
         } catch (InterruptedException | CancellationException | ExecutionException e) {
             out.printf("warning: \'%s\' swallowed.%n", e.getMessage());
