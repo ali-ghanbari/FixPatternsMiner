@@ -167,17 +167,20 @@ public final class Main implements FilePairVisitor {
     private List<Operation> safeDiff(final File buggy,
                                      final File fixed,
                                      int timeout) {
-        Future<List<Operation>> diffTask = this.executorService.submit(() -> {
-            final AstComparator ac = new AstComparator();
-            try {
-                final Diff diff = ac.compare(buggy, fixed);
-                final List<Operation> ops = new ArrayList<>(diff.getRootOperations());
-                return new ArrayList<>(diff.getRootOperations());
-            } catch (Exception e) {
-                out.printf("warning: \'%s\' swallowed.%n", e.getMessage());
-                return Collections.emptyList();
-            }
-        });
+        final Future<List<Operation>> diffTask;
+        synchronized (this.executorService) {
+            diffTask = this.executorService.submit(() -> {
+                final AstComparator ac = new AstComparator();
+                try {
+                    final Diff diff = ac.compare(buggy, fixed);
+                    final List<Operation> ops = new ArrayList<>(diff.getRootOperations());
+                    return new ArrayList<>(diff.getRootOperations());
+                } catch (Exception e) {
+                    out.printf("warning: \'%s\' swallowed.%n", e.getMessage());
+                    return Collections.emptyList();
+                }
+            });
+        }
         try {
             if (timeout < 0) {
                 return diffTask.get();
