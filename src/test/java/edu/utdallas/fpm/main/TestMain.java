@@ -57,7 +57,8 @@ public class TestMain {
                 "IncrementsRemoval.java",
                 "VoidMethCallRemoval.java",
                 "IfRemoval.java",
-                "Constantify.java"
+                "Constantify.java",
+                "real-world.java"
                 //,
                 //"SwitchCase.java"
         };
