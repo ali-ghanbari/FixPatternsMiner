@@ -31,11 +31,12 @@ public final class Main implements FilePairVisitor {
     /*1: the rule, 2: project name*/
     private final BlockingQueue<Pair<Rule, String>> queue;
     private PrintWriter noDiffPW;
+    private PrintWriter timedOutDiffPW;
     private final ExecutorService executorService;
     private final int timeout;
 
     private Main(BlockingQueue<Pair<Rule, String>> queue,
-                 boolean noDiff,
+                 boolean debug,
                  int timeout) {
         this.pointHandlers = new OperationHandler[] {
                 DeleteHandler.createHandlerChain(),
@@ -59,9 +60,10 @@ public final class Main implements FilePairVisitor {
                 new IncDecRemovalHandler()
         };
         this.queue = queue;
-        if (noDiff) {
+        if (debug) {
             try {
                 this.noDiffPW = new PrintWriter("no-diffs.csv");
+                this.timedOutDiffPW = new PrintWriter("timed-out.csv");
             } catch (Exception e) {
                 Util.panic(e);
             }
@@ -89,8 +91,8 @@ public final class Main implements FilePairVisitor {
         options.addOption("s", "serialize", true, "write rules on disk");
         options.addOption("c", "compress", false, "compressed output file");
         options.addOption("f", "file", true, "input CSV file");
-        options.addOption("k", "fake", false,
-                "prints all the file pairs for which GumTree failed to file diff");
+        options.addOption("d", "debug", false,
+                "output timed-out and ineffective diffs");
         options.addOption("t", "diff-timeout", true,
                 "diffing timeout in seconds");
         options.addOption("h", "help", false, "prints this help message");
@@ -131,7 +133,7 @@ public final class Main implements FilePairVisitor {
             parser = new FileListParser();
         }
 
-        final boolean noDiff = cmd.hasOption("k");
+        final boolean debug = cmd.hasOption("d");
         int timeout;
         if (cmd.hasOption("t")) {
             timeout = Integer.parseInt(cmd.getOptionValue("t"));
@@ -144,7 +146,7 @@ public final class Main implements FilePairVisitor {
         } else {
             timeout = -1;
         }
-        final Main visitor = new Main(queue, noDiff, timeout);
+        final Main visitor = new Main(queue, debug, timeout);
         final boolean parallelInvocation = cmd.hasOption("p");
 
         parser.parse(visitor, parallelInvocation);
@@ -158,6 +160,17 @@ public final class Main implements FilePairVisitor {
         if (this.noDiffPW != null) {
             synchronized (this.noDiffPW) {
                 this.noDiffPW.printf("%s,%s%n",
+                        buggy.getAbsolutePath(),
+                        fixed.getAbsolutePath());
+            }
+        }
+    }
+
+    private void reportTimeOut(final File buggy, final File fixed) {
+        out.println("warning: diffing timed-out!");
+        if (this.timedOutDiffPW != null) {
+            synchronized (this.timedOutDiffPW) {
+                this.timedOutDiffPW.printf("%s,%s%n",
                         buggy.getAbsolutePath(),
                         fixed.getAbsolutePath());
             }
@@ -187,7 +200,7 @@ public final class Main implements FilePairVisitor {
             }
             return diffTask.get(timeout, TimeUnit.SECONDS);
         } catch (TimeoutException te) {
-            out.println("warning: diffing timed-out!");
+            reportTimeOut(buggy, fixed);
             if (!diffTask.cancel(true)) {
                 out.println("warning: a diff thread was not cancellable");
             }
