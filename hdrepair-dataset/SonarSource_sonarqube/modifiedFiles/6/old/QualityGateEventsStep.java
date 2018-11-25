@@ -132,7 +132,7 @@ public class QualityGateEventsStep implements ComputationStep {
   // protected void notifyUsers(Component project, String alertName, String alertText, AlertStatus alertLevel, boolean isNewAlert) {
   // Notification notification = new Notification("alerts")
   // .setDefaultMessage("Alert on " + project.getName() + ": " + alertName)
-  // .setFieldValue("projectName", project.getName())
+  // .setFieldValue("computeProjectName", project.getName())
   // .setFieldValue("projectKey", project.getKey())
   // .setFieldValue("projectId", String.valueOf(project.getId()))
   // .setFieldValue("alertName", alertName)

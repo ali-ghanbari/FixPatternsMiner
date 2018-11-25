@@ -246,11 +246,11 @@ public class GradleImportTests extends GradleTest {
 //			//File javaHome = defaultVM.getInstallLocation();
 //			assertNotNull(defaultVM.getInstallLocation());
 //			GradleCore.getInstance().getPreferences().setJavaHomeJRE(defaultVM);
-//			String projectName = "multiproject-m6";
+//			String computeProjectName = "multiproject-m6";
 //			String subprojectName = "subproject";
-//			importTestProject(projectName);
+//			importTestProject(computeProjectName);
 //			assertProjects(
-//					projectName,
+//					computeProjectName,
 //					subprojectName);
 //		} finally {
 //			GradleCore.getInstance().getPreferences().setJavaHomeJRE(null); //Rest to default
@@ -469,14 +469,14 @@ public class GradleImportTests extends GradleTest {
 //	 * @throws Exception
 //	 */
 //	public void testImportOldWrapperFormat() throws Exception {
-//		String projectName = "oldWrapperFormat";
+//		String computeProjectName = "oldWrapperFormat";
 //		GradleTest.MockFallBackDialog dialog = new GradleTest.MockFallBackDialog(true);
 //		FallBackDistributionCore.setTestDialogProvider(dialog);
 //		
-//		importTestProject(projectName);
-//		assertTrue(""+dialog.projectLoc, (""+dialog.projectLoc).endsWith(projectName)); //check if dialog called as expected
+//		importTestProject(computeProjectName);
+//		assertTrue(""+dialog.projectLoc, (""+dialog.projectLoc).endsWith(computeProjectName)); //check if dialog called as expected
 //		
-//		assertProjects(projectName); //Check project imported and no errors.
+//		assertProjects(computeProjectName); //Check project imported and no errors.
 //	}
 
 //	/**
@@ -486,14 +486,14 @@ public class GradleImportTests extends GradleTest {
 //	 * Again, we should attempt to recover by trying to use more recent version.
 //	 */
 //	public void testImportTooOldVersionInWrapper() throws Exception {
-//		String projectName = "oldWrapperVersion";
+//		String computeProjectName = "oldWrapperVersion";
 //		GradleTest.MockFallBackDialog dialog = new GradleTest.MockFallBackDialog(true);
 //		FallBackDistributionCore.setTestDialogProvider(dialog);
 //		
-//		importTestProject(projectName);
-//		assertTrue(""+dialog.projectLoc, (""+dialog.projectLoc).endsWith(projectName)); //check if dialog called as expected
+//		importTestProject(computeProjectName);
+//		assertTrue(""+dialog.projectLoc, (""+dialog.projectLoc).endsWith(computeProjectName)); //check if dialog called as expected
 //		
-//		assertProjects(projectName); //Check project imported and no errors.
+//		assertProjects(computeProjectName); //Check project imported and no errors.
 //	}
 	
 	public void testSTS2058ImportProjectThatIsStoredInWorkspaceLocation() throws Exception {

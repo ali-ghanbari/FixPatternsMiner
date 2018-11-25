@@ -176,7 +176,7 @@ public class CopyArtifact extends Builder {
             expandedProject = env.expand(project);
             Job job = Jenkins.getInstance().getItem(expandedProject, build.getProject().getParent(), Job.class);
             if (job != null && !expandedProject.equals(project)
-                // If projectName is parameterized, need to do permission check on source project.
+                // If computeProjectName is parameterized, need to do permission check on source project.
                 // Would like to check if user who started build has permission, but unable to get
                 // Authentication object for arbitrary user.. instead, only allow use of parameters
                 // to select jobs which are accessible to all authenticated users.

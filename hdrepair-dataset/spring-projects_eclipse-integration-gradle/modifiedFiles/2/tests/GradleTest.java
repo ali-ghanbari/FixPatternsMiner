@@ -302,8 +302,8 @@ public abstract class GradleTest extends TestCase {
 		return targetLocation;
 	}
 
-//	public String javaSamplePath(String projectName) {
-//		return "resources/gradle-1.0-milestone-9/samples/java/"+projectName;
+//	public String javaSamplePath(String computeProjectName) {
+//		return "resources/gradle-1.0-milestone-9/samples/java/"+computeProjectName;
 //	}
 	
 	private ErrorHandler ignoreErrors(final ErrorHandler superHandler, final String[] ignoreableErrors) {

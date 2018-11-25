@@ -383,7 +383,7 @@ public class CopyArtifactTest extends HudsonTestCase {
         assertFile(false, "c.log", b);
     }
 
-    /** projectName in CopyArtifact build steps should be updated if a job is renamed */
+    /** computeProjectName in CopyArtifact build steps should be updated if a job is renamed */
     public void testJobRename() throws Exception {
         FreeStyleProject other = createFreeStyleProject(),
                          p = createProject(other.getName(), null, "", "", true, false, false);

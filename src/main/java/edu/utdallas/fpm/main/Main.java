@@ -6,7 +6,6 @@ import java.util.concurrent.*;
 
 import edu.utdallas.fpm.commons.FileListParser;
 import edu.utdallas.fpm.commons.FilePairVisitor;
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.handler.regexp.*;
 import edu.utdallas.fpm.pattern.rules.Rule;
 import edu.utdallas.fpm.pattern.rules.UnknownRule;
@@ -25,6 +24,8 @@ import spoon.reflect.cu.position.NoSourcePosition;
 
 import static java.lang.System.out;
 
+import static edu.utdallas.fpm.commons.Util.*;
+
 public final class Main implements FilePairVisitor {
     private final RegExpHandler[] regExpHandlers;
     private final OperationHandler[] pointHandlers;
@@ -34,10 +35,12 @@ public final class Main implements FilePairVisitor {
     private PrintWriter timedOutDiffPW;
     private final ExecutorService executorService;
     private final int timeout;
+    private final String command;
 
     private Main(BlockingQueue<Pair<Rule, String>> queue,
                  boolean debug,
-                 int timeout) {
+                 int timeout,
+                 String command) {
         this.pointHandlers = new OperationHandler[] {
                 DeleteHandler.createHandlerChain(),
                 InsertHandler.createHandlerChain(),
@@ -65,11 +68,12 @@ public final class Main implements FilePairVisitor {
                 this.noDiffPW = new PrintWriter("no-diffs.csv");
                 this.timedOutDiffPW = new PrintWriter("timed-out.csv");
             } catch (Exception e) {
-                Util.panic(e);
+                panic(e);
             }
         }
         this.executorService = Executors.newSingleThreadExecutor();
         this.timeout = timeout;
+        this.command = command;
     }
 
     private static void printHelp(final Options options) {
@@ -96,6 +100,7 @@ public final class Main implements FilePairVisitor {
         options.addOption("f", "file", true, "input CSV file");
         options.addOption("d", "debug", false, "output timed-out and ineffective diffs");
         options.addOption("t", "diff-timeout", true, "diffing timeout in seconds");
+        options.addRequiredOption("m", "command", true, "parent extraction command (p)*");
         options.addOption("h", "help", false, "prints this help message");
 
         final CommandLineParser commandLineParser = new DefaultParser();
@@ -147,7 +152,16 @@ public final class Main implements FilePairVisitor {
         } else {
             timeout = -1;
         }
-        final Main visitor = new Main(queue, debug, timeout);
+
+        final String command = cmd.getOptionValue("m");
+        if (!command.matches("(p)*")) {
+            out.println("fatal: command does not match (p)*");
+            out.println();
+            printHelp(options);
+            return;
+        }
+
+        final Main visitor = new Main(queue, debug, timeout, command);
         final boolean parallelInvocation = cmd.hasOption("p");
 
         parser.parse(visitor, parallelInvocation);
@@ -251,7 +265,7 @@ public final class Main implements FilePairVisitor {
                             }
                         }
                         final Rule theRule = regExpHandler.getRule();
-                        final String projectName = buggy.getAbsolutePath();
+                        final String projectName = computeProjectName(buggy, this.command);
                         this.queue.add(new ImmutablePair<>(theRule, projectName));
                         regExpHandler.reset();
                     }
@@ -263,7 +277,7 @@ public final class Main implements FilePairVisitor {
                     if (handler != null && handler.canHandleOperation(op)) {
                         final Rule rule = handler.handleOperation(op);
                         if (!(rule instanceof UnknownRule)) {
-                            final String projectName = buggy.getAbsolutePath();
+                            final String projectName = computeProjectName(buggy, this.command);
                             this.queue.add(new ImmutablePair<>(rule, projectName));
                         }
                     }

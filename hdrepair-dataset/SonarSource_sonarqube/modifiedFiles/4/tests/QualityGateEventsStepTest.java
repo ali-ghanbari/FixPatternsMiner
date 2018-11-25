@@ -181,7 +181,7 @@ public class QualityGateEventsStepTest {
     assertThat(notification.getType()).isEqualTo("alerts");
     assertThat(notification.getFieldValue("projectKey")).isEqualTo(PROJECT_COMPONENT.getKey());
     assertThat(notification.getFieldValue("projectUuid")).isEqualTo(PROJECT_COMPONENT.getUuid());
-    assertThat(notification.getFieldValue("projectName")).isEqualTo(PROJECT_COMPONENT.getName());
+    assertThat(notification.getFieldValue("computeProjectName")).isEqualTo(PROJECT_COMPONENT.getName());
     assertThat(notification.getFieldValue("alertLevel")).isEqualTo(rawAlterStatus.name());
     assertThat(notification.getFieldValue("alertName")).isEqualTo(expectedLabel);
   }
@@ -232,7 +232,7 @@ public class QualityGateEventsStepTest {
     assertThat(notification.getType()).isEqualTo("alerts");
     assertThat(notification.getFieldValue("projectKey")).isEqualTo(PROJECT_COMPONENT.getKey());
     assertThat(notification.getFieldValue("projectUuid")).isEqualTo(PROJECT_COMPONENT.getUuid());
-    assertThat(notification.getFieldValue("projectName")).isEqualTo(PROJECT_COMPONENT.getName());
+    assertThat(notification.getFieldValue("computeProjectName")).isEqualTo(PROJECT_COMPONENT.getName());
     assertThat(notification.getFieldValue("alertLevel")).isEqualTo(newQualityGateStatus.getStatus().name());
     assertThat(notification.getFieldValue("alertName")).isEqualTo(expectedLabel);
 
