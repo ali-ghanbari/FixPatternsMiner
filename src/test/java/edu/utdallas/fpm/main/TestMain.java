@@ -76,6 +76,6 @@ public class TestMain {
 
     @Test
     public void acceptanceTest() throws Exception {
-        Main.main(new String[] {"-f", this.filesList.getAbsolutePath()});
+        Main.main(new String[] {"-f", this.filesList.getAbsolutePath(), "-m", "\"\""});
     }
 }

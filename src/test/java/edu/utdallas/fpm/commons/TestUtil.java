@@ -18,4 +18,10 @@ public class TestUtil {
         final File file = new File("/media/disk6TV1/ali/larger-dataset/2011/V1/3379/buggy-version/something.java");
         assertTrue(Util.computeProjectName(file, "pp").equals("3379"));
     }
+
+    @Test
+    public void testProjectName3() {
+        final File file = new File("/media/disk6TV1/ali/larger-dataset/2011/V1/3379/buggy-version/something.java");
+        assertTrue(Util.computeProjectName(file, "").equals("something.java"));
+    }
 }
