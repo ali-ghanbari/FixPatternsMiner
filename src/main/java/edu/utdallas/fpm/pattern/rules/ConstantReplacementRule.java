@@ -13,7 +13,11 @@ public class ConstantReplacementRule implements Rule {
 
     public ConstantReplacementRule(CtLiteral srcLiteral, CtLiteral dstLiteral) {
         this.src = SerializableLiteral.fromCtLiteral(srcLiteral);
-        this.dst = SerializableLiteral.fromCtLiteral(dstLiteral);
+        if (dstLiteral != null) {
+            this.dst = SerializableLiteral.fromCtLiteral(dstLiteral);
+        } else {
+            this.dst = null;
+        }
     }
 
     public SerializableLiteral getSourceLiteral() {
