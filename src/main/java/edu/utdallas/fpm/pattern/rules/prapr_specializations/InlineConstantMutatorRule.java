@@ -2,11 +2,18 @@ package edu.utdallas.fpm.pattern.rules.prapr_specializations;
 
 import edu.utdallas.fpm.pattern.rules.ConstantReplacementRule;
 import edu.utdallas.fpm.pattern.rules.Rule;
+import edu.utdallas.fpm.pattern.rules.util.SerializableLiteral;
 
 public class InlineConstantMutatorRule implements Rule {
     public static InlineConstantMutatorRule build(final ConstantReplacementRule crr) {
         final Object src = crr.getSourceLiteral().getValue();
-        final Object dst = crr.getDestinationLiteral().getValue();
+        final SerializableLiteral serializableLiteral = crr.getDestinationLiteral();
+        final Object dst;
+        if (serializableLiteral != null) {
+            dst = serializableLiteral.getValue();
+        } else {
+            dst = null;
+        }
         if (src != null && dst != null) {
             if (src instanceof Double && dst instanceof Double) {
                 final double sd = ((Double) src).doubleValue();
