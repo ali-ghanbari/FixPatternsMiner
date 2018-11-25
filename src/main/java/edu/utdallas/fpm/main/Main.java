@@ -81,6 +81,9 @@ public final class Main implements FilePairVisitor {
         if (this.noDiffPW != null) {
             this.noDiffPW.close();
         }
+        if (this.timedOutDiffPW != null) {
+            this.timedOutDiffPW.close();
+        }
         this.executorService.shutdownNow();
     }
 
@@ -91,10 +94,8 @@ public final class Main implements FilePairVisitor {
         options.addOption("s", "serialize", true, "write rules on disk");
         options.addOption("c", "compress", false, "compressed output file");
         options.addOption("f", "file", true, "input CSV file");
-        options.addOption("d", "debug", false,
-                "output timed-out and ineffective diffs");
-        options.addOption("t", "diff-timeout", true,
-                "diffing timeout in seconds");
+        options.addOption("d", "debug", false, "output timed-out and ineffective diffs");
+        options.addOption("t", "diff-timeout", true, "diffing timeout in seconds");
         options.addOption("h", "help", false, "prints this help message");
 
         final CommandLineParser commandLineParser = new DefaultParser();
