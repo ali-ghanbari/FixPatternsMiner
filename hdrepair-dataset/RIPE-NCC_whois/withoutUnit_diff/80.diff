@@ -1,8 +1,0 @@
-diff --git a/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/index/IndexStrategyWithSingleLookupTable.java b/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/index/IndexStrategyWithSingleLookupTable.java
-index 09241f9..f152a64 100644
---- a/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/index/IndexStrategyWithSingleLookupTable.java
-+++ b/whois-commons/src/main/java/net/ripe/db/whois/common/dao/jdbc/index/IndexStrategyWithSingleLookupTable.java
-@@ -30 +30 @@
--        jdbcTemplate.update(String.format("DELETE %s FROM %s LEFT JOIN last ON %s.object_id=last.object_id WHERE last.object_id IS NULL", lookupTableName, lookupTableName, lookupTableName));
-+        jdbcTemplate.update(String.format("DELETE %s FROM %s LEFT JOIN last ON %s.object_id = last.object_id AND last.sequence_id != 0 WHERE last.object_id IS NULL", lookupTableName, lookupTableName, lookupTableName));
-

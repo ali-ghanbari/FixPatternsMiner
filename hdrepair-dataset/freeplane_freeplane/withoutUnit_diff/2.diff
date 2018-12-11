@@ -1,8 +1,0 @@
-diff --git a/freeplane/src/main/java/org/freeplane/features/ui/UIComponentVisibilityDispatcher.java b/freeplane/src/main/java/org/freeplane/features/ui/UIComponentVisibilityDispatcher.java
-index 366fb1b..8328c75 100644
---- a/freeplane/src/main/java/org/freeplane/features/ui/UIComponentVisibilityDispatcher.java
-+++ b/freeplane/src/main/java/org/freeplane/features/ui/UIComponentVisibilityDispatcher.java
-@@ -87 +87 @@
--			boolean toolbarLostFocus = SwingUtilities.isDescendingFrom(focusOwner, component);
-+			boolean toolbarLostFocus = focusOwner != null && SwingUtilities.isDescendingFrom(focusOwner, component);
-

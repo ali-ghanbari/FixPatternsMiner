@@ -1,8 +1,0 @@
-diff --git a/src/java/org/apache/cassandra/io/util/DataIntegrityMetadata.java b/src/java/org/apache/cassandra/io/util/DataIntegrityMetadata.java
-index 4cf3517..2f9550e 100644
---- a/src/java/org/apache/cassandra/io/util/DataIntegrityMetadata.java
-+++ b/src/java/org/apache/cassandra/io/util/DataIntegrityMetadata.java
-@@ -107 +107 @@
--            checksum = descriptor.version.hasAllAdlerChecksums() ? new Adler32() : new PureJavaCrc32();
-+            checksum = descriptor.version.hasAllAdlerChecksums() ? new Adler32() : CRC32Factory.instance.create();
-

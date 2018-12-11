@@ -1,9 +1,0 @@
-diff --git a/wicket/src/main/java/wicket/protocol/http/servlet/ServletWebRequest.java b/wicket/src/main/java/wicket/protocol/http/servlet/ServletWebRequest.java
-index 4f3a44e..3b26bdb 100644
---- a/wicket/src/main/java/wicket/protocol/http/servlet/ServletWebRequest.java
-+++ b/wicket/src/main/java/wicket/protocol/http/servlet/ServletWebRequest.java
-@@ -153 +153,2 @@
--			return url.substring(rootPath.length());
-+			// We return everything after rootPath, making sure we start with a slash.
-+			return url.substring(rootPath.endsWith("/") ? rootPath.length() - 1 : rootPath.length());
-

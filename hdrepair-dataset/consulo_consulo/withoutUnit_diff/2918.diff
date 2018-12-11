@@ -1,8 +1,0 @@
-diff --git a/refactoring/impl/com/intellij/refactoring/typeCook/deductive/builder/Result.java b/refactoring/impl/com/intellij/refactoring/typeCook/deductive/builder/Result.java
-index e794078..a485e18 100644
---- a/refactoring/impl/com/intellij/refactoring/typeCook/deductive/builder/Result.java
-+++ b/refactoring/impl/com/intellij/refactoring/typeCook/deductive/builder/Result.java
-@@ -100 +100 @@
--          if (operandType.isAssignableFrom(cast.getType())) {
-+          if (!(operandType instanceof PsiTypeVariable) && cast.getType().isAssignableFrom(operandType)) {
-

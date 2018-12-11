@@ -1,9 +1,0 @@
-diff --git a/src/server/src/main/java/org/apache/accumulo/server/tabletserver/Tablet.java b/src/server/src/main/java/org/apache/accumulo/server/tabletserver/Tablet.java
-index 8c2cd42..62a28f5 100644
---- a/src/server/src/main/java/org/apache/accumulo/server/tabletserver/Tablet.java
-+++ b/src/server/src/main/java/org/apache/accumulo/server/tabletserver/Tablet.java
-@@ -2874 +2874,2 @@
--        if (!this.extent.contains(first.getRow()) || !this.extent.contains(last.getRow())) {
-+        // If first and last are null, it's an empty file. Add it to the compact set so it goes away.
-+        if ( (first == null && last == null) || !this.extent.contains(first.getRow()) || !this.extent.contains(last.getRow())) {
-

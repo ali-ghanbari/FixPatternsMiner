@@ -1,4 +1,0 @@
-Fixing a silly bug of mine: when a realignment target begins at position 1 of a contig, it was possible to have some reads get emitted out of order (triggering an exception in the SAMFileWriter).  This is fixed by moving around some parentheses.  Tim, if you are reading this: feel free to take this fix in whenever it's convenient.  I.e. it's not critical as the only user who has been hit by it has a reference with over 130K short contigs.  Committing in SVN so that it gets incorporated immediately (and I can respond on GS now).
-
-git-svn-id: file:///humgen/gsa-scr1/gsa-engineering/svn_contents/trunk@6024 348d0f76-0448-11de-a6fe-93d51630548a
-

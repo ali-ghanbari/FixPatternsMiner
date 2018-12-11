@@ -1,8 +1,0 @@
-diff --git a/structr-rest/src/main/java/org/structr/rest/serialization/StructrJsonHtmlWriter.java b/structr-rest/src/main/java/org/structr/rest/serialization/StructrJsonHtmlWriter.java
-index 78c7d0d..3ebc8ed 100644
---- a/structr-rest/src/main/java/org/structr/rest/serialization/StructrJsonHtmlWriter.java
-+++ b/structr-rest/src/main/java/org/structr/rest/serialization/StructrJsonHtmlWriter.java
-@@ -97 +97 @@
--			"this.openAll=function(){var b=document.getElementsByClassName(\"collapsibleListClosed\");console.log(b);for(var a=0;a<b.length;++a)f(b[a])};this.closeAll=function(){for(var b=document.getElementsByClassName(\"collapsibleListOpen\"),a=0;a<b.length;++a)f(b[a])}};");
-+			"this.openAll=function(){var b = [].slice.call(document.getElementsByClassName(\"collapsibleListClosed\")); [].forEach.call(b, function (el) { f(el); });};this.closeAll=function(){var b = [].slice.call(document.getElementsByClassName(\"collapsibleListOpen\")); [].forEach.call(b, function (el) { f(el); });}};");
-

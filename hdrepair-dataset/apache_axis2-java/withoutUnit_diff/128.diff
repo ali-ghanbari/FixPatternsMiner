@@ -1,8 +1,0 @@
-diff --git a/modules/addressing/src/org/apache/axis2/handlers/addressing/AddressingOutHandler.java b/modules/addressing/src/org/apache/axis2/handlers/addressing/AddressingOutHandler.java
-index 7794d6d..15fdfbd 100644
---- a/modules/addressing/src/org/apache/axis2/handlers/addressing/AddressingOutHandler.java
-+++ b/modules/addressing/src/org/apache/axis2/handlers/addressing/AddressingOutHandler.java
-@@ -235 +235 @@
--	        if(msgContext.isServerSide()){	        	
-+	        if(msgContext.isServerSide() && (msgContext.getAxisService()!=null) && Constants.SCOPE_SOAP_SESSION.equals(msgContext.getAxisService().getScope())){	        	
-

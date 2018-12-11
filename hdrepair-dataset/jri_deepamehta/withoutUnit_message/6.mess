@@ -1,8 +1,0 @@
-Topicmaps: fix display of initial topicmap (#520).
-
-When the initial Webclient URL contained a topic reference dm4c.do_select_topic() was called twice. At time of the first call the topicmap might not yet be displayed (due to asynchronicity) which under some circumstances caused problems.
-
-Now dm4c.do_select_topic() is called only once and at a time when the topicmap is guaranteed to be displayed.
-
-See #520.
-

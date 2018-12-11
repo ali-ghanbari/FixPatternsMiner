@@ -1,8 +1,0 @@
-diff --git a/java/src/org/broadinstitute/sting/gatk/walkers/indels/ConstrainedMateFixingManager.java b/java/src/org/broadinstitute/sting/gatk/walkers/indels/ConstrainedMateFixingManager.java
-index 333f81c..aebb0e3 100755
---- a/java/src/org/broadinstitute/sting/gatk/walkers/indels/ConstrainedMateFixingManager.java
-+++ b/java/src/org/broadinstitute/sting/gatk/walkers/indels/ConstrainedMateFixingManager.java
-@@ -195 +195 @@
--        if ( canFlush && (tooManyReads || (getNReadsInQueue() > 0 && !waitingReads.first().getReferenceIndex().equals(newRead.getReferenceIndex()))) ) {
-+        if ( (canFlush && tooManyReads) || (getNReadsInQueue() > 0 && !waitingReads.first().getReferenceIndex().equals(newRead.getReferenceIndex())) ) {
-

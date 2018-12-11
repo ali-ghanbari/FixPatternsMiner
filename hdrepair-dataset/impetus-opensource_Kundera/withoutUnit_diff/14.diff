@@ -1,8 +1,0 @@
-diff --git a/benchmark/ycsb/src/main/java/com/impetus/kundera/ycsb/benchmark/HBaseClient.java b/benchmark/ycsb/src/main/java/com/impetus/kundera/ycsb/benchmark/HBaseClient.java
-index 81e053f..d044388 100644
---- a/benchmark/ycsb/src/main/java/com/impetus/kundera/ycsb/benchmark/HBaseClient.java
-+++ b/benchmark/ycsb/src/main/java/com/impetus/kundera/ycsb/benchmark/HBaseClient.java
-@@ -224 +224 @@
--            Object value = PropertyAccessorHelper.getObject(Object.class, kv.getValue());
-+            Object value = new ByteArrayByteIterator(kv.getValue()) ;/*PropertyAccessorHelper.getObject(Object.class, kv.getValue());*/
-

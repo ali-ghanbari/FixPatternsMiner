@@ -1,4 +1,0 @@
-LPS-3461 getGroupVocabularies calls addVocabulary and so is not always readOnly. This causes it to break on non-Hibernate transaction manager since it initiates a data modification operation without a transaction. Changing the Propagation.SUPPORTS to Propagation.REQUIRED fixes it on JpaTransactionManager but then it breaks on hibernate transaction manager due to readOnly flag. So removing the readOnly annotation.
-
-git-svn-id: svn://svn.liferay.com/repos/public/portal/trunk@32796 05bdf26c-840f-0410-9ced-eb539d925f36
-

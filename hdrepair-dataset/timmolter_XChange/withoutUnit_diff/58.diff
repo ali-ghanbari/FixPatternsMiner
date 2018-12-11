@@ -1,8 +1,0 @@
-diff --git a/xchange-btce/src/main/java/com/xeiam/xchange/btce/BTCEAdapters.java b/xchange-btce/src/main/java/com/xeiam/xchange/btce/BTCEAdapters.java
-index 7bb2d93..e21bc77 100644
---- a/xchange-btce/src/main/java/com/xeiam/xchange/btce/BTCEAdapters.java
-+++ b/xchange-btce/src/main/java/com/xeiam/xchange/btce/BTCEAdapters.java
-@@ -121 +121 @@
--    OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
-+    OrderType orderType = BTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-

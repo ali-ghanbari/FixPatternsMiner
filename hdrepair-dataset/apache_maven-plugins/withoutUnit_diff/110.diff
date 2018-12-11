@@ -1,8 +1,0 @@
-diff --git a/maven-remote-resources-plugin/src/main/java/org/apache/maven/plugin/resources/remote/BundleRemoteResourcesMojo.java b/maven-remote-resources-plugin/src/main/java/org/apache/maven/plugin/resources/remote/BundleRemoteResourcesMojo.java
-index 2e7a0ed..baba0e2 100644
---- a/maven-remote-resources-plugin/src/main/java/org/apache/maven/plugin/resources/remote/BundleRemoteResourcesMojo.java
-+++ b/maven-remote-resources-plugin/src/main/java/org/apache/maven/plugin/resources/remote/BundleRemoteResourcesMojo.java
-@@ -53 +53 @@
--                remoteResourcesBundle.addRemoteResource( resource );
-+                remoteResourcesBundle.addRemoteResource( resource.replaceAll( "\\", "/" ) );
-

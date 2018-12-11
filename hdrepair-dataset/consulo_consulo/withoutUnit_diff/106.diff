@@ -1,8 +1,0 @@
-diff --git a/platform/platform-impl/src/com/intellij/openapi/editor/impl/EditorImpl.java b/platform/platform-impl/src/com/intellij/openapi/editor/impl/EditorImpl.java
-index c336820..cef242c 100644
---- a/platform/platform-impl/src/com/intellij/openapi/editor/impl/EditorImpl.java
-+++ b/platform/platform-impl/src/com/intellij/openapi/editor/impl/EditorImpl.java
-@@ -1443 +1443 @@
--          PsiFile file = PsiDocumentManager.getInstance(myProject).getCachedPsiFile(myDocument);
-+          PsiFile file = myProject != null ? PsiDocumentManager.getInstance(myProject).getCachedPsiFile(myDocument):null;
-

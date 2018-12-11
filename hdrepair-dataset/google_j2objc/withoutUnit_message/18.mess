@@ -1,6 +1,0 @@
-Fixed bug where inner enum types inside other enum types were not named correctly. They should have the "Enum" suffix just like the outer enum, e.g. FooEnum_InnerEnum. Previously they did not; this was to support anonymous inner literal classes in enum types, e.g. FooEnum_$1. The solution is to only strip the "Enum" suffix from the inner type if it is anonymous.
-	Change on 2012/11/21 by iroth@iroth
--------------
-Created by MOE: http://code.google.com/p/moe-java
-MOE_MIGRATED_REVID=39168381
-

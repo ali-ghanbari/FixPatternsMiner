@@ -1,8 +1,0 @@
-fixed: when a QBean throwed an exception at configuration time (i.e. after creation and registration in MBean server)
-it never couldn be loaded again.
-it was happening because qentry was never assigned the name, and the object was never unregistered from bean server.
-So the next time it is deployed it could not be registered.
-
-Now before registering the MBean if a prevous instance is found withat name it is unregistered
-
-

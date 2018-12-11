@@ -1,8 +1,0 @@
-Fix for cached large data chunks
-
-When large data payloads are chunked and re-combined on the server
-side, the cahce is not cleared after the concatenation occurs. This
-fix clears the cache so that after the final part has been concatenated
-there will be no String lingering the next time a large data is
-chunked and concatenated.
-

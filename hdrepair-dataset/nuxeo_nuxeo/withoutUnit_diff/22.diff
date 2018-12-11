@@ -1,8 +1,0 @@
-diff --git a/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/main/java/org/nuxeo/elasticsearch/core/ElasticSearchIndexingImpl.java b/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/main/java/org/nuxeo/elasticsearch/core/ElasticSearchIndexingImpl.java
-index 7096149..670daee 100644
---- a/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/main/java/org/nuxeo/elasticsearch/core/ElasticSearchIndexingImpl.java
-+++ b/nuxeo-features/nuxeo-elasticsearch/nuxeo-elasticsearch-core/src/main/java/org/nuxeo/elasticsearch/core/ElasticSearchIndexingImpl.java
-@@ -288 +288 @@
--        if (!ret.isExists()) {
-+        if (!ret.isExists() || ret.getField(PATH_FIELD) == null) {
-

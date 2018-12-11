@@ -1,8 +1,0 @@
-Marcin Skladaniec contributed this fix. His problems with errors not being propagated properly from server to client were largely because of this missing flush().
-
-Without it, the original cause message was being lost. We might still need to consider a switch to turn this off/on in the client for security reasons, but for now this reinstate the original purpose of the code.
-
-
-
-git-svn-id: https://svn.apache.org/repos/asf/cayenne/main/trunk@591892 13f79535-47bb-0310-9956-ffa450edef68
-

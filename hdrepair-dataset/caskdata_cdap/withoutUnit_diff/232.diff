@@ -1,8 +1,0 @@
-diff --git a/data-fabric/src/main/java/com/continuuity/data2/transaction/stream/AbstractStreamFileConsumerFactory.java b/data-fabric/src/main/java/com/continuuity/data2/transaction/stream/AbstractStreamFileConsumerFactory.java
-index c9f3884..3a6d3ba 100644
---- a/data-fabric/src/main/java/com/continuuity/data2/transaction/stream/AbstractStreamFileConsumerFactory.java
-+++ b/data-fabric/src/main/java/com/continuuity/data2/transaction/stream/AbstractStreamFileConsumerFactory.java
-@@ -178 +178 @@
--          boolean isExpired = input.getPartitionEnd() + streamConfig.getTTL() < currentTime;
-+          boolean isExpired = input.getPartitionEnd() < currentTime - streamConfig.getTTL();
-

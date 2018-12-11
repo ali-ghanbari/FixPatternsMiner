@@ -1,8 +1,0 @@
-Fix a NullPointerException when calling the EOModel.createPrototypeCache method from the wrong EOModel
-
-The `ERXModelGroup` class may create duplicate models in some cases. They are not added to the model group, but their presence may cause problems. The root cause of this problem is related to the duplication of `NSBundle` references while loading `EOModel`s. This fix uses a `NSMutableSet` instead of a `NSMutableArray` to hold the references to all loaded bundles. It avoids the presence of duplicate bundles and therefore the presence of duplicate model references.
-
-One can find more information about the issue at the above link.
-
-https://github.com/hprange/wounit/issues/35
-

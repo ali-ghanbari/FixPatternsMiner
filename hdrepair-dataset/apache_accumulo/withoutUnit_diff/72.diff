@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/org/apache/accumulo/core/util/shell/commands/UserPermissionsCommand.java b/core/src/main/java/org/apache/accumulo/core/util/shell/commands/UserPermissionsCommand.java
-index f68257a..8da9742 100644
---- a/core/src/main/java/org/apache/accumulo/core/util/shell/commands/UserPermissionsCommand.java
-+++ b/core/src/main/java/org/apache/accumulo/core/util/shell/commands/UserPermissionsCommand.java
-@@ -42 +42 @@
--      if (shellState.getConnector().securityOperations().hasSystemPermission(user, p) & p != null) {
-+      if (p != null && shellState.getConnector().securityOperations().hasSystemPermission(user, p)) {
-

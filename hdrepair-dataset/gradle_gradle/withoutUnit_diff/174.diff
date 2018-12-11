@@ -1,8 +1,0 @@
-diff --git a/subprojects/native/src/main/java/org/gradle/internal/nativeplatform/jna/WindowsProcessEnvironment.java b/subprojects/native/src/main/java/org/gradle/internal/nativeplatform/jna/WindowsProcessEnvironment.java
-index 87162dc..b2f77b8 100755
---- a/subprojects/native/src/main/java/org/gradle/internal/nativeplatform/jna/WindowsProcessEnvironment.java
-+++ b/subprojects/native/src/main/java/org/gradle/internal/nativeplatform/jna/WindowsProcessEnvironment.java
-@@ -32 +32 @@
--        if (!retval) {
-+        if (!retval && (kernel32.GetLastError() != 203/*ERROR_ENVVAR_NOT_FOUND*/)) {
-

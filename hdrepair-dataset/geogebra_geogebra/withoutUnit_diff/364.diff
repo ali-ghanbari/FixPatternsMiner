@@ -1,9 +1,0 @@
-diff --git a/common/src/geogebra/common/kernel/arithmetic/Variable.java b/common/src/geogebra/common/kernel/arithmetic/Variable.java
-index 9708312..3661ea4 100644
---- a/common/src/geogebra/common/kernel/arithmetic/Variable.java
-+++ b/common/src/geogebra/common/kernel/arithmetic/Variable.java
-@@ -151 +151,2 @@
--		if (name.indexOf('$') > -1 && !(geo instanceof GeoCasCell)) {
-+		// need to avoid CAS cell references, eg $1 (see #3206)
-+		if (name.indexOf('$') > -1 && !(geo instanceof GeoCasCell) && !(geo instanceof GeoDummyVariable)) {
-

@@ -1,8 +1,0 @@
-diff --git a/src/java/org/apache/cassandra/streaming/StreamIn.java b/src/java/org/apache/cassandra/streaming/StreamIn.java
-index a0d605d..b8f6b90 100644
---- a/src/java/org/apache/cassandra/streaming/StreamIn.java
-+++ b/src/java/org/apache/cassandra/streaming/StreamIn.java
-@@ -86 +86 @@
--        Descriptor localdesc = Descriptor.fromFilename(cfStore.getTempSSTablePath(localDir.location));
-+        Descriptor localdesc = Descriptor.fromFilename(cfStore.getTempSSTablePath(cfStore.directories.getLocationForDisk(localDir.location)));
-

@@ -1,8 +1,0 @@
-diff --git a/server/src/com/cloud/network/rules/RulesManagerImpl.java b/server/src/com/cloud/network/rules/RulesManagerImpl.java
-index 56a075d..c46260d 100644
---- a/server/src/com/cloud/network/rules/RulesManagerImpl.java
-+++ b/server/src/com/cloud/network/rules/RulesManagerImpl.java
-@@ -1377 +1377 @@
--        VMInstanceVO vm = _vmInstanceDao.findById(sourceIp.getAssociatedWithVmId());
-+        VMInstanceVO vm = _vmInstanceDao.findByIdIncludingRemoved(sourceIp.getAssociatedWithVmId());
-

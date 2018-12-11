@@ -1,8 +1,0 @@
-diff --git a/components/bio-formats/src/loci/formats/in/ZeissCZIReader.java b/components/bio-formats/src/loci/formats/in/ZeissCZIReader.java
-index 1d74582..e99bb41 100644
---- a/components/bio-formats/src/loci/formats/in/ZeissCZIReader.java
-+++ b/components/bio-formats/src/loci/formats/in/ZeissCZIReader.java
-@@ -410 +410 @@
--    core[0].imageCount = getSizeZ() * getSizeC() * getSizeT();
-+    core[0].imageCount = getSizeZ() * (isRGB() ? 1 : getSizeC()) * getSizeT();
-

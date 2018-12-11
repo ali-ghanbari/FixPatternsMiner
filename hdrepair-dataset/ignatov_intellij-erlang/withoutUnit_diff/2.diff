@@ -1,8 +1,0 @@
-diff --git a/src/org/intellij/erlang/completion/ErlangCompletionContributor.java b/src/org/intellij/erlang/completion/ErlangCompletionContributor.java
-index ca8260d..5eef0f0 100644
---- a/src/org/intellij/erlang/completion/ErlangCompletionContributor.java
-+++ b/src/org/intellij/erlang/completion/ErlangCompletionContributor.java
-@@ -176 +176 @@
--            (StringUtil.isEmpty(prefix) ? result : result.withPrefixMatcher(prefix))
-+            (StringUtil.isEmpty(prefix) ? result : result.withPrefixMatcher(result.getPrefixMatcher().cloneWithPrefix(prefix) ))
-

@@ -1,8 +1,0 @@
-diff --git a/plugins/ant/src/com/intellij/lang/ant/psi/impl/AntCallImpl.java b/plugins/ant/src/com/intellij/lang/ant/psi/impl/AntCallImpl.java
-index b8cd40d..f1c8e39 100644
---- a/plugins/ant/src/com/intellij/lang/ant/psi/impl/AntCallImpl.java
-+++ b/plugins/ant/src/com/intellij/lang/ant/psi/impl/AntCallImpl.java
-@@ -43 +43 @@
--    AntTarget result = getAntProject().getTarget(target);
-+    final AntTarget result = (target == null) ? null : getAntProject().getTarget(target);
-

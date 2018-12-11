@@ -1,9 +1,0 @@
-diff --git a/backend/manager/modules/vdsbroker/src/main/java/org/ovirt/engine/core/vdsbroker/VdsUpdateRunTimeInfo.java b/backend/manager/modules/vdsbroker/src/main/java/org/ovirt/engine/core/vdsbroker/VdsUpdateRunTimeInfo.java
-index 5a56b2e..62c0c6a 100644
---- a/backend/manager/modules/vdsbroker/src/main/java/org/ovirt/engine/core/vdsbroker/VdsUpdateRunTimeInfo.java
-+++ b/backend/manager/modules/vdsbroker/src/main/java/org/ovirt/engine/core/vdsbroker/VdsUpdateRunTimeInfo.java
-@@ -1981 +1981,2 @@
--                if (disk.getDiskStorageType() == DiskStorageType.IMAGE) {
-+                // We also check if the disk is null, as, for external VMs the disk is not in the database
-+                if (disk != null && disk.getDiskStorageType() == DiskStorageType.IMAGE) {
-

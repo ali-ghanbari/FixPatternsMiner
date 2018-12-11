@@ -1,8 +1,0 @@
-diff --git a/choco-solver/src/main/java/solver/constraints/propagators/Propagator.java b/choco-solver/src/main/java/solver/constraints/propagators/Propagator.java
-index cffa37c..38a2a75 100755
---- a/choco-solver/src/main/java/solver/constraints/propagators/Propagator.java
-+++ b/choco-solver/src/main/java/solver/constraints/propagators/Propagator.java
-@@ -353 +353 @@
--        assert isStateLess() : "the propagator was not stateless";
-+        assert isStateLess()||isReifiedAndSilent() : "the propagator was neither stateless nor reified";
-

@@ -1,8 +1,0 @@
-diff --git a/providers/netty/src/main/java/org/asynchttpclient/providers/netty/handler/HttpProtocol.java b/providers/netty/src/main/java/org/asynchttpclient/providers/netty/handler/HttpProtocol.java
-index 044b3b3..d0de464 100644
---- a/providers/netty/src/main/java/org/asynchttpclient/providers/netty/handler/HttpProtocol.java
-+++ b/providers/netty/src/main/java/org/asynchttpclient/providers/netty/handler/HttpProtocol.java
-@@ -223 +223 @@
--            if (realm.isOmitQuery() && isNonEmpty(requestURI.getQuery())) {
-+            if (realm.isOmitQuery() || !isNonEmpty(requestURI.getQuery())) {
-

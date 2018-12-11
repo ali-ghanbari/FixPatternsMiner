@@ -1,6 +1,0 @@
-AssessNA12878 bugfixes
-
--- @Output isn't required for AssessNA12878
--- Previous version would could non-variant sites in NA12878 that resulted from subsetting a multi-sample VC to NA12878 as CALLED_BUT_NOT_IN_DB sites.  Now they are properly skipped
--- Bugfix for subsetting samples to NA12878.  Previous version wouldn't trim the alleles when subsetting down a multi-sample VCF, so we'd have false FN/FP sites at indels when the multi-sample VCF has alleles that result in the subset for NA12878 having non-trimmed alleles.  Fixed and unit tested now.
-

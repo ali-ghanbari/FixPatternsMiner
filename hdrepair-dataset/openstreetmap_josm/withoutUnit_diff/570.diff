@@ -1,8 +1,0 @@
-diff --git a/src/org/openstreetmap/josm/gui/dialogs/UserListDialog.java b/src/org/openstreetmap/josm/gui/dialogs/UserListDialog.java
-index 4ce5b6a..3f15532 100644
---- a/src/org/openstreetmap/josm/gui/dialogs/UserListDialog.java
-+++ b/src/org/openstreetmap/josm/gui/dialogs/UserListDialog.java
-@@ -203 +203 @@
--                return getBaseUserUrl() + "/" + URLEncoder.encode(user.getName(), "UTF-8");
-+                return getBaseUserUrl() + "/" + URLEncoder.encode(user.getName(), "UTF-8").replaceAll("\\+", "%20");
-

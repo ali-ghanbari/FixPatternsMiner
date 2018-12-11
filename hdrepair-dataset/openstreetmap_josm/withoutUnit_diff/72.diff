@@ -1,9 +1,0 @@
-diff --git a/src/org/openstreetmap/josm/data/validation/tests/MapCSSTagChecker.java b/src/org/openstreetmap/josm/data/validation/tests/MapCSSTagChecker.java
-index e1bb9b7..8cbf60c 100644
---- a/src/org/openstreetmap/josm/data/validation/tests/MapCSSTagChecker.java
-+++ b/src/org/openstreetmap/josm/data/validation/tests/MapCSSTagChecker.java
-@@ -338 +338,2 @@
--                    m.appendReplacement(sb, String.valueOf(argument));
-+                    // Perform replacement with null-safe + regex-safe handling
-+                    m.appendReplacement(sb, String.valueOf(argument).replace("^(", "").replace(")$", ""));
-

@@ -1,8 +1,0 @@
-diff --git a/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java b/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java
-index ab1a376..5a8315c 100644
---- a/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java
-+++ b/wasp-core/src/main/java/edu/yu/einstein/wasp/grid/work/SgeWorkService.java
-@@ -521 +521 @@
--		w.setCommand("touch " + WorkUnit.PROCESSING_INCOMPLETE_FILENAME);
-+		w.addCommand("if [ \"$" + WorkUnit.TASK_ARRAY_ID + "\" -eq \"0\" ]; then touch " + WorkUnit.PROCESSING_INCOMPLETE_FILENAME + "; fi");
-

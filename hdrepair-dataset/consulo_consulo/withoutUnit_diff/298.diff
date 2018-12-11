@@ -1,8 +1,0 @@
-diff --git a/plugins/groovy/src/org/jetbrains/plugins/groovy/intentions/declaration/GrChangeMemberVisibilityModifierBase.java b/plugins/groovy/src/org/jetbrains/plugins/groovy/intentions/declaration/GrChangeMemberVisibilityModifierBase.java
-index 3599da7..a38bcd4 100644
---- a/plugins/groovy/src/org/jetbrains/plugins/groovy/intentions/declaration/GrChangeMemberVisibilityModifierBase.java
-+++ b/plugins/groovy/src/org/jetbrains/plugins/groovy/intentions/declaration/GrChangeMemberVisibilityModifierBase.java
-@@ -56 +56 @@
--               !((GrMember)parent).getModifierList().hasExplicitModifier(myModifier);
-+               ((GrMember)parent).getModifierList() != null && !((GrMember)parent).getModifierList().hasExplicitModifier(myModifier);
-

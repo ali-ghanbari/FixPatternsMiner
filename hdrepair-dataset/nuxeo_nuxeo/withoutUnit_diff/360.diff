@@ -1,9 +1,0 @@
-diff --git a/nuxeo-core-query-test/src/main/java/org/nuxeo/ecm/core/query/test/QueryTestCase.java b/nuxeo-core-query-test/src/main/java/org/nuxeo/ecm/core/query/test/QueryTestCase.java
-index 6972fb8..999df1c 100644
---- a/nuxeo-core-query-test/src/main/java/org/nuxeo/ecm/core/query/test/QueryTestCase.java
-+++ b/nuxeo-core-query-test/src/main/java/org/nuxeo/ecm/core/query/test/QueryTestCase.java
-@@ -1091 +1091,2 @@
--        dml = session.query("SELECT * FROM Document WHERE ecm:lock <> ''");
-+        // don't use a '' here for Oracle, for which '' IS NULL
-+        dml = session.query("SELECT * FROM Document WHERE ecm:lock <> '_'");
-

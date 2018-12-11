@@ -1,8 +1,0 @@
-diff --git a/platform/core-impl/src/com/intellij/openapi/editor/impl/DocumentImpl.java b/platform/core-impl/src/com/intellij/openapi/editor/impl/DocumentImpl.java
-index 459a6a3..d9e8f07 100644
---- a/platform/core-impl/src/com/intellij/openapi/editor/impl/DocumentImpl.java
-+++ b/platform/core-impl/src/com/intellij/openapi/editor/impl/DocumentImpl.java
-@@ -141 +141 @@
--    RangeMarker caretMarker = caretOffset < 0 ? null : createRangeMarker(caretOffset, caretOffset);
-+    RangeMarker caretMarker = caretOffset < 0 || caretOffset > getTextLength() ? null : createRangeMarker(caretOffset, caretOffset);
-

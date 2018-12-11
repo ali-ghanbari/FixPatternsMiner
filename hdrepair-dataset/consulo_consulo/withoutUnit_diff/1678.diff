@@ -1,8 +1,0 @@
-diff --git a/platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorWriteActionHandler.java b/platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorWriteActionHandler.java
-index 36f5d48..80579fd 100644
---- a/platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorWriteActionHandler.java
-+++ b/platform/platform-api/src/com/intellij/openapi/editor/actionSystem/EditorWriteActionHandler.java
-@@ -30 +30 @@
--      if (!FileDocumentManager.getInstance().requestWriting(editor.getDocument(), PlatformDataKeys.PROJECT.getData(dataContext)))
-+      if (dataContext != null && !FileDocumentManager.getInstance().requestWriting(editor.getDocument(), PlatformDataKeys.PROJECT.getData(dataContext)))
-

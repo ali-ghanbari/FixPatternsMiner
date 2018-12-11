@@ -1,8 +1,0 @@
-diff --git a/refactoring/impl/com/intellij/refactoring/rename/PsiElementRenameHandler.java b/refactoring/impl/com/intellij/refactoring/rename/PsiElementRenameHandler.java
-index 50f3250..c61f559 100644
---- a/refactoring/impl/com/intellij/refactoring/rename/PsiElementRenameHandler.java
-+++ b/refactoring/impl/com/intellij/refactoring/rename/PsiElementRenameHandler.java
-@@ -105 +105 @@
--    if (!PsiManager.getInstance(project).isInProject(element)) {
-+    if (!PsiManager.getInstance(project).isInProject(element) && element.isPhysical()) {
-

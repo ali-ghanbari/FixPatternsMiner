@@ -1,8 +1,0 @@
-diff --git a/core/src/com/cloud/storage/dao/StoragePoolDaoImpl.java b/core/src/com/cloud/storage/dao/StoragePoolDaoImpl.java
-index ab4bb21..05828bd 100644
---- a/core/src/com/cloud/storage/dao/StoragePoolDaoImpl.java
-+++ b/core/src/com/cloud/storage/dao/StoragePoolDaoImpl.java
-@@ -67 +67 @@
--    private final String DetailsSqlPrefix = "SELECT storage_pool.* from storage_pool LEFT JOIN storage_pool_details ON storage_pool.id = storage_pool_details.pool_id WHERE storage_pool.data_center_id = ? and (storage_pool.pod_id = ? or storage_pool.pod_id is null) and (";
-+    private final String DetailsSqlPrefix = "SELECT storage_pool.* from storage_pool LEFT JOIN storage_pool_details ON storage_pool.id = storage_pool_details.pool_id WHERE storage_pool.removed is null and storage_pool.data_center_id = ? and (storage_pool.pod_id = ? or storage_pool.pod_id is null) and (";
-

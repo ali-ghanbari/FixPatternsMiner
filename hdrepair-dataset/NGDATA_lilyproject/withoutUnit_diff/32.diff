@@ -1,8 +1,0 @@
-diff --git a/global/hbase-util/src/main/java/org/lilyproject/util/hbase/TableConfig.java b/global/hbase-util/src/main/java/org/lilyproject/util/hbase/TableConfig.java
-index 517fe34..08e5534 100644
---- a/global/hbase-util/src/main/java/org/lilyproject/util/hbase/TableConfig.java
-+++ b/global/hbase-util/src/main/java/org/lilyproject/util/hbase/TableConfig.java
-@@ -68 +68 @@
--            byte[] startBytes = new byte[]{(byte)0};
-+            byte[] startBytes = splitKeyPrefix.length > 0 ? splitKeyPrefix : new byte[]{(byte)0};
-

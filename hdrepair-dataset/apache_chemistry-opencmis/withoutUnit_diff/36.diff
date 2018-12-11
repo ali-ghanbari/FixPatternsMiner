@@ -1,8 +1,0 @@
-diff --git a/chemistry-opencmis-server/chemistry-opencmis-server-bindings/src/main/java/org/apache/chemistry/opencmis/server/impl/browser/ObjectService.java b/chemistry-opencmis-server/chemistry-opencmis-server-bindings/src/main/java/org/apache/chemistry/opencmis/server/impl/browser/ObjectService.java
-index 57edc3e..860eaf8 100644
---- a/chemistry-opencmis-server/chemistry-opencmis-server-bindings/src/main/java/org/apache/chemistry/opencmis/server/impl/browser/ObjectService.java
-+++ b/chemistry-opencmis-server/chemistry-opencmis-server-bindings/src/main/java/org/apache/chemistry/opencmis/server/impl/browser/ObjectService.java
-@@ -436 +436 @@
--        boolean download = getBooleanParameter(request, PARAM_DOWNLOAD, false);
-+        boolean download = "attachment".equalsIgnoreCase(getStringParameter(request, PARAM_DOWNLOAD));
-

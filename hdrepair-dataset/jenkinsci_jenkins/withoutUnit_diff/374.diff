@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/hudson/scm/SubversionSCM.java b/core/src/main/java/hudson/scm/SubversionSCM.java
-index 0a1667c..d2fecc6 100644
---- a/core/src/main/java/hudson/scm/SubversionSCM.java
-+++ b/core/src/main/java/hudson/scm/SubversionSCM.java
-@@ -635 +635 @@
--                    return new SVNSSHAuthentication(userName,password,-1,false);
-+                    return new SVNSSHAuthentication(userName,Scrambler.descramble(password),-1,false);
-

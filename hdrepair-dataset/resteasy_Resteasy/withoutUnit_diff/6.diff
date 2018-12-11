@@ -1,8 +1,0 @@
-diff --git a/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/util/GetRestful.java b/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/util/GetRestful.java
-index 62974ff..500ed99 100644
---- a/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/util/GetRestful.java
-+++ b/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/util/GetRestful.java
-@@ -59 +59 @@
--      for (Method method : c.getDeclaredMethods())
-+      for (Method method : c.isInterface() ? c.getMethods() : c.getDeclaredMethods())
-

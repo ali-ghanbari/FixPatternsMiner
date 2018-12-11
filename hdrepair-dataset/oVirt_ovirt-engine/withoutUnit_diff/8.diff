@@ -1,8 +1,0 @@
-diff --git a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AttachDiskToVmCommand.java b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AttachDiskToVmCommand.java
-index 82d4250..fcdb95d 100644
---- a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AttachDiskToVmCommand.java
-+++ b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/AttachDiskToVmCommand.java
-@@ -225 +225 @@
--        if (disk.getDiskStorageType() == DiskStorageType.IMAGE) {
-+        if (disk.getDiskStorageType().isSupportsSnapshots()) {
-

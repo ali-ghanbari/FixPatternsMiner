@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.zip.GZIPOutputStream;
 
-/* this will gracefully die if it see a null value in the queue */
+/* this will gracefully die if it sees a null value in the queue */
 public abstract class Serializer extends Consumer {
     private ObjectOutputStream oos;
     private OutputStream os;

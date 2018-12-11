@@ -1,8 +1,0 @@
-diff --git a/liquibase-core/src/main/java/liquibase/sqlgenerator/core/UpdateGenerator.java b/liquibase-core/src/main/java/liquibase/sqlgenerator/core/UpdateGenerator.java
-index 8e1ebe4..f977825 100644
---- a/liquibase-core/src/main/java/liquibase/sqlgenerator/core/UpdateGenerator.java
-+++ b/liquibase-core/src/main/java/liquibase/sqlgenerator/core/UpdateGenerator.java
-@@ -69 +69 @@
--            sqlString = "'" + database.escapeStringForDatabase(newValue.toString()) + "'";
-+            sqlString = DataTypeFactory.getInstance().fromObject(newValue, database).objectToSql(newValue, database);
-

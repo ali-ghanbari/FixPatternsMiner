@@ -1,8 +1,0 @@
-Deals with SEQWARE-1344, SEQWARE-1326, SEQWARE-1330, SEQWARE-1283.
-
-Porting over the creation and dropping of the database from out of the TestDatabaseCreator since after Jetty started, it would always be unable to drop and create the database.
-Now database creation and dropping is doen from the maven SQL plugin while TestDatabaseCreator only populates the empty database.
-The WS tests change the state of the database and SymLinkFileReporter relies upon the state of the database which is less than optimal, but I've fixed the runOrder on the integration tests which should make this a bit less fragile.
-
-
-Former-commit-id: 46f4271d8d54df02b95bbafc65906ee766b52868

@@ -1,5 +1,0 @@
-Potential fix for GSA-484: Incomplete writing of temp BCF when running CombineVariants in parallel
-
--- Keep reading from BCF2 input stream when read(byte[]) returns < number of needed bytes
--- It's possible (I think) that the failure in GSA-484 is due to multi-threading writing/reading of BCF2 records where the underlying stream is not yet flushed so read(byte[]) returns a partial result.  No loops until we get all of the needed bytes or EOF is encounted
-

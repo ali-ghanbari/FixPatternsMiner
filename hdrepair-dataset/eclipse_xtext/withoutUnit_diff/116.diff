@@ -1,9 +1,0 @@
-diff --git a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/XtextEditor.java b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/XtextEditor.java
-index 2edc4e4..82ae3b3 100755
---- a/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/XtextEditor.java
-+++ b/plugins/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/editor/XtextEditor.java
-@@ -300 +300,2 @@
--		if (outlinePage == null) {
-+		// don't create outline page if the editor was already disposed
-+		if (outlinePage == null && getSourceViewer() != null) {
-

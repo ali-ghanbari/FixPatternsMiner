@@ -1,8 +1,0 @@
-diff --git a/driver-core/src/main/java/com/datastax/driver/core/TableMetadata.java b/driver-core/src/main/java/com/datastax/driver/core/TableMetadata.java
-index c86ab48..d47b82c 100644
---- a/driver-core/src/main/java/com/datastax/driver/core/TableMetadata.java
-+++ b/driver-core/src/main/java/com/datastax/driver/core/TableMetadata.java
-@@ -504 +504 @@
--            this.replicateOnWrite = row.getBool(REPLICATE_ON_WRITE);
-+            this.replicateOnWrite = row.isNull(REPLICATE_ON_WRITE) ? true : row.getBool(REPLICATE_ON_WRITE);
-

@@ -1,8 +1,0 @@
-diff --git a/graylog2-server/src/main/java/org/graylog2/periodical/VersionCheckThread.java b/graylog2-server/src/main/java/org/graylog2/periodical/VersionCheckThread.java
-index 9387b6c..15e410c 100644
---- a/graylog2-server/src/main/java/org/graylog2/periodical/VersionCheckThread.java
-+++ b/graylog2-server/src/main/java/org/graylog2/periodical/VersionCheckThread.java
-@@ -71 +71 @@
--            uri.addParameter("anon-id", new String(DigestUtils.sha256(core.getNodeId()), Charset.forName("UTF-8")));
-+            uri.addParameter("anonid", DigestUtils.sha256Hex(core.getNodeId()));
-

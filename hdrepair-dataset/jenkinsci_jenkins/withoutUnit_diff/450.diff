@@ -1,8 +1,0 @@
-diff --git a/remoting/src/main/java/hudson/remoting/ProxyOutputStream.java b/remoting/src/main/java/hudson/remoting/ProxyOutputStream.java
-index 9a29588..66d2143 100644
---- a/remoting/src/main/java/hudson/remoting/ProxyOutputStream.java
-+++ b/remoting/src/main/java/hudson/remoting/ProxyOutputStream.java
-@@ -56 +56 @@
--            write(tmp.toByteArray());
-+            channel.send(new Chunk(oid,tmp.toByteArray()));
-

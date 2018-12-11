@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/org/apache/mahout/vectorizer/tfidf/TFIDFPartialVectorReducer.java b/core/src/main/java/org/apache/mahout/vectorizer/tfidf/TFIDFPartialVectorReducer.java
-index 0e1e8eb..826a467 100644
---- a/core/src/main/java/org/apache/mahout/vectorizer/tfidf/TFIDFPartialVectorReducer.java
-+++ b/core/src/main/java/org/apache/mahout/vectorizer/tfidf/TFIDFPartialVectorReducer.java
-@@ -81 +81 @@
--      if (maxDf > -1 && df > maxDf) {
-+      if (maxDf > -1 && (100.0 * df) / vectorCount > maxDf) {
-

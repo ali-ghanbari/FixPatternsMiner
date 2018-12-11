@@ -1,9 +1,0 @@
-XWIKI-1891: Failure to delete documents on xwiki.org
-Probably mostly fixed. Seems that we're using a SoftReference and we never check if the referenced object was garbage-collected in the meantime.
-This change was introduced in rev. 1124 ( http://fisheye2.cenqua.com/changelog/xwiki?cs=1124 ), so it's strange that nobody reported the error since then.
-I still have to check if the reference can be broken between reloading the archive and putting a strong reference to the real archive in the context. Probably yes, and we'll have to use a synchronized code.
-
-
-
-git-svn-id: https://svn.xwiki.org/svnroot/xwiki/xwiki-platform/core/trunk@6112 f329d543-caf0-0310-9063-dda96c69346f
-

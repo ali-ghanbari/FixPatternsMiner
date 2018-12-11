@@ -1,8 +1,0 @@
-diff --git a/src/main/java/jnr/posix/NativeTimes.java b/src/main/java/jnr/posix/NativeTimes.java
-index 340d9b5..dc53422 100644
---- a/src/main/java/jnr/posix/NativeTimes.java
-+++ b/src/main/java/jnr/posix/NativeTimes.java
-@@ -29 +29 @@
--        return posix.libc().times(tms) < 0 ? null : tms;
-+        return posix.libc().times(tms) == -1 ? null : tms;
-

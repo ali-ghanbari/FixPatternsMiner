@@ -1,8 +1,0 @@
-diff --git a/modules/core/plugin-container/src/main/java/org/rhq/core/pc/inventory/RuntimeDiscoveryExecutor.java b/modules/core/plugin-container/src/main/java/org/rhq/core/pc/inventory/RuntimeDiscoveryExecutor.java
-index c16ba56..1d803b4 100644
---- a/modules/core/plugin-container/src/main/java/org/rhq/core/pc/inventory/RuntimeDiscoveryExecutor.java
-+++ b/modules/core/plugin-container/src/main/java/org/rhq/core/pc/inventory/RuntimeDiscoveryExecutor.java
-@@ -139 +139 @@
--            Set<Resource> servers = platform.getChildResources();
-+            Set<Resource> servers = new HashSet<Resource>(platform.getChildResources()); // prevent concurrent mod
-

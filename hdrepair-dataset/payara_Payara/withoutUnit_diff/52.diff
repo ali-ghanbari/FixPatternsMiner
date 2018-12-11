@@ -1,8 +1,0 @@
-diff --git a/appserver/web/web-core/src/main/java/org/apache/catalina/authenticator/FormAuthenticator.java b/appserver/web/web-core/src/main/java/org/apache/catalina/authenticator/FormAuthenticator.java
-index b5954fb..52acf28 100644
---- a/appserver/web/web-core/src/main/java/org/apache/catalina/authenticator/FormAuthenticator.java
-+++ b/appserver/web/web-core/src/main/java/org/apache/catalina/authenticator/FormAuthenticator.java
-@@ -490 +490 @@
--        if (isChangeSessionIdOnAuthentication()) {
-+        if (isChangeSessionIdOnAuthentication() && getSession(request, false) != null) {
-

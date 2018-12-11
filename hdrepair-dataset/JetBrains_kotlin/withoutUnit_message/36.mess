@@ -1,6 +1,0 @@
-Double-checked locking fixed in LockBasedStorageManager
-
-There were two problems here:
- * a volatile field was read and then a local variable used, i.e. the field might have been changed in between the check and the return;
- * this volatile read was unnecessary, because the whole purpose of `_value` local variable is to avoid it.
-

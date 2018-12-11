@@ -1,2 +1,0 @@
-Load limiting fix affecting new load management: Instead of decrementing peerRequestsSnapshot we were decrementing requestsSnapshot twice. Result was we were taking the new request into account as well as the old ones, meaning if we have a low limit we won't accept anything; this is not what we want and is not what new load management expects.
-

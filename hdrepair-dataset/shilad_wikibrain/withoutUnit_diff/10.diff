@@ -1,9 +1,0 @@
-diff --git a/wikibrain-core/src/main/java/org/wikibrain/core/dao/sql/WpDataSource.java b/wikibrain-core/src/main/java/org/wikibrain/core/dao/sql/WpDataSource.java
-index 94ac114..f9b8417 100644
---- a/wikibrain-core/src/main/java/org/wikibrain/core/dao/sql/WpDataSource.java
-+++ b/wikibrain-core/src/main/java/org/wikibrain/core/dao/sql/WpDataSource.java
-@@ -275 +275,2 @@
--                ds.setMaxConnectionsPerPartition(config.getInt("connectionsPerPartition"));
-+                //ds.setMaxConnectionsPerPartition(config.getInt("connectionsPerPartition"));
-+                ds.setMaxConnectionsPerPartition(Runtime.getRuntime().availableProcessors());
-

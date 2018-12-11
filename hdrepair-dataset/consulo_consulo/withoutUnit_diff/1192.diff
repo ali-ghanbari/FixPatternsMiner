@@ -1,8 +1,0 @@
-diff --git a/platform/platform-impl/src/com/intellij/ui/popup/AbstractPopup.java b/platform/platform-impl/src/com/intellij/ui/popup/AbstractPopup.java
-index 64c7e4f..03eb9a4 100644
---- a/platform/platform-impl/src/com/intellij/ui/popup/AbstractPopup.java
-+++ b/platform/platform-impl/src/com/intellij/ui/popup/AbstractPopup.java
-@@ -1298 +1298 @@
--        Window eachWindow = SwingUtilities.getWindowAncestor(each);
-+        Window eachWindow = each instanceof Window ? (Window)each : SwingUtilities.getWindowAncestor(each);
-

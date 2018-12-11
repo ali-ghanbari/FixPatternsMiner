@@ -1,4 +1,0 @@
-[JENKINS-25572] fix condition where admin can't run tests
-
-If a project is set to "trigger only", and an admin adds the test/retest phrase in a comment, nothing would happen. The logs would display "Trigger only phrase but we are not triggered". This is because the `triggered` variable was set to true on every other instance of manually triggering a build, *except* when an admin made the comment.
-

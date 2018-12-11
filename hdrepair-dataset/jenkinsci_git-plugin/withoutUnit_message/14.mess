@@ -1,7 +1,0 @@
-Use BuildChooserContext environment in InverseBuildChooser
-
-Fixes an issue introduced by 4fc7f4447c990082e8322c42ebafd1f33a2e60aa.
-
-When polling git for changes, context.getBuild() returns null, manifesting in an NPE from  InverseBuildChooser.getCandidateRevisions() when polling a git repo and using an Inverse branch choosing strategy.
-
-This was fixed for DefaultBuildChooser in 68331baf78649becac426b9362534faff08cf618--BuildChooserContext now includes the appropriate environment, so there is no longer any need to call context.getBuild().getEnvironment() as demonstrated in [DefaultBuildChooser.java](https://github.com/jenkinsci/git-plugin/commit/68331baf78649becac426b9362534faff08cf618#diff-59b21aee0282fdafd62036844373a19cL190).

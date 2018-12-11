@@ -1,9 +1,0 @@
-libxtreemfs (java): add bugfix and tests for Issue #277
-
-Issue #277 was a bug in the java libxtreemfs in the offset translation from file
-offsets to object offsets when using Filehandle.read(). The offset calculation
-was erroneous for nonaligned (i.e. offset % blocksize != 0) offsets greater than
-Integer.MAX_VALUE. The error was found to be a pair of missing braces in the
-StripeTranslatorRaid0.translateReadRequest().
-The commit fixes the bug and adds regressiontests against it.
-

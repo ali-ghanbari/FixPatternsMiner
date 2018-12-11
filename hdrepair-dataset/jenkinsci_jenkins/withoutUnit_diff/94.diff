@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/hudson/slaves/NodeProvisioner.java b/core/src/main/java/hudson/slaves/NodeProvisioner.java
-index cc75adf..eee29b8 100644
---- a/core/src/main/java/hudson/slaves/NodeProvisioner.java
-+++ b/core/src/main/java/hudson/slaves/NodeProvisioner.java
-@@ -196 +196 @@
--        boolean needSomeWhenNoneAtAll = ((totalSnapshot + plannedCapacitySnapshot) == 0) && (stat.computeQueueLength() > 0);
-+        boolean needSomeWhenNoneAtAll = ((idleSnapshot + totalSnapshot + plannedCapacitySnapshot) == 0) && (stat.computeQueueLength() > 0);
-

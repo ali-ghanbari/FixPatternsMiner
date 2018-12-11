@@ -1,9 +1,0 @@
-diff --git a/src/main/java/spoon/support/builder/JDTTreeBuilder.java b/src/main/java/spoon/support/builder/JDTTreeBuilder.java
-index 1c41666..18ad598 100644
---- a/src/main/java/spoon/support/builder/JDTTreeBuilder.java
-+++ b/src/main/java/spoon/support/builder/JDTTreeBuilder.java
-@@ -2507 +2507,2 @@
--		s.setType(references.getTypeReference(stringLiteral.resolvedType));
-+		// references.getTypeReference(stringLiteral.resolvedType) can be null
-+		s.setType(factory.Type().createReference(String.class));
-

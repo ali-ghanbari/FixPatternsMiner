@@ -1,8 +1,0 @@
-diff --git a/cascading-core/src/main/java/cascading/util/Update.java b/cascading-core/src/main/java/cascading/util/Update.java
-index b7ea948..7ae3181 100644
---- a/cascading-core/src/main/java/cascading/util/Update.java
-+++ b/cascading-core/src/main/java/cascading/util/Update.java
-@@ -84 +84 @@
--    boolean isCurrentDev = isCurrentWip ? Version.getReleaseFull().contains( "wip-dev" ) : Version.getReleaseBuild() == null;
-+    boolean isCurrentDev = Version.getReleaseFull() == null || Version.getReleaseFull().contains( "wip-dev" );
-

@@ -1,9 +1,0 @@
-diff --git a/activemq-core/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java b/activemq-core/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java
-index 52aa3a9..02fb3fc 100755
---- a/activemq-core/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java
-+++ b/activemq-core/src/main/java/org/apache/activemq/ActiveMQMessageConsumer.java
-@@ -858,0 +859,3 @@
-+            // yeild here so that a thread trying to stop unconsumedMessages has 
-+            // a chance of getting prioritized head of this thread that is in a dispatch loop.
-+            Thread.yield();            
-

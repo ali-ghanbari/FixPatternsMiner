@@ -1,8 +1,0 @@
-diff --git a/policy/src/main/java/brooklyn/policy/autoscaling/AutoScalerPolicy.java b/policy/src/main/java/brooklyn/policy/autoscaling/AutoScalerPolicy.java
-index 0de3b7c..06b4bdc 100644
---- a/policy/src/main/java/brooklyn/policy/autoscaling/AutoScalerPolicy.java
-+++ b/policy/src/main/java/brooklyn/policy/autoscaling/AutoScalerPolicy.java
-@@ -591 +591 @@
--        if (isRunning() && executorQueued.compareAndSet(false, true) && isEntityUp()) {
-+        if (isRunning() && isEntityUp() && executorQueued.compareAndSet(false, true)) {
-

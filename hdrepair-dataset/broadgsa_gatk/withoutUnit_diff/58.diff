@@ -1,8 +1,0 @@
-diff --git a/public/java/src/org/broadinstitute/sting/utils/sam/AlignmentUtils.java b/public/java/src/org/broadinstitute/sting/utils/sam/AlignmentUtils.java
-index 4f1e66b..5855789 100644
---- a/public/java/src/org/broadinstitute/sting/utils/sam/AlignmentUtils.java
-+++ b/public/java/src/org/broadinstitute/sting/utils/sam/AlignmentUtils.java
-@@ -649 +649 @@
--        elements.add(new CigarElement(ce.getLength() - 1, ce.getOperator()));
-+        elements.add(new CigarElement(Math.max(ce.getLength() - 1, 0), ce.getOperator()));
-

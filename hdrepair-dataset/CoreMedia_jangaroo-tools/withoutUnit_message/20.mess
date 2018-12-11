@@ -1,3 +1,0 @@
-Fix: When there is no <artifactId>.module.js, but a PackageMojo now correctly creates one loading the complete code in non-debug mode.
-PackageMojo mistakenly used to (always) create a file named <projectId>.<artifactId>.module.js. Note that only the .classes.js file is prefixed with the projectId, to prevent name clashes when all Jangaroo JARs comprising the application are unpacked. <artifactId>.module.js file is read directly from the JAR and thus not needed in "exploded" form. Should you want to use the file directly to save the concatenating build step, you have to rename it in case of artifactId name clashes.
-

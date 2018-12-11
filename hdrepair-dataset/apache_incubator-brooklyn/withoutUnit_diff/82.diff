@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/brooklyn/location/basic/AbstractLocation.java b/core/src/main/java/brooklyn/location/basic/AbstractLocation.java
-index 5c6fa95..a76c5f0 100644
---- a/core/src/main/java/brooklyn/location/basic/AbstractLocation.java
-+++ b/core/src/main/java/brooklyn/location/basic/AbstractLocation.java
-@@ -122 +122 @@
--        if (!inConstruction && (managementContext == null || !managementContext.getLocationManager().isManaged(this))) {
-+        if (!inConstruction && (managementContext != null && managementContext.getLocationManager().isManaged(this))) {
-

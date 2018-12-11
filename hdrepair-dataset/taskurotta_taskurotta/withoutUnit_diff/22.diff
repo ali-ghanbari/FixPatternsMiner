@@ -1,9 +1,0 @@
-diff --git a/wf-backend/src/main/java/ru/taskurotta/backend/storage/GeneralTaskBackend.java b/wf-backend/src/main/java/ru/taskurotta/backend/storage/GeneralTaskBackend.java
-index dd41fdc..3841c02 100644
---- a/wf-backend/src/main/java/ru/taskurotta/backend/storage/GeneralTaskBackend.java
-+++ b/wf-backend/src/main/java/ru/taskurotta/backend/storage/GeneralTaskBackend.java
-@@ -81 +81,2 @@
--                            args[i] = taskValue;
-+                            // make sure that the arg type is PLAIN. Promises may come from decider.async tasks
-+                            args[i] = taskValue.updateType(ArgContainer.ValueType.PLAIN);
-

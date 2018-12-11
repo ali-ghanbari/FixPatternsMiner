@@ -1,8 +1,0 @@
-diff --git a/platform/indexing-impl/src/com/intellij/psi/impl/search/LowLevelSearchUtil.java b/platform/indexing-impl/src/com/intellij/psi/impl/search/LowLevelSearchUtil.java
-index 44860d2..fbf027c 100644
---- a/platform/indexing-impl/src/com/intellij/psi/impl/search/LowLevelSearchUtil.java
-+++ b/platform/indexing-impl/src/com/intellij/psi/impl/search/LowLevelSearchUtil.java
-@@ -208 +208 @@
--          if (searcher.isHandleEscapeSequences() && (index < 2 || !isNotEscapedBackslash(text, textArray, startOffset, index-2))) { //escape sequence
-+          if (!searcher.isHandleEscapeSequences() || (index < 2 || !isNotEscapedBackslash(text, textArray, startOffset, index-2))) { //escape sequence
-

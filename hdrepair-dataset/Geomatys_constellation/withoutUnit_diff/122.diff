@@ -1,8 +1,0 @@
-diff --git a/modules/storage/provider/src/main/java/org/constellation/provider/AbstractFeatureLayerDetails.java b/modules/storage/provider/src/main/java/org/constellation/provider/AbstractFeatureLayerDetails.java
-index d7a6a4f..21f10f2 100644
---- a/modules/storage/provider/src/main/java/org/constellation/provider/AbstractFeatureLayerDetails.java
-+++ b/modules/storage/provider/src/main/java/org/constellation/provider/AbstractFeatureLayerDetails.java
-@@ -193 +193 @@
--            if(env.getCoordinateReferenceSystem().equals(DefaultGeographicCRS.WGS84)){
-+            if(!CRS.equalsIgnoreMetadata(env.getCoordinateReferenceSystem(), DefaultGeographicCRS.WGS84)){
-

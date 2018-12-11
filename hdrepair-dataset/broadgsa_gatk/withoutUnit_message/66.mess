@@ -1,7 +1,0 @@
-Bugfix for GSA-552
-
--- https://jira.broadinstitute.org/browse/GSA-552
--- User reports a null exception while using VariantsToVCF:
-   http://gatkforums.broadinstitute.org/discussion/1461/nullpointerexception-converting-vcf3-to-vcf-using-variantstovcf
-   The problem is that he left out an input VCF file for the --variant argument and the command-line argument parsing code didn't catch this, so we NPE out later on.
-

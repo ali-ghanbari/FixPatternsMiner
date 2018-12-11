@@ -1,8 +1,0 @@
-Fix bug where shuffleVirtualHostNameMap isn't updated
-
-shuffleVirtualHostNameMap and shuffledSecureVirtualHostNameMap were
-not being updated when the last instance was removed from an application.
-
-Added unit test to illustrate the issue and fixed it by clearing the map
-on every update, just as virtualHostNameAppMap gets cleared.
-

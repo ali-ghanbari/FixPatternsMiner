@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/me/prettyprint/cassandra/connection/CassandraHostRetryService.java b/core/src/main/java/me/prettyprint/cassandra/connection/CassandraHostRetryService.java
-index 2af51a4..d7b3be1 100644
---- a/core/src/main/java/me/prettyprint/cassandra/connection/CassandraHostRetryService.java
-+++ b/core/src/main/java/me/prettyprint/cassandra/connection/CassandraHostRetryService.java
-@@ -64 +64 @@
--        if(verifyConnection(cassandraHost)) {
-+        if(downedHostQueue.contains(cassandraHost) && verifyConnection(cassandraHost)) {
-

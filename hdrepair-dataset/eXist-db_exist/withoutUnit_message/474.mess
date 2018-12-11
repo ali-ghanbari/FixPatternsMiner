@@ -1,8 +1,0 @@
-[bugfix] a CDATA node added after a text node should just be appended to the previous node, resulting in one text node:
-
-count((<elem>text<![CDATA[cdata]]></elem>)/text())
-
-should return 1.
-
-svn path=/trunk/eXist/; revision=7798
-

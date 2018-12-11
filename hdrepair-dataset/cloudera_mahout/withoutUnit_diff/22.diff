@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/org/apache/mahout/cf/taste/hadoop/item/ItemIDIndexMapper.java b/core/src/main/java/org/apache/mahout/cf/taste/hadoop/item/ItemIDIndexMapper.java
-index bf38ab1..e9de12d 100644
---- a/core/src/main/java/org/apache/mahout/cf/taste/hadoop/item/ItemIDIndexMapper.java
-+++ b/core/src/main/java/org/apache/mahout/cf/taste/hadoop/item/ItemIDIndexMapper.java
-@@ -48 +48 @@
--    return 0x7FFFFFFF & (int) itemID ^ (int) (itemID >>> 32);
-+    return 0x7FFFFFFF & ((int) itemID ^ (int) (itemID >>> 32));
-

@@ -1,8 +1,0 @@
-diff --git a/hazelcast/src/main/java/com/hazelcast/multimap/txn/TxnCommitOperation.java b/hazelcast/src/main/java/com/hazelcast/multimap/txn/TxnCommitOperation.java
-index 87632d7..d843960 100644
---- a/hazelcast/src/main/java/com/hazelcast/multimap/txn/TxnCommitOperation.java
-+++ b/hazelcast/src/main/java/com/hazelcast/multimap/txn/TxnCommitOperation.java
-@@ -76 +76 @@
--                backupOpList.add(operation);
-+                backupOpList.add(((BackupAwareOperation) operation).getBackupOperation());
-

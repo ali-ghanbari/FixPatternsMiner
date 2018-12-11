@@ -1,9 +1,0 @@
-diff --git a/common/src/main/java/io/druid/guice/DruidSecondaryModule.java b/common/src/main/java/io/druid/guice/DruidSecondaryModule.java
-index fbafb29..d768a60 100644
---- a/common/src/main/java/io/druid/guice/DruidSecondaryModule.java
-+++ b/common/src/main/java/io/druid/guice/DruidSecondaryModule.java
-@@ -74 +74,2 @@
--    binder.bind(ObjectMapper.class).to(Key.get(ObjectMapper.class, Json.class));
-+    // make objectMapper eager to ensure jackson gets setup with guice injection for JsonConfigurator
-+    binder.bind(ObjectMapper.class).to(Key.get(ObjectMapper.class, Json.class)).asEagerSingleton();
-

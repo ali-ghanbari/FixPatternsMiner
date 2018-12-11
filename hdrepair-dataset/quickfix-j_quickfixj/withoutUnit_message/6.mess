@@ -1,8 +1,0 @@
-To correctly fix QFJ-137 we need to pass the actual class name of the log wrapper that's calling Log4J code.
-See qfj-137 and rev 612
-
-However, we were passing incorrect class name - it's AbstractLog that makes the call, not SLF4JLog.
-
-Log output now has the right output (ie Session) instead of AbstractLog
-
-

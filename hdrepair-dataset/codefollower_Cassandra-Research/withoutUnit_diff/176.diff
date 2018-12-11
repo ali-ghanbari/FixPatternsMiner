@@ -1,8 +1,0 @@
-diff --git a/src/java/org/apache/cassandra/net/IncomingTcpConnection.java b/src/java/org/apache/cassandra/net/IncomingTcpConnection.java
-index eeb6b31..02b40d1 100644
---- a/src/java/org/apache/cassandra/net/IncomingTcpConnection.java
-+++ b/src/java/org/apache/cassandra/net/IncomingTcpConnection.java
-@@ -182 +182 @@
--                       ? (System.currentTimeMillis() & 0xFFFFFFFF00000000L) | ((input.readInt() << 2) >> 2)
-+                       ? (System.currentTimeMillis() & 0xFFFFFFFF00000000L) | (((long) input.readInt() << 2) >> 2)
-

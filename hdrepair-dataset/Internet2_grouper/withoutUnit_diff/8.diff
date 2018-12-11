@@ -1,8 +1,0 @@
-diff --git a/grouper/src/grouper/edu/internet2/middleware/grouper/ddl/GrouperDdl.java b/grouper/src/grouper/edu/internet2/middleware/grouper/ddl/GrouperDdl.java
-index 1b6d8ce..d2c6a1d 100644
---- a/grouper/src/grouper/edu/internet2/middleware/grouper/ddl/GrouperDdl.java
-+++ b/grouper/src/grouper/edu/internet2/middleware/grouper/ddl/GrouperDdl.java
-@@ -551,0 +552,2 @@
-+          } else if (ddlVersionBean.isPostgres()) {
-+            ddlVersionBean.appendAdditionalScriptUnique("alter table grouper_attribute_assign alter column enabled_time type bigint USING CAST (enabled_time as BIGINT);\n");
-

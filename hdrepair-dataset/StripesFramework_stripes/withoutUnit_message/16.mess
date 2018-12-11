@@ -1,2 +1,0 @@
-The fix for STS-671 caused severe problems when combining layouts and <jsp:include>. The problem apparently was caused by ExecutionContext not using the same request/response objects as <jsp:include>. Setting the request and response from the new context on the reused context fixes the problem.
-

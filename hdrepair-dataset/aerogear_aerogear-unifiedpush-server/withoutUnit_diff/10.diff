@@ -1,8 +1,0 @@
-diff --git a/model/jpa/src/main/java/org/jboss/aerogear/unifiedpush/jpa/dao/impl/JPAPushMessageInformationDao.java b/model/jpa/src/main/java/org/jboss/aerogear/unifiedpush/jpa/dao/impl/JPAPushMessageInformationDao.java
-index 96a2769..7e7703a 100644
---- a/model/jpa/src/main/java/org/jboss/aerogear/unifiedpush/jpa/dao/impl/JPAPushMessageInformationDao.java
-+++ b/model/jpa/src/main/java/org/jboss/aerogear/unifiedpush/jpa/dao/impl/JPAPushMessageInformationDao.java
-@@ -43 +43 @@
--        List<PushMessageInformation> messageInformations = createQuery("select pmi from PushMessageInformation pmi JOIN pmi.variantInformations vi where vi.variantID = :variantID ORDER BY pmi.submitDate " + ascendingOrDescending(ascending))
-+        List<PushMessageInformation> messageInformations = createQuery("select pmi from PushMessageInformation pmi JOIN fetch pmi.variantInformations vi where vi.variantID = :variantID ORDER BY pmi.submitDate " + ascendingOrDescending(ascending))
-

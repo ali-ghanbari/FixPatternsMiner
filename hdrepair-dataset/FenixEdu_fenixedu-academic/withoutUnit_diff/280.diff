@@ -1,8 +1,0 @@
-diff --git a/src/net/sourceforge/fenixedu/domain/student/Registration.java b/src/net/sourceforge/fenixedu/domain/student/Registration.java
-index 8708a58..8beafb5 100755
---- a/src/net/sourceforge/fenixedu/domain/student/Registration.java
-+++ b/src/net/sourceforge/fenixedu/domain/student/Registration.java
-@@ -2404 +2404 @@
--	    return last.hasNext() ? last.getNext() : last;
-+	    return last.hasNext() && getDegreeType().hasCycleTypes(last.getNext()) ? last.getNext() : last;
-

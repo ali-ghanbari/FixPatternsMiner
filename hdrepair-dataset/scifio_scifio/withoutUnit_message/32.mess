@@ -1,8 +1,0 @@
-DefaultCodecService: fix bug in getCodec method
-
-If getInstances() has not yet been called, the object service will not
-have any codecs registered yet, and calls to getCodec would return null.
-
-So we force the instantiation of all the singletons, which registers
-them with the object service, before proceeding.
-

@@ -1,8 +1,0 @@
-diff --git a/src/java/org/apache/cassandra/service/RepairCallback.java b/src/java/org/apache/cassandra/service/RepairCallback.java
-index 6242b5a..e1a925e 100644
---- a/src/java/org/apache/cassandra/service/RepairCallback.java
-+++ b/src/java/org/apache/cassandra/service/RepairCallback.java
-@@ -69 +69 @@
--        return resolver.isDataPresent() ? resolver.resolve() : null;
-+        return resolver.getMessageCount() > 0 ? resolver.resolve() : null;
-

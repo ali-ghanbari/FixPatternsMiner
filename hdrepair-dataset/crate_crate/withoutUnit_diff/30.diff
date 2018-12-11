@@ -1,8 +1,0 @@
-diff --git a/sql/src/main/java/io/crate/executor/transport/task/elasticsearch/ESGetTask.java b/sql/src/main/java/io/crate/executor/transport/task/elasticsearch/ESGetTask.java
-index 830894b..6849bc5 100644
---- a/sql/src/main/java/io/crate/executor/transport/task/elasticsearch/ESGetTask.java
-+++ b/sql/src/main/java/io/crate/executor/transport/task/elasticsearch/ESGetTask.java
-@@ -140 +140 @@
--                if (response.isFailed()) {
-+                if (response.isFailed() || !response.getResponse().isExists()) {
-

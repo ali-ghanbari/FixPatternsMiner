@@ -1,8 +1,0 @@
-diff --git a/perun-registrar-lib/src/main/java/cz/metacentrum/perun/registrar/impl/MailManagerImpl.java b/perun-registrar-lib/src/main/java/cz/metacentrum/perun/registrar/impl/MailManagerImpl.java
-index 5aab889..447aae3 100644
---- a/perun-registrar-lib/src/main/java/cz/metacentrum/perun/registrar/impl/MailManagerImpl.java
-+++ b/perun-registrar-lib/src/main/java/cz/metacentrum/perun/registrar/impl/MailManagerImpl.java
-@@ -207 +207 @@
--		jdbc.update("update application_mails set send=? where id=?", mail.getSend(), mail.getId());
-+		jdbc.update("update application_mails set send=? where id=?", mail.getSend() ? "1" : "0", mail.getId());
-

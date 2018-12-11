@@ -1,8 +1,0 @@
-diff --git a/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingVisitor.java b/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingVisitor.java
-index da9e8c3..0859fc7 100644
---- a/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingVisitor.java
-+++ b/src/main/org/codehaus/groovy/transform/stc/StaticTypeCheckingVisitor.java
-@@ -747 +747 @@
--            if (!implementsInterfaceOrIsSubclassOf(leftRedirect, LIST_TYPE) && rightExpression instanceof ListExpression) {
-+            if (rightExpression instanceof ListExpression && !implementsInterfaceOrIsSubclassOf(LIST_TYPE, leftRedirect)) {
-

@@ -1,7 +1,0 @@
-Added the ability to start the Neo4j server in HA mode.
-This required removing the old IndexService dependency from Server (not used anyhow), since it conflicts with HA. It should eventually get removed at the source (org.neo4j:neo4j).
-The test cases for this currently require each server to start up completely before starting the next. Otherwise there contention in the ha startup process could lead to creating several clusters. This should be fixed in HA.
-
-
-git-svn-id: https://svn.neo4j.org/components/ha/trunk/src@8328 0b971d98-bb2f-0410-8247-b05b2b5feb2a
-

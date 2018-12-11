@@ -1,8 +1,0 @@
-diff --git a/activemq-core/src/main/java/org/apache/activemq/transport/discovery/multicast/MulticastDiscoveryAgent.java b/activemq-core/src/main/java/org/apache/activemq/transport/discovery/multicast/MulticastDiscoveryAgent.java
-index f097135..a927ae7 100755
---- a/activemq-core/src/main/java/org/apache/activemq/transport/discovery/multicast/MulticastDiscoveryAgent.java
-+++ b/activemq-core/src/main/java/org/apache/activemq/transport/discovery/multicast/MulticastDiscoveryAgent.java
-@@ -294 +294 @@
--            if((currentTime-keepAliveInterval)>lastAdvertizeTime){
-+            if (currentTime < lastAdvertizeTime || ((currentTime-keepAliveInterval)>lastAdvertizeTime)) {
-

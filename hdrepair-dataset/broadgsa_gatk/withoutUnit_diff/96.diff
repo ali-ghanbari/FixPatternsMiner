@@ -1,8 +1,0 @@
-diff --git a/public/java/src/org/broadinstitute/sting/utils/variantcontext/VariantContextUtils.java b/public/java/src/org/broadinstitute/sting/utils/variantcontext/VariantContextUtils.java
-index 85ba71f..92915fa 100755
---- a/public/java/src/org/broadinstitute/sting/utils/variantcontext/VariantContextUtils.java
-+++ b/public/java/src/org/broadinstitute/sting/utils/variantcontext/VariantContextUtils.java
-@@ -842 +842 @@
--        return new VariantContextBuilder(inputVC).stop(inputVC.getEnd() - trimExtent).alleles(alleles).genotypes(genotypes).make();
-+        return new VariantContextBuilder(inputVC).stop(inputVC.getStart() + alleles.get(0).length() + (inputVC.isMixed() ? -1 : 0)).alleles(alleles).genotypes(genotypes).make();
-

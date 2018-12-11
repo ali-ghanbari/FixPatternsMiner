@@ -1,9 +1,0 @@
-diff --git a/nexus/nexus-test-harness/nexus-test-harness-its/src/test/java/org/sonatype/nexus/integrationtests/nexus1765/Nexus1765RepositoryServicesIT.java b/nexus/nexus-test-harness/nexus-test-harness-its/src/test/java/org/sonatype/nexus/integrationtests/nexus1765/Nexus1765RepositoryServicesIT.java
-index d3e345b..86535ec 100644
---- a/nexus/nexus-test-harness/nexus-test-harness-its/src/test/java/org/sonatype/nexus/integrationtests/nexus1765/Nexus1765RepositoryServicesIT.java
-+++ b/nexus/nexus-test-harness/nexus-test-harness-its/src/test/java/org/sonatype/nexus/integrationtests/nexus1765/Nexus1765RepositoryServicesIT.java
-@@ -117 +117,2 @@
--        Assert.assertEquals( "Status: " + response.getStatus(), 403, response.getStatus().getCode() );
-+        // NOTE this will succeed, as you don't need view priv to retrieve index content from repo
-+        Assert.assertTrue( "Status: " + response.getStatus(), response.getStatus().isSuccess() );
-

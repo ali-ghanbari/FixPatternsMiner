@@ -1,8 +1,0 @@
-diff --git a/data-fabric/src/main/java/com/continuuity/data2/transaction/queue/QueueEntryRow.java b/data-fabric/src/main/java/com/continuuity/data2/transaction/queue/QueueEntryRow.java
-index bbd28c3..ae79980 100644
---- a/data-fabric/src/main/java/com/continuuity/data2/transaction/queue/QueueEntryRow.java
-+++ b/data-fabric/src/main/java/com/continuuity/data2/transaction/queue/QueueEntryRow.java
-@@ -269 +269 @@
--        return consumerConfig.getInstanceId() == (hashValue % consumerConfig.getGroupSize()) ?
-+        return consumerConfig.getInstanceId() == Math.abs(hashValue % consumerConfig.getGroupSize()) ?
-

@@ -1,8 +1,0 @@
-diff --git a/jnalib/src/com/sun/jna/examples/win32/W32API.java b/jnalib/src/com/sun/jna/examples/win32/W32API.java
-index 4dcc3d2..97f9e73 100644
---- a/jnalib/src/com/sun/jna/examples/win32/W32API.java
-+++ b/jnalib/src/com/sun/jna/examples/win32/W32API.java
-@@ -95 +95 @@
--    HANDLE INVALID_HANDLE_VALUE = new HANDLE(Pointer.createConstant(0xFFFFFFFF));
-+    HANDLE INVALID_HANDLE_VALUE = new HANDLE(Pointer.createConstant(Pointer.SIZE==8?-1:0xFFFFFFFF));
-

@@ -1,6 +1,0 @@
-somehow some people are getting situations where the payload doesnt decompress.  wtf?
-do i need to wrap the Input/Output streams we use to pipe data over the net with a verification wrapper for the messages?
-e.g. prefix the serialization of all I2NPMessages sent on the wire with the SHA256 of that serialization and verify on read?
-Ho hum, dunno.  maybe its something else, but the ElG/AES+SessionTag already has integrity verification so the only thing I can
-think of is a checksum error that got past TCP's checking and corrupted the AES stream.
-

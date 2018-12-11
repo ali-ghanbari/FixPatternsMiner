@@ -1,9 +1,0 @@
-diff --git a/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java b/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java
-index e1b257e..9823257 100644
---- a/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java
-+++ b/advanced/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java
-@@ -510,0 +511,3 @@
-+        // force to make sure done record is there if 2PC tx and global log
-+        // marks tx as committed
-+        fileChannel.force( false ); 
-

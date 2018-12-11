@@ -1,8 +1,0 @@
-diff --git a/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java b/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java
-index 359649a..50e59ed 100644
---- a/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java
-+++ b/modules/core/src/main/java/org/openlmis/core/repository/mapper/RequisitionGroupMapper.java
-@@ -37 +37 @@
--    "FROM requisition_groups RG INNER JOIN supervisory_nodes SN ON RG.supervisoryNodeId = SN.id WHERE RG.id = #{id}"})
-+    "FROM requisition_groups RG LEFT JOIN supervisory_nodes SN ON RG.supervisoryNodeId = SN.id WHERE RG.id = #{id}"})
-

@@ -1,8 +1,0 @@
-diff --git a/src/org/basex/build/fs/util/BufferedFileChannel.java b/src/org/basex/build/fs/util/BufferedFileChannel.java
-index 217a95f..1b2f7da 100644
---- a/src/org/basex/build/fs/util/BufferedFileChannel.java
-+++ b/src/org/basex/build/fs/util/BufferedFileChannel.java
-@@ -232 +232 @@
--    return mark != 0 || fc.size() > rem + buf.remaining();
-+    return mark != 0 || fc.size() > fc.position() + rem;
-

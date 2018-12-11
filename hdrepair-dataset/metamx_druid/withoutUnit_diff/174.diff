@@ -1,8 +1,0 @@
-diff --git a/server/src/main/java/com/metamx/druid/query/metadata/SegmentMetadataQueryEngine.java b/server/src/main/java/com/metamx/druid/query/metadata/SegmentMetadataQueryEngine.java
-index edc4ea3..7522b4b 100644
---- a/server/src/main/java/com/metamx/druid/query/metadata/SegmentMetadataQueryEngine.java
-+++ b/server/src/main/java/com/metamx/druid/query/metadata/SegmentMetadataQueryEngine.java
-@@ -75 +75 @@
--          size += index.size() * Charsets.UTF_8.encode(dimVal).capacity();
-+          size += (dimVal == null) ? 0 : index.size() * Charsets.UTF_8.encode(dimVal).capacity();
-

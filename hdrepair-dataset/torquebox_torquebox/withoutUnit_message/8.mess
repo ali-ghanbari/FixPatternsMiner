@@ -1,9 +1,0 @@
-Look for injections inside FCallNodes that aren't inject calls (TORQUE-721)
-
-This fixes an issue with our analyzer where we weren't picking up on
-injections inside a Padrino or Sinatra app like below:
-
-get '/' do
-  inject('/queue/foo')
-end
-

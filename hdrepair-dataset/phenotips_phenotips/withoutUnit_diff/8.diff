@@ -1,8 +1,0 @@
-diff --git a/components/obo2solr/src/main/java/org/phenotips/obo2solr/SolrUpdateGenerator.java b/components/obo2solr/src/main/java/org/phenotips/obo2solr/SolrUpdateGenerator.java
-index 9776792..807ee3c 100644
---- a/components/obo2solr/src/main/java/org/phenotips/obo2solr/SolrUpdateGenerator.java
-+++ b/components/obo2solr/src/main/java/org/phenotips/obo2solr/SolrUpdateGenerator.java
-@@ -228 +228 @@
--        this.crtTerm.addTo(name, value.replaceFirst("\"(.+)\".*", "$1").replace("\\\"", "\""));
-+        this.crtTerm.addTo(name, value.replaceFirst("^\"(.+)\"\\s*?(?:[A-Z]+|\\[).*", "$1").replace("\\\"", "\""));
-

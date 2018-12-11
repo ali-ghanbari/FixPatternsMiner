@@ -1,8 +1,0 @@
-diff --git a/perun-core/src/main/java/cz/metacentrum/perun/core/entry/AttributesManagerEntry.java b/perun-core/src/main/java/cz/metacentrum/perun/core/entry/AttributesManagerEntry.java
-index 8b3e177..d189c52 100644
---- a/perun-core/src/main/java/cz/metacentrum/perun/core/entry/AttributesManagerEntry.java
-+++ b/perun-core/src/main/java/cz/metacentrum/perun/core/entry/AttributesManagerEntry.java
-@@ -2781 +2781 @@
--		if(!AuthzResolver.isPerunAdmin(perunSession)) throw new PrivilegeException("Only PerunAdmin can update AttributeDefinition");
-+		if(!AuthzResolver.isAuthorized(perunSession, Role.PERUNADMIN)) throw new PrivilegeException("Only PerunAdmin can update AttributeDefinition");
-

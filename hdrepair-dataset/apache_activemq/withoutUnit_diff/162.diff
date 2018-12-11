@@ -1,8 +1,0 @@
-diff --git a/activemq-core/src/main/java/org/apache/activemq/store/jdbc/TransactionContext.java b/activemq-core/src/main/java/org/apache/activemq/store/jdbc/TransactionContext.java
-index 9f619a2..ee5f4fd 100755
---- a/activemq-core/src/main/java/org/apache/activemq/store/jdbc/TransactionContext.java
-+++ b/activemq-core/src/main/java/org/apache/activemq/store/jdbc/TransactionContext.java
-@@ -95 +95 @@
--                if ( code > 0 || code == Statement.SUCCESS_NO_INFO ) {
-+                if ( code < 0 && code != Statement.SUCCESS_NO_INFO ) {
-

@@ -1,8 +1,0 @@
-diff --git a/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/service/impl/PermissionServiceImpl.java b/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/service/impl/PermissionServiceImpl.java
-index f6a97e8..4f00347 100644
---- a/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/service/impl/PermissionServiceImpl.java
-+++ b/bpm/bonita-core/bonita-process-engine/src/main/java/org/bonitasoft/engine/service/impl/PermissionServiceImpl.java
-@@ -83 +83 @@
--            return permissionRule.check(apiSession, context, new APIAccessorImpl(), new ServerLoggerWrapper(permissionRule.getClass(), logger));
-+            return permissionRule.check(apiSession, context, new APIAccessorImpl(sessionAccessor,sessionService), new ServerLoggerWrapper(permissionRule.getClass(), logger));
-

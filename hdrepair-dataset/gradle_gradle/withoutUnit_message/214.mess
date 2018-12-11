@@ -1,8 +1,0 @@
-Reinstate the dynamic creation of container elements via property reference.
-
-The problem is actually the change to support propertyMissing() via our dynamic stuff. What happens is that as a property request bubbling up the closure chain we now actually invoke getProperty() and catching the MPE instead of just using hasProperty(). This means that if any of the owners have a container configuration delegate then it is going to be interpreted as a creation request.
-
-I suspect this means I'll end up backing out the propertyMissing() support unless I can think of a way to disable this.
-
-For now I'm fixing the failing tests to see what other problems this causes.
-

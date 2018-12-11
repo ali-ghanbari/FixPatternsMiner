@@ -1,8 +1,0 @@
-diff --git a/modules/datastore/geotk-jdbc/geotk-jdbc-postgis/src/main/java/org/geotoolkit/data/postgis/PostGISDialect.java b/modules/datastore/geotk-jdbc/geotk-jdbc-postgis/src/main/java/org/geotoolkit/data/postgis/PostGISDialect.java
-index 27d1122..1b18e91 100644
---- a/modules/datastore/geotk-jdbc/geotk-jdbc-postgis/src/main/java/org/geotoolkit/data/postgis/PostGISDialect.java
-+++ b/modules/datastore/geotk-jdbc/geotk-jdbc-postgis/src/main/java/org/geotoolkit/data/postgis/PostGISDialect.java
-@@ -396 +396 @@
--        Class geometryClass = (Class) TYPE_TO_CLASS_MAP.get(gType);
-+        Class geometryClass = (Class) TYPE_TO_CLASS_MAP.get(gType.replaceFirst("ST_", "").toUpperCase());
-

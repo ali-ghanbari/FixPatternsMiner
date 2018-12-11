@@ -1,8 +1,0 @@
-diff --git a/source/com/intellij/idea/IdeaApplication.java b/source/com/intellij/idea/IdeaApplication.java
-index 703072b..9e4447c 100644
---- a/source/com/intellij/idea/IdeaApplication.java
-+++ b/source/com/intellij/idea/IdeaApplication.java
-@@ -46 +46 @@
--    final boolean isHeadless = Comparing.strEqual(myArgs[0], inspectAppCode) || Comparing.strEqual(myArgs[0], diffAppCode);
-+    final boolean isHeadless = myArgs.length > 0 && (Comparing.strEqual(myArgs[0], inspectAppCode) || Comparing.strEqual(myArgs[0], diffAppCode));
-

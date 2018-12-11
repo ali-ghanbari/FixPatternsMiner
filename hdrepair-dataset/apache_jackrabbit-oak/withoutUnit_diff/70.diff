@@ -1,9 +1,0 @@
-diff --git a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/ModifiedNodeState.java b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/ModifiedNodeState.java
-index a20bec3..4583738 100644
---- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/ModifiedNodeState.java
-+++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/ModifiedNodeState.java
-@@ -76 +76,2 @@
--            return new ModifiedNodeState(base, properties, nodes);
-+            // TODO: Do we need collapse() here? See OAK-778
-+            return collapse(new ModifiedNodeState(base, properties, nodes));
-

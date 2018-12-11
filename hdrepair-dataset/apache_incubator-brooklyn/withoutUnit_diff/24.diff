@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/brooklyn/management/internal/AbstractSubscriptionManager.java b/core/src/main/java/brooklyn/management/internal/AbstractSubscriptionManager.java
-index 86d8d6c..8b83d9e 100644
---- a/core/src/main/java/brooklyn/management/internal/AbstractSubscriptionManager.java
-+++ b/core/src/main/java/brooklyn/management/internal/AbstractSubscriptionManager.java
-@@ -115 +115 @@
--                return parent.getChildren().contains(input.getSource());
-+                return parent != null && input.getSource() != null && parent.equals(input.getSource().getParent());
-

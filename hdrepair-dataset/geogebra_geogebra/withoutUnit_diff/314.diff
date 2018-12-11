@@ -1,9 +1,0 @@
-diff --git a/common/src/geogebra/common/kernel/geos/GeoCasCell.java b/common/src/geogebra/common/kernel/geos/GeoCasCell.java
-index 88c11b5..0ab6be6 100644
---- a/common/src/geogebra/common/kernel/geos/GeoCasCell.java
-+++ b/common/src/geogebra/common/kernel/geos/GeoCasCell.java
-@@ -1571 +1571,2 @@
--								evalVE.toString(StringTemplate.maxPrecision),
-+								// we remove Numeric commands, since we are using GeoGebra here
-+								evalVE.deepCopy(kernel).traverse(Traversing.CommandRemover.getRemover("Numeric")).toString(StringTemplate.maxPrecision),
-

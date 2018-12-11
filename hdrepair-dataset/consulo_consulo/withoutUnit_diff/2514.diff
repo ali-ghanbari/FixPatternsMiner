@@ -1,8 +1,0 @@
-diff --git a/dom/openapi/src/com/intellij/util/xml/converters/AbstractMethodResolveConverter.java b/dom/openapi/src/com/intellij/util/xml/converters/AbstractMethodResolveConverter.java
-index cc57996..c25c5eb 100644
---- a/dom/openapi/src/com/intellij/util/xml/converters/AbstractMethodResolveConverter.java
-+++ b/dom/openapi/src/com/intellij/util/xml/converters/AbstractMethodResolveConverter.java
-@@ -140 +140 @@
--    return psiMethod.getContainingClass().isInterface() || (psiMethod.hasModifierProperty(PsiModifier.PUBLIC) && !psiMethod.hasModifierProperty(PsiModifier.STATIC));
-+    return psiMethod.getContainingClass().isInterface() || (!psiMethod.hasModifierProperty(PsiModifier.FINAL) && !psiMethod.hasModifierProperty(PsiModifier.STATIC));
-

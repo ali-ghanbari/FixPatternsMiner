@@ -1,8 +1,0 @@
-diff --git a/modules/kernel/src/org/apache/axis2/description/java2wsdl/DocLitBareSchemaGenerator.java b/modules/kernel/src/org/apache/axis2/description/java2wsdl/DocLitBareSchemaGenerator.java
-index adfd3a9..98b9c8f 100644
---- a/modules/kernel/src/org/apache/axis2/description/java2wsdl/DocLitBareSchemaGenerator.java
-+++ b/modules/kernel/src/org/apache/axis2/description/java2wsdl/DocLitBareSchemaGenerator.java
-@@ -76 +76 @@
--            if (jMethod.isBridge()) {
-+            if (jMethod.isBridge() || jMethod.getDeclaringClass().getName().equals(Object.class.getName())) {
-

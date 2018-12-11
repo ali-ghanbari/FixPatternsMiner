@@ -1,9 +1,0 @@
-diff --git a/common/src/geogebra/common/cas/giac/Ggb2giac.java b/common/src/geogebra/common/cas/giac/Ggb2giac.java
-index 619d23c..8406402 100644
---- a/common/src/geogebra/common/cas/giac/Ggb2giac.java
-+++ b/common/src/geogebra/common/cas/giac/Ggb2giac.java
-@@ -425 +425,2 @@
--						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1)-1)],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
-+						// eg NSolve[{3=c*a^5, 3=c*a^4},{a,c}]
-+						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1)-1)],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,when(type(ggbans[0])==DOM_LIST,ggbans[0],ggbans),[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
-

@@ -1,8 +1,0 @@
-diff --git a/editor/plugins/org.fusesource.ide.camel.editor/src/org/fusesource/ide/camel/editor/propertysheet/FileBindingSection.java b/editor/plugins/org.fusesource.ide.camel.editor/src/org/fusesource/ide/camel/editor/propertysheet/FileBindingSection.java
-index 0e2ddb4..0228a1f 100644
---- a/editor/plugins/org.fusesource.ide.camel.editor/src/org/fusesource/ide/camel/editor/propertysheet/FileBindingSection.java
-+++ b/editor/plugins/org.fusesource.ide.camel.editor/src/org/fusesource/ide/camel/editor/propertysheet/FileBindingSection.java
-@@ -133 +133 @@
--                  updateUri(path.length() < 1 ? "" :URI.create(path).toString());
-+                  updateUri(path.length() < 1 || path.trim().equalsIgnoreCase("file:") ? "" : URI.create(path).toString());
-

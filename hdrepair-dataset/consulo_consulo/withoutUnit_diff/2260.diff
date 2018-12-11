@@ -1,8 +1,0 @@
-diff --git a/dom/impl/src/com/intellij/util/xml/impl/DomInvocationHandler.java b/dom/impl/src/com/intellij/util/xml/impl/DomInvocationHandler.java
-index 7e97055..0fe1466 100644
---- a/dom/impl/src/com/intellij/util/xml/impl/DomInvocationHandler.java
-+++ b/dom/impl/src/com/intellij/util/xml/impl/DomInvocationHandler.java
-@@ -758 +758 @@
--    myGenericInfo = tag == null || this instanceof AttributeChildInvocationHandler ? staticInfo : new DynamicGenericInfo(this, staticInfo, myManager.getProject());
-+    myGenericInfo = tag == null || ((DomInvocationHandler)this) instanceof AttributeChildInvocationHandler ? staticInfo : new DynamicGenericInfo(this, staticInfo, myManager.getProject());
-

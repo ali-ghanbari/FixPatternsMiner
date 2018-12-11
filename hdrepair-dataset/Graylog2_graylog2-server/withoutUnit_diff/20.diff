@@ -1,8 +1,0 @@
-diff --git a/graylog2-shared/src/main/java/org/graylog2/shared/journal/JournalReader.java b/graylog2-shared/src/main/java/org/graylog2/shared/journal/JournalReader.java
-index b6c1a95..139464b 100644
---- a/graylog2-shared/src/main/java/org/graylog2/shared/journal/JournalReader.java
-+++ b/graylog2-shared/src/main/java/org/graylog2/shared/journal/JournalReader.java
-@@ -71 +71 @@
--            requestedReadCount = metricRegistry.register(name(this.getClass(), "requestedReadCount"), new HdrHistogram(processBuffer.getRingBufferSize(), 3));
-+            requestedReadCount = metricRegistry.register(name(this.getClass(), "requestedReadCount"), new HdrHistogram(processBuffer.getRingBufferSize() + 1, 3));
-

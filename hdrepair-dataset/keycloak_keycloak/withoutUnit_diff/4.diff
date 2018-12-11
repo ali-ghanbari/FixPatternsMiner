@@ -1,8 +1,0 @@
-diff --git a/model/jpa/src/main/java/org/keycloak/models/jpa/entities/UserFederationProviderEntity.java b/model/jpa/src/main/java/org/keycloak/models/jpa/entities/UserFederationProviderEntity.java
-index 42863bf..f1fa0bd 100755
---- a/model/jpa/src/main/java/org/keycloak/models/jpa/entities/UserFederationProviderEntity.java
-+++ b/model/jpa/src/main/java/org/keycloak/models/jpa/entities/UserFederationProviderEntity.java
-@@ -41 +41 @@
--    @CollectionTable(name="USER_FEDERATION_CONFIG")
-+    @CollectionTable(name="USER_FEDERATION_CONFIG", joinColumns={ @JoinColumn(name="USER_FEDERATION_PROVIDER_ID") })
-

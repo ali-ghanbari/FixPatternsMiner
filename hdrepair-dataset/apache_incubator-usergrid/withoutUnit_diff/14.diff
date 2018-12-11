@@ -1,8 +1,0 @@
-diff --git a/stack/standalone/src/main/java/org/usergrid/standalone/ServerLoader.java b/stack/standalone/src/main/java/org/usergrid/standalone/ServerLoader.java
-index 44515f6..f55eb1f 100644
---- a/stack/standalone/src/main/java/org/usergrid/standalone/ServerLoader.java
-+++ b/stack/standalone/src/main/java/org/usergrid/standalone/ServerLoader.java
-@@ -23 +23 @@
--		JarClassLoader jcl = new JarClassLoader();
-+		JarClassLoader jcl = new JarClassLoader(Thread.currentThread().getContextClassLoader());
-

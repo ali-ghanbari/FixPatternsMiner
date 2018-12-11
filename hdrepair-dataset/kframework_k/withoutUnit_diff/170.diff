@@ -1,8 +1,0 @@
-diff --git a/src/main/java/org/kframework/backend/java/builtins/SortMembership.java b/src/main/java/org/kframework/backend/java/builtins/SortMembership.java
-index 4c21d98..81b0b8a 100644
---- a/src/main/java/org/kframework/backend/java/builtins/SortMembership.java
-+++ b/src/main/java/org/kframework/backend/java/builtins/SortMembership.java
-@@ -40 +40 @@
--                && !((KList) kItem.kList()).hasFrame();
-+                && ((KList) kItem.kList()).isConcreteCollection() : "unexpected argument: " + kItem.kList();
-

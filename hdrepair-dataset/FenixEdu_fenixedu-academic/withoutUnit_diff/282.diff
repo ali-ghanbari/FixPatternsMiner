@@ -1,8 +1,0 @@
-diff --git a/src/net/sourceforge/fenixedu/domain/student/Registration.java b/src/net/sourceforge/fenixedu/domain/student/Registration.java
-index 546dfc5..8708a58 100755
---- a/src/net/sourceforge/fenixedu/domain/student/Registration.java
-+++ b/src/net/sourceforge/fenixedu/domain/student/Registration.java
-@@ -1933 +1933 @@
--	return isRegistered(ExecutionSemester.readByDateTime(when));
-+	return getStateInDate(when).isActive() || hasAnyEnrolmentsIn(ExecutionSemester.readByDateTime(when));
-

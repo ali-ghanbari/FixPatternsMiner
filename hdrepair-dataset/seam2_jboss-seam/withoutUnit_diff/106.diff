@@ -1,8 +1,0 @@
-diff --git a/src/main/org/jboss/seam/core/FacesPage.java b/src/main/org/jboss/seam/core/FacesPage.java
-index 10a8a70..c74eb34 100644
---- a/src/main/org/jboss/seam/core/FacesPage.java
-+++ b/src/main/org/jboss/seam/core/FacesPage.java
-@@ -64 +64 @@
--         if ( pageflow.isInProcess() )
-+         if ( pageflow.isInProcess() /*&& !pageflow.getProcessInstance().hasEnded()*/ && Manager.instance().isLongRunningConversation() )
-

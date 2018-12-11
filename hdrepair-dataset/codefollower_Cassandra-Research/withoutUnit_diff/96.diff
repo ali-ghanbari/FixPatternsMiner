@@ -1,8 +1,0 @@
-diff --git a/src/java/org/apache/cassandra/service/StorageProxy.java b/src/java/org/apache/cassandra/service/StorageProxy.java
-index 9b559e5..f925fa7 100644
---- a/src/java/org/apache/cassandra/service/StorageProxy.java
-+++ b/src/java/org/apache/cassandra/service/StorageProxy.java
-@@ -662 +662 @@
--            String id = MessagingService.instance().addCallback(handler, message, destination, message.getTimeout());
-+            String id = MessagingService.instance().addCallback(handler, message, destination, message.getTimeout(), handler.consistencyLevel);
-

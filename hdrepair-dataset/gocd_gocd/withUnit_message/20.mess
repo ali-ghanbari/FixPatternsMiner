@@ -1,4 +1,0 @@
-Adding verbosity to Exception message while loading DatabaseProvider.
-
-Actual exception wasn't being forwared in the new exception throw. This meant that inner exceptions were getting swallowed at this point and every error, either Class Load exception or Configuration exception were indicated by the same exception string. As a fix, passing along 'e' to the new exception.
-

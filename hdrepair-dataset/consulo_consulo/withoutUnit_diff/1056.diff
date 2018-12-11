@@ -1,8 +1,0 @@
-diff --git a/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java b/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java
-index 5d7ee6d..f12efff 100644
---- a/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java
-+++ b/platform/lang-impl/src/com/intellij/psi/impl/PsiDocumentManagerImpl.java
-@@ -139 +139 @@
--      LOG.assertTrue(projects.contains(myProject), "Trying to get PSI for an alien project. VirtualFile=" + virtualFile + "; myProject=" + myProject);
-+      LOG.assertTrue(projects.isEmpty() || projects.contains(myProject), "Trying to get PSI for an alien project. VirtualFile=" + virtualFile + "; myProject=" + myProject);
-

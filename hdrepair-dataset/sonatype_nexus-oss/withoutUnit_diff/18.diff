@@ -1,8 +1,0 @@
-diff --git a/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/maven/routing/internal/LocalContentDiscovererImpl.java b/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/maven/routing/internal/LocalContentDiscovererImpl.java
-index d01c102..cd1a7f4 100644
---- a/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/maven/routing/internal/LocalContentDiscovererImpl.java
-+++ b/components/nexus-core/src/main/java/org/sonatype/nexus/proxy/maven/routing/internal/LocalContentDiscovererImpl.java
-@@ -134 +134 @@
--      return (coll.getPathDepth() <= scrapeDepth) && super.shouldProcessRecursively(context, coll);
-+      return (coll.getPathDepth() < scrapeDepth) && super.shouldProcessRecursively(context, coll);
-

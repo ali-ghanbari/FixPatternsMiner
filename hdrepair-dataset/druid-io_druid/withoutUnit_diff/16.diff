@@ -1,8 +1,0 @@
-diff --git a/indexing-hadoop/src/main/java/io/druid/indexer/JobHelper.java b/indexing-hadoop/src/main/java/io/druid/indexer/JobHelper.java
-index 7b4ed9f..99d9a10 100644
---- a/indexing-hadoop/src/main/java/io/druid/indexer/JobHelper.java
-+++ b/indexing-hadoop/src/main/java/io/druid/indexer/JobHelper.java
-@@ -78 +78 @@
--          if (jarFile.getName().endsWith("SNAPSHOT.jar") || !fs.exists(hdfsPath)) {
-+          if (jarFile.getName().matches(".*SNAPSHOT(-selfcontained)?\\.jar$") || !fs.exists(hdfsPath)) {
-

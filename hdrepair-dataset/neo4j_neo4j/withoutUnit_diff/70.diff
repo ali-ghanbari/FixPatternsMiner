@@ -1,8 +1,0 @@
-diff --git a/community/kernel/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java b/community/kernel/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java
-index 4668dad..a00da1e 100644
---- a/community/kernel/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java
-+++ b/community/kernel/src/main/java/org/neo4j/kernel/impl/transaction/xaframework/XaLogicalLog.java
-@@ -1254,0 +1255,2 @@
-+        // need to manually force since xaRm.commit will not do it (transaction marked as recovered)
-+        writeBuffer.force();
-

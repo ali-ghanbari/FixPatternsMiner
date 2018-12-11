@@ -1,8 +1,0 @@
-diff --git a/perun-rpc/src/main/java/cz/metacentrum/perun/rpc/methods/VosManagerMethod.java b/perun-rpc/src/main/java/cz/metacentrum/perun/rpc/methods/VosManagerMethod.java
-index 8488a58..7aa25ba 100644
---- a/perun-rpc/src/main/java/cz/metacentrum/perun/rpc/methods/VosManagerMethod.java
-+++ b/perun-rpc/src/main/java/cz/metacentrum/perun/rpc/methods/VosManagerMethod.java
-@@ -48 +48 @@
--				ac.getVosManager().deleteVo(ac.getSession(), ac.getVoById(parms.readInt("vo")), true);
-+				ac.getVosManager().deleteVo(ac.getSession(), ac.getVoById(parms.readInt("vo")), parms.readInt("force") == 1);
-

@@ -1,8 +1,0 @@
-diff --git a/hazelcast-client/src/main/java/com/hazelcast/client/MapClientProxy.java b/hazelcast-client/src/main/java/com/hazelcast/client/MapClientProxy.java
-index 227b87b..84c27fe 100644
---- a/hazelcast-client/src/main/java/com/hazelcast/client/MapClientProxy.java
-+++ b/hazelcast-client/src/main/java/com/hazelcast/client/MapClientProxy.java
-@@ -53 +53 @@
--        MapConfig mapConfig = config.getMapConfig(name);
-+        MapConfig mapConfig = config.getMapConfig(name.substring(Prefix.MAP.length()));
-

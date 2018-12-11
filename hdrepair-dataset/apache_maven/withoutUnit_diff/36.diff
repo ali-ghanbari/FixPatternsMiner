@@ -1,8 +1,0 @@
-diff --git a/maven-artifact/src/main/java/org/apache/maven/artifact/ArtifactUtils.java b/maven-artifact/src/main/java/org/apache/maven/artifact/ArtifactUtils.java
-index e975f64..1797134 100644
---- a/maven-artifact/src/main/java/org/apache/maven/artifact/ArtifactUtils.java
-+++ b/maven-artifact/src/main/java/org/apache/maven/artifact/ArtifactUtils.java
-@@ -33 +33 @@
--        return version != null && Artifact.VERSION_FILE_PATTERN.matcher( version ).matches();
-+        return version != null && ( version.toUpperCase().endsWith( "SNAPSHOT" ) || Artifact.VERSION_FILE_PATTERN.matcher( version ).matches() );
-

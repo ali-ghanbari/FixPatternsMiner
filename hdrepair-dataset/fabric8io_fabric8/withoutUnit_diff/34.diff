@@ -1,9 +1,0 @@
-diff --git a/mq/mq-fabric/src/main/scala/io/fabric8/mq/fabric/cf/ActiveMQConnectionFactoryService.java b/mq/mq-fabric/src/main/scala/io/fabric8/mq/fabric/cf/ActiveMQConnectionFactoryService.java
-index e3fad24..3e7fb23 100644
---- a/mq/mq-fabric/src/main/scala/io/fabric8/mq/fabric/cf/ActiveMQConnectionFactoryService.java
-+++ b/mq/mq-fabric/src/main/scala/io/fabric8/mq/fabric/cf/ActiveMQConnectionFactoryService.java
-@@ -56,2 +56 @@
--        // TODO should be able to find the ZK user using an API too!
--        String user = Maps.stringValue(properties, "user", "admin");
-+        String user = Maps.stringValue(properties, "user", (fabricService != null ? fabricService.getZooKeeperUser() : "admin"));
-

@@ -1,8 +1,0 @@
-diff --git a/src/main/org/jboss/jms/client/container/SessionAspect.java b/src/main/org/jboss/jms/client/container/SessionAspect.java
-index b4a94a3..78f8411 100644
---- a/src/main/org/jboss/jms/client/container/SessionAspect.java
-+++ b/src/main/org/jboss/jms/client/container/SessionAspect.java
-@@ -601 +601 @@
--      if (txID != null)
-+      if ((!state.isXA() && state.isTransacted()) || (state.isXA() && !(txID instanceof LocalTx)))
-

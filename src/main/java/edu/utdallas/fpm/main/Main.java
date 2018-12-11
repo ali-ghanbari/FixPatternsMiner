@@ -227,6 +227,7 @@ public final class Main implements FilePairVisitor {
 
     @Override
     public void visit(final File buggy, final File fixed) {
+        out.printf("Queue Size = %d%n", this.queue.size());
         out.printf("Diffing (%s):%n\t%s%n\t%s%n",
                 buggy.getParentFile().getParent(),
                 buggy.getName(),

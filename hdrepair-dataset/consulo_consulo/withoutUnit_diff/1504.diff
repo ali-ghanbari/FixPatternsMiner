@@ -1,8 +1,0 @@
-diff --git a/xml/impl/src/com/intellij/lang/xml/XmlFoldingBuilder.java b/xml/impl/src/com/intellij/lang/xml/XmlFoldingBuilder.java
-index 7009051..e8f3984 100644
---- a/xml/impl/src/com/intellij/lang/xml/XmlFoldingBuilder.java
-+++ b/xml/impl/src/com/intellij/lang/xml/XmlFoldingBuilder.java
-@@ -136 +136 @@
--      int end = tagNode.getLastChildNode().getTextRange().getStartOffset();
-+      int end = tagNode.getLastChildNode().getTextRange().getEndOffset() - 1;  // last child node can be another tag in unbalanced tree
-

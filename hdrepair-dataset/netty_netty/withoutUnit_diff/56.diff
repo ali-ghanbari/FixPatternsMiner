@@ -1,8 +1,0 @@
-diff --git a/src/main/java/org/jboss/netty/channel/socket/nio/NioServerSocketPipelineSink.java b/src/main/java/org/jboss/netty/channel/socket/nio/NioServerSocketPipelineSink.java
-index 890d624..c5a3dbd 100644
---- a/src/main/java/org/jboss/netty/channel/socket/nio/NioServerSocketPipelineSink.java
-+++ b/src/main/java/org/jboss/netty/channel/socket/nio/NioServerSocketPipelineSink.java
-@@ -204 +204 @@
--                    SocketChannel acceptedSocket = channel.socket.accept();
-+                    SocketChannel acceptedSocket = channel.socket.socket().accept().getChannel();
-

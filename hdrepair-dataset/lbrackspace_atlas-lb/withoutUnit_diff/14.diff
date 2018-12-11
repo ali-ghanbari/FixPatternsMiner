@@ -1,8 +1,0 @@
-diff --git a/persistence/src/main/java/org/openstack/atlas/service/domain/services/helpers/SslTerminationHelper.java b/persistence/src/main/java/org/openstack/atlas/service/domain/services/helpers/SslTerminationHelper.java
-index 02b5720..21720b8 100644
---- a/persistence/src/main/java/org/openstack/atlas/service/domain/services/helpers/SslTerminationHelper.java
-+++ b/persistence/src/main/java/org/openstack/atlas/service/domain/services/helpers/SslTerminationHelper.java
-@@ -86 +86 @@
--            if ((!queTermination.isEnabled() || !dbTermination.isEnabled()) && (queTermination.isSecureTrafficOnly() || dbTermination.isSecureTrafficOnly())) {
-+            if ((queTermination.isEnabled() != null && !queTermination.isEnabled()) || (!dbTermination.isEnabled()) && (queTermination.isSecureTrafficOnly() || dbTermination.isSecureTrafficOnly())) {
-

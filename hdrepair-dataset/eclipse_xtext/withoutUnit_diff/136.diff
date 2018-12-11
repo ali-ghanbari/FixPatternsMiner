@@ -1,9 +1,0 @@
-diff --git a/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/Naming.java b/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/Naming.java
-index a87efe5..e303efd 100644
---- a/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/Naming.java
-+++ b/plugins/org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/Naming.java
-@@ -109 +109,2 @@
--		if ((grammarId==null || grammarId.equals(g.getName())) && !Strings.isEmpty(uiBasePackage))
-+		// for backward compatibility reasons, the uiBasePackage is only used, if also the grammarId has been explicitly set.
-+		if (!Strings.isEmpty(uiBasePackage) && (grammarId!=null && grammarId.equals(g.getName())))
-

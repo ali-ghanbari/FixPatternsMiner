@@ -1,8 +1,0 @@
-diff --git a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
-index 665b4b6..2389d97 100644
---- a/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
-+++ b/src/java/org/apache/cassandra/db/ColumnFamilyStore.java
-@@ -504 +504 @@
--        for (Map.Entry<Descriptor, Set<Component>> sstableFiles : directories.sstableLister().list().entrySet())
-+        for (Map.Entry<Descriptor, Set<Component>> sstableFiles : directories.sstableLister().skipTemporary(true).list().entrySet())
-

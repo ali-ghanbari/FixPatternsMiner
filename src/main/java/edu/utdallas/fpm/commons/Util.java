@@ -25,7 +25,7 @@ public final class Util {
 
     public static String computeProjectName(File file, String command) {
         int i = command.length();
-        while (i -- > 0) {
+        while (i-- > 0) {
             file = file.getParentFile();
         }
         return file.getName();

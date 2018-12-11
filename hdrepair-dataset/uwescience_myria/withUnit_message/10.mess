@@ -1,9 +1,0 @@
-Sequence: fix subquery ordering bug
-
-And add test that triggers it.
-
-Basically, when instantiating a Sequence operator, all the sub-plans
-should be inserted at the *head* of the planQ -- they're supposed to
-execute immediately. We were instantiating them at the tail, but the
-tests were not comprehensive enough to catch this. The new test does.
-

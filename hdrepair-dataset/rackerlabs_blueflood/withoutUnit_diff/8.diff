@@ -1,8 +1,0 @@
-diff --git a/blueflood-core/src/main/java/com/rackspacecloud/blueflood/concurrent/InstrumentedThreadPoolExecutor.java b/blueflood-core/src/main/java/com/rackspacecloud/blueflood/concurrent/InstrumentedThreadPoolExecutor.java
-index 32ddbb0..0c9affa 100644
---- a/blueflood-core/src/main/java/com/rackspacecloud/blueflood/concurrent/InstrumentedThreadPoolExecutor.java
-+++ b/blueflood-core/src/main/java/com/rackspacecloud/blueflood/concurrent/InstrumentedThreadPoolExecutor.java
-@@ -27 +27 @@
--                return executor.getActiveCount();
-+                return executor.getQueue().size() + executor.getQueue().remainingCapacity();
-

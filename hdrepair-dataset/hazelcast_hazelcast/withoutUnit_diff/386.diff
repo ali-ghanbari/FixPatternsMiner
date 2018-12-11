@@ -1,8 +1,0 @@
-diff --git a/hazelcast/src/main/java/com/hazelcast/map/MapService.java b/hazelcast/src/main/java/com/hazelcast/map/MapService.java
-index 4bb21f0..87c51cf 100644
---- a/hazelcast/src/main/java/com/hazelcast/map/MapService.java
-+++ b/hazelcast/src/main/java/com/hazelcast/map/MapService.java
-@@ -197 +197 @@
--                if (nodeEngine.getPartitionService().getPartitionOwner(i).equals(nodeEngine.getClusterService().getThisAddress())) {
-+                if (nodeEngine.getClusterService().getThisAddress().equals(nodeEngine.getPartitionService().getPartitionOwner(i))) {
-

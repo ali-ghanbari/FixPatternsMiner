@@ -1,8 +1,0 @@
-diff --git a/idea/src/org/jetbrains/jet/plugin/quickfix/ChangeFunctionLiteralReturnTypeFix.java b/idea/src/org/jetbrains/jet/plugin/quickfix/ChangeFunctionLiteralReturnTypeFix.java
-index 3027cba..3fd554f 100644
---- a/idea/src/org/jetbrains/jet/plugin/quickfix/ChangeFunctionLiteralReturnTypeFix.java
-+++ b/idea/src/org/jetbrains/jet/plugin/quickfix/ChangeFunctionLiteralReturnTypeFix.java
-@@ -135 +135 @@
--                assert functionLiteralExpression != null : "ASSIGNMENT/EXPECTED_TYPE_MISMATCH reported outside any function literal";
-+                if (functionLiteralExpression == null) return null;
-

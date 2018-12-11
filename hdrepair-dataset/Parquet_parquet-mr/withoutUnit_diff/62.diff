@@ -1,8 +1,0 @@
-diff --git a/parquet-column/src/main/java/parquet/column/impl/ColumnReaderImpl.java b/parquet-column/src/main/java/parquet/column/impl/ColumnReaderImpl.java
-index 4f66156..49e44e3 100644
---- a/parquet-column/src/main/java/parquet/column/impl/ColumnReaderImpl.java
-+++ b/parquet-column/src/main/java/parquet/column/impl/ColumnReaderImpl.java
-@@ -426 +426 @@
--      if (dictionary != null && converter.hasDictionarySupport()) {
-+      if (page.getValueEncoding().usesDictionary() && converter.hasDictionarySupport()) {
-

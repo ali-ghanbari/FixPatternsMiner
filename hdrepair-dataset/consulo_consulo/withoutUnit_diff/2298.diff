@@ -1,8 +1,0 @@
-diff --git a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/FetchExtResourceAction.java b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/FetchExtResourceAction.java
-index 7b95fc1..305480c 100644
---- a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/FetchExtResourceAction.java
-+++ b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/quickfix/FetchExtResourceAction.java
-@@ -108 +108 @@
--    PsiReference currentRef = file.findReferenceAt(offset);
-+    PsiReference currentRef = file.getViewProvider().findReferenceAt(offset, file.getLanguage());
-

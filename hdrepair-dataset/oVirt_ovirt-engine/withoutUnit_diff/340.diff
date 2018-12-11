@@ -1,8 +1,0 @@
-diff --git a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/storage/StorageDomainCommandBase.java b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/storage/StorageDomainCommandBase.java
-index 9023ea4..911b0f1 100644
---- a/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/storage/StorageDomainCommandBase.java
-+++ b/backend/manager/modules/bll/src/main/java/org/ovirt/engine/core/bll/storage/StorageDomainCommandBase.java
-@@ -66 +66 @@
--        return getParameters() != null ? !getParameters().getStorageDomainId().equals(Guid.Empty) ? getParameters()
-+        return getParameters() != null ? !Guid.Empty.equals(getParameters().getStorageDomainId()) ? getParameters()
-

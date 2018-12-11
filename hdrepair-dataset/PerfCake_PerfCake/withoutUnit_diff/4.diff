@@ -1,8 +1,0 @@
-diff --git a/perfcake/src/main/java/org/perfcake/message/generator/ConstantSpeedMessageGenerator.java b/perfcake/src/main/java/org/perfcake/message/generator/ConstantSpeedMessageGenerator.java
-index 28f41a0..adf7524 100644
---- a/perfcake/src/main/java/org/perfcake/message/generator/ConstantSpeedMessageGenerator.java
-+++ b/perfcake/src/main/java/org/perfcake/message/generator/ConstantSpeedMessageGenerator.java
-@@ -73 +73 @@
--      if (currentTime - getSmallest() > 1000 && breakDuration > 0 && currentTime - breakDuration >= getLast()) {
-+      if (currentTime - getSmallest() > 1000 && (!(breakDuration > 0) || currentTime - breakDuration >= getLast())) {
-

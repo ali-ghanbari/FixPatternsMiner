@@ -1,9 +1,0 @@
-diff --git a/OsmAnd/src/net/osmand/plus/download/LocalIndexesFragment.java b/OsmAnd/src/net/osmand/plus/download/LocalIndexesFragment.java
-index 5a34c42..4845138 100644
---- a/OsmAnd/src/net/osmand/plus/download/LocalIndexesFragment.java
-+++ b/OsmAnd/src/net/osmand/plus/download/LocalIndexesFragment.java
-@@ -485 +485,2 @@
--		if (listAdapter.getGroupCount() == 0 && getDownloadActivity().getLocalIndexInfos().size() > 0) {
-+		//Next line throws NPE in some circumstances when called from dashboard and listAdpater=null is not checked for. (Checking !this.isAdded above is not sufficient!)
-+		if (listAdapter != null && listAdapter.getGroupCount() == 0 && getDownloadActivity().getLocalIndexInfos().size() > 0) {
-

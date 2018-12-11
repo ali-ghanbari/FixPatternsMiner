@@ -1,8 +1,0 @@
-diff --git a/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java b/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java
-index ef9ad31..4d30f01 100644
---- a/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java
-+++ b/src/org/intellij/erlang/psi/impl/ErlangPsiImplUtil.java
-@@ -204 +204 @@
--    return new ErlangAtomBasedReferenceImpl<ErlangQAtom>(atom, TextRange.from(0, atom.getTextLength()), atom.getText()) {
-+    return new ErlangAtomBasedReferenceImpl<ErlangQAtom>(atom, getTextRangeForReference(atom), getNameIdentifier(atom).getText()) {
-

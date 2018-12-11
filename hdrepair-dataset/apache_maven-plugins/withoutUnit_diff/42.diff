@@ -1,8 +1,0 @@
-diff --git a/maven-doap-plugin/src/main/java/org/apache/maven/plugin/doap/DoapMojo.java b/maven-doap-plugin/src/main/java/org/apache/maven/plugin/doap/DoapMojo.java
-index aa4eb68..0f3bf66 100644
---- a/maven-doap-plugin/src/main/java/org/apache/maven/plugin/doap/DoapMojo.java
-+++ b/maven-doap-plugin/src/main/java/org/apache/maven/plugin/doap/DoapMojo.java
-@@ -440 +440 @@
--        if ( !doapFile.contains( File.separator ) )
-+        if ( !doapFile.replaceAll( "\\\\", "/" ).contains( "/" ) )
-

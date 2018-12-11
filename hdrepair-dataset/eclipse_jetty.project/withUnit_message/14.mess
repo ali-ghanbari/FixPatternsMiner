@@ -1,2 +1,0 @@
-411061 fix cookie handling in spdy. If two different HTTP headers with the same name are set, they should be translated to a single multiheader literal according to: http://www.chromium.org/spdy/spdy-protocol/spdy-protocol-draft3#TOC-2.6.10-Name-Value-Header-Block. That applies for Set-Cookie headers for example. Before this changed duplicate header names have overwritten the previous one
-

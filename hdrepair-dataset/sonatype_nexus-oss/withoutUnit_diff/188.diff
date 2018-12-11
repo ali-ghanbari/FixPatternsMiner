@@ -1,8 +1,0 @@
-diff --git a/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/registry/DefaultRepositoryTypeRegistry.java b/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/registry/DefaultRepositoryTypeRegistry.java
-index 2015b28..0ef2d76 100644
---- a/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/registry/DefaultRepositoryTypeRegistry.java
-+++ b/nexus/nexus-proxy/src/main/java/org/sonatype/nexus/proxy/registry/DefaultRepositoryTypeRegistry.java
-@@ -69 +69 @@
--        return Collections.unmodifiableSet( getRepositoryTypeDescriptors() );
-+        return Collections.unmodifiableSet( new HashSet<RepositoryTypeDescriptor>( getRepositoryTypeDescriptors() ) );
-

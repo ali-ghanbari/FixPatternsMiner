@@ -1,9 +1,0 @@
-diff --git a/src/com/redhat/ceylon/compiler/loader/AbstractModelLoader.java b/src/com/redhat/ceylon/compiler/loader/AbstractModelLoader.java
-index de053cf..1c707ea 100644
---- a/src/com/redhat/ceylon/compiler/loader/AbstractModelLoader.java
-+++ b/src/com/redhat/ceylon/compiler/loader/AbstractModelLoader.java
-@@ -1328 +1328,2 @@
--            if (decl != null && Decl.isValue(decl)) {
-+            // skip Java fields, which we only get if there is no getter method, in that case just add the setter method
-+            if (decl != null && Decl.isValue(decl) && decl instanceof FieldValue == false) {
-

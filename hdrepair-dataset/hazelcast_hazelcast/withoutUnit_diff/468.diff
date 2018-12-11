@@ -1,8 +1,0 @@
-diff --git a/hazelcast-client/src/main/java/com/hazelcast/client/ConnectionManager.java b/hazelcast-client/src/main/java/com/hazelcast/client/ConnectionManager.java
-index a984312..2fe2290 100644
---- a/hazelcast-client/src/main/java/com/hazelcast/client/ConnectionManager.java
-+++ b/hazelcast-client/src/main/java/com/hazelcast/client/ConnectionManager.java
-@@ -74 +74 @@
--                long diff = client.getInRunnable().lastReceived - Clock.currentTimeMillis();
-+                long diff = Clock.currentTimeMillis() - client.getInRunnable().lastReceived;
-

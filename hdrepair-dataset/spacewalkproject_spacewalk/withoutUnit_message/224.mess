@@ -1,4 +1,0 @@
-608811 - fixing issue where virt guest creation would not create the guests to use a virtual bridge.
-
-The problem was due to a change in the xmlrpc method parsing on the cobbler side.  After the cobbler change, modify-interface was no longer accepted as a valid method name, meaning network intefaces were not being created properly.  The result was that since the guest had no network interface within the cobbler system record, an interface (with a virtual bridge attached) was not created.  Grumble grubmle, api breakage
-

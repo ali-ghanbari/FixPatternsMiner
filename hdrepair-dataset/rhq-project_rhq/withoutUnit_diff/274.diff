@@ -1,9 +1,0 @@
-diff --git a/modules/plugins/jboss-as/src/main/java/org/rhq/plugins/jbossas/JBossASServerOperationsDelegate.java b/modules/plugins/jboss-as/src/main/java/org/rhq/plugins/jbossas/JBossASServerOperationsDelegate.java
-index 4e650fe..631b5cf 100644
---- a/modules/plugins/jboss-as/src/main/java/org/rhq/plugins/jbossas/JBossASServerOperationsDelegate.java
-+++ b/modules/plugins/jboss-as/src/main/java/org/rhq/plugins/jbossas/JBossASServerOperationsDelegate.java
-@@ -155 +155,2 @@
--        if (prefix == null) {
-+        // prefix is either null or contains ONLY whitespace characters
-+        if (prefix == null || prefix.replaceAll("\\s", "").equals("")) {
-

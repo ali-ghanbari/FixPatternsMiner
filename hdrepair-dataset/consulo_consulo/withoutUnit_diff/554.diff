@@ -1,8 +1,0 @@
-diff --git a/plugins/android/src/org/jetbrains/android/dom/manifest/ManifestDomFileDescription.java b/plugins/android/src/org/jetbrains/android/dom/manifest/ManifestDomFileDescription.java
-index acea0d6..641838e 100644
---- a/plugins/android/src/org/jetbrains/android/dom/manifest/ManifestDomFileDescription.java
-+++ b/plugins/android/src/org/jetbrains/android/dom/manifest/ManifestDomFileDescription.java
-@@ -45 +45 @@
--    return module == null || AndroidFacet.getInstance(module) != null;
-+    return module == null || !module.isDisposed() && AndroidFacet.getInstance(module) != null;
-

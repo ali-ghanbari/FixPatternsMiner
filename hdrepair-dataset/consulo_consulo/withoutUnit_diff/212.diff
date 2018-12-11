@@ -1,8 +1,0 @@
-diff --git a/platform/platform-impl/src/com/intellij/ide/errorTreeView/ErrorViewStructure.java b/platform/platform-impl/src/com/intellij/ide/errorTreeView/ErrorViewStructure.java
-index d23f1dd..4d199bb 100644
---- a/platform/platform-impl/src/com/intellij/ide/errorTreeView/ErrorViewStructure.java
-+++ b/platform/platform-impl/src/com/intellij/ide/errorTreeView/ErrorViewStructure.java
-@@ -388 +388 @@
--            PsiFile psiFile = PsiManager.getInstance(myProject).findFile(virtualFile);
-+            final PsiFile psiFile = virtualFile.isValid()? PsiManager.getInstance(myProject).findFile(virtualFile) : null;
-

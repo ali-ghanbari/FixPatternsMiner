@@ -1,7 +1,0 @@
-Fix for failed to parse versions like 2.3.1-git3282e51
-
-Existing code was matching using the pattern major.minor.patch and would fail if anythign extra was in the string. This was because the code used an exact match across the whole string. Chaning to only find the major.minor.patch pattern fixes the issue by ingoring the extra characters.
-
-Change-Id: I1cefb545bdc571a18727851a791a47a6c6158afa
-Signed-off-by: Sam Hague <shague@redhat.com>
-

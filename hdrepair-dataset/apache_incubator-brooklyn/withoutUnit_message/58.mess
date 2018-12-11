@@ -1,3 +1,0 @@
-Attempt fix for DynamicToyMySqlEntityTest int test
-
-Because the start script being nohupped and backgrounded, it seems that the lifecycle is allowing a mere 5 seconds for the MySQL process to start in the background, initialise itself and become ready for service. This is not quite enough, and could be the reason for the intermittent Jenkins failures in this test. Increase the wait to 30 seconds.

@@ -1,8 +1,0 @@
-diff --git a/src/main/java/org/mvel2/ast/BinaryOperation.java b/src/main/java/org/mvel2/ast/BinaryOperation.java
-index 191adc7..d936aff 100644
---- a/src/main/java/org/mvel2/ast/BinaryOperation.java
-+++ b/src/main/java/org/mvel2/ast/BinaryOperation.java
-@@ -69 +69 @@
--                                || (!boxPrimitive(left.getEgressType()).isAssignableFrom(boxPrimitive(right.getEgressType())))) {
-+                                || (!canConvert(boxPrimitive(left.getEgressType()), boxPrimitive(right.getEgressType())))) {
-

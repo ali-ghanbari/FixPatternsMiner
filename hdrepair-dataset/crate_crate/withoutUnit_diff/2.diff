@@ -1,8 +1,0 @@
-diff --git a/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java b/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java
-index f67f5c0..8b444ff 100644
---- a/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java
-+++ b/sql/src/main/java/io/crate/planner/consumer/QueryThenFetchConsumer.java
-@@ -131 +131 @@
--                    table.querySpec().limit() + table.querySpec().offset()
-+                    MoreObjects.firstNonNull(table.querySpec().limit(), Constants.DEFAULT_SELECT_LIMIT) + table.querySpec().offset()
-

@@ -1,8 +1,0 @@
-diff --git a/lang-impl/src/com/intellij/psi/impl/SharedPsiElementImplUtil.java b/lang-impl/src/com/intellij/psi/impl/SharedPsiElementImplUtil.java
-index 8aa721b..62707ed 100644
---- a/lang-impl/src/com/intellij/psi/impl/SharedPsiElementImplUtil.java
-+++ b/lang-impl/src/com/intellij/psi/impl/SharedPsiElementImplUtil.java
-@@ -72 +72 @@
--      if (child.equals(element)) {
-+      if (child == element) { //do not use .equals since some smartheads are used to overriding PsiElement.equals e.g. com.intellij.psi.impl.source.jsp.jspJava.JspxImportStatementImpl.equals()
-

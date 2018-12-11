@@ -1,8 +1,0 @@
-diff --git a/orcid-core/src/main/java/org/orcid/core/security/OrcidUserDetailsService.java b/orcid-core/src/main/java/org/orcid/core/security/OrcidUserDetailsService.java
-index 3f89b2f..c9e1118 100644
---- a/orcid-core/src/main/java/org/orcid/core/security/OrcidUserDetailsService.java
-+++ b/orcid-core/src/main/java/org/orcid/core/security/OrcidUserDetailsService.java
-@@ -84 +84 @@
--            EmailEntity emailEntity = emailDao.find(username);
-+            EmailEntity emailEntity = emailDao.findCaseInsensitive(username);
-

@@ -1,8 +1,0 @@
-diff --git a/src/freenet/node/fcp/ClientPutDiskDirMessage.java b/src/freenet/node/fcp/ClientPutDiskDirMessage.java
-index 80a1f75..e8c0abc 100644
---- a/src/freenet/node/fcp/ClientPutDiskDirMessage.java
-+++ b/src/freenet/node/fcp/ClientPutDiskDirMessage.java
-@@ -74 +74 @@
--    		throw new IllegalArgumentException("No such directory");
-+    		throw new MessageInvalidException(ProtocolErrorMessage.FILE_NOT_FOUND, "No such directory!", identifier, global);
-

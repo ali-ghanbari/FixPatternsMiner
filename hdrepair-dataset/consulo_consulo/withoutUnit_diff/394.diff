@@ -1,8 +1,0 @@
-diff --git a/platform/lang-api/src/com/intellij/psi/codeStyle/CodeStyleSettingsManager.java b/platform/lang-api/src/com/intellij/psi/codeStyle/CodeStyleSettingsManager.java
-index da21f16..619e641 100644
---- a/platform/lang-api/src/com/intellij/psi/codeStyle/CodeStyleSettingsManager.java
-+++ b/platform/lang-api/src/com/intellij/psi/codeStyle/CodeStyleSettingsManager.java
-@@ -61 +61 @@
--    final CodeStyleSettingsManager instance = project == null ? getInstance() : getInstance(project);
-+    final CodeStyleSettingsManager instance = project == null || project.isDefault() ? getInstance() : getInstance(project);
-

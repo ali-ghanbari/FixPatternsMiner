@@ -1,8 +1,0 @@
-diff --git a/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInspection/assignment/GroovyAssignabilityCheckInspection.java b/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInspection/assignment/GroovyAssignabilityCheckInspection.java
-index 0c386d8..c0b849a 100644
---- a/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInspection/assignment/GroovyAssignabilityCheckInspection.java
-+++ b/plugins/groovy/src/org/jetbrains/plugins/groovy/codeInspection/assignment/GroovyAssignabilityCheckInspection.java
-@@ -79 +79 @@
--      if (!TypesUtil.isAssignable(expectedType, rType, element.getManager(), element.getResolveScope())) {
-+      if (rType != null && !TypesUtil.isAssignable(expectedType, rType, element.getManager(), element.getResolveScope())) {
-

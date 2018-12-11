@@ -1,8 +1,0 @@
-diff --git a/src/main/java/de/cubeisland/engine/configuration/codec/ConfigurationCodec.java b/src/main/java/de/cubeisland/engine/configuration/codec/ConfigurationCodec.java
-index 9c1979a..5bcf43c 100644
---- a/src/main/java/de/cubeisland/engine/configuration/codec/ConfigurationCodec.java
-+++ b/src/main/java/de/cubeisland/engine/configuration/codec/ConfigurationCodec.java
-@@ -264 +264 @@
--            return subSectionClass.getDeclaredConstructor(parentSection.getClass()).newInstance(parentSection);
-+            return subSectionClass.getDeclaredConstructor(subSectionClass.getEnclosingClass()).newInstance(parentSection);
-

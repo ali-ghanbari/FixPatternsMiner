@@ -1,8 +1,0 @@
-diff --git a/solr/src/test/org/apache/solr/core/TestSolrDeletionPolicy1.java b/solr/src/test/org/apache/solr/core/TestSolrDeletionPolicy1.java
-index a89dbb8..758a3a0 100644
---- a/solr/src/test/org/apache/solr/core/TestSolrDeletionPolicy1.java
-+++ b/solr/src/test/org/apache/solr/core/TestSolrDeletionPolicy1.java
-@@ -108 +108 @@
--    assertEquals(((SolrDeletionPolicy) (delPolicy.getWrappedDeletionPolicy())).getMaxOptimizedCommitsToKeep(), commits.size());
-+    assertTrue(commits.size() <= ((SolrDeletionPolicy) (delPolicy.getWrappedDeletionPolicy())).getMaxOptimizedCommitsToKeep());
-

@@ -1,8 +1,0 @@
-diff --git a/core/src/main/java/hudson/ExtensionComponent.java b/core/src/main/java/hudson/ExtensionComponent.java
-index 8b0af77..8c48632 100644
---- a/core/src/main/java/hudson/ExtensionComponent.java
-+++ b/core/src/main/java/hudson/ExtensionComponent.java
-@@ -80 +80 @@
--            return ((Descriptor)this.instance).getDisplayName().compareTo(((Descriptor)that.instance).getDisplayName());
-+            return Util.fixNull(((Descriptor)this.instance).getDisplayName()).compareTo(Util.fixNull(((Descriptor)that.instance).getDisplayName()));
-

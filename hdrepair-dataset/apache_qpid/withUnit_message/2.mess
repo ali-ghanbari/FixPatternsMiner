@@ -1,7 +1,0 @@
-QPID-4352: fix break in ConnectionFactory following SSL truststore/keystore password masking in URL toString().
-
-Makes SSLTest use a ConnectionFactory instead of instantiating AMQConnections directly, exposing this issue.
-Replaces horrible use of an AMQConnectionURL objects in MultipleBrokersFailoverTest and FailoverBehaviourTest (which both broke after this fix) with fully string-generated connection strings.
-
-git-svn-id: https://svn.apache.org/repos/asf/qpid/trunk@1393034 13f79535-47bb-0310-9956-ffa450edef68
-

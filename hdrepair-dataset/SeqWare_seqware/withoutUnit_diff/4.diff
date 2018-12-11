@@ -1,9 +1,0 @@
-diff --git a/seqware-pipeline/src/main/java/net/sourceforge/seqware/pipeline/deciders/BasicDecider.java b/seqware-pipeline/src/main/java/net/sourceforge/seqware/pipeline/deciders/BasicDecider.java
-index d58c3ae..8b69c37 100644
---- a/seqware-pipeline/src/main/java/net/sourceforge/seqware/pipeline/deciders/BasicDecider.java
-+++ b/seqware-pipeline/src/main/java/net/sourceforge/seqware/pipeline/deciders/BasicDecider.java
-@@ -400 +400,2 @@
--                    boolean rerun = rerunWorkflowRun(filesToRun, fileSWIDs);
-+                    // SEQWARE-1773 short-circuit this with forceRunAll to ensure that sample fingerprinting workflow launches
-+                    boolean rerun = forceRunAll || rerunWorkflowRun(filesToRun, fileSWIDs);
-

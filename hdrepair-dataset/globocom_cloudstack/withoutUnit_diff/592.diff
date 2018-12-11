@@ -1,9 +1,0 @@
-diff --git a/server/src/com/cloud/storage/dao/VMTemplateDaoImpl.java b/server/src/com/cloud/storage/dao/VMTemplateDaoImpl.java
-index 50d52f5..62aaf94 100755
---- a/server/src/com/cloud/storage/dao/VMTemplateDaoImpl.java
-+++ b/server/src/com/cloud/storage/dao/VMTemplateDaoImpl.java
-@@ -322 +322,2 @@
--           if(isIso && templateZonePairList.size() < pageSize && templateFilter != TemplateFilter.community){
-+           //for now, defaulting pageSize to a large val if null; may need to revisit post 2.2RC2 
-+           if(isIso && templateZonePairList.size() < (pageSize != null ? pageSize : 500) && templateFilter != TemplateFilter.community){
-

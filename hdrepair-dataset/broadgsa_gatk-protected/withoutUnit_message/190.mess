@@ -1,9 +1,0 @@
-Disable optimization that increases marginal speed of the GATK slightly but
-can produce data loss in a narrow corner case where the BGZF block(s) locations
-and offsets in the last index bucket of contig n overlap exactly with the BGZF
-block locations and offset in the last index bucket of contig n+1.
-
-A proper fix that keeps the optimization has already been introduced into
-unstable, but disabling the optimization is a low risk way to make sure that
-users of stable experience no data loss.
-

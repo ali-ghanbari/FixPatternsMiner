@@ -1,8 +1,0 @@
-diff --git a/source/com/intellij/psi/impl/source/PsiJavaCodeReferenceElementImpl.java b/source/com/intellij/psi/impl/source/PsiJavaCodeReferenceElementImpl.java
-index d1791e1..be10154 100644
---- a/source/com/intellij/psi/impl/source/PsiJavaCodeReferenceElementImpl.java
-+++ b/source/com/intellij/psi/impl/source/PsiJavaCodeReferenceElementImpl.java
-@@ -722 +722 @@
--      filter.addFilter(new NotFilter(new ConstructorFilter()));
-+      filter.addFilter(new AndFilter(new ClassFilter(PsiMethod.class), new NotFilter(new ConstructorFilter())));
-

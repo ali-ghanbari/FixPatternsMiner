@@ -1,8 +1,0 @@
-diff --git a/src/net/sourceforge/fenixedu/domain/candidacy/Candidacy.java b/src/net/sourceforge/fenixedu/domain/candidacy/Candidacy.java
-index 641f0e5..fc222f6 100755
---- a/src/net/sourceforge/fenixedu/domain/candidacy/Candidacy.java
-+++ b/src/net/sourceforge/fenixedu/domain/candidacy/Candidacy.java
-@@ -45 +45 @@
--	return Collections.max(getCandidacySituations(), CandidacySituation.DATE_COMPARATOR);
-+	return hasAnyCandidacySituations() ? Collections.max(getCandidacySituations(), CandidacySituation.DATE_COMPARATOR) : null;
-

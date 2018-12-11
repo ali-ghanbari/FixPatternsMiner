@@ -1,8 +1,0 @@
-diff --git a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/analysis/XmlHighlightVisitor.java b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/analysis/XmlHighlightVisitor.java
-index 550cdff..022e29d 100644
---- a/codeInsight/impl/com/intellij/codeInsight/daemon/impl/analysis/XmlHighlightVisitor.java
-+++ b/codeInsight/impl/com/intellij/codeInsight/daemon/impl/analysis/XmlHighlightVisitor.java
-@@ -161 +161 @@
--    if (namespacePrefix.length() > 0 || element instanceof XmlTag) {
-+    if (namespacePrefix.length() > 0 || ( element instanceof XmlTag && element.getParent() instanceof XmlDocument)) {
-

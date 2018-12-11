@@ -1,8 +1,0 @@
-diff --git a/nuxeo-core-event/src/main/java/org/nuxeo/ecm/core/work/redis/RedisWorkQueuing.java b/nuxeo-core-event/src/main/java/org/nuxeo/ecm/core/work/redis/RedisWorkQueuing.java
-index 759629f..6c25db8 100644
---- a/nuxeo-core-event/src/main/java/org/nuxeo/ecm/core/work/redis/RedisWorkQueuing.java
-+++ b/nuxeo-core-event/src/main/java/org/nuxeo/ecm/core/work/redis/RedisWorkQueuing.java
-@@ -778 +778 @@
--                    jedis.srem(completedKey(queueId));
-+                    jedis.srem(completedKey(queueId), workIdBytes);
-

@@ -1,9 +1,0 @@
-diff --git a/src/main/java/org/basex/core/CommandParser.java b/src/main/java/org/basex/core/CommandParser.java
-index 47c6480..f4218ba 100644
---- a/src/main/java/org/basex/core/CommandParser.java
-+++ b/src/main/java/org/basex/core/CommandParser.java
-@@ -390 +390,2 @@
--      if(!c.help() && (internal || !c.internal())) return cmd;
-+      // [CG] fix for command suggest
-+      if(!c.help() && (internal || !c.internal()) && !c.hidden()) return cmd;
-
