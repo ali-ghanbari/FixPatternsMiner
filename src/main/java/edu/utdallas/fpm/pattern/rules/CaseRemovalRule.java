@@ -5,6 +5,6 @@ public enum CaseRemovalRule implements Rule {
 
     @Override
     public String getId() {
-        return this.name();
+        return this.getClass().getSimpleName();
     }
 }

@@ -30,8 +30,6 @@ public class ConstantReplacementRule implements Rule {
 
     @Override
     public String getId() {
-        final Object srcVal = this.src.getValue();
-        final Object dstVal = this.dst.getValue();
-
+        return this.dst == null ? "NegatedConstant" : this.getClass().getSimpleName();
     }
 }

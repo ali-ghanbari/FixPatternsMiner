@@ -1,9 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class MethodGuardRule implements Rule {
-    private final String methodName;
+public enum MethodGuardRule implements Rule {
+    METHOD_GUARD_RULE;
 
-    public MethodGuardRule(String methodName) {
-        this.methodName = methodName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

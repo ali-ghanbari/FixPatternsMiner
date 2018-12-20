@@ -32,7 +32,7 @@ public class MethodNameReplacement extends UpdateHandler {
             if (Objects.equals(sin.getTarget(), din.getTarget())
                     && Objects.equals(sin.getArguments(), din.getArguments())) {
                 if (Util.sibling(sin, din)) {
-                    return new MethodNameReplacementRule(methodNameSrc, methodNameDst);
+                    return MethodNameReplacementRule.METHOD_NAME_REPLACEMENT_RULE;
                 }
             }
         }

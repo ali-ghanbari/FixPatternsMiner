@@ -124,7 +124,7 @@ public class ConstantificationHandler extends RegExpHandler {
                     final CtTypeReference objType = this.deletedCtorCall.getType();
                     if (Util.equalsType(objType, insertedLiteral.getType())) {
                         if (Util.sibling(this.deletedCtorCall, insertedLiteral)) {
-                            return new CtorCallReplacedState(insertedLiteral);
+                            return new CtorCallReplacedState();
                         }
                     }
                 }
@@ -134,15 +134,9 @@ public class ConstantificationHandler extends RegExpHandler {
     }
 
     private class CtorCallReplacedState implements AcceptanceState {
-        private final CtLiteral literal;
-
-        public CtorCallReplacedState(CtLiteral literal) {
-            this.literal = literal;
-        }
-
         @Override
         public Rule getRule() {
-            return new CtorCallRemovalRule(this.literal);
+            return CtorCallRemovalRule.CTOR_CALL_REMOVAL_RULE;
         }
 
         @Override

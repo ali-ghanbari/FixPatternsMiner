@@ -94,7 +94,7 @@ public class PreconditionAdditionHandler extends InsertHandler {
                                                 (CtVariableAccess) (lho instanceof CtVariableAccess ? lho : rho);
                                         final String varName = varAccess.getVariable().getSimpleName();
                                         if (paramNames.contains(varName)) {
-                                            return new PreconditionAdditionRule(varName);
+                                            return PreconditionAdditionRule.PRECONDITION_ADDITION_RULE;
                                         }
                                     }
                                 }

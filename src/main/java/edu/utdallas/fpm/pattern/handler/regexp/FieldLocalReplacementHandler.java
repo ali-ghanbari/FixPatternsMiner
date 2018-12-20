@@ -53,13 +53,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (Util.sibling(this.deletedVarWrite, insertedElement)) {
                     if (insertedElement instanceof  CtFieldWrite) {
-                        final CtFieldWrite fieldWrite = (CtFieldWrite) insertedElement;
-                        final String fieldName = fieldWrite.getVariable()
-                                .getSimpleName();
-                        final String deletedVarName = this.deletedVarWrite
-                                .getVariable()
-                                .getSimpleName();
-                        return new InsFieldWrite(deletedVarName, fieldName);
+                        return new InsFieldWrite();
                     }
                 }
             }
@@ -68,17 +62,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
     }
 
     private class InsFieldWrite implements AcceptanceState {
-        private final String deletedVarName;
-        private final String insertedFieldName;
-
-        public InsFieldWrite(String deletedVarName, String insertedFieldName) {
-            this.deletedVarName = deletedVarName;
-            this.insertedFieldName = insertedFieldName;
-        }
-
         @Override
         public Rule getRule() {
-            return new LocalWriteToFieldWriteRule(this.deletedVarName, this.insertedFieldName);
+            return LocalWriteToFieldWriteRule.LOCAL_WRITE_TO_FIELD_WRITE_RULE;
         }
 
         @Override
@@ -101,13 +87,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtFieldRead) {
                     if (Util.sibling(this.deletedVarRead, insertedElement)) {
-                        final CtFieldRead fieldRead = (CtFieldRead) insertedElement;
-                        final String fieldName = fieldRead.getVariable()
-                                .getSimpleName();
-                        final String deletedVarName = this.deletedVarRead
-                                .getVariable()
-                                .getSimpleName();
-                        return new InsFieldRead(deletedVarName, fieldName);
+                        return new InsFieldRead();
                     }
                 }
             }
@@ -116,17 +96,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
     }
 
     private class InsFieldRead implements AcceptanceState {
-        private final String deletedVarName;
-        private final String insertedFieldName;
-
-        public InsFieldRead(String deletedVarName, String insertedFieldName) {
-            this.deletedVarName = deletedVarName;
-            this.insertedFieldName = insertedFieldName;
-        }
-
         @Override
         public Rule getRule() {
-            return new LocalReadToFieldReadRule(this.deletedVarName, this.insertedFieldName);
+            return LocalReadToFieldReadRule.LOCAL_READ_TO_FIELD_READ_RULE;
         }
 
         @Override
@@ -149,13 +121,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtVariableRead) {
                     if (Util.sibling(insertedElement, this.deletedFieldRead)) {
-                        final CtVariableRead variableRead = (CtVariableRead) insertedElement;
-                        final String varName = variableRead.getVariable()
-                                .getSimpleName();
-                        final String deletedFieldName = this.deletedFieldRead
-                                .getVariable()
-                                .getSimpleName();
-                        return new InsLocalRead(deletedFieldName, varName);
+                        return new InsLocalRead();
                     }
                 }
             }
@@ -164,18 +130,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
     }
 
     private class InsLocalRead implements AcceptanceState {
-        private final String deletedFieldName;
-        private final String insertedLocalName;
-
-        public InsLocalRead(String deletedFieldName, String insertedLocalName) {
-            this.deletedFieldName = deletedFieldName;
-            this.insertedLocalName = insertedLocalName;
-        }
-
         @Override
         public Rule getRule() {
-            return new FieldReadToLocalReadRule(this.deletedFieldName,
-                    this.insertedLocalName);
+            return FieldReadToLocalReadRule.FIELD_READ_TO_LOCAL_READ_RULE;
         }
 
         @Override
@@ -198,14 +155,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtVariableWrite) {
                     if (Util.sibling(this.deletedFieldWrite, insertedElement)) {
-                        final CtVariableWrite variableWrite =
-                                (CtVariableWrite) insertedElement;
-                        final String varName = variableWrite.getVariable()
-                                .getSimpleName();
-                        final String deletedFieldName = this.deletedFieldWrite
-                                .getVariable()
-                                .getSimpleName();
-                        return new InsLocalWrite(deletedFieldName, varName);
+                        return new InsLocalWrite();
                     }
                 }
             }
@@ -214,17 +164,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
     }
 
     private class InsLocalWrite implements AcceptanceState {
-        private final String deletedFieldName;
-        private final String insertedLocalName;
-
-        public InsLocalWrite(String deletedFieldName, String insertedLocalName) {
-            this.deletedFieldName = deletedFieldName;
-            this.insertedLocalName = insertedLocalName;
-        }
-
         @Override
         public Rule getRule() {
-            return new FieldWriteToLocalWrite(deletedFieldName, insertedLocalName);
+            return FieldWriteToLocalWrite.FIELD_WRITE_TO_LOCAL_WRITE;
         }
 
         @Override

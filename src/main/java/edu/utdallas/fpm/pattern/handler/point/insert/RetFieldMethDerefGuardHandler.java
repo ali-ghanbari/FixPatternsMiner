@@ -89,15 +89,9 @@ public class RetFieldMethDerefGuardHandler extends InsertHandler {
         }
         if (fieldOrMethod != null) {
             if (fieldOrMethod instanceof FieldAccess) {
-                final FieldAccess fieldAccess = (FieldAccess) fieldOrMethod;
-                return new RetFieldDerefGuardRule(fieldAccess.getFieldAccess()
-                        .getVariable()
-                        .getQualifiedName());
+                return RetFieldDerefGuardRule.RET_FIELD_DEREF_GUARD_RULE;
             } else {
-                final MethodInvocation invocation = (MethodInvocation) fieldOrMethod;
-                return new RetMethodGuardRule(invocation.getMethodInvocation()
-                        .getExecutable()
-                        .getSignature());
+                return RetMethodGuardRule.RET_METHOD_GUARD_RULE;
             }
         }
         return super.handlePattern(e1, e2);

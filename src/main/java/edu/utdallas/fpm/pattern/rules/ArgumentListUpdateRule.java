@@ -9,6 +9,6 @@ public enum ArgumentListUpdateRule implements Rule {
         * for now, we don't care which overload we have picked or what data we
         * have used for calling methods with larger number of parameters.
         */
-        return this.name();
+        return this.getClass().getSimpleName();
     }
 }

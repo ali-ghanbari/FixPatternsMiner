@@ -51,9 +51,7 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
                 final DeleteOperation delOp = (DeleteOperation) operation;
                 final CtElement deletedElement = delOp.getSrcNode();
                 if (deletedElement instanceof CtInvocation) {
-                    final CtInvocation deletedInvocation = (CtInvocation) deletedElement;
-                    final String deletedMethodName = deletedInvocation.getExecutable().getSimpleName();
-                    return new UpdLocalDelInvState(deletedMethodName);
+                    return new UpdLocalDelInvState();
                 }
             }
             return initState;
@@ -61,12 +59,6 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
     }
 
     private class UpdLocalDelInvState implements State {
-        private final String deletedMethodName;
-
-        public UpdLocalDelInvState(String deletedMethodName) {
-            this.deletedMethodName = deletedMethodName;
-        }
-
         @Override
         public State handle(Operation operation) {
             if (operation instanceof MoveOperation) {
@@ -74,9 +66,7 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
                 final CtElement movedElement = movOp.getSrcNode();
                 if (movedElement instanceof CtVariableRead
                         && !(movedElement instanceof CtFieldAccess)) {
-                    final CtVariableReference movedLocal = ((CtVariableRead) movedElement).getVariable();
-                    final String localName = movedLocal.getSimpleName();
-                    return new UDMState(this.deletedMethodName, localName);
+                    return new UDMState();
                 }
             }
             return initState;
@@ -84,17 +74,9 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
     }
 
     private class UDMState implements AcceptanceState {
-        private final String methodName;
-        private final String localName;
-
-        public UDMState(String methodName, String localName) {
-            this.methodName = methodName;
-            this.localName = localName;
-        }
-
         @Override
         public Rule getRule() {
-            return new MethodToLocalReplacementRule(this.methodName, this.localName);
+            return MethodToLocalReplacementRule.METHOD_TO_LOCAL_REPLACEMENT_RULE;
         }
 
         @Override
@@ -117,10 +99,7 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtVariableRead
                         && !(insertedElement instanceof CtFieldAccess)) {
-                    final CtVariableReference movedLocal =
-                            ((CtVariableRead) insertedElement).getVariable();
-                    final String localName = movedLocal.getSimpleName();
-                    return new DIState(this.deletedMethodName, localName);
+                    return new DIState();
                 }
             }
             return initState;
@@ -128,17 +107,9 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
     }
 
     private class DIState implements AcceptanceState {
-        private final String methodName;
-        private final String localName;
-
-        public DIState(String methodName, String localName) {
-            this.methodName = methodName;
-            this.localName = localName;
-        }
-
         @Override
         public Rule getRule() {
-            return new MethodToLocalReplacementRule(this.methodName, this.localName);
+            return MethodToLocalReplacementRule.METHOD_TO_LOCAL_REPLACEMENT_RULE;
         }
 
         @Override

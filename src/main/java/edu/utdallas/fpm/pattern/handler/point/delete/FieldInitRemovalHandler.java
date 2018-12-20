@@ -33,9 +33,7 @@ public class FieldInitRemovalHandler extends DeleteHandler {
             final CtAssignment assignment = (CtAssignment) e1;
             final CtExpression assigned = assignment.getAssigned();
             if (assigned instanceof CtFieldWrite) {
-                final CtFieldWrite fieldWrite = (CtFieldWrite) assigned;
-                final String fieldName = fieldWrite.getVariable().getSimpleName();
-                return new MemberVarAssignmentDeletionRule(fieldName);
+                return MemberVarAssignmentDeletionRule.MEMBER_VAR_ASSIGNMENT_DELETION_RULE;
             }
         }
         return super.handlePattern(e1, e2);

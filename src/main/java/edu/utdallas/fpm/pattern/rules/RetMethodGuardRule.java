@@ -1,9 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class RetMethodGuardRule implements Rule {
-    private final String methodName;
+public enum RetMethodGuardRule implements Rule {
+    RET_METHOD_GUARD_RULE;
 
-    public RetMethodGuardRule(String methodName) {
-        this.methodName = methodName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

@@ -18,6 +18,6 @@ public class CaseRemovalHandler extends DeleteHandler {
 
     @Override
     protected Rule handlePattern(CtElement e1, CtElement e2) {
-        return new CaseRemovalRule();
+        return CaseRemovalRule.CASE_REMOVAL_RULE;
     }
 }

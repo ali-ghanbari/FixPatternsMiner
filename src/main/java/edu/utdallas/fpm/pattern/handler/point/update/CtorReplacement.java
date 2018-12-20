@@ -28,9 +28,7 @@ public class CtorReplacement extends UpdateHandler {
         final CtTypeReference t2 = cc2.getType();
         if (!Objects.equals(t1, t2) && cc1.getArguments().equals(cc2.getArguments())) {
             if (Util.sibling(cc1, cc2)) {
-                final String srcQualifiedName = t1.getQualifiedName();
-                final String dstQualifiedName = t2.getQualifiedName();
-                return new CtorReplacementRule(srcQualifiedName, dstQualifiedName);
+                return CtorReplacementRule.CTOR_REPLACEMENT_RULE;
             }
         }
         return super.handlePattern(e1, e2);

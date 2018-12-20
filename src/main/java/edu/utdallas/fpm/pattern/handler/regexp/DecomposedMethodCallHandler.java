@@ -55,11 +55,11 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getDstNode();
                 if (this.rec != null && this.rec.equals(movedElement)) {
-                    return new PropagatedState(0);
+                    return new PropagatedState();
                 } else {
                     final int which = this.args.indexOf(movedElement);
                     if (which >= 0) {
-                        return new PropagatedState(1 + which);
+                        return new PropagatedState();
                     }
                 }
             }
@@ -68,15 +68,9 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
     }
 
     private class PropagatedState implements AcceptanceState {
-        private final int which;
-
-        PropagatedState(int which) {
-            this.which = which;
-        }
-
         @Override
         public Rule getRule() {
-            return new ArgumentPropagatedRule(this.which);
+            return ArgumentPropagatedRule.ARGUMENT_PROPAGATED_RULE;
         }
 
         @Override

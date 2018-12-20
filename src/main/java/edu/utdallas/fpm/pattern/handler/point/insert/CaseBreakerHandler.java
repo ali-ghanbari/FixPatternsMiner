@@ -24,9 +24,9 @@ public class CaseBreakerHandler extends InsertHandler {
         final CtElement parent = e1.getParent();
         if (parent instanceof CtCase) {
             if (e1 instanceof CtBreak) {
-                return new CaseBreakerBreakInsertionRule();
+                return CaseBreakerBreakInsertionRule.CASE_BREAKER_BREAK_INSERTION_RULE;
             }
-            return new CaseBreakerReturnInsertionRule();
+            return CaseBreakerReturnInsertionRule.CASE_BREAKER_RETURN_INSERTION_RULE;
         }
         return super.handlePattern(e1, e2);
     }

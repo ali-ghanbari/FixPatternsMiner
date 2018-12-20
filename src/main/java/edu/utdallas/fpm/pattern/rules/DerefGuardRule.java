@@ -1,9 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class DerefGuardRule implements Rule {
-    private final String guardedFieldName;
+public enum DerefGuardRule implements Rule {
+    DEREF_GUARD_RULE;
 
-    public DerefGuardRule(String guardedFieldName) {
-        this.guardedFieldName = guardedFieldName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

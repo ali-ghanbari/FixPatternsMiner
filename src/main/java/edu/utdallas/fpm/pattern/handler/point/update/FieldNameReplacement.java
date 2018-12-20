@@ -40,7 +40,7 @@ public class FieldNameReplacement extends UpdateHandler {
                 final String srcFieldName = f1.getQualifiedName();
                 final String dstFieldName = f2.getQualifiedName();
                 if (!srcFieldName.equals(dstFieldName) && Util.sibling(fa1, fa2)) {
-                    return new FieldNameReplacementRule(srcFieldName, dstFieldName);
+                    return FieldNameReplacementRule.FIELD_NAME_REPLACEMENT_RULE;
                 }
             }
         }

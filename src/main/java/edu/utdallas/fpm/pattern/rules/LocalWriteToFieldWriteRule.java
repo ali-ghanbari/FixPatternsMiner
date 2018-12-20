@@ -1,11 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class LocalWriteToFieldWriteRule implements Rule {
-    private final String deletedLocalName;
-    private final String insertedFieldName;
+public enum LocalWriteToFieldWriteRule implements Rule {
+    LOCAL_WRITE_TO_FIELD_WRITE_RULE;
 
-    public LocalWriteToFieldWriteRule(String deletedLocalName, String insertedFieldName) {
-        this.deletedLocalName = deletedLocalName;
-        this.insertedFieldName = insertedFieldName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

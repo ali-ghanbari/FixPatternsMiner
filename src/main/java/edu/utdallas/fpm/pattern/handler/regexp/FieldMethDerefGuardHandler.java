@@ -144,13 +144,9 @@ public class FieldMethDerefGuardHandler extends RegExpHandler {
         @Override
         public Rule getRule() {
             if (this.eitherFieldOrMethod instanceof FieldAccess) {
-                final CtFieldAccess fieldAccess =
-                        this.eitherFieldOrMethod.getFieldAccess();
-                return new DerefGuardRule(fieldAccess.getVariable().getQualifiedName());
+                return DerefGuardRule.DEREF_GUARD_RULE;
             }
-            final CtInvocation invocation =
-                    this.eitherFieldOrMethod.getMethodInvocation();
-            return new MethodGuardRule(invocation.getExecutable().getSignature());
+            return MethodGuardRule.METHOD_GUARD_RULE;
         }
 
         @Override

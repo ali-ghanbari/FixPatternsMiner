@@ -96,7 +96,7 @@ public class NegateIntExpHandler extends RegExpHandler {
     private class DMState implements AcceptanceState {
         @Override
         public Rule getRule() {
-            return new NegateIntExpressionRule();
+            return NegateIntExpressionRule.NEGATE_INT_EXPRESSION_RULE;
         }
 
         @Override
@@ -128,7 +128,7 @@ public class NegateIntExpHandler extends RegExpHandler {
     private class IMState implements AcceptanceState {
         @Override
         public Rule getRule() {
-            return new NegateIntExpressionRule();
+            return NegateIntExpressionRule.NEGATE_INT_EXPRESSION_RULE;
         }
 
         @Override
@@ -171,7 +171,7 @@ public class NegateIntExpHandler extends RegExpHandler {
     private class DIState implements AcceptanceState {
         @Override
         public Rule getRule() {
-            return new NegateIntExpressionRule();
+            return NegateIntExpressionRule.NEGATE_INT_EXPRESSION_RULE;
         }
 
         @Override

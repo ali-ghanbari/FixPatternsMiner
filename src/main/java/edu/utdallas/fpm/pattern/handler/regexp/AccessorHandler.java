@@ -48,13 +48,7 @@ public class AccessorHandler extends RegExpHandler {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtInvocation) {
                     if (Util.sibling(this.deletedFieldAccess, insertedElement)) {
-                        final CtInvocation invocation = (CtInvocation) insertedElement;
-                        final String methodName = invocation.getExecutable()
-                                .getSignature();
-                        final String deletedFieldName = this.deletedFieldAccess
-                                .getVariable()
-                                .getQualifiedName();
-                        return new DIFieldToMethState(deletedFieldName, methodName);
+                        return new DIFieldToMethState();
                     }
                 }
             }
@@ -63,18 +57,9 @@ public class AccessorHandler extends RegExpHandler {
     }
 
     private class DIFieldToMethState implements AcceptanceState {
-        private final String deletedFieldName;
-        private final String insertedMethodName;
-
-        public DIFieldToMethState(String deletedFieldName, String insertedMethodName) {
-            this.deletedFieldName = deletedFieldName;
-            this.insertedMethodName = insertedMethodName;
-        }
-
         @Override
         public Rule getRule() {
-            return new FieldToMethodReplacementRule(this.deletedFieldName,
-                    this.insertedMethodName);
+            return FieldToMethodReplacementRule.FIELD_TO_METHOD_REPLACEMENT_RULE;
         }
 
         @Override
@@ -96,13 +81,7 @@ public class AccessorHandler extends RegExpHandler {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtFieldAccess) {
                     if (Util.sibling(this.deletedMethodInv, insertedElement)) {
-                        final CtFieldAccess fieldAccess = (CtFieldAccess) insertedElement;
-                        final String fieldName = fieldAccess.getVariable()
-                                .getQualifiedName();
-                        final String deletedMethodName = this.deletedMethodInv
-                                .getExecutable()
-                                .getSignature();
-                        return new DIMethToFieldState(deletedMethodName, fieldName);
+                        return new DIMethToFieldState();
                     }
                 }
             }
@@ -111,18 +90,9 @@ public class AccessorHandler extends RegExpHandler {
     }
 
     private class DIMethToFieldState implements AcceptanceState {
-        private final String deletedMethodName;
-        private final String insertedFieldName;
-
-        public DIMethToFieldState(String deletedMethodName, String insertedFieldName) {
-            this.deletedMethodName = deletedMethodName;
-            this.insertedFieldName = insertedFieldName;
-        }
-
         @Override
         public Rule getRule() {
-            return new MethodToFieldReplacementRule(this.deletedMethodName,
-                    this.insertedFieldName);
+            return MethodToFieldReplacementRule.METHOD_TO_FIELD_REPLACEMENT_RULE;
         }
 
         @Override

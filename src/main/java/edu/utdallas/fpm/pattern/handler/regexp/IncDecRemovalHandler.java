@@ -84,9 +84,9 @@ public class IncDecRemovalHandler extends RegExpHandler {
         public Rule getRule() {
             if (this.kind == UnaryOperatorKind.PREINC
                     || this.kind == UnaryOperatorKind.POSTINC) {
-                return new IncrementsRemovalRule();
+                return IncrementsRemovalRule.INCREMENTS_REMOVAL_RULE;
             }
-            return new DecrementsRemovalRule();
+            return DecrementsRemovalRule.DECREMENTS_REMOVAL_RULE;
         }
 
         @Override

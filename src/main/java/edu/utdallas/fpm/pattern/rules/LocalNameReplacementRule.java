@@ -1,11 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class LocalNameReplacementRule implements Rule {
-    private final String srcName;
-    private final String dstName;
+public enum LocalNameReplacementRule implements Rule {
+    LOCAL_NAME_REPLACEMENT_RULE;
 
-    public LocalNameReplacementRule(String srcName, String dstName) {
-        this.srcName = srcName;
-        this.dstName = dstName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

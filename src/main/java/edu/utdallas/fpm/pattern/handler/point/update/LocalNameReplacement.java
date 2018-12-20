@@ -27,7 +27,7 @@ public class LocalNameReplacement extends UpdateHandler {
             final String srcName = va1.getVariable().getSimpleName();
             final String dstName = va2.getVariable().getSimpleName();
             if (!srcName.equals(dstName) && Util.sibling(va1, va2)) {
-                return new LocalNameReplacementRule(srcName, dstName);
+                return LocalNameReplacementRule.LOCAL_NAME_REPLACEMENT_RULE;
             }
         }
         return super.handlePattern(e1, e2);

@@ -1,9 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class MemberVarAssignmentDeletionRule implements Rule {
-    private final String fieldName;
+public enum MemberVarAssignmentDeletionRule implements Rule {
+    MEMBER_VAR_ASSIGNMENT_DELETION_RULE;
 
-    public MemberVarAssignmentDeletionRule(String fieldName) {
-        this.fieldName = fieldName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

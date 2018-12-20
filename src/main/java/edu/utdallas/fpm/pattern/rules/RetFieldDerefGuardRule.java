@@ -1,9 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class RetFieldDerefGuardRule implements Rule {
-    private final String fieldName;
+public enum RetFieldDerefGuardRule implements Rule {
+    RET_FIELD_DEREF_GUARD_RULE;
 
-    public RetFieldDerefGuardRule(String fieldName) {
-        this.fieldName = fieldName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

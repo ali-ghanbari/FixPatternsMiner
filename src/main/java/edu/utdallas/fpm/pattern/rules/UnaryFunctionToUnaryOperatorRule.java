@@ -10,4 +10,12 @@ public class UnaryFunctionToUnaryOperatorRule implements Rule {
         this.name = name;
         this.opKind = opKind;
     }
+
+    @Override
+    public String getId() {
+        return String.format("%s (%s -> %s)",
+                this.getClass().getSimpleName(),
+                this.name,
+                this.opKind.name());
+    }
 }

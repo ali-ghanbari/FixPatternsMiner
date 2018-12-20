@@ -15,4 +15,12 @@ public class InterFixUnaryOperatorReplacementRule implements Rule {
         this.src = src;
         this.dst = dst;
     }
+
+    @Override
+    public String getId() {
+        return String.format("%s (%s -> %s)",
+                this.getClass().getSimpleName(),
+                this.src.name(),
+                this.dst.name());
+    }
 }

@@ -74,11 +74,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                             ((CtVariableRead) movedElement).getVariable();
                     if (Objects.equals(this.insertedInvocation.getType(),
                             movedVariable.getType())) {
-                        final String movedLocalName = movedVariable.getSimpleName();
-                        final String calleeName = this.insertedInvocation
-                                .getExecutable()
-                                .getSimpleName();
-                        return new U_IMState(movedLocalName, calleeName);
+                        return new U_IMState();
                     }
                 }
             }
@@ -87,17 +83,9 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
     }
 
     private class U_IMState implements AcceptanceState {
-        private final String localName;
-        private final String calleeName;
-
-        public U_IMState(String localName, String calleeName) {
-            this.localName = localName;
-            this.calleeName = calleeName;
-        }
-
         @Override
         public Rule getRule() {
-            return new LocalToMethodReplacementRule(this.localName, this.calleeName);
+            return LocalToMethodReplacementRule.LOCAL_TO_METHOD_REPLACEMENT_RULE;
         }
 
         @Override
@@ -150,11 +138,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                     if (Objects.equals(insertedInvocation.getType(),
                             this.deletedVarRead.getType())) {
                         if (Util.sibling(this.deletedVarRead, insertedInvocation)) {
-                            final String calleeName = insertedInvocation.getExecutable()
-                                    .getSimpleName();
-                            final String deletedLocalName = deletedVarRead.getVariable()
-                                    .getSimpleName();
-                            return new DIState(deletedLocalName, calleeName);
+                            return new DIState();
                         }
                     }
                 }
@@ -164,17 +148,9 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
     }
 
     private class DIState implements AcceptanceState {
-        private final String localName;
-        private final String calleeName;
-
-        public DIState(String localName, String calleeName) {
-            this.localName = localName;
-            this.calleeName = calleeName;
-        }
-
         @Override
         public Rule getRule() {
-            return new LocalToMethodReplacementRule(this.localName, this.calleeName);
+            return LocalToMethodReplacementRule.LOCAL_TO_METHOD_REPLACEMENT_RULE;
         }
 
         @Override

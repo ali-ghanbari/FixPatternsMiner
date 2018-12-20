@@ -123,7 +123,7 @@ public class SimpleMethCallGuardHandler extends RegExpHandler {
 
         @Override
         public Rule getRule() {
-            return new SimpleMethCallGuardRule();
+            return SimpleMethCallGuardRule.SIMPLE_METH_CALL_GUARD_RULE;
         }
 
         @Override

@@ -22,7 +22,7 @@ public class VoidMethCallRemovalHandler extends DeleteHandler {
         final CtInvocation invocation = (CtInvocation) e1;
         final CtTypeReference returnType = invocation.getType();
         if (returnType != null && returnType.toString().equals("void")) {
-            return new SimpleMethCallRemovalRule();
+            return SimpleMethCallRemovalRule.SIMPLE_METH_CALL_REMOVAL_RULE;
         }
         return super.handlePattern(e1, e2);
     }

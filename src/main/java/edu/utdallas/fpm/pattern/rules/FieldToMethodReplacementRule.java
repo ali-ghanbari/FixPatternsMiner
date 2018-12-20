@@ -1,11 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class FieldToMethodReplacementRule implements Rule {
-    private final String deletedFieldName;
-    private final String insertedMethodName;
+public enum FieldToMethodReplacementRule implements Rule {
+    FIELD_TO_METHOD_REPLACEMENT_RULE;
 
-    public FieldToMethodReplacementRule(String deletedFieldName, String insertedMethodName) {
-        this.deletedFieldName = deletedFieldName;
-        this.insertedMethodName = insertedMethodName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

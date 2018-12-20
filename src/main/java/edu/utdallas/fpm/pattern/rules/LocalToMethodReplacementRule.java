@@ -1,11 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class LocalToMethodReplacementRule implements Rule {
-    private final String localName;
-    private final String calleeName;
+public enum LocalToMethodReplacementRule implements Rule {
+    LOCAL_TO_METHOD_REPLACEMENT_RULE;
 
-    public LocalToMethodReplacementRule(String localName, String calleeName) {
-        this.localName = localName;
-        this.calleeName = calleeName;
+    @Override
+    public String getId() {
+        return this.getClass().getSimpleName();
     }
 }

@@ -138,9 +138,9 @@ public class NegateConditionalHandler extends RegExpHandler {
                     || parentElement instanceof CtWhile
                     || parentElement instanceof CtConditional
                     || parentElement instanceof CtDo) {
-                return new NegatedConditionalExprRule();
+                return NegatedConditionalExprRule.NEGATED_CONDITIONAL_EXPR_RULE;
             }
-            return new NegatedBooleanExprRule();
+            return NegatedBooleanExprRule.NEGATED_BOOLEAN_EXPR_RULE;
         }
 
         @Override
