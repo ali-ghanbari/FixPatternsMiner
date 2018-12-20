@@ -18,4 +18,12 @@ public class BinaryOperatorReplacementRule implements Rule {
     public BinaryOperatorKind getDestinationBinaryOperatorKind() {
         return dst;
     }
+
+    @Override
+    public String getId() {
+        return String.format("%s (%s -> %s)",
+                this.getClass().getSimpleName(),
+                this.getSourceBinaryOperatorKind().name(),
+                this.getDestinationBinaryOperatorKind().name());
+    }
 }

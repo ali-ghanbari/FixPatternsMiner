@@ -1,4 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class CaseBreakerReturnInsertionRule implements Rule {
+public enum CaseBreakerReturnInsertionRule implements Rule {
+    CASE_BREAKER_RETURN_INSERTION_RULE;
+
+    @Override
+    public String getId() {
+        return this.name();
+    }
 }

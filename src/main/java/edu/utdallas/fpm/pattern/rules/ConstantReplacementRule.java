@@ -27,4 +27,11 @@ public class ConstantReplacementRule implements Rule {
     public SerializableLiteral getDestinationLiteral() {
         return dst;
     }
+
+    @Override
+    public String getId() {
+        final Object srcVal = this.src.getValue();
+        final Object dstVal = this.dst.getValue();
+
+    }
 }

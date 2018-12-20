@@ -36,12 +36,10 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
     }
 
     private class DelState implements State {
-        private final CtAbstractInvocation deletedInv;
         private final CtExpression rec;
         private final List<CtExpression> args;
 
         DelState(final CtAbstractInvocation deletedInv) {
-            this.deletedInv = deletedInv;
             this.args = deletedInv.getArguments();
             if (deletedInv instanceof CtInvocation) {
                 final CtInvocation methodInvocation = (CtInvocation) deletedInv;

@@ -13,4 +13,20 @@ public class ConstantificationRule implements Rule {
     public SerializableLiteral getLiteral() {
         return literal;
     }
+
+    @Override
+    public String getId() {
+        final Object value = this.literal.getValue();
+        final String strVal;
+        if (value == null) {
+            strVal = "NULL";
+        } else if (value instanceof String) {
+            strVal = "SOME_STRING";
+        } else {
+            strVal = value.toString();
+        }
+        return String.format("%s (? -> %s)",
+                this.getClass().getSimpleName(),
+                strVal);
+    }
 }

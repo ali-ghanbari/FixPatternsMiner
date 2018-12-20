@@ -13,8 +13,6 @@ import gumtree.spoon.AstComparator;
 import gumtree.spoon.diff.Diff;
 import gumtree.spoon.diff.operations.Operation;
 import org.apache.commons.cli.*;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.handler.point.delete.DeleteHandler;
 import edu.utdallas.fpm.pattern.handler.point.insert.InsertHandler;
@@ -29,18 +27,15 @@ import static edu.utdallas.fpm.commons.Util.*;
 public final class Main implements FilePairVisitor {
     private final RegExpHandler[] regExpHandlers;
     private final OperationHandler[] pointHandlers;
-    /*1: the rule, 2: project name*/
-    private final BlockingQueue<Pair<Rule, String>> queue;
+    private final BlockingQueue<Rule> rulesQueue;
     private PrintWriter noDiffPW;
     private PrintWriter timedOutDiffPW;
     private final ExecutorService executorService;
     private final int timeout;
-    private final String command;
 
-    private Main(BlockingQueue<Pair<Rule, String>> queue,
+    private Main(BlockingQueue<Rule> rulesQueue,
                  boolean debug,
-                 int timeout,
-                 String command) {
+                 int timeout) {
         this.pointHandlers = new OperationHandler[] {
                 DeleteHandler.createHandlerChain(),
                 InsertHandler.createHandlerChain(),
@@ -62,7 +57,7 @@ public final class Main implements FilePairVisitor {
                 new SimpleMethCallGuardHandler(),
                 new IncDecRemovalHandler()
         };
-        this.queue = queue;
+        this.rulesQueue = rulesQueue;
         if (debug) {
             try {
                 this.noDiffPW = new PrintWriter("no-diffs.csv");
@@ -73,7 +68,6 @@ public final class Main implements FilePairVisitor {
         }
         this.executorService = Executors.newSingleThreadExecutor();
         this.timeout = timeout;
-        this.command = command;
     }
 
     private static void printHelp(final Options options) {
@@ -100,7 +94,6 @@ public final class Main implements FilePairVisitor {
         options.addOption("f", "file", true, "input CSV file");
         options.addOption("d", "debug", false, "output timed-out and ineffective diffs");
         options.addOption("t", "diff-timeout", true, "diffing timeout in seconds");
-        options.addRequiredOption("m", "command", true, "parent extraction command (p)*");
         options.addOption("h", "help", false, "prints this help message");
 
         final CommandLineParser commandLineParser = new DefaultParser();
@@ -118,7 +111,7 @@ public final class Main implements FilePairVisitor {
             return;
         }
         /* blocking queues are thread-safe */
-        final BlockingQueue<Pair<Rule, String>> queue = new LinkedBlockingDeque<>();
+        final BlockingQueue<Rule> queue = new LinkedBlockingDeque<>();
         final Consumer queueConsumer;
 
         if (cmd.hasOption("s")) {
@@ -153,15 +146,7 @@ public final class Main implements FilePairVisitor {
             timeout = -1;
         }
 
-        final String command = cmd.getOptionValue("m");
-        if (!command.matches("(p)*")) {
-            out.println("fatal: command does not match (p)*");
-            out.println();
-            printHelp(options);
-            return;
-        }
-
-        final Main visitor = new Main(queue, debug, timeout, command);
+        final Main visitor = new Main(queue, debug, timeout);
         final boolean parallelInvocation = cmd.hasOption("p");
 
         parser.parse(visitor, parallelInvocation);
@@ -227,7 +212,7 @@ public final class Main implements FilePairVisitor {
 
     @Override
     public void visit(final File buggy, final File fixed) {
-        out.printf("Queue Size = %d%n", this.queue.size());
+        out.printf("Queue Size = %d%n", this.rulesQueue.size());
         out.printf("Diffing (%s):%n\t%s%n\t%s%n",
                 buggy.getParentFile().getParent(),
                 buggy.getName(),
@@ -266,8 +251,9 @@ public final class Main implements FilePairVisitor {
                             }
                         }
                         final Rule theRule = regExpHandler.getRule();
-                        final String projectName = computeProjectName(buggy, this.command);
-                        this.queue.add(new ImmutablePair<>(theRule, projectName));
+                        if (!(theRule instanceof UnknownRule)) {
+                            this.rulesQueue.offer(theRule);
+                        }
                         regExpHandler.reset();
                     }
                     preStatus = curStatus;
@@ -276,10 +262,9 @@ public final class Main implements FilePairVisitor {
             for (final Operation op : ops) {
                 for (final OperationHandler handler : this.pointHandlers) {
                     if (handler != null && handler.canHandleOperation(op)) {
-                        final Rule rule = handler.handleOperation(op);
-                        if (!(rule instanceof UnknownRule)) {
-                            final String projectName = computeProjectName(buggy, this.command);
-                            this.queue.add(new ImmutablePair<>(rule, projectName));
+                        final Rule theRule = handler.handleOperation(op);
+                        if (!(theRule instanceof UnknownRule)) {
+                            this.rulesQueue.offer(theRule);
                         }
                     }
                 }

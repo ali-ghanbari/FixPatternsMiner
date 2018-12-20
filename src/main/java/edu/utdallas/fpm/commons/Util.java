@@ -7,7 +7,6 @@ import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtExecutable;
 import spoon.reflect.reference.CtTypeReference;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
@@ -21,14 +20,6 @@ public final class Util {
     public static void panic(final Throwable t) {
         t.printStackTrace();
         System.exit(-1);
-    }
-
-    public static String computeProjectName(File file, String command) {
-        int i = command.length();
-        while (i-- > 0) {
-            file = file.getParentFile();
-        }
-        return file.getName();
     }
 
     public static CtElement getExecutableContainer(final CtElement element) {

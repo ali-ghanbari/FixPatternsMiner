@@ -8,6 +8,11 @@ public class ArgumentPropagatedRule implements Rule {
     }
 
     public int getArgNo() {
-        return which;
+        return this.which;
+    }
+
+    @Override
+    public String getId() {
+        return String.format("%s (%d)", this.getClass().getSimpleName(), this.which);
     }
 }

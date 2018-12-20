@@ -13,14 +13,14 @@ public abstract class Serializer extends Consumer {
     private ObjectOutputStream oos;
     private OutputStream os;
 
-    private Serializer(BlockingQueue<Pair<Rule, String>> queue,
+    private Serializer(BlockingQueue<Rule> queue,
                        OutputStream os) throws Exception {
         super(queue);
         this.oos = new ObjectOutputStream(os);
         this.os = os;
     }
 
-    public static Serializer build(BlockingQueue<Pair<Rule, String>> queue,
+    public static Serializer build(BlockingQueue<Rule> queue,
                             File file,
                             boolean compressed) {
         try {
@@ -45,8 +45,8 @@ public abstract class Serializer extends Consumer {
     }
 
     @Override
-    protected void consume(Pair<Rule, String> pair) throws Exception {
-        this.oos.writeObject(pair);
+    protected void consume(Rule rule) throws Exception {
+        this.oos.writeObject(rule);
     }
 
     @Override

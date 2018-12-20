@@ -19,4 +19,12 @@ public class BinaryOperatorToBiFunctionRule implements Rule {
     public String getBiFunctionName() {
         return functionName;
     }
+
+    @Override
+    public String getId() {
+        return String.format("%s (%s -> %s)",
+                this.getClass().getSimpleName(),
+                this.getDeletedBinaryOperatorKind().name(),
+                this.getBiFunctionName());
+    }
 }

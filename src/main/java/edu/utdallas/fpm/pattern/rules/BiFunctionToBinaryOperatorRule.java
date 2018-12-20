@@ -12,10 +12,18 @@ public class BiFunctionToBinaryOperatorRule implements Rule {
     }
 
     public String getBiFunctionName() {
-        return name;
+        return this.name;
     }
 
     public BinaryOperatorKind getBinaryOperatorKind() {
-        return opKind;
+        return this.opKind;
+    }
+
+    @Override
+    public String getId() {
+        return String.format("%s (%s -> %s)",
+                this.getClass().getSimpleName(),
+                this.getBiFunctionName(),
+                this.getBinaryOperatorKind().name());
     }
 }

@@ -1,4 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public class CaseRemovalRule implements Rule {
+public enum CaseRemovalRule implements Rule {
+    CASE_REMOVAL_RULE;
+
+    @Override
+    public String getId() {
+        return this.name();
+    }
 }

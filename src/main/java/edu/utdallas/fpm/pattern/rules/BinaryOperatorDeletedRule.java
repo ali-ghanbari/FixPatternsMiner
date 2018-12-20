@@ -18,4 +18,12 @@ public class BinaryOperatorDeletedRule implements Rule {
     public Operand getDeletedOperand() {
         return which;
     }
+
+    @Override
+    public String getId() {
+        return String.format("%s (%s of %s)",
+                this.getClass().getSimpleName(),
+                this.getDeletedOperand().name(),
+                this.getDeletedBinaryOperatorKind().name());
+    }
 }
