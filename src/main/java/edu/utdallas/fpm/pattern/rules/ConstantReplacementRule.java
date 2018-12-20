@@ -1,7 +1,10 @@
 package edu.utdallas.fpm.pattern.rules;
 
-import edu.utdallas.fpm.pattern.rules.util.SerializableLiteral;
+import edu.utdallas.fpm.pattern.rules.commons.SerializableLiteral;
 import spoon.reflect.code.CtLiteral;
+
+import static edu.utdallas.fpm.pattern.rules.commons.Util.isNumeric;
+import static edu.utdallas.fpm.pattern.rules.commons.Util.getNumericValue;
 
 public class ConstantReplacementRule implements Rule {
     private final SerializableLiteral src;
@@ -30,6 +33,22 @@ public class ConstantReplacementRule implements Rule {
 
     @Override
     public String getId() {
-        return this.dst == null ? "NegatedConstant" : this.getClass().getSimpleName();
+        final Object sv = this.getSourceLiteral().getValue();
+        final Object dv = this.getDestinationLiteral().getValue();
+        if (dv == null && isNumeric(sv)) {
+            return "NegatedConstant";
+        } else {
+            if (sv instanceof String && dv instanceof String) {
+                return "StringConstantReplacement";
+            } else if (isNumeric(sv) && isNumeric(dv)) {
+                if (Math.abs(getNumericValue(sv) - getNumericValue(dv)) < 10D) {
+                    return String.format("NumericConstantReplacement (%s -> %s)", sv.toString(), dv.toString());
+                }
+                return "NumericConstantReplacement";
+            } else if (sv instanceof Boolean && dv instanceof Boolean) {
+                return String.format("BooleanConstantReplacement (%s -> %s)", sv.toString(), dv.toString());
+            }
+            return this.getClass().getSimpleName();
+        }
     }
 }

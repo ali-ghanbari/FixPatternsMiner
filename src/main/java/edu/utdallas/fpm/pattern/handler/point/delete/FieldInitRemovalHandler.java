@@ -10,7 +10,7 @@ import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtConstructor;
 import spoon.reflect.declaration.CtElement;
 
-// warning: this handler might lead orphaned M or I in case the deletion
+// warning: this handler might lead to orphaned M or I in case the deletion
 // is followed by some M or I.
 // this potentially leads to imprecision; hopefully it is not that much!
 public class FieldInitRemovalHandler extends DeleteHandler {

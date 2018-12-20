@@ -24,7 +24,7 @@ public class UnaryOperatorToUnaryFunctionRule implements Rule {
     public String getId() {
         return String.format("%s (%s -> %s)",
                 this.getClass().getSimpleName(),
-                this.deletedUnaryOpKind.name(),
-                this.functionName);
+                this.getDeletedUnaryOpKind().name(),
+                this.getFunctionName());
     }
 }

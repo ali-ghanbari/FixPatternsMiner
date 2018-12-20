@@ -18,11 +18,19 @@ public class UnaryOperatorReplacementRule implements Rule {
         this.dst = dst;
     }
 
+    public UnaryOperatorKind getSourceOperatorKind() {
+        return src;
+    }
+
+    public UnaryOperatorKind getDestinationOperatorKind() {
+        return dst;
+    }
+
     @Override
     public String getId() {
         return String.format("%s (%s -> %s)",
                 this.getClass().getSimpleName(),
-                this.src.name(),
-                this.dst.name());
+                this.getSourceOperatorKind().name(),
+                this.getDestinationOperatorKind().name());
     }
 }

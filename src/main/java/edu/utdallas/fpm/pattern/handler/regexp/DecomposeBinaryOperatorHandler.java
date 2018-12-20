@@ -14,6 +14,8 @@ import spoon.reflect.reference.CtTypeReference;
 
 import java.util.Objects;
 
+import static edu.utdallas.fpm.commons.Util.sibling;
+
 public class DecomposeBinaryOperatorHandler extends RegExpHandler {
     public DecomposeBinaryOperatorHandler() {
         initState = new InitState();
@@ -52,7 +54,7 @@ public class DecomposeBinaryOperatorHandler extends RegExpHandler {
             if (operation instanceof MoveOperation) {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getSrcNode();
-                if (movedElement instanceof CtExpression) {
+                if (movedElement instanceof CtExpression && sibling(movedElement, this.deletedBinOp)) {
                     final CtExpression movedExpr = (CtExpression) movedElement;
                     final CtTypeReference movedExprType = movedExpr.getType();
                     final CtTypeReference deletedBinOpType = this.deletedBinOp.getType();

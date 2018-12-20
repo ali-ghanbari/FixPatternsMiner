@@ -12,6 +12,8 @@ import spoon.reflect.declaration.CtElement;
 
 import java.util.List;
 
+import static edu.utdallas.fpm.commons.Util.sibling;
+
 public class DecomposedMethodCallHandler extends RegExpHandler {
     public DecomposedMethodCallHandler() {
         initState = new InitState();
@@ -36,10 +38,12 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
     }
 
     private class DelState implements State {
+        private final CtElement deletedInv;
         private final CtExpression rec;
         private final List<CtExpression> args;
 
         DelState(final CtAbstractInvocation deletedInv) {
+            this.deletedInv = deletedInv;
             this.args = deletedInv.getArguments();
             if (deletedInv instanceof CtInvocation) {
                 final CtInvocation methodInvocation = (CtInvocation) deletedInv;
@@ -54,12 +58,9 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
             if (operation instanceof MoveOperation) {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getDstNode();
-                if (this.rec != null && this.rec.equals(movedElement)) {
-                    return new PropagatedState();
-                } else {
-                    final int which = this.args.indexOf(movedElement);
-                    if (which >= 0) {
-                        return new PropagatedState();
+                if (sibling(movedElement, this.deletedInv)) {
+                    if ((this.rec != null && this.rec.equals(movedElement)) || this.args.indexOf(movedElement) >= 0) {
+                        return PropagatedState.PROPAGATED_STATE;
                     }
                 }
             }
@@ -67,7 +68,9 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
         }
     }
 
-    private class PropagatedState implements AcceptanceState {
+    private enum PropagatedState implements AcceptanceState {
+        PROPAGATED_STATE;
+
         @Override
         public Rule getRule() {
             return ArgumentPropagatedRule.ARGUMENT_PROPAGATED_RULE;
@@ -75,7 +78,7 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.FieldToMethodReplacementRule;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
@@ -10,6 +9,8 @@ import edu.utdallas.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 public class AccessorHandler extends RegExpHandler {
     public AccessorHandler() {
@@ -47,8 +48,8 @@ public class AccessorHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtInvocation) {
-                    if (Util.sibling(this.deletedFieldAccess, insertedElement)) {
-                        return new DIFieldToMethState();
+                    if (sibling(this.deletedFieldAccess, insertedElement)) {
+                        return DIFieldToMethState.DI_FIELD_TO_METH_STATE;
                     }
                 }
             }
@@ -56,7 +57,9 @@ public class AccessorHandler extends RegExpHandler {
         }
     }
 
-    private class DIFieldToMethState implements AcceptanceState {
+    private enum DIFieldToMethState implements AcceptanceState {
+        DI_FIELD_TO_METH_STATE;
+
         @Override
         public Rule getRule() {
             return FieldToMethodReplacementRule.FIELD_TO_METHOD_REPLACEMENT_RULE;
@@ -64,7 +67,7 @@ public class AccessorHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -80,8 +83,8 @@ public class AccessorHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtFieldAccess) {
-                    if (Util.sibling(this.deletedMethodInv, insertedElement)) {
-                        return new DIMethToFieldState();
+                    if (sibling(this.deletedMethodInv, insertedElement)) {
+                        return DIMethToFieldState.DI_METH_TO_FIELD_STATE;
                     }
                 }
             }
@@ -89,7 +92,9 @@ public class AccessorHandler extends RegExpHandler {
         }
     }
 
-    private class DIMethToFieldState implements AcceptanceState {
+    private enum  DIMethToFieldState implements AcceptanceState {
+        DI_METH_TO_FIELD_STATE;
+
         @Override
         public Rule getRule() {
             return MethodToFieldReplacementRule.METHOD_TO_FIELD_REPLACEMENT_RULE;
@@ -97,7 +102,7 @@ public class AccessorHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

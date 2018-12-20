@@ -7,7 +7,8 @@ import spoon.reflect.code.CtFieldAccess;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtVariableRead;
 import spoon.reflect.declaration.CtElement;
-import spoon.reflect.reference.CtVariableReference;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 public class MethodToLocalReplacementHandler extends RegExpHandler {
     public MethodToLocalReplacementHandler() {
@@ -66,14 +67,16 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
                 final CtElement movedElement = movOp.getSrcNode();
                 if (movedElement instanceof CtVariableRead
                         && !(movedElement instanceof CtFieldAccess)) {
-                    return new UDMState();
+                    return UDMState.UDM_STATE;
                 }
             }
             return initState;
         }
     }
 
-    private class UDMState implements AcceptanceState {
+    private enum UDMState implements AcceptanceState {
+        UDM_STATE;
+
         @Override
         public Rule getRule() {
             return MethodToLocalReplacementRule.METHOD_TO_LOCAL_REPLACEMENT_RULE;
@@ -81,15 +84,15 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
     private class DelInvState implements State {
-        private final String deletedMethodName;
+        private final CtInvocation deletedInv;
 
         public DelInvState(final CtInvocation deletedInv) {
-            this.deletedMethodName = deletedInv.getExecutable().getSimpleName();
+            this.deletedInv = deletedInv;
         }
 
         @Override
@@ -99,14 +102,18 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtVariableRead
                         && !(insertedElement instanceof CtFieldAccess)) {
-                    return new DIState();
+                    if (sibling(insertedElement, this.deletedInv)) {
+                        return DIState.DI_STATE;
+                    }
                 }
             }
             return initState;
         }
     }
 
-    private class DIState implements AcceptanceState {
+    private enum DIState implements AcceptanceState {
+        DI_STATE;
+
         @Override
         public Rule getRule() {
             return MethodToLocalReplacementRule.METHOD_TO_LOCAL_REPLACEMENT_RULE;
@@ -114,7 +121,7 @@ public class MethodToLocalReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

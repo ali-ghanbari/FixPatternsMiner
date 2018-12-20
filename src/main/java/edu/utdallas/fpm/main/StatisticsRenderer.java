@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.BlockingQueue;
 
 public abstract class StatisticsRenderer extends Consumer {
-    /* rule-name --> count) */
+    /* rule-name --> count */
     private final Map<String, Integer> table;
 
     private StatisticsRenderer(BlockingQueue<Rule> queue) {

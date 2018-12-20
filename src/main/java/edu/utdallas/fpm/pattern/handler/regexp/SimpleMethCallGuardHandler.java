@@ -106,7 +106,7 @@ public class SimpleMethCallGuardHandler extends RegExpHandler {
                 if (movedElement instanceof CtInvocation) {
                     final CtInvocation movedInvocation = (CtInvocation) movedElement;
                     if (guardedInvocations.contains(movedInvocation)) {
-                        return new IMState(movedInvocation);
+                        return IMState.IM_STATE;
                     }
                 }
             }
@@ -114,12 +114,8 @@ public class SimpleMethCallGuardHandler extends RegExpHandler {
         }
     }
 
-    private class IMState implements AcceptanceState {
-        private final CtInvocation guardedInvocation;
-
-        public IMState(CtInvocation guardedInvocation) {
-            this.guardedInvocation = guardedInvocation;
-        }
+    private enum IMState implements AcceptanceState {
+        IM_STATE;
 
         @Override
         public Rule getRule() {
@@ -128,7 +124,7 @@ public class SimpleMethCallGuardHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

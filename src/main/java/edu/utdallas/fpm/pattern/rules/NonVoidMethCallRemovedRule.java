@@ -1,6 +1,6 @@
 package edu.utdallas.fpm.pattern.rules;
 
-import edu.utdallas.fpm.pattern.rules.util.SerializableLiteral;
+import edu.utdallas.fpm.pattern.rules.commons.SerializableLiteral;
 import spoon.reflect.code.CtLiteral;
 
 public class NonVoidMethCallRemovedRule implements Rule {
@@ -16,7 +16,7 @@ public class NonVoidMethCallRemovedRule implements Rule {
 
     @Override
     public String getId() {
-        final Object value = this.literal.getValue();
+        final Object value = this.getLiteral().getValue();
         final String strVal;
         if (value == null) {
             strVal = "NULL";

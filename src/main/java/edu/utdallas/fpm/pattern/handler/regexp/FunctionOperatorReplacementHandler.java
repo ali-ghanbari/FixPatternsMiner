@@ -1,12 +1,13 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.*;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.Operation;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 /**
  * warning: this handler might lead to orphan "move" operations
@@ -57,7 +58,7 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtUnaryOperator) {
-                    if (Util.sibling(this.deletedMethodInv, insertedElement)) {
+                    if (sibling(this.deletedMethodInv, insertedElement)) {
                         final CtUnaryOperator unaryOperator =
                                 (CtUnaryOperator) insertedElement;
                         final UnaryOperatorKind kind = unaryOperator.getKind();
@@ -85,7 +86,7 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtBinaryOperator) {
-                    if (Util.sibling(this.deletedMethodInv, insertedElement)) {
+                    if (sibling(this.deletedMethodInv, insertedElement)) {
                         final CtBinaryOperator binaryOperator =
                                 (CtBinaryOperator) insertedElement;
                         final BinaryOperatorKind kind = binaryOperator.getKind();
@@ -154,7 +155,7 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtInvocation) {
-                    if (Util.sibling(this.deletedUnaryOp, insertedElement)) {
+                    if (sibling(this.deletedUnaryOp, insertedElement)) {
                         final CtInvocation invocation = (CtInvocation) insertedElement;
                         final String methodName = invocation.getExecutable()
                                 .getSimpleName();
@@ -183,7 +184,7 @@ public class FunctionOperatorReplacementHandler extends RegExpHandler {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtInvocation) {
-                    if (Util.sibling(this.deletedBinOp, insertedElement)) {
+                    if (sibling(this.deletedBinOp, insertedElement)) {
                         final CtInvocation invocation = (CtInvocation) insertedElement;
                         final String methodName = invocation.getExecutable()
                                 .getSimpleName();

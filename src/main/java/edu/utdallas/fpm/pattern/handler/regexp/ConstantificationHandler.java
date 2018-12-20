@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.*;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
@@ -8,6 +7,9 @@ import gumtree.spoon.diff.operations.Operation;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtTypeReference;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
+import static edu.utdallas.fpm.commons.Util.equalsType;
 
 public class ConstantificationHandler extends RegExpHandler {
     public ConstantificationHandler() {
@@ -78,8 +80,8 @@ public class ConstantificationHandler extends RegExpHandler {
                 if (insertedElement instanceof CtLiteral) {
                     final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
                     final CtTypeReference returnType = this.deletedInvocation.getType();
-                    if (Util.equalsType(returnType, insertedLiteral.getType())) {
-                        if (Util.sibling(this.deletedInvocation, insertedLiteral)) {
+                    if (equalsType(returnType, insertedLiteral.getType())) {
+                        if (sibling(this.deletedInvocation, insertedLiteral)) {
                             return new InvReplacedState(insertedLiteral);
                         }
                     }
@@ -122,9 +124,9 @@ public class ConstantificationHandler extends RegExpHandler {
                 if (insertedElement instanceof CtLiteral) {
                     final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
                     final CtTypeReference objType = this.deletedCtorCall.getType();
-                    if (Util.equalsType(objType, insertedLiteral.getType())) {
-                        if (Util.sibling(this.deletedCtorCall, insertedLiteral)) {
-                            return new CtorCallReplacedState();
+                    if (equalsType(objType, insertedLiteral.getType())) {
+                        if (sibling(this.deletedCtorCall, insertedLiteral)) {
+                            return CtorCallReplacedState.CTOR_CALL_REPLACED_STATE;
                         }
                     }
                 }
@@ -133,7 +135,9 @@ public class ConstantificationHandler extends RegExpHandler {
         }
     }
 
-    private class CtorCallReplacedState implements AcceptanceState {
+    private enum CtorCallReplacedState implements AcceptanceState {
+        CTOR_CALL_REPLACED_STATE;
+
         @Override
         public Rule getRule() {
             return CtorCallRemovalRule.CTOR_CALL_REMOVAL_RULE;
@@ -141,7 +145,7 @@ public class ConstantificationHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -159,8 +163,8 @@ public class ConstantificationHandler extends RegExpHandler {
                 if (insertedElement instanceof CtLiteral) {
                     final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
                     final CtTypeReference exprType = this.deletedExpr.getType();
-                    if (Util.equalsType(exprType, insertedLiteral.getType())) {
-                        if (Util.sibling(this.deletedExpr, insertedLiteral)) {
+                    if (equalsType(exprType, insertedLiteral.getType())) {
+                        if (sibling(this.deletedExpr, insertedLiteral)) {
                             final CtElement parent = insertedLiteral.getParent();
                             if (parent instanceof CtReturn) {
                                 return new ReturnedExprReplacedState(insertedLiteral);

@@ -1,4 +1,4 @@
-package edu.utdallas.fpm.pattern.rules.util;
+package edu.utdallas.fpm.pattern.rules.commons;
 
 import spoon.reflect.code.CtLiteral;
 

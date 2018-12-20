@@ -15,15 +15,8 @@ import spoon.reflect.declaration.CtElement;
 import java.util.*;
 
 public class IfShortCircuitHandler extends RegExpHandler {
-    private final AcceptanceState thenRemovedState;
-    private final AcceptanceState elseRemovedState;
-    private final AcceptanceState ifRemovedState;
-
     public IfShortCircuitHandler() {
         this.initState = new InitState();
-        this.thenRemovedState = new ThenRemovedState();
-        this.elseRemovedState = new ElseRemovedState();
-        this.ifRemovedState = new IfRemovedState();
         this.state = this.initState;
         this.consumed = 0;
     }
@@ -39,7 +32,7 @@ public class IfShortCircuitHandler extends RegExpHandler {
                     final CtBlock thenBlock = ifSt.getThenStatement();
                     final CtBlock elseBlock = ifSt.getElseStatement();
                     if (thenBlock == null && elseBlock == null) { // if(*);
-                        return new IfRemovedState();
+                        return IfRemovedState.IF_REMOVED_STATE;
                     }
                     final List<CtStatement> thenBlockList =
                             thenBlock == null ? null : thenBlock.getStatements();
@@ -94,7 +87,7 @@ public class IfShortCircuitHandler extends RegExpHandler {
                 final State formBlock = forBlock(this.blockIt, movedElement);
                 if (formBlock != null) {
                     if (!this.blockIt.hasNext()) {
-                        return ifRemovedState;
+                        return IfRemovedState.IF_REMOVED_STATE;
                     }
                     return this;
                 }
@@ -135,20 +128,20 @@ public class IfShortCircuitHandler extends RegExpHandler {
                     // each of its branches. in such a case, we can
                     // easily say the "else" branch is removed.
                     if (!this.thenIt.hasNext() && !this.elseIt.hasNext()) {
-                        return elseRemovedState;
+                        return ElseRemovedState.ELSE_REMOVED_STATE;
                     }
                     return this;
                 } else {
                     if (fromThen != null) {
                         if (!this.thenIt.hasNext()) {
-                            return elseRemovedState;
+                            return ElseRemovedState.ELSE_REMOVED_STATE;
                         }
                         return this;
                     } else {
                         this.thenIt = null;
                         if (fromElse != null) {
                             if (!this.elseIt.hasNext()) {
-                                return thenRemovedState;
+                                return ThenRemovedState.THEN_REMOVED_STATE;
                             }
                             return this;
                         } else {
@@ -161,31 +154,36 @@ public class IfShortCircuitHandler extends RegExpHandler {
         }
     }
 
-    private class ThenRemovedState implements AcceptanceState {
-        @Override
-        public State handle(Operation operation) {
-            return initState;
-        }
+    private enum ThenRemovedState implements AcceptanceState {
+        THEN_REMOVED_STATE;
 
         @Override
         public Rule getRule() {
             return ElseBranchExtractedRule.ELSE_BRANCH_EXTRACTED_RULE;
         }
-    }
 
-    private class ElseRemovedState implements AcceptanceState {
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
+    }
+
+    private enum ElseRemovedState implements AcceptanceState {
+        ELSE_REMOVED_STATE;
 
         @Override
         public Rule getRule() {
             return ThenBranchExtractedRule.THEN_BRANCH_EXTRACTED_RULE;
         }
+
+        @Override
+        public State handle(Operation operation) {
+            throw new UnsupportedOperationException();
+        }
     }
 
-    private class IfRemovedState implements AcceptanceState {
+    private enum IfRemovedState implements AcceptanceState {
+        IF_REMOVED_STATE;
 
         @Override
         public Rule getRule() {
@@ -194,7 +192,7 @@ public class IfShortCircuitHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

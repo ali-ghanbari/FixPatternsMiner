@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.Operation;
@@ -11,6 +10,8 @@ import spoon.reflect.code.CtExpression;
 import spoon.reflect.code.CtUnaryOperator;
 import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.declaration.CtElement;
+
+import static edu.utdallas.fpm.commons.Util.textEquals;
 
 // warning: in some cases, this handler might leave an orphan M operation
 // e.g. (l.id(l).field)++ ---> l.id(l).field
@@ -63,7 +64,7 @@ public class IncDecRemovalHandler extends RegExpHandler {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtExpression) {
                     final CtExpression insertedExpr = (CtExpression) insertedElement;
-                    if (Util.textEquals(insertedExpr, this.deletedUnOp.getOperand())) {
+                    if (textEquals(insertedExpr, this.deletedUnOp.getOperand())) {
                         final UnaryOperatorKind kind = this.deletedUnOp.getKind();
                         return new DIState(kind);
                     }

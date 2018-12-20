@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.ConstantReplacementRule;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
@@ -15,6 +14,8 @@ import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.textEquals;
 
 public class NegateIntExpHandler extends RegExpHandler {
     public NegateIntExpHandler() {
@@ -71,7 +72,7 @@ public class NegateIntExpHandler extends RegExpHandler {
                 if (movedElement instanceof CtExpression) {
                     final CtExpression movedExpression = (CtExpression) movedElement;
                     if (Objects.equals(movedExpression, this.deletedOperand)) {
-                        return new DMState();
+                        return DMState.DM_STATE;
                     }
                 }
             } else if (operation instanceof InsertOperation) {
@@ -79,13 +80,13 @@ public class NegateIntExpHandler extends RegExpHandler {
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtExpression) {
                     final CtExpression insertedExpr = (CtExpression) insertedElement;
-                    if (Util.textEquals(insertedExpr, this.deletedOperand)) {
+                    if (textEquals(insertedExpr, this.deletedOperand)) {
                         if (insertedExpr instanceof CtLiteral) {
                             final CtLiteral insertedLiteral =
                                     ((CtLiteral) insertedExpr);
                             return new ConstantReplacement(insertedLiteral);
                         }
-                        return new DIState();
+                        return DIState.DI_STATE;
                     }
                 }
             }
@@ -93,7 +94,9 @@ public class NegateIntExpHandler extends RegExpHandler {
         }
     }
 
-    private class DMState implements AcceptanceState {
+    private enum DMState implements AcceptanceState {
+        DM_STATE;
+
         @Override
         public Rule getRule() {
             return NegateIntExpressionRule.NEGATE_INT_EXPRESSION_RULE;
@@ -101,7 +104,7 @@ public class NegateIntExpHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -118,14 +121,16 @@ public class NegateIntExpHandler extends RegExpHandler {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getSrcNode();
                 if (Objects.equals(movedElement, this.insertedExpr)) {
-                    return new IMState();
+                    return IMState.IM_STATE;
                 }
             }
             return initState;
         }
     }
 
-    private class IMState implements AcceptanceState {
+    private enum IMState implements AcceptanceState {
+        IM_STATE;
+
         @Override
         public Rule getRule() {
             return NegateIntExpressionRule.NEGATE_INT_EXPRESSION_RULE;
@@ -133,7 +138,7 @@ public class NegateIntExpHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -154,12 +159,12 @@ public class NegateIntExpHandler extends RegExpHandler {
                             (CtUnaryOperator) insertedElement;
                     if (insertedUnaryOp.getKind() == UnaryOperatorKind.NEG) {
                         final CtExpression operand = insertedUnaryOp.getOperand();
-                        if (Util.textEquals(operand, this.deletedExpr)) {
+                        if (textEquals(operand, this.deletedExpr)) {
                             if (this.deletedExpr instanceof CtLiteral) {
                                 final CtLiteral deletedLiteral = (CtLiteral) this.deletedExpr;
                                 return new ConstantReplacement(deletedLiteral);
                             }
-                            return new DIState();
+                            return DIState.DI_STATE;
                         }
                     }
                 }
@@ -168,7 +173,9 @@ public class NegateIntExpHandler extends RegExpHandler {
         }
     }
 
-    private class DIState implements AcceptanceState {
+    private enum DIState implements AcceptanceState {
+        DI_STATE;
+
         @Override
         public Rule getRule() {
             return NegateIntExpressionRule.NEGATE_INT_EXPRESSION_RULE;
@@ -176,11 +183,11 @@ public class NegateIntExpHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
-    private class ConstantReplacement extends DIState {
+    private class ConstantReplacement implements AcceptanceState {
         private final CtLiteral literal;
 
         public ConstantReplacement(CtLiteral literal) {
@@ -194,7 +201,7 @@ public class NegateIntExpHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

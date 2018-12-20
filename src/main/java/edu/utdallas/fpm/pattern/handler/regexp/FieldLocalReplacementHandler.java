@@ -1,12 +1,13 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.*;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.Operation;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 public class FieldLocalReplacementHandler extends RegExpHandler {
     public FieldLocalReplacementHandler() {
@@ -51,9 +52,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
             if (operation instanceof InsertOperation) {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
-                if (Util.sibling(this.deletedVarWrite, insertedElement)) {
+                if (sibling(this.deletedVarWrite, insertedElement)) {
                     if (insertedElement instanceof  CtFieldWrite) {
-                        return new InsFieldWrite();
+                        return InsFieldWrite.INS_FIELD_WRITE;
                     }
                 }
             }
@@ -61,7 +62,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
         }
     }
 
-    private class InsFieldWrite implements AcceptanceState {
+    private enum InsFieldWrite implements AcceptanceState {
+        INS_FIELD_WRITE;
+
         @Override
         public Rule getRule() {
             return LocalWriteToFieldWriteRule.LOCAL_WRITE_TO_FIELD_WRITE_RULE;
@@ -69,7 +72,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -86,8 +89,8 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtFieldRead) {
-                    if (Util.sibling(this.deletedVarRead, insertedElement)) {
-                        return new InsFieldRead();
+                    if (sibling(this.deletedVarRead, insertedElement)) {
+                        return InsFieldRead.INS_FIELD_READ;
                     }
                 }
             }
@@ -95,7 +98,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
         }
     }
 
-    private class InsFieldRead implements AcceptanceState {
+    private enum InsFieldRead implements AcceptanceState {
+        INS_FIELD_READ;
+
         @Override
         public Rule getRule() {
             return LocalReadToFieldReadRule.LOCAL_READ_TO_FIELD_READ_RULE;
@@ -103,7 +108,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -120,8 +125,8 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtVariableRead) {
-                    if (Util.sibling(insertedElement, this.deletedFieldRead)) {
-                        return new InsLocalRead();
+                    if (sibling(insertedElement, this.deletedFieldRead)) {
+                        return InsLocalRead.INS_LOCAL_READ;
                     }
                 }
             }
@@ -129,7 +134,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
         }
     }
 
-    private class InsLocalRead implements AcceptanceState {
+    private enum InsLocalRead implements AcceptanceState {
+        INS_LOCAL_READ;
+
         @Override
         public Rule getRule() {
             return FieldReadToLocalReadRule.FIELD_READ_TO_LOCAL_READ_RULE;
@@ -137,7 +144,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -154,8 +161,8 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
                 final InsertOperation insOp = (InsertOperation) operation;
                 final CtElement insertedElement = insOp.getSrcNode();
                 if (insertedElement instanceof CtVariableWrite) {
-                    if (Util.sibling(this.deletedFieldWrite, insertedElement)) {
-                        return new InsLocalWrite();
+                    if (sibling(this.deletedFieldWrite, insertedElement)) {
+                        return InsLocalWrite.INS_LOCAL_WRITE;
                     }
                 }
             }
@@ -163,7 +170,9 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
         }
     }
 
-    private class InsLocalWrite implements AcceptanceState {
+    private enum InsLocalWrite implements AcceptanceState {
+        INS_LOCAL_WRITE;
+
         @Override
         public Rule getRule() {
             return FieldWriteToLocalWrite.FIELD_WRITE_TO_LOCAL_WRITE;
@@ -171,7 +180,7 @@ public class FieldLocalReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

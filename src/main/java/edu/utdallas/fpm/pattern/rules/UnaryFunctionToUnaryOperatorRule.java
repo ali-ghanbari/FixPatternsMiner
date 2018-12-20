@@ -11,11 +11,19 @@ public class UnaryFunctionToUnaryOperatorRule implements Rule {
         this.opKind = opKind;
     }
 
+    public String getFunctionName() {
+        return name;
+    }
+
+    public UnaryOperatorKind getDestinationOperatorKind() {
+        return opKind;
+    }
+
     @Override
     public String getId() {
         return String.format("%s (%s -> %s)",
                 this.getClass().getSimpleName(),
-                this.name,
-                this.opKind.name());
+                this.getFunctionName(),
+                this.getDestinationOperatorKind().name());
     }
 }

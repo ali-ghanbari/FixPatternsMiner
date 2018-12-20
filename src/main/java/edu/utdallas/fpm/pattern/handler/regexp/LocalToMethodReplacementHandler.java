@@ -74,7 +74,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                             ((CtVariableRead) movedElement).getVariable();
                     if (Objects.equals(this.insertedInvocation.getType(),
                             movedVariable.getType())) {
-                        return new U_IMState();
+                        return U_IMState.U_IM_STATE;
                     }
                 }
             }
@@ -82,7 +82,9 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
         }
     }
 
-    private class U_IMState implements AcceptanceState {
+    private enum U_IMState implements AcceptanceState {
+        U_IM_STATE;
+
         @Override
         public Rule getRule() {
             return LocalToMethodReplacementRule.LOCAL_TO_METHOD_REPLACEMENT_RULE;
@@ -90,7 +92,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -138,7 +140,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                     if (Objects.equals(insertedInvocation.getType(),
                             this.deletedVarRead.getType())) {
                         if (Util.sibling(this.deletedVarRead, insertedInvocation)) {
-                            return new DIState();
+                            return DIState.DI_STATE;
                         }
                     }
                 }
@@ -147,7 +149,9 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
         }
     }
 
-    private class DIState implements AcceptanceState {
+    private enum DIState implements AcceptanceState {
+        DI_STATE;
+
         @Override
         public Rule getRule() {
             return LocalToMethodReplacementRule.LOCAL_TO_METHOD_REPLACEMENT_RULE;
@@ -155,7 +159,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

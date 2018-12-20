@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import gumtree.spoon.diff.operations.DeleteOperation;
 import gumtree.spoon.diff.operations.InsertOperation;
 import gumtree.spoon.diff.operations.MoveOperation;
@@ -11,6 +10,8 @@ import edu.utdallas.fpm.pattern.rules.Rule;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtTypeReference;
+
+import static edu.utdallas.fpm.commons.Util.textEquals;
 
 public class NegateConditionalHandler extends RegExpHandler {
     public NegateConditionalHandler() {
@@ -90,13 +91,13 @@ public class NegateConditionalHandler extends RegExpHandler {
                             (CtUnaryOperator) insertedElement;
                     final UnaryOperatorKind opKind = insertedUnaryOp.getKind();
                     if (opKind == UnaryOperatorKind.NOT) {
-                        if (Util.textEquals(insertedUnaryOp.getOperand(), this.boolExp)) {
+                        if (textEquals(insertedUnaryOp.getOperand(), this.boolExp)) {
                             return new DIState(this.parentElement);
                         }
                     }
                 } else if (insertedElement instanceof CtExpression) {
                     final CtExpression insertedExp = (CtExpression) insertedElement;
-                    if (Util.textEquals(insertedExp, this.boolExp)) {
+                    if (textEquals(insertedExp, this.boolExp)) {
                         return new DM_IM_State(this.parentElement);
                     }
                 }
@@ -104,7 +105,7 @@ public class NegateConditionalHandler extends RegExpHandler {
                 final CtElement movedElement = operation.getSrcNode();
                 if (movedElement instanceof CtExpression) {
                     final CtExpression movedExp = (CtExpression) movedElement;
-                    if (Util.textEquals(this.boolExp, movedExp)) {
+                    if (textEquals(this.boolExp, movedExp)) {
                         return new DM_IM_State(this.parentElement);
                     }
                 }
@@ -145,7 +146,7 @@ public class NegateConditionalHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }
