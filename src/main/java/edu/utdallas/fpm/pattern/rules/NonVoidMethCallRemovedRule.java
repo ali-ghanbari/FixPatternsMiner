@@ -3,6 +3,9 @@ package edu.utdallas.fpm.pattern.rules;
 import edu.utdallas.fpm.pattern.rules.commons.SerializableLiteral;
 import spoon.reflect.code.CtLiteral;
 
+import static edu.utdallas.fpm.pattern.rules.commons.Util.isNumeric;
+import static edu.utdallas.fpm.pattern.rules.commons.Util.getNumericValue;
+
 public class NonVoidMethCallRemovedRule implements Rule {
     private final SerializableLiteral literal; // whose type equals the deleted method return type
 
@@ -20,13 +23,8 @@ public class NonVoidMethCallRemovedRule implements Rule {
         final String strVal;
         if (value == null) {
             strVal = "NULL";
-        } else if ((value instanceof Integer && (Integer) value == 0)
-                || (value instanceof Long && (Long) value == 0)
-                || (value instanceof Double && (Double) value == 0)
-                || (value instanceof Float && (Float) value == 0)
-                || (value instanceof Boolean && !((Boolean) value))
-                || (value instanceof Short && (Short) value == 0)
-                || (value instanceof Byte && (Byte) value == 0)) {
+        } else if ((isNumeric(value) && getNumericValue(value) == 0)
+                || (value instanceof Boolean && !((Boolean) value))) {
             strVal = value.toString();
         } else {
             strVal = "SOME " + value.getClass().getSimpleName();

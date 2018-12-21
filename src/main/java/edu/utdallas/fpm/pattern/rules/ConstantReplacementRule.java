@@ -34,7 +34,7 @@ public class ConstantReplacementRule implements Rule {
     @Override
     public String getId() {
         final Object sv = this.getSourceLiteral().getValue();
-        final Object dv = this.getDestinationLiteral().getValue();
+        final Object dv = this.dst == null ? null : this.dst.getValue();
         if (dv == null && isNumeric(sv)) {
             return "NegatedConstant";
         } else {
