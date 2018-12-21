@@ -28,8 +28,9 @@ listFilePairs() {
 
 basePath=/media/disk2/Xia/GitHubProjects/3Clone/NewDown2018
 
-for partPath in $basePath/V169/; do
+for partPath in $basePath/V*/; do
     part=$(basename $partPath)
-    listFilePairs $basePath $part | java -cp target/fix-pattern-miner-1.0.0-SNAPSHOT.jar edu.utdallas.fpm.main.Main -p
+    # time-out = 15 minutes
+    listFilePairs $basePath $part | java -cp target/fix-pattern-miner-1.0.0-SNAPSHOT.jar edu.utdallas.fpm.main.Main -p -t 900
     mv out-general.csv $part".csv"
 done

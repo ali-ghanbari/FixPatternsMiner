@@ -2,5 +2,27 @@
 
 mvn clean package shade:shade -DskipTests
 
-find /home/ali/hdrepair-dataset -wholename */old/*.java | awk 'BEGIN{FS="/"} {print $0",/"$2"/"$3"/"$4"/"$5"/"$6"/"$7"/fix/"$9}' | java -cp target/fix-pattern-miner-1.0.0-SNAPSHOT.jar edu.utdallas.fpm.main.Main -p
+# /home/ali/hdrepair-dataset/$projName/modifiedFiles/$version/[old/fix]
+
+listFilePairs() {
+    basePath=$1
+    for projPath in $basePath/*/; do
+	projName=$(basename $projPath | awk 'tolower($0)')
+	if [ $projName == "chart" ] || [ $projName == "closure" ] || [ $projName == "math" ] || [ $projName == "lang" ] || [ $projName == "time" ] || [ $projName == "mockito" ] || [ $projName == "commonscli" ] || [ $projName == "commonscodec" ] || [ $projName == "commonscsv" ] || [ $projName == "commonsjxpath" ] || [ $projName == "jacksoncore" ] || [ $projName == "jacksondatabind" ] || [ $projName == "jacksonxml" ] || [ $projName == "jsoup" ]
+	then
+	    echo "ignored $projName" > /dev/null
+	else
+	    for buggyFilePath in $projPath"modifiedFiles"/*/old/*.java; do
+		fileName=$(basename $buggyFilePath)
+		versionBase=$(dirname $(dirname $buggyFilePath))
+		fixedFilePath=$versionBase"/fix/"$fileName
+		echo $buggyFilePath","$fixedFilePath
+	    done
+	fi
+    done
+}
+
+# time-out = 10 minutes
+
+listFilePairs /home/ali/hdrepair-dataset | java -cp target/fix-pattern-miner-1.0.0-SNAPSHOT.jar edu.utdallas.fpm.main.Main -p -t 600
 
