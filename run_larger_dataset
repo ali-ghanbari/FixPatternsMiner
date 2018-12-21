@@ -1,5 +1,35 @@
-#!/bin/sh
+#!/bin/bash
 
 mvn clean package shade:shade -DskipTests
 
-find /media/disk6TV1/ali/larger-dataset/*/ -wholename */buggy-version/*.java | awk 'BEGIN{FS="/"} {print $0",/"$2"/"$3"/"$4"/"$5"/"$6"/"$7"/"$8"/fixed-version/"$10}' | java -cp target/fix-pattern-miner-1.0.0-SNAPSHOT.jar Main -c -p -s /media/disk6TV1/ali/larger-dataset/serialized-rules.gz
+#  /media/disk2/Xia/GitHubProjects/3Clone/NewDown2018/V141/3095/buggy-version
+# /media/disk2/Xia/GitHubProjects/3Clone/NewDown2018
+
+listFilePairs() {
+    part=$2
+    for archiveInfo in $1/$part/*/archiveInfo.txt; do
+	projName=$(head -n 1 $archiveInfo | awk 'BEGIN{FS="/"} {print tolower($6)}')
+	if [ $projName == "chart" ] || [ $projName == "closure" ] || [ $projName == "math" ] || [ $projName == "lang" ] || [ $projName == "time" ] || [ $projName == "mockito" ] || [ $projName == "commonscli" ] || [ $projName == "commonscodec" ] || [ $projName == "commonscsv" ] || [ $projName == "commonsjxpath" ] || [ $projName == "jacksoncore" ] || [ $projName == "jacksondatabind" ] || [ $projName == "jacksonxml" ] || [ $projName == "jsoup" ]
+	then
+	    echo "ignored $projName" > /dev/null
+	else
+	    section=$(basename $(dirname $archiveInfo))
+	    if [ -d $1/$part/$section/buggy-version ]; then
+		for buggyFilePath in $1/$part/$section/buggy-version/*.java; do
+		    fileName=$(basename $buggyFilePath)
+		    basePath=$(dirname $(dirname $buggyFilePath))
+		    fixedFilePath=$basePath"/fixed-version/"$fileName
+		    echo $buggyFilePath","$fixedFilePath
+		done
+	    fi
+	fi
+    done
+}
+
+basePath=/media/disk2/Xia/GitHubProjects/3Clone/NewDown2018
+
+for partPath in $basePath/V169/; do
+    part=$(basename $partPath)
+    listFilePairs $basePath $part | java -cp target/fix-pattern-miner-1.0.0-SNAPSHOT.jar edu.utdallas.fpm.main.Main -p
+    mv out-general.csv $part".csv"
+done
