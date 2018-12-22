@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.regexp;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.LocalToMethodReplacementRule;
 import gumtree.spoon.diff.operations.*;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -9,6 +8,8 @@ import spoon.reflect.code.CtInvocation;
 import spoon.reflect.code.CtVariableRead;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtVariableReference;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 import java.util.Objects;
 
@@ -112,7 +113,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                     final CtInvocation insertedInvocation = (CtInvocation) insertedElement;
                     if (Objects.equals(this.srcLocal.getType(),
                             insertedInvocation.getType())) {
-                        if (Util.sibling(this.srcLocal, insertedInvocation)) {
+                        if (sibling(this.srcLocal, insertedInvocation)) {
                             return new InsInvState(insertedInvocation);
                         }
                     }
@@ -139,7 +140,7 @@ public class LocalToMethodReplacementHandler extends RegExpHandler {
                             (CtInvocation) insertedElement;
                     if (Objects.equals(insertedInvocation.getType(),
                             this.deletedVarRead.getType())) {
-                        if (Util.sibling(this.deletedVarRead, insertedInvocation)) {
+                        if (sibling(this.deletedVarRead, insertedInvocation)) {
                             return DIState.DI_STATE;
                         }
                     }
