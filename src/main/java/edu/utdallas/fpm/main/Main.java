@@ -242,7 +242,6 @@ public final class Main implements FilePairVisitor {
                         }
                         final Rule theRule = regExpHandler.getRule();
                         if (!(theRule instanceof UnknownRule)) {
-                            out.printf("$$$ %s%n", theRule.getClass().getName());
                             this.rulesQueue.offer(theRule);
                         }
                         regExpHandler.reset();
@@ -255,7 +254,6 @@ public final class Main implements FilePairVisitor {
                     if (handler != null && handler.canHandleOperation(op)) {
                         final Rule theRule = handler.handleOperation(op);
                         if (!(theRule instanceof UnknownRule)) {
-                            out.printf("*** %s%n", theRule.getClass().getName());
                             this.rulesQueue.offer(theRule);
                         }
                     }
