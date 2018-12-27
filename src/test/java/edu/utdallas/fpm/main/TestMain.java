@@ -56,9 +56,9 @@ public class TestMain {
                 "SimpleMethCallGuard.java",
                 "IncrementsRemoval.java",
                 "VoidMethCallRemoval.java",
-                "IfRemoval.java",
                 "Constantify.java",
-                "real-world.java"
+                "IfRemoval.java",
+//                "real-world.java"
                 //,
                 //"SwitchCase.java"
         };

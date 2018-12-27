@@ -1,10 +1,16 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public enum DerefGuardRule implements Rule {
-    DEREF_GUARD_RULE;
+public class DerefGuardRule implements Rule {
+    private final UsagePreference usagePreference;
+
+    public DerefGuardRule(final UsagePreference usagePreference) {
+        this.usagePreference = usagePreference;
+    }
 
     @Override
     public String getId() {
-        return this.getClass().getSimpleName();
+        return String.format("%s (Using %s)",
+                this.getClass().getSimpleName(),
+                this.usagePreference.name());
     }
 }

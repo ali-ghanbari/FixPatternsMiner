@@ -1,8 +1,12 @@
 package edu.utdallas.fpm.commons;
 
+import edu.utdallas.fpm.pattern.rules.UsagePreference;
 import spoon.reflect.code.CtExpression;
+import spoon.reflect.code.CtFieldAccess;
+import spoon.reflect.code.CtLiteral;
 import spoon.reflect.code.CtReturn;
 import spoon.reflect.code.CtStatement;
+import spoon.reflect.code.CtVariableAccess;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtExecutable;
 import spoon.reflect.reference.CtTypeReference;
@@ -30,9 +34,9 @@ public final class Util {
         return cursor;
     }
 
-    public static boolean containsReturn(final CtStatement stmtBlock) {
+    public static UsagePreference getReturnStmt(final CtStatement stmtBlock) {
         if (stmtBlock == null) {
-            return false;
+            return null;
         }
         final Iterator<CtElement> it = stmtBlock.descendantIterator();
         while (it.hasNext()) {
@@ -40,11 +44,12 @@ public final class Util {
             if (element instanceof CtReturn
                     // we should not accept return statements deep inside
                     // some inner block
-                    && element.getParent().equals(stmtBlock)) {
-                return true;
+                    && Objects.equals(element.getParent(), stmtBlock)) {
+                CtReturn returnStmt = (CtReturn) element;
+                return UsagePreference.fromExpression(returnStmt.getReturnedExpression());
             }
         }
-        return false;
+        return null;
     }
 
     public static boolean sibling(final CtElement e1, final CtElement e2) {
@@ -120,4 +125,28 @@ public final class Util {
         return t1.getSimpleName().equals(CtTypeReference.NULL_TYPE_NAME)
                 || t2.getSimpleName().equals(CtTypeReference.NULL_TYPE_NAME);
     }
+
+    public static boolean isDefault(final CtLiteral literal) {
+        final Object o = literal.getValue();
+        if (o instanceof Integer) {
+            return ((Integer) o).intValue() == 0;
+        } else if (o instanceof Long) {
+            return ((Long) o).longValue() == 0;
+        } else if (o instanceof Double) {
+            return ((Double) o).doubleValue() == 0D;
+        } else if (o instanceof Float) {
+            return ((Float) o).floatValue() == 0F;
+        } else if (o instanceof Short) {
+            return ((Short) o).shortValue() == 0;
+        } else if (o instanceof Byte) {
+            return ((Byte) o).byteValue() == 0;
+        }
+        return o == null;
+    }
+
+//    public static boolean simpleExpression(final CtExpression expression) {
+//        return expression instanceof CtLiteral
+//                || expression instanceof CtVariableAccess
+//                || expression instanceof CtFieldAccess;
+//    }
 }

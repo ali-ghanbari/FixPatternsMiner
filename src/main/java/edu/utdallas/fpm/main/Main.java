@@ -89,8 +89,6 @@ public final class Main implements FilePairVisitor {
         final Options options = new Options();
 
         options.addOption("p", "parallel", false, "parallel diff and mining");
-        options.addOption("s", "serialize", true, "write rules on disk");
-        options.addOption("c", "compress", false, "compressed output file");
         options.addOption("f", "file", true, "input CSV file");
         options.addOption("d", "debug", false, "output timed-out and ineffective diffs");
         options.addOption("t", "diff-timeout", true, "diffing timeout in seconds");
@@ -112,16 +110,8 @@ public final class Main implements FilePairVisitor {
         }
         /* blocking queues are thread-safe */
         final BlockingQueue<Rule> queue = new LinkedBlockingDeque<>();
-        final Consumer queueConsumer;
 
-        if (cmd.hasOption("s")) {
-            final boolean compress = cmd.hasOption("c");
-            queueConsumer = Serializer.build(queue,
-                    new File(cmd.getOptionValue("s")),
-                    compress);
-        } else {
-            queueConsumer = StatisticsRenderer.build(queue);
-        }
+        final Consumer queueConsumer = StatisticsRenderer.build(queue);
 
         final FileListParser parser;
 

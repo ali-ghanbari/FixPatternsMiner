@@ -1,36 +1,24 @@
 package edu.utdallas.fpm.pattern.rules;
 
-import edu.utdallas.fpm.pattern.rules.commons.SerializableLiteral;
 import spoon.reflect.code.CtLiteral;
 
-import static edu.utdallas.fpm.pattern.rules.commons.Util.isNumeric;
-import static edu.utdallas.fpm.pattern.rules.commons.Util.getNumericValue;
+import static edu.utdallas.fpm.pattern.rules.commons.Util.renderLiteral;
 
 public class NonVoidMethCallRemovedRule implements Rule {
-    private final SerializableLiteral literal; // whose type equals the deleted method return type
+    private final CtLiteral literal;
 
     public NonVoidMethCallRemovedRule(CtLiteral literal) {
-        this.literal = SerializableLiteral.fromCtLiteral(literal);
+        this.literal = literal;
     }
 
-    public SerializableLiteral getLiteral() {
+    public CtLiteral getLiteral() {
         return literal;
     }
 
     @Override
     public String getId() {
-        final Object value = this.getLiteral().getValue();
-        final String strVal;
-        if (value == null) {
-            strVal = "NULL";
-        } else if ((isNumeric(value) && getNumericValue(value) == 0)
-                || (value instanceof Boolean && !((Boolean) value))) {
-            strVal = value.toString();
-        } else {
-            strVal = "SOME " + value.getClass().getSimpleName();
-        }
-        return String.format("%s (? -> %s)",
+        return String.format("%s (Using %s)",
                 this.getClass().getSimpleName(),
-                strVal);
+                renderLiteral(this.literal));
     }
 }

@@ -59,7 +59,8 @@ public class DecomposedMethodCallHandler extends RegExpHandler {
                 final MoveOperation movOp = (MoveOperation) operation;
                 final CtElement movedElement = movOp.getDstNode();
                 if (sibling(movedElement, this.deletedInv)) {
-                    if ((this.rec != null && this.rec.equals(movedElement)) || this.args.indexOf(movedElement) >= 0) {
+                    if ((this.rec != null && this.rec.equals(movedElement))
+                            || this.args.indexOf(movedElement) >= 0) {
                         return PropagatedState.PROPAGATED_STATE;
                     }
                 }

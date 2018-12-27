@@ -8,6 +8,7 @@ import edu.utdallas.fpm.pattern.rules.RetMethodGuardRule;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.RetFieldDerefGuardRule;
 import edu.utdallas.fpm.pattern.rules.Rule;
+import edu.utdallas.fpm.pattern.rules.UsagePreference;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtElement;
 
@@ -75,23 +76,27 @@ public class RetFieldMethDerefGuardHandler extends InsertHandler {
         final CtExpression checkedExp = getCheckedExp(ifStmt);
         EitherFieldOrMethod fieldOrMethod = null;
         if (checkedExp != null) {
-            if (Util.containsReturn(ifStmt.getThenStatement())) {
+            UsagePreference usagePreference = Util.getReturnStmt(ifStmt.getThenStatement());
+            if (usagePreference != null) {
                 fieldOrMethod = getDeferenceStmt(ifStmt.getParent(), checkedExp);
                 if (fieldOrMethod == null) {
                     fieldOrMethod = getDeferenceStmt(ifStmt.getElseStatement(), checkedExp);
                 }
-            } else if (Util.containsReturn(ifStmt.getElseStatement())) {
-                fieldOrMethod = getDeferenceStmt(ifStmt.getParent(), checkedExp);
-                if (fieldOrMethod == null) {
-                    fieldOrMethod = getDeferenceStmt(ifStmt.getThenStatement(), checkedExp);
+            } else {
+                usagePreference = Util.getReturnStmt(ifStmt.getElseStatement());
+                if (usagePreference != null) {
+                    fieldOrMethod = getDeferenceStmt(ifStmt.getParent(), checkedExp);
+                    if (fieldOrMethod == null) {
+                        fieldOrMethod = getDeferenceStmt(ifStmt.getThenStatement(), checkedExp);
+                    }
                 }
             }
-        }
-        if (fieldOrMethod != null) {
-            if (fieldOrMethod instanceof FieldAccess) {
-                return RetFieldDerefGuardRule.RET_FIELD_DEREF_GUARD_RULE;
-            } else {
-                return RetMethodGuardRule.RET_METHOD_GUARD_RULE;
+            if (fieldOrMethod != null) {
+                if (fieldOrMethod instanceof FieldAccess) {
+                    return new RetFieldDerefGuardRule(usagePreference);
+                } else {
+                    return new RetMethodGuardRule(usagePreference);
+                }
             }
         }
         return super.handlePattern(e1, e2);

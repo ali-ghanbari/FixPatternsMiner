@@ -1,10 +1,16 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public enum RetMethodGuardRule implements Rule {
-    RET_METHOD_GUARD_RULE;
+public class RetMethodGuardRule implements Rule {
+    public final UsagePreference usagePreference;
+
+    public RetMethodGuardRule(final UsagePreference usagePreference) {
+        this.usagePreference = usagePreference;
+    }
 
     @Override
     public String getId() {
-        return this.getClass().getSimpleName();
+        return String.format("%s (Using %s)",
+                this.getClass().getSimpleName(),
+                this.usagePreference.name());
     }
 }

@@ -1,9 +1,9 @@
 package edu.utdallas.fpm.pattern.handler.point.insert;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.PreconditionAdditionRule;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.Rule;
+import edu.utdallas.fpm.pattern.rules.UsagePreference;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.CtConstructor;
 import spoon.reflect.declaration.CtElement;
@@ -13,6 +13,9 @@ import spoon.reflect.declaration.CtParameter;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import static edu.utdallas.fpm.commons.Util.getReturnStmt;
+import static edu.utdallas.fpm.commons.Util.getExecutableContainer;
 
 public class PreconditionAdditionHandler extends InsertHandler {
     public PreconditionAdditionHandler(OperationHandler next) {
@@ -24,39 +27,23 @@ public class PreconditionAdditionHandler extends InsertHandler {
         return e1 instanceof CtIf;
     }
 
-    private boolean containsDefReturn(final CtStatement stmtBlock) {
-        if (stmtBlock == null) {
-            return false;
-        }
-        final Iterator<CtElement> it = stmtBlock.descendantIterator();
-        while (it.hasNext()) {
-            final CtElement element = it.next();
-            if (element instanceof CtReturn) {
-                if (((CtReturn) element).getReturnedExpression() instanceof CtLiteral) {
-                    // we should not accept return statements deep inside
-                    // some inner block
-                    if (element.getParent().equals(stmtBlock)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
     protected Rule handlePattern(CtElement e1, CtElement e2) {
         final CtIf ifStmt = (CtIf) e1;
         BinaryOperatorKind expectedBinOp = null;
-        if (containsDefReturn(ifStmt.getThenStatement())) {
+        UsagePreference usagePreference = getReturnStmt(ifStmt.getThenStatement());
+        if (usagePreference != null) {
             expectedBinOp = BinaryOperatorKind.EQ;
-        } else if (containsDefReturn(ifStmt.getElseStatement())) {
-            expectedBinOp = BinaryOperatorKind.NE;
+        } else {
+            usagePreference = getReturnStmt(ifStmt.getElseStatement());
+            if (usagePreference != null) {
+                expectedBinOp = BinaryOperatorKind.NE;
+            }
         }
         if (expectedBinOp != null) {
             final Set<String> paramNames = new HashSet<>();
             Iterator paramsIt = null;
-            final CtElement container = Util.getExecutableContainer(ifStmt);
+            final CtElement container = getExecutableContainer(ifStmt);
             if (container instanceof CtMethod) {
                 final CtMethod method = (CtMethod) container;
                 paramsIt = method.getParameters().iterator();
@@ -94,7 +81,7 @@ public class PreconditionAdditionHandler extends InsertHandler {
                                                 (CtVariableAccess) (lho instanceof CtVariableAccess ? lho : rho);
                                         final String varName = varAccess.getVariable().getSimpleName();
                                         if (paramNames.contains(varName)) {
-                                            return PreconditionAdditionRule.PRECONDITION_ADDITION_RULE;
+                                            return new PreconditionAdditionRule(usagePreference);
                                         }
                                     }
                                 }

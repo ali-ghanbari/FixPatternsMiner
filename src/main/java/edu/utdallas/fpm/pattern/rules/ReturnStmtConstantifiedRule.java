@@ -1,34 +1,24 @@
 package edu.utdallas.fpm.pattern.rules;
 
-import edu.utdallas.fpm.pattern.rules.commons.SerializableLiteral;
-import edu.utdallas.fpm.pattern.rules.commons.Util;
 import spoon.reflect.code.CtLiteral;
 
+import static edu.utdallas.fpm.pattern.rules.commons.Util.renderLiteral;
+
 public class ReturnStmtConstantifiedRule implements Rule {
-    private final SerializableLiteral literal;
+    private final CtLiteral literal;
 
     public ReturnStmtConstantifiedRule(CtLiteral literal) {
-        this.literal = SerializableLiteral.fromCtLiteral(literal);
+        this.literal = literal;
     }
 
-    public SerializableLiteral getLiteral() {
+    public CtLiteral getLiteral() {
         return literal;
     }
 
     @Override
     public String getId() {
-        final Object value = this.getLiteral().getValue();
-        final String strVal;
-        if (value == null) {
-            strVal = "NULL";
-        } else if ((Util.isNumeric(value) && Util.getNumericValue(value) == 0D)
-                || (value instanceof Boolean && !((Boolean) value))) {
-            strVal = value.toString();
-        } else {
-            strVal = "SOME " + value.getClass().getSimpleName();
-        }
-        return String.format("%s (? -> %s)",
+        return String.format("%s (Returning %s)",
                 this.getClass().getSimpleName(),
-                strVal);
+                renderLiteral(this.literal));
     }
 }

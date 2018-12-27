@@ -11,6 +11,12 @@ import spoon.reflect.reference.CtTypeReference;
 import static edu.utdallas.fpm.commons.Util.sibling;
 import static edu.utdallas.fpm.commons.Util.equalsType;
 
+/* please note that in this handler we only take care of "constantification,"
+ * meaning that we only check if a complicated literal has turned into a
+ * constant (aka literal). other cases, like method -> local or method -> field
+ * are to be handled by more specialized handlers (that we already have).
+ * please note further that only in case of constantification of new-expressions
+ * we only consider default value; other than that we are quite general. */
 public class ConstantificationHandler extends RegExpHandler {
     public ConstantificationHandler() {
         initState = new InitState();
@@ -35,7 +41,7 @@ public class ConstantificationHandler extends RegExpHandler {
                     final CtExpression deletedExpr = (CtExpression) deletedElement;
                     if (deletedExpr instanceof CtInvocation) {
                         /* non-void method call                              */
-                        /* an invocation that is expression must be non-void */
+                        /* an invocation that is literal must be non-void */
                         final CtInvocation deletedInv = (CtInvocation) deletedExpr;
                         return new InvDelState(deletedInv);
                     } else if (deletedExpr instanceof CtConstructorCall
@@ -94,7 +100,7 @@ public class ConstantificationHandler extends RegExpHandler {
     private class InvReplacedState implements AcceptanceState {
         private final CtLiteral literal;
 
-        public InvReplacedState(CtLiteral literal) {
+        public InvReplacedState(final CtLiteral literal) {
             this.literal = literal;
         }
 
@@ -123,8 +129,7 @@ public class ConstantificationHandler extends RegExpHandler {
                 final CtElement insertedElement = operation.getSrcNode();
                 if (insertedElement instanceof CtLiteral) {
                     final CtLiteral insertedLiteral = (CtLiteral) insertedElement;
-                    final CtTypeReference objType = this.deletedCtorCall.getType();
-                    if (equalsType(objType, insertedLiteral.getType())) {
+                    if (insertedLiteral.getValue() == null) {
                         if (sibling(this.deletedCtorCall, insertedLiteral)) {
                             return CtorCallReplacedState.CTOR_CALL_REPLACED_STATE;
                         }
@@ -181,7 +186,7 @@ public class ConstantificationHandler extends RegExpHandler {
     private class ExprReplacedState implements AcceptanceState {
         private final CtLiteral literal;
 
-        ExprReplacedState(final CtLiteral literal) {
+        public ExprReplacedState(CtLiteral literal) {
             this.literal = literal;
         }
 
@@ -192,14 +197,14 @@ public class ConstantificationHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 
     private class ReturnedExprReplacedState implements AcceptanceState {
         private final CtLiteral literal;
 
-        ReturnedExprReplacedState(final CtLiteral literal) {
+        public ReturnedExprReplacedState(CtLiteral literal) {
             this.literal = literal;
         }
 
@@ -210,7 +215,7 @@ public class ConstantificationHandler extends RegExpHandler {
 
         @Override
         public State handle(Operation operation) {
-            return initState;
+            throw new UnsupportedOperationException();
         }
     }
 }

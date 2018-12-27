@@ -1,10 +1,16 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public enum RetFieldDerefGuardRule implements Rule {
-    RET_FIELD_DEREF_GUARD_RULE;
+public class RetFieldDerefGuardRule implements Rule {
+    private final UsagePreference usagePreference;
+
+    public RetFieldDerefGuardRule(final UsagePreference usagePreference) {
+        this.usagePreference = usagePreference;
+    }
 
     @Override
     public String getId() {
-        return this.getClass().getSimpleName();
+        return String.format("%s (Using %s)",
+                this.getClass().getSimpleName(),
+                this.usagePreference.name());
     }
 }

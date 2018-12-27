@@ -27,9 +27,8 @@ public class CtorReplacement extends UpdateHandler {
         final CtTypeReference t1 = cc1.getType();
         final CtTypeReference t2 = cc2.getType();
         if (!Objects.equals(t1, t2) && cc1.getArguments().equals(cc2.getArguments())) {
-            if (Util.sibling(cc1, cc2)) {
-                return CtorReplacementRule.CTOR_REPLACEMENT_RULE;
-            }
+            // according to GumTree paper, we don't need to do parent check for updates
+            return CtorReplacementRule.CTOR_REPLACEMENT_RULE;
         }
         return super.handlePattern(e1, e2);
     }

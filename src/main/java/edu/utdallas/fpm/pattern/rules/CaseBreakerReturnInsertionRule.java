@@ -1,10 +1,16 @@
 package edu.utdallas.fpm.pattern.rules;
 
-public enum CaseBreakerReturnInsertionRule implements Rule {
-    CASE_BREAKER_RETURN_INSERTION_RULE;
+public class CaseBreakerReturnInsertionRule implements Rule {
+    private final UsagePreference usagePreference;
+
+    public CaseBreakerReturnInsertionRule(final UsagePreference usagePreference) {
+        this.usagePreference = usagePreference;
+    }
 
     @Override
     public String getId() {
-        return this.getClass().getSimpleName();
+        final String upStr = this.usagePreference == UsagePreference.VOID ?
+                "enclosing method" : this.usagePreference.name();
+        return String.format("%s (Returning %s)", this.getClass().getSimpleName(), upStr);
     }
 }

@@ -1,7 +1,7 @@
 package edu.utdallas.fpm.pattern.handler.point.delete;
 
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
-import edu.utdallas.fpm.pattern.rules.SimpleMethCallRemovalRule;
+import edu.utdallas.fpm.pattern.rules.VoidMethodCallRemovalRule;
 import edu.utdallas.fpm.pattern.rules.Rule;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
@@ -22,7 +22,7 @@ public class VoidMethCallRemovalHandler extends DeleteHandler {
         final CtInvocation invocation = (CtInvocation) e1;
         final CtTypeReference returnType = invocation.getType();
         if (returnType != null && returnType.toString().equals("void")) {
-            return SimpleMethCallRemovalRule.SIMPLE_METH_CALL_REMOVAL_RULE;
+            return VoidMethodCallRemovalRule.VOID_METHOD_CALL_REMOVAL_RULE;
         }
         return super.handlePattern(e1, e2);
     }

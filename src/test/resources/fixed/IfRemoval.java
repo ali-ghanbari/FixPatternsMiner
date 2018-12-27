@@ -11,6 +11,10 @@ public class IfRemoval {
     public static void main(String[] args) {
         final String outStr;
         int f;
+        if (args.length > 10) {
+            f = fact(args.length);
+            outStr = "factorial";
+        }
         System.out.printf("%s of %d is %d", outStr, args.length, f);
     }
 }

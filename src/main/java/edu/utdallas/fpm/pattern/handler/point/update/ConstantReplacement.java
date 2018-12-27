@@ -24,9 +24,9 @@ public class ConstantReplacement extends UpdateHandler {
         final CtLiteral l1 = (CtLiteral) e1;
         final CtLiteral l2 = (CtLiteral) e2;
         if (Objects.equals(l1.getType(), l2.getType())) {
-            if (Util.sibling(l1, l2)) {
-                return new ConstantReplacementRule(l1, l2);
-            }
+            /* according to GumTree paper, we don't need to conduct parent check
+             * in case of updates */
+            return new ConstantReplacementRule(l1, l2);
         }
         return super.handlePattern(e1, e2);
     }

@@ -1,34 +1,29 @@
 package edu.utdallas.fpm.pattern.rules;
 
-import edu.utdallas.fpm.pattern.rules.commons.SerializableLiteral;
-import edu.utdallas.fpm.pattern.rules.commons.Util;
 import spoon.reflect.code.CtLiteral;
 
+import static edu.utdallas.fpm.pattern.rules.commons.Util.renderLiteral;
+
+/* please note that this pattern is responsible to represent
+ * so-called "constantification" meaning turning a non-trivial
+ * expression into constant (not local/field read). those cases
+ * are supposed to be handled by specialized handlers
+ * method -> local and method -> field. */
 public class ConstantificationRule implements Rule {
-    private final SerializableLiteral literal;
+    private final CtLiteral literal;
 
     public ConstantificationRule(final CtLiteral literal) {
-        this.literal = SerializableLiteral.fromCtLiteral(literal);
+        this.literal = literal;
     }
 
-    public SerializableLiteral getLiteral() {
+    public CtLiteral getLiteral() {
         return literal;
     }
 
     @Override
     public String getId() {
-        final Object value = this.getLiteral().getValue();
-        final String strVal;
-        if (value == null) {
-            strVal = "NULL";
-        } else if ((Util.isNumeric(value) && Util.getNumericValue(value) == 0D)
-                || (value instanceof Boolean && !((Boolean) value))) {
-            strVal = value.toString();
-        } else {
-            strVal = "SOME " + value.getClass().getSimpleName();
-        }
-        return String.format("%s (? -> %s)",
+        return String.format("%s (EXPRESSION -> %s)",
                 this.getClass().getSimpleName(),
-                strVal);
+                renderLiteral(this.literal));
     }
 }
