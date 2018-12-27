@@ -9,7 +9,7 @@ listFilePairs() {
     part=$2
     for archiveInfo in $1/$part/*/archiveInfo.txt; do
 	projName=$(head -n 1 $archiveInfo | awk 'BEGIN{FS="/"} {print tolower($6)}')
-	if [ $projName == "chart" ] || [ $projName == "closure" ] || [ $projName == "math" ] || [ $projName == "lang" ] || [ $projName == "time" ] || [ $projName == "mockito" ] || [ $projName == "commonscli" ] || [ $projName == "commonscodec" ] || [ $projName == "commonscsv" ] || [ $projName == "commonsjxpath" ] || [ $projName == "jacksoncore" ] || [ $projName == "jacksondatabind" ] || [ $projName == "jacksonxml" ] || [ $projName == "jsoup" ]
+	if [ $projName == "closure" ] || [ $projName == "closurecompiler" ] || [ $projName == "commonsmath" ] || [ $projName == "commonslang" ] || [ $projName == "jodatime" ] || [ $projName == "commonscli" ] || [ $projName == "commonscodec" ] || [ $projName == "commonscsv" ] || [ $projName == "commonsjxpath" ] || [ $projName == "jacksoncore" ] || [ $projName == "jacksondatabind" ] || [ $projName == "jacksonxml" ] || [ $projName == "jacksondataformatxml" ] || [ $projName == "jfreechart" ] || [ $projName == "closure-compiler" ] || [ $projName == "commons-math" ] || [ $projName == "commons-lang" ] || [ $projName == "joda-time" ] || [ $projName == "mockito" ] || [ $projName == "commons-cli" ] || [ $projName == "commons-codec" ] || [ $projName == "commons-csv" ] || [ $projName == "commons-jxpath" ] || [ $projName == "jackson-core" ] || [ $projName == "jackson-databind" ] || [ $projName == "jackson-xml" ] || [ $projName == "jackson-dataformat-xml" ] || [ $projName == "jsoup" ]
 	then
 	    echo "ignored $projName" > /dev/null
 	else
