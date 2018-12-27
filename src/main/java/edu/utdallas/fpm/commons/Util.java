@@ -143,10 +143,4 @@ public final class Util {
         }
         return o == null;
     }
-
-//    public static boolean simpleExpression(final CtExpression expression) {
-//        return expression instanceof CtLiteral
-//                || expression instanceof CtVariableAccess
-//                || expression instanceof CtFieldAccess;
-//    }
 }

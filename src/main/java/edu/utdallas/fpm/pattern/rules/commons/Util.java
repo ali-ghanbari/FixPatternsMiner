@@ -13,24 +13,6 @@ public final class Util {
                 || value instanceof Short || value instanceof Byte;
     }
 
-//    public static Number getNumericValue(final Object value) {
-//        if (value instanceof Integer) {
-//            return ((Integer) value).intValue();
-//        } else if (value instanceof Long) {
-//            return ((Long) value).longValue();
-//        } else if (value instanceof Double) {
-//            return ((Double) value).doubleValue();
-//        } else if (value instanceof Float) {
-//            return ((Float) value).floatValue();
-//        } else if (value instanceof Short) {
-//            return ((Short) value).shortValue();
-//        } else if (value instanceof Byte) {
-//            return ((Byte) value).byteValue();
-//        } else {
-//            throw new IllegalArgumentException();
-//        }
-//    }
-
     public static boolean isReasonableNumericValue(final Object value) {
         if (isNumeric(value)) {
             final double doubleValue = ((Number) value).doubleValue();
