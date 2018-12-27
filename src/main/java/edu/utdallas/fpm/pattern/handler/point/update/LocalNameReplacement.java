@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.point.update;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.LocalNameReplacementRule;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -8,6 +7,8 @@ import spoon.reflect.code.CtVariableAccess;
 import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 public class LocalNameReplacement extends UpdateHandler {
     protected LocalNameReplacement(OperationHandler next) {
@@ -26,7 +27,7 @@ public class LocalNameReplacement extends UpdateHandler {
         if (Objects.equals(va1.getType(), va2.getType())) {
             final String srcName = va1.getVariable().getSimpleName();
             final String dstName = va2.getVariable().getSimpleName();
-            if (!srcName.equals(dstName) && Util.sibling(va1, va2)) {
+            if (!srcName.equals(dstName) && sibling(va1, va2)) {
                 return LocalNameReplacementRule.LOCAL_NAME_REPLACEMENT_RULE;
             }
         }

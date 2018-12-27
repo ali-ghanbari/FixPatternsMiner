@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.point.update;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.MethodNameReplacementRule;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -8,6 +7,8 @@ import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 /**
  * Responsible for method invocations only
@@ -31,7 +32,7 @@ public class MethodNameReplacement extends UpdateHandler {
         if (!methodNameDst.equals(methodNameSrc)) {
             if (Objects.equals(sin.getTarget(), din.getTarget())
                     && Objects.equals(sin.getArguments(), din.getArguments())) {
-                if (Util.sibling(sin, din)) {
+                if (sibling(sin, din)) {
                     return MethodNameReplacementRule.METHOD_NAME_REPLACEMENT_RULE;
                 }
             }

@@ -1,5 +1,5 @@
 public class Constantify {
     public static int main(String[] args) {
-        return args.length;
+        return args.length > 10 * args.hashCode() ? 10 * args.hashCode() : 9000;
     }
 }

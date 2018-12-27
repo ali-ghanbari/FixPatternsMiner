@@ -8,6 +8,8 @@ import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
 
+import static edu.utdallas.fpm.commons.Util.sibling;
+
 public class ArgumentListUpdate extends UpdateHandler {
     public ArgumentListUpdate(OperationHandler next) {
         super(next);
@@ -29,7 +31,9 @@ public class ArgumentListUpdate extends UpdateHandler {
             if (Objects.equals(sin.getTarget(), din.getTarget())
                     && !Objects.equals(sin.getArguments(), din.getArguments())) {
                 /* according to GumTree paper, I guess we don't need parent check */
-                return ArgumentListUpdateRule.ARGUMENT_LIST_UPDATE_RULE;
+                if (sibling(sin, din)) {
+                    return ArgumentListUpdateRule.ARGUMENT_LIST_UPDATE_RULE;
+                }
             }
         }
         return super.handlePattern(e1, e2);

@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.point.update;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.InterFixUnaryOperatorReplacementRule;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -10,6 +9,8 @@ import spoon.reflect.code.UnaryOperatorKind;
 import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 /**
  * Takes care of patterns like
@@ -41,7 +42,7 @@ public class UnaryOperatorReplacement extends UpdateHandler {
         final CtUnaryOperator uo2 = (CtUnaryOperator) e2;
         if (Objects.equals(uo1.getType(), uo2.getType())
                 && Objects.equals(uo1.getOperand(), uo2.getOperand())) {
-            if (Util.sibling(uo1, uo2)) {
+            if (sibling(uo1, uo2)) {
                 if (interFix(uo1.getKind(), uo2.getKind())) {
                     return new InterFixUnaryOperatorReplacementRule(uo1.getKind(), uo2.getKind());
                 } else { // since operands are same, the operators are guaranteed to be different

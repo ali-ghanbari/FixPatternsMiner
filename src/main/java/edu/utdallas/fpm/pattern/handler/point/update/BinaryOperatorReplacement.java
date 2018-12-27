@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.point.update;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.BinaryOperatorReplacementRule;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -8,6 +7,8 @@ import spoon.reflect.code.CtBinaryOperator;
 import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 /**
  * Responsible for things like this:
@@ -34,7 +35,7 @@ public class BinaryOperatorReplacement extends UpdateHandler {
                 && Objects.equals(bo1.getType(), bo2.getType())
                 && Objects.equals(bo1.getLeftHandOperand(), bo2.getLeftHandOperand())
                 && Objects.equals(bo1.getRightHandOperand(), bo2.getRightHandOperand())) {
-            if (Util.sibling(bo1, bo2)) {
+            if (sibling(bo1, bo2)) { // I guess we don't need this!
                 return new BinaryOperatorReplacementRule(bo1.getKind(), bo2.getKind());
             }
         }

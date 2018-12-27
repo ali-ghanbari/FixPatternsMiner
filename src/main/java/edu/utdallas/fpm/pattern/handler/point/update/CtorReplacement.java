@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.point.update;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.CtorReplacementRule;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -9,6 +8,8 @@ import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtTypeReference;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 public class CtorReplacement extends UpdateHandler {
     public CtorReplacement(OperationHandler next) {
@@ -26,9 +27,13 @@ public class CtorReplacement extends UpdateHandler {
         final CtConstructorCall cc2 = (CtConstructorCall) e2;
         final CtTypeReference t1 = cc1.getType();
         final CtTypeReference t2 = cc2.getType();
-        if (!Objects.equals(t1, t2) && cc1.getArguments().equals(cc2.getArguments())) {
-            // according to GumTree paper, we don't need to do parent check for updates
-            return CtorReplacementRule.CTOR_REPLACEMENT_RULE;
+        if (!Objects.equals(t1, t2)) {
+            if (Objects.equals(cc1.getArguments(), cc2.getArguments())) {
+                // according to GumTree paper, we don't need to do parent check for updates
+                if (sibling(cc1, cc2)) {
+                    return CtorReplacementRule.CTOR_REPLACEMENT_RULE;
+                }
+            }
         }
         return super.handlePattern(e1, e2);
     }

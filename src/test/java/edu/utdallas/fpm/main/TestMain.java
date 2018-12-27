@@ -43,7 +43,6 @@ public class TestMain {
                 "FieldInitRemoval.java",
                 "Preconditions.java",
                 "RetDerefGuard.java",
-                "ArgList.java",
                 "BOR.java",
                 "ConstantReplacement.java",
                 "CtorName.java",
@@ -58,6 +57,7 @@ public class TestMain {
                 "VoidMethCallRemoval.java",
                 "Constantify.java",
                 "IfRemoval.java",
+                "ArgList.java",
 //                "real-world.java"
                 //,
                 //"SwitchCase.java"

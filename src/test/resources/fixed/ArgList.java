@@ -12,7 +12,6 @@ public class ArgList {
     }
 
     public static void main(String[] args) {
-        System.out.printf("%d args", sum(args.length, 0));
-        System.out.printf("%d args", sum(args.length, 1, 0));
+        System.out.printf("%d args", sum(args.length, 1));
     }
 }

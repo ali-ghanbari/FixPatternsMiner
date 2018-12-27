@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.point.update;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.FieldNameReplacementRule;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -9,6 +8,8 @@ import spoon.reflect.declaration.CtElement;
 import spoon.reflect.reference.CtFieldReference;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 /**
  * Handles cases like
@@ -39,7 +40,7 @@ public class FieldNameReplacement extends UpdateHandler {
             if (Objects.equals(fa1.getTarget(), fa2.getTarget())) {
                 final String srcFieldName = f1.getQualifiedName();
                 final String dstFieldName = f2.getQualifiedName();
-                if (!srcFieldName.equals(dstFieldName) && Util.sibling(fa1, fa2)) {
+                if (!srcFieldName.equals(dstFieldName) && sibling(fa1, fa2)) {
                     return FieldNameReplacementRule.FIELD_NAME_REPLACEMENT_RULE;
                 }
             }

@@ -1,6 +1,5 @@
 package edu.utdallas.fpm.pattern.handler.point.update;
 
-import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.ConstantReplacementRule;
 import edu.utdallas.fpm.pattern.handler.OperationHandler;
 import edu.utdallas.fpm.pattern.rules.Rule;
@@ -8,6 +7,8 @@ import spoon.reflect.code.CtLiteral;
 import spoon.reflect.declaration.CtElement;
 
 import java.util.Objects;
+
+import static edu.utdallas.fpm.commons.Util.sibling;
 
 public class ConstantReplacement extends UpdateHandler {
     public ConstantReplacement(OperationHandler next) {
@@ -26,7 +27,9 @@ public class ConstantReplacement extends UpdateHandler {
         if (Objects.equals(l1.getType(), l2.getType())) {
             /* according to GumTree paper, we don't need to conduct parent check
              * in case of updates */
-            return new ConstantReplacementRule(l1, l2);
+            if (sibling(l1, l2)) {
+                return new ConstantReplacementRule(l1, l2);
+            }
         }
         return super.handlePattern(e1, e2);
     }
