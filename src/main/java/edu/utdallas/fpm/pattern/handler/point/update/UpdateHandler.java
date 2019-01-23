@@ -27,6 +27,7 @@ public abstract class UpdateHandler extends OperationHandler {
         chain = new UnaryOperatorReplacement(chain);
         chain = new BinaryOperatorReplacement(chain);
         chain = new MethodNameReplacement(chain);
+        chain = new CatchTypeReplacement(chain);
         return chain;
     }
 }

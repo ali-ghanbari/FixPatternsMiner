@@ -2,6 +2,7 @@ package edu.utdallas.fpm.main;
 
 import edu.utdallas.fpm.commons.Util;
 import edu.utdallas.fpm.pattern.rules.*;
+import edu.utdallas.fpm.pattern.rules.prapr.PraPRRuleFactory;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -31,7 +32,8 @@ public abstract class StatisticsRenderer extends Consumer {
 
     @Override
     protected void consume(Rule rule) {
-        final String ruleId = rule.getId();
+        final Rule specialized = PraPRRuleFactory.specialize(rule);
+        final String ruleId = specialized == null ? rule.getId() :  "*" + specialized.getId();
         this.table.compute(ruleId, (k, v) -> v == null ? 1 : 1 + v);
     }
 

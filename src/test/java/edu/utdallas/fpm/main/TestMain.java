@@ -58,7 +58,7 @@ public class TestMain {
                 "Constantify.java",
                 "IfRemoval.java",
                 "ArgList.java",
-                "real-world.java"
+                "CatchType.java"
                 //,
                 //"SwitchCase.java"
         };
